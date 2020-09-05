@@ -63,11 +63,15 @@ end
 
 // Testing if the file is actually compiled correctly at all and running
 init
+	FPS.MinTicks=25;
 	Print("Wendicka Lovejoy says 'Hello'")
+	
+	Events.HideMouse();
 
 
 	// Configure loading assets
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
+	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 
 
 	// Loading assets
@@ -75,6 +79,9 @@ init
 	for i,LA in ipairs(LAsset.Lijst)
 		printf("%5d/%5d: Loading ",i,m)
 		switch LA.what
+			case wh_Image
+				cout("image ",LA.File," to ",LA.Tag)
+				Image.Load(LA.File,LA.Tag)
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
 				ImageFont.Load(LA.File,LA.Tag)
