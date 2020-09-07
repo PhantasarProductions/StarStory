@@ -1,0 +1,6 @@
+// 3
+
+#use "libs/Music"
+
+
+#macro __white Graphics.Color(255,255,255)
