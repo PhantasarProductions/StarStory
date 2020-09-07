@@ -34,14 +34,16 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "Script/Use/Anyway"
+
 #macro IntroTextWidth 640
 #macro IntroTextHeight 1140
 
 #macro QuickQuit true
 #macro LogoCD 500
 
-
-#macro TimeOutNext true
+#macro TimeOutNext false
 
 // These lines are from the original BlitzMax code, and used as a kind of helper for me
 // Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
@@ -57,6 +59,7 @@ var StarStory = Image.Load("GFX/Intro/StarStory.png")
 //var ScrollText = Image.LoadAnim("GFX/Intro/Introtext.png",IntroTextWidth,1,IntroTextHeight)
 var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
 var Mouse = Image.Obtain("MOUSE")
+var MenuFont = ImageFont.Obtain("BOXTEXT")
 
 class MenuItem
 	readonly string Caption
@@ -109,6 +112,7 @@ table Menu
 
 // This function is merely used as a placeholder for when no link through function is available yet!
 void NOTHING()
+	print("Nothing happens")
 end
 
 void ShowLogo()
@@ -118,7 +122,7 @@ void ShowLogo()
 		case 1
 			//print("Phantasar Productions presents!")
 			Phantasar.Draw(Screen.W/2,Screen.H/2)
-		case 2
+		case 2 6
 			//print("Star Story!")
 			StarStory.Draw(Screen.W/2,Screen.H/2)
 		default
@@ -218,12 +222,42 @@ class FadeScroll
 	end
 end
 
+void DoMenu()
+	if not showmenu
+		return
+	end	
+	Graphics.Color(255,180,0)
+	Graphics.Rect(0,Screen.H-32,Screen.W,5)
+	Graphics.Color(0,0,0)
+	Graphics.Rect(0,Screen.H-28,Screen.W,28)
+	static int iw = math.floor(Screen.W/(#Menu+1))
+	static int iwh = iw/2
+	for idx,item in ipairs(Menu)
+		Graphics.Color(0,180,255)
+		if not item.Enabled
+			Graphics.Color(255,0,0)
+		end
+		if item.Enabled and Events.MouseY()>Screen.H-32 and Events.MouseX()>(iw*idx)-iwh and Events.MouseX()<(iw*idx)+iwh
+			Graphics.Color(160,210,255)
+			if Events.MouseHitLeft()
+				item.Action()
+			end
+		end
+		MenuFont.Text(item.Caption,idx*iw,Screen.H-14,2,2)
+	end
+end
+
+void Bugs()
+	OS.Execute("OpenURL BUGS")
+end
+
+
 init
 	Menu += new MenuItem("New Game",NOTHING)
 	Menu += new MenuItem("Continue",NOTHING)
 	Menu += new MenuItem("Load Game",NOTHING)
-	Menu += new MenuItem("Bugs",NOTHING)
-	Menu += new MenuItem("Exit",NOTHING)
+	Menu += new MenuItem("Bugs",BUGS)
+	Menu += new MenuItem("Exit",FLOW.QUIT)
 	Print("Starfield.Tile:",0,0,Screen.W,Screen.H)
 	Print("Starfield.Size:",Stars.Width,Stars.Height)
 	Print("Phantasar.Size:",Phantasar.Width,Phantasar.Height)
@@ -235,6 +269,10 @@ init
 	//Stage.NewStage(FadeScroll.Flow,FadeScroll.Start)	
 	Stage.NewStage(FadeScroll.Flow)	
 	Stage.NewStage(ShowLogo) // Shows nothing at all... Creating a bit of rest before resetting the loop
+	Stage.NewStage(ShowLogo)
+	Stage.NewStage(ShowLogo)
+	Stage.NewStage(ShowLogo)
+	Music.Play("Music/Introduction/Introduction.ogg")
 end
 
 global void Apollo_Dispose()
@@ -254,6 +292,12 @@ global void Apollo_Flow()
 		Print("User hit ESCAPE! Leaving the game!")
 		Flow.Quit()
 	end
+	if (not ShowMenu) and (Events.KeyHit(32) or Events.KeyHit(13) or Events.MouseHitLeft())
+		Print("User forced menu to appear already")
+		ShowMenu = true
+	end
+	// Menu
+	DoMenu()
 	// Debug only
 	FPS.Show(5,5)
 	// Must be very last
