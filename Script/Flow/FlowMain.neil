@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 20.09.07
+// Version: 20.09.08
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -273,6 +273,7 @@ init
 	Stage.NewStage(ShowLogo)
 	Stage.NewStage(ShowLogo)
 	Music.Play("Music/Introduction/Introduction.ogg")
+	print("Dev:",Dev.indev)
 end
 
 global void Apollo_Dispose()
@@ -281,6 +282,7 @@ end
 
 
 global void Apollo_Flow()
+	Dev.ToConsole()
 	// print("Start Flow!")
 	int mx = Events.MouseX()
 	int my = Events.MouseY()

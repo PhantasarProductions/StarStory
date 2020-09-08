@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
+// src/Tricky Script/Script/Use/Anyway.NeilBundle/Dev.neil
 // Version: 20.09.08
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,23 +34,70 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-// 3
-
-#use "libs/Music"
+#define Development
 
 
-#macro __white Graphics.Color(255,255,255)
+module
 
-
-group Key
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
 	readonly int leftshift = Events.KeyByName("Left Shift")
 	readonly int rightshift = Events.KeyByName("Right Shift")
 	readonly int kp_minus = Events.KeyByName("Keypad -")
+
+
+	get bool indev
+		#if Development
+			return true
+		#else
+			return false
+		#fi
+	end
 	
+	get bool inrelease
+		return not indev
+	end
+	
+	void CWrite(string message,byte r=255, byte g=255,byte b=255,bool cli=true)
+		#if Development
+			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", "..r..", "..g..", "..b)			
+			if cli
+				print("CWRITE>",message)
+			end
+		#fi
+	end
+	
+	void CSay(string message)
+		#if Development
+			print("\x1b[34,1m"..message.."\x1b[0m")			
+			CWrite(message,0,180,255,false)
+		#fi
+	end
+	
+	void CSayF(string fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+	end
+	
+	
+	void ToConsole()
+		// print("ToConsole:",indev , LeftShift,Events.KeyDown(LeftShift) , RightShift,Events.KeyDown(RightShift) , KP_Minus,Events.KeyDown(KP_Minus) )
+		if indev and Events.KeyDown(LeftShift) and Events.KeyDown(RightShift) and Events.KeyDown(KP_Minus)
+			State.Call("FLOW_CONSOLE","CLine.SetRetFlow","\""..ApolloState.Name.."\"")
+			Flow.GoToFlow("CONSOLE")
+		end
+	end
+	
+	void CommandCallBack(string opdracht,table para)
+		if GlobalExists(opdracht)
+			Lua.Neil.Globals[opdracht](para)
+		else
+			CWrite("ERROR! Command '"..opdracht.."' not understood!",255,0,0)
+		end
+	end
+
+end
+
+
+init
+	#if Development
+		State.LoadNew("FLOW_CONSOLE","Script/Flow/FlowConsole.neil")
+	#endif
 end

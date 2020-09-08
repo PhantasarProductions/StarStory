@@ -1,0 +1,300 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowConsole.neil
+// Version: 20.09.08
+// Copyright (C) 2020 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "script/use/anyway"
+
+table icommandtable
+
+class CLine
+	// delete oldest lines if it becomes more than this!
+	const int maxlines = 400
+	// Text Height
+	const int thght = 25
+	readonly string line
+	readonly byte R
+	readonly byte G
+	readonly byte B
+	readonly static get table commands 
+		return icommandtable
+	end
+	static readonly var SFont = ImageFont.Obtain("SYSFONT")
+	static int scrolly = 0
+
+	var next
+	var prev
+	
+	static var first
+	static var last
+	
+	static string ReturnToFlow
+	
+	static get delegate Each
+		var d = first
+		var r()
+			if not d
+				return nil
+			end
+			var n = d
+			d = d.next
+			return n
+		end
+		return r
+	end
+	
+	static get delegate RevEach
+		var d = last
+		var r()		
+			if not d
+				return nil
+			end
+			var n = d
+			d = d.prev
+			return n
+		end
+		return r
+	end
+	
+	static get int Count
+		int ret = 0
+		for _ in Each
+			ret++
+		end
+		return ret
+	end
+	
+	CONSTRUCTOR(string nl,int nr=255,int ng=255,int nb=255)
+		line = nl
+		r = nr
+		g = ng
+		b = nb
+		if last
+			prev = last
+			prev.next = self
+		end
+		first = first || self
+		last = self
+		if count>maxlines
+			first = first.next
+			first.prev=nil
+		end
+		scrolly = 0
+	end
+	
+	static void Write(string nl,int nr=255,int ng=255,int nb=255)
+		// This shouldn't be a problem, but neil is not yet perfect, you know!
+		var voider = new CLine(nl,nr,ng,nb)
+	end
+	
+	static void DoCommandCallBack(cmd,para)
+		string dpara = "\""..cmd.."\", {"
+		for i,v in ipairs(para)
+			if i>1 
+				dpara += ", "
+			end
+			dpara += "\""..v.."\""
+		end
+		dpara += "}"
+		State.Call(ReturnToFlow,"Dev.CommandCallBack",dpara)
+	end
+
+	static void DoCommand(string command)
+		table chopped
+		bool escape = false
+		bool instring = false
+		string w
+		Write(">"..command,255,255,0)
+		for i=1,#command
+			string ch = Mid(command,i,1)
+			switch ch
+				case "\""
+					if not escape 
+						if not instring
+							w = Trim(w)
+						end
+						instring = not instring
+						chopped += w
+						w = ""
+					else
+						w += ch
+						escape = false
+					end
+				case "\\"
+					if escape
+						w += "\\"
+						escape = false
+					else
+						escape = true
+					end
+				case " "
+					if instring
+						w += " "
+					else
+						if w!=""
+							chopped += w
+							w = ""
+						end
+					end
+				default
+					w += ch
+			end
+		end
+		if w!="" 
+			chopped += w
+		end
+		string opdracht = chopped[1]:upper()
+		table para
+		for i=2,#chopped
+			para[i-1]=chopped[i]
+		end
+		if commands[opdracht]
+			commands[opdracht](para)
+		else
+			DoCommandCallBack(opdracht,para)
+		end
+	end
+
+	static void RFlow()
+		static string command = ""
+		int y = Screen.H - (thght*2)
+		bool allowscrollup = false
+		for l in RevEach
+			int dy = y+scrolly
+			if dy>-(thght)
+				Graphics.Color(l.r,l.g,l.b)
+				SFont.Text(l.line,3,dy)
+			else
+				allowscrollup=true
+			end
+			y -= thght
+		end
+		Graphics.Color(0,180,255)
+		Graphics.Rect(0,Screen.H-thght,Screen.W,thght)
+		Graphics.Color(255,255,0)
+		SFont.Text(">"..command.."_",3,Screen.H-thght)
+		if Events.KeyHit(27)
+			Flow.GoToFlow(ReturnToFlow)
+		end
+		if Events.KeyHit(8) and command!=""
+			command = left(command,#command-1)
+		end
+		if Events.KeyHit(13) and trim(command)!=""
+			DoCommand(command)
+			command=""
+		end
+		for ch=32,122
+			if Events.KeyHit(ch)
+				if Events.KeyDown(Key.LeftShift) or Events.KeyDown(Key.RightShift)
+					switch ch
+						case '1'
+							command += "!"
+						case '2'
+							command += "@"
+						case '3'
+							command += "#"
+						case '4'
+							command += "$"
+						case '5'
+							command += "%"
+						case '6'
+							command += "^"
+						case '7'
+							command += "&"
+						case '8'
+							command += "*"
+						case '9'
+							command += "("
+						case '0'
+							command += ")"
+						case '='
+							command += "+"
+						case '`'
+							command += "~"
+						case ';'
+							command += ":"
+						case 39
+							command += "\""
+						case ','
+							command += "<"
+						case '.'
+							command += ">"
+						case '/'
+							command += "?"
+						default
+							command += Chr(ch):upper()
+					end
+				else
+					command += Chr(ch)
+				end
+			end
+		end		
+	end
+	
+	static void SetRetFlow(string RF)
+		ReturnToFlow = RF
+	end
+
+end
+
+void FoulLanguage()
+	CLine.Write("Hey! What kind of talk is that?",255,0,180)
+end
+
+void Bye()
+	Flow.Quit()
+end
+
+deftable icommandtable
+	FUCK = FoulLanguage
+	SHIT = FoulLanguage
+	POOP = FoulLanguage
+	CUNT = FoulLanguage
+	DICK = FoulLanguage
+	JEROEN = void()
+		CLine.Write("Hey! That's me!",255,180,0)
+	end
+	BYE = Bye
+	EXIT = Bye
+	QUIT = Bye
+	HOUDOE = Bye
+end
+
+
+init
+	var a = new CLine("Star Story - Debug Console",255,180,0)
+	a = new CLine("(c) Jeroen P. Broks",180,0,255)
+end
+
+global delegate Apollo_Flow = CLine.RFlow

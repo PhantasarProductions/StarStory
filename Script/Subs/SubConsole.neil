@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
+// src/Tricky Script/Script/Subs/SubConsole.neil
 // Version: 20.09.08
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,23 +34,3 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-// 3
-
-#use "libs/Music"
-
-
-#macro __white Graphics.Color(255,255,255)
-
-
-group Key
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
-	
-end

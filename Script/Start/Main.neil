@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.09.05
+// Version: 20.09.08
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -71,6 +71,7 @@ init
 
 	// Configure loading assets
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
+	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 
 
