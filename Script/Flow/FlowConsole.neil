@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 20.09.08
+// Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 #use "script/use/anyway"
+#use "script/use/link"
 
 table icommandtable
 
@@ -114,7 +115,7 @@ class CLine
 	end
 	
 	static void Write(string nl,int nr=255,int ng=255,int nb=255)
-		// This shouldn't be a problem, but neil is not yet perfect, you know!
+		// This shouldn't be a problem, but neil is not yet perfect, you know!		
 		var voider = new CLine(nl,nr,ng,nb)
 	end
 	
@@ -180,7 +181,11 @@ class CLine
 			para[i-1]=chopped[i]
 		end
 		if commands[opdracht]
-			commands[opdracht](para)
+			if lua.type(commands[opdracht]) != "function"
+				CLine.Write("Command '"..opdracht.."' does not contain a function by a "..lua.type(commands[opdracht]),255,0,180)
+			else
+				commands[opdracht](para)
+			end
 		else
 			DoCommandCallBack(opdracht,para)
 		end
@@ -289,6 +294,10 @@ deftable icommandtable
 	EXIT = Bye
 	QUIT = Bye
 	HOUDOE = Bye
+	FPS = void()
+		Cline.Write(FPS.S,255,180,100)
+	end
+	VARS = ShowGV
 end
 
 

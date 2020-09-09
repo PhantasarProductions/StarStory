@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.09.08
+// Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -43,6 +43,7 @@ class LAsset
 	readonly string File
 	readonly string Tag
 	readonly int what
+	readonly var data
 
 	static table Lijst
 
@@ -53,7 +54,7 @@ class LAsset
 		Lijst += self
 	end
 	
-	static void C(string F,string T,int w)
+	static void C(string F,string T,int w,data)
 		var a 
 		a = new LAsset(F,T,W)
 		// Woe of a language still in development!
@@ -71,13 +72,20 @@ init
 
 	// Configure loading assets
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
-	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font)
+	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 
 
 	// Loading assets
 	int m=#LAsset.Lijst
 	for i,LA in ipairs(LAsset.Lijst)
+		Graphics.Cls()
+		Graphics.Color(65,65,65)
+		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		Graphics.Color(0,180,255)
+		Graphics.Rect(0,Screen.H-50,math.floor( (i/m) * Screen.W ),50)
+		Graphics.Color(255,255,255)
+		Graphics.Flip()
 		printf("%5d/%5d: Loading ",i,m)
 		switch LA.what
 			case wh_Image
@@ -85,7 +93,7 @@ init
 				Image.Load(LA.File,LA.Tag)
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
-				ImageFont.Load(LA.File,LA.Tag)
+				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
 			default
 				print("ERROR!")
 				lua.error("Unknown loader switch ("..LA.what..")")
@@ -97,4 +105,5 @@ init
 	// Chaining to main menu
 	Flow.Load("MAINMENU","Script/Flow/FlowMain.neil")
 	Flow.Current="MAINMENU"	
+	Flow.Kill("APOLLO_MAIN")
 end

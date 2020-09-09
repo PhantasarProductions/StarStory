@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
+// src/Tricky Script/Script/Subs/SubGV.Neil
 // Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,28 +34,74 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-// 3
+#use "script/use/anyway"
 
-#use "Script/Use/Link"
-#use "libs/Music"
+global table sgvstring
+global table sgvint
+global table sgvbool
+
+global void SetGVString(string k,string v)
+	cout("Received key: ",k,"; and value ",v,"\t")
+	if v==""
+		cout("Destroy!\n")
+		sgvstring[k:upper()]=nil
+		return
+	end
+	sgvstring[k:upper()]=v
+	cout("Defined\n")
+end
 
 
-#macro __black Graphics.Color(0,0,0)
-#macro __white Graphics.Color(255,255,255)
-#macro __red Graphics.Color(255,0,0)
-#macro __ember Graphics.Color(255,180,0)
-#macro __skyblue Graphics.Color(0,180,255)
+global void SetGVInt(string k,int v)
+	if v==0
+		sgvint[k:upper()]=nil
+		return
+	end
+	sgvint[k:upper()]=v
+end
 
 
-group Key
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
-	
+global void SetGVBoolean(string k,int v)
+	if not v
+		sgvint[k:upper()]=nil
+		return
+	end
+	sgvint[k:upper()]=true
+end
+
+global void ShowEm()
+	//print(serialize("strings",sgvstring)) 
+	table collect
+	table count = {["bool"]=0, ["string"]=0, ["int"]=0, ["total"]=0 }
+	for btype,base in spairs({ ["bool"]=sgvBool,["string"]=sgvstring,["int"]=sgvint})
+		print(btype)
+		for k,v in spairs(base)
+			print(k)
+			string c = btype.." "..k.." = "
+			if btype=="string"
+				c+="'"..v.."'"
+			else
+				c+=tostring(v)
+			end
+			collect+=c
+			count[btype] += 1
+			count.total++
+		end
+	end
+	print("Okay?")
+	collect+=sprintf("total bool:     %5d",count[trim(" bool")])
+	collect+=sprintf("total integer:  %5d",count[trim(" int")])
+	collect+=sprintf("total string:   %5d",count[trim(" string")])
+	collect+=        "                ===== +"
+	collect+=sprintf("grand total     %5d",count.total)
+	print("Okay??",lua.type(collect),lua.type(ipairs),lua.type(ipairs(collect)))
+	for i,line in ipairs(collect)
+		print("Start",i,line)
+		int b = math.floor( (i/#collect)*255 )
+		int g = 180
+		int r = 255-b
+		dev.CWrite(line,r,g,b)
+		print("End",i,line)
+	end
+	print("Okay???")
 end

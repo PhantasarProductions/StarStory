@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Dev.neil
-// Version: 20.09.08
+// Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,6 +36,18 @@
 // End License Information
 #define Development
 
+global void CSay(string message)
+		#if Development
+			//print("\x1b[34,1m"..message.."\x1b[0m")			
+			//CWrite(message,0,180,255,false)
+			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", 0x00, 0xbf, 0xff")	
+			cout("CSAY>\x1b[34;1m",message,"\x1b[0m\n")
+		#fi
+	end
+	
+global void CSayF(string fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+	end
 
 module
 
@@ -58,24 +70,13 @@ module
 	
 	void CWrite(string message,byte r=255, byte g=255,byte b=255,bool cli=true)
 		#if Development
-			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", "..r..", "..g..", "..b)			
 			if cli
 				print("CWRITE>",message)
 			end
+			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", "..r..", "..g..", "..b)	
 		#fi
 	end
-	
-	void CSay(string message)
-		#if Development
-			print("\x1b[34,1m"..message.."\x1b[0m")			
-			CWrite(message,0,180,255,false)
-		#fi
-	end
-	
-	void CSayF(string fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
-	end
-	
+		
 	
 	void ToConsole()
 		// print("ToConsole:",indev , LeftShift,Events.KeyDown(LeftShift) , RightShift,Events.KeyDown(RightShift) , KP_Minus,Events.KeyDown(KP_Minus) )
@@ -92,6 +93,7 @@ module
 			CWrite("ERROR! Command '"..opdracht.."' not understood!",255,0,0)
 		end
 	end
+	
 
 end
 
@@ -99,5 +101,5 @@ end
 init
 	#if Development
 		State.LoadNew("FLOW_CONSOLE","Script/Flow/FlowConsole.neil")
-	#endif
+	#endif	
 end

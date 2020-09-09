@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
+// src/Tricky Script/Script/Flow/FlowNewGame.neil
 // Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,28 +34,82 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-// 3
 
-#use "Script/Use/Link"
-#use "libs/Music"
+#use "Script/Use/Anyway"
 
-
-#macro __black Graphics.Color(0,0,0)
-#macro __white Graphics.Color(255,255,255)
-#macro __red Graphics.Color(255,0,0)
-#macro __ember Graphics.Color(255,180,0)
-#macro __skyblue Graphics.Color(0,180,255)
+var NGFont = ImageFont.Obtain("BOXTEXT")
+var Stars = Image.Load("GFX/Intro/Starfield.png")
+var Mouse = Image.Obtain("MOUSE")
 
 
-group Key
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
+class NGStage
+
+	readonly bool Keyboard
 	
+	readonly delegate KeysAllowed
+	readonly delegate MyFlow
+	
+	
+	static int Stage = 1
+	static table Stages
+	
+	CONSTRUCTOR(bool kb,delegate ka,delegate mf)
+		Keyboard = kb
+		KeysAllowed = ka
+		MyFlow = mf
+	end
+	
+	static void NewStage(bool kb,delegate ka,delegate mf)
+		Stages += new NGStage(kb,ka,mf)
+	end
+
+end
+
+void Stage1()
+	__red
+	NGFont.Text("Welcome to Star Story!",5,5)
+	__skyblue
+	NGFont.Text("Before we begin our journey through the Galaxy",5,40)
+	NGFont.Text("I first need to ask you a few questions!",5,70)
+	NGFont.Text("Please note that the entire flow of the game is",5,100)
+	NGFont.Text("affected by your answers, and therefore, it is",5,130)
+	NGFont.Text("not possible to change any setting later!",5,160)
+	NGFont.Text("When you are ready to move on,",5,200)
+	NGFont.Text("click anywhere on the screen!",5,230)
+	if Events.MouseHitLeft()
+		NGStage.Stage++
+	end
+end
+
+void Stage2()
+	__red
+	NGFont.Text("Welcome to Star Story!",5,5)
+	__skyblue
+	NGFont.Text("Do you want to log your achievements on Game Jolt?",5,40)
+end
+
+init
+	CSay("Let's prepare a new game")
+	CSayF("Game directory is in: %s",Core.PKGDir)
+	NGStage.NewStage(false,nil,Stage1)
+	NGStage.NewStage(false,nil,Stage2)
+	gvStr.Start = OS.date()
+end
+
+global void Apollo_Flow()
+	// Dev
+	Dev.ToConsole()
+	// Mouse pointer
+	int mx = Events.MouseX()
+	int my = Events.MouseY()
+	Graphics.Color(255,255,255)
+	// Stars
+	Stars.Tile(0,0,Screen.W,Screen.H)
+	// Stage
+	NGStage.Stages[NGStage.Stage].MyFlow()
+	// Debug only
+	// FPS.Show(5,5)
+	// Must be very last
+	Graphics.Color(255,255,255)
+	Mouse.Draw(mx,my)
 end

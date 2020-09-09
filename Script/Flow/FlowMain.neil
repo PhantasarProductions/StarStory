@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 20.09.08
+// Version: 20.09.09
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -251,9 +251,15 @@ void Bugs()
 	OS.Execute("OpenURL BUGS")
 end
 
+void NewGame()
+	Flow.Load("NEWGAME","Script/Flow/FlowNewGame.neil")
+	Flow.Current="NEWGAME"
+	State.PlanToKill("FLOW_MAINMENU")
+end
+
 
 init
-	Menu += new MenuItem("New Game",NOTHING)
+	Menu += new MenuItem("New Game",NewGame)
 	Menu += new MenuItem("Continue",NOTHING)
 	Menu += new MenuItem("Load Game",NOTHING)
 	Menu += new MenuItem("Bugs",BUGS)
@@ -301,7 +307,7 @@ global void Apollo_Flow()
 	// Menu
 	DoMenu()
 	// Debug only
-	FPS.Show(5,5)
+	// FPS.Show(5,5)
 	// Must be very last
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)

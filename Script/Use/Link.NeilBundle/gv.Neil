@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
+// src/Tricky Script/Script/Use/Link.NeilBundle/gv.Neil
 // Version: 20.09.10
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,28 +34,95 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-// 3
+table lgvstr
+table lgvint
+table lgvbool
 
-#use "Script/Use/Link"
-#use "libs/Music"
+void gvLoaded()
+	State.LoadNew("GV","Script/Subs/SubGV.Neil")
+end
 
-
-#macro __black Graphics.Color(0,0,0)
-#macro __white Graphics.Color(255,255,255)
-#macro __red Graphics.Color(255,0,0)
-#macro __ember Graphics.Color(255,180,0)
-#macro __skyblue Graphics.Color(0,180,255)
-
-
-group Key
-	// list is not complete. I will add more if I need them!
-	readonly int up = Events.KeyByName("Up")
-	readonly int down = Events.KeyByName("Down")
-	readonly int pageup = Events.KeyByName("PageUp")
-	readonly int pagedown = Events.KeyByName("PageDown")
-	readonly int backspace = Events.KeyByName("Backspace")
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
+//defmeta lgvstr
+quickmeta gvstr
+	index
+	//index = string(string k)
+		gvLoaded()
+		return ISGET.Str("GV","sgvstring["..chr(34)..key:upper()..chr(34).."] or "..chr(34)..chr(34))
+	end
 	
+	newindex
+	//newindex = void(string key,string value)
+		gvLoaded()
+		cout("string ",key," = ",value,"\n")
+		State.Call("GV","SetGVString",chr(34)..key..chr(34)..","..chr(34)..value..chr(34))
+	end
+end
+
+//const global table gvstr = lgvstr
+
+
+//defmeta lgvint
+quickmeta gvint
+	index	
+	//index = int(string k)
+		string k = key
+		gvLoaded()
+		return ISGET.Integer("GV","sgvint["..chr(34)..(k:upper())..chr(34).."] or 0")
+	end
+	//newindex = void(string k,int v)
+	newindex
+		gvLoaded()
+		State.Call("GV","SetGVInt",chr(34) .. key .. Chr(34).."," .. value)
+	end
+end
+
+//const global table gvint = lgvint
+
+
+
+//defmeta lgvbool
+quickmeta gvbool
+	index
+	//index = bool(string k)
+		gvLoaded()
+		return ISGET["Bool"]("GV","sgvbool["..chr(34)..key:upper()..chr(34).."]==true")
+	end
+	newindex
+	//newindex = void(string k,bool v)
+		gvLoaded()
+		State.Call("GV","SetGVBool",chr(34)..key..chr(34)..","..tostring(value))
+	end
+end
+
+//const global table gvbool = lgvbool
+
+
+quickmeta Done
+	index
+		bool ret = gvbool[key]
+		gvbool[key] = true
+		return ret
+	end
+	newindex
+		Lua.Apollo_Panic("Done is read-only!")
+	end
+end
+
+// debug only
+global void ShowGV()
+	gvLoaded()
+	State.Call("GV","ShowEm","nil")
+end
+
+
+init
+	// ???
+	print ( "GV loaded in: " , ApolloState.Name )
+end
+
+module
+	readonly table vBool = lgvbool
+	readonly table vStr = lgvstr
+	readonly table vInt = lgvint
+	readonly table Done = Lua.Neil.Globals.Done
 end
