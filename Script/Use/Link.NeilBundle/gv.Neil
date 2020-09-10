@@ -90,7 +90,7 @@ quickmeta gvbool
 	newindex
 	//newindex = void(string k,bool v)
 		gvLoaded()
-		State.Call("GV","SetGVBool",chr(34)..key..chr(34)..","..tostring(value))
+		State.Call("GV","SetGVBoolean",chr(34)..key..chr(34)..","..tostring(value))
 	end
 end
 
