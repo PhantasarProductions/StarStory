@@ -61,12 +61,12 @@ global void SetGVInt(string k,int v)
 end
 
 
-global void SetGVBoolean(string k,int v)
+global void SetGVBoolean(string k,bool v)
 	if not v
-		sgvint[k:upper()]=nil
+		sgvbool[k:upper()]=nil
 		return
 	end
-	sgvint[k:upper()]=true
+	sgvbool[k:upper()]=true
 end
 
 global void ShowEm()
