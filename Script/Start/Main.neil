@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.09.10
+// Version: 20.09.15
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -74,11 +74,13 @@ init
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
+	LAsset.C("GFX/BoxText/Corner.png","BTHOEK",wh_Image)
 
 
 	// Loading assets
 	int m=#LAsset.Lijst
 	for i,LA in ipairs(LAsset.Lijst)
+		Events.Poll()
 		Graphics.Cls()
 		Graphics.Color(65,65,65)
 		Graphics.Rect(0,Screen.H-50,Screen.W,50)
@@ -104,6 +106,5 @@ init
 
 	// Chaining to main menu
 	Flow.Load("MAINMENU","Script/Flow/FlowMain.neil")
-	Flow.Current="MAINMENU"	
-	Flow.Kill("APOLLO_MAIN")
+	Flow.Current="MAINMENU"		
 end
