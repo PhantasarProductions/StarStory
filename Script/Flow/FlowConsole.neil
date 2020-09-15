@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 20.09.10
+// Version: 20.09.15
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -298,6 +298,15 @@ deftable icommandtable
 		Cline.Write(FPS.S,255,180,100)
 	end
 	VARS = ShowGV
+	STATLIST = void(table chrs)
+		for ch in each(chrs)
+			table s = Split(RPGChar[ch].StatList,"\n")
+			for l in each(s)
+				//print(l)
+				CSay(l)
+			end
+		end
+	end
 end
 
 
