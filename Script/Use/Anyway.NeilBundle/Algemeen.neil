@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
-// Version: 20.09.10
+// Version: 20.09.12
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,6 +46,8 @@
 #macro __ember Graphics.Color(255,180,0)
 #macro __skyblue Graphics.Color(0,180,255)
 #macro __green Graphics.Color(0,255,0)
+
+#macro __skill gvInt.Skill
 
 
 group Key
