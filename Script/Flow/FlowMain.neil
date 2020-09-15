@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 20.09.09
+// Version: 20.09.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -288,6 +288,11 @@ end
 
 
 global void Apollo_Flow()
+	static bool StartDestroyed
+	if not StartDestroyed
+		Flow.Kill("APOLLO_MAIN")
+		StartDestroyed = true
+	end
 	Dev.ToConsole()
 	// print("Start Flow!")
 	int mx = Events.MouseX()
