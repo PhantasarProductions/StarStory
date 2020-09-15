@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 20.09.10
+// Version: 20.09.15
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -144,7 +144,7 @@ void Stage1()
 	NGFont.Text("affected by your answers, and therefore, it is",5,130)
 	NGFont.Text("not possible to change any setting later!",5,160)
 	NGFont.Text("When you are ready to move on,",5,200)
-	NGFont.Text("click anywhere on the screen!",5,230)
+	NGFont.Text("Click anywhere on the screen!",5,230)
 	if Events.MouseHitLeft()
 		NGStage.Stage++
 	end
@@ -191,7 +191,9 @@ void GameJoltCredentials()
 			Graphics.Rect(150,(i*30)+10,Screen.W-200,30)
 			__black
 		end
-			
+		if Events.MouseHitLeft() and events.MouseY()>(i*30)+10 and events.MouseY()<(I*30)+40
+			tablepoint=i
+		end
 		NGFont.Text(GJFields[i]..Cursor[i==tablepoint and (math.floor(FPS.Ticks/501)%2==0)],151,(i*30)+10)
 	end
 	if Keyboard.HitKey==8
@@ -210,16 +212,102 @@ void GameJoltCredentials()
 	end
 	__red
 	NGFont.Text("Back",5,Screen.H-50)
+	if Events.MouseX()<100 and Events.MouseY()>Screen.H-50 and Events.MouseHitLeft()
+		NGStage.Stage--
+	end
 	__green
 	if GJFields[1]!="" and GJFields[2]!=""
 		NGFont.Text("Next",Screen.W-5,Screen.H-50,1,0)
+		if Events.MouseX()>Screen.W-100 and Events.MouseY()>Screen.H-50 and Events.MouseHitLeft()
+			GJError = GameJolt.Login(GJUser,GJToken)
+			if GJError == ""
+				NGStage.Stage++
+				return
+			end
+		end
+		if GJError!=""
+			__red
+			NGFont.Text(GJError,Screen.W/2,Screen.H-200,2,2)
+			__ember
+			NGFont.Text("Ignore",Screen.W-5,Screen.H-100,1,0)
+			if Events.MouseX()>Screen.W-100 and Events.MouseY()>Screen.H-100 and Events.MouseY()<Screen.H-50 and Events.MouseHitLeft()
+				gvbool.GJIGNORE = true
+				NGStage.Stage++
+			end
+		end
 	end
+	// NGFont.Text(sprintf("Mouse X=%4d; Y=%4d;   Screen %4dx%4d",Events.MouseX(),Events.MouseY(),Screen.W,Screen.H),3,3)
 end
 
 
 void Difficulty()
 	static table skills = { "Noob", "Casual", "No-Life Gamer" }
+	__red
+	NGFont.Text("What kind of gamer are you?",5,5)
+	__ember
+	NGFont.Text("Please note, due to the big differences between the",5,60)
+	NGFont.Text("difficulty settings, you cannot change this setting",5,100)
+	NGFont.Text("afterwards, so make your choice wisely!",5,140)
+	for i,sk in ipairs(skills)
+		__skyblue
+		int ypos = 200+(i*30)
+		if Events.MouseY()>ypos and Events.MouseY()<ypos+30
+			if Events.MouseHitLeft()
+				gvInt.Skill = i
+				NGStage.Stage++
+			end
+			Graphics.Rect(0,ypos,Screen.W,30)
+			__black
+		end
+		NGFont.Text(sk,Screen.W/2,ypos,2,0)
+	end
 end
+
+void Language()
+	static table langs = { ["NL"] = "Dutch", ["EN"] = "English" }
+	__red 
+	NGFont.Text("What language do you want?",5,5)
+	__ember
+	NGFont.Text("Your choice will only affect the written scenario text",5,60)
+	NGFont.Text("system messages, item and ability names and so on will",5,100)
+	NGFont.Text("regardless of your choice remain in English!",5,140)
+	int y = 200
+	for k,v in SPairs(Langs)
+		__skyblue
+		if Events.MouseY()>y and Events.MouseY()<y+30
+			if Events.MouseHitLeft()
+				gvStr.Lang = k
+				NGStage.Stage++
+			end
+			Graphics.Rect(0,y,Screen.W,30)
+			__black
+		end
+		NGFont.Text(v,Screen.W/2,y,2,0)
+		y += 40
+	end
+end
+
+void BuckleUp()
+	NGFont.Text("And that's all I need to know!",5,5)
+	__skyblue
+	NGFont.Text("Now buckle up for this exciting space adventure",5,40)
+	NGFont.Text("Click anywhere on the screen!",5,230)
+	if Events.MouseHitLeft()
+		gvInt.Cycle = 1
+		Party.NewChar("UniWendicka",1,"Wendicka")
+		Party.NewChar("UniCrystal",1,"Crystal")
+		Party.NewChar("Briggs",20)
+		RPGParty.Max = 6
+		RPGParty[1] = "UniWendicka"
+		RPGParty[2] = "UniCrystal"
+		RPGParty[3] = "Briggs"
+		Flow.Load("FIELD","Script/Load/LoadField.neil")
+		Map.LoadMap("Intro_Ship_Transporter")
+		Flow.Current="Field"	
+		// Lua.error("Sorry folks! This part is not yet done!")
+	end
+end
+
 
 init
 	CSay("Let's prepare a new game")
@@ -228,6 +316,8 @@ init
 	NGStage.NewStage(false,nil,Stage2)
 	NGStage.NewStage(true,nil,GameJoltCredentials)
 	NGStage.NewStage(false,nil,Difficulty)
+	NGStage.NewStage(false,nil,Language)
+	NGStage.NewStage(false,nil,BuckleUp)
 	gvStr.Start = OS.date()
 end
 
