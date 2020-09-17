@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Dev.neil
-// Version: 20.09.10
+// src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
+// Version: 20.09.15
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,73 +34,25 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-#define Development
 
-global void CSay(string message)
-		#if Development
-			//print("\x1b[34,1m"..message.."\x1b[0m")			
-			//CWrite(message,0,180,255,false)
-			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", 0x00, 0xbf, 0xff")	
-			cout("CSAY>\x1b[34;1m",message,"\x1b[0m\n")
-		#fi
+global void CONSOLE_MapObjects()
+	CSayF("Map layer: %s",FldMap.Layer)
+	var Lay = Kthura.Map("GAMEMAP").Layer(FldMap.Layer)
+	for O in Lay.EachObject
+		CSayF("Object: %5d >> %s",O.ID,O.Kind)
 	end
-	
-global void CSayF(string fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
-	end
-
-module
-
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
-
-
-	get bool indev
-		#if Development
-			return true
-		#else
-			return false
-		#fi
-	end
-	
-	get bool inrelease
-		return not indev
-	end
-	
-	void CWrite(string message,byte r=255, byte g=255,byte b=255,bool cli=true)
-		#if Development
-			if cli
-				print("CWRITE>",message)
-			end
-			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", "..r..", "..g..", "..b)	
-		#fi
-	end
-		
-	
-	void ToConsole()
-		// print("ToConsole:",indev , LeftShift,Events.KeyDown(LeftShift) , RightShift,Events.KeyDown(RightShift) , KP_Minus,Events.KeyDown(KP_Minus) )
-		if indev and Events.KeyDown(LeftShift) and Events.KeyDown(RightShift) and Events.KeyDown(KP_Minus)
-			State.Call("FLOW_CONSOLE","CLine.SetRetFlow","\""..ApolloState.Name.."\"")
-			Flow.GoToFlow("CONSOLE")
-		end
-	end
-	
-	void CommandCallBack(string _opdracht,table para)
-		string Opdracht = "CONSOLE_".._opdracht
-		if GlobalExists(opdracht)
-			Lua.Neil.Globals[opdracht](para)
-		else
-			CWrite("ERROR! Command '".._opdracht.."' not understood!",255,0,0)
-		end
-	end
-	
-
+	CSayF("Objects: %d",Lay.ObjCount)
 end
 
+global void CONSOLE_RemapAll()
+	CSay("Remapping all Kthura Layers")
+	Kthura.Map("GAMEMAP").Remap()
+	CSay("Done!")
+end
 
-init
-	#if Development
-		State.LoadNew("FLOW_CONSOLE","Script/Flow/FlowConsole.neil")
-	#endif	
+global void CONSOLE_TagList()
+	CSayF("Map layer: %s",FldMap.Layer)
+	for a in each(Split(FldMap.KthuraMap.Layer(FldMap.Layer).TagList,","))
+		CSay(a)
+	end
 end

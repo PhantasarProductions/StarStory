@@ -303,7 +303,11 @@ void BuckleUp()
 		RPGParty[3] = "Briggs"
 		Flow.Load("FIELD","Script/Load/LoadField.neil")
 		Map.LoadMap("Intro_Ship_Transporter")
-		Flow.Current="Field"	
+		Map.Layer="INTRO"
+		var O = Kthura.Map("GAMEMAP").Layer("INTRO").Obj("Stars")
+		O.W = Screen.W
+		O.H = Screen.H		
+		Flow.Current="Field"
 		// Lua.error("Sorry folks! This part is not yet done!")
 	end
 end

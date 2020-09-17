@@ -35,10 +35,14 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+
 global void DrawScreen()
+	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 
 void FullDrawScreen()
+	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
 	DrawScreen()
 	Party.Boxes()
 end

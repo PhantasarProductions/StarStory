@@ -38,10 +38,49 @@
 #MKL_Version "Star Story - FieldMap.neil" "20.09.15"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
-module
+// module
+group FldMap
+
+	var KthuraMap
+	int ScrollX
+	int ScrollY
+	string Layer
+	bool AutoScroll = true
 
 	void LoadMap(string Map)
 		CSayF("Loading Kthura Map: %s",Map)
+		KthuraMap = Kthura.Load("Kthura/"..Map)
+		CSay("Remapping")
+		KthuraMap.Remap()
+		if State.Has("MAPSCRIPT")
+			State.Kill("MAPSCRIPT")
+		end
+		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
+		gvStr.LoadedMap = Map
+		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
+		if !JCR6.EntryExists(MapScriptFile)
+			CSay("WARNING! No file named: "..Mapscriptfile..", so resorting to the basis 'None' script in stead!")
+			MapScriptFile = "Script/MapScript/None.Neil"
+		end
+		State.Load("MAPSCRIPT",MapScriptFile)		
+	end
+	
+	void SetMember(string key, value)
+		if key:upper()=="LAYER"
+			gvStr.MapLayer = value
+		end
+		self[key] = value
+	end
+	
+	CONSTRUCTOR
+		CSay("FieldMap loaded!")
 	end
 
 end
+
+init
+	print("FieldMap Init Executed!")
+	print(GlobalDump())
+end
+
+return FldMap

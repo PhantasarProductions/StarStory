@@ -45,10 +45,26 @@ module
 				p = "\""..para.."\""
 			case "boolean" "number"
 				p = tostring(para)
+			case "table"
+				for i,pr in ipairs(para)
+					if i!=1
+						p += ","
+					end
+					p += pr
+				end
 			default
 				Lua.error("Untransferrable type: "..type(para))
 		end
 		State.Call("FLOW_FIELD",func,p)
+	end
+	
+	set string Layer
+		Print("= Going to Layer: "..value)
+		Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
+	end
+	
+	set bool AutoScroll
+		Call("FldMap.SetMember",{"\"AutoScroll\"",tostring(value)})
 	end
 
 	void LoadMap(string Map)
