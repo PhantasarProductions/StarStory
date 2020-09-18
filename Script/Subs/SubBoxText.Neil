@@ -51,6 +51,7 @@ void InitScenario()
 	CSay("Configuring Scenario library")
 
 	// Set Language
+	// print(Scenario)
 	Scenario.lang = __lang
 	
 	// Link JCR to the scenario library
