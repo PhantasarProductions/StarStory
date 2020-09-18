@@ -160,7 +160,8 @@ class TextBox
 				p=0
 			end
 			if p>0
-				DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+				//DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+				Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
 			end
 		end
 	end
@@ -186,18 +187,18 @@ class TextBox
 		CSayF("Generate('%s', '%s', %4d, '%s') -- START!",file, tag, idx, boxback)
 		f = TextBox.btdata[file]
 		if not f then 
-			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' has not yet been loaded!") 
 		end
 		tag = tag:upper()
 		t = f[tag]
 		if not t then 
-			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
 		end
 		rec = t[idx]
 		if not rec then 
-			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..#t..")") 
 		end
 		CSay("= Start sb_data")
