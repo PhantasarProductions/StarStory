@@ -288,6 +288,7 @@ void Language()
 end
 
 void BuckleUp()
+	__red
 	NGFont.Text("And that's all I need to know!",5,5)
 	__skyblue
 	NGFont.Text("Now buckle up for this exciting space adventure",5,40)
