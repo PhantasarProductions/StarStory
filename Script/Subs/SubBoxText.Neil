@@ -271,11 +271,11 @@ group FlowBoxText
 	end
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
-		self.ReturnFlow = RF or CurrentFlow()
+		self.ReturnFlow = RF // or CurrentFlow()
 		self.Num = ANum or 1
 		self.Scen = AScen
 		self.Tag = ATag:upper()
-		GoToFlow("BOXTEXT")
+		// GoToFlow("BOXTEXT")
 		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
 	end
 	

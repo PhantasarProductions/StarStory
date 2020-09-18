@@ -39,7 +39,9 @@ void BTLoad()
 	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")
 end
 
-global void MapText()
+global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+	static string AScen="MAPTEXT"
+	States.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 end
 
 
@@ -48,6 +50,10 @@ module
 	
 	void Load(string Tag,string File)
 		BTLoad()
+	end
+	
+	void Serial(string AScen, string ATag, string RF="FLOW_FIELD", ANum)
+		States.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 	end
 end
 
