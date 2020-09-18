@@ -39,6 +39,12 @@
 #use "script/use/misc/box"
 #use "libs/Scenario"
 
+
+#macro __BoxTextTotalWidthMargin 225
+#macro __BoxTextFontSize 25
+#macro __BoxText_MinX 200
+
+
 table LoadedPortret
 void InitScenario()
 
@@ -60,6 +66,8 @@ void InitScenario()
 end
 
 class TextBox
+	readonly static delegate Color = Graphics.Color
+
 	// real class
 	string Header
 	string PicDir
@@ -105,7 +113,7 @@ class TextBox
 	
 		var Font
 		
-		Font = GetFont("BOXTEXT")
+		Font = ImageFont.Obtain("BOXTEXT")
 		
 		self.txtbox.Draw()
 		
@@ -113,10 +121,11 @@ class TextBox
 		BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
 		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
 		
-		Color(255,180,0)
+		//Color(255,180,0)
+		__red
 		DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
 		
-		__white
+		__skyblue
 		for i,l in ipairs(self.Lines)
 			int p
 			if i<self.SL
@@ -141,7 +150,11 @@ class TextBox
 	static table btdata
 	//link btdata = Scenario.btdata
 	static var Current
-	link Portraits = LoadedPortret
+	
+	//link Portraits = LoadedPortret
+	get table Portraits
+		return LoadedPortret
+	end
 	
 	static void Generate(string file, string tag,int idx,string boxback)
 		//var this
