@@ -67,6 +67,7 @@ end
 
 class TextBox
 	readonly static delegate Color = Graphics.Color
+	readonly static delegate Error = Lua.error
 
 	// real class
 	string Header
@@ -81,6 +82,16 @@ class TextBox
 	int width
 	var txtbox
 	
+	// link up static shit
+	static table btdata
+	//link btdata = Scenario.btdata
+	static var Current
+	
+	//link Portraits = LoadedPortret
+	get table Portraits
+		return LoadedPortret
+	end
+
 	get int boxheight
 		return self.txtbox.h
 	end
@@ -109,6 +120,12 @@ class TextBox
 		end
 	end
 	
+	void Portret(string picdir,string spec="GENERAL")
+		string tag = sprintf("%s.%s",picdir,spec)
+		Portraits[tag] = Portraits[tag] or Image.Load(sprintf("GFX/Portret/%s/%s.png",picdir,spec))
+		Portraits[tag].Draw(0,Screen.H-Portraits[tag].Height)
+	end
+	
 	void Show()
 	
 		var Font
@@ -118,12 +135,14 @@ class TextBox
 		self.txtbox.Draw()
 		
 		__white
-		BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
+		// Dyrt: BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
 		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
+		Portret(PicDir,PicSpc)
 		
 		//Color(255,180,0)
 		__red
-		DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
+		//DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
+		Font.Text(Header,__BoxText_MinX,boxy+10)
 		
 		__skyblue
 		for i,l in ipairs(self.Lines)
@@ -146,15 +165,6 @@ class TextBox
 		end
 	end
 	
-	// link up static shit
-	static table btdata
-	//link btdata = Scenario.btdata
-	static var Current
-	
-	//link Portraits = LoadedPortret
-	get table Portraits
-		return LoadedPortret
-	end
 	
 	static void Generate(string file, string tag,int idx,string boxback)
 		//var this
@@ -208,7 +218,8 @@ class TextBox
 			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
 			CurrentFont = error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
 		else
-			CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
+			//CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
+			CurrentFont = ImageFont.Obtain("BOXTEXT")
 		end   
 		CSay("= Textwrapping!")
 		for ak,txt in ipairs(rec.Lines) 
