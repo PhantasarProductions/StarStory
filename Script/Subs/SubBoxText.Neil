@@ -39,6 +39,280 @@
 #use "script/use/misc/box"
 #use "libs/Scenario"
 
+table LoadedPortret
+void InitScenario()
+
+	CSay("Configuring Scenario library")
+
+	// Set Language
+	Scenario.lang = __lang
+	
+	// Link JCR to the scenario library
+	Scenario.JCR_Lines = table(string file)
+		string content
+		content = JCR6.LoadString(file)
+		return split(content,"\n")
+	end
+	
+	Scenario.print = CSay
+	Scenario.JCR_Exists = JCR6.EntryExists
+		
+end
+
+class TextBox
+	// real class
+	string Header
+	string PicDir
+	string PicSpc
+	string PicRef	
+	table Lines
+	int SL
+	int SP
+	string AltTxtFont
+	string Voice
+	int width
+	var txtbox
+	
+	get int boxheight
+		return self.txtbox.h
+	end
+	
+	get int boxy
+		return Screen.Height - self.boxheight
+	end
+	
+	CONSTRUCTOR(table initcrap)
+		CSay("Creating textbox!")
+		for k,v in pairs(initcrap)
+			CSayF("%s %s = %s",type(v),k,tostring(v))
+			self[k] = v
+		end
+		CSay("Done!")
+	end
+	
+	DESTRUCTOR
+		if not self.txtbox
+			return
+		end
+		for ibox,ilnk in Box.List.Each
+			if ibox==self.txtbox 
+				ilnk.UnLink()
+			end
+		end
+	end
+	
+	void Show()
+	
+		var Font
+		
+		Font = GetFont("BOXTEXT")
+		
+		self.txtbox.Draw()
+		
+		__white
+		BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
+		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
+		
+		Color(255,180,0)
+		DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
+		
+		__white
+		for i,l in ipairs(self.Lines)
+			int p
+			if i<self.SL
+				p = #l
+			elseif i==self.SL
+				p = self.SP
+				self.SP++
+				if self.SP>=#l
+					self.SP=1
+					self.SL++
+				end
+			else
+				p=0
+			end
+			if p>0
+				DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+			end
+		end
+	end
+	
+	// link up static shit
+	static table btdata
+	//link btdata = Scenario.btdata
+	static var Current
+	link Portraits = LoadedPortret
+	
+	static void Generate(string file, string tag,int idx,string boxback)
+		//var this
+		var f
+		var t
+		var rec
+		table sb_data
+		int width
+		var CurrentFont
+		TextBox.btdata = Scenario.btdata
+		//this = new TextBox
+		//TextBox.Current = this
+		//--	function RunBoxText(file,tag,idx,boxback)
+		//-- if not ReInit then 
+		//--	Graphics_Init()  
+		//--	ReInit = true
+		//--	This prevents the Text Box to be drawn based on wrong settings.
+		//-- end  
+		CSayF("Generate('%s', '%s', %4d, '%s') -- START!",file, tag, idx, boxback)
+		f = TextBox.btdata[file]
+		if not f then 
+			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			error("Boxtext file '"..file.."' has not yet been loaded!") 
+		end
+		tag = tag:upper()
+		t = f[tag]
+		if not t then 
+			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
+		end
+		rec = t[idx]
+		if not rec then 
+			CSay(NIL.LuaSerialize("btdata",TextBox.btdata))
+			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..#t..")") 
+		end
+		CSay("= Start sb_data")
+		if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
+			rec.PicDir="Yasathar"
+		end
+		sb_data = new TextBox( { ['Header'] = gv.Sub(rec.Header), ['PicDir'] = rec.PicDir, ['PicSpc'] = rec.PicSpc, ['Lines'] = {}, ['SL'] = 1, ['SP']=1, ['AltTxtFont'] = rec.AltTxtFont, ['Voice'] = rec.SoundFile   } )
+		TextBox.Current = sb_data
+		width=Screen.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
+		//local ak,txt,cline,spline
+		//local aw,word
+		//local continue
+		if rec.PicRef then
+			// TODO: Proper Image loading
+			//width = width - Image.Width(rec.PicRef)   
+		end
+		if rec.AltTxtFont and rec.AltTxtFont!="" then
+			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
+			CurrentFont = error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
+		else
+			CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
+		end   
+		CSay("= Textwrapping!")
+		for ak,txt in ipairs(rec.Lines) do
+			string cline
+			table spline
+			cline = ""
+			//spline = split(Var.S(txt)," ")
+			spline = split(gv.SUB(txt)," ")
+			for aw,word in ipairs(spline) do
+				if CurrentFont.TextWidth(cline..word)>width
+					table.insert(sb_data.Lines,cline)
+					cline = ""
+				end
+				cline = cline .. word .. " "   
+			end
+			if cline~="" then table.insert(sb_data.Lines,cline) end    
+		end
+		CSay("= Config portrait!")
+		sb_data.width=width    
+		sb_data.PicRef=rec.PicRef
+		//-- if tonumber(LC('screen.margin.top')   )~=0 then origin[2] = 25; totalwidth=totalheight-25 end
+		// if tonumber(LC('screen.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
+		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
+		//-- Voice acting, if available
+		CSay("= The Voide of Phantasar")
+		if sb_data.Voice and JCR_EntryExists(sb_data.Voice) 		
+			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
+			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
+			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
+			// Audio.Play("BOXTEXTVOICE","BOXTEXTCHANNEL")
+		else
+			sb_data.Voice=nil;
+		end
+		
+		do
+			CSay("Calculating box size")
+			int h
+			h = (#sb_data.Lines*(__BoxTextFontSize+2))+50
+			if h<150 then h=150 end
+			CSayF("Creating a box that is %d pixels high",h)
+			sb_data.txtbox = new Box(0,Screen.Height-h,Screen.Width,h)
+			CSayF("So far so good!")
+		end
+		CSay("= That should do it!")
+	end
+
+end
+
+
+group FlowBoxText
+	
+	string Tag
+	int Num
+	string Scen
+	string ReturnFlow
+	table btdata
+	
+	void CONSTRUCTOR()
+		InitScenario()
+	end
+	
+	void InitBTFlow(string AScen, string ATag, RF, ANum)
+		self.ReturnFlow = RF or CurrentFlow()
+		self.Num = ANum or 1
+		self.Scen = AScen
+		self.Tag = ATag:upper()
+		GoToFlow("BOXTEXT")
+		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
+	end
+	
+	void Next()
+		self.Num++
+		if self.Num>#TextBox.btdata[trim(self.Scen)][trim(self.Tag)]
+			GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
+		else
+			TextBox.Generate(trim(self.Scen),trim(self.Tag),self.Num,self.ReturnFlow)
+		end
+	end
+	
+end
+
+
+
+//global void BUB_Draw()
+//	LuaDoString(trim(FlowBoxText.ReturnFlow),"BoxText_Back()","BoxText BackGrCall: ("..trim(FlowBoxText.ReturnFlow)..")")
+//	TextBox.Current.Show()
+//	
+//	// Draw all achievement boxes
+//	Achievements.DrawAll()
+//
+//	
+//	__white
+//	Mouse.Show()
+//end
+
+//global void BUB_Update()
+//	// debug
+//	Dev.ConCheck()
+//	
+//	// Time
+//	Time.Update()
+
+	
+//	// Click and move on to the next, or return to the correct flow
+//	if Mouse.HitLeft or Keyboard.Name=="Enter" or Keyboard.Name=="Space"
+//		FlowBoxText.Next()
+//	end
+//end
+
+
+
 
 group BXT
+end
+
+
+
+init
+	InitScenario()
 end
