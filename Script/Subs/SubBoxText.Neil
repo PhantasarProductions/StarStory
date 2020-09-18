@@ -191,9 +191,9 @@ class TextBox
 			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..#t..")") 
 		end
 		CSay("= Start sb_data")
-		if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
-			rec.PicDir="Yasathar"
-		end
+		//if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
+		//	rec.PicDir="Yasathar"
+		//end
 		sb_data = new TextBox( { ['Header'] = gv.Sub(rec.Header), ['PicDir'] = rec.PicDir, ['PicSpc'] = rec.PicSpc, ['Lines'] = {}, ['SL'] = 1, ['SP']=1, ['AltTxtFont'] = rec.AltTxtFont, ['Voice'] = rec.SoundFile   } )
 		TextBox.Current = sb_data
 		width=Screen.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
