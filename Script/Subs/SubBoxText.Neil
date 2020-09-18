@@ -194,7 +194,7 @@ class TextBox
 		//if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
 		//	rec.PicDir="Yasathar"
 		//end
-		sb_data = new TextBox( { ['Header'] = gv.Sub(rec.Header), ['PicDir'] = rec.PicDir, ['PicSpc'] = rec.PicSpc, ['Lines'] = {}, ['SL'] = 1, ['SP']=1, ['AltTxtFont'] = rec.AltTxtFont, ['Voice'] = rec.SoundFile   } )
+		sb_data = new TextBox( { ["Header"] = gv.Sub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 1, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
 		TextBox.Current = sb_data
 		width=Screen.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
 		//local ak,txt,cline,spline
@@ -233,8 +233,8 @@ class TextBox
 		// if tonumber(LC('screen.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
 		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
 		//-- Voice acting, if available
-		CSay("= The Voide of Phantasar")
-		if sb_data.Voice and JCR_EntryExists(sb_data.Voice) 		
+		CSay("= The Voice of the Universe")
+		if sb_data.Voice and JCR6.EntryExists(sb_data.Voice) 		
 			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
 			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
 			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
@@ -279,14 +279,32 @@ group FlowBoxText
 		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
 	end
 	
-	void Next()
+	bool Next()
 		self.Num++
 		if self.Num>#TextBox.btdata[trim(self.Scen)][trim(self.Tag)]
-			GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
+			// GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
+			return false
 		else
 			TextBox.Generate(trim(self.Scen),trim(self.Tag),self.Num,self.ReturnFlow)
+			return true
 		end
 	end
+	
+	void Run()
+		repeat
+			Graphics.Cls()
+			FPS.WaitMinTicks()
+			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
+			TextBox.Current.Draw()
+			if Events.MouseHitLeft()
+				if !FlowBoxText.Next()
+					return
+				end
+			end
+		forever
+	end
+	
+	
 	
 end
 

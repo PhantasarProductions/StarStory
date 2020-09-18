@@ -47,6 +47,10 @@ void FullDrawScreen()
 	Party.Boxes()
 end
 
+global void BoxText_Back()
+	DrawScreen()
+end
+
 global void Apollo_Flow()
 	Dev.ToConsole()
 	GrSchedule.DoScheduled()
