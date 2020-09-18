@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/BoxText.Neil
-// Version: 20.09.17
+// Version: 20.09.18
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,13 +35,17 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#MKL_Lic     "Star Story - BoxText.Neil" "Phantasar zLib License"
+#MKL_Version "Star Story - BoxText.Neil" "20.09.18"
+
+
 void BTLoad()
 	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")
 end
 
 global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	static string AScen="MAPTEXT"
-	States.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
+	State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 end
 
 
@@ -50,13 +54,10 @@ module
 	
 	void Load(string Tag,string File)
 		BTLoad()
+		State.Call("BOXTEXT","Scenario.Load",sprintf("\"%s\",\"%s\"",File,tag))
 	end
 	
 	void Serial(string AScen, string ATag, string RF="FLOW_FIELD", ANum)
-		States.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
+		State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 	end
 end
-
-
-
-
