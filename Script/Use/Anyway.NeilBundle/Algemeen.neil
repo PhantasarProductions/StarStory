@@ -49,6 +49,8 @@
 
 #macro __skill gvInt.Skill
 
+#macro __lang gvStr.Lang
+
 
 group Key
 	// list is not complete. I will add more if I need them!
