@@ -276,7 +276,7 @@ void Language()
 		__skyblue
 		if Events.MouseY()>y and Events.MouseY()<y+30
 			if Events.MouseHitLeft()
-				gvStr.Lang = k
+				gvStr.Lang = v
 				NGStage.Stage++
 			end
 			Graphics.Rect(0,y,Screen.W,30)
