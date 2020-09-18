@@ -99,11 +99,11 @@ class TextBox
 	end
 	
 	DESTRUCTOR
-		if not self.txtbox
+		if not txtbox
 			return
 		end
 		for ibox,ilnk in Box.List.Each
-			if ibox==self.txtbox 
+			if ibox==txtbox 
 				ilnk.UnLink()
 			end
 		end
@@ -211,20 +211,22 @@ class TextBox
 			CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
 		end   
 		CSay("= Textwrapping!")
-		for ak,txt in ipairs(rec.Lines) do
+		for ak,txt in ipairs(rec.Lines) 
 			string cline
 			table spline
 			cline = ""
 			//spline = split(Var.S(txt)," ")
 			spline = split(gv.SUB(txt)," ")
-			for aw,word in ipairs(spline) do
+			for aw,word in ipairs(spline)
 				if CurrentFont.TextWidth(cline..word)>width
-					table.insert(sb_data.Lines,cline)
+					mtable.insert(sb_data.Lines,cline)
 					cline = ""
 				end
 				cline = cline .. word .. " "   
 			end
-			if cline~="" then table.insert(sb_data.Lines,cline) end    
+			if cline!="" 
+				mtable.insert(sb_data.Lines,cline) 
+			end    
 		end
 		CSay("= Config portrait!")
 		sb_data.width=width    
@@ -247,7 +249,9 @@ class TextBox
 			CSay("Calculating box size")
 			int h
 			h = (#sb_data.Lines*(__BoxTextFontSize+2))+50
-			if h<150 then h=150 end
+			if h<150 
+				h=150 
+			end
 			CSayF("Creating a box that is %d pixels high",h)
 			sb_data.txtbox = new Box(0,Screen.Height-h,Screen.Width,h)
 			CSayF("So far so good!")
