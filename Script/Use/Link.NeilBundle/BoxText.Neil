@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
+// src/Tricky Script/Script/Use/Link.NeilBundle/BoxText.Neil
 // Version: 20.09.17
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,72 +34,23 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-global table MapScript
+
+void BTLoad()
+	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")
+end
+
+global void MapText()
+end
+
 
 module
-	get delegate CSayF
-		static delegate ret = Lua.Neil.Globals.CSayF
-		return ret
-	end
-
-	void Call(string func,para)
-		string p 
-		switch type(para)
-			case "nil"
-				p = "nil"
-			case "string"
-				p = "\""..para.."\""
-			case "boolean" "number"
-				p = tostring(para)
-			case "table"
-				for i,pr in ipairs(para)
-					if i!=1
-						p += ","
-					end
-					p += pr
-				end
-			default
-				Lua.error("Untransferrable type: "..type(para))
-		end
-		State.Call("FLOW_FIELD",func,p)
-	end
+	readonly delegate Map = MapText
 	
-	set string Layer
-		Print("= Going to Layer: "..value)
-		Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
+	void Load(string Tag,string File)
+		BTLoad()
 	end
-	
-	set bool AutoScroll
-		Call("FldMap.SetMember",{"\"AutoScroll\"",tostring(value)})
-	end
-
-	void LoadMap(string Map)
-		Call("FieldMap.LoadMap",Map)
-	end
-	
-	void Script(string script,string para="nil")
-		CSayF("Executing MapScript: %s(%s)",Script,para)
-		State.Call("MAPSCRIPT","MScript."..script,para)
-	end
-	
-	void Schedule(string func)
-		CSayF("Scheduled: %s",func)
-		State.Call("FLOW_FIELD","GrSchedule.Schedule","\""..func.."\"")
-	end
-	
-	CONSTRUCTOR
-		table m
-		m = {}
-		delegate idx(s,string key)
-			void f(string para="nil")
-				Script(key,para)
-			end
-			return f
-		end
-		m.__index = idx
-		Lua.setmetatable(MapScript,m)
-	end
-	
 end
+
+
 
 

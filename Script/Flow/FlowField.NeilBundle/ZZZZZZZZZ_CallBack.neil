@@ -49,5 +49,6 @@ end
 
 global void Apollo_Flow()
 	Dev.ToConsole()
+	GrSchedule.DoScheduled()
 	FullDrawScreen()
 end

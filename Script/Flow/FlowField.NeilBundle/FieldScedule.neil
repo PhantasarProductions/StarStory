@@ -1,0 +1,18 @@
+#use "libs/LinkedList"
+
+group GrSchedule
+
+	readonly var Scheduled = new LinkedList("string")
+	
+	void Schedule(string mpcall)
+		Scheduled.AddLast(mpcall)
+	end
+	
+	void DoScheduled()
+		for s in Scheduled.Each
+			Map.Script(s,"nil")
+		end
+		Scheduled.Clear()
+	end
+	
+end

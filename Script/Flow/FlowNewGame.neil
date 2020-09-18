@@ -304,6 +304,7 @@ void BuckleUp()
 		Flow.Load("FIELD","Script/Load/LoadField.neil")
 		Map.LoadMap("Intro_Ship_Transporter")
 		Map.Layer="INTRO"
+		Map.Schedule("LovejoyIntro")
 		var O = Kthura.Map("GAMEMAP").Layer("INTRO").Obj("Stars")
 		O.W = Screen.W
 		O.H = Screen.H		
