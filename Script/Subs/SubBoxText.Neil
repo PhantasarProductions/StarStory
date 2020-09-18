@@ -304,7 +304,10 @@ group FlowBoxText
 		forever
 	end
 	
-	
+	void Serial(string AScen, string ATag, RF, ANum)
+		InitBTFlow(AScen,ATag,RF,ANum)
+		Run()
+	end
 	
 end
 
