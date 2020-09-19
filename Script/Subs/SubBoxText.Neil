@@ -84,6 +84,10 @@ class TextBox
 	int width
 	var txtbox
 	
+	static int audiochannel
+	static bool audioplaying
+	static var audiowave
+	
 	// link up static shit
 	static table btdata
 	//link btdata = Scenario.btdata
@@ -255,7 +259,14 @@ class TextBox
 			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
 			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
 			// Audio.Play("BOXTEXTVOICE","BOXTEXTCHANNEL")
+			if audioplaying
+				audio.stop(audiochannel)
+			end
+			audiowave = Audio.Load(sb_data.Voice)
+			audiochannel = audiowave.play()
+			audioplaying = true
 		else
+			audioplaying = false
 			sb_data.Voice=nil;
 		end
 		
@@ -281,10 +292,13 @@ group FlowBoxText
 	string Scen
 	string ReturnFlow
 	table btdata
+	bool hasaudio
+	int channel
 	
 	void CONSTRUCTOR()
 		InitScenario()
 	end
+	
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
 		self.ReturnFlow = RF // or CurrentFlow()
@@ -313,7 +327,7 @@ group FlowBoxText
 			FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if Events.MouseHitLeft()
+			if Events.MouseHitLeft() or (TextBox.audioplaying and (!Audio.ChannelPlaying(Textbox.audiochannel)))
 				if !FlowBoxText.Next()
 					return
 				end
