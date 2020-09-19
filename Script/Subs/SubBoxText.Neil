@@ -57,6 +57,7 @@ void InitScenario()
 	// Link JCR to the scenario library
 	Scenario.JCR_Lines = table(string file)
 		string content
+		string content
 		content = JCR6.LoadString(file)
 		return split(content,"\n")
 	end
@@ -260,11 +261,9 @@ class TextBox
 		
 		do
 			CSay("Calculating box size")
-			int h
-			h = (#sb_data.Lines*(__BoxTextFontSize+2))+50
-			if h<150 
-				h=150 
-			end
+			int h = math.max(150,(#sb_data.Lines*(__BoxTextFontSize+2))+50)
+			CSayF("Lines: %d, FontSize: __BoxTextFontSize",#sb_data.Lines)
+			// print(Serialize("sb_data.lines",sb_data.Lines))
 			CSayF("Creating a box that is %d pixels high",h)
 			sb_data.txtbox = new Box(0,Screen.Height-h,Screen.Width,h)
 			CSayF("So far so good!")
@@ -310,14 +309,16 @@ group FlowBoxText
 	void Run()
 		repeat
 			Graphics.Cls()
+			Events.Poll()
 			FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
-			TextBox.Current.Draw()
+			TextBox.Current.Show()
 			if Events.MouseHitLeft()
 				if !FlowBoxText.Next()
 					return
 				end
 			end
+			Graphics.Flip()
 		forever
 	end
 	
