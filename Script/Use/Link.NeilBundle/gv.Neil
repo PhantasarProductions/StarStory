@@ -125,4 +125,8 @@ module
 	readonly table vStr = lgvstr
 	readonly table vInt = lgvint
 	readonly table Done = Lua.Neil.Globals.Done
+	
+	string Sub(string a)
+		return ISGET["String"]("GV","Substitute(\""..SafeString(a).."\")")
+	end
 end
