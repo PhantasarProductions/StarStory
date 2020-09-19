@@ -46,6 +46,18 @@ group MScript
 		CSay("Starting admiral's log!")
 		BoxText.Load("INTRO","SCENONLY/OPENING/START")
 		BoxText.Serial("INTRO","LOVEJOY_LOG")
+		Map.Layer = "START"
+		// Set actors
+		BoxText.Serial("INTRO","SCEN_A")
+		// Wendicka forward
+		BoxText.Serial("INTRO","SCEN_B")
+		// Wendicka Back
+		BoxText.Serial("INTRO","SCEN_C")
+		// Crystal Forward
+		BoxText.Serial("INTRO","SCEN_D")
+		// Crystal Back
+		BoxText.Serial("INTRO","SCEN_E")
+		// To transporter for mission Yaqirpa
 	end
 
 	void Update()
