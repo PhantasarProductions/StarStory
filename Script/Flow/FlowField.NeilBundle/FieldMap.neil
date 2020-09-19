@@ -48,6 +48,7 @@ group FldMap
 	bool AutoScroll = true
 
 	void LoadMap(string Map)
+		// Begin
 		CSayF("Loading Kthura Map: %s",Map)
 		KthuraMap = Kthura.Load("Kthura/"..Map)
 		CSay("Remapping")
@@ -58,11 +59,28 @@ group FldMap
 		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
 		gvStr.LoadedMap = Map
 		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
+		// Map Script
 		if !JCR6.EntryExists(MapScriptFile)
 			CSay("WARNING! No file named: "..Mapscriptfile..", so resorting to the basis 'None' script in stead!")
 			MapScriptFile = "Script/MapScript/None.Neil"
 		end
-		State.Load("MAPSCRIPT",MapScriptFile)		
+		State.Load("MAPSCRIPT",MapScriptFile)
+		// debug
+		//for k in each(KthuraMap.MetaFields)
+		//	CSayF("%s = %s",k,KthuraMap.Meta[k])
+		//end
+		// Music (must always be after the mapscript is loaded, in case of scripted music)
+		if prefixed(KthuraMap.Meta["Music"],"*")
+			switch KthuraMap.Meta["Music"]:upper()
+				case "*MAPSCRIPT" "*MAP" "*SCRIPT"
+					MapScript.Music()
+				default
+					Lua.error("Unknown alternate music instruction!")
+			end
+		else
+			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
+			Music.Play(KthuraMap.Meta["Music"])
+		end		
 	end
 	
 	void SetMember(string key, value)
