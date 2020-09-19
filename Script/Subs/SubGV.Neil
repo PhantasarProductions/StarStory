@@ -105,3 +105,13 @@ global void ShowEm()
 	end
 	print("Okay???")
 end
+
+global string Substitute(string ori)
+	string ret = ori
+	for btype,base in spairs { ["bool"]={sgvBool,"&"},["string"]={sgvstring,"$"},["int"]={sgvint,"%"}}
+		for k,v in spairs(base[1])
+			ret = replace(ret,base[2]..k,lua.tostring(v))
+		end
+	end
+	return ret
+end
