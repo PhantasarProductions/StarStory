@@ -128,8 +128,15 @@ class TextBox
 	
 	void Portret(string picdir,string spec="GENERAL")
 		string tag = sprintf("%s.%s",picdir,spec)
-		Portraits[tag] = Portraits[tag] or Image.Load(sprintf("GFX/Portret/%s/%s.png",picdir,spec))
-		Portraits[tag].Draw(0,Screen.H-Portraits[tag].Height)
+		string file = sprintf("GFX/Portret/%s/%s.png",picdir,spec)
+		if Portraits[tag]=="Nope!"
+			return
+		elseif (!JCR6.EntryExists(file))
+			Portraits[tag] = "Nope!"
+		else
+			Portraits[tag] = Portraits[tag] or Image.Load(file)
+			Portraits[tag].Draw(0,Screen.H-Portraits[tag].Height)
+		end
 	end
 	
 	void Show()
@@ -254,7 +261,7 @@ class TextBox
 		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
 		//-- Voice acting, if available
 		CSay("= The Voice of the Universe")
-		if sb_data.Voice and JCR6.EntryExists(sb_data.Voice) 		
+		if sb_data.Voice and sb_data.Voice!="" and JCR6.EntryExists(sb_data.Voice) 		
 			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
 			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
 			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
@@ -266,6 +273,7 @@ class TextBox
 			audiochannel = audiowave.play()
 			audioplaying = true
 		else
+			CSay("No vocals, so let's skip that!")
 			audioplaying = false
 			sb_data.Voice=nil;
 		end
@@ -338,6 +346,8 @@ group FlowBoxText
 	
 	void Serial(string AScen, string ATag, RF, ANum)
 		InitBTFlow(AScen,ATag,RF,ANum)
+		CSay(tostring(Textbox.audioplaying))
+		CSay("Let's do it!")
 		Run()
 	end
 	
