@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 20.09.18
+// Version: 20.09.24
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -64,6 +64,32 @@ module
 		State.Call("FLOW_FIELD",func,p)
 	end
 	
+	void MCall(string func,a,b,c,d,e,f,g,h)
+		string pr
+		for i,p in ipairs {a,b,c,d,e,f,g,h}
+			if i>1 
+				pr += ", "
+			end
+			switch lua.type(p)
+				case "string"
+					pr += "\""..p.."\""
+				case "number" "boolean"
+					pr += tostring(p)
+				default
+					lua.error("Illegal MCall type "..lua.type(p))
+			end
+		end
+		State.Call("FLOW_FIELD",func,pr)
+	end
+	
+	void ActorMoveTo(string actor,a,b)
+		MCall("FldMap.ActorMoveTo",Actor,a,b)
+	end
+	
+	void MoveTo(a,b)
+		MCall("FldMap.ActorMoveTo","PLAYER",a,b)
+	end
+	
 	set string Layer
 		Print("= Going to Layer: "..value)
 		Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
@@ -71,6 +97,23 @@ module
 	
 	set bool AutoScroll
 		Call("FldMap.SetMember",{"\"AutoScroll\"",tostring(value)})
+	end
+	
+	void Spawn(string actor,string spot)
+		CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
+		Call("FldMap.CurLayer.Spawn",{"\""..actor.."\"","\""..spot.."\""})
+	end
+	
+	void SetObjField(string obj,string field,value)
+		plua v = lua.tostring(value)
+		if lua.type(value)=="string"
+			v = "\""..value.."\""
+		end
+		Call("FldMap.SetObjField",{"\""..obj.."\"","\""..field.."\"",v})
+	end
+	
+	void SpawnPlayer(string spot)
+		Spawn("PLAYER",spot)
 	end
 
 	void LoadMap(string Map)
@@ -87,11 +130,16 @@ module
 		State.Call("FLOW_FIELD","GrSchedule.Schedule","\""..func.."\"")
 	end
 	
+	void ReMap()
+		Call("FldMap.KthuraMap.ReMap","nil")
+	end	
+	
 	CONSTRUCTOR
 		table m
 		m = {}
 		delegate idx(s,string key)
-			void f(string para="nil")
+			void f(para)
+				para = para || "nil"
 				Script(key,para)
 			end
 			return f
