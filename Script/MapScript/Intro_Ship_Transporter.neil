@@ -32,32 +32,65 @@
 // 
 // **********************************************
 // 
-// version: 20.09.19
+// version: 20.09.24
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "20.09.19"
+#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "20.09.24"
 #MKL_Lic     "Star Story - Intro_Ship_Transporter.neil" "Phantasar Closed License"
 
 group MScript
 
+	void StartActors()
+		// Set actors
+		for ch in each {"Wendicka","Crystal","Briggs" }
+			string Tex = "GFX/Actors/Uniform/"..ch.."."
+			if ch=="Briggs"
+				Tex += "South"
+			else
+				Tex += "North"
+			end
+			Tex+=".jpbf"
+			Map.Spawn("Actor"..ch,"Spot"..ch)
+			Map.ReMap()
+			Map.SetObjField("Actor"..ch,"Texture",Tex)
+		end
+	end
+	
 	void LovejoyIntro()
 		CSay("Starting admiral's log!")
 		BoxText.Load("INTRO","SCENONLY/OPENING/START")
 		BoxText.Serial("INTRO","LOVEJOY_LOG")
 		Map.Layer = "START"
-		// Set actors
-		BoxText.Serial("INTRO","SCEN_A")
+		StartActors()
+		BoxText.Serial("INTRO","SCEN_A")		
 		// Wendicka forward
+		Map.ActorMoveTo("ActorWendicka","FwdWendicka")
 		BoxText.Serial("INTRO","SCEN_B")
 		// Wendicka Back
+		Map.ActorMoveTo("ActorWendicka","SpotWendicka")
 		BoxText.Serial("INTRO","SCEN_C")
 		// Crystal Forward
+		Map.ActorMoveTo("ActorCrystal","FwdCrystal")
 		BoxText.Serial("INTRO","SCEN_D")
 		// Crystal Back
+		Map.ActorMoveTo("ActorCrystal","SpotCrystal")
 		BoxText.Serial("INTRO","SCEN_E")
 		// To transporter for mission Yaqirpa
+		Map.SetObjField("ActorBriggs","Texture","GFX/Actors/Uniform/Briggs.North.jpbf")
+		for ch in each {"Wendicka","Crystal","Briggs" }
+			Map.ActorMoveTo("Actor"..ch, "TransSpot"..ch)
+		end
+		Schedule.WaitForMovingActors("Transport")
+		// Schedule.Add("Transport")
+	end
+	
+	void Transport()
+		for ch in each {"Wendicka","Crystal","Briggs" }
+			CSayF("Turning %s to the south",ch)
+			Map.SetObjField("Actor"..ch,"Texture","GFX/Actors/Uniform/"..ch..".South.jpbf")
+		end
 	end
 
 	void Update()
