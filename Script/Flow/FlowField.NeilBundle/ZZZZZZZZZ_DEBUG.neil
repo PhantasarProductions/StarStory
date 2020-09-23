@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.09.17
+// Version: 20.09.24
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,5 +54,24 @@ global void CONSOLE_TagList()
 	CSayF("Map layer: %s",FldMap.Layer)
 	for a in each(Split(FldMap.KthuraMap.Layer(FldMap.Layer).TagList,","))
 		CSay(a)
+	end
+end
+
+global void CONSOLE_DumpDom()
+	CSayF("Map layer: %s",FldMap.Layer)
+	for a in each(Split(FldMap.KthuraMap.Layer(FldMap.Layer).DomDump,";"))
+		CSay(a)
+	end
+end
+
+
+global void CONSOLE_Blockmap()
+	CSayF("Map layer: %s",FldMap.Layer)
+	table lns = FldMap.KthuraMap.Layer(FldMap.Layer).DumpBlockMapTable
+	for i,ln in ipairs(lns)
+		int g = math.floor( (i/#lns)*255 )
+		int b = math.floor(255 * math.abs(math.sin(i/(3.14*180))))
+		int r = 255-g
+		dev.CWrite(ln,r,g,b)
 	end
 end
