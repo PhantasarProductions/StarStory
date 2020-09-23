@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 20.09.18
+// Version: 20.09.24
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+const var Mouse = Image.Obtain("MOUSE")
 
 global void DrawScreen()
 	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
@@ -52,7 +53,21 @@ global void BoxText_Back()
 end
 
 global void Apollo_Flow()
+	int mx = events.mousex()
+	int my = events.mousey()
 	Dev.ToConsole()
-	GrSchedule.DoScheduled()
+	if GrSchedule.WaitingForMovingActors
+		//CSay("Waiting for moving actors")
+		GrSchedule.WaitingForMovingActors = FldMap.CurLayer.AnythingMoving
+		if (!GrSchedule.WaitingForMovingActors) && (GrSchedule.WhenMovingActorsStop!="")
+			MapScript[GrSchedule.WhenMovingActorsStop]()
+		end
+	else
+		// Anything except for screen drawing should be done here.
+		GrSchedule.DoScheduled()
+		// Click to move char
+	end
 	FullDrawScreen()
+	Graphics.Color(255,255,255)
+	Mouse.Draw(mx,my)
 end
