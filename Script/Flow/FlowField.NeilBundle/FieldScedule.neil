@@ -36,7 +36,6 @@
 // End License Information
 #use "libs/LinkedList"
 
-
 group GrSchedule
 
 	readonly var Scheduled = new LinkedList("string")

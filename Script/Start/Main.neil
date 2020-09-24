@@ -75,7 +75,7 @@ init
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 	LAsset.C("GFX/BoxText/Corner.png","BTHOEK",wh_Image)
-
+	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 
 	// Loading assets
 	int m=#LAsset.Lijst
@@ -96,6 +96,9 @@ init
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
 				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
+			case wh_Audio
+				cout("audio ",LA.File," to ",LA.Tag)
+				Audio.Load(LA.File,LA.Tag)
 			default
 				print("ERROR!")
 				lua.error("Unknown loader switch ("..LA.what..")")

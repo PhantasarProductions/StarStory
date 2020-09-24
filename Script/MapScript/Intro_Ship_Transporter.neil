@@ -90,7 +90,9 @@ group MScript
 		for ch in each {"Wendicka","Crystal","Briggs" }
 			CSayF("Turning %s to the south",ch)
 			Map.SetObjField("Actor"..ch,"Texture","GFX/Actors/Uniform/"..ch..".South.jpbf")
+			Beam.Add("Actor"..ch,true,true)
 		end
+		Beam.Run()
 	end
 
 	void Update()

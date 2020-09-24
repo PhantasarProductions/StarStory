@@ -1,0 +1,35 @@
+module
+
+	void MCall(string func,a,b,c,d,e,f,g,h)
+		string pr
+		for i,p in ipairs {a,b,c,d,e,f,g,h}
+			if i>1 
+				pr += ", "
+			end
+			switch lua.type(p)
+				case "string"
+					pr += "\""..p.."\""
+				case "number" "boolean"
+					pr += tostring(p)
+				default
+					lua.error("Illegal MCall type "..lua.type(p))
+			end
+		end
+		State.Call("FLOW_FIELD",func,pr)
+	end
+
+
+	void Add(string Actor,bool Despawn,bool asc)
+		MCall("ClBeam.Add",Actor,Despawn,Asc)
+	end
+	
+	void Run()
+		MCall("ClBeam.Run","nil")
+	end
+	
+	void Quick(string Actor,bool Despawn=true,bool asc=true)
+		Add(Actor)
+		Run()
+	end
+	
+end

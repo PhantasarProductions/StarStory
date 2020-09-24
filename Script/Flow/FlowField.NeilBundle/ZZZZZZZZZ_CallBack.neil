@@ -42,11 +42,12 @@ global void DrawScreen()
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 
-void FullDrawScreen()
+global void FullDrawScreen()
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
 	DrawScreen()
 	Party.Boxes()
 end
+
 
 global void BoxText_Back()
 	DrawScreen()
@@ -71,3 +72,4 @@ global void Apollo_Flow()
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)
 end
+

@@ -34,5 +34,14 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+
 #use "Script/Use/Anyway"
+#use "libs/LinkedList"
+
 #use "Script/Flow/FlowField"
+
+init
+	ClBeam.DS = FullDrawScreen
+	ClBeam.MP = FldMap
+end
