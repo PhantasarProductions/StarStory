@@ -46,10 +46,13 @@ group FldMap
 	int ScrollY
 	string Layer
 	bool AutoScroll = false
+	readonly table kills
+	string LoadedMap
 
 	void LoadMap(string Map)
 		// Begin
 		Loading()
+		LoadedMap = Map:upper()
 		CSayF("Loading Kthura Map: %s",Map)
 		KthuraMap = Kthura.Load("Kthura/"..Map)
 		CSay("Remapping")
@@ -110,6 +113,14 @@ group FldMap
 	
 	void SetAutoScroll(bool value)
 		autoscroll = value
+	end
+	
+	void Kill(string ObjTag,bool perma)
+		if perma
+			Kills[LoadedMap] = Kills[LoadedMap] or {}
+			Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+		end
+		CurLayer.Kill(ObjTag)
 	end
 	
 	CONSTRUCTOR
