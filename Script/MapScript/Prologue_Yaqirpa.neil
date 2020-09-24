@@ -38,6 +38,11 @@ group MScript
 
 	CONSTRUCTOR
 		Map.AutoScroll = true
+		// No transporter pads in the prologue
+		// (I can do this safely as the place you get back to is aliased, to prevent conflicts as the prologue differs too much in setup from the rest of the game).
+		for NoTrans in each {"Start","Top"}
+			Map.Kill(sprintf("Trans.Pad.Yaqirpa%s",NoTrans))
+		end
 	end
 
 end
