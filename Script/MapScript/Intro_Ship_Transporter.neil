@@ -93,6 +93,8 @@ group MScript
 			Beam.Add("Actor"..ch,true,true)
 		end
 		Beam.Run()
+		Map.Load("Prologue_Yaqirpa")
+		Schedule.Add("GoToStart")
 	end
 
 	void Update()

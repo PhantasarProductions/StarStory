@@ -39,6 +39,10 @@ const var Mouse = Image.Obtain("MOUSE")
 
 global void DrawScreen()
 	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	if FldMap.AutoScroll
+		FLDMap.ScrollX = GrPlayer.X - math.floor(Screen.W/2)
+		FLDMap.ScrollY = GrPlayer.Y - math.floor(Screen.H/2)
+	end
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 

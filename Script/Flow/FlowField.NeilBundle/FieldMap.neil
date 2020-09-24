@@ -45,14 +45,16 @@ group FldMap
 	int ScrollX
 	int ScrollY
 	string Layer
-	bool AutoScroll = true
+	bool AutoScroll = false
 
 	void LoadMap(string Map)
 		// Begin
+		Loading()
 		CSayF("Loading Kthura Map: %s",Map)
 		KthuraMap = Kthura.Load("Kthura/"..Map)
 		CSay("Remapping")
 		KthuraMap.Remap()
+		Layer = KthuraMap.Layers[1]
 		if State.Has("MAPSCRIPT")
 			State.Kill("MAPSCRIPT")
 		end
@@ -106,8 +108,23 @@ group FldMap
 		CurLayer.Obj(tag).MoveTo(a,b)
 	end
 	
+	void SetAutoScroll(bool value)
+		autoscroll = value
+	end
+	
 	CONSTRUCTOR
 		CSay("FieldMap loaded!")
+	end
+
+end
+
+quickmeta GrPlayer
+	index
+		return FldMap.CurLayer.Obj("PLAYER")[key]
+	end
+	
+	newindex
+		FldMap.CurLayer.Obj("PLAYER")[key] = value
 	end
 
 end

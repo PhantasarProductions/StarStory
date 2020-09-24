@@ -1,0 +1,8 @@
+global void Loading()
+	static var GPH = Image.Obtain("LOADING")
+	GPH.HotCenter()
+	Graphics.Cls()
+	Graphics.Color(255,255,255)
+	GPH.Draw(Screen.W/2,Screen.H/2)
+	Graphics.Flip()
+end

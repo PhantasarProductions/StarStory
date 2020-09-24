@@ -47,10 +47,19 @@ group GrSchedule
 		CSayF("Scheduled: %s; %d request(s) scheduled in total now",mpcall,Scheduled.Count)
 	end
 	
+	void Add(string mpcall)
+		Schedule(mpcall)
+	end
+	
 	void DoScheduled()
 		for s in Scheduled.Each
 			CSayF("Executing scheduled request: %s",s)
-			Map.Script(s,"nil")
+			if prefixed(s,"LOAD:")
+				// This basically repeats the request, but now from the field flow, so that's safe! (I hope)
+				Map.Load(right(s,#s-5))
+			else 
+				Map.Script(s,"nil")
+			end
 		end
 		Scheduled.Clear()
 	end

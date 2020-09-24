@@ -38,12 +38,15 @@
 #macro wh_Font 2
 #macro wh_Audio 3
 
+var Loading
+
 class LAsset
 
 	readonly string File
 	readonly string Tag
 	readonly int what
 	readonly var data
+	
 
 	static table Lijst
 
@@ -71,6 +74,7 @@ init
 
 
 	// Configure loading assets
+	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
@@ -82,6 +86,10 @@ init
 	for i,LA in ipairs(LAsset.Lijst)
 		Events.Poll()
 		Graphics.Cls()
+		Graphics.Color(255,255,255)
+		if Loading
+			Loading.Draw((Screen.W/2)-(Loading.Width/2),(Screen.H/2)-(Loading.Height/2))
+		end
 		Graphics.Color(65,65,65)
 		Graphics.Rect(0,Screen.H-50,Screen.W,50)
 		Graphics.Color(0,180,255)
@@ -92,7 +100,8 @@ init
 		switch LA.what
 			case wh_Image
 				cout("image ",LA.File," to ",LA.Tag)
-				Image.Load(LA.File,LA.Tag)
+				var I =  Image.Load(LA.File,LA.Tag)
+				Loading = Loading or I
 			case wh_Font
 				cout("font ",LA.File," to ",LA.Tag)
 				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true

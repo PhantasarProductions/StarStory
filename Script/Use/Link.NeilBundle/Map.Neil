@@ -94,16 +94,12 @@ module
 		Print("= Going to Layer: "..value)
 		Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
 	end
-	
-	set bool AutoScroll
-		Call("FldMap.SetMember",{"\"AutoScroll\"",tostring(value)})
-	end
-	
+		
 	void Spawn(string actor,string spot)
 		CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
 		Call("FldMap.CurLayer.Spawn",{"\""..actor.."\"","\""..spot.."\""})
 	end
-	
+		
 	void SetObjField(string obj,string field,value)
 		plua v = lua.tostring(value)
 		if lua.type(value)=="string"
@@ -117,7 +113,15 @@ module
 	end
 
 	void LoadMap(string Map)
-		Call("FieldMap.LoadMap",Map)
+		if ApolloState.Name=="MAPSCRIPT"
+			MCall("GrSchedule.Add","LOAD:"..Map)
+		else
+			Call("FieldMap.LoadMap",Map)
+		end
+	end
+	
+	void Load(string Map)
+		LoadMap(Map)
 	end
 	
 	void Script(string script,string para="nil")
@@ -132,7 +136,15 @@ module
 	
 	void ReMap()
 		Call("FldMap.KthuraMap.ReMap","nil")
-	end	
+	end
+	
+	set bool AutoScroll
+		Call("FldMap.SetAutoScroll",value)
+	end
+	
+	get bool AutoScroll
+		return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
+	end
 	
 	CONSTRUCTOR
 		table m
