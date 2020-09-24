@@ -146,6 +146,10 @@ module
 		return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
 	end
 	
+	void Kill(string ObjTag,perma)
+		MCall("FLDMap.Kill",ObjTag,perma==true)
+	end
+	
 	CONSTRUCTOR
 		table m
 		m = {}
