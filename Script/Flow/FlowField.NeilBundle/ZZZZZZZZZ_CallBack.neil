@@ -72,4 +72,3 @@ global void Apollo_Flow()
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)
 end
-
