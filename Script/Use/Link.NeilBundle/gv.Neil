@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/gv.Neil
-// Version: 20.09.19
+// Version: 20.09.27
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -47,7 +47,7 @@ quickmeta gvstr
 	index
 	//index = string(string k)
 		gvLoaded()
-		return ISGET.Str("GV","sgvstring["..chr(34)..key:upper()..chr(34).."] or "..chr(34)..chr(34))
+		return ISGET.Str("GV","sgvstring["..chr(34)..key:upper()..chr(34).."] or "..chr(34)..chr(34)) or ""
 	end
 	
 	newindex
@@ -67,7 +67,9 @@ quickmeta gvint
 	//index = int(string k)
 		string k = key
 		gvLoaded()
-		return ISGET.Integer("GV","sgvint["..chr(34)..(k:upper())..chr(34).."] or 0")
+		var r = ISGET.Integer("GV","sgvint["..chr(34)..(k:upper())..chr(34).."] or 0") or 0
+		// cout ("Get int ",k," >> ",r,"\n")
+		return r
 	end
 	//newindex = void(string k,int v)
 	newindex
@@ -121,12 +123,22 @@ init
 end
 
 module
-	readonly table vBool = lgvbool
-	readonly table vStr = lgvstr
-	readonly table vInt = lgvint
+	readonly table vBool = gvbool
+	readonly table vStr = gvstr
+	readonly table vInt = gvint
 	readonly table Done = Lua.Neil.Globals.Done
 	
 	string Sub(string a)
+		gvLoaded()
 		return ISGET["String"]("GV","Substitute(\""..SafeString(a).."\")")
+	end
+	
+	void Save()
+		gvLoaded()
+		State.Call("GV","SaveGV","nil")
+	end
+	
+	void Clear()
+		State.Call("GV","ClearGV","nil")
 	end
 end
