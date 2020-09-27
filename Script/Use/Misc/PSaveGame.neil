@@ -1,0 +1,10 @@
+global void PerformSaveGame(string f)
+	GV.vInt.Saved++
+	CSayF("Saving: %s",f)
+	SaveGame.Clear()
+	SaveGame.Assign(f)
+	SaveGame.Data["*PARTY"] = "YES"
+	GV.Save()
+	Map.SG()
+	SaveGame.Save()
+end
