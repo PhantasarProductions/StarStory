@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.09.24
+// Version: 20.09.27
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "Script/Use/Misc/PSaveGame"
 
 global void CONSOLE_MapObjects()
 	CSayF("Map layer: %s",FldMap.Layer)
@@ -73,5 +75,14 @@ global void CONSOLE_Blockmap()
 		int b = math.floor(255 * math.abs(math.sin(i/(3.14*180))))
 		int r = 255-g
 		dev.CWrite(ln,r,g,b)
+	end
+end
+
+global void CONSOLE_Save(para)
+	if para==nil or #para==0
+		CSay("Faking a savespot has not yet been implemented")
+	else
+		CSayF("Request to save: %s",para[1])
+		PerformSaveGame(para[1])
 	end
 end
