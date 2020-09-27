@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.09.26
+// Version: 20.09.27
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.09.26"
+#MKL_Version "Star Story - FieldMap.neil" "20.09.27"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 // module
@@ -47,7 +47,7 @@ group FldMap
 	string Layer
 	bool AutoScroll = false
 	readonly table kills
-	string LoadedMap
+	string LoadedMap	
 
 	void LoadMap(string Map)
 		// Begin
@@ -138,6 +138,19 @@ quickmeta GrPlayer
 		FldMap.CurLayer.Obj("PLAYER")[key] = value
 	end
 
+end
+
+global void SGMap()
+	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize("ret",FLDMAP.Kills).."\n\nreturn ret"
+	string r = "// Mapstuff\nInit\n"
+	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
+	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
+	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
+	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
+	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
+	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
+	r += "end"
+	SaveGameData["Map.neil"] = r
 end
 
 init
