@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 20.09.24
+// Version: 20.09.27
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -148,6 +148,10 @@ module
 	
 	void Kill(string ObjTag,perma)
 		MCall("FLDMap.Kill",ObjTag,perma==true)
+	end
+	
+	void SG()
+		MCall("SGMap","nil")
 	end
 	
 	CONSTRUCTOR
