@@ -1,0 +1,156 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowSaveGame.neil
+// Version: 20.09.28
+// Copyright (C) 2020 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/Box"
+#use "Script/Use/Misc/PSaveGame"
+
+#macro maxsg 1000
+#macro sloth 50
+#macro slotm 5
+
+#macro starty 100
+#macro endy Screen.H-228
+
+var Mouse = Image.Obtain("MOUSE")
+var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
+var BigFont = ImageFont.Obtain("BIGTEXT")
+var SysFont = ImageFont.Obtain("SYSFONT")
+
+readonly int slotsonscreen = math.floor((endy-starty)/(sloth+slotm))
+int scroll = 0
+table slots
+
+table SaveIconsF
+table SaveIcons
+
+init	
+	SaveIconsF += "GFX/Portret/Wendicka/General.png"
+	SaveIconsF += "GFX/Portret/Crystal/General.png"
+	SaveIconsF += "GFX/Portret/ExHuRU/General.png"
+	SaveIconsF += "GFX/Portret/Yirl/General.png"
+	SaveIconsF += "GFX/Portret/Foxy/General.png"
+	SaveIconsF += "GFX/Portret/Xenobi/General.png"
+	SaveIconsF += "GFX/Portret/Rolf/General.png"
+	SaveIconsF += "GFX/Portret/Lovejoy/General.png"
+	SaveIconsF += "GFX/Portret/Briggs/General.png"
+	SaveIconsF += "GFX/Portret/Astrilopup/West.png"
+	SaveIconsF += "GFX/Portret/Doctor/General.png"
+	SaveIconsF += "GFX/Portret/Johnson/Uniform.png"
+	SaveIconsF += "GFX/Portret/Reggie/General.png"
+	SaveIconsF += "GFX/Portret/Banika/General.png"
+	SaveIconsF += "GFX/Portret/Sue/General.png"
+	SaveIconsF += "GFX/Portret/Kota/General.png"
+	SaveIconsF += "GFX/Portret/Goddess/General.png"
+end
+
+
+
+table GetSlot(int i)
+	if !slots[i]
+		table h = GetHeader(i)
+		table nr
+		nr.have = h.Map!=nil
+		nr.header = h
+		slots[i] = nr
+		print(Serialize("SaveGameSlots",slots))
+	end
+	return slots[i]
+end
+
+
+
+
+string Action = "Save"
+
+global void Apollo_Flow()
+	Dev.ToConsole()
+	// Mouse coordiniates
+	int mx = Events.MouseX()
+	int my = Events.MouseY()
+	
+	// ScreenBox
+	ScreenBox.Draw()
+	
+	// Head
+	__red
+	BigFont.Text(Action.." game",45,10)
+	
+	// Slots
+	for i=scroll,math.min(scroll+slotsonscreen,maxsg)
+		table slot = GetSlot(i)
+		int y = starty+((i-scroll)*(sloth+slotm))
+		__white
+		if slot.have
+			int iconi = (i%#SaveIconsF)+1
+			SaveIcons[iconi] = SaveIcons[iconi] || Image.Load(SaveIconsF[iconi])
+			SaveIcons[iconi].Stretch(10,y,sloth,math.floor( SaveIcons[iconi].Width * ( sloth / SaveIcons[iconi].Height) ))
+		end
+		__skyblue
+		if mx>100 and my>=y and my<=y+sloth and mx<Screen.W-100
+			Graphics.Color(0,200,255)
+			if Events.MouseHitLeft()
+				switch Action
+					case "Save"
+						PerformSaveGame(GetSGFileName(i))
+						// Force to update the data, next time
+						slots[i] = nil
+						Flow.Current="FIELD"
+						return
+					default
+						Lua.error("Unknown action: "..Action)
+				end
+			end
+		end
+		if slot.have
+			// TODO: Data			
+			BigFont.Text(slot.header.Map,100,y)
+			SysFont.Text(slot.header.Protagonist.." lv "..slot.header.ProtaLevel,100,y+40)
+			SysFont.Text(slot.header.Difficulty.." mode",Screen.W/2,y+40,2)
+			SysFont.Text("Cycle: "..slot.header.Cycle.."; Saved: "..slot.header.Saved,Screen.W-100,y+40,1)
+		else
+			BigFont.Text("== Empty slot ==",100,y)
+		end
+			
+	end
+
+
+	// Party
+	Party.Boxes()
+	// Mouse Pointer: Must be very last
+	Graphics.Color(255,255,255)
+	Mouse.Draw(mx,my)
+end
