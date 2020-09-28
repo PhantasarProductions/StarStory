@@ -76,10 +76,13 @@ init
 	// Configure loading assets
 	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
 	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
+	LAsset.C("Fonts/Robotica.35.jfbf","BIGTEXT",wh_Font)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 	LAsset.C("GFX/BoxText/Corner.png","BTHOEK",wh_Image)
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
+	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
+	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
 
 	// Loading assets
 	int m=#LAsset.Lijst
