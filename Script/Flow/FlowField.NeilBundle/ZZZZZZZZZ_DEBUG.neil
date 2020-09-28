@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.09.27
+// Version: 20.09.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -80,7 +80,8 @@ end
 
 global void CONSOLE_Save(para)
 	if para==nil or #para==0
-		CSay("Faking a savespot has not yet been implemented")
+		// CSay("Faking a savespot has not yet been implemented")
+		FldMap.SaveGame()
 	else
 		CSayF("Request to save: %s",para[1])
 		PerformSaveGame(para[1])
