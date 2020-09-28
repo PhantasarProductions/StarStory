@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 20.09.15
+// Version: 20.09.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,6 +86,7 @@ group SubParty
 	end
 
 	void NewChar(string Tag,int level,string Name)
+		// Todo: Make sure all this is skipped if the character already exists!
 		if (Name=="") 
 			Name=Tag
 		end
@@ -123,6 +124,14 @@ group SubParty
 		end
 		RPGChar[Tag].Stat.AMMO = 0
 		RPGChar[Tag].Stat.Level = level
+		// A few basic lists
+		table lists = { "ABL","LEARN","ABL_POWERUP","STATUSCHANGE" }
+		if Tag=="Crystal"
+			lists += "ARMS"
+		end
+		for lst in Each(lists)
+			CSayF("= List checkup %s, should have no members: %d!",lst,RPGChar[Tag].List[lst].len)
+		end
 		// TODO: Script "END" stat!
 		// Basis Points
 		Print("= Setting the basic points")
