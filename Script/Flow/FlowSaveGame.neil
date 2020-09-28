@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Box"
 #use "Script/Use/Misc/PSaveGame"
@@ -146,7 +147,7 @@ global void Apollo_Flow()
 		end
 			
 	end
-
+	
 
 	// Party
 	Party.Boxes()
