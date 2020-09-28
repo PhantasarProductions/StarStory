@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.09.27
+// Version: 20.09.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.09.27"
+#MKL_Version "Star Story - FieldMap.neil" "20.09.28"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 // module
@@ -47,7 +47,16 @@ group FldMap
 	string Layer
 	bool AutoScroll = false
 	readonly table kills
-	string LoadedMap	
+	string LoadedMap
+	
+	void SaveGame(Jaren70)
+		if Jaren70
+			lua.Error("Antique version of savegame manager not yet present")
+		else
+			State.LoadNew("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.neil")
+			Flow.Current="SAVEGAME"
+		end		
+	end
 
 	void LoadMap(string Map)
 		// Begin
@@ -63,6 +72,8 @@ group FldMap
 		end
 		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
 		gvStr.LoadedMap = Map
+		// Only needed so the savegame manager can generate the header more easily!
+		gvStr.MapTitle = KthuraMap.Meta["Title"]
 		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
 		// Map Script
 		if !JCR6.EntryExists(MapScriptFile)
