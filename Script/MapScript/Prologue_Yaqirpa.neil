@@ -32,10 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 20.10.01
+// version: 20.10.02
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "20.10.01"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "20.10.02"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
