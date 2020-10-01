@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 20.09.26
+// version: 20.10.01
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "20.09.26"
+#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "20.10.01"
 #MKL_Lic     "Star Story - Intro_Ship_Transporter.neil" "Phantasar Closed License"
 
 group MScript
