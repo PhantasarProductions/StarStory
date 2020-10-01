@@ -173,7 +173,7 @@ group SubParty
 				int y = Screen.H-100
 				GetPortret(tag).Draw(x,Screen.h)
 				int g = math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
-				//print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
+				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Graphics.Color((255-g),g,0)
 				StatBar(x+150,y+30,(bw)-160,3,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Fnt.Text("HP",x+100,y+10)

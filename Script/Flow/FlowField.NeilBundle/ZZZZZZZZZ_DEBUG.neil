@@ -78,6 +78,10 @@ global void CONSOLE_Blockmap()
 	end
 end
 
+global void CONSOLE_MyPos()
+	CSayF("Player coordinates (%4d,%4d) - Wind: %s",GrPlayer.X,GrPlayer.Y,GrPlayer.Wind)
+end
+
 global void CONSOLE_Save(para)
 	if para==nil or #para==0
 		// CSay("Faking a savespot has not yet been implemented")

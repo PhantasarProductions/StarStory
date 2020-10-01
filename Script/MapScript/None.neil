@@ -27,6 +27,9 @@ group MScript
 
 	void Draw()
 	end
+	
+	void Load()
+	end
 
 	CONSTRUCTOR
 	end

@@ -41,7 +41,15 @@ module
 		static delegate ret = Lua.Neil.Globals.CSayF
 		return ret
 	end
-
+	
+	get string Leader
+		return ISGET.STRING("FLOW_FIELD","FLDMAP.LEADER")
+	end
+	
+	set string Leader
+		State.Call("FLOW_FIELD","FldMap.SetLeader","\""..value.."\"")
+	end
+	
 	void Call(string func,para)
 		string p 
 		switch type(para)

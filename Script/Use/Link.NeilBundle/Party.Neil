@@ -41,10 +41,16 @@ void LoadPartySub()
 	State.LoadNew("PARTY","Script/Subs/SubParty.Neil")
 end
 
+
+bool BxsL = false
 module
 
 
 	void Boxes()
+		if !BxsL
+			// This approach is most of all to avoid speed issues
+			State.LoadNew("PARTY","Script/Subs/SubParty.Neil")
+		end
 		State.Call("PARTY","SubParty.Boxes","nil")
 	end
 

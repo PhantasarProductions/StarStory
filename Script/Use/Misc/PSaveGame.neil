@@ -77,6 +77,43 @@ global void PerformSaveGame(string f)
 	SaveGame.Save()
 end
 
+global bool PerformLoadGame(string f)
+	static var tfnt
+	CSay("Clearing SaveGame buffer")
+	SaveGame.Clear()
+	SaveGame.Assign(f)
+	CSayF("Loading: %s",f)
+	//try
+		// Load in general
+		SaveGame.Load()
+		// Game Vars (must be first, as some data I need later is in there!
+		CSayF("Parsing Game Vars")
+		NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
+		// Map
+		Flow.Load("FIELD","Script/Load/LoadField.neil")
+		State.Call("FLOW_FIELD","LGMap","nil")		
+	//catch e
+	if false
+		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }
+		//	CSayF("Exception: '%s' = %s",k,tostring(e[k]))
+		//end
+		Graphics.Cls()
+		__red
+		tfnt = tfnt or ImageFont.Obtain("SYSFONT")
+		tfnt.Draw("The savegame file you tried to load appears to be corrupted!",0,0)
+		__ember
+		tfnt.Draw("Click to continue...",0,40)
+		Graphics.Flip()
+		repeat
+			Events.Poll()
+		until Events.MouseHitLeft
+		return false
+	end
+	// Lua.error("Loading game not yet implemented. Working on it!")
+	return true
+end
+
+
 global string GetSGFileName(int i)
 	return SPRINTF("Star Story - Saved Game.%03d",i)
 end

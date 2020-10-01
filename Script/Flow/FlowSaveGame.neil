@@ -50,6 +50,7 @@ var Mouse = Image.Obtain("MOUSE")
 var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
 var BigFont = ImageFont.Obtain("BIGTEXT")
 var SysFont = ImageFont.Obtain("SYSFONT")
+var Buzz = Audio.Obtain("BUZZ")
 
 readonly int slotsonscreen = math.floor((endy-starty)/(sloth+slotm))
 int scroll = 0
@@ -97,6 +98,10 @@ end
 
 string Action = "Save"
 
+global void SetActionLoad()
+	Action = "Load"
+end
+
 global void Apollo_Flow()
 	Dev.ToConsole()
 	// Mouse coordiniates
@@ -131,6 +136,16 @@ global void Apollo_Flow()
 						slots[i] = nil
 						Flow.Current="FIELD"
 						return
+					case "Load"
+						if !slot.have
+							Buzz.Play()
+						else
+							if PerformLoadGame(GetSGFileName(i))
+								// Link to field if succesful
+								Flow.Current="FIELD"
+								return
+							end
+						end
 					default
 						Lua.error("Unknown action: "..Action)
 				end
@@ -150,7 +165,9 @@ global void Apollo_Flow()
 	
 
 	// Party
-	Party.Boxes()
+	if Action=="Save"
+		Party.Boxes()
+	end
 	// Mouse Pointer: Must be very last
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)

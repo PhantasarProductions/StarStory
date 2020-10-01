@@ -71,8 +71,15 @@ global void Apollo_Flow()
 		// Anything except for screen drawing should be done here.
 		GrSchedule.DoScheduled()
 		// Click to move char
-	end
+	end	
 	FullDrawScreen()
 	Graphics.Color(255,255,255)
+	if Events.MouseHitLeft()
+		if my<Screen.H-128
+			FldMap.WalkClick(mx,my)
+		else
+			// To do: Menu Check
+		end
+	end
 	Mouse.Draw(mx,my)
 end

@@ -52,14 +52,24 @@ group MScript
 
 	void Draw()
 	end
+	
+	void Load()
+	end
 
 	CONSTRUCTOR
+		CSay("Welcome to the Yaqirpa! Let the quest begin!")
 		Map.AutoScroll = true
 		// No transporter pads in the prologue
 		// (I can do this safely as the place you get back to is aliased, to prevent conflicts as the prologue differs too much in setup from the rest of the game).
 		for NoTrans in each {"Start","Top"}
+			CSayF("Removing transpad: %s",NoTrans)
 			Map.Kill(sprintf("Trans.Pad.Yaqirpa%s",NoTrans))
 		end
 	end
 
+end
+
+init
+	CSay("Yaqirpa Init")
+	MScript.Update()
 end

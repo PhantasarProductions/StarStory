@@ -257,11 +257,17 @@ void NewGame()
 	State.PlanToKill("FLOW_MAINMENU")
 end
 
+void LoadGame()
+	Flow.Load("SAVEGAME","Script/Flow/FlowSaveGame.neil")
+	State.Call("FLOW_SAVEGAME","SetActionLoad","nil")
+	Flow.Current="SAVEGAME"
+end
+
 
 init
 	Menu += new MenuItem("New Game",NewGame)
 	Menu += new MenuItem("Continue",NOTHING)
-	Menu += new MenuItem("Load Game",NOTHING)
+	Menu += new MenuItem("Load Game",LoadGame)
 	Menu += new MenuItem("Bugs",BUGS)
 	Menu += new MenuItem("Exit",FLOW.QUIT)
 	Print("Starfield.Tile:",0,0,Screen.W,Screen.H)

@@ -83,6 +83,7 @@ init
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
+	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
 
 	// Loading assets
 	int m=#LAsset.Lijst

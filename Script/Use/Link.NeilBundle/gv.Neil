@@ -125,6 +125,7 @@ end
 module
 	readonly table vBool = gvbool
 	readonly table vStr = gvstr
+	readonly table vString = gvstr
 	readonly table vInt = gvint
 	readonly table Done = Lua.Neil.Globals.Done
 	
@@ -139,6 +140,7 @@ module
 	end
 	
 	void Clear()
+		gvLoaded()
 		State.Call("GV","ClearGV","nil")
 	end
 end
