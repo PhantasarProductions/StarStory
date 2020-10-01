@@ -46,6 +46,17 @@ group MScript
 		Map.SpawnPlayer("Start")
 		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")
 	end
+	
+	void Entrance_Zone()
+		CSay("Entrance Zone Event")
+		Map.HideButLabel("Entrance")
+		Map.ShowPlayer()
+	end
+	
+	void Enter_Save()
+		Map.HideButLabel("save")
+		Map.ShowPlayer()
+	end
 
 	void Update()
 	end
@@ -54,6 +65,11 @@ group MScript
 	end
 	
 	void Load()
+	end
+	
+	void SetZA()
+		ZA.Enter("Entrance_Zone","Entrance_Zone")
+		ZA.Enter("EnterSave","Enter_Save")
 	end
 
 	CONSTRUCTOR
@@ -71,5 +87,5 @@ end
 
 init
 	CSay("Yaqirpa Init")
-	MScript.Update()
+	MScript.SetZA()
 end

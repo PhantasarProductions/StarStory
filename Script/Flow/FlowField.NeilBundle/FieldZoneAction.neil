@@ -1,0 +1,164 @@
+// This is a translation from NIL to Neil
+// Loads of stuff Neil doesn't need but doesn't hurt either, may still
+// remain here (like the keyword "self").
+
+//var ZAXPand(t, i)
+//	i = i or 1
+//	if t[i] ~= nil then
+//		return t[i], ZAXPand(t, i + 1)
+//	end
+//end
+
+bool KettingInitDone
+
+class ZoneAction
+
+	static table List
+	static readonly delegate assert = Lua.assert
+	static readonly delegate error = Lua.error
+	static readonly delegate tonumber = Lua.tonumber
+	static readonly delegate ZAXPand = Expand
+
+
+	static void RoomChange(int inc,string exitpoint)
+		string cLay
+		var nLay
+		cLay = Map.Layer
+		assert(prefixed(cLay,"#"),"Next/Prev only works for rooms prefixed with a #")
+		assert(#cLay==4,"Invalid Next/Prev length!")
+		nLay = tonumber(right(cLay,3))
+		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
+		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
+		Map.Layer = sprintf("#%03d",nLay + inc)
+		Map.SpawnPlayer(exitpoint)
+	end
+	
+	static var AltNext
+	
+	static void LoadAltNext(string anf)
+		//self.AltNext = NIL.Use('Script/Use/Specific/FieldModules/ZoneAction/'..anf)
+		//self.AltNext.Init() // Required as some setting may have to be reloaded, after all!
+		error("AltNext not yet present!")
+		// Temporary crashout. I can get this back when i need this!
+	end
+	
+	static void NextRoom()
+		//if self.AltNext and (self.AltNext[".hasmember"]("NextRoom"))
+		//	self.AltNext.NextRoom()
+		//	return
+		//end
+		RoomChange( 1,"Start")
+	end
+	
+	static void PrevRoom()
+		//if self.AltNext and (self.AltNext[".hasmember"]("PrevRoom"))
+		//	self.AltNext.PrevRoom()
+		//	return
+		//end
+		RoomChange(-1,"Einde")
+	end
+	
+	static void Reset()
+		self.AltNext = nil;
+		self.List = self.List or {}
+		self.List.Enter = self.List.Enter or new TLinkedList()
+		self.List.Leave = self.List.Leave or new TLinkedList()
+		self.List.Cycle = self.List.Cycle or new TLinkedList()
+		for k,v in pairs(self.List) 
+			v.Clear()
+		end
+		
+		var vd
+		vd = new ZoneAction("Enter","Next",ZoneAction.NextRoom)
+		vd = new ZoneAction("Enter","Prev",ZoneAction.PrevRoom)
+		//vd = new ZoneAction("Enter","Delisto",WorldMap.Delisto)
+		//vd = new ZoneAction("Enter","Aeria",WorldMap.Aeria)
+		//vd = new ZoneAction("Enter","Dyrt",WorldMap.Dyrt)
+		//vd = new ZoneAction("Enter","CatIsland",WorldMap["Cat-Island"])
+	end
+	
+	static void Create(string Event,string Zone,AAct,param)
+		var vd
+		vd = new ZoneAction(Event,Zone,AAct,param)
+	end
+	
+	string ActEvent
+	string ActZone
+	table ActParams
+	var Act
+	
+	get string ActType
+		return type(self.Act)
+	end
+	
+	bool WasInZone = false
+	bool WordtInZone = false
+	
+	static table CheckDels
+	
+	static void InitCheckDels()
+		if self.CheckDels.Enter 
+			return
+		end
+		self.CheckDels.Enter = { ["Was"] = false, ["Wordt"] = true  }
+		self.CheckDels.Leave = { ["Was"] = true,  ["Wordt"] = false }
+		self.CheckDels.Cycle = { ["Was"] = true,  ["Wordt"] = true  }
+	end
+	
+	static bool CheckAll()
+		if !FldMap.CurLayer.HasTag("PLAYER")
+			return false
+		end
+		bool ret = false
+		for Event,ZoneList in pairs(self.List)
+			for Zone in ZoneList.Each
+				//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
+				Zone.WordtInZone = GrPlayer.IsInZone(Zone.ActZone)
+				if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
+					switch Zone.ActType
+						case "function" "delegate"
+							Zone.Act(ZAXPand(Zone.ActParams))
+							ret=true
+						case "string"
+							MapScript[Zone.Act](ZAXPand(Zone.ActParams))
+							ret=true
+						default
+							error("No action setup yet for ActType: "..Zone.ActType)
+					end
+				end
+				Zone.WasInZone = Zone.WordtInZone
+			end
+		end
+		return ret
+	end
+	
+	//CONSTRUCTOR(string Event,string Zone,AAct,infinity)
+	CONSTRUCTOR(string Event,string Zone,AAct,param)
+		self.InitCheckDels()
+		self.ActEvent = Event
+		self.ActZone = Zone
+		self.Act = AAct
+		//self.ActParams = { infinity }
+		self.ActParams = { param }
+		self.List[Event].AddLast(self)
+		CSayF("%s event created in zone %s",Event,Zone)
+
+		//if not KettingInitDone
+		//	KettingKaart.ZA_Enter = void(string Zone,Action,infinity)
+		//		new ZoneAction("Enter",Zone,Action,infinity)
+		//	end
+		//	KettingKaart.GoToLayer = Map.GoToLayer
+		//	KettingInitDone = true
+		//end
+
+	end
+	
+	DESTRUCTOR
+		CSayF("%s event disposed in zone %s",ActEvent,ActZone)
+	end
+	
+end
+
+init
+	ZoneAction.Reset()
+end

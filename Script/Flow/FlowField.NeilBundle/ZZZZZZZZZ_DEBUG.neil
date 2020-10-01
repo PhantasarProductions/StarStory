@@ -91,3 +91,14 @@ global void CONSOLE_Save(para)
 		PerformSaveGame(para[1])
 	end
 end
+
+global void CONSOLE_LabelMap()
+	string LMD = ISGET.STRING("FLOW_FIELD","FLDMAP.CURLAYER.LABELMAPDUMP")
+	table LMDT = split(LMD,"\n")
+	for i,ln in ipairs(LMDT)
+		int b = math.floor( (i/#LMDT)*255 )
+		int g = math.floor(255 * math.abs(math.sin(i/(3.14*180))))
+		int r = 255-b
+		dev.CWrite(ln,r,g,b)
+	end
+end

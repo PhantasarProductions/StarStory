@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.10.01
+// Version: 20.10.02
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.10.01"
+#MKL_Version "Star Story - FieldMap.neil" "20.10.02"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 // module
@@ -153,6 +153,9 @@ group FldMap
 	end
 	
 	void AutoTexPlayer()
+		if !CurLayer.HasTag("PLAYER")
+			return
+		end
 		var PL=CurLayer.Obj("PLAYER")
 		if Leader=="UniWendicka"
 			PL.Texture = "GFX/Actors/Uniform/Wendicka.".. PL.Wind .. ".jpbf"
@@ -165,12 +168,23 @@ group FldMap
 		int x = mx + ScrollX
 		int y = my + ScrollY
 		CSayF("Request to walk to (%4d,%4d)",x,y)
+		if !CurLayer.HasTag("PLAYER")
+			CSay("But there is no player available now, so the request will be ignored!")
+			return
+		end
 		// Check for clickables
 		bool ClickablesFound
 		// TODO! Clickables
 		if !ClickablesFound
 			CurLayer.Obj("PLAYER").WalkTo(x,y)
 		end
+	end
+	
+	void ShowPlayer()
+		if !CurLayer.HasTag("PLAYER")
+			return
+		end
+		FldMap.CurLayer.Obj("PLAYER").Visible = true
 	end
 	
 	CONSTRUCTOR
@@ -196,7 +210,7 @@ global void SGMap()
 	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
 	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
 	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
-	r += "\tFldMap.Layer = "..FldMap.Layer.."\n"
+	r += "\tFldMap.Layer = \""..FldMap.Layer.."\"\n"
 	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
 	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
 	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"

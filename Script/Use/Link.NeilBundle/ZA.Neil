@@ -1,0 +1,26 @@
+module
+	
+	void Event(string event,string zone,string mapscript,param)
+		string p
+		switch Lua.type(param)
+			case "string"
+				p = "\""..param.."\""
+			case "number" "boolean"
+				p = Lua.tostring(param)
+			case "nil"
+				p = "nil"
+			default
+				Lua.error("Type "..Lua.type(param).." not (yet) supported as ZA event parameter!")
+		end
+		State.Call("FLOW_FIELD","ZoneAction.Create","\""..event.."\",\""..zone.."\",\""..mapscript.."\","..p)
+	end
+	
+	void Enter(string zone,string mapscript,param)
+		Event("Enter",zone,mapscript,param)
+	end
+	
+	void Leave(string zone,string mapscript,param)
+		Event("Leave",zone,mapscript,param)
+	end
+	
+end

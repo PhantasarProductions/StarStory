@@ -40,7 +40,9 @@ global void CSay(string message)
 		#if Development
 			//print("\x1b[34,1m"..message.."\x1b[0m")			
 			//CWrite(message,0,180,255,false)
-			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", 0x00, 0xbf, 0xff")	
+			if State.Has("FLOW_CONSOLE")
+				State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", 0x00, 0xbf, 0xff")	
+			end
 			cout("CSAY>\x1b[34;1m",message,"\x1b[0m\n")
 		#fi
 	end

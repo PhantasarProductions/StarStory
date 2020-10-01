@@ -36,7 +36,7 @@
 // End License Information
 global table MapScript
 
-module
+group Link_Map
 	get delegate CSayF
 		static delegate ret = Lua.Neil.Globals.CSayF
 		return ret
@@ -162,6 +162,27 @@ module
 		MCall("SGMap","nil")
 	end
 	
+	void Niets()
+	end
+	
+	void HideButLabel(string label)
+		Mcall("FldMap.CurLayer.HideButLabel",label)
+	end
+	void ShowButLabel(string label)
+		Mcall("FldMap.CurLayer.ShowButLabel",label)
+	end
+	void HideByLabel(string label)
+		Mcall("FldMap.CurLayer.HideByLabel",label)
+	end
+	void ShowByLabel(string label)
+		Mcall("FldMap.CurLayer.ShowByLabel",label)
+	end
+	
+	void ShowPlayer()
+		Call("FldMap.ShowPlayer","nil")
+	end
+
+	
 	CONSTRUCTOR
 		table m
 		m = {}
@@ -177,3 +198,9 @@ module
 	end
 	
 end
+
+init
+	Link_Map.Niets()
+end
+
+return Link_Map
