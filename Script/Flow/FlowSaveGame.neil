@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 20.10.01
+// Version: 20.10.03
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -143,6 +143,7 @@ global void Apollo_Flow()
 							if PerformLoadGame(GetSGFileName(i))
 								// Link to field if succesful
 								Flow.Current="FIELD"
+								Action="Save"
 								return
 							end
 						end
