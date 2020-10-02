@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.10.02
+// Version: 20.10.03
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,8 +35,114 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.10.02"
+#MKL_Version "Star Story - FieldMap.neil" "20.10.03"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
+
+class Clickable
+	static var List = new TLinkedList()
+	static int sid = 0
+	static var Map	
+	
+	readonly delegate func
+	readonly string param
+	readonly int walkx
+	readonly int walky
+	readonly int id
+	readonly string otag
+	readonly string ltag
+	
+	get var CLay
+		return Map.KthuraMap.Layer(ltag)
+	end
+	
+	get var CObj
+		return CLay.Obj(otag)
+	end
+	
+	CONSTRUCTOR(string ot,string lt,int wx, int wy,delegate af,string ap)
+		sid++
+		id = sid
+		walkx=wx
+		walky=wy
+		func = af
+		param = ap
+		otag = ot
+		ltag = lt
+		CSayF("Clickable created %s::%s",ltag,otag)
+	end
+	
+	bool Clicked(int x, int y)
+		if Map.Layer!=ltag
+			return false
+		end
+		if !CLay.HasTag(otag)
+			return false
+		end
+		return CObj.PixInObj(x,y)
+	end
+	
+	static void Create(string ot,string lt,a,b,c,d)
+		static delegate t = Lua.type
+		static delegate e = Lua.error
+		static delegate ts = Lua.tostring
+		if t(a) == "number" && t(b) == "number" 
+			if t(c)=="string"
+				List.AddLast(new Clickable(ot,lt,a,b,MapScript[c],d or ""))
+			elseif t(c)=="function"
+				List.AddLast(new Clickable(ot,lt,a,b,c,d or ""))
+			else
+				e("Create("..a..","..b..",<Invalid function reference>,"..tostring(d)..") Syntax error")
+			end
+		elseif t(a) == "string"
+			var o = Map.CurrentLayer.Obj(a)
+			Create(ot,lt,o.x,o.y,b,c)
+		else
+			e(sprintf("Clickable::Create(%s,%s,%s,%s,%s,%s): Illegal function call!",ot,lt,ts(a),ts(b),ts(c),ts(d)))
+		end
+	end
+	
+	static var Spot(var L,string tag)
+		if L.HasTag(tag.."_SPOT")
+			var o = Map.CurrentLayer.Obj(tag.."_SPOT")
+			return {o.x,o.y}
+		else
+			var o = L.Obj(tag)
+			return {o.x,o.y+32}
+		end
+	end
+	
+	static void Automate()
+		List.Clear()
+		for L in each(Map.KthuraMap.Layers)
+			var Lay = Map.KthuraMap.Layer(L)
+			for T in each(LAY.TagListArray)
+				if prefixed(T,"NPC_MT_")
+					var fuck = Spot(Lay,T)
+					Create(T,L,fuck[1],fuck[2],MapText,T)
+					CSayF("NPC: %s (MAPTEXT)",T)
+				elseif prefixed(T,"NPC_")
+					var fuck = Spot(Lay,T)
+					Create(T,L,fuck[1],fuck[2],MapScript[T],T)
+					CSayF("NPC: %s",T)
+				end
+			end
+		end
+	end
+	
+	static bool All(int x, int y)
+		for CLK in List.Each
+			if Clk.Clicked(x,y)
+				//Map.WalkTo(CLK.walkx,CLK.Walky)
+				Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				Map.ArriveFunc=CLK.func 
+				Map.ArriveParam=Clk.param
+				return true
+			end
+		end
+		return false
+	end
+	
+end
 
 // module
 group FldMap
@@ -48,6 +154,8 @@ group FldMap
 	bool AutoScroll = false
 	table kills
 	string LoadedMap
+	delegate ArriveFunc = nil
+	string ArriveParam = ""
 	
 	void SaveGame(Jaren70)
 		if Jaren70
@@ -56,6 +164,14 @@ group FldMap
 			State.LoadNew("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.neil")
 			Flow.Current="SAVEGAME"
 		end		
+	end
+	
+	void LoadMapText()
+		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gvStr.LoadedMap)
+			CSay("No mapfile for: "..gvStr.LoadedMap)
+			return
+		end
+		BoxText.Load("MAPTEXT","Maps/"..gvStr.LoadedMap)
 	end
 
 	void LoadMap(string Map)
@@ -98,7 +214,9 @@ group FldMap
 		else
 			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
 			Music.Play(KthuraMap.Meta["Music"])
-		end		
+		end
+		LoadMapText()
+		Clickable.Automate()
 	end
 		
 	void ReMap()
@@ -172,11 +290,12 @@ group FldMap
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
 		end
-		// Check for clickables
-		bool ClickablesFound
+		// Check for clickables		
 		// TODO! Clickables
-		if !ClickablesFound
+		if !Clickable.All(x,y)
 			CurLayer.Obj("PLAYER").WalkTo(x,y)
+			ArriveFunc = nil
+			ArriveParam = ""
 		end
 	end
 	
@@ -231,6 +350,7 @@ end
 init
 	print("FieldMap Init Executed!")
 	print(GlobalDump())
+	Clickable.Map = FldMap
 end
 
 return FldMap
