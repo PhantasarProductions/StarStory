@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.10.02
+// Version: 20.10.03
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -101,4 +101,11 @@ global void CONSOLE_LabelMap()
 		int r = 255-b
 		dev.CWrite(ln,r,g,b)
 	end
+end
+
+global void CONSOLE_Clickables()
+	for CLK in Clickable.List.Each
+		CSay(CLK.ltag.."::"..CLK.otag)
+	end
+	CSayF("Number of clickables: %d",Clickable.List.Count)
 end
