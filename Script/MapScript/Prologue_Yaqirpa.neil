@@ -40,7 +40,11 @@
 
 #use "Script/Use/Anyway"
 
+
+
 group MScript
+	readonly delegate NPC_SAVE1 = MSave.ToSave
+	readonly delegate NPC_SAVE2 = MSave.ToSave
 
 	void GoToStart()
 		Map.SpawnPlayer("Start")

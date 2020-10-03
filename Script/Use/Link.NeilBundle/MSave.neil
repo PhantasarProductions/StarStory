@@ -1,0 +1,15 @@
+// Manage Save
+
+void SGManagerLoaded()
+	if !State.Has("FLOW_SAVEGAME")
+		Flow.Load("SAVEGAME","Script/Flow/FlowSaveGame.neil")
+	end
+end
+
+module
+	
+	void ToSave()
+		Flow.GoToFlow("SAVEGAME")
+	end
+
+end

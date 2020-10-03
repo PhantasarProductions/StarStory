@@ -306,6 +306,18 @@ group FldMap
 		FldMap.CurLayer.Obj("PLAYER").Visible = true
 	end
 	
+	bool Walking()
+		if !CurLayer.HasTag("PLAYER")
+			return false
+		end		
+		bool ret = CurLayer.Obj("PLAYER").Walking
+		if (!ret) && ArriveFunc
+			ArriveFUNC(ArriveParam)
+			ArriveFunc = nil
+		end
+		return ret
+	end
+	
 	CONSTRUCTOR
 		CSay("FieldMap loaded!")
 	end
