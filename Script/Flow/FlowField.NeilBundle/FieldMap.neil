@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.10.03
+// Version: 20.10.04
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.10.03"
+#MKL_Version "Star Story - FieldMap.neil" "20.10.04"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 class Clickable
@@ -94,7 +94,7 @@ class Clickable
 				e("Create("..a..","..b..",<Invalid function reference>,"..tostring(d)..") Syntax error")
 			end
 		elseif t(a) == "string"
-			var o = Map.CurrentLayer.Obj(a)
+			var o = Map.CurLayer.Obj(a)
 			Create(ot,lt,o.x,o.y,b,c)
 		else
 			e(sprintf("Clickable::Create(%s,%s,%s,%s,%s,%s): Illegal function call!",ot,lt,ts(a),ts(b),ts(c),ts(d)))
@@ -103,7 +103,7 @@ class Clickable
 	
 	static var Spot(var L,string tag)
 		if L.HasTag(tag.."_SPOT")
-			var o = Map.CurrentLayer.Obj(tag.."_SPOT")
+			var o = Map.CurLayer.Obj(tag.."_SPOT")
 			return {o.x,o.y}
 		else
 			var o = L.Obj(tag)
@@ -234,6 +234,10 @@ group FldMap
 		return KthuraMap.Layer(Layer)
 	end
 	
+	get var CurrentLayer
+		return CurLayer
+	end
+	
 	void SetObjField(string o,string key,value)
 		CurLayer.Obj(o)[key]=value
 	end
@@ -297,6 +301,15 @@ group FldMap
 			ArriveFunc = nil
 			ArriveParam = ""
 		end
+	end
+	
+	void ObjWalkTo(string tag,a,b)
+		// CSayF("Actor %s must walk to: %s %s",tag,tostring(a),tostring(b)) // DEBUG!
+		CurLayer.Obj(Tag).WalkTo(a,b)
+	end
+	
+	void ObjSet(string otag,string vtag,value)
+		CurLayer.Obj(OTag)[vtag]=value
 	end
 	
 	void ShowPlayer()

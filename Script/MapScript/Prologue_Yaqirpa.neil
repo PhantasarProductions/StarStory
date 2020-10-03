@@ -32,10 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 20.10.03
+// version: 20.10.04
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "20.10.03"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "20.10.04"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -45,6 +45,7 @@
 group MScript
 	readonly delegate NPC_SAVE1 = MSave.ToSave
 	readonly delegate NPC_SAVE2 = MSave.ToSave
+	readonly delegate FTL = {"PLAYER","FCrystal","FBriggs"}
 
 	void GoToStart()
 		Map.SpawnPlayer("Start")
@@ -72,8 +73,51 @@ group MScript
 			MapText("EXPLAIN_FOES")
 		end
 	end
+	
+	void Follow(int i,string act)
+		if !Map.HasTag(act)
+			//Map.Spawn(act,FTL[i-1])
+			Map.SpawnXY(act,Map.ObjInt(FTL[i-1],"X"),Map.ObjInt(FTL[i-1],"Y"))
+			CSayF("Spawned %s on %s",act,FTL[i-1])		
+		end
+		Map.ObjSet(act,"Texture",sprintf("GFX/Actors/Uniform/%s.%s.jpbf",right(act,#act-1),Map.ObjStr(act,"Wind")))
+		Map.ObjSet(act,"Visible",true)
+		Map.ObjSet(act,"Impassible",false)
+		//if Map.ObjBool(act,"Walking")
+		//	return
+		//end
+		string Tag1 = FTL[i-1]
+		int X1 = Map.ObjInt(Tag1,"X")
+		int Y1 = Map.ObjInt(Tag1,"Y")
+		int X2 = Map.ObjInt(act, "X")
+		int Y2 = Map.ObjInt(act, "Y")
+		int hsiz = math.abs(X1-X2)
+		int vsiz = math.abs(Y1-Y2)
+		int distance = math.floor(math.sqrt( (hsiz*hsiz) + (vsiz*vsiz) ))
+		bool walking = Map.ObjBool(act,"Walking")
+		bool ShouldWalk = (distance>96) && (!walking)
+		// CSayF("Leader %s (%4d,%4d) %s -- Followed by: %s, distance: %4d!",Tag1,X1,Y1,Map.ObjStr(Tag1,"Wind"),act,distance)
+		// CSayF("Follower %s (%4d,%4d) walking: %s -- Should walk: %s (%s)",act,X2,Y2,tostring(Map.ObjBool(act,"Walking")),tostring(shouldwalk),lua.type(shouldwalk))
+		// CSayF("ShouldWalk = %s, because distance>96 = %s and walking = %s",tostring(ShouldWalk),tostring(distance>96),tostring(walking))
+		if ShouldWalk
+			switch Map.ObjStr(Tag1,"Wind"):upper()
+				case "NORTH"
+					Map.ObjWalkTo(act,X1,Y1+64)
+				case "SOUTH"
+					Map.ObjWalkTo(act,X1,Y1-64)
+				case "WEST"
+					Map.ObjWalkTo(act,X1+64,Y1)
+				case "EAST"
+					Map.ObjWalkTo(act,X1-64,Y1)
+				default
+					CSayF("Unknown wind: %s",Map.ObjStr(Tag1,"Wind"))
+			end
+		end
+	end
 
 	void Update()
+		Follow(2,"FCrystal")
+		Follow(3,"FBriggs")
 	end
 
 	void Draw()

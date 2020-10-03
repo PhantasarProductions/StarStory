@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 20.10.03
+// Version: 20.10.04
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -83,6 +83,8 @@ global void Apollo_Flow()
 			// To do: Menu Check
 		end
 	end
-	FldMap.Walking()	
+	FldMap.Walking()
 	Mouse.Draw(mx,my)
+	//MapScript.Update()
+	State.Call("MAPSCRIPT","MScript.Update","nil")
 end

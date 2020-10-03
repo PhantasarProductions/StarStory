@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 20.10.02
+// Version: 20.10.04
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -107,7 +107,12 @@ group Link_Map
 		CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
 		Call("FldMap.CurLayer.Spawn",{"\""..actor.."\"","\""..spot.."\""})
 	end
-		
+	
+	void SpawnXY(string actor,int x,int y)
+		CSayF("Spawning actor '%s' on coordinates (%4d,%dd)",actor,x,y)
+		MCall("FldMap.CurLayer.Spawn",actor,x,y)
+	end
+	
 	void SetObjField(string obj,string field,value)
 		plua v = lua.tostring(value)
 		if lua.type(value)=="string"
@@ -181,7 +186,30 @@ group Link_Map
 	void ShowPlayer()
 		Call("FldMap.ShowPlayer","nil")
 	end
+	
+	bool HasTag(string tag)
+		return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.HasTag(\""..tag.."\")")
+	end
+	
+	int ObjInt(string tag,string value)
+		return ISGET.Int("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
+	end
+	
+	string ObjStr(string tag,string value)
+		return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
+	end
 
+	bool ObjBool(string tag,string value)
+		return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
+	end
+	
+	void ObjSet(string tag,string vartag,value)
+		MCall("FldMap.ObjSet",tag,vartag,value)
+	end
+	
+	void ObjWalkTo(string tag,a,b)
+		MCall("FldMap.ObjWalkTo",tag,a,b)
+	end
 	
 	CONSTRUCTOR
 		table m
