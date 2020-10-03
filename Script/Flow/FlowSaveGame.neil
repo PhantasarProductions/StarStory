@@ -51,6 +51,8 @@ var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
 var BigFont = ImageFont.Obtain("BIGTEXT")
 var SysFont = ImageFont.Obtain("SYSFONT")
 var Buzz = Audio.Obtain("BUZZ")
+var ButtonUp = Image.Obtain("UP")
+var ButtonDown = Image.Obtain("DOWN")
 
 readonly int slotsonscreen = math.floor((endy-starty)/(sloth+slotm))
 int scroll = 0
@@ -107,6 +109,8 @@ global void Apollo_Flow()
 	// Mouse coordiniates
 	int mx = Events.MouseX()
 	int my = Events.MouseY()
+	bool AlUp = scroll>0
+	bool AlDown = true
 	
 	// ScreenBox
 	ScreenBox.Draw()
@@ -117,6 +121,7 @@ global void Apollo_Flow()
 	
 	// Slots
 	for i=scroll,math.min(scroll+slotsonscreen,maxsg)
+		AlDown=AlDown and i<=maxsg
 		table slot = GetSlot(i)
 		int y = starty+((i-scroll)*(sloth+slotm))
 		__white
@@ -161,8 +166,30 @@ global void Apollo_Flow()
 		else
 			BigFont.Text("== Empty slot ==",100,y)
 		end
-			
 	end
+	__white
+	static bool clk = false
+	if AlDown
+		ButtonDown.Draw(Screen.W-100,Screen.H-228)
+		if (!clk) && Events.MouseHitLeft() and mx>Screen.W-100 and my>Screen.H-228 and my<Screen.H-128
+			Scroll++
+			CSayF("Scrolled down to: %04d",Scroll)
+			clk=true
+		else
+			clk=false
+		end
+	end
+	if AlUp
+		ButtonUp.Draw(Screen.W-100,100)
+		if (!clk) and Events.MouseHitLeft() and mx>Screen.W-100 and my>100 and my<128
+			Scroll = math.max(0,Scroll-1)
+			CSayF("Scrolled up to: %04d",Scroll)
+			clk=true
+		else
+			clk=false
+		end
+	end
+
 	
 
 	// Party

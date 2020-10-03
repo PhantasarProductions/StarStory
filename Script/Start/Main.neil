@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.10.01
+// Version: 20.10.03
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -80,10 +80,12 @@ init
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
 	LAsset.C("GFX/BoxText/Corner.png","BTHOEK",wh_Image)
+	LAsset.C("GFX/Save/Up.png","UP",wh_Image)
+	LAsset.C("GFX/Save/Down.png","DOWN",wh_Image)
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
-	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
+	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)	
 
 	// Loading assets
 	int m=#LAsset.Lijst
