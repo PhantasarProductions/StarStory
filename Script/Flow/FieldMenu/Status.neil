@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 20.10.05
+// Version: 20.10.06
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,7 @@ module
 
 	readonly table Portretten
 	readonly var big = ImageFont.Obtain("BIGTEXT")
+	readonly var fnt = ImageFont.Obtain("BOXTEXT")
 	
 	var GetPortret(string Tag)
 		if not Portretten[Tag]			
@@ -61,11 +62,36 @@ module
 	void Flow(uBox,string CharTag)
 		int x = ubox.x
 		int y = ubox.y
+		int bw = ubox.w
 		var Char = RPGChar[CharTag]
+		// Portret
 		__white
 		GetPortret(CharTag).Draw(x+10,y+150)
+		// Name
 		__skyblue
 		big.Text(Char.Name,x+150,y+25)
+		// Bars
+		int g = math.floor((RPGChar[CharTag].Points.HP.Have/RPGChar[CharTag].Points.HP.Maximum)*255)
+		// print(255-g,g,0," HP ",RPGChar[CharTag].Points.HP.Have,RPGChar[CharTag].Points.HP.Maximum)
+		Graphics.Color((255-g),g,0)
+		StatBar(x+150,y+100,(bw)-160,3,RPGChar[CharTag].Points.HP.Have,RPGChar[CharTag].Points.HP.Maximum)
+		Fnt.Text("HP",x+150,y+80)
+		string HPS = sprintf("%d of %5d",RPGChar[CharTag].Points.HP.Have,RPGChar[CharTag].Points.HP.Maximum)
+		//CSayF("%s (%d,%d)",HPS,(x+bw)-10,y+80)
+		Fnt.Text(HPS,(x+bw)-10,y+80,1,0)
+		if RPGChar[CharTag].Points.AP.Maximum>0
+			g = math.floor((RPGChar[CharTag].Points.AP.Have/RPGChar[CharTag].Points.AP.Maximum)*100)
+			graphics.Color(0,g+80,g+155)
+			StatBar(x+150,y+130,(bw)-160,3,RPGChar[CharTag].Points.AP.Have,RPGChar[CharTag].Points.AP.Maximum)
+			Fnt.Text("AP",x+150,y+110)
+			Fnt.Text(sprintf("%d of %5d",RPGChar[CharTag].Points.AP.Have,RPGChar[CharTag].Points.AP.Maximum),(x+bw)-10,y+110,1,0)
+		end
+		__white
+		if CharTag!="Briggs"
+			StatBar(x+150,y+160,(bw)-160,3,RPGChar[CharTag].Points.EXP.Have,RPGChar[CharTag].Points.EXP.Maximum)
+		end
+		Fnt.Text("Lv",x+150,y+140)
+		Fnt.Text(RPGChar[CharTag].Stat.Level,(x+bw)-10,y+140,1,0)
 	end
 
 end
