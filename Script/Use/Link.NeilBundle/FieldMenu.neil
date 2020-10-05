@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/FieldMenu.neil
-// Version: 20.10.04
+// Version: 20.10.05
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,16 +35,17 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 void FML()
-	States.LoadNew("FLOW_FIELDMENU","Script/Flow/FieldMenu.neil")
+	State.LoadNew("FLOW_FIELDMENU","Script/Flow/FlowFieldMenu.neil")
 end
 
 group FMenu
 
 	void Go(string char,string situation)
 		FML()
-		States.Call("FLOW_FIELDMENU","SetFM","\""..char.."\",\""..situation.."\"")
+		State.Call("FLOW_FIELDMENU","SetFM","\""..char.."\",\""..situation.."\"")
 		Flow.GoToFlow("FIELDMENU")
 	end
+	
 
 end
 
