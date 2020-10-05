@@ -157,7 +157,7 @@ group SubParty
 				default
 					File = "GFX/PORTRET/"..Tag.."/General.png"
 			end
-			Portretten[Tag] = Image.Load(File)
+			Portretten[Tag] = Image.LoadNew(File,"PORTRET_"..Tag)
 			Portretten[Tag].Hot(5,Portretten[Tag].Height)
 		end
 		return Portretten[Tag]

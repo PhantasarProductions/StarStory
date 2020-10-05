@@ -36,4 +36,36 @@
 // End License Information
 
 module
+
+	readonly table Portretten
+	readonly var big = ImageFont.Obtain("BIGTEXT")
+	
+	var GetPortret(string Tag)
+		if not Portretten[Tag]			
+			string File
+			switch Tag
+				case "UniWendicka"
+					File = "GFX/PORTRET/Wendicka/Uniform.png"
+				case "UniCrystal"
+					File = "GFX/PORTRET/Crystal/Uniform.png"
+				default
+					File = "GFX/PORTRET/"..Tag.."/General.png"
+			end
+			Portretten[Tag] = Image.LoadNew(File,"PORTRET_"..Tag)
+			Portretten[Tag].Hot(5,Portretten[Tag].Height)
+		end
+		return Portretten[Tag]
+	end
+
+
+	void Flow(uBox,string CharTag)
+		int x = ubox.x
+		int y = ubox.y
+		var Char = RPGChar[CharTag]
+		__white
+		GetPortret(CharTag).Draw(x+10,y+150)
+		__skyblue
+		big.Text(Char.Name,x+150,y+25)
+	end
+
 end

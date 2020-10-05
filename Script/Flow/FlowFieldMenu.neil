@@ -36,22 +36,28 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Misc/Box"
 
 table Situations
 table Situations_Field
+table SitActive
 string FMChar
 string FMSituation
 
-DefTable Situations_Field
-	1 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }
-	2 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" }
-	3 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }
-	4 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
-	5 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
-end
+readonly var   Mouse = Image.Obtain("MOUSE")
+readonly var  topbox = new Box(0,0,Screen.W,49,false)
+readonly var  lftbox = new Box(0,50,Screen.W/2,Screen.H-151,false)
+readonly var  rgtbox = new Box(Screen.W/2,50,Screen.W/2,Screen.H-151,false)
+readonly table boxes = {topbox,lftbox,rgtbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
 
-DefTable Situations
-	FIELD = Situations_Field
+
+init
+	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }
+	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" }
+	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }
+	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
+	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
+	Situations.FIELD = Situations_Field
 end
 
 global void SetFM(string ch,string sit)
@@ -59,6 +65,37 @@ global void SetFM(string ch,string sit)
 	FMSituation=sit
 end
 
-global void Apollo_Flow()
+global void Apollo_Flow()	
+	// Debug
 	Dev.ToConsole()
+	
+	// Boxes
+	for b in each(Boxes)
+		b.Draw()
+	end
+	
+	// Top Icon Strip
+	// Lua.assert(Situations[FMSituation],"No situation named: "..FMSituation)
+	int iw = math.floor(Screen.W/(#Situations[FMSituation]+1))
+	// CSayF("Icons in situation '%s': %d",FMSituation,#Situations[FMSituation])
+	for i,ico in ipairs(Situations[FMSituation])
+		SitActive[FMSituation] = SitActive[FMSituation] || i
+		__skyblue
+		if SitActive[FMSituation]==i && (math.floor(FPS.Ticks/200)%2==0)
+			__black
+		end
+		ico.ICON = ico.ICON or Image.Obtain("ICO_"..ico.ICONFILE)
+		ico.ICON.Draw(i*iw,5)
+		if SitActive[FMSituation]==i
+			static table kanten={"LEFT"}
+			for kant in each(kanten)
+				ico[kant].MOD = ico[kant].MOD || NeilUse("Script/Flow/FieldMenu/".. ico[kant].ID )
+				ico[kant].MOD.Flow(boxes[kant],FMChar)
+			end
+		end
+	end
+
+	
+	// Party
+	Party.Boxes()
 end
