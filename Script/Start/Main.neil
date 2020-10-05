@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.10.03
+// Version: 20.10.05
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -82,10 +82,16 @@ init
 	LAsset.C("GFX/BoxText/Corner.png","BTHOEK",wh_Image)
 	LAsset.C("GFX/Save/Up.png","UP",wh_Image)
 	LAsset.C("GFX/Save/Down.png","DOWN",wh_Image)
+	LAsset.C("GFX/StatusBar/Icons/Items.png","ICO_ITEMS",wh_Image)
+	LAsset.C("GFX/StatusBar/Icons/Abilities.png","ICO_ABILITIES",wh_Image)
+	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
+	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
+	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
-	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)	
+	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
+
 
 	// Loading assets
 	int m=#LAsset.Lijst
