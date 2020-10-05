@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 20.10.04
+// Version: 20.10.05
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,11 +34,25 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 #use "Script/Use/Anyway"
 
+table Situations
+table Situations_Field
 string FMChar
 string FMSituation
 
+DefTable Situations_Field
+	1 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }
+	2 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" }
+	3 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }
+	4 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
+	5 = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
+end
+
+DefTable Situations
+	FIELD = Situations_Field
+end
 
 global void SetFM(string ch,string sit)
 	FMChar=ch
