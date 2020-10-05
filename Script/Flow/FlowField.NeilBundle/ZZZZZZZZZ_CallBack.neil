@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 20.10.04
+// Version: 20.10.05
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,6 +56,20 @@ end
 
 global void BoxText_Back()
 	DrawScreen()
+end
+
+global void PartyClick(int i,string ch)
+	switch i
+		case 1
+			CSay("Going to Field Menu!")
+			FieldMenu.Go("Field",ch)
+		case 2
+			if gvStr.LoadedMap=="Prologue_Yaqirpa"
+				CSay("Switching leader NOT allowed in the Yaqirpa during the prologue")
+			end
+		default
+			CSayF("PartyClick:I don't understand mouse button: %d",i)
+	end
 end
 
 global void Apollo_Flow()
