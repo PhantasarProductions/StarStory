@@ -1,0 +1,23 @@
+init
+	var p = RPGChar.UniWendicka.Stat
+	p.ER_Dark = 3 
+	p.ER_Earth = 3
+	p.ER_Fire = 3 
+	p.ER_Frost = 3
+	p.ER_Healing = 6 
+	p.ER_Light = 3 
+	p.ER_Lightning = 4
+	p.ER_Water = 2 
+	p.ER_Wind = 3 
+	
+	p.SR_BASE_Block = 15 
+	p.SR_BASE_Buff = 0
+	p.SR_BASE_Damned = 12
+	p.SR_BASE_Death = 30
+	p.SR_BASE_Debuff = 0
+	p.SR_BASE_Disease = 10
+	p.SR_BASE_Paralysis = 50
+	p.SR_BASE_Poison = 30  
+	p.SR_BASE_Will = 25
+
+end

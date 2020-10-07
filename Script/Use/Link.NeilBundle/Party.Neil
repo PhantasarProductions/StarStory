@@ -52,18 +52,18 @@ module
 		//CSayF("Clicked with button %d on character %s",i,char)
 		if GlobalExists("PartyClick")
 			// I had to bypass the identifier checker. Normally I wouldn't do this :)
-			Lua.Neil.Globals.PartyClick(i,char)			
+			Lua.Neil.Globals.PartyClick(i,char)
 		// else
 		//CSayF("No PartyClick found!")
 		end
 	end
 
-	void Boxes()
+	void Boxes(char)
 		if !BxsL
 			// This approach is most of all to avoid speed issues
 			State.LoadNew("PARTY","Script/Subs/SubParty.Neil")
 		end
-		State.Call("PARTY","SubParty.Boxes","nil")
+		State.Call("PARTY","SubParty.Boxes","\""..(char or "Nobody").."\"")
 	end
 
 	void NewChar(string char,int level, string AltName="")

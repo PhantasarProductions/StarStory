@@ -1,0 +1,51 @@
+table CharResTables
+
+void NewCharRes(string char)
+	if RPGChar[char].Data.ResistanceSet != "TRUE"
+		NeilUse("Script/Data/CharacterResistance/"..char)
+		for elem in each {"Dark", "Earth", "Fire", "Frost", "Healing", "Light", "Lightning", "NonElemental"}
+			RPGChar[char].Stat["ER_MODIFIER_"..elem] = 0
+		end
+		for status in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+			RPGChar[char].Stat["SR_BUFF_"..status] = 0
+			RPGChar[char].Stat["SR_EQBF_"..status] = 0
+			RPGChar[char].Stat["SR_TRUE_"..status] = 0
+			RPGChar[Char].StatScript["SR_TRUE_"..status] = "SUM:"..char..".SR_BASE_"..status..".SR_BUFF_"..status..".SR_EQBF_"..status
+		end
+		RPGChar[char].Data.ResistanceSet = "TRUE"
+	end
+	if CharResTables[char]
+		return 
+	end
+	table meta 
+	meta.__index = int(s,string k)
+		switch k
+			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water"
+				if (char=="UniWendicka" || char=="Wendicka") && (!gv.vBool.WendickaGoddessReleased)
+					if k=="Lightning"
+						return 6
+					elseif K=="Water"
+						return 0
+					end
+				end
+				//CSay("type ER_"..k.." = "..type(RPGChar[char].Stat["ER_"..k]).."; Value = "..tostring(RPGChar[char].Stat["ER_"..k]))
+				//CSay("type ER_MODIFIER_"..k.." = "..type(RPGChar[char].Stat["ER_MODIFIER_"..k]).."; Value = "..tostring(RPGChar[char].Stat["ER_MODIFIER_"..k]))
+				return math.min(6,math.max(0,RPGChar[char].Stat["ER_"..k] + RPGChar[char].Stat["ER_MODIFIER_"..k]))
+			case "Block" "Buff" "Damned" "Death" "Debuff" "Disease" "Paralysis" "Poison" "Will"
+				return math.min(100,math.max(0,RPGChar[char].Stat["SR_TRUE_"..k]))
+			default
+				lua.error("What the hell is "..k.."?")
+		end
+	end
+	CharResTables[char] = lua.setmetatable({},meta)
+end
+
+
+quickmeta CharRes
+
+	index
+		NewCharRes(key)
+		return CharResTables[key]
+	end
+end
+

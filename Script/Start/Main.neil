@@ -87,6 +87,12 @@ init
 	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
 	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
 	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
+	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water"}
+		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
+	end
+	for status in each { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
+		LAsset.C("GFX/StatusChanges/"..status..".png","STATUS_"..(status:upper()),wh_image)
+	end
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)

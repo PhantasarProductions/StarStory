@@ -1,0 +1,21 @@
+init
+	var p = RPGChar.Briggs.Stat
+	p.ER_Dark = 3 
+	p.ER_Earth = 3
+	p.ER_Fire = 3 
+	p.ER_Frost = 3
+	p.ER_Healing = 6 
+	p.ER_Light = 3 
+	p.ER_Lightning = 3
+	p.ER_Water = 3
+	p.ER_Wind = 3 
+	p.SR_BASE_Block = 30 
+	p.SR_BASE_Buff = 30
+	p.SR_BASE_Damned = 30
+	p.SR_BASE_Death = 30
+	p.SR_BASE_Debuff = 30
+	p.SR_BASE_Disease = 30
+	p.SR_BASE_Paralysis = 30
+	p.SR_BASE_Poison = 30  
+	p.SR_BASE_Will = 30
+end

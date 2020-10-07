@@ -35,8 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 #use "Script/Use/Anyway"
-
 #use "script/use/misc/box"
+#use "libs/xmath"
 
 group SubParty
 
@@ -164,14 +164,20 @@ group SubParty
 	end
 
 	
-	void Boxes()
+	void Boxes(string char)
 		Box.DrawAll()
 		for i=1,3
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
 				int x= (i-1)*bw
 				int y = Screen.H-100
+				if char==tag
+					plua alf = math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
+					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
+					Graphics.SetAlpha(alf)
+				end
 				GetPortret(tag).Draw(x,Screen.h)
+				Graphics.SetAlpha(255)
 				int g = math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
 				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Graphics.Color((255-g),g,0)

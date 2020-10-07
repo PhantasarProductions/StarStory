@@ -35,14 +35,22 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "Script/Use/Misc/Resistance"
+
 module
 
 	readonly table Portretten
 	readonly var big = ImageFont.Obtain("BIGTEXT")
 	readonly var fnt = ImageFont.Obtain("BOXTEXT")
+	readonly table Stats = {  "Strength", "Defense", "Will", "Resistance", "Accuracy", "Evasion", "Agility" }
+	
+	readonly table StatusChanges = { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
+	readonly table Elements      = { "Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water" }
+	readonly table EleIco
+	readonly table StatIco
 	
 	var GetPortret(string Tag)
-		if not Portretten[Tag]			
+		if not Portretten[Tag]
 			string File
 			switch Tag
 				case "UniWendicka"
@@ -92,6 +100,54 @@ module
 		end
 		Fnt.Text("Lv",x+150,y+140)
 		Fnt.Text(RPGChar[CharTag].Stat.Level,(x+bw)-10,y+140,1,0)
+		for i,s in ipairs(Stats)
+			int iy = (i*30)+200
+			__skyblue
+			Fnt.Text(s,x+25,iy)
+			__ember
+			Fnt.Text(RPGChar[CharTag].Stat["END_"..s],x+(bw/2),iy,1)
+		end
+		for i,e in ipairs(Elements)
+			int iy = (i*30)+200
+			int ix = (bw/2)+20
+			__white
+			EleIco[e] = EleIco[e] or Image.Obtain("ELEM_"..(e:upper()))
+			EleIco[e].Draw(ix,iy)
+			switch CharRes[CharTag][e]
+				case 0
+					__red
+					Fnt.Text("Fatal",ix+30,iy)
+				case 1
+					Graphics.Color(200,100,0)
+					Fnt.Text("Ultra-Weak",ix+30,iy)
+				case 2
+					Graphics.Color(200,110,0)
+					Fnt.Text("Weak",ix+30,iy)
+				case 3
+					Graphics.Color(200,180,0)
+					Fnt.Text("--",ix+30,iy)
+				case 4
+					Graphics.Color(200,180,0)
+					fnt.Text("Resistant",ix+30,iy)
+				case 5
+					Graphics.Color(100,180,0)
+					fnt.Text("Immune",ix+30,iy)
+				case 6
+					Graphics.Color(0,255,0)
+					Fnt.Text("Absorb",ix+30,iy)
+				default
+					Fnt.Text("???",ix+30,iy)
+			end
+		end
+		for i,s in ipairs(StatusChanges)
+			int iy = (i*30)+200
+			int ix = (bw/4)*3
+			__white
+			StatIco[s] = StatIco[s] or Image.Obtain("STATUS_"..(s:upper()))
+			StatIco[s].Draw(ix,iy)
+			__SkyBlue
+			Fnt.Text(sprintf("%d%%",CharRes[CharTag][s]),ix+100,iy,1)
+		end
 	end
 
 end

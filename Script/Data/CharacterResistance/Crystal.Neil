@@ -1,0 +1,24 @@
+init
+	var p = RPGChar.UniCrystal.Stat
+	CSay("Crystal Elements")
+	p.ER_Dark = 3 
+	p.ER_Earth = 3
+	p.ER_Fire = 3 
+	p.ER_Frost = 3
+	p.ER_Healing = 6 
+	p.ER_Light = 3 
+	p.ER_Lightning = 3
+	p.ER_Water = 3
+	p.ER_Wind = 3 
+	
+	CSay("Crystal Status resistance")
+	p.SR_BASE_Block = 10 
+	p.SR_BASE_Buff = 0
+	p.SR_BASE_Damned = 10
+	p.SR_BASE_Death = 32
+	p.SR_BASE_Debuff = 0
+	p.SR_BASE_Disease = 20
+	p.SR_BASE_Paralysis = 25
+	p.SR_BASE_Poison = 30  
+	p.SR_BASE_Will = 20
+end

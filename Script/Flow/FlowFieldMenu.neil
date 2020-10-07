@@ -60,12 +60,24 @@ init
 	Situations.FIELD = Situations_Field
 end
 
+global void PartyClick(int i,string ch)
+	if i==1
+		if FMChar == ch
+			Flow.Current="FLOW_FIELD"
+		else
+			FMChar = ch
+		end
+	end
+end
+
 global void SetFM(string ch,string sit)
 	FMChar=ch
 	FMSituation=sit
 end
 
-global void Apollo_Flow()	
+global void Apollo_Flow()
+	int mx = Events.MouseX()
+	int my = Events.MouseY()
 	// Debug
 	Dev.ToConsole()
 	
@@ -97,5 +109,8 @@ global void Apollo_Flow()
 
 	
 	// Party
-	Party.Boxes()
+	Party.Boxes(FMChar)
+	
+	// Mouse
+	Mouse.Draw(mx,my)
 end
