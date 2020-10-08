@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.10.05
+// Version: 20.10.08
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -93,6 +93,7 @@ init
 	for status in each { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
 		LAsset.C("GFX/StatusChanges/"..status..".png","STATUS_"..(status:upper()),wh_image)
 	end
+	LAsset.C("GFX/StatusBar/ItemSocket.png","ITEM_SOCKET",wh_image)
 	LAsset.C("Audio/SFX/Transporter/Beam.ogg","BEAM",wh_Audio)
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
