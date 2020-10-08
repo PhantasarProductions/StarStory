@@ -99,7 +99,7 @@ global void Apollo_Flow()
 		ico.ICON = ico.ICON or Image.Obtain("ICO_"..ico.ICONFILE)
 		ico.ICON.Draw(i*iw,5)
 		if SitActive[FMSituation]==i
-			static table kanten={"LEFT"}
+			static table kanten={"LEFT","RIGHT"}
 			for kant in each(kanten)
 				ico[kant].MOD = ico[kant].MOD || NeilUse("Script/Flow/FieldMenu/".. ico[kant].ID )
 				ico[kant].MOD.Flow(boxes[kant],FMChar)

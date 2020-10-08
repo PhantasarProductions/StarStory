@@ -34,7 +34,16 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 module
+	readonly var Socket = Image.Obtain("ITEM_SOCKET")
 	void Flow(uBox,string CharTag)
+		__White
+		for i=1,Caps.InventorySockets
+			int ci = i-1
+			int cy = math.floor(ci/Caps.InventorySocketRow) + 2
+			int cx = (ci % Caps.InventorySocketRow) + 2
+			Socket.Draw(uBox.x+(cx*35),ubox.y+(cy*35))
+		end
 	end
 end
