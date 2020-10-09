@@ -124,6 +124,9 @@ class Clickable
 					var fuck = Spot(Lay,T)
 					Create(T,L,fuck[1],fuck[2],MapScript[T],T)
 					CSayF("NPC: %s",T)
+				elseif Prefixed(T,"Item ")
+					CSayF("Item: %s",T)
+					// TODO: Actual code
 				end
 			end
 		end
@@ -156,6 +159,31 @@ group FldMap
 	string LoadedMap
 	delegate ArriveFunc = nil
 	string ArriveParam = ""
+	
+	// This property is only meant for the auto clickable generator
+	// Generating random items
+	get table LRitems
+		table ret
+		for i = 1 , math.min(gv.vint.Cycle,5)
+			string l = KthuraMap.Meta[sprintf("PT %2d Items",i)]
+			table ketting = Split(l,";")
+			for it in each (ketting)
+				table thisitem = Split(it,",")
+				switch #thisitem
+					case 1
+						ret += thisitem[1]
+					case 2
+						for j=1,(lua.tonumber(thisitem[2]) or 1)
+							ret += thisitem[1]
+						end
+					default
+						lua.error("Item chain syntax error in map meta field: "..i)
+				end
+			end
+		end
+		return ret
+	end
+
 	
 	void SaveGame(Jaren70)
 		if Jaren70
