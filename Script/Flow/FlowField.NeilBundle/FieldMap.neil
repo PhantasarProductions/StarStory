@@ -38,6 +38,7 @@
 #MKL_Version "Star Story - FieldMap.neil" "20.10.04"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
+
 class Clickable
 	static var List = new TLinkedList()
 	static int sid = 0
@@ -50,6 +51,12 @@ class Clickable
 	readonly int id
 	readonly string otag
 	readonly string ltag
+	
+	static void TakeTreasure(string Tag)
+		CSayF("%s should pick up item nammed %s",Map.Leader,Tag)
+		// TODO: Actual Code
+	end
+
 	
 	get var CLay
 		return Map.KthuraMap.Layer(ltag)
@@ -112,9 +119,11 @@ class Clickable
 	end
 	
 	static void Automate()
+		static int M_id = -1
 		List.Clear()
 		for L in each(Map.KthuraMap.Layers)
 			var Lay = Map.KthuraMap.Layer(L)
+			table rItems = Map.LRItems
 			for T in each(LAY.TagListArray)
 				if prefixed(T,"NPC_MT_")
 					var fuck = Spot(Lay,T)
@@ -126,7 +135,25 @@ class Clickable
 					CSayF("NPC: %s",T)
 				elseif Prefixed(T,"Item ")
 					CSayF("Item: %s",T)
-					// TODO: Actual code
+					if math.random(1,(__skill+1)^2)!=1
+						CSay("- SKIPPED!")
+					else
+						M_id++
+						string ctag = sprintf("RANDOM_TREASURE_%08x",M_id)
+						CSayF("- Tagged: %s",ctag)
+						var O = Lay.NewObject("Obstacle",ctag)
+						var S = Lay.Obj(T)
+						Map.KthuraMap.Remap()
+						string itTag = "ITM_"..rItems[math.random(1,#rItems)]
+						O.Data["ITEM"] = itTag
+						o.Texture = Item[itTag].IconFile
+						O.X = S.X
+						O.Y = S.Y
+						O.Dominance = S.Dominance
+						O.Labels = S.Labels
+						Map.KthuraMap.Remap()
+						Create(ctag,L,O.X,O.Y,TakeTreasure,ctag)
+					end
 				end
 			end
 		end
@@ -322,7 +349,7 @@ group FldMap
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
 		end
-		// Check for clickables		
+		// Check for clickables
 		// TODO! Clickables
 		if !Clickable.All(x,y)
 			CurLayer.Obj("PLAYER").WalkTo(x,y)

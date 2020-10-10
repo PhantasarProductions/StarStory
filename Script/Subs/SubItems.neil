@@ -40,9 +40,13 @@
 table ItemData
 
 
-
-var ItemBaseGet(string it,string key)
+global var ItemBaseGet(string it,string key)
 	it = it:upper()
-	ItemData[it] = ItemData || NeilUse("Script/Data/IAA/"..it)
-	return Itemdata[it][key]
+	ItemData[it] = ItemData[it] || NeilUse("Script/Data/IAA/"..it)
+	return ItemData[it][key]
+end
+
+
+init
+	Lua.ItemBaseGet = ItemBaseGet
 end

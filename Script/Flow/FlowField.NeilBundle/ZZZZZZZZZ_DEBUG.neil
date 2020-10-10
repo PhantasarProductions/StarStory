@@ -106,6 +106,8 @@ end
 global void CONSOLE_Clickables()
 	for CLK in Clickable.List.Each
 		CSay(CLK.ltag.."::"..CLK.otag)
+		CSayF("= Coordinates (%05d,%05d)",CLK.WalkX,CLK.WalkY)
+		CSayF("= Area - %s",FldMap.KthuraMap.Layer(CLK.ltag).Obj(Clk.otag).PixArea)
 	end
 	CSayF("Number of clickables: %d",Clickable.List.Count)
 end

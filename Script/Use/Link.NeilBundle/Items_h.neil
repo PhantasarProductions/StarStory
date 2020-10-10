@@ -46,7 +46,7 @@ void MkTrueItem(string it)
 		k = k:upper()
 		switch k
 			case "ICON" "ICONFILE"
-				string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")
+				string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\"ICON\"))")
 				if k=="ICONFILE"
 					return f
 				end
@@ -57,14 +57,15 @@ void MkTrueItem(string it)
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
 					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 				end
-				return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")
-			end
+				return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")			
 		end
 	end
-	m.__newindex = void(s,k,v)
-		lua.error("Item data base is read-only, so I cannot assign "..tostring(v).." to "..k.." in "..it)
+	
+	void nindex(s,string k,v)
+		lua.error( "Item data base is read-only, so I cannot assign " .. tostring(v) .. " to " .. k .." in " .. it )
 	end
-	TrueItem[it] = lua.setmetatable(m)
+	m.__newindex = nindex
+	TrueItem[it] = lua.setmetatable({},m)
 end
 
 quickmeta Item
@@ -74,8 +75,8 @@ quickmeta Item
 	end
 	
 	index
-		MkTrueItem(it)
-		return TrueItem[it:upper()]
+		MkTrueItem(key)
+		return TrueItem[key:upper()]
 	end
 
 end

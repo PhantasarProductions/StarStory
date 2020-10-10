@@ -1,117 +1,117 @@
-class Mydata_MyDataClass_IAA
-	string Name = ""
-	string Description = ""
-	string Icon = ""
+class MyData_MyDataClass_IAA
+	string Name
+	string Description
+	string Icon
 	bool UseCombat = true
 	bool UseField = true
-	string Target = ""
-	int ActSpeed = 0
-	bool untauntable = true
-	string UserNextMove = ""
-	string ItemType = ""
+	string Target = "1F"
+	int ActSpeed = 250
+	bool untauntable
+	string UserNextMove
+	string ItemType = "Consumable"
 	bool ITM_Sellable = true
-	int ITM_BuyPrice = 0
-	int ITM_SellPrice = 0
+	int ITM_BuyPrice = 100
+	int ITM_SellPrice = 75
 	int ABL_AP = 0
-	int ABL_Speed = 0
-	int ABL_APCut = 0
-	int ABL_DblSpeed = 0
-	int ABL_Instant = 0
-	int ABL_Cancel = 0
-	int ABL_DblPower = 0
-	string ABL_Pose = ""
-	int ARM_Hit_Procent = 0
-	int ARM_MaxAmmo = 0
-	int ARM_XPower = 0
-	int ARM_Weight = 0
-	int ARM_PRICE_Hit_Procent = 0
-	int ARM_PRICE_MaxAmmo = 0
-	int ARM_PRICE_XPower = 0
-	int ARM_PRICE_Weight = 0
-	bool ARM_BLOCK_XPower = true
-	int AttackPower = 0
-	string AttackElement = ""
-	string AttackStat = ""
-	string DefenseStat = ""
-	bool CausePoison = true
-	bool CauseDisease = true
-	bool CauseParalysis = true
-	bool CauseSleep = true
-	bool CauseHandicapped = true
-	bool CauseTerrified = true
-	bool CauseBagLock = true
-	bool CauseAmnesia = true
-	bool CauseConfusion = true
-	bool CauseDeath = true
-	bool CauseDamned = true
-	bool CauseZombie = true
-	int Healing = 0
-	string HealingType = ""
-	int APRecover = 0
-	string APRecoverType = ""
-	int GrantEXP = 0
-	string GrantEXPType = ""
-	bool CurePoison = true
-	bool CureDisease = true
-	bool CureParalysis = true
-	bool CureSleep = true
-	bool CureHandicapped = true
-	bool CureTerrified = true
-	bool CureBagLock = true
-	bool CureAmnesia = true
-	bool CureConfusion = true
-	bool CureDeathOne = true
-	bool CureDeathFull = true
-	bool CureDamned = true
-	bool CureZombie = true
-	bool ITM_EQP_ERes_UpFire = true
-	bool ITM_EQP_ERes_UpWind = true
-	bool ITM_EQP_ERes_UpWater = true
-	bool ITM_EQP_ERes_UpEarth = true
-	bool ITM_EQP_ERes_UpLightning = true
-	bool ITM_EQP_ERes_UpFrost = true
-	bool ITM_EQP_ERes_UpLight = true
-	bool ITM_EQP_ERes_UPDark = true
-	bool ITM_EQP_ERes_DownFire = true
-	bool ITM_EQP_ERes_DownWind = true
-	bool ITM_EQP_ERes_DownWater = true
-	bool ITM_EQP_ERes_DownEarth = true
-	bool ITM_EQP_ERes_DownLightning = true
-	bool ITM_EQP_ERes_DownFrost = true
-	bool ITM_EQP_ERes_DownLight = true
-	bool ITM_EQP_ERes_DownDark = true
-	int ITM_EQP_SRes_Block = 0
-	int ITM_EQP_SRes_Damned = 0
-	int ITM_EQP_SRes_Death = 0
-	int ITM_EQP_SRes_Disease = 0
-	int ITM_EQP_SRes_Paralysis = 0
-	int ITM_EQP_SRes_Poison = 0
-	int ITM_EQP_SRes_Will = 0
-	int Buff_Strength = 0
-	int Buff_Defense = 0
-	int Buff_Will = 0
-	int Buff_Resistance = 0
-	int Buff_Agility = 0
-	int Buff_Accuracy = 0
-	int Buff_Evasion = 0
-	int Buff_HP = 0
-	int Buff_AP = 0
-	bool PermaBuff_Strength = true
-	bool PermaBuff_Defense = true
-	bool PermaBuff_Will = true
-	bool PermaBuff_Resistance = true
-	bool PermaBuff_Agility = true
-	bool PermaBuff_Accuracy = true
-	bool PermaBuff_Evasion = true
-	bool PermaBuff_HP = true
-	bool PermaBuff_AP = true
-	bool CauseIDDQD = true
-	bool SpellAni_External = true
-	string SpellAni_Reference = ""
-	string SpellAni_Parameters = ""
-	bool ScriptEffect_External = true
-	string ScriptEffect_Reference = ""
-	string ScriptEffect_Parameters = ""
-	string Script_XReq_Reference = ""
-	string Script_XReg_Parameters = ""
+	int ABL_Speed
+	int ABL_APCut
+	int ABL_DblSpeed
+	int ABL_Instant
+	int ABL_Cancel
+	int ABL_DblPower
+	string ABL_Pose = "Cast"
+	int ARM_Hit_Procent
+	int ARM_MaxAmmo
+	int ARM_XPower
+	int ARM_Weight
+	int ARM_PRICE_Hit_Procent
+	int ARM_PRICE_MaxAmmo
+	int ARM_PRICE_XPower
+	int ARM_PRICE_Weight
+	bool ARM_BLOCK_XPower
+	int AttackPower
+	string AttackElement = "Non-Elemental"
+	string AttackStat = "Strength"
+	string DefenseStat = "Defense"
+	bool CausePoison
+	bool CauseDisease
+	bool CauseParalysis
+	bool CauseSleep
+	bool CauseHandicapped
+	bool CauseTerrified
+	bool CauseBagLock
+	bool CauseAmnesia
+	bool CauseConfusion
+	bool CauseDeath
+	bool CauseDamned
+	bool CauseZombie
+	int Healing
+	string HealingType = "Absolute"
+	int APRecover
+	string APRecoverType = "Absolute"
+	int GrantEXP
+	string GrantEXPType
+	bool CurePoison
+	bool CureDisease
+	bool CureParalysis
+	bool CureSleep
+	bool CureHandicapped
+	bool CureTerrified
+	bool CureBagLock
+	bool CureAmnesia
+	bool CureConfusion
+	bool CureDeathOne
+	bool CureDeathFull
+	bool CureDamned
+	bool CureZombie
+	bool ITM_EQP_ERes_UpFire
+	bool ITM_EQP_ERes_UpWind
+	bool ITM_EQP_ERes_UpWater
+	bool ITM_EQP_ERes_UpEarth
+	bool ITM_EQP_ERes_UpLightning
+	bool ITM_EQP_ERes_UpFrost
+	bool ITM_EQP_ERes_UpLight
+	bool ITM_EQP_ERes_UPDark
+	bool ITM_EQP_ERes_DownFire
+	bool ITM_EQP_ERes_DownWind
+	bool ITM_EQP_ERes_DownWater
+	bool ITM_EQP_ERes_DownEarth
+	bool ITM_EQP_ERes_DownLightning
+	bool ITM_EQP_ERes_DownFrost
+	bool ITM_EQP_ERes_DownLight
+	bool ITM_EQP_ERes_DownDark
+	int ITM_EQP_SRes_Block
+	int ITM_EQP_SRes_Damned
+	int ITM_EQP_SRes_Death
+	int ITM_EQP_SRes_Disease
+	int ITM_EQP_SRes_Paralysis
+	int ITM_EQP_SRes_Poison
+	int ITM_EQP_SRes_Will
+	int Buff_Strength
+	int Buff_Defense
+	int Buff_Will
+	int Buff_Resistance
+	int Buff_Agility
+	int Buff_Accuracy
+	int Buff_Evasion
+	int Buff_HP
+	int Buff_AP
+	bool PermaBuff_Strength
+	bool PermaBuff_Defense
+	bool PermaBuff_Will
+	bool PermaBuff_Resistance
+	bool PermaBuff_Agility
+	bool PermaBuff_Accuracy
+	bool PermaBuff_Evasion
+	bool PermaBuff_HP
+	bool PermaBuff_AP
+	bool CauseIDDQD
+	bool SpellAni_External = false
+	string SpellAni_Reference
+	string SpellAni_Parameters
+	bool ScriptEffect_External = false
+	string ScriptEffect_Reference
+	string ScriptEffect_Parameters
+	string Script_XReq_Reference
+	string Script_XReg_Parameters
 end
