@@ -93,8 +93,6 @@ global void Apollo_Flow()
 	if Events.MouseHitLeft()
 		if my<Screen.H-128
 			FldMap.WalkClick(mx,my)
-		else
-			// To do: Menu Check
 		end
 	end
 	FldMap.Walking()
