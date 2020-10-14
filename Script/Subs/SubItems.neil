@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubItems.neil
-// Version: 20.10.09
+// Version: 20.10.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "Script/Use/Anyway"
 #use "Script/Data/IAA/MyData_ClassFile_IAA"
 
 table ItemData
@@ -47,6 +48,54 @@ global var ItemBaseGet(string it,string key)
 end
 
 
+global bool S_GiveItem(string it,string char)
+	var C = RPGChar[char]
+	var D = C.Data
+	var S = C.Stat
+	if char=="Briggs"
+		return false
+	end
+	
+	int FirstEmptyInvSocket()
+		int i=0
+		repeat
+			i++
+			string stag = sprintf("INVAMNT%d",i)
+			if s[stag]<=0
+				return i
+			end
+		until i>Caps.InventorySockets 
+		return -1
+	end
+
+	bool ok = false
+	int i=0
+	string dtag
+	string stag
+	it = it:upper()
+	repeat
+		i++
+		dtag = sprintf("INVITEM%d",i)
+		stag = sprintf("INVAMNT%d",i)
+		if i>Caps.InventorySockets 
+			i = FirstEmptyInvSocket()
+			if i<0
+				return false
+			end
+			dtag = sprintf("INVITEM%d",i)
+			stag = sprintf("INVAMNT%d",i)
+			ok = true
+		else
+			ok = it == D[dtag]:upper() && S[stag]<Caps.InventoryMaxStack
+		end
+	until ok
+	S[stag]++
+	D[dtag]=it
+	return ok
+end
+
+
 init
 	Lua.ItemBaseGet = ItemBaseGet
+	Lua.S_GiveItem = S_GiveItem
 end

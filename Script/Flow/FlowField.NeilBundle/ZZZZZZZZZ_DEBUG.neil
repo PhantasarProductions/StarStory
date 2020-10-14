@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.10.03
+// Version: 20.10.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,6 +56,9 @@ global void CONSOLE_TagList()
 	CSayF("Map layer: %s",FldMap.Layer)
 	for a in each(Split(FldMap.KthuraMap.Layer(FldMap.Layer).TagList,","))
 		CSay(a)
+		for dt in each(FldMap.KthuraMap.Layer(FldMap.Layer).Obj(a).DumpData)
+			CSay("=> "..dt)
+		end
 	end
 end
 

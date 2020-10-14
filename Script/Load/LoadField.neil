@@ -38,6 +38,7 @@
 
 #use "Script/Use/Anyway"
 #use "libs/LinkedList"
+#use "Script/Use/Misc/MiniMessage"
 
 #use "Script/Flow/FlowField"
 

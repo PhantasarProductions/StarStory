@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.10.04
+// Version: 20.10.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,12 +35,13 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.10.04"
+#MKL_Version "Star Story - FieldMap.neil" "20.10.14"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
 class Clickable
-	static var List = new TLinkedList()
+	static readonly var List = new TLinkedList()
+	static readonly var Buzz = Audio.Obtain("BUZZ")
 	static int sid = 0
 	static var Map	
 	
@@ -53,8 +54,19 @@ class Clickable
 	readonly string ltag
 	
 	static void TakeTreasure(string Tag)
-		CSayF("%s should pick up item nammed %s",Map.Leader,Tag)
+		CSayF("%s should pick up item named %s",Map.Leader,Tag)
 		// TODO: Actual Code
+		var O = Map.CurLayer.Obj(tag)
+		string Name = RPGChar[Map.Leader].Name
+		bool Ok = Item.Give(O.GetData("ITEM_S"),Map.Leader)
+		if Ok
+			TMM.NewMsg(sprintf("%s picks up '%s'",Name,Item[O.GetData("ITEM_F")].Name),0,180,255)
+			Map.Kill(Tag)
+		else
+			Buzz.Play()
+			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.GetData("ITEM_S"),O.Data["ITEM_F"],O.Tag)
+			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data["ITEM_F"]].Name),255,0,0)
+		end
 	end
 
 	
@@ -144,14 +156,19 @@ class Clickable
 						var O = Lay.NewObject("Obstacle",ctag)
 						var S = Lay.Obj(T)
 						Map.KthuraMap.Remap()
-						string itTag = "ITM_"..rItems[math.random(1,#rItems)]
-						O.Data["ITEM"] = itTag
+						string shTag = rItems[math.random(1,#rItems)]
+						string itTag = "ITM_"..shtag
+						//O.Data["ITEM_F"] = itTag
+						//O.Data["ITEM_S"] = shTag
+						O.SetData("ITEM_F",itTag)
+						O.SetData("ITEM_S",shTag)
 						o.Texture = Item[itTag].IconFile
 						O.X = S.X
 						O.Y = S.Y
 						O.Dominance = S.Dominance
 						O.Labels = S.Labels
 						Map.KthuraMap.Remap()
+						CSayF("F: %s; S: %s;  OTag: %s",O.Data["ITEM_F"],O.Data["ITEM_S"],O.Tag)
 						Create(ctag,L,O.X,O.Y,TakeTreasure,ctag)
 					end
 				end

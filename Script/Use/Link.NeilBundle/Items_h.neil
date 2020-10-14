@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 20.10.09
+// Version: 20.10.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -68,6 +68,10 @@ void MkTrueItem(string it)
 	TrueItem[it] = lua.setmetatable({},m)
 end
 
+bool GiveItem(string it,string ch)
+	return ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
+end
+
 quickmeta Item
 
 	newindex
@@ -75,6 +79,9 @@ quickmeta Item
 	end
 	
 	index
+		if Key:upper()=="GIVE" || Key:upper()=="GIVEITEM"
+			return GiveItem
+		end
 		MkTrueItem(key)
 		return TrueItem[key:upper()]
 	end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 20.10.06
+// Version: 20.10.14
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+
 const var Mouse = Image.Obtain("MOUSE")
 
 global void DrawScreen()
@@ -51,6 +52,10 @@ global void FullDrawScreen()
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
 	DrawScreen()
 	Party.Boxes()
+	if !TMM.Draw()
+		// General statistics
+		// TODO: Actual code!
+	end
 end
 
 
