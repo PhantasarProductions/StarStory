@@ -64,8 +64,8 @@ class Clickable
 			Map.Kill(Tag)
 		else
 			Buzz.Play()
-			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.GetData("ITEM_S"),O.Data["ITEM_F"],O.Tag)
-			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data["ITEM_F"]].Name),255,0,0)
+			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.GetData("ITEM_S"),O.GetData("ITEM_F"),O.Tag)
+			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data("ITEM_F")].Name),255,0,0)
 		end
 	end
 
