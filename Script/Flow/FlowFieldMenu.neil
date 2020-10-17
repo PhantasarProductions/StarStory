@@ -109,7 +109,7 @@ global void Apollo_Flow()
 			static table kanten={"LEFT","RIGHT"}
 			for kant in each(kanten)
 				ico[kant].MOD = ico[kant].MOD || NeilUse("Script/Flow/FieldMenu/".. ico[kant].ID )
-				ico[kant].MOD.Flow(boxes[kant],FMChar)
+				ico[kant].MOD.Flow(boxes[kant],FMChar,FMSituation)
 				if ico[kant].ID=="ITEMS"
 					itmod = itmod || ico[kant].MOD
 				end

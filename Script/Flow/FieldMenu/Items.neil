@@ -38,6 +38,7 @@
 module
 	readonly var Socket = Image.Obtain("ITEM_SOCKET")
 	readonly var Fnt = ImageFont.Obtain("SYSFONT")
+	readonly var Trash = Image.Obtain("TRASH")
 	string cItem
 	string rcItem
 	int rsItem
@@ -77,7 +78,7 @@ module
 		return true
 	end
 	
-	void Flow(uBox,string CharTag)
+	void Flow(uBox,string CharTag,string situation)
 		if CharTag=="Briggs"
 			return
 		end
@@ -104,21 +105,29 @@ module
 				end
 			end
 			if ml && mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
-				CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
-				if cItem=="" and itamt==0
-					CSayF("Player clicked socket #%d for some reason I don't know!",i)
-				elseif cItem=="" and itamt>0
-					GetIt(i,CharTag)
-				elseif itamt==0
-					PlaceIt(i,CharTag,citem)
-				elseif ittag==citem && __skill!=3
-					PlaceIt(i,CharTag,citem)
-				elseif itamt==1
-					string swp = citem
-					GetIt(i,CharTag)					
-					PlaceIt(i,CharTag,swp)
+				switch situation:upper()
+					case "FIELD" "VAULT"
+						CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
+						if cItem=="" and itamt==0
+							CSayF("Player clicked socket #%d for some reason I don't know!",i)
+						elseif cItem=="" and itamt>0
+							GetIt(i,CharTag)
+						elseif itamt==0
+							PlaceIt(i,CharTag,citem)
+						elseif ittag==citem && __skill!=3
+							PlaceIt(i,CharTag,citem)
+						elseif itamt==1
+							string swp = citem
+							GetIt(i,CharTag)					
+							PlaceIt(i,CharTag,swp)
+						end
+					default
+						lua.error("Situation unknown: "..situation)
 				end
 			end
+		end
+		if situation:upper()=="FIELD" || situation:upper()=="VAULT"
+			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
 		end
 	end
 end
