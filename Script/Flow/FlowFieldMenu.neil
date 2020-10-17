@@ -104,6 +104,10 @@ global void Apollo_Flow()
 			__black
 		end
 		ico.ICON = ico.ICON or Image.Obtain("ICO_"..ico.ICONFILE)
+		if Events.MouseHitLeft() && my<topbox.h and mx>(i*iw)-25 and mx<(i*iw)+25
+			//Graphics.Rect(0,(i*iw)-15,Topbox.h,30) // debug only!
+			SitActive[FMSituation]=i
+		end
 		ico.ICON.Draw(i*iw,5)
 		if SitActive[FMSituation]==i
 			static table kanten={"LEFT","RIGHT"}
