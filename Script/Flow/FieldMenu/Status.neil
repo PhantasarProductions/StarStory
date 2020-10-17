@@ -76,7 +76,7 @@ module
 		__white
 		GetPortret(CharTag).Draw(x+10,y+150)
 		// Name
-		__skyblue
+		__red
 		big.Text(Char.Name,x+150,y+25)
 		// Bars
 		int g = math.floor((RPGChar[CharTag].Points.HP.Have/RPGChar[CharTag].Points.HP.Maximum)*255)
