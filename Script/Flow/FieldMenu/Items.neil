@@ -39,6 +39,7 @@ module
 	readonly var Socket = Image.Obtain("ITEM_SOCKET")
 	readonly var Fnt = ImageFont.Obtain("SYSFONT")
 	readonly var Trash = Image.Obtain("TRASH")
+	readonly var IUse = Image.Obtain("USE")
 	string cItem
 	string rcItem
 	int rsItem
@@ -132,6 +133,9 @@ module
 				CSayF("Trashing: %s",cItem)
 				cItem=""
 			end
+		end
+		if situation:upper()=="FIELD"
+			iUse.Draw(ubox.x+ubox.w-math.floor(Trash.Width*2.5),ubox.y+ubox.h-iUse.Height)
 		end
 	end
 end
