@@ -37,13 +37,88 @@
 
 module
 	readonly var Socket = Image.Obtain("ITEM_SOCKET")
+	readonly var Fnt = ImageFont.Obtain("SYSFONT")
+	string cItem
+	string rcItem
+	int rsItem
+	
+	void GetIt(int slot,string cht)
+		var ch  = RPGChar[cht]
+		string ittag = ch.Data[sprintf("INVITEM%d",slot)]
+		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
+		if itamt == 0
+			return
+		end
+		ch.Stat[sprintf("INVAMNT%d",slot)]--
+		citem=ittag
+		rcitem = cht
+		rsitem=slot
+	end
+	
+	bool PlaceIt(int slot,string cht,string item)
+		var ch  = RPGChar[cht]
+		string ittag = ch.Data[sprintf("INVITEM%d",slot)]:upper()
+		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
+		CSayF("PlaceIt(%d,'%s','%s'): ittag='%s'; itmt=%3d;",slot,cht,item,ittag,itamt)
+		item = item:upper()
+		if itamt>=Caps.InventoryMaxStack
+			return false
+		end
+		if itamt==0
+			CSayF("%s:>Nothing on slot %d yet, so let's make it home for item %s",cht,slot,item)
+		elseif item!=ittag
+			return false
+		end
+		ch.Stat[sprintf("INVAMNT%d",slot)]++
+		ch.Data[sprintf("INVITEM%d",slot)]=item
+		if citem==item
+			citem=""
+		end
+		return true
+	end
+	
 	void Flow(uBox,string CharTag)
+		if CharTag=="Briggs"
+			return
+		end
+		int pmx = Events.MouseX()
+		int pmy = Events.MouseY()
+		int mx  = pmx - ubox.x
+		int my  = pmy - ubox.y
+		bool ml = Events.MouseHitLeft()
+		var ch  = RPGChar[CharTag]
 		__White
 		for i=1,Caps.InventorySockets
 			int ci = i-1
 			int cy = math.floor(ci/Caps.InventorySocketRow) + 2
 			int cx = (ci % Caps.InventorySocketRow) + 2
+			string ittag = ch.Data[sprintf("INVITEM%d",i)]
+			int itamt    = ch.Stat[sprintf("INVAMNT%d",i)]
 			Socket.Draw(uBox.x+(cx*35),ubox.y+(cy*35))
+			// CSayF("Check: %s; %02d > %s:%d",CharTag,i,ittag,itamt) // debug only
+			if itamt>0
+				var it = Item["ITM_"..ittag]
+				it.Icon.Draw(uBox.x+(cx*35)+17,uBox.y+(cy*35)+35)
+				if itamt>1
+					Fnt.DarkText(itamt,uBox.x+(cx*35)+35,uBox.y+(cy*35)+35,1,1)
+				end
+			end
+			if ml && mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
+				CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
+				if cItem=="" and itamt==0
+					CSayF("Player clicked socket #%d for some reason I don't know!",i)
+				elseif cItem=="" and itamt>0
+					GetIt(i,CharTag)
+				elseif itamt==0
+					PlaceIt(i,CharTag,citem)
+				elseif ittag==citem && __skill!=3
+					PlaceIt(i,CharTag,citem)
+				elseif itamt==1
+					string swp = citem
+					GetIt(i,CharTag)					
+					PlaceIt(i,CharTag,swp)
+				end
+			end
 		end
 	end
 end

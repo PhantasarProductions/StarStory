@@ -1,0 +1,35 @@
+#use "Script/Use/Anyway"
+module
+	
+	bool prologue = false
+	
+	void Warp(string newspot)
+		Map.Kill("PLAYER")
+		if Prologue
+			Map.SpawnPlayer(newspot)
+			Map.Kill("FCrystal")
+			Map.Kill("FBriggs")
+		end
+	end
+	
+	void UPTo1()
+		Warp("U_Verdieping1")
+	end
+	
+	void DownTo0()
+		Warp("BeganeGrond")
+	end
+	
+	void ShowFloor1()
+		Map.HideButLabel("GreatHall-FirstFloor")
+		Map.ShowPlayer()
+	end
+	
+	void StartUp()
+		CSay("Yaqirpa stuff")
+		ZA.Enter("UPto1","YW.UPTo1")
+		ZA.Enter("Verdieping1","YW.ShowFloor1")
+		ZA.Enter("DownTo0","YW.DownTo0")
+	end
+
+end

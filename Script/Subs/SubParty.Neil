@@ -105,8 +105,8 @@ group SubParty
 		// Inventory slots
 		print("= Setting up inventory")
 		for i=1,Caps.InventorySockets
-			RPGChar[Tag].Data[sprintf("INVITEM%03d",i)]=""
-			RPGChar[Tag].Stat[sprintf("INVAMNT%03d",i)]=0
+			RPGChar[Tag].Data[sprintf("INVITEM%d",i)]=""
+			RPGChar[Tag].Stat[sprintf("INVAMNT%d",i)]=0
 		end
 		// Statistics
 		Print("= Setting the basic stat values")

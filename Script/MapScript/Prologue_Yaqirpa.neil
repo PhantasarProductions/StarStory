@@ -39,6 +39,7 @@
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
+#use "Script/MapScript/Yaqirpa_Warp"
 
 
 
@@ -46,6 +47,7 @@ group MScript
 	readonly delegate NPC_SAVE1 = MSave.ToSave
 	readonly delegate NPC_SAVE2 = MSave.ToSave
 	readonly delegate FTL = {"PLAYER","FCrystal","FBriggs"}
+	readonly var YW = Yaqirpa_Warp
 
 	void GoToStart()
 		Map.SpawnPlayer("Start")
@@ -130,10 +132,12 @@ group MScript
 		ZA.Enter("Entrance_Zone","Entrance_Zone")
 		ZA.Enter("EnterSave","Enter_Save")
 		ZA.Enter("SAVEZONE1","Enter_Save")
-		ZA.Enter("TutEnemy","TutEnemy")
+		ZA.Enter("TutEnemy","TutEnemy")		
+		Yaqirpa_Warp.StartUp()
 	end
 
 	CONSTRUCTOR
+		YW.Prologue = true
 		CSay("Welcome to the Yaqirpa! Let the quest begin!")
 		Map.AutoScroll = true
 		// No transporter pads in the prologue

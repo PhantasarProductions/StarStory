@@ -49,6 +49,7 @@ readonly var  topbox = new Box(0,0,Screen.W,49,false)
 readonly var  lftbox = new Box(0,50,Screen.W/2,Screen.H-151,false)
 readonly var  rgtbox = new Box(Screen.W/2,50,Screen.W/2,Screen.H-151,false)
 readonly table boxes = {topbox,lftbox,rgtbox,["LEFT"]=lftbox,["RIGHT"]=rgtbox}
+global var itmod
 
 
 init
@@ -63,6 +64,12 @@ end
 global void PartyClick(int i,string ch)
 	if i==1
 		if FMChar == ch
+			if itmod && itmod.citem!=""
+				CSayF("Returing item %s to socket #%d of character %s",itmod.citem,itmod.rsitem,itmod.rcitem)
+				RPGChar[itmod.rcitem].Stat[sprintf("INVAMNT%d",itmod.rsitem)]++
+				RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
+				itmod.citem=""
+			end
 			Flow.Current="FLOW_FIELD"
 		else
 			FMChar = ch
@@ -103,6 +110,9 @@ global void Apollo_Flow()
 			for kant in each(kanten)
 				ico[kant].MOD = ico[kant].MOD || NeilUse("Script/Flow/FieldMenu/".. ico[kant].ID )
 				ico[kant].MOD.Flow(boxes[kant],FMChar)
+				if ico[kant].ID=="ITEMS"
+					itmod = itmod || ico[kant].MOD
+				end
 			end
 		end
 	end
@@ -113,4 +123,8 @@ global void Apollo_Flow()
 	
 	// Mouse
 	Mouse.Draw(mx,my)
+	if itmod && itmod.citem!=""
+		plua i = Item["ITM_"..itmod.citem]
+		i.Icon.Draw(mx+30,my+30)
+	end
 end

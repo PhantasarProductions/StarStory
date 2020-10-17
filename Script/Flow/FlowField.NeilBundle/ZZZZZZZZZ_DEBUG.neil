@@ -83,6 +83,15 @@ end
 
 global void CONSOLE_MyPos()
 	CSayF("Player coordinates (%4d,%4d) - Wind: %s",GrPlayer.X,GrPlayer.Y,GrPlayer.Wind)
+	CSayF("Player grid coordinates (%4d,%4d)",GrPlayer.X div 32,GrPlayer.Y div 32)
+end
+
+global void CONSOLE_MoveTo(para)
+	if para==nil or #para<1
+		CSay("Invalid number of parameters")
+	else
+		GrPlayer.MoveTo(lua.tonumber(para[1]) || 0,lua.tonumber(para[2]) || 0)
+	end
 end
 
 global void CONSOLE_Save(para)

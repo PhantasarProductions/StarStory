@@ -91,6 +91,7 @@ global bool S_GiveItem(string it,string char)
 	until ok
 	S[stag]++
 	D[dtag]=it
+	CSayF("Item %s assigned to [%s/%s] - Amount is now: %2d",it,stag,dtag,S[stag])
 	return ok
 end
 

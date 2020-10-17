@@ -121,11 +121,11 @@ class Clickable
 	end
 	
 	static var Spot(var L,string tag)
+			var o = L.Obj(tag)
 		if L.HasTag(tag.."_SPOT")
 			var o = Map.CurLayer.Obj(tag.."_SPOT")
 			return {o.x,o.y}
 		else
-			var o = L.Obj(tag)
 			return {o.x,o.y+32}
 		end
 	end
@@ -289,6 +289,7 @@ group FldMap
 		end
 		LoadMapText()
 		Clickable.Automate()
+		Kthura.AutoReMap(true)
 	end
 		
 	void ReMap()
@@ -361,7 +362,7 @@ group FldMap
 	void WalkClick(int mx,int my)
 		int x = mx + ScrollX
 		int y = my + ScrollY
-		CSayF("Request to walk to (%4d,%4d)",x,y)
+		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
 		if !CurLayer.HasTag("PLAYER")
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
