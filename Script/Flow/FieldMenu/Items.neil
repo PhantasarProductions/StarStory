@@ -128,6 +128,10 @@ module
 		end
 		if situation:upper()=="FIELD" || situation:upper()=="VAULT"
 			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
+			if ml && Mx>ubox.w-Trash.Width && my<ubox.h && my>ubox.h-Trash.Height && cItem!=""
+				CSayF("Trashing: %s",cItem)
+				cItem=""
+			end
 		end
 	end
 end
