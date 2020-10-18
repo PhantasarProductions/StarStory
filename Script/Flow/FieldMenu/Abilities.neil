@@ -35,6 +35,11 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+group Crystal_ARMS
+	void Flow(uBox,string CharTag,string situation)
+	end
+end
+
 
 module 
 	void Flow(uBox,string CharTag,string situation)
@@ -42,4 +47,9 @@ module
 			return
 		end
 	end
+	if CharTag=="Crystal"
+		Crystal_ARMS.Flow(ubox,CharTag,situation)
+		return
+	end
+	
 end
