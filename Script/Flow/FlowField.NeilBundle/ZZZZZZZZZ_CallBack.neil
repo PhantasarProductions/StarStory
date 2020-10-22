@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 20.10.17
+// Version: 20.10.22
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -91,7 +91,8 @@ global void Apollo_Flow()
 		// Anything except for screen drawing should be done here.
 		GrSchedule.DoScheduled()
 		// Click to move char
-	end		
+	end
+	FieldMonster.CheckAll()		
 	FullDrawScreen()
 	Graphics.Color(255,255,255)
 	ZoneAction.CheckAll()
@@ -99,7 +100,7 @@ global void Apollo_Flow()
 		if my<Screen.H-128
 			FldMap.WalkClick(mx,my)
 		end
-	end
+	end	
 	FldMap.Walking()
 	Mouse.Draw(mx,my)
 	//MapScript.Update()
