@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 20.10.17
+// Version: 20.10.20
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -40,16 +40,92 @@ group Crystal_ARMS
 	end
 end
 
+table ablmods
 
-module 
+
+table ABL_PowerUpColors
+
+init 
+	DefTable ABL_PowerUpColors 
+		INSTANT  = {255,255,  0}
+		CANCEL   = {255,180,  0}
+		DBLSPEED = {  0,180,255}
+		DBLPOWER = {255,  0,  0}
+		APCUT    = {180,255,  0} 
+	end
+end
+
+
+                    
+
+module
+	
+	readonly var sfont = ImageFont.Obtain("SYSFONT")
+	readonly var afont = ImageFont.Obtain("BOXTEXT")
+	readonly table mods
+	readonly table PUI
+	
 	void Flow(uBox,string CharTag,string situation)
 		if CharTag=="UniCrystal" || CharTag=="Briggs"
 			return
 		end
+		if CharTag=="Crystal"
+			Crystal_ARMS.Flow(ubox,CharTag,situation)
+			return
+		end
+		int y = ubox.y + 20
+		int x = ubox.x + 40
+		//for list abl
+		//end
+		for atag in RPGChar[CharTag].List.ABL.Each
+			string CT = CharTag
+			if CT=="UniWendicka"
+				CT="Wendicka"
+			end
+			var abl = Item["ABL_"..atag]
+			__skyblue
+			afont.Text(abl.Name,x,y)
+			int APCost = abl.ABL_AP
+			__ember
+			if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT") 
+				APCost = math.ceil(APCost/2) 
+			end
+			if APCost > RPGChar[CharTag].Points["AP"].Have 
+				__red
+			end
+			afont.Text(lua.tostring(APCost),ubox.x+ubox.w-10,y,1)
+			Graphics.Scale(0.75,0.75)
+			int pux = (ubox.w div 2)+ubox.x
+			for pu,puc in spairs(ABL_PowerUpColors)
+				if abl["ABL_"..pu]>0
+					Graphics.Color(puc[1],puc[2],puc[3])
+					PUI.Socket = PUI.Socket || Image.Load("GFX/STATUSBAR/ABILITYPOWERUP/Socket.png")
+					PUI[pu] = PUI[pu] || Image.Load("GFX/STATUSBAR/ABILITYPOWERUP/"..pu..".png")
+					PUI.Socket.Draw(pux,y)
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pux)
+						PUI[pu].Draw(pux,y)
+					end
+				end
+				pux += 25
+			end
+			Graphics.Scale(1,1)
+			y += 35
+		end
+		__white
+		sfont.Text(mods[CharTag].ShowNeed(CharTag),x,y)
 	end
-	if CharTag=="Crystal"
-		Crystal_ARMS.Flow(ubox,CharTag,situation)
-		return
+	
+	CONSTRUCTOR
+		table modsmeta
+		modsmeta.__index = table(s,string k)
+			k = k:upper()
+			if k=="UNIWENDICKA"
+				k = "WENDICKA"
+			end
+			ablmods[k] = ablmods[k] or NeilUse("Script/Data/Char/Abilities/"..k)
+			return ablmods[k]
+		end
+		setmetatable(mods,modsmeta)
 	end
 	
 end
