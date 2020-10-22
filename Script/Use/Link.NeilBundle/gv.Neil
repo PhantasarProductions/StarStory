@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/gv.Neil
-// Version: 20.10.01
+// Version: 20.10.20
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -121,6 +121,26 @@ init
 	// ???
 	print ( "GV loaded in: " , ApolloState.Name )
 end
+
+
+
+quickmeta ablused
+	index
+		string k = key:upper()
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		return gvInt["ABLUSED_"..k]
+	end
+	newindex
+		string k = key:upper()
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		gvInt["ABLUSED_"..k] = value
+	end
+end
+
 
 module
 	readonly table vBool = gvbool
