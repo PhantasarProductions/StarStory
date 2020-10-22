@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.10.17
+// Version: 20.10.22
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.10.17"
+#MKL_Version "Star Story - FieldMap.neil" "20.10.22"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -203,6 +203,7 @@ group FldMap
 	string LoadedMap
 	delegate ArriveFunc = nil
 	string ArriveParam = ""
+	delegate ScanFoes = nil
 	
 	// This property is only meant for the auto clickable generator
 	// Generating random items
@@ -226,6 +227,45 @@ group FldMap
 			end
 		end
 		return ret
+	end
+	
+	get table Foes
+		table ret
+		//for i = 1 , math.min(gv.vint.Cycle,5)
+			string l = KthuraMap.Meta.Foes
+			table ketting = Split(l,";")
+			for it in each (ketting)
+				table thisitem = Split(it,",")
+				switch #thisitem
+					case 1
+						ret += thisitem[1]
+					case 2
+						for j=1,(lua.tonumber(thisitem[2]) or 1)
+							ret += thisitem[1]
+						end
+					default
+						lua.error("Foe chain syntax error")
+				end
+			end
+		//end
+		return ret
+	end
+	
+	
+	get int minLevel
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,gv.vint.Cycle))
+		string rng = KthuraMap.Meta[rngt]
+		table trng = Split(rng,"-")
+		int ret = math.max(1,lua.tonumber(trng[1]) or 1)
+		// print("Minlevel: "..ret)
+		return ret
+	end
+
+	get int maxLevel
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,gv.vint.Cycle))
+		string rng = KthuraMap.Meta[rngt]
+		table trng = Split(rng,"-")
+		return math.min(20000,lua.tonumber(trng[2]) or minlevel)
 	end
 
 	
@@ -289,6 +329,7 @@ group FldMap
 		end
 		LoadMapText()
 		Clickable.Automate()
+		ScanFoes()
 		Kthura.AutoReMap(true)
 	end
 		
