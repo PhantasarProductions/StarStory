@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadField.neil
-// Version: 20.10.17
+// Version: 20.10.20
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -45,4 +45,5 @@
 init
 	ClBeam.DS = FullDrawScreen
 	ClBeam.MP = FldMap
+	FldMap.ScanFoes = FieldMonster.ScanFoes
 end
