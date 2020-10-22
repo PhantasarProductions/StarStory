@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 20.10.17
+// Version: 20.10.20
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -53,6 +53,8 @@ void MkTrueItem(string it)
 				var ret = Image.LoadNew(f,"ITEM__"..it)
 				ret.HotBottomCenter()
 				return ret
+			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER"
+				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
 					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
