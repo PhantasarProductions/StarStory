@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 20.10.17
+// Version: 20.10.20
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -69,6 +69,7 @@ end
 init
 	FPS.MinTicks=25;
 	Print("Wendicka Lovejoy says 'Hello'")
+	Print("Apollo is running in "..Core.Platform)
 	
 	Events.HideMouse();
 
@@ -87,6 +88,8 @@ init
 	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
 	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
 	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
+	//LAsset.C("GFX/Field/Encounter.png","FLDFOE",wh_image)
+	//LAsset.C("GFX/Field/Boss.png","FLDBOSS",wh_image)
 	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water"}
 		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
 	end
