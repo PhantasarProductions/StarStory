@@ -34,6 +34,7 @@
 // 
 // version: 20.09.27
 // End License Information
+
 global void Loading()
 	static var GPH = Image.Obtain("LOADING")
 	GPH.HotCenter()
@@ -42,3 +43,5 @@ global void Loading()
 	GPH.Draw(Screen.W/2,Screen.H/2)
 	Graphics.Flip()
 end
+
+// Everything cool now?
