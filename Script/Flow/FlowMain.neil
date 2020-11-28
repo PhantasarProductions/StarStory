@@ -61,6 +61,8 @@ var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
 var Mouse = Image.Obtain("MOUSE")
 var MenuFont = ImageFont.Obtain("BOXTEXT")
 
+
+
 class MenuItem
 	readonly string Caption
 	readonly delegate Action
