@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 20.10.22
+// Version: 20.12.24
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,6 +70,7 @@ class FieldMonster
 	
 	bool Returning = false
 	bool chasing = false
+	int mv = 1
 	get int Level
 		int tot
 		if #Recs==0
@@ -98,6 +99,39 @@ class FieldMonster
 		return Actor.Visible
 	end
 	
+	void CheckToChase()
+	end
+	
+	void DoMove()
+		if returning
+		elseif chasing
+		else
+			switch move
+				case "VT"
+					Actor.Y += mv
+					if Map.CurLayer.Blocked(Actor.X,Actor.Y+32)
+						mv=-1
+					elseif Map.CurLayer.Blocked(Actor.X,Actor.Y-32)
+						mv=1
+					end
+					CheckToChase()
+				case "HZ"
+					Actor.X += mv
+					if Map.CurLayer.Blocked(Actor.X+32,Actor.Y)
+						mv=-1
+					elseif Map.CurLayer.Blocked(Actor.X-32,Actor.Y)
+						mv=1
+					end
+				case "SS" 
+					CheckToChase()
+				case "AS"
+					// Do nothing, but at least this prevents an error
+				default
+					error("Unknown enemy movement code: "..move)
+			end			
+		end
+	end
+	
 	void Check()
 		// Return immediately on invisibility
 		if !Visible
@@ -111,6 +145,7 @@ class FieldMonster
 		int radius
 		int chaseradius		
 		int diflevel = Map.maxlevel - Map.MinLevel
+		DoMove()
 		
 		if diflevel<-10 
 			Actor.R = 0
