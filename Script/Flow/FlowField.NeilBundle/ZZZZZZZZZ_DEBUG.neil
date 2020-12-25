@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 20.10.17
+// Version: 20.12.25
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -122,4 +122,18 @@ global void CONSOLE_Clickables()
 		CSayF("= Area - %s",FldMap.KthuraMap.Layer(CLK.ltag).Obj(Clk.otag).PixArea)
 	end
 	CSayF("Number of clickables: %d",Clickable.List.Count)
+end
+
+global void CONSOLE_Foes()
+	for f in FieldMonster.Lijst[FldMap.Layer].Each
+		CSay("Monster")
+		CSayF("= Actor Tag: %s",f.Actor.Tag)
+		CSayF("= Coords (%d,%d)",f.Actor.X,f.Actor.Y)
+		CSayF("= mv value: %d",f.mv)
+		CSayF("= Move: %s",f.move)
+		CSayF("= Visible: %s",tostring(f.Visible))
+		CSayF("= Initial level: %d/%d",f.InitialSkill,__skill)
+		CSayF("= In Range: Activate %s; Return %s",tostring(f.InRange),tostring(f.InChaseRange))
+		CSayF("= Chasing %s; Returning %s",tostring(f.chasing),tostring(f.returning))
+	end
 end
