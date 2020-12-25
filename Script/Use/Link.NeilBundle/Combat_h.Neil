@@ -1,0 +1,79 @@
+// License Information:
+// src/Tricky Script/Script/Use/Link.NeilBundle/Combat_h.Neil
+// Version: 20.12.25
+// Copyright (C) 2020 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+group StartCombat
+
+	void MCall(string func,a,b,c,d,e,f,g,h)
+		string pr
+		for i,p in ipairs {a,b,c,d,e,f,g,h}
+			if i>1 
+				pr += ", "
+			end
+			switch lua.type(p)
+				case "string"
+					pr += "\""..p.."\""
+				case "number" "boolean"
+					pr += tostring(p)
+				default
+					lua.error("Illegal MCall type "..lua.type(p))
+			end
+		end
+		State.Call("FLOW_COMBAT",func,pr)
+	end
+	
+
+	void Prepare()
+		LoadFlow("COMBAT","Script/Load/LoadCombat.neil")
+	end
+	
+	void Begin()
+		Lua.error("Sorry, no support to start combat yet! Come back later!")
+	end
+
+	void Foe(a,b,c)
+		// This is YUCK! YUCK! YUCK! 
+		// But due to the Lua underground supporting overload functions is hard to downright impossible
+		// And this this is only a linkup function, this can serve as the overload... well, sort off.
+		switch lua.type(a)
+			case "string"
+				MCall("Combat_Start.AddFoe",a,b)
+			case "number"
+				MCall("Combat_Start.SetFoe",a,b,c)
+			default
+				Lua.error(sprintf("Invalid use of StartCombat.Foe. Expected either int,string,int or string,int, but I got %s,%s,%s",type(a),type(b),type(c)))
+		end
+	end
+end
