@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 20.10.14
+// Version: 20.12.25
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -225,6 +225,20 @@ group Link_Map
 		Lua.setmetatable(MapScript,m)
 	end
 	
+end
+
+quickmeta Player
+	index
+		switch key:upper()
+			case "WIND"
+				return Link_Map.ObjStr("PLAYER","Wind")
+			default
+				return Link_Map.ObjInt("PLAYER",key)
+		end
+	end
+	newindex
+		Link_Map.ObjSet("PLAYER",key,value)
+	end
 end
 
 init
