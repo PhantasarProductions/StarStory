@@ -79,8 +79,15 @@ init
 	SaveIconsF += "GFX/Portret/Sue/General.png"
 	SaveIconsF += "GFX/Portret/Kota/General.png"
 	SaveIconsF += "GFX/Portret/Goddess/General.png"
+	var s
+	s = SaveGame.LoadIndieString("Star Story - Scroll")
+	CSayF("Getting scroll: %s",lua.tostring(s))
+	scroll = lua.tonumber(s or "0") or 0
 end
 
+void SaveScroll()
+	SaveGame.SaveIndieString("Star Story - Scroll",tostring(scroll))
+end
 
 
 table GetSlot(int i)
@@ -134,6 +141,7 @@ global void Apollo_Flow()
 		if mx>100 and my>=y and my<=y+sloth and mx<Screen.W-100
 			Graphics.Color(0,200,255)
 			if Events.MouseHitLeft()
+				SaveScroll()
 				switch Action
 					case "Save"
 						PerformSaveGame(GetSGFileName(i))
