@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 20.12.24
+// Version: 20.12.25
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -63,6 +63,12 @@ class FieldMonster
 	readonly string nLayer
 	readonly bool Boss
 	readonly bool Killed
+	// Initial Skill is only needed for debugging
+	readonly int InitialSkill
+	
+	int radius
+	int chaseradius		
+	
 	
 	get var Layer
 		return Map.KthuraMap.Layer(nlayer)
@@ -71,6 +77,25 @@ class FieldMonster
 	bool Returning = false
 	bool chasing = false
 	int mv = 1
+	
+	bool FInrange(int r)
+		int dx = math.abs(Actor.X-Player.X)
+		int dy = math.abs(Actor.Y-Player.Y)
+		return dx<=r and dy<=r and (math.sqrt( (dx*dx) + (dy*dy) ) <= r)
+	end
+	
+	get bool InChaseRange
+		int dx = math.abs(Actor.X-retX)
+		int dy = math.abs(Actor.Y-retY)
+		// When either the player OR the return point is too far away, return to return point
+		return FInRange(chaseradius) and dx<=chaseradius and dy<=chaseradius and (math.sqrt( (dx*dx) + (dy*dy) ) <= chaseradius)
+	end
+	
+	get bool InRange
+		// When player is too close... chase them
+		return FInRange(radius)
+	end
+
 	get int Level
 		int tot
 		if #Recs==0
@@ -100,11 +125,31 @@ class FieldMonster
 	end
 	
 	void CheckToChase()
+		if InRange
+			chasing = true
+		end
 	end
 	
 	void DoMove()
+		if !Visible
+			return
+		end
 		if returning
+			if math.abs(Actor.X-retX)<40 and math.abs(Actor.Y-rety)<40 
+				returning=false
+				chasing=false
+			end
 		elseif chasing
+			if (InChaseRange)
+				//Actor.WalkTo(Player.X,Player.Y)
+				if !Actor.Walking
+					Actor.WalkTo("PLAYER")
+				end
+			else
+				returning = true
+				chasing = false
+				Actor.WalkTo(retX,retY)
+			end
 		else
 			switch move
 				case "VT"
@@ -122,6 +167,7 @@ class FieldMonster
 					elseif Map.CurLayer.Blocked(Actor.X-32,Actor.Y)
 						mv=1
 					end
+					CheckToChase()
 				case "SS" 
 					CheckToChase()
 				case "AS"
@@ -142,8 +188,6 @@ class FieldMonster
 			return
 		end
 		// Color and range
-		int radius
-		int chaseradius		
 		int diflevel = Map.maxlevel - Map.MinLevel
 		DoMove()
 		
@@ -178,7 +222,8 @@ class FieldMonster
 		
 	end
 	
-	CONSTRUCTOR(string slayer,string spot,int minl,int maxl,table enemies,string mov)
+	
+	CONSTRUCTOR(string slayer,string spot,int minl,int maxl,table enemies,string mov,int IniLevel)
 		//LAsset.C("GFX/Field/Encounter.png","FLDFOE",wh_image)
 		//LAsset.C("GFX/Field/Boss.png","FLDBOSS",wh_image)
 		nlayer = slayer
@@ -207,6 +252,7 @@ class FieldMonster
 			Actor.Texture = "GFX/Field/Encounter.png"
 			move = mov
 		end
+		InitialSkill = IniLevel
 	end
 	
 	static void ScanFoes()
@@ -229,7 +275,7 @@ class FieldMonster
 				bool allow = prefixed(Kind,"$Enemy")
 				if Kind!="$EnemyBoss"
 					Mov = Left(Right(Kind,3),2) // Not the best method, but I went for results, not to win the beauty contest!
-				end
+				end				
 				allow = allow && (Lua.tonumber(Right(Kind,1)) || 0) <=__skill
 				allow = allow && (Mov=="AS" || math.random(1,2)==1)
 				if allow
@@ -245,7 +291,7 @@ class FieldMonster
 					int mini = map.minlevel
 					int maxi = map.maxlevel
 					// CSayF("Enemy spot: Level range %d-%d",mini,maxi)
-					Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov))
+					Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1))))
 				end
 			end
 		end
