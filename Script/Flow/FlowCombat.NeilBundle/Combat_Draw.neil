@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Load/LoadCombat.neil
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
 // Version: 20.12.26
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,22 +34,39 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-#use "Script/Use/Anyway"
-#use "libs/LinkedList"
-#use "Script/Use/Misc/MiniMessage"
-
-#use "Script/Flow/FlowCombat"
-
-global void Apollo_Flow()
-	// Development cheat screen
-	Dev.ToConsole()
-	// Basic Draw Screen
-	Combat_Draw.DrawScreen()
-	// Call the correct stage
-	// (TODO)
-end
-
-
-init
-	Combat_Draw.Start = Combat_Start
+module
+	const var Mouse = Image.Obtain("MOUSE")
+	delegate Error = Lua.error
+	var Arena
+	var Start
+	
+	get var ArenaGet
+		if prefixed(Start.Arena,"SCRIPT:")
+			error("Scripted arena's not yet supported!")
+			return nil;
+		end
+		return Image.Load("GFX/Combat/Arena/"..Start.Arena,"ARENA")
+	end
+	
+	void DrawArena()
+		Arena = Arena || ArenaGet
+		Arena.Stretch(0,0,Screen.W,Screen.H-100)
+	end
+	
+	
+	void DrawScreen()
+		// Mouse coordinates
+		int mx = events.mousex()
+		int my = events.mousey()
+		// Arena
+		DrawArena()
+		// Time Gauge
+		// Combatnants
+		// Target info
+		// Party Status Bar
+		Party.Boxes()
+		// Mouse
+		Mouse.Draw(mx,my)
+	end
+	
 end
