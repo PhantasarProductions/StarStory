@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Combat_h.Neil
-// Version: 20.12.25
+// Version: 20.12.26
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,11 +56,15 @@ group StartCombat
 	
 
 	void Prepare()
-		LoadFlow("COMBAT","Script/Load/LoadCombat.neil")
+		// Todo: Graphic effect start combat (prior to loading makes the effect better)
+			
+		State.LoadFlow("COMBAT","Script/Load/LoadCombat.neil")
 	end
 	
 	void Begin()
-		Lua.error("Sorry, no support to start combat yet! Come back later!")
+		Flow.GotoFlow("COMBAT")
+		MCall("Combat_Start.Begin","?")
+		//Lua.error("Sorry, no support to start combat yet! Come back later!")
 	end
 
 	void Foe(a,b,c)
@@ -75,5 +79,32 @@ group StartCombat
 			default
 				Lua.error(sprintf("Invalid use of StartCombat.Foe. Expected either int,string,int or string,int, but I got %s,%s,%s",type(a),type(b),type(c)))
 		end
+	end
+	
+	set bool Boss
+		MCall("Combat_Start.SetValue","Boss",value)
+	end
+	set string Arena
+		MCall("Combat_Start.SetValue","Arena",value)
+	end
+	set string Tune
+		MCall("Combat_Start.SetValue","Tune",value)
+	end
+	
+	get string RandomTune
+		static table tunes = JCR6.GetDir("Music/Combat/Random")
+		if #tunes==0
+			Print("Random tune requested, but none available!")
+			return 0
+		end
+		return tunes[math.random(1,#tunes)]
+	end
+get string RandomBossTune
+		static table tunes = JCR6.GetDir("Music/Combat/Boss")
+		if #tunes==0
+			Print("Random tune requested, but none available!")
+			return 0
+		end
+		return tunes[math.random(1,#tunes)]
 	end
 end

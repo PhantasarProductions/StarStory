@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 20.12.25
+// Version: 20.12.26
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,13 +61,14 @@ class FieldMonster
 	readonly string ActorTag
 	readonly string move
 	readonly string nLayer
-	readonly bool Boss
-	readonly bool Killed
+	readonly bool Boss = false
+	bool Killed
 	// Initial Skill is only needed for debugging
 	readonly int InitialSkill
 	
 	int radius
-	int chaseradius		
+	int chaseradius
+	static bool Engaged = false
 	
 	
 	get var Layer
@@ -130,8 +131,37 @@ class FieldMonster
 		end
 	end
 	
+	get bool EngageRange
+		return FInrange(16)
+	end
+	
+	void Engage()
+		StartCombat.Prepare()
+		CSayF("Engage with %d Enem(y)(ies)",#Recs)
+		for foe in each(Recs)
+			CSayF("Adding %s level %d",foe.foe,foe.level)
+			StartCombat.Foe(foe.Foe,foe.level)
+		end
+		StartCombat.Boss = Boss
+		StartCombat.Arena = Map.KthuraMap.Meta.Arena
+		if Map.KthuraMap.Meta.AltEncounterTune!=""
+			StartCombat.Tune = Map.KthuraMap.MetaFields.AltEncounterTune
+		elseif Boss
+			StartCombat.Tune = StartCombat.RandomBossTune
+		else
+			StartCombat.Tune = StartCombat.RandomTune
+		end
+		StartCombat.Begin()
+		Engaged = true
+		Killed = true
+	end
+	
 	void DoMove()
 		if !Visible
+			return
+		end
+		if EngageRange
+			Engage()
 			return
 		end
 		if returning
@@ -236,9 +266,12 @@ class FieldMonster
 		//	n = math.random(1,9)
 		//until n<__skill*2 || math.random(1,__skill*3)>2
 		Lua.assert(#enemies>0,"No enemies!")
+		Recs={}
+		CSayF("Adding enemies: %d",#enemies)
 		for foe in each(enemies)
 			Recs += new MonRec(foe,math.random(map.minlevel,map.maxlevel))
 		end
+		CSayF("Added enemies: %d",#Recs)
 		crcnt++
 		ActorTag = sprintf("FOE_ACTOR_%09X",crcnt)
 		Layer.Spawn(ActorTag,spotname)
@@ -283,11 +316,14 @@ class FieldMonster
 					int n = 1
 					repeat
 						n = math.random(1,9)
-					until n<__skill*2 || (math.random(1,__skill*3)>2 && math.random(1,9)<=__skill^2)
+					until n<__skill*2 || (math.random(1,__skill*3)>2 && math.random(1,n)<=__skill^2)
 					Lua.assert(#RF>0,"No enemies set for map!") // Safety precaution, as this should never be possible
+					LF = {}
+					CSayF("MOB Actor should contain %d foes(s)",n)
 					for i=1,n
 						LF += RF[math.random(1,#RF)]
 					end
+					CSayF("MOB Actor does contain %d foe(s)",#LF)
 					int mini = map.minlevel
 					int maxi = map.maxlevel
 					// CSayF("Enemy spot: Level range %d-%d",mini,maxi)
@@ -300,7 +336,9 @@ class FieldMonster
 	static void CheckAll()
 		Lua.assert(Lijst[Map.Layer],"No foe list set for layer: "..Map.Layer)
 		for foe,lnk in Lijst[Map.Layer].Each
-			if foe.Killed
+			if Engaged
+				break
+			elseif foe.Killed
 				lnk.Unlick()
 			elseif foe.Visible
 				foe.Check()
