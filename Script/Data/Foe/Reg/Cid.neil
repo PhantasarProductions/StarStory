@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,66 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 48 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_EXPDRAIN"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 800 
+		for ak=1,8 
+			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 50 
+		for ak=1,10 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 80 
+		for ak=1,5 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 70 
+		for ak=1,10 
+			Data.Acts+="ABL_WENDICKA_SHOCK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 10 
+		for ak=1,40 
+			Data.Acts+="ABL_XENOBI_BLIZZARD"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_BREEZE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_FROST"] = 10 
+		for ak=1,30 
+			Data.Acts+="ABL_XENOBI_FROST"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HEAL"] = 20 
+		for ak=1,35 
+			Data.Acts+="ABL_XENOBI_HEAL"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 5 
+		for ak=1,40 
+			Data.Acts+="ABL_XENOBI_HURRICANE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 60 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_MINDTRICK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 75 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_QUAKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 5 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_QUICKSTRIKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_RECOVER"] = 4 
+		for ak=1,38 
+			Data.Acts+="ABL_XENOBI_RECOVER"
+		end
+		Data.ActMinLevel["ABL_XENOBI_VITALIZE"] = 4 
+		for ak=1,47 
+			Data.Acts+="ABL_XENOBI_VITALIZE"
+		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=35
@@ -140,6 +206,22 @@ module
 		for ak=1,500 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ZZZ_CID_DARKCHARGE"] = 50 
+		for ak=1,50 
+			Data.Acts+="ZZZ_CID_DARKCHARGE"
+		end
+		Data.ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CID_DARKNESS"
+		end
+		Data.ActMinLevel["ZZZ_CID_DARKSOULBREAKER"] = 9500 
+		for ak=1,2 
+			Data.Acts+="ZZZ_CID_DARKSOULBREAKER"
+		end
+		Data.ActMinLevel["ZZZ_CID_ULTRADARKNESS"] = 30 
+		for ak=1,35 
+			Data.Acts+="ZZZ_CID_ULTRADARKNESS"
+		end
 
 	end
 end

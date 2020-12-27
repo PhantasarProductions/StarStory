@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,54 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 120 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 200 
+		for ak=1,10 
+			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 100 
+		for ak=1,45 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 150 
+		for ak=1,30 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
+		for ak=1,50 
+			Data.Acts+="ABL_WENDICKA_SHOCK"
+		end
+		Data.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
+		end
+		Data.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 1 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CYBERSUMMON_CAPT"
+		end
+		Data.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 1 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CYBERSUMMON_GUNNER"
+		end
+		Data.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 1 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CYBERSUMMON_JI"
+		end
+		Data.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 1 
+		for ak=1,1 
+			Data.Acts+="ZZZ_CYBERSUMMON_MEDIC"
+		end
+		Data.ActMinLevel["ZZZZ_GODDESS_ELECTRICHEALING"] = 60 
+		for ak=1,10 
+			Data.Acts+="ZZZZ_GODDESS_ELECTRICHEALING"
+		end
+		Data.ActMinLevel["ZZZZ_GODDESS_VOID"] = 10 
+		for ak=1,25 
+			Data.Acts+="ZZZZ_GODDESS_VOID"
+		end
 
 	end
 end

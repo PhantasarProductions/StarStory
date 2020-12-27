@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -106,6 +112,94 @@ module
 		for ak=1,25 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["MOO_AGLDOWN"] = 0 
+		for ak=1,1 
+			Data.Acts+="MOO_AGLDOWN"
+		end
+		Data.ActMinLevel["MOO_ALLDOWN"] = 50 
+		for ak=1,1 
+			Data.Acts+="MOO_ALLDOWN"
+		end
+		Data.ActMinLevel["MOO_APDOWN"] = 5 
+		for ak=1,1 
+			Data.Acts+="MOO_APDOWN"
+		end
+		Data.ActMinLevel["MOO_DEFDOWN"] = 10 
+		for ak=1,1 
+			Data.Acts+="MOO_DEFDOWN"
+		end
+		Data.ActMinLevel["MOO_EVADOWN"] = 15 
+		for ak=1,1 
+			Data.Acts+="MOO_EVADOWN"
+		end
+		Data.ActMinLevel["MOO_KUN_JE_NIET_BETER_MIKKEN"] = 20 
+		for ak=1,1 
+			Data.Acts+="MOO_KUN_JE_NIET_BETER_MIKKEN"
+		end
+		Data.ActMinLevel["MOO_MAXAPDOWN"] = 25 
+		for ak=1,1 
+			Data.Acts+="MOO_MAXAPDOWN"
+		end
+		Data.ActMinLevel["MOO_MAXHPDOWN"] = 30 
+		for ak=1,1 
+			Data.Acts+="MOO_MAXHPDOWN"
+		end
+		Data.ActMinLevel["MOO_POWERDOWN"] = 35 
+		for ak=1,1 
+			Data.Acts+="MOO_POWERDOWN"
+		end
+		Data.ActMinLevel["MOO_RESDOWN"] = 40 
+		for ak=1,1 
+			Data.Acts+="MOO_RESDOWN"
+		end
+		Data.ActMinLevel["MOO_WILLDOWN"] = 45 
+		for ak=1,1 
+			Data.Acts+="MOO_WILLDOWN"
+		end
+		Data.ActMinLevel["MOO_Z1_DAT_WAS_IK_VERGETEN"] = 50 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_DAT_WAS_IK_VERGETEN"
+		end
+		Data.ActMinLevel["MOO_Z1_GIF"] = 55 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_GIF"
+		end
+		Data.ActMinLevel["MOO_Z1_IN_DE_WAR"] = 60 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_IN_DE_WAR"
+		end
+		Data.ActMinLevel["MOO_Z1_KAN_IK_NIET"] = 65 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_KAN_IK_NIET"
+		end
+		Data.ActMinLevel["MOO_Z1_MOEDEEERRRRRRRRRR_WAT_BEN_IK_BANG"] = 70 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_MOEDEEERRRRRRRRRR_WAT_BEN_IK_BANG"
+		end
+		Data.ActMinLevel["MOO_Z1_SLAAP_KINDJE_SLAAP"] = 75 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_SLAAP_KINDJE_SLAAP"
+		end
+		Data.ActMinLevel["MOO_Z1_SLOTOPDIETAS"] = 80 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_SLOTOPDIETAS"
+		end
+		Data.ActMinLevel["MOO_Z1_VERLAMD"] = 85 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_VERLAMD"
+		end
+		Data.ActMinLevel["MOO_Z1_ZIEK"] = 90 
+		for ak=1,1 
+			Data.Acts+="MOO_Z1_ZIEK"
+		end
+		Data.ActMinLevel["MOO_Z2_ALLE_STATUSSEN"] = 100 
+		for ak=1,1 
+			Data.Acts+="MOO_Z2_ALLE_STATUSSEN"
+		end
+		Data.ActMinLevel["MOO_Z2_STERF"] = 95 
+		for ak=1,1 
+			Data.Acts+="MOO_Z2_STERF"
+		end
 
 	end
 end

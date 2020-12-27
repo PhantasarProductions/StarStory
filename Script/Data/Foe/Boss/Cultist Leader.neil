@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,90 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_CULIST_CALL"] = 80 
+		for ak=1,2 
+			Data.Acts+="ABL_CULIST_CALL"
+		end
+		Data.ActMinLevel["ABL_CULTIST_CTHULU"] = 9000 
+		for ak=1,1 
+			Data.Acts+="ABL_CULTIST_CTHULU"
+		end
+		Data.ActMinLevel["ABL_CULTIST_PRAYCTHULU"] = 95 
+		for ak=1,2 
+			Data.Acts+="ABL_CULTIST_PRAYCTHULU"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
+		for ak=1,2 
+			Data.Acts+="ABL_EXHURU_KAKSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 3 
+		for ak=1,3 
+			Data.Acts+="ABL_EXHURU_KOLME"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 4 
+		for ak=1,4 
+			Data.Acts+="ABL_EXHURU_KUUSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 5 
+		for ak=1,5 
+			Data.Acts+="ABL_EXHURU_NELJA"
+		end
+		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 6 
+		for ak=1,6 
+			Data.Acts+="ABL_EXHURU_YKSI"
+		end
+		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 7 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_EXPDRAIN"
+		end
+		Data.ActMinLevel["ABL_FOE_FLAMETOUCH"] = 8 
+		for ak=1,8 
+			Data.Acts+="ABL_FOE_FLAMETOUCH"
+		end
+		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 9 
+		for ak=1,9 
+			Data.Acts+="ABL_FOE_FULLHEALTH"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 10 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_POISONCLOUD"] = 11 
+		for ak=1,2 
+			Data.Acts+="ABL_FOE_POISONCLOUD"
+		end
+		Data.ActMinLevel["ABL_FOE_TASER"] = 12 
+		for ak=1,3 
+			Data.Acts+="ABL_FOE_TASER"
+		end
+		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 13 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_ULTRASONIC"
+		end
+		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 14 
+		for ak=1,1 
+			Data.Acts+="ABL_FOXY_BACKSTAB"
+		end
+		Data.ActMinLevel["ABL_FOXY_MULTISTAB"] = 15 
+		for ak=1,1 
+			Data.Acts+="ABL_FOXY_MULTISTAB"
+		end
+		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 16 
+		for ak=1,1 
+			Data.Acts+="ABL_FOXY_STUNSTAB"
+		end
+		Data.ActMinLevel["ARM_DART"] = 70 
+		for ak=1,1 
+			Data.Acts+="ARM_DART"
+		end
+		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 80 
+		for ak=1,1 
+			Data.Acts+="ARM_HEALINGSPRAY"
+		end
+		Data.ActMinLevel["ITM_ADHBANDAGE"] = 60 
+		for ak=1,1 
+			Data.Acts+="ITM_ADHBANDAGE"
+		end
 		temp={}
 		temp.ITM="ITM_ADHBANDAGE"
 		temp.LVL=10
@@ -89,6 +179,10 @@ module
 		for ak=1,20 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_ANTIDOTE"] = 70 
+		for ak=1,1 
+			Data.Acts+="ITM_ANTIDOTE"
+		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=20
@@ -99,6 +193,10 @@ module
 		for ak=1,19 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_ASTRILOPUPHONEY"] = 80 
+		for ak=1,1 
+			Data.Acts+="ITM_ASTRILOPUPHONEY"
+		end
 		temp={}
 		temp.ITM="ITM_ASTRILOPUPHONEY"
 		temp.LVL=30
@@ -109,6 +207,10 @@ module
 		for ak=1,18 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_BANDAGE"] = 30 
+		for ak=1,1 
+			Data.Acts+="ITM_BANDAGE"
+		end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=40
@@ -119,6 +221,10 @@ module
 		for ak=1,17 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_BIOHAZARD"] = 20 
+		for ak=1,1 
+			Data.Acts+="ITM_BIOHAZARD"
+		end
 		temp={}
 		temp.ITM="ITM_BIOHAZARD"
 		temp.LVL=50
@@ -129,6 +235,10 @@ module
 		for ak=1,16 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_BLUBAFLOWER"] = 10 
+		for ak=1,1 
+			Data.Acts+="ITM_BLUBAFLOWER"
+		end
 		temp={}
 		temp.ITM="ITM_BLUBAFLOWER"
 		temp.LVL=60
@@ -139,6 +249,10 @@ module
 		for ak=1,15 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_CHLOROFORM"] = 90 
+		for ak=1,1 
+			Data.Acts+="ITM_CHLOROFORM"
+		end
 		temp={}
 		temp.ITM="ITM_CHLOROFORM"
 		temp.LVL=70
@@ -279,6 +393,10 @@ module
 		for ak=1,1 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_FIRSTAIDKIT"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_FIRSTAIDKIT"
+		end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=1040
@@ -289,6 +407,10 @@ module
 		for ak=1,1 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_GUBAFLOWER"] = 2 
+		for ak=1,1 
+			Data.Acts+="ITM_GUBAFLOWER"
+		end
 		temp={}
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=90
@@ -299,6 +421,10 @@ module
 		for ak=1,12 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_HEALINGCAPSULE"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_HEALINGCAPSULE"
+		end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=100
@@ -309,6 +435,10 @@ module
 		for ak=1,11 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_HEATHRUB"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_HEATHRUB"
+		end
 		temp={}
 		temp.ITM="ITM_HEATHRUB"
 		temp.LVL=110
@@ -319,6 +449,10 @@ module
 		for ak=1,10 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_HOMEO"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_HOMEO"
+		end
 		temp={}
 		temp.ITM="ITM_HOMEO"
 		temp.LVL=120
@@ -329,6 +463,10 @@ module
 		for ak=1,9 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_ICEBOMB"] = 5 
+		for ak=1,1 
+			Data.Acts+="ITM_ICEBOMB"
+		end
 		temp={}
 		temp.ITM="ITM_ICEBOMB"
 		temp.LVL=130
@@ -339,6 +477,10 @@ module
 		for ak=1,8 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_MEDICINE"] = 6 
+		for ak=1,1 
+			Data.Acts+="ITM_MEDICINE"
+		end
 		temp={}
 		temp.ITM="ITM_MEDICINE"
 		temp.LVL=140
@@ -349,6 +491,10 @@ module
 		for ak=1,7 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_MEDIKIT"] = 8 
+		for ak=1,1 
+			Data.Acts+="ITM_MEDIKIT"
+		end
 		temp={}
 		temp.ITM="ITM_MEDIKIT"
 		temp.LVL=150
@@ -359,6 +505,10 @@ module
 		for ak=1,6 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_MINDCLEARPILL"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_MINDCLEARPILL"
+		end
 		temp={}
 		temp.ITM="ITM_MINDCLEARPILL"
 		temp.LVL=160
@@ -369,6 +519,10 @@ module
 		for ak=1,5 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_MOLOTOV"] = 10 
+		for ak=1,1 
+			Data.Acts+="ITM_MOLOTOV"
+		end
 		temp={}
 		temp.ITM="ITM_MOLOTOV"
 		temp.LVL=170
@@ -419,6 +573,10 @@ module
 		for ak=1,1 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_ROCK"] = 10 
+		for ak=1,1 
+			Data.Acts+="ITM_ROCK"
+		end
 		temp={}
 		temp.ITM="ITM_ROCK"
 		temp.LVL=180
@@ -429,6 +587,10 @@ module
 		for ak=1,3 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_SPORES"] = 10 
+		for ak=1,1 
+			Data.Acts+="ITM_SPORES"
+		end
 		temp={}
 		temp.ITM="ITM_SPORES"
 		temp.LVL=190
@@ -439,6 +601,10 @@ module
 		for ak=1,2 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_STEROIDS"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_STEROIDS"
+		end
 		temp={}
 		temp.ITM="ITM_STEROIDS"
 		temp.LVL=200
@@ -449,6 +615,10 @@ module
 		for ak=1,1 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_THUNDER_DIAMOND"] = 10 
+		for ak=1,1 
+			Data.Acts+="ITM_THUNDER_DIAMOND"
+		end
 		temp={}
 		temp.ITM="ITM_THUNDER_DIAMOND"
 		temp.LVL=210

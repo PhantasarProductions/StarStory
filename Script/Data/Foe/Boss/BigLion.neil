@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,26 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 20 
+		for ak=1,80 
+			Data.Acts+="ABL_EXHURU_KAKSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 30 
+		for ak=1,70 
+			Data.Acts+="ABL_EXHURU_KOLME"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 50 
+		for ak=1,50 
+			Data.Acts+="ABL_EXHURU_KUUSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 40 
+		for ak=1,60 
+			Data.Acts+="ABL_EXHURU_NELJA"
+		end
+		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 60 
+		for ak=1,40 
+			Data.Acts+="ABL_FOE_SCRATCH"
+		end
 		temp={}
 		temp.ITM="ITM_ADHBANDAGE"
 		temp.LVL=1

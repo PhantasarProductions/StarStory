@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -34,6 +34,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -80,6 +86,66 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_EXHURU_KOLME"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_EXHURU_KUUSI"
+		end
+		Data.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 0 
+		for ak=1,2 
+			Data.Acts+="ABL_FOE_LICKYOURWOUNDS"
+		end
+		Data.ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_PARALYZEFLUID"
+		end
+		Data.ActMinLevel["ABL_FOE_POISONCLOUD"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_POISONCLOUD"
+		end
+		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_SCRATCH"
+		end
+		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_ULTRASONIC"
+		end
+		Data.ActMinLevel["ABL_FOE_VENOMBITE"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_VENOMBITE"
+		end
+		Data.ActMinLevel["ABL_FOE_VIRUSBITE"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_VIRUSBITE"
+		end
+		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_WATERBEAM"
+		end
+		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_FOXY_BACKSTAB"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 0 
+		for ak=1,1 
+			Data.Acts+="ABL_YIRL_INTIMIDATE"
+		end
+		Data.ActMinLevel["ITM_ICEBOMB"] = 0 
+		for ak=1,1 
+			Data.Acts+="ITM_ICEBOMB"
+		end
 
 	end
 end

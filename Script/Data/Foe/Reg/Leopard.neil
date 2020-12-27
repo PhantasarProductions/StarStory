@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,14 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 10 
+		for ak=1,70 
+			Data.Acts+="ABL_FOE_LICKYOURWOUNDS"
+		end
+		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
+		for ak=1,20 
+			Data.Acts+="ABL_FOE_SCRATCH"
+		end
 		temp={}
 		temp.ITM="ITM_ASTRILOPUPHONEY"
 		temp.LVL=70
@@ -149,6 +163,10 @@ module
 		for ak=1,50 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ZZZ_FOE_LEOPARD_UPGRADE"] = 80 
+		for ak=1,10 
+			Data.Acts+="ZZZ_FOE_LEOPARD_UPGRADE"
+		end
 
 	end
 end

@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,90 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_DAMNYOU"] = 10 
+		for ak=1,20 
+			Data.Acts+="ABL_FOE_DAMNYOU"
+		end
+		Data.ActMinLevel["ABL_FOE_DAMNYOUALL"] = 20 
+		for ak=1,10 
+			Data.Acts+="ABL_FOE_DAMNYOUALL"
+		end
+		Data.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 50 
+		for ak=1,30 
+			Data.Acts+="ABL_FOE_DARKHEAL_FOE"
+		end
+		Data.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 5 
+		for ak=1,40 
+			Data.Acts+="ABL_FOE_DARKHEAL_HERO"
+		end
+		Data.ActMinLevel["ABL_FOE_DEATH"] = 10 
+		for ak=1,50 
+			Data.Acts+="ABL_FOE_DEATH"
+		end
+		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 2 
+		for ak=1,60 
+			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+		end
+		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 1 
+		for ak=1,70 
+			Data.Acts+="ABL_FOE_EXPDRAIN"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 5 
+		for ak=1,80 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 10 
+		for ak=1,90 
+			Data.Acts+="ABL_FOE_LIGHTNINGENCHANT"
+		end
+		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 5 
+		for ak=1,78 
+			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
+		for ak=1,100 
+			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 8 
+		for ak=1,75 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 2 
+		for ak=1,90 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 10 
+		for ak=1,60 
+			Data.Acts+="ABL_WENDICKA_SHOCK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 6 
+		for ak=1,75 
+			Data.Acts+="ABL_XENOBI_BLIZZARD"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
+		for ak=1,65 
+			Data.Acts+="ABL_XENOBI_BREEZE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_FROST"] = 10 
+		for ak=1,65 
+			Data.Acts+="ABL_XENOBI_FROST"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 10 
+		for ak=1,80 
+			Data.Acts+="ABL_XENOBI_HURRICANE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 10 
+		for ak=1,80 
+			Data.Acts+="ABL_XENOBI_QUAKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_ROCK"] = 10 
+		for ak=1,60 
+			Data.Acts+="ABL_XENOBI_ROCK"
+		end
+		Data.ActMinLevel["ABL_YIRL_CONFUSION"] = 10 
+		for ak=1,65 
+			Data.Acts+="ABL_YIRL_CONFUSION"
+		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=5000

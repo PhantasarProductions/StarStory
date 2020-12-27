@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,22 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 100 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 80 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 60 
+		for ak=1,25 
+			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+		end
+		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 75 
+		for ak=1,5 
+			Data.Acts+="ABL_FOXY_BACKSTAB"
+		end
 		temp={}
 		temp.ITM="ITM_EQP_AQUAMARINE"
 		temp.LVL=70
@@ -216,6 +238,10 @@ module
 		for ak=1,1 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 400 
+		for ak=1,4 
+			Data.Acts+="SUPER_THRILLING_DAMNNATION"
+		end
 
 	end
 end

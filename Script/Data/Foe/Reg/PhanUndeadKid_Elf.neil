@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,46 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 5 
+		for ak=1,60 
+			Data.Acts+="ABL_FOE_DARKHEAL_FOE"
+		end
+		Data.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 2 
+		for ak=1,78 
+			Data.Acts+="ABL_FOE_DARKHEAL_HERO"
+		end
+		Data.ActMinLevel["ABL_FOE_DEATH"] = 1 
+		for ak=1,100 
+			Data.Acts+="ABL_FOE_DEATH"
+		end
+		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
+		for ak=1,250 
+			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 100 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		for ak=1,95 
+			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+		end
+		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 2 
+		for ak=1,77 
+			Data.Acts+="ABL_FOE_ULTRASONIC"
+		end
+		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 4 
+		for ak=1,76 
+			Data.Acts+="ABL_FOXY_BACKSTAB"
+		end
+		Data.ActMinLevel["ABL_FOXY_CHEER"] = 5 
+		for ak=1,77 
+			Data.Acts+="ABL_FOXY_CHEER"
+		end
+		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		for ak=1,70 
+			Data.Acts+="ABL_FOXY_STUNSTAB"
+		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=500

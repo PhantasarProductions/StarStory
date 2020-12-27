@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,90 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_DEATH"] = 10 
+		for ak=1,25 
+			Data.Acts+="ABL_FOE_DEATH"
+		end
+		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 80 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_EXPDRAIN"
+		end
+		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 75 
+		for ak=1,10 
+			Data.Acts+="ABL_FOE_FULLHEALTH"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 85 
+		for ak=1,20 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 10 
+		for ak=1,90 
+			Data.Acts+="ABL_FOE_ULTRASONIC"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 100 
+		for ak=1,5 
+			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 25 
+		for ak=1,25 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 90 
+		for ak=1,10 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 80 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_BLIZZARD"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BREEZE"] = 60 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_BREEZE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_FROST"] = 30 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_FROST"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HEAL"] = 5 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_HEAL"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 80 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_HURRICANE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_LIGHT"] = 75 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_LIGHT"
+		end
+		Data.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 75 
+		for ak=1,50 
+			Data.Acts+="ABL_XENOBI_MINDTRICK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 80 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_QUAKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 30 
+		for ak=1,5 
+			Data.Acts+="ABL_XENOBI_QUICKSTRIKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_RECOVER"] = 50 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_RECOVER"
+		end
+		Data.ActMinLevel["ABL_XENOBI_ROCK"] = 10 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_ROCK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_VITALIZE"] = 25 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_VITALIZE"
+		end
+		Data.ActMinLevel["ABL_YIRL_CONFUSION"] = 25 
+		for ak=1,20 
+			Data.Acts+="ABL_YIRL_CONFUSION"
+		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=10

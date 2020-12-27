@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,30 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 1 
+		for ak=1,100 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		for ak=1,80 
+			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
+		for ak=1,100 
+			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 20 
+		for ak=1,75 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 15 
+		for ak=1,80 
+			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 25 
+		for ak=1,60 
+			Data.Acts+="ABL_WENDICKA_SHOCK"
+		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=5000
@@ -89,6 +119,10 @@ module
 		for ak=1,500 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 1 
+		for ak=1,950 
+			Data.Acts+="SUPER_THRILLING_DAMNNATION"
+		end
 
 	end
 end

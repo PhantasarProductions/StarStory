@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,18 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 5 
+		for ak=1,55 
+			Data.Acts+="ABL_FOXY_BACKSTAB"
+		end
+		Data.ActMinLevel["ABL_FOXY_MULTISTAB"] = 5 
+		for ak=1,60 
+			Data.Acts+="ABL_FOXY_MULTISTAB"
+		end
+		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		for ak=1,65 
+			Data.Acts+="ABL_FOXY_STUNSTAB"
+		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=20
@@ -109,6 +127,10 @@ module
 		for ak=1,10 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_CHLOROFORM"] = 4 
+		for ak=1,55 
+			Data.Acts+="ITM_CHLOROFORM"
+		end
 		temp={}
 		temp.ITM="ITM_CHLOROFORM"
 		temp.LVL=40
@@ -164,6 +186,10 @@ module
 		for ak=1,10 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_HOMEO"] = 60 
+		for ak=1,10 
+			Data.Acts+="ITM_HOMEO"
+		end
 		temp={}
 		temp.ITM="ITM_HOMEO"
 		temp.LVL=65
@@ -184,6 +210,14 @@ module
 		for ak=1,750 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ITM_ROCK"] = 75 
+		for ak=1,10 
+			Data.Acts+="ITM_ROCK"
+		end
+		Data.ActMinLevel["ITM_STEROIDS"] = 1 
+		for ak=1,1 
+			Data.Acts+="ITM_STEROIDS"
+		end
 
 	end
 end

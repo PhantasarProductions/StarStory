@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,34 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
+		for ak=1,10 
+			Data.Acts+="ABL_EXHURU_KAKSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
+		for ak=1,10 
+			Data.Acts+="ABL_EXHURU_KOLME"
+		end
+		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 80 
+		for ak=1,10 
+			Data.Acts+="ABL_EXHURU_KUUSI"
+		end
+		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 100 
+		for ak=1,10 
+			Data.Acts+="ABL_EXHURU_NELJA"
+		end
+		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 35 
+		for ak=1,10 
+			Data.Acts+="ABL_EXHURU_YKSI"
+		end
+		Data.ActMinLevel["ABL_FOE_FEAR"] = 85 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_FEAR"
+		end
+		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
+		for ak=1,500 
+			Data.Acts+="ABL_FOE_SCRATCH"
+		end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=1

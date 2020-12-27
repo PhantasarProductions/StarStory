@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,26 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ARM_DART"] = 250 
+		for ak=1,90 
+			Data.Acts+="ARM_DART"
+		end
+		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 300 
+		for ak=1,40 
+			Data.Acts+="ARM_HEALINGSPRAY"
+		end
+		Data.ActMinLevel["ARM_MULTIBLAST"] = 400 
+		for ak=1,30 
+			Data.Acts+="ARM_MULTIBLAST"
+		end
+		Data.ActMinLevel["ARM_POISONDART"] = 600 
+		for ak=1,20 
+			Data.Acts+="ARM_POISONDART"
+		end
+		Data.ActMinLevel["ARM_VIRUSBOMB"] = 500 
+		for ak=1,25 
+			Data.Acts+="ARM_VIRUSBOMB"
+		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=5000
@@ -99,6 +125,10 @@ module
 		temp.VLT=true
 		for ak=1,15000 
 			 Data.ItemDrop+=temp
+		end
+		Data.ActMinLevel["ITM_FIRSTAIDKIT"] = 600 
+		for ak=1,10 
+			Data.Acts+="ITM_FIRSTAIDKIT"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"

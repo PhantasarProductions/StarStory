@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,10 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ARM_FLAMETHROWER"] = 30 
+		for ak=1,50 
+			Data.Acts+="ARM_FLAMETHROWER"
+		end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=10

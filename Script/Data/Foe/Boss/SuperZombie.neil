@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,46 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
+		for ak=1,5 
+			Data.Acts+="ABL_EXHURU_BATTLECRY"
+		end
+		Data.ActMinLevel["ABL_EXHURU_CONCENTRATE"] = 100 
+		for ak=1,1 
+			Data.Acts+="ABL_EXHURU_CONCENTRATE"
+		end
+		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 200 
+		for ak=1,1 
+			Data.Acts+="ABL_EXHURU_NELJA"
+		end
+		Data.ActMinLevel["ABL_FOE_DEATH"] = 5 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_DEATH"
+		end
+		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+		end
+		Data.ActMinLevel["ABL_FOE_FEAR"] = 1 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_FEAR"
+		end
+		Data.ActMinLevel["ABL_FOE_HORROR"] = 1 
+		for ak=1,4 
+			Data.Acts+="ABL_FOE_HORROR"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 500 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 10000 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_ULTRASONIC"
+		end
+		Data.ActMinLevel["ABL_ROTTEN_BREATH"] = 100 
+		for ak=1,1 
+			Data.Acts+="ABL_ROTTEN_BREATH"
+		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=650

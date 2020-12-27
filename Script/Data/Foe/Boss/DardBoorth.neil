@@ -2,7 +2,7 @@
 // 	(c) Jeroen P. Broks
 // 	If this file has any references at all to the story line
 // 	or any of its characters it may only be distributed in an
-//	unmodified form with an unmodified version of the game
+// 	unmodified form with an unmodified version of the game
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
@@ -33,6 +33,12 @@ module
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
+
+
+
+
+
+
 	CONSTRUCTOR
 		plua DStat
 		DStat = {}
@@ -79,6 +85,58 @@ module
 		plua temp
 
 
+		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 75 
+		for ak=1,1 
+			Data.Acts+="ABL_FOE_EXPDRAIN"
+		end
+		Data.ActMinLevel["ABL_FOE_IDDQD"] = 10 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_IDDQD"
+		end
+		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 5 
+		for ak=1,5 
+			Data.Acts+="ABL_FOE_WATERBEAM"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 26 
+		for ak=1,15 
+			Data.Acts+="ABL_WENDICKA_JOLT"
+		end
+		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 1 
+		for ak=1,15 
+			Data.Acts+="ABL_WENDICKA_SHOCK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 25 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_BLIZZARD"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HEAL"] = 25 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_HEAL"
+		end
+		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 25 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_HURRICANE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 25 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_MINDTRICK"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 25 
+		for ak=1,10 
+			Data.Acts+="ABL_XENOBI_QUAKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 10 
+		for ak=1,20 
+			Data.Acts+="ABL_XENOBI_QUICKSTRIKE"
+		end
+		Data.ActMinLevel["ABL_XENOBI_RECOVER"] = 25 
+		for ak=1,25 
+			Data.Acts+="ABL_XENOBI_RECOVER"
+		end
+		Data.ActMinLevel["ABL_XENOBI_VITALIZE"] = 65 
+		for ak=1,25 
+			Data.Acts+="ABL_XENOBI_VITALIZE"
+		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=70
@@ -124,6 +182,18 @@ module
 		for ak=1,1000 
 			 Data.ItemSteal+=temp
 		 end
+		Data.ActMinLevel["ZZZ_CID_DARKCHARGE"] = 45 
+		for ak=1,10 
+			Data.Acts+="ZZZ_CID_DARKCHARGE"
+		end
+		Data.ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
+		for ak=1,10 
+			Data.Acts+="ZZZ_CID_DARKNESS"
+		end
+		Data.ActMinLevel["ZZZ_CID_LORD_SUMMON"] = 35 
+		for ak=1,10 
+			Data.Acts+="ZZZ_CID_LORD_SUMMON"
+		end
 
 	end
 end
