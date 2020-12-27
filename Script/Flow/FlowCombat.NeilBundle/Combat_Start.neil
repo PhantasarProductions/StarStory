@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Start.neil
-// Version: 20.12.26
+// Version: 20.12.27
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,7 +49,7 @@ end
 module
 	table Enemies
 	string Arena
-	string Tune
+	string Tune = "*NOCHANGE*"
 	bool Boss
 	
 	void AddFoe(string Enem,int Level)
@@ -77,6 +77,9 @@ module
 	end
 	
 	void Begin()
-	
+		if Tune!="*NOCHANGE*"
+			Music.Push()
+			Music.Play(Tune)
+		end
 	end
 end
