@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
 // Version: 20.12.26
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,43 +34,83 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-module
-	const var Mouse = Image.Obtain("MOUSE")
-	delegate Error = Lua.error
-	var Arena
-	var Start
-	var Fighter
+class Combat_Hero extends Combat_Fighter
+
+	readonly static int midx = math.floor(Screen.W/2)
+	readonly static int midx4 = math.floor((Screen.W/2)/4)
+	readonly static int midy = math.floor((Screen.H-120)/2)
+	readonly static int midy4 = math.floor(((Screen.H-120)/2)/4)
 	
-	get var ArenaGet
-		if prefixed(Start.Arena,"SCRIPT:")
-			error("Scripted arena's not yet supported!")
-			return nil;
+	string Tag
+
+	get int PartyIndex
+		for i=1,6
+			if RPGParty[i]==self.Tag
+				return i
+			end
 		end
-		return Image.Load("GFX/Combat/Arena/"..Start.Arena,"ARENA")
+		return 0
 	end
 	
-	void DrawArena()
-		Arena = Arena || ArenaGet
-		Arena.Stretch(0,0,Screen.W,Screen.H-100)
+	get bool Available
+		return PartyIndex>0 and PartyIndex<6
 	end
 	
+	get string Team
+		return "Hero"
+	end
 	
-	void DrawScreen()
-		// Mouse coordinates
-		int mx = events.mousex()
-		int my = events.mousey()
-		// Arena
-		DrawArena()
-		// Time Gauge
-		// Combatnants
-		for t,f in pairs(Fighter.Fighters)
-			f.Draw()
+	get int X
+		return midx + (midx4*PartyIndex)
+	end
+	
+	get int Y
+		return midy + (midy4*PartyIndex)
+	end
+	
+	string State = "Idle"
+	readonly table Images
+	get var GetImage
+		CSay("Getting combat sprite for "..Tag.." in state "..State)
+		var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
+		ret.HotBottomCenter()
+		return ret
+	end
+		
+	
+	void Draw()
+		Graphics.Scale(2,2)
+		Images[State] = Images[State] or GetImage
+		Images[State].Draw(X,Y)
+		Graphics.Scale(1,1)
+	end
+	
+	CONSTRUCTOR
+		Images = {}
+	end
+
+end
+
+
+
+module 
+	var Fighters
+	void Compile()
+		CSay("Setting up hero party")
+		for i=1,6
+			if RPGParty[i] and RPGParty[i]!=""
+				string T = RPGParty[i]
+				CSayF("Adding hero: %s",T)
+				var H = new Combat_Hero() 
+				H.Tag = T
+				
+				Fighters.Add(H)
+				CSayF("= Party index: %d",H.PartyIndex)
+				CSayF("= Available:   %s",tostring(H.Available))
+				CSayF("= Tag:         %s",H.Tag)
+				CSayF("= Team:        %s",H.Team)
+				CSayF("= Position     (%d,%d)",H.X,H.Y)
+			end
 		end
-		// Target info
-		// Party Status Bar
-		Party.Boxes()
-		// Mouse
-		Mouse.Draw(mx,my)
 	end
-	
 end

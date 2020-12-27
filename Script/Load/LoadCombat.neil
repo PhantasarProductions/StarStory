@@ -51,5 +51,11 @@ end
 
 
 init
+	Print("A few needed things before we start!")
+	// Linkups
 	Combat_Draw.Start = Combat_Start
+	Combat_Draw.Fighter = Combat_Fighter
+	Combat_Heroes.Fighters = Combat_Fighter
+	// Init
+	Combat_Heroes.Compile()
 end

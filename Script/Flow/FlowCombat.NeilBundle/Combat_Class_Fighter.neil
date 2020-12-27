@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
 // Version: 20.12.26
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
@@ -34,43 +34,36 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-module
-	const var Mouse = Image.Obtain("MOUSE")
-	delegate Error = Lua.error
-	var Arena
-	var Start
-	var Fighter
+class Combat_Fighter
+	// string Tag // All same pointer?
 	
-	get var ArenaGet
-		if prefixed(Start.Arena,"SCRIPT:")
-			error("Scripted arena's not yet supported!")
-			return nil;
-		end
-		return Image.Load("GFX/Combat/Arena/"..Start.Arena,"ARENA")
+	// Override these!
+	get int X
+		Lua.error("Hey! You can't access Combat_Fighter.X like that!")
+		return 0
+	end 
+	get int Y
+		Lua.error("Hey! You can't access Combat_Fighter.T like that!")
+		return 0
+	end 
+	get bool Available
+		return false
+	end
+	get string Team
+		return "Unknown"
 	end
 	
-	void DrawArena()
-		Arena = Arena || ArenaGet
-		Arena.Stretch(0,0,Screen.W,Screen.H-100)
+	abstract void Draw()
+	
+	// And these should not be overridden
+	get table Char
+		return RPGChar[self.Tag]
 	end
 	
 	
-	void DrawScreen()
-		// Mouse coordinates
-		int mx = events.mousex()
-		int my = events.mousey()
-		// Arena
-		DrawArena()
-		// Time Gauge
-		// Combatnants
-		for t,f in pairs(Fighter.Fighters)
-			f.Draw()
-		end
-		// Target info
-		// Party Status Bar
-		Party.Boxes()
-		// Mouse
-		Mouse.Draw(mx,my)
-	end
 	
+	static readonly table Fighters
+	static void Add(obj)
+		Fighters[obj.Tag] = obj
+	end
 end
