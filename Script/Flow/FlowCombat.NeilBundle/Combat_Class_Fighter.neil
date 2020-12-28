@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 20.12.27
+// Version: 20.12.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -60,6 +60,15 @@ class Combat_Fighter
 		return RPGChar[self.Tag]
 	end
 	
+	get int HP
+		return Char.Points.HP.Have
+	end
+	set int HP
+		Char.Points.HP.Have=value
+	end
+	get int MaxHP
+		return Char.Points.HP.Maximum
+	end
 	
 	
 	static readonly table Fighters

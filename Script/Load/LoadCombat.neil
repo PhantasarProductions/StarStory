@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadCombat.neil
-// Version: 20.12.27
+// Version: 20.12.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,6 +56,7 @@ init
 	Combat_Draw.Start = Combat_Start
 	Combat_Draw.Fighter = Combat_Fighter
 	Combat_Heroes.Fighters = Combat_Fighter
+	Combat_Foe.Fighter = Combat_Fighter
 	// Init
 	Combat_Heroes.Compile()
 end

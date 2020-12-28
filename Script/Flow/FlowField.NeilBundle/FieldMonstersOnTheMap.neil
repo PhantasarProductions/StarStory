@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 20.12.26
+// Version: 20.12.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -139,8 +139,13 @@ class FieldMonster
 		StartCombat.Prepare()
 		CSayF("Engage with %d Enem(y)(ies)",#Recs)
 		for foe in each(Recs)
+			// FFF = Foe Full File 
+			string FFF = foe.Foe	
+			if (JCR6.ExtractDir(FFF)=="") 
+				FFF = "Reg/"..FFF 		
+			end
 			CSayF("Adding %s level %d",foe.foe,foe.level)
-			StartCombat.Foe(foe.Foe,foe.level)
+			StartCombat.Foe(FFF,foe.level)
 		end
 		StartCombat.Boss = Boss
 		StartCombat.Arena = Map.KthuraMap.Meta.Arena

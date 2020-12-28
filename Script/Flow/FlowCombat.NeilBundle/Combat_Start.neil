@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Start.neil
-// Version: 20.12.27
+// Version: 20.12.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -80,6 +80,9 @@ module
 		if Tune!="*NOCHANGE*"
 			Music.Push()
 			Music.Play(Tune)
+		end
+		for Enemy in each(enemies)
+			Combat_Foe.AddFoe(Enemy.Enemy,Enemy.Level)
 		end
 	end
 end

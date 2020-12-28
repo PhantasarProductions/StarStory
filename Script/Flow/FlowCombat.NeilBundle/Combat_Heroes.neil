@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 20.12.27
+// Version: 20.12.28
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,6 +55,13 @@ class Combat_Hero extends Combat_Fighter
 	get bool Available
 		return PartyIndex>0 and PartyIndex<6
 	end
+	get bool Targetable_Hero
+		return Available
+	end
+	get bool Targetable_Foe
+		return Targetable_Hero and self.HP>0
+		// On the moment this code was written a bug in Neil requires me to use "self" when using identifiers from the base class when extending classes
+	end
 	
 	get string Team
 		return "Hero"
@@ -66,6 +73,10 @@ class Combat_Hero extends Combat_Fighter
 	
 	get int Y
 		return midy + (midy4*PartyIndex)
+	end
+	
+	get int Level
+		return self.Char.Stat.Level
 	end
 	
 	string State = "Idle"
