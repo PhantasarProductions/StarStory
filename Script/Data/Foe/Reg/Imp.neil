@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 2
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,214 +85,214 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 70 
+		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 70 
 		for ak=1,2 
-			Data.Acts+="ABL_FOE_FULLHEALTH"
+			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 80 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 80 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_AQUAMARINE"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_CARNELIAN"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_GARNET"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_KYANITE"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_ONYX"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SAPHIRE"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_AQUAMARINE"
 		temp.LVL=300
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_CARNELIAN"
 		temp.LVL=300
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_KYANITE"
 		temp.LVL=300
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_ONYX"
 		temp.LVL=300
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=5
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_TRAVEL"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_ANTIDOTE"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,1000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_APPLE"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,500 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_CARROT"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,200 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_LIONHEAD"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,900 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,90 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MAGICDISC"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,800 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,80 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MAGICDUST"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,700 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,70 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MEDICINE"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,600 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,60 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_PHOENIX"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,500 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_SALVE"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,400 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,40 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SPORES"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,300 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,30 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

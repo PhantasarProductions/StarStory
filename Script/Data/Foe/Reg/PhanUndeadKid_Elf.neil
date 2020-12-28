@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 6
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,65 +85,65 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 5 
+		Acts.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 5 
 		for ak=1,60 
-			Data.Acts+="ABL_FOE_DARKHEAL_FOE"
+			Acts+="ABL_FOE_DARKHEAL_FOE"
 		end
-		Data.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 2 
+		Acts.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 2 
 		for ak=1,78 
-			Data.Acts+="ABL_FOE_DARKHEAL_HERO"
+			Acts+="ABL_FOE_DARKHEAL_HERO"
 		end
-		Data.ActMinLevel["ABL_FOE_DEATH"] = 1 
+		Acts.ActMinLevel["ABL_FOE_DEATH"] = 1 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_DEATH"
+			Acts+="ABL_FOE_DEATH"
 		end
-		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
+		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
 		for ak=1,250 
-			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 100 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 100 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
 		for ak=1,95 
-			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 2 
+		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 2 
 		for ak=1,77 
-			Data.Acts+="ABL_FOE_ULTRASONIC"
+			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 4 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 4 
 		for ak=1,76 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_CHEER"] = 5 
+		Acts.ActMinLevel["ABL_FOXY_CHEER"] = 5 
 		for ak=1,77 
-			Data.Acts+="ABL_FOXY_CHEER"
+			Acts+="ABL_FOXY_CHEER"
 		end
-		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
 		for ak=1,70 
-			Data.Acts+="ABL_FOXY_STUNSTAB"
+			Acts+="ABL_FOXY_STUNSTAB"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,1000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1000 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_HOLYWATER"
 		temp.LVL=65
 		temp.VLT=false
 		for ak=1,200 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

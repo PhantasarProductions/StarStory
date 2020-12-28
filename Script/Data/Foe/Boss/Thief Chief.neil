@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,138 +85,138 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 5 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 5 
 		for ak=1,55 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_MULTISTAB"] = 5 
+		Acts.ActMinLevel["ABL_FOXY_MULTISTAB"] = 5 
 		for ak=1,60 
-			Data.Acts+="ABL_FOXY_MULTISTAB"
+			Acts+="ABL_FOXY_MULTISTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
 		for ak=1,65 
-			Data.Acts+="ABL_FOXY_STUNSTAB"
+			Acts+="ABL_FOXY_STUNSTAB"
 		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ASTRILOPUPHONEY"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_CHLOROFORM"] = 4 
+		Acts.ActMinLevel["ITM_CHLOROFORM"] = 4 
 		for ak=1,55 
-			Data.Acts+="ITM_CHLOROFORM"
+			Acts+="ITM_CHLOROFORM"
 		end
 		temp={}
 		temp.ITM="ITM_CHLOROFORM"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ENERGYDRINK"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_GARNET"
 		temp.LVL=65
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SAPHIRE"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,75 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_HOMEO"] = 60 
+		Acts.ActMinLevel["ITM_HOMEO"] = 60 
 		for ak=1,10 
-			Data.Acts+="ITM_HOMEO"
+			Acts+="ITM_HOMEO"
 		end
 		temp={}
 		temp.ITM="ITM_HOMEO"
 		temp.LVL=65
 		temp.VLT=false
 		for ak=1,50 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,25 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=750
 		temp.VLT=false
 		for ak=1,750 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,750 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_ROCK"] = 75 
+		Acts.ActMinLevel["ITM_ROCK"] = 75 
 		for ak=1,10 
-			Data.Acts+="ITM_ROCK"
+			Acts+="ITM_ROCK"
 		end
-		Data.ActMinLevel["ITM_STEROIDS"] = 1 
+		Acts.ActMinLevel["ITM_STEROIDS"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_STEROIDS"
+			Acts+="ITM_STEROIDS"
 		end
 
 	end

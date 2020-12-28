@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,51 +85,51 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_AVADAKEDAVRA"] = 150 
+		Acts.ActMinLevel["ABL_FOE_AVADAKEDAVRA"] = 150 
 		for ak=1,50 
-			Data.Acts+="ABL_FOE_AVADAKEDAVRA"
+			Acts+="ABL_FOE_AVADAKEDAVRA"
 		end
-		Data.ActMinLevel["ABL_FOE_CRUCIO"] = 0 
+		Acts.ActMinLevel["ABL_FOE_CRUCIO"] = 0 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_CRUCIO"
+			Acts+="ABL_FOE_CRUCIO"
 		end
-		Data.ActMinLevel["ABL_FOE_CURSEDHEALING"] = 100 
+		Acts.ActMinLevel["ABL_FOE_CURSEDHEALING"] = 100 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_CURSEDHEALING"
+			Acts+="ABL_FOE_CURSEDHEALING"
 		end
-		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 500 
+		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 500 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_EXPDRAIN"
+			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Data.ActMinLevel["ABL_FOE_FEAR"] = 5 
+		Acts.ActMinLevel["ABL_FOE_FEAR"] = 5 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_FEAR"
+			Acts+="ABL_FOE_FEAR"
 		end
-		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 500 
+		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 500 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_FULLHEALTH"
+			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 100 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 100 
 		for ak=1,10 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_IMPERIO"] = 125 
+		Acts.ActMinLevel["ABL_FOE_IMPERIO"] = 125 
 		for ak=1,90 
-			Data.Acts+="ABL_FOE_IMPERIO"
+			Acts+="ABL_FOE_IMPERIO"
 		end
-		Data.ActMinLevel["ABL_FOE_INFERNO"] = 111 
+		Acts.ActMinLevel["ABL_FOE_INFERNO"] = 111 
 		for ak=1,20 
-			Data.Acts+="ABL_FOE_INFERNO"
+			Acts+="ABL_FOE_INFERNO"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_PRISMDIAMOND"
 		temp.LVL=180
 		temp.VLT=false
 		for ak=1,180 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,180 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

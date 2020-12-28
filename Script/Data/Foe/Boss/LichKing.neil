@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,139 +85,139 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_DAMNYOU"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DAMNYOU"] = 0 
 		for ak=1,20 
-			Data.Acts+="ABL_FOE_DAMNYOU"
+			Acts+="ABL_FOE_DAMNYOU"
 		end
-		Data.ActMinLevel["ABL_FOE_DAMNYOUALL"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DAMNYOUALL"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_DAMNYOUALL"
+			Acts+="ABL_FOE_DAMNYOUALL"
 		end
-		Data.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 0 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_DARKHEAL_FOE"
+			Acts+="ABL_FOE_DARKHEAL_FOE"
 		end
-		Data.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 0 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_DARKHEAL_HERO"
+			Acts+="ABL_FOE_DARKHEAL_HERO"
 		end
-		Data.ActMinLevel["ABL_FOE_DEATH"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DEATH"] = 0 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_DEATH"
+			Acts+="ABL_FOE_DEATH"
 		end
-		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 0 
+		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 0 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 0 
+		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_EXPDRAIN"
+			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 0 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 1 
+		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_ULTRASONIC"
+			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 1 
+		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_WATERBEAM"
+			Acts+="ABL_FOE_WATERBEAM"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 1 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_CHEER"] = 1 
+		Acts.ActMinLevel["ABL_FOXY_CHEER"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_CHEER"
+			Acts+="ABL_FOXY_CHEER"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 2 
+		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_WENDICKA_JOLT"
+			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 2 
+		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 2 
+		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_WENDICKA_SHOCK"
+			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_BLIZZARD"
+			Acts+="ABL_XENOBI_BLIZZARD"
 		end
-		Data.ActMinLevel["ABL_XENOBI_BREEZE"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_BREEZE"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_BREEZE"
+			Acts+="ABL_XENOBI_BREEZE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_FROST"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_FROST"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_FROST"
+			Acts+="ABL_XENOBI_FROST"
 		end
-		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_HURRICANE"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_HURRICANE"
+			Acts+="ABL_XENOBI_HURRICANE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_MINDTRICK"
+			Acts+="ABL_XENOBI_MINDTRICK"
 		end
-		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_QUAKE"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_QUAKE"
+			Acts+="ABL_XENOBI_QUAKE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_QUICKSTRIKE"
+			Acts+="ABL_XENOBI_QUICKSTRIKE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_ROCK"] = 2 
+		Acts.ActMinLevel["ABL_XENOBI_ROCK"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_XENOBI_ROCK"
+			Acts+="ABL_XENOBI_ROCK"
 		end
-		Data.ActMinLevel["ABL_YIRL_CONFUSION"] = 2 
+		Acts.ActMinLevel["ABL_YIRL_CONFUSION"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_YIRL_CONFUSION"
+			Acts+="ABL_YIRL_CONFUSION"
 		end
-		Data.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 10 
+		Acts.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 10 
 		for ak=1,2 
-			Data.Acts+="ABL_YIRL_INTIMIDATE"
+			Acts+="ABL_YIRL_INTIMIDATE"
 		end
-		Data.ActMinLevel["ITM_BIOHAZARD"] = 0 
+		Acts.ActMinLevel["ITM_BIOHAZARD"] = 0 
 		for ak=1,2 
-			Data.Acts+="ITM_BIOHAZARD"
+			Acts+="ITM_BIOHAZARD"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_PRISMDIAMOND"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,200 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,200 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ZZZ_LK_SUM_BEFINDO"] = 0 
+		Acts.ActMinLevel["ZZZ_LK_SUM_BEFINDO"] = 0 
 		for ak=1,20 
-			Data.Acts+="ZZZ_LK_SUM_BEFINDO"
+			Acts+="ZZZ_LK_SUM_BEFINDO"
 		end
-		Data.ActMinLevel["ZZZ_LK_SUM_ELF"] = 0 
+		Acts.ActMinLevel["ZZZ_LK_SUM_ELF"] = 0 
 		for ak=1,20 
-			Data.Acts+="ZZZ_LK_SUM_ELF"
+			Acts+="ZZZ_LK_SUM_ELF"
 		end
-		Data.ActMinLevel["ZZZ_LK_SUM_FAIRY"] = 0 
+		Acts.ActMinLevel["ZZZ_LK_SUM_FAIRY"] = 0 
 		for ak=1,20 
-			Data.Acts+="ZZZ_LK_SUM_FAIRY"
+			Acts+="ZZZ_LK_SUM_FAIRY"
 		end
-		Data.ActMinLevel["ZZZ_LK_SUM_HUMAN"] = 0 
+		Acts.ActMinLevel["ZZZ_LK_SUM_HUMAN"] = 0 
 		for ak=1,20 
-			Data.Acts+="ZZZ_LK_SUM_HUMAN"
+			Acts+="ZZZ_LK_SUM_HUMAN"
 		end
-		Data.ActMinLevel["ZZZ_LK_SUM_PHELYNX"] = 0 
+		Acts.ActMinLevel["ZZZ_LK_SUM_PHELYNX"] = 0 
 		for ak=1,5 
-			Data.Acts+="ZZZ_LK_SUM_PHELYNX"
+			Acts+="ZZZ_LK_SUM_PHELYNX"
 		end
 
 	end

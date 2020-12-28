@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 4
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,163 +85,163 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 48 
+		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 48 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_EXPDRAIN"
+			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 800 
+		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 800 
 		for ak=1,8 
-			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 50 
+		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 50 
 		for ak=1,10 
-			Data.Acts+="ABL_WENDICKA_JOLT"
+			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 80 
+		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 80 
 		for ak=1,5 
-			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 70 
+		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 70 
 		for ak=1,20 
-			Data.Acts+="ABL_WENDICKA_SHOCK"
+			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Data.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 10 
+		Acts.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 10 
 		for ak=1,40 
-			Data.Acts+="ABL_XENOBI_BLIZZARD"
+			Acts+="ABL_XENOBI_BLIZZARD"
 		end
-		Data.ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
+		Acts.ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
 		for ak=1,10 
-			Data.Acts+="ABL_XENOBI_BREEZE"
+			Acts+="ABL_XENOBI_BREEZE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_FROST"] = 10 
+		Acts.ActMinLevel["ABL_XENOBI_FROST"] = 10 
 		for ak=1,30 
-			Data.Acts+="ABL_XENOBI_FROST"
+			Acts+="ABL_XENOBI_FROST"
 		end
-		Data.ActMinLevel["ABL_XENOBI_HEAL"] = 20 
+		Acts.ActMinLevel["ABL_XENOBI_HEAL"] = 20 
 		for ak=1,35 
-			Data.Acts+="ABL_XENOBI_HEAL"
+			Acts+="ABL_XENOBI_HEAL"
 		end
-		Data.ActMinLevel["ABL_XENOBI_HURRICANE"] = 5 
+		Acts.ActMinLevel["ABL_XENOBI_HURRICANE"] = 5 
 		for ak=1,40 
-			Data.Acts+="ABL_XENOBI_HURRICANE"
+			Acts+="ABL_XENOBI_HURRICANE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 60 
+		Acts.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 60 
 		for ak=1,10 
-			Data.Acts+="ABL_XENOBI_MINDTRICK"
+			Acts+="ABL_XENOBI_MINDTRICK"
 		end
-		Data.ActMinLevel["ABL_XENOBI_QUAKE"] = 75 
+		Acts.ActMinLevel["ABL_XENOBI_QUAKE"] = 75 
 		for ak=1,10 
-			Data.Acts+="ABL_XENOBI_QUAKE"
+			Acts+="ABL_XENOBI_QUAKE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 5 
+		Acts.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 5 
 		for ak=1,10 
-			Data.Acts+="ABL_XENOBI_QUICKSTRIKE"
+			Acts+="ABL_XENOBI_QUICKSTRIKE"
 		end
-		Data.ActMinLevel["ABL_XENOBI_RECOVER"] = 4 
+		Acts.ActMinLevel["ABL_XENOBI_RECOVER"] = 4 
 		for ak=1,38 
-			Data.Acts+="ABL_XENOBI_RECOVER"
+			Acts+="ABL_XENOBI_RECOVER"
 		end
-		Data.ActMinLevel["ABL_XENOBI_VITALIZE"] = 4 
+		Acts.ActMinLevel["ABL_XENOBI_VITALIZE"] = 4 
 		for ak=1,47 
-			Data.Acts+="ABL_XENOBI_VITALIZE"
+			Acts+="ABL_XENOBI_VITALIZE"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=35
 		temp.VLT=true
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_ONYX"
 		temp.LVL=35
 		temp.VLT=true
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=35
 		temp.VLT=true
 		for ak=1,2 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=5
 		temp.VLT=false
 		for ak=1,6 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,20 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=2
 		temp.VLT=false
 		for ak=1,25 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,20 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,20 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		temp={}
 		temp.ITM="ITM_HEATHRUB"
 		temp.LVL=3
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,3 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,60 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_SPORES"] = 5 
+		Acts.ActMinLevel["ITM_SPORES"] = 5 
 		for ak=1,5 
-			Data.Acts+="ITM_SPORES"
+			Acts+="ITM_SPORES"
 		end
-		Data.ActMinLevel["ZZZ_CID_DARKCHARGE"] = 50 
+		Acts.ActMinLevel["ZZZ_CID_DARKCHARGE"] = 50 
 		for ak=1,50 
-			Data.Acts+="ZZZ_CID_DARKCHARGE"
+			Acts+="ZZZ_CID_DARKCHARGE"
 		end
-		Data.ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
+		Acts.ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CID_DARKNESS"
+			Acts+="ZZZ_CID_DARKNESS"
 		end
-		Data.ActMinLevel["ZZZ_CID_DARKSOULBREAKER"] = 9000 
+		Acts.ActMinLevel["ZZZ_CID_DARKSOULBREAKER"] = 9000 
 		for ak=1,2 
-			Data.Acts+="ZZZ_CID_DARKSOULBREAKER"
+			Acts+="ZZZ_CID_DARKSOULBREAKER"
 		end
-		Data.ActMinLevel["ZZZ_CID_LORD_SUMMON"] = 50 
+		Acts.ActMinLevel["ZZZ_CID_LORD_SUMMON"] = 50 
 		for ak=1,65 
-			Data.Acts+="ZZZ_CID_LORD_SUMMON"
+			Acts+="ZZZ_CID_LORD_SUMMON"
 		end
-		Data.ActMinLevel["ZZZ_CID_ULTRADARKNESS"] = 30 
+		Acts.ActMinLevel["ZZZ_CID_ULTRADARKNESS"] = 30 
 		for ak=1,35 
-			Data.Acts+="ZZZ_CID_ULTRADARKNESS"
+			Acts+="ZZZ_CID_ULTRADARKNESS"
 		end
 
 	end

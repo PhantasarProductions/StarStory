@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 4
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,40 +85,40 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_XENOBI_VITALIZE"] = 25 
+		Acts.ActMinLevel["ABL_XENOBI_VITALIZE"] = 25 
 		for ak=1,70 
-			Data.Acts+="ABL_XENOBI_VITALIZE"
+			Acts+="ABL_XENOBI_VITALIZE"
 		end
-		Data.ActMinLevel["ARM_FLAMETHROWER"] = 100 
+		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 100 
 		for ak=1,1 
-			Data.Acts+="ARM_FLAMETHROWER"
+			Acts+="ARM_FLAMETHROWER"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_CARNELIAN"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_KYANITE"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,400 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=8000
 		temp.VLT=false
 		for ak=1,8000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,8000 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,61 +85,61 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 1 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 1 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 60 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 60 
 		for ak=1,5 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 50 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 50 
 		for ak=1,7 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 65 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 65 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_TASER"] = 2 
+		Acts.ActMinLevel["ABL_FOE_TASER"] = 2 
 		for ak=1,15 
-			Data.Acts+="ABL_FOE_TASER"
+			Acts+="ABL_FOE_TASER"
 		end
-		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 100 
+		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 100 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_ULTRASONIC"
+			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 80 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 80 
 		for ak=1,2 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_KYANITE"
 		temp.LVL=2
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ICEBOMB"
 		temp.LVL=1
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
-		Data.ActMinLevel["ITM_MEDIKIT"] = 10 
+		Acts.ActMinLevel["ITM_MEDIKIT"] = 10 
 		for ak=1,7 
-			Data.Acts+="ITM_MEDIKIT"
+			Acts+="ITM_MEDIKIT"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=250
 		temp.VLT=false
 		for ak=1,250 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,250 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

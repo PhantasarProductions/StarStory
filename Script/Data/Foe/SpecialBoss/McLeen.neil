@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,123 +85,123 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
+		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
 		for ak=1,80 
-			Data.Acts+="ABL_EXHURU_KAKSI"
+			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
 		for ak=1,70 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 100 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 100 
 		for ak=1,50 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 80 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 80 
 		for ak=1,60 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 20 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 20 
 		for ak=1,90 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 150 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 150 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 180 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 180 
 		for ak=1,25 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ARM_DART"] = 5 
+		Acts.ActMinLevel["ARM_DART"] = 5 
 		for ak=1,100 
-			Data.Acts+="ARM_DART"
+			Acts+="ARM_DART"
 		end
-		Data.ActMinLevel["ARM_FLAMETHROWER"] = 55 
+		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 55 
 		for ak=1,19 
-			Data.Acts+="ARM_FLAMETHROWER"
+			Acts+="ARM_FLAMETHROWER"
 		end
-		Data.ActMinLevel["ARM_HEALINGSHOWER"] = 1234 
+		Acts.ActMinLevel["ARM_HEALINGSHOWER"] = 1234 
 		for ak=1,1 
-			Data.Acts+="ARM_HEALINGSHOWER"
+			Acts+="ARM_HEALINGSHOWER"
 		end
-		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
+		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
 		for ak=1,90 
-			Data.Acts+="ARM_HEALINGSPRAY"
+			Acts+="ARM_HEALINGSPRAY"
 		end
-		Data.ActMinLevel["ARM_ICEBULLET"] = 40 
+		Acts.ActMinLevel["ARM_ICEBULLET"] = 40 
 		for ak=1,30 
-			Data.Acts+="ARM_ICEBULLET"
+			Acts+="ARM_ICEBULLET"
 		end
-		Data.ActMinLevel["ARM_MINICANNON"] = 45 
+		Acts.ActMinLevel["ARM_MINICANNON"] = 45 
 		for ak=1,20 
-			Data.Acts+="ARM_MINICANNON"
+			Acts+="ARM_MINICANNON"
 		end
-		Data.ActMinLevel["ARM_MULTIBLAST"] = 15 
+		Acts.ActMinLevel["ARM_MULTIBLAST"] = 15 
 		for ak=1,80 
-			Data.Acts+="ARM_MULTIBLAST"
+			Acts+="ARM_MULTIBLAST"
 		end
-		Data.ActMinLevel["ARM_NAPALMSHOWER"] = 50 
+		Acts.ActMinLevel["ARM_NAPALMSHOWER"] = 50 
 		for ak=1,10 
-			Data.Acts+="ARM_NAPALMSHOWER"
+			Acts+="ARM_NAPALMSHOWER"
 		end
-		Data.ActMinLevel["ARM_POISONDART"] = 25 
+		Acts.ActMinLevel["ARM_POISONDART"] = 25 
 		for ak=1,60 
-			Data.Acts+="ARM_POISONDART"
+			Acts+="ARM_POISONDART"
 		end
-		Data.ActMinLevel["ARM_RISINGNOVA"] = 100 
+		Acts.ActMinLevel["ARM_RISINGNOVA"] = 100 
 		for ak=1,5 
-			Data.Acts+="ARM_RISINGNOVA"
+			Acts+="ARM_RISINGNOVA"
 		end
-		Data.ActMinLevel["ARM_ROCKTHROWER"] = 30 
+		Acts.ActMinLevel["ARM_ROCKTHROWER"] = 30 
 		for ak=1,50 
-			Data.Acts+="ARM_ROCKTHROWER"
+			Acts+="ARM_ROCKTHROWER"
 		end
-		Data.ActMinLevel["ARM_STUN_GUN"] = 20 
+		Acts.ActMinLevel["ARM_STUN_GUN"] = 20 
 		for ak=1,70 
-			Data.Acts+="ARM_STUN_GUN"
+			Acts+="ARM_STUN_GUN"
 		end
-		Data.ActMinLevel["ITM_CHLOROFORM"] = 5 
+		Acts.ActMinLevel["ITM_CHLOROFORM"] = 5 
 		for ak=1,5 
-			Data.Acts+="ITM_CHLOROFORM"
+			Acts+="ITM_CHLOROFORM"
 		end
-		Data.ActMinLevel["ITM_EPO"] = 150 
+		Acts.ActMinLevel["ITM_EPO"] = 150 
 		for ak=1,1 
-			Data.Acts+="ITM_EPO"
+			Acts+="ITM_EPO"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=1000
 		temp.VLT=false
 		for ak=1,100000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10000 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_STEROIDS"] = 200 
+		Acts.ActMinLevel["ITM_STEROIDS"] = 200 
 		for ak=1,1 
-			Data.Acts+="ITM_STEROIDS"
+			Acts+="ITM_STEROIDS"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 100 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 100 
 		for ak=1,5 
-			Data.Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
+			Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 100 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 100 
 		for ak=1,10 
-			Data.Acts+="ZZZ_CYBERSUMMON_CAPT"
+			Acts+="ZZZ_CYBERSUMMON_CAPT"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 100 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 100 
 		for ak=1,10 
-			Data.Acts+="ZZZ_CYBERSUMMON_GUNNER"
+			Acts+="ZZZ_CYBERSUMMON_GUNNER"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 100 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 100 
 		for ak=1,8 
-			Data.Acts+="ZZZ_CYBERSUMMON_JI"
+			Acts+="ZZZ_CYBERSUMMON_JI"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 100 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 100 
 		for ak=1,10 
-			Data.Acts+="ZZZ_CYBERSUMMON_MEDIC"
+			Acts+="ZZZ_CYBERSUMMON_MEDIC"
 		end
 
 	end

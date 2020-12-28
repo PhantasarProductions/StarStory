@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,45 +85,45 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 60 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 60 
 		for ak=1,60 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_DEATH"] = 75 
+		Acts.ActMinLevel["ABL_FOE_DEATH"] = 75 
 		for ak=1,10 
-			Data.Acts+="ABL_FOE_DEATH"
+			Acts+="ABL_FOE_DEATH"
 		end
-		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 80 
+		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 80 
 		for ak=1,2 
-			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,500 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,500 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_TRAVEL"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_CARROT"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,25 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 800 
+		Acts.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 800 
 		for ak=1,1 
-			Data.Acts+="SUPER_THRILLING_DAMNNATION"
+			Acts+="SUPER_THRILLING_DAMNNATION"
 		end
 
 	end

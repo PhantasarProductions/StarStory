@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,85 +85,85 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ARM_BIOHAZARD"] = 1 
+		Acts.ActMinLevel["ARM_BIOHAZARD"] = 1 
 		for ak=1,10 
-			Data.Acts+="ARM_BIOHAZARD"
+			Acts+="ARM_BIOHAZARD"
 		end
-		Data.ActMinLevel["ARM_DART"] = 1 
+		Acts.ActMinLevel["ARM_DART"] = 1 
 		for ak=1,80 
-			Data.Acts+="ARM_DART"
+			Acts+="ARM_DART"
 		end
-		Data.ActMinLevel["ARM_FLAMETHROWER"] = 1 
+		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 1 
 		for ak=1,70 
-			Data.Acts+="ARM_FLAMETHROWER"
+			Acts+="ARM_FLAMETHROWER"
 		end
-		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
+		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
 		for ak=1,50 
-			Data.Acts+="ARM_HEALINGSPRAY"
+			Acts+="ARM_HEALINGSPRAY"
 		end
-		Data.ActMinLevel["ARM_ICEBULLET"] = 1 
+		Acts.ActMinLevel["ARM_ICEBULLET"] = 1 
 		for ak=1,30 
-			Data.Acts+="ARM_ICEBULLET"
+			Acts+="ARM_ICEBULLET"
 		end
-		Data.ActMinLevel["ARM_MINICANNON"] = 1 
+		Acts.ActMinLevel["ARM_MINICANNON"] = 1 
 		for ak=1,10 
-			Data.Acts+="ARM_MINICANNON"
+			Acts+="ARM_MINICANNON"
 		end
-		Data.ActMinLevel["ARM_MULTIBLAST"] = 1 
+		Acts.ActMinLevel["ARM_MULTIBLAST"] = 1 
 		for ak=1,5 
-			Data.Acts+="ARM_MULTIBLAST"
+			Acts+="ARM_MULTIBLAST"
 		end
-		Data.ActMinLevel["ARM_POISONDART"] = 1 
+		Acts.ActMinLevel["ARM_POISONDART"] = 1 
 		for ak=1,5 
-			Data.Acts+="ARM_POISONDART"
+			Acts+="ARM_POISONDART"
 		end
-		Data.ActMinLevel["ARM_STUN_GUN"] = 1 
+		Acts.ActMinLevel["ARM_STUN_GUN"] = 1 
 		for ak=1,5 
-			Data.Acts+="ARM_STUN_GUN"
+			Acts+="ARM_STUN_GUN"
 		end
-		Data.ActMinLevel["ARM_VIRUSBOMB"] = 1 
+		Acts.ActMinLevel["ARM_VIRUSBOMB"] = 1 
 		for ak=1,5 
-			Data.Acts+="ARM_VIRUSBOMB"
+			Acts+="ARM_VIRUSBOMB"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=800
 		temp.VLT=false
 		for ak=1,80 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,80 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SHOT"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,20 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_STEROIDS"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,20 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,20 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SUPERCAPSULE"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,80 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,80 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

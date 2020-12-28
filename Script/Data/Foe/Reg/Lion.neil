@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,53 +85,53 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
+		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_KAKSI"
+			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 80 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 80 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 100 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 100 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 35 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 35 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_FEAR"] = 85 
+		Acts.ActMinLevel["ABL_FOE_FEAR"] = 85 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_FEAR"
+			Acts+="ABL_FOE_FEAR"
 		end
-		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
+		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
 		for ak=1,500 
-			Data.Acts+="ABL_FOE_SCRATCH"
+			Acts+="ABL_FOE_SCRATCH"
 		end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=1
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=4000
 		temp.VLT=false
 		for ak=1,4000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,4000 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

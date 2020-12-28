@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,43 +85,43 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 1 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 1 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
 		for ak=1,80 
-			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
+		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
 		for ak=1,100 
-			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 20 
+		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 20 
 		for ak=1,75 
-			Data.Acts+="ABL_WENDICKA_JOLT"
+			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 15 
+		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 15 
 		for ak=1,80 
-			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 25 
+		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 25 
 		for ak=1,60 
-			Data.Acts+="ABL_WENDICKA_SHOCK"
+			Acts+="ABL_WENDICKA_SHOCK"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=5000
 		temp.VLT=false
 		for ak=1,500 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,500 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 1 
+		Acts.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 1 
 		for ak=1,950 
-			Data.Acts+="SUPER_THRILLING_DAMNNATION"
+			Acts+="SUPER_THRILLING_DAMNNATION"
 		end
 
 	end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,53 +85,53 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 120 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 120 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 200 
+		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 200 
 		for ak=1,10 
-			Data.Acts+="ABL_WENDICKA_ELECTRICCHARGE"
+			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 100 
+		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 100 
 		for ak=1,45 
-			Data.Acts+="ABL_WENDICKA_JOLT"
+			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 150 
+		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 150 
 		for ak=1,30 
-			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
+		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
 		for ak=1,50 
-			Data.Acts+="ABL_WENDICKA_SHOCK"
+			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
+			Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 1 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 1 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CYBERSUMMON_CAPT"
+			Acts+="ZZZ_CYBERSUMMON_CAPT"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 1 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 1 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CYBERSUMMON_GUNNER"
+			Acts+="ZZZ_CYBERSUMMON_GUNNER"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 1 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 1 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CYBERSUMMON_JI"
+			Acts+="ZZZ_CYBERSUMMON_JI"
 		end
-		Data.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 1 
+		Acts.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 1 
 		for ak=1,1 
-			Data.Acts+="ZZZ_CYBERSUMMON_MEDIC"
+			Acts+="ZZZ_CYBERSUMMON_MEDIC"
 		end
-		Data.ActMinLevel["ZZZZ_GODDESS_ELECTRICHEALING"] = 60 
+		Acts.ActMinLevel["ZZZZ_GODDESS_ELECTRICHEALING"] = 60 
 		for ak=1,10 
-			Data.Acts+="ZZZZ_GODDESS_ELECTRICHEALING"
+			Acts+="ZZZZ_GODDESS_ELECTRICHEALING"
 		end
-		Data.ActMinLevel["ZZZZ_GODDESS_VOID"] = 10 
+		Acts.ActMinLevel["ZZZZ_GODDESS_VOID"] = 10 
 		for ak=1,25 
-			Data.Acts+="ZZZZ_GODDESS_VOID"
+			Acts+="ZZZZ_GODDESS_VOID"
 		end
 
 	end

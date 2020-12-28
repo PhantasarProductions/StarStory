@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,16 +85,16 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ARM_VIRUSBOMB"] = 1 
+		Acts.ActMinLevel["ARM_VIRUSBOMB"] = 1 
 		for ak=1,100 
-			Data.Acts+="ARM_VIRUSBOMB"
+			Acts+="ARM_VIRUSBOMB"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_GARNET"
 		temp.LVL=250
 		temp.VLT=false
 		for ak=1,255 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

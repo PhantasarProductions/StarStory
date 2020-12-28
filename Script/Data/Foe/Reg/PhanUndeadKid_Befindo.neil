@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 4
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,162 +85,162 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 100 
+		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 100 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
+			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 80 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 80 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 60 
+		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 60 
 		for ak=1,25 
-			Data.Acts+="ABL_FOE_THRILLINGCHARGE"
+			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 75 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 75 
 		for ak=1,5 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_AQUAMARINE"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,100 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_TRAVEL"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_APPLE"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,30 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_CARROT"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,45 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,2 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_HOLYWATER"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,50 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_LIONHEAD"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MAGICDISC"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MAGICDUST"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MEDICINE"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_PHOENIX"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,40 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_POTION"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_SALVE"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ROCK"
 		temp.LVL=190
 		temp.VLT=false
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 400 
+		Acts.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 400 
 		for ak=1,4 
-			Data.Acts+="SUPER_THRILLING_DAMNNATION"
+			Acts+="SUPER_THRILLING_DAMNNATION"
 		end
 
 	end

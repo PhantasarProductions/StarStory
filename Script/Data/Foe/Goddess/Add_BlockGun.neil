@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,21 +85,21 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"] = 5 
+		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"] = 5 
 		for ak=1,5 
-			Data.Acts+="ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"
+			Acts+="ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"
 		end
-		Data.ActMinLevel["ZZZZ_ADD_GODDESS_HANDICAP"] = 5 
+		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_HANDICAP"] = 5 
 		for ak=1,5 
-			Data.Acts+="ZZZZ_ADD_GODDESS_HANDICAP"
+			Acts+="ZZZZ_ADD_GODDESS_HANDICAP"
 		end
-		Data.ActMinLevel["ZZZZ_ADD_GODDESS_HORROR_SHOT"] = 5 
+		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_HORROR_SHOT"] = 5 
 		for ak=1,5 
-			Data.Acts+="ZZZZ_ADD_GODDESS_HORROR_SHOT"
+			Acts+="ZZZZ_ADD_GODDESS_HORROR_SHOT"
 		end
-		Data.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 1 
+		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 1 
 		for ak=1,5 
-			Data.Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
+			Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
 		end
 
 	end

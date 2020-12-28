@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 2
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,173 +85,173 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 1 
+		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_FULLHEALTH"
+			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 1 
+		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 1 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_WATERBEAM"
+			Acts+="ABL_FOE_WATERBEAM"
 		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,2 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,2 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,3 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,3 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_BIOHAZARD"
 		temp.LVL=150
 		temp.VLT=false
 		for ak=1,4 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,4 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_BLUBAFLOWER"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,5 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=250
 		temp.VLT=false
 		for ak=1,6 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,6 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=250
 		temp.VLT=false
 		for ak=1,7 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,7 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=250
 		temp.VLT=false
 		for ak=1,8 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,8 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_MEDICINE"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,9 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,9 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_MOLOTOV"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=450
 		temp.VLT=false
 		for ak=1,450 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,450 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ROCK"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,11 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,11 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SPORES"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,12 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,12 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_THUNDER_DIAMOND"
 		temp.LVL=300
 		temp.VLT=false
 		for ak=1,14 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,14 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_VLUGZOUT"
 		temp.LVL=500
 		temp.VLT=false
 		for ak=1,15 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,15 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

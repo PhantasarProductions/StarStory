@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 4
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,86 +85,86 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 20 
+		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 20 
 		for ak=1,9 
-			Data.Acts+="ABL_EXHURU_KAKSI"
+			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 30 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 30 
 		for ak=1,8 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 50 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 50 
 		for ak=1,6 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 40 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 40 
 		for ak=1,7 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 10 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 10 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_ASSIMILATE"] = 0 
+		Acts.ActMinLevel["ABL_FOE_ASSIMILATE"] = 0 
 		for ak=1,25 
-			Data.Acts+="ABL_FOE_ASSIMILATE"
+			Acts+="ABL_FOE_ASSIMILATE"
 		end
-		Data.ActMinLevel["ABL_FOE_DAMNYOU"] = 90 
+		Acts.ActMinLevel["ABL_FOE_DAMNYOU"] = 90 
 		for ak=1,10 
-			Data.Acts+="ABL_FOE_DAMNYOU"
+			Acts+="ABL_FOE_DAMNYOU"
 		end
-		Data.ActMinLevel["ABL_FOE_DEATH"] = 10 
+		Acts.ActMinLevel["ABL_FOE_DEATH"] = 10 
 		for ak=1,10 
-			Data.Acts+="ABL_FOE_DEATH"
+			Acts+="ABL_FOE_DEATH"
 		end
-		Data.ActMinLevel["ABL_FOE_HORROR"] = 80 
+		Acts.ActMinLevel["ABL_FOE_HORROR"] = 80 
 		for ak=1,5 
-			Data.Acts+="ABL_FOE_HORROR"
+			Acts+="ABL_FOE_HORROR"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 200 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 200 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ITM_EPO"] = 200 
+		Acts.ActMinLevel["ITM_EPO"] = 200 
 		for ak=1,1 
-			Data.Acts+="ITM_EPO"
+			Acts+="ITM_EPO"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_FISH"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,10 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=1
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SHIT"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

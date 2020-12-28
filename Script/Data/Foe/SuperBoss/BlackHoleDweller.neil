@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 6
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,35 +85,35 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 0 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["BHD_BLIZZARD"] = 0 
+		Acts.ActMinLevel["BHD_BLIZZARD"] = 0 
 		for ak=1,25 
-			Data.Acts+="BHD_BLIZZARD"
+			Acts+="BHD_BLIZZARD"
 		end
-		Data.ActMinLevel["BHD_FIRE"] = 0 
+		Acts.ActMinLevel["BHD_FIRE"] = 0 
 		for ak=1,25 
-			Data.Acts+="BHD_FIRE"
+			Acts+="BHD_FIRE"
 		end
-		Data.ActMinLevel["BHD_LIGHT"] = 0 
+		Acts.ActMinLevel["BHD_LIGHT"] = 0 
 		for ak=1,25 
-			Data.Acts+="BHD_LIGHT"
+			Acts+="BHD_LIGHT"
 		end
-		Data.ActMinLevel["BHD_LIGHTNING"] = 0 
+		Acts.ActMinLevel["BHD_LIGHTNING"] = 0 
 		for ak=1,25 
-			Data.Acts+="BHD_LIGHTNING"
+			Acts+="BHD_LIGHTNING"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=1
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

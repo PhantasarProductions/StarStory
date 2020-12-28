@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,60 +85,60 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ARM_DART"] = 250 
+		Acts.ActMinLevel["ARM_DART"] = 250 
 		for ak=1,90 
-			Data.Acts+="ARM_DART"
+			Acts+="ARM_DART"
 		end
-		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 300 
+		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 300 
 		for ak=1,40 
-			Data.Acts+="ARM_HEALINGSPRAY"
+			Acts+="ARM_HEALINGSPRAY"
 		end
-		Data.ActMinLevel["ARM_MULTIBLAST"] = 400 
+		Acts.ActMinLevel["ARM_MULTIBLAST"] = 400 
 		for ak=1,30 
-			Data.Acts+="ARM_MULTIBLAST"
+			Acts+="ARM_MULTIBLAST"
 		end
-		Data.ActMinLevel["ARM_POISONDART"] = 600 
+		Acts.ActMinLevel["ARM_POISONDART"] = 600 
 		for ak=1,20 
-			Data.Acts+="ARM_POISONDART"
+			Acts+="ARM_POISONDART"
 		end
-		Data.ActMinLevel["ARM_VIRUSBOMB"] = 500 
+		Acts.ActMinLevel["ARM_VIRUSBOMB"] = 500 
 		for ak=1,25 
-			Data.Acts+="ARM_VIRUSBOMB"
+			Acts+="ARM_VIRUSBOMB"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=5000
 		temp.VLT=true
 		for ak=1,1000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=1000
 		temp.VLT=true
 		for ak=1,2000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		temp={}
 		temp.ITM="ITM_EQP_SAPHIRE"
 		temp.LVL=1
 		temp.VLT=true
 		for ak=1,15000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
-		Data.ActMinLevel["ITM_FIRSTAIDKIT"] = 600 
+		Acts.ActMinLevel["ITM_FIRSTAIDKIT"] = 600 
 		for ak=1,10 
-			Data.Acts+="ITM_FIRSTAIDKIT"
+			Acts+="ITM_FIRSTAIDKIT"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,50 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -30,7 +30,7 @@ module
 	readonly int EleRes_Wind = 6
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -86,65 +86,65 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 0 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 0 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 0 
+		Acts.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 0 
 		for ak=1,2 
-			Data.Acts+="ABL_FOE_LICKYOURWOUNDS"
+			Acts+="ABL_FOE_LICKYOURWOUNDS"
 		end
-		Data.ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 0 
+		Acts.ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_PARALYZEFLUID"
+			Acts+="ABL_FOE_PARALYZEFLUID"
 		end
-		Data.ActMinLevel["ABL_FOE_POISONCLOUD"] = 0 
+		Acts.ActMinLevel["ABL_FOE_POISONCLOUD"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_POISONCLOUD"
+			Acts+="ABL_FOE_POISONCLOUD"
 		end
-		Data.ActMinLevel["ABL_FOE_SCRATCH"] = 0 
+		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_SCRATCH"
+			Acts+="ABL_FOE_SCRATCH"
 		end
-		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 0 
+		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_ULTRASONIC"
+			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Data.ActMinLevel["ABL_FOE_VENOMBITE"] = 0 
+		Acts.ActMinLevel["ABL_FOE_VENOMBITE"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_VENOMBITE"
+			Acts+="ABL_FOE_VENOMBITE"
 		end
-		Data.ActMinLevel["ABL_FOE_VIRUSBITE"] = 0 
+		Acts.ActMinLevel["ABL_FOE_VIRUSBITE"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_VIRUSBITE"
+			Acts+="ABL_FOE_VIRUSBITE"
 		end
-		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
+		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_WATERBEAM"
+			Acts+="ABL_FOE_WATERBEAM"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 0 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_JOLT"] = 0 
+		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_WENDICKA_JOLT"
+			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Data.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 0 
+		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_WENDICKA_MJOLNIR"
+			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Data.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 0 
+		Acts.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 0 
 		for ak=1,1 
-			Data.Acts+="ABL_YIRL_INTIMIDATE"
+			Acts+="ABL_YIRL_INTIMIDATE"
 		end
-		Data.ActMinLevel["ITM_ICEBOMB"] = 0 
+		Acts.ActMinLevel["ITM_ICEBOMB"] = 0 
 		for ak=1,1 
-			Data.Acts+="ITM_ICEBOMB"
+			Acts+="ITM_ICEBOMB"
 		end
 
 	end

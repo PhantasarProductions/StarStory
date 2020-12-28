@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,36 +85,36 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
+		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_WATERBEAM"
+			Acts+="ABL_FOE_WATERBEAM"
 		end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=9000
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_THUNDER_DIAMOND"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,2 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_VLUGZOUT"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,4 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

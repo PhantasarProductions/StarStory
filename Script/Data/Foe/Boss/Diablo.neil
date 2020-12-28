@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 2
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,35 +85,35 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 80 
+		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 80 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_FULLHEALTH"
+			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 90 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 90 
 		for ak=1,25 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 100 
+		Acts.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 100 
 		for ak=1,100 
-			Data.Acts+="ABL_FOE_LIGHTNINGENCHANT"
+			Acts+="ABL_FOE_LIGHTNINGENCHANT"
 		end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,80 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,80 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["MOO_ALLDOWN"] = 50 
+		Acts.ActMinLevel["MOO_ALLDOWN"] = 50 
 		for ak=1,90 
-			Data.Acts+="MOO_ALLDOWN"
+			Acts+="MOO_ALLDOWN"
 		end
-		Data.ActMinLevel["MOO_Z2_STERF"] = 2 
+		Acts.ActMinLevel["MOO_Z2_STERF"] = 2 
 		for ak=1,100 
-			Data.Acts+="MOO_Z2_STERF"
+			Acts+="MOO_Z2_STERF"
 		end
 
 	end

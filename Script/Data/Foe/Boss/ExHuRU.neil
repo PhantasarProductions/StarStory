@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,194 +85,194 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 40 
+		Acts.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 40 
 		for ak=1,10 
-			Data.Acts+="ABL_EXHURU_BATTLECRY"
+			Acts+="ABL_EXHURU_BATTLECRY"
 		end
-		Data.ActMinLevel["ABL_EXHURU_CONCENTRATE"] = 250 
+		Acts.ActMinLevel["ABL_EXHURU_CONCENTRATE"] = 250 
 		for ak=1,5 
-			Data.Acts+="ABL_EXHURU_CONCENTRATE"
+			Acts+="ABL_EXHURU_CONCENTRATE"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 60 
+		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 60 
 		for ak=1,100 
-			Data.Acts+="ABL_EXHURU_KAKSI"
+			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 80 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 80 
 		for ak=1,80 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 120 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 120 
 		for ak=1,40 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 100 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 100 
 		for ak=1,60 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 20 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 20 
 		for ak=1,120 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 500 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 500 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,5000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,90 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_BLUBAFLOWER"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,2500 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,80 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ENERGYDRINK"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,1250 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,70 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_GARNET"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_KYANITE"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_ONYX"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SAPHIRE"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_AQUAMARINE"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_CARNELIAN"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_KYANITE"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_ONYX"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,625 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,60 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,1000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		temp={}
 		temp.ITM="ITM_HOMEO"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,312 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,50 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_MEDIKIT"
 		temp.LVL=120
 		temp.VLT=false
 		for ak=1,106 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,40 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,90 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,90 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_SHOT"
 		temp.LVL=240
 		temp.VLT=false
 		for ak=1,53 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,30 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 
 	end

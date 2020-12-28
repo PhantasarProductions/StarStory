@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 3
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -85,553 +85,553 @@ module
 		plua temp
 
 
-		Data.ActMinLevel["ABL_CULIST_CALL"] = 80 
+		Acts.ActMinLevel["ABL_CULIST_CALL"] = 80 
 		for ak=1,2 
-			Data.Acts+="ABL_CULIST_CALL"
+			Acts+="ABL_CULIST_CALL"
 		end
-		Data.ActMinLevel["ABL_CULTIST_CTHULU"] = 9000 
+		Acts.ActMinLevel["ABL_CULTIST_CTHULU"] = 9000 
 		for ak=1,1 
-			Data.Acts+="ABL_CULTIST_CTHULU"
+			Acts+="ABL_CULTIST_CTHULU"
 		end
-		Data.ActMinLevel["ABL_CULTIST_PRAYCTHULU"] = 95 
+		Acts.ActMinLevel["ABL_CULTIST_PRAYCTHULU"] = 95 
 		for ak=1,2 
-			Data.Acts+="ABL_CULTIST_PRAYCTHULU"
+			Acts+="ABL_CULTIST_PRAYCTHULU"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
+		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
 		for ak=1,2 
-			Data.Acts+="ABL_EXHURU_KAKSI"
+			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KOLME"] = 3 
+		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 3 
 		for ak=1,3 
-			Data.Acts+="ABL_EXHURU_KOLME"
+			Acts+="ABL_EXHURU_KOLME"
 		end
-		Data.ActMinLevel["ABL_EXHURU_KUUSI"] = 4 
+		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 4 
 		for ak=1,4 
-			Data.Acts+="ABL_EXHURU_KUUSI"
+			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Data.ActMinLevel["ABL_EXHURU_NELJA"] = 5 
+		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 5 
 		for ak=1,5 
-			Data.Acts+="ABL_EXHURU_NELJA"
+			Acts+="ABL_EXHURU_NELJA"
 		end
-		Data.ActMinLevel["ABL_EXHURU_YKSI"] = 6 
+		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 6 
 		for ak=1,6 
-			Data.Acts+="ABL_EXHURU_YKSI"
+			Acts+="ABL_EXHURU_YKSI"
 		end
-		Data.ActMinLevel["ABL_FOE_EXPDRAIN"] = 7 
+		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 7 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_EXPDRAIN"
+			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Data.ActMinLevel["ABL_FOE_FLAMETOUCH"] = 8 
+		Acts.ActMinLevel["ABL_FOE_FLAMETOUCH"] = 8 
 		for ak=1,8 
-			Data.Acts+="ABL_FOE_FLAMETOUCH"
+			Acts+="ABL_FOE_FLAMETOUCH"
 		end
-		Data.ActMinLevel["ABL_FOE_FULLHEALTH"] = 9 
+		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 9 
 		for ak=1,9 
-			Data.Acts+="ABL_FOE_FULLHEALTH"
+			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Data.ActMinLevel["ABL_FOE_IDDQD"] = 10 
+		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 10 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_IDDQD"
+			Acts+="ABL_FOE_IDDQD"
 		end
-		Data.ActMinLevel["ABL_FOE_POISONCLOUD"] = 11 
+		Acts.ActMinLevel["ABL_FOE_POISONCLOUD"] = 11 
 		for ak=1,2 
-			Data.Acts+="ABL_FOE_POISONCLOUD"
+			Acts+="ABL_FOE_POISONCLOUD"
 		end
-		Data.ActMinLevel["ABL_FOE_TASER"] = 12 
+		Acts.ActMinLevel["ABL_FOE_TASER"] = 12 
 		for ak=1,3 
-			Data.Acts+="ABL_FOE_TASER"
+			Acts+="ABL_FOE_TASER"
 		end
-		Data.ActMinLevel["ABL_FOE_ULTRASONIC"] = 13 
+		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 13 
 		for ak=1,1 
-			Data.Acts+="ABL_FOE_ULTRASONIC"
+			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Data.ActMinLevel["ABL_FOXY_BACKSTAB"] = 14 
+		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 14 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_BACKSTAB"
+			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_MULTISTAB"] = 15 
+		Acts.ActMinLevel["ABL_FOXY_MULTISTAB"] = 15 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_MULTISTAB"
+			Acts+="ABL_FOXY_MULTISTAB"
 		end
-		Data.ActMinLevel["ABL_FOXY_STUNSTAB"] = 16 
+		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 16 
 		for ak=1,1 
-			Data.Acts+="ABL_FOXY_STUNSTAB"
+			Acts+="ABL_FOXY_STUNSTAB"
 		end
-		Data.ActMinLevel["ARM_DART"] = 70 
+		Acts.ActMinLevel["ARM_DART"] = 70 
 		for ak=1,1 
-			Data.Acts+="ARM_DART"
+			Acts+="ARM_DART"
 		end
-		Data.ActMinLevel["ARM_HEALINGSPRAY"] = 80 
+		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 80 
 		for ak=1,1 
-			Data.Acts+="ARM_HEALINGSPRAY"
+			Acts+="ARM_HEALINGSPRAY"
 		end
-		Data.ActMinLevel["ITM_ADHBANDAGE"] = 60 
+		Acts.ActMinLevel["ITM_ADHBANDAGE"] = 60 
 		for ak=1,1 
-			Data.Acts+="ITM_ADHBANDAGE"
+			Acts+="ITM_ADHBANDAGE"
 		end
 		temp={}
 		temp.ITM="ITM_ADHBANDAGE"
 		temp.LVL=10
 		temp.VLT=false
 		for ak=1,1000 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,20 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_ANTIDOTE"] = 70 
+		Acts.ActMinLevel["ITM_ANTIDOTE"] = 70 
 		for ak=1,1 
-			Data.Acts+="ITM_ANTIDOTE"
+			Acts+="ITM_ANTIDOTE"
 		end
 		temp={}
 		temp.ITM="ITM_ANTIDOTE"
 		temp.LVL=20
 		temp.VLT=false
 		for ak=1,990 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,19 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_ASTRILOPUPHONEY"] = 80 
+		Acts.ActMinLevel["ITM_ASTRILOPUPHONEY"] = 80 
 		for ak=1,1 
-			Data.Acts+="ITM_ASTRILOPUPHONEY"
+			Acts+="ITM_ASTRILOPUPHONEY"
 		end
 		temp={}
 		temp.ITM="ITM_ASTRILOPUPHONEY"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,980 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,18 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_BANDAGE"] = 30 
+		Acts.ActMinLevel["ITM_BANDAGE"] = 30 
 		for ak=1,1 
-			Data.Acts+="ITM_BANDAGE"
+			Acts+="ITM_BANDAGE"
 		end
 		temp={}
 		temp.ITM="ITM_BANDAGE"
 		temp.LVL=40
 		temp.VLT=false
 		for ak=1,970 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,17 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_BIOHAZARD"] = 20 
+		Acts.ActMinLevel["ITM_BIOHAZARD"] = 20 
 		for ak=1,1 
-			Data.Acts+="ITM_BIOHAZARD"
+			Acts+="ITM_BIOHAZARD"
 		end
 		temp={}
 		temp.ITM="ITM_BIOHAZARD"
 		temp.LVL=50
 		temp.VLT=false
 		for ak=1,960 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,16 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_BLUBAFLOWER"] = 10 
+		Acts.ActMinLevel["ITM_BLUBAFLOWER"] = 10 
 		for ak=1,1 
-			Data.Acts+="ITM_BLUBAFLOWER"
+			Acts+="ITM_BLUBAFLOWER"
 		end
 		temp={}
 		temp.ITM="ITM_BLUBAFLOWER"
 		temp.LVL=60
 		temp.VLT=false
 		for ak=1,950 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,15 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_CHLOROFORM"] = 90 
+		Acts.ActMinLevel["ITM_CHLOROFORM"] = 90 
 		for ak=1,1 
-			Data.Acts+="ITM_CHLOROFORM"
+			Acts+="ITM_CHLOROFORM"
 		end
 		temp={}
 		temp.ITM="ITM_CHLOROFORM"
 		temp.LVL=70
 		temp.VLT=false
 		for ak=1,940 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,14 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_ENERGYDRINK"
 		temp.LVL=80
 		temp.VLT=false
 		for ak=1,930 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,13 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_AQUAMARINE"
 		temp.LVL=920
 		temp.VLT=true
 		for ak=1,170 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_CARNELIAN"
 		temp.LVL=930
 		temp.VLT=true
 		for ak=1,160 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_EMERALD"
 		temp.LVL=940
 		temp.VLT=true
 		for ak=1,150 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_GARNET"
 		temp.LVL=950
 		temp.VLT=true
 		for ak=1,140 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_KYANITE"
 		temp.LVL=960
 		temp.VLT=true
 		for ak=1,130 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_ONYX"
 		temp.LVL=970
 		temp.VLT=true
 		for ak=1,120 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_RUBY"
 		temp.LVL=980
 		temp.VLT=true
 		for ak=1,110 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SAPHIRE"
 		temp.LVL=990
 		temp.VLT=true
 		for ak=1,100 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_AQUAMARINE"
 		temp.LVL=1000
 		temp.VLT=true
 		for ak=1,90 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_CARNELIAN"
 		temp.LVL=1010
 		temp.VLT=true
 		for ak=1,80 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_KYANITE"
 		temp.LVL=1020
 		temp.VLT=true
 		for ak=1,70 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_EQP_SUPER_ONYX"
 		temp.LVL=1030
 		temp.VLT=true
 		for ak=1,60 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_FIRSTAIDKIT"] = 1 
+		Acts.ActMinLevel["ITM_FIRSTAIDKIT"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_FIRSTAIDKIT"
+			Acts+="ITM_FIRSTAIDKIT"
 		end
 		temp={}
 		temp.ITM="ITM_FIRSTAIDKIT"
 		temp.LVL=1040
 		temp.VLT=false
 		for ak=1,40 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_GUBAFLOWER"] = 2 
+		Acts.ActMinLevel["ITM_GUBAFLOWER"] = 2 
 		for ak=1,1 
-			Data.Acts+="ITM_GUBAFLOWER"
+			Acts+="ITM_GUBAFLOWER"
 		end
 		temp={}
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=90
 		temp.VLT=false
 		for ak=1,920 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,12 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_HEALINGCAPSULE"] = 1 
+		Acts.ActMinLevel["ITM_HEALINGCAPSULE"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_HEALINGCAPSULE"
+			Acts+="ITM_HEALINGCAPSULE"
 		end
 		temp={}
 		temp.ITM="ITM_HEALINGCAPSULE"
 		temp.LVL=100
 		temp.VLT=false
 		for ak=1,910 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,11 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_HEATHRUB"] = 1 
+		Acts.ActMinLevel["ITM_HEATHRUB"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_HEATHRUB"
+			Acts+="ITM_HEATHRUB"
 		end
 		temp={}
 		temp.ITM="ITM_HEATHRUB"
 		temp.LVL=110
 		temp.VLT=false
 		for ak=1,900 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,10 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_HOMEO"] = 1 
+		Acts.ActMinLevel["ITM_HOMEO"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_HOMEO"
+			Acts+="ITM_HOMEO"
 		end
 		temp={}
 		temp.ITM="ITM_HOMEO"
 		temp.LVL=120
 		temp.VLT=false
 		for ak=1,890 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,9 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_ICEBOMB"] = 5 
+		Acts.ActMinLevel["ITM_ICEBOMB"] = 5 
 		for ak=1,1 
-			Data.Acts+="ITM_ICEBOMB"
+			Acts+="ITM_ICEBOMB"
 		end
 		temp={}
 		temp.ITM="ITM_ICEBOMB"
 		temp.LVL=130
 		temp.VLT=false
 		for ak=1,880 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,8 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_MEDICINE"] = 6 
+		Acts.ActMinLevel["ITM_MEDICINE"] = 6 
 		for ak=1,1 
-			Data.Acts+="ITM_MEDICINE"
+			Acts+="ITM_MEDICINE"
 		end
 		temp={}
 		temp.ITM="ITM_MEDICINE"
 		temp.LVL=140
 		temp.VLT=false
 		for ak=1,870 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,7 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_MEDIKIT"] = 8 
+		Acts.ActMinLevel["ITM_MEDIKIT"] = 8 
 		for ak=1,1 
-			Data.Acts+="ITM_MEDIKIT"
+			Acts+="ITM_MEDIKIT"
 		end
 		temp={}
 		temp.ITM="ITM_MEDIKIT"
 		temp.LVL=150
 		temp.VLT=false
 		for ak=1,860 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,6 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_MINDCLEARPILL"] = 1 
+		Acts.ActMinLevel["ITM_MINDCLEARPILL"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_MINDCLEARPILL"
+			Acts+="ITM_MINDCLEARPILL"
 		end
 		temp={}
 		temp.ITM="ITM_MINDCLEARPILL"
 		temp.LVL=160
 		temp.VLT=false
 		for ak=1,850 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,5 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_MOLOTOV"] = 10 
+		Acts.ActMinLevel["ITM_MOLOTOV"] = 10 
 		for ak=1,1 
-			Data.Acts+="ITM_MOLOTOV"
+			Acts+="ITM_MOLOTOV"
 		end
 		temp={}
 		temp.ITM="ITM_MOLOTOV"
 		temp.LVL=170
 		temp.VLT=false
 		for ak=1,840 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,4 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=30
 		temp.VLT=false
 		for ak=1,30 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,30 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_ANTIDOTE"
 		temp.LVL=440
 		temp.VLT=false
 		for ak=1,390 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_APPLE"
 		temp.LVL=450
 		temp.VLT=false
 		for ak=1,380 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
 		temp={}
 		temp.ITM="ITM_PHANTASAR_MAGICDUST"
 		temp.LVL=460
 		temp.VLT=false
 		for ak=1,350 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_ROCK"] = 10 
+		Acts.ActMinLevel["ITM_ROCK"] = 10 
 		for ak=1,1 
-			Data.Acts+="ITM_ROCK"
+			Acts+="ITM_ROCK"
 		end
 		temp={}
 		temp.ITM="ITM_ROCK"
 		temp.LVL=180
 		temp.VLT=false
 		for ak=1,830 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,3 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_SPORES"] = 10 
+		Acts.ActMinLevel["ITM_SPORES"] = 10 
 		for ak=1,1 
-			Data.Acts+="ITM_SPORES"
+			Acts+="ITM_SPORES"
 		end
 		temp={}
 		temp.ITM="ITM_SPORES"
 		temp.LVL=190
 		temp.VLT=false
 		for ak=1,820 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,2 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_STEROIDS"] = 1 
+		Acts.ActMinLevel["ITM_STEROIDS"] = 1 
 		for ak=1,1 
-			Data.Acts+="ITM_STEROIDS"
+			Acts+="ITM_STEROIDS"
 		end
 		temp={}
 		temp.ITM="ITM_STEROIDS"
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,810 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		for ak=1,1 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ITM_THUNDER_DIAMOND"] = 10 
+		Acts.ActMinLevel["ITM_THUNDER_DIAMOND"] = 10 
 		for ak=1,1 
-			Data.Acts+="ITM_THUNDER_DIAMOND"
+			Acts+="ITM_THUNDER_DIAMOND"
 		end
 		temp={}
 		temp.ITM="ITM_THUNDER_DIAMOND"
 		temp.LVL=210
 		temp.VLT=false
 		for ak=1,800 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 		temp={}
 		temp.ITM="ITM_VLUGZOUT"
 		temp.LVL=220
 		temp.VLT=false
 		for ak=1,790 
-			 Data.ItemDrop+=temp
+			 ItemDrop+=temp
 		end
 
 	end

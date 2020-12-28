@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.27
+// Version 20.12.28
 
 
 
@@ -29,7 +29,7 @@ module
 	readonly int EleRes_Wind = 5
 	readonly table Stat
 	readonly table StatusResistance
-	readonly Table Acts
+	readonly Table Acts = {}
 	readonly table ActMinLevel = {}
 	readonly table ItemDrop = {}
 	readonly table ItemSteal = {}
@@ -90,11 +90,11 @@ module
 		temp.LVL=200
 		temp.VLT=false
 		for ak=1,25 
-			 Data.ItemSteal+=temp
+			 ItemSteal+=temp
 		 end
-		Data.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 0 
+		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 0 
 		for ak=1,20 
-			Data.Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
+			Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
 		end
 
 	end
