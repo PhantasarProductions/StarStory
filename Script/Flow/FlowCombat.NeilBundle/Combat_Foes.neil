@@ -63,7 +63,7 @@ class Combat_Foe extends Combat_Fighter
 			return AltX
 		end
 		int m=2-(idx%3)
-		int p=math.floor(idx/3)
+		int p=math.floor(idx/3)+1
 				
 		return (midy4*p)+((midy4/4)*m)
 	end
@@ -71,7 +71,7 @@ class Combat_Foe extends Combat_Fighter
 		if AltY>0
 			return AltY
 		end
-		return (idx%3)*Midy4
+		return ((idx%3)*Midy4)+midy
 	end
 
 	
