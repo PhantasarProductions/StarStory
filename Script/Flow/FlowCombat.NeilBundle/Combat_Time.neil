@@ -1,0 +1,126 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
+// Version: 20.12.29
+// Copyright (C) 2020 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+group ShowTagPointer
+
+	void Hero(string tag,int x,int y)
+	end
+	
+	void Foe(string tag,int x,int y)
+	end
+end
+	
+
+
+module
+
+	// What is important to note is that I tried to copy as much as I
+	// could in order to preserve the experience as much as possible.
+	// However I did want to improve things code wise, and in the original
+	// game this was spread all over my code. I'll group it together.
+	//
+	// This way guarantees me that when it comes to the timing of the combat
+	// flow the game should be as easy/hard as the original.
+	
+	readonly var Gauge = Image.Obtain("COMBAT_TIMEGAUGE")
+	readonly var PointHero = Image.Obtain("COMBAT_POINTHERO")
+	readonly var PointFoe = Image.Obtain("COMBAT_POINTFOE")
+	readonly int gaugex 
+	readonly int gaugey = 10
+	var FClass
+	//screen.H - Gauge.H
+	
+	CONSTRUCTOR
+		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
+		// Something I need to address later, but which is not my primary concern
+		gaugex = screen.W - Gauge.Width
+	end
+	
+	void DrawGauge()
+		static const int iy = 40
+		//--int fk
+		//--int fs
+		//--int fi
+		//--int fv
+		//--int
+		int ak
+		int x
+		int r
+		int g
+		int b
+		static table pointerypos = nil
+		pointerypos = pointerypos || { ["Hero"] = iy+17, ["Foe"] = iy+37 }
+		//if gaugey<0 
+		//	gaugey=gaugey+1 
+		//end
+		//-- Init
+		//Image.ViewPort(gaugex,gaugey,800-gaugex,200)
+		//Image.Origin(gaugex,gaugey)
+		//-- Show
+		__white
+		Gauge.Draw(gaugex,gaugey) //Image.Draw("COMBATGAUGE",0,iy)
+		//for fk,fs in spairs(Fighters) do
+			//for fi,fv in pairs(fs) do
+			
+		for fi,fv in pairs(FClass.Fighters)
+			string fk = fv.Team
+			if fv.Gauge<=10000 then
+				g=180
+				b=(fv.Gauge/10000)*255
+				r=255-b
+				x=(fv.Gauge/10000)*300
+			else
+				r=255
+				g=0
+				b=0
+				x=300+(((fv.Gauge-10000)/10000)*99)
+			end
+			Graphics.Color(r,g,b)
+			if !pointerypos[fk]
+				Lua.error(sprintf("No Y data for combat team '%s",fk))
+			end
+			self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
+			//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
+			//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
+			__white 
+			ShowTagPointer[fk](fv,x,pointerypos[fk])
+		end
+		//end // I needed one for-loop less, so also one end less.
+	//-- Done
+	//Image.Origin(0,0)
+	//Image.ViewPort(0,0,800,600)
+	end
+end
