@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 20.12.28
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -121,6 +121,7 @@ module
 				CSayF("= Tag:         %s",H.Tag)
 				CSayF("= Team:        %s",H.Team)
 				CSayF("= Position     (%d,%d)",H.X,H.Y)
+				H.InitStats()
 			end
 		end
 	end
