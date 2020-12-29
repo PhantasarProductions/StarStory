@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadCombat.neil
-// Version: 20.12.28
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,7 +36,9 @@
 // End License Information
 #use "Script/Use/Anyway"
 #use "libs/LinkedList"
+#use "libs/xmath"
 #use "Script/Use/Misc/MiniMessage"
+
 
 #use "Script/Flow/FlowCombat"
 
@@ -54,9 +56,11 @@ init
 	Print("A few needed things before we start!")
 	// Linkups
 	Combat_Draw.Start = Combat_Start
+	Combat_Draw.Time = Combat_Time
 	Combat_Draw.Fighter = Combat_Fighter
 	Combat_Heroes.Fighters = Combat_Fighter
 	Combat_Foe.Fighter = Combat_Fighter
+	Combat_Time.FClass = Combat_Fighter	
 	// Init
 	Combat_Heroes.Compile()
 end
