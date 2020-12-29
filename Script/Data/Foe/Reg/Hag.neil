@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -86,67 +86,67 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_DAMNYOU"] = 500 
+		ActMinLevel["ABL_FOE_DAMNYOU"] = 500 
 		for ak=1,10 
 			Acts+="ABL_FOE_DAMNYOU"
 		end
-		Acts.ActMinLevel["ABL_FOE_DAMNYOUALL"] = 25 
+		ActMinLevel["ABL_FOE_DAMNYOUALL"] = 25 
 		for ak=1,1 
 			Acts+="ABL_FOE_DAMNYOUALL"
 		end
-		Acts.ActMinLevel["ABL_FOE_DARK_VITALIZE"] = 0 
+		ActMinLevel["ABL_FOE_DARK_VITALIZE"] = 0 
 		for ak=1,50 
 			Acts+="ABL_FOE_DARK_VITALIZE"
 		end
-		Acts.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 50 
+		ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 50 
 		for ak=1,1 
 			Acts+="ABL_FOE_DARKHEAL_HERO"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEATH"] = 450 
+		ActMinLevel["ABL_FOE_DEATH"] = 450 
 		for ak=1,15 
 			Acts+="ABL_FOE_DEATH"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 400 
+		ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 400 
 		for ak=1,10 
 			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 375 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 375 
 		for ak=1,5 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_FEAR"] = 350 
+		ActMinLevel["ABL_FOE_FEAR"] = 350 
 		for ak=1,25 
 			Acts+="ABL_FOE_FEAR"
 		end
-		Acts.ActMinLevel["ABL_FOE_GROUPRANDOMIZER"] = 200 
+		ActMinLevel["ABL_FOE_GROUPRANDOMIZER"] = 200 
 		for ak=1,1 
 			Acts+="ABL_FOE_GROUPRANDOMIZER"
 		end
-		Acts.ActMinLevel["ABL_FOE_HORROR"] = 225 
+		ActMinLevel["ABL_FOE_HORROR"] = 225 
 		for ak=1,5 
 			Acts+="ABL_FOE_HORROR"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 325 
+		ActMinLevel["ABL_FOE_IDDQD"] = 325 
 		for ak=1,5 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_INFERNO"] = 300 
+		ActMinLevel["ABL_FOE_INFERNO"] = 300 
 		for ak=1,100 
 			Acts+="ABL_FOE_INFERNO"
 		end
-		Acts.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 75 
+		ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 75 
 		for ak=1,5 
 			Acts+="ABL_FOE_LIGHTNINGENCHANT"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 175 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 175 
 		for ak=1,2 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 275 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 275 
 		for ak=1,50 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 250 
+		ActMinLevel["ABL_XENOBI_BLIZZARD"] = 250 
 		for ak=1,5 
 			Acts+="ABL_XENOBI_BLIZZARD"
 		end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,11 +85,11 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 10 
+		ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 10 
 		for ak=1,70 
 			Acts+="ABL_FOE_LICKYOURWOUNDS"
 		end
-		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
+		ActMinLevel["ABL_FOE_SCRATCH"] = 30 
 		for ak=1,20 
 			Acts+="ABL_FOE_SCRATCH"
 		end
@@ -163,7 +163,7 @@ module
 		for ak=1,50 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ZZZ_FOE_LEOPARD_UPGRADE"] = 80 
+		ActMinLevel["ZZZ_FOE_LEOPARD_UPGRADE"] = 80 
 		for ak=1,10 
 			Acts+="ZZZ_FOE_LEOPARD_UPGRADE"
 		end

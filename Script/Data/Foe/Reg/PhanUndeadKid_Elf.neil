@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,43 +85,43 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 5 
+		ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 5 
 		for ak=1,60 
 			Acts+="ABL_FOE_DARKHEAL_FOE"
 		end
-		Acts.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 2 
+		ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 2 
 		for ak=1,78 
 			Acts+="ABL_FOE_DARKHEAL_HERO"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEATH"] = 1 
+		ActMinLevel["ABL_FOE_DEATH"] = 1 
 		for ak=1,100 
 			Acts+="ABL_FOE_DEATH"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
+		ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
 		for ak=1,250 
 			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 100 
+		ActMinLevel["ABL_FOE_IDDQD"] = 100 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
 		for ak=1,95 
 			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 2 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 2 
 		for ak=1,77 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 4 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 4 
 		for ak=1,76 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Acts.ActMinLevel["ABL_FOXY_CHEER"] = 5 
+		ActMinLevel["ABL_FOXY_CHEER"] = 5 
 		for ak=1,77 
 			Acts+="ABL_FOXY_CHEER"
 		end
-		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
 		for ak=1,70 
 			Acts+="ABL_FOXY_STUNSTAB"
 		end

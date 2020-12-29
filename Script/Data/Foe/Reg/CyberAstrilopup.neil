@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,43 +85,43 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ARM_BIOHAZARD"] = 1 
+		ActMinLevel["ARM_BIOHAZARD"] = 1 
 		for ak=1,10 
 			Acts+="ARM_BIOHAZARD"
 		end
-		Acts.ActMinLevel["ARM_DART"] = 1 
+		ActMinLevel["ARM_DART"] = 1 
 		for ak=1,80 
 			Acts+="ARM_DART"
 		end
-		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 1 
+		ActMinLevel["ARM_FLAMETHROWER"] = 1 
 		for ak=1,70 
 			Acts+="ARM_FLAMETHROWER"
 		end
-		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
+		ActMinLevel["ARM_HEALINGSPRAY"] = 1 
 		for ak=1,50 
 			Acts+="ARM_HEALINGSPRAY"
 		end
-		Acts.ActMinLevel["ARM_ICEBULLET"] = 1 
+		ActMinLevel["ARM_ICEBULLET"] = 1 
 		for ak=1,30 
 			Acts+="ARM_ICEBULLET"
 		end
-		Acts.ActMinLevel["ARM_MINICANNON"] = 1 
+		ActMinLevel["ARM_MINICANNON"] = 1 
 		for ak=1,10 
 			Acts+="ARM_MINICANNON"
 		end
-		Acts.ActMinLevel["ARM_MULTIBLAST"] = 1 
+		ActMinLevel["ARM_MULTIBLAST"] = 1 
 		for ak=1,5 
 			Acts+="ARM_MULTIBLAST"
 		end
-		Acts.ActMinLevel["ARM_POISONDART"] = 1 
+		ActMinLevel["ARM_POISONDART"] = 1 
 		for ak=1,5 
 			Acts+="ARM_POISONDART"
 		end
-		Acts.ActMinLevel["ARM_STUN_GUN"] = 1 
+		ActMinLevel["ARM_STUN_GUN"] = 1 
 		for ak=1,5 
 			Acts+="ARM_STUN_GUN"
 		end
-		Acts.ActMinLevel["ARM_VIRUSBOMB"] = 1 
+		ActMinLevel["ARM_VIRUSBOMB"] = 1 
 		for ak=1,5 
 			Acts+="ARM_VIRUSBOMB"
 		end

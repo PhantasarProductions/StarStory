@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,87 +85,87 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 40 
 		for ak=1,80 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 60 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 60 
 		for ak=1,70 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 100 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 100 
 		for ak=1,50 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 80 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 80 
 		for ak=1,60 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 20 
+		ActMinLevel["ABL_EXHURU_YKSI"] = 20 
 		for ak=1,90 
 			Acts+="ABL_EXHURU_YKSI"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 150 
+		ActMinLevel["ABL_FOE_IDDQD"] = 150 
 		for ak=1,5 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 180 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 180 
 		for ak=1,25 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Acts.ActMinLevel["ARM_DART"] = 5 
+		ActMinLevel["ARM_DART"] = 5 
 		for ak=1,100 
 			Acts+="ARM_DART"
 		end
-		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 55 
+		ActMinLevel["ARM_FLAMETHROWER"] = 55 
 		for ak=1,19 
 			Acts+="ARM_FLAMETHROWER"
 		end
-		Acts.ActMinLevel["ARM_HEALINGSHOWER"] = 1234 
+		ActMinLevel["ARM_HEALINGSHOWER"] = 1234 
 		for ak=1,1 
 			Acts+="ARM_HEALINGSHOWER"
 		end
-		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 1 
+		ActMinLevel["ARM_HEALINGSPRAY"] = 1 
 		for ak=1,90 
 			Acts+="ARM_HEALINGSPRAY"
 		end
-		Acts.ActMinLevel["ARM_ICEBULLET"] = 40 
+		ActMinLevel["ARM_ICEBULLET"] = 40 
 		for ak=1,30 
 			Acts+="ARM_ICEBULLET"
 		end
-		Acts.ActMinLevel["ARM_MINICANNON"] = 45 
+		ActMinLevel["ARM_MINICANNON"] = 45 
 		for ak=1,20 
 			Acts+="ARM_MINICANNON"
 		end
-		Acts.ActMinLevel["ARM_MULTIBLAST"] = 15 
+		ActMinLevel["ARM_MULTIBLAST"] = 15 
 		for ak=1,80 
 			Acts+="ARM_MULTIBLAST"
 		end
-		Acts.ActMinLevel["ARM_NAPALMSHOWER"] = 50 
+		ActMinLevel["ARM_NAPALMSHOWER"] = 50 
 		for ak=1,10 
 			Acts+="ARM_NAPALMSHOWER"
 		end
-		Acts.ActMinLevel["ARM_POISONDART"] = 25 
+		ActMinLevel["ARM_POISONDART"] = 25 
 		for ak=1,60 
 			Acts+="ARM_POISONDART"
 		end
-		Acts.ActMinLevel["ARM_RISINGNOVA"] = 100 
+		ActMinLevel["ARM_RISINGNOVA"] = 100 
 		for ak=1,5 
 			Acts+="ARM_RISINGNOVA"
 		end
-		Acts.ActMinLevel["ARM_ROCKTHROWER"] = 30 
+		ActMinLevel["ARM_ROCKTHROWER"] = 30 
 		for ak=1,50 
 			Acts+="ARM_ROCKTHROWER"
 		end
-		Acts.ActMinLevel["ARM_STUN_GUN"] = 20 
+		ActMinLevel["ARM_STUN_GUN"] = 20 
 		for ak=1,70 
 			Acts+="ARM_STUN_GUN"
 		end
-		Acts.ActMinLevel["ITM_CHLOROFORM"] = 5 
+		ActMinLevel["ITM_CHLOROFORM"] = 5 
 		for ak=1,5 
 			Acts+="ITM_CHLOROFORM"
 		end
-		Acts.ActMinLevel["ITM_EPO"] = 150 
+		ActMinLevel["ITM_EPO"] = 150 
 		for ak=1,1 
 			Acts+="ITM_EPO"
 		end
@@ -179,27 +179,27 @@ module
 		for ak=1,10000 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_STEROIDS"] = 200 
+		ActMinLevel["ITM_STEROIDS"] = 200 
 		for ak=1,1 
 			Acts+="ITM_STEROIDS"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 100 
 		for ak=1,5 
 			Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 100 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_CAPT"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 100 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_GUNNER"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 100 
 		for ak=1,8 
 			Acts+="ZZZ_CYBERSUMMON_JI"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 100 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_MEDIC"
 		end

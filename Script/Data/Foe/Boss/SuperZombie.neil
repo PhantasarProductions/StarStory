@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,43 +85,43 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
+		ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_BATTLECRY"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_CONCENTRATE"] = 100 
+		ActMinLevel["ABL_EXHURU_CONCENTRATE"] = 100 
 		for ak=1,1 
 			Acts+="ABL_EXHURU_CONCENTRATE"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 200 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 200 
 		for ak=1,1 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEATH"] = 5 
+		ActMinLevel["ABL_FOE_DEATH"] = 5 
 		for ak=1,1 
 			Acts+="ABL_FOE_DEATH"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
+		ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 1 
 		for ak=1,5 
 			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Acts.ActMinLevel["ABL_FOE_FEAR"] = 1 
+		ActMinLevel["ABL_FOE_FEAR"] = 1 
 		for ak=1,1 
 			Acts+="ABL_FOE_FEAR"
 		end
-		Acts.ActMinLevel["ABL_FOE_HORROR"] = 1 
+		ActMinLevel["ABL_FOE_HORROR"] = 1 
 		for ak=1,4 
 			Acts+="ABL_FOE_HORROR"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 500 
+		ActMinLevel["ABL_FOE_IDDQD"] = 500 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 10000 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 10000 
 		for ak=1,1 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_ROTTEN_BREATH"] = 100 
+		ActMinLevel["ABL_ROTTEN_BREATH"] = 100 
 		for ak=1,1 
 			Acts+="ABL_ROTTEN_BREATH"
 		end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,23 +85,23 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 1 
+		ActMinLevel["ABL_FOE_FULLHEALTH"] = 1 
 		for ak=1,1 
 			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Acts.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 70 
+		ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 70 
 		for ak=1,10 
 			Acts+="ABL_FOE_LICKYOURWOUNDS"
 		end
-		Acts.ActMinLevel["ABL_FOE_PARA_DIVE"] = 60 
+		ActMinLevel["ABL_FOE_PARA_DIVE"] = 60 
 		for ak=1,5 
 			Acts+="ABL_FOE_PARA_DIVE"
 		end
-		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 30 
+		ActMinLevel["ABL_FOE_SCRATCH"] = 30 
 		for ak=1,20 
 			Acts+="ABL_FOE_SCRATCH"
 		end

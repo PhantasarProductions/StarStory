@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,19 +85,19 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["BLADEH_MOLOTOV"] = 10 
+		ActMinLevel["BLADEH_MOLOTOV"] = 10 
 		for ak=1,10 
 			Acts+="BLADEH_MOLOTOV"
 		end
-		Acts.ActMinLevel["BLADEH_MULTI_STAB"] = 10 
+		ActMinLevel["BLADEH_MULTI_STAB"] = 10 
 		for ak=1,80 
 			Acts+="BLADEH_MULTI_STAB"
 		end
-		Acts.ActMinLevel["BLADEH_STUNSTAB"] = 10 
+		ActMinLevel["BLADEH_STUNSTAB"] = 10 
 		for ak=1,20 
 			Acts+="BLADEH_STUNSTAB"
 		end
-		Acts.ActMinLevel["BLADEH_VENOM"] = 10 
+		ActMinLevel["BLADEH_VENOM"] = 10 
 		for ak=1,40 
 			Acts+="BLADEH_VENOM"
 		end

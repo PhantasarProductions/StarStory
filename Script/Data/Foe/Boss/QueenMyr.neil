@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,15 +85,15 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 46 
+		ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 46 
 		for ak=1,8 
 			Acts+="ABL_FOE_PARALYZEFLUID"
 		end
-		Acts.ActMinLevel["ABL_FOE_VENOMBITE"] = 45 
+		ActMinLevel["ABL_FOE_VENOMBITE"] = 45 
 		for ak=1,10 
 			Acts+="ABL_FOE_VENOMBITE"
 		end
-		Acts.ActMinLevel["ABL_FOE_VIRUSBITE"] = 40 
+		ActMinLevel["ABL_FOE_VIRUSBITE"] = 40 
 		for ak=1,15 
 			Acts+="ABL_FOE_VIRUSBITE"
 		end
@@ -240,7 +240,7 @@ module
 		for ak=1,10 
 			 ItemDrop+=temp
 		end
-		Acts.ActMinLevel["ZZZ_MYR_SUMMON"] = 45 
+		ActMinLevel["ZZZ_MYR_SUMMON"] = 45 
 		for ak=1,10 
 			Acts+="ZZZ_MYR_SUMMON"
 		end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,23 +85,23 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ARM_DART"] = 250 
+		ActMinLevel["ARM_DART"] = 250 
 		for ak=1,90 
 			Acts+="ARM_DART"
 		end
-		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 300 
+		ActMinLevel["ARM_HEALINGSPRAY"] = 300 
 		for ak=1,40 
 			Acts+="ARM_HEALINGSPRAY"
 		end
-		Acts.ActMinLevel["ARM_MULTIBLAST"] = 400 
+		ActMinLevel["ARM_MULTIBLAST"] = 400 
 		for ak=1,30 
 			Acts+="ARM_MULTIBLAST"
 		end
-		Acts.ActMinLevel["ARM_POISONDART"] = 600 
+		ActMinLevel["ARM_POISONDART"] = 600 
 		for ak=1,20 
 			Acts+="ARM_POISONDART"
 		end
-		Acts.ActMinLevel["ARM_VIRUSBOMB"] = 500 
+		ActMinLevel["ARM_VIRUSBOMB"] = 500 
 		for ak=1,25 
 			Acts+="ARM_VIRUSBOMB"
 		end
@@ -126,7 +126,7 @@ module
 		for ak=1,15000 
 			 ItemDrop+=temp
 		end
-		Acts.ActMinLevel["ITM_FIRSTAIDKIT"] = 600 
+		ActMinLevel["ITM_FIRSTAIDKIT"] = 600 
 		for ak=1,10 
 			Acts+="ITM_FIRSTAIDKIT"
 		end

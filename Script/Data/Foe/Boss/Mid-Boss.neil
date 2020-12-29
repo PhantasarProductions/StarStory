@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,31 +85,31 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 1 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 1 
 		for ak=1,10 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 60 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 60 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 50 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 50 
 		for ak=1,7 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 65 
+		ActMinLevel["ABL_FOE_IDDQD"] = 65 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_TASER"] = 2 
+		ActMinLevel["ABL_FOE_TASER"] = 2 
 		for ak=1,15 
 			Acts+="ABL_FOE_TASER"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 100 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 100 
 		for ak=1,1 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 80 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 80 
 		for ak=1,2 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
@@ -127,7 +127,7 @@ module
 		for ak=1,1 
 			 ItemDrop+=temp
 		end
-		Acts.ActMinLevel["ITM_MEDIKIT"] = 10 
+		ActMinLevel["ITM_MEDIKIT"] = 10 
 		for ak=1,7 
 			Acts+="ITM_MEDIKIT"
 		end

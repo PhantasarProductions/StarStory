@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,87 +85,87 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_CULIST_CALL"] = 80 
+		ActMinLevel["ABL_CULIST_CALL"] = 80 
 		for ak=1,2 
 			Acts+="ABL_CULIST_CALL"
 		end
-		Acts.ActMinLevel["ABL_CULTIST_CTHULU"] = 9000 
+		ActMinLevel["ABL_CULTIST_CTHULU"] = 9000 
 		for ak=1,1 
 			Acts+="ABL_CULTIST_CTHULU"
 		end
-		Acts.ActMinLevel["ABL_CULTIST_PRAYCTHULU"] = 95 
+		ActMinLevel["ABL_CULTIST_PRAYCTHULU"] = 95 
 		for ak=1,2 
 			Acts+="ABL_CULTIST_PRAYCTHULU"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 2 
 		for ak=1,2 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 3 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 3 
 		for ak=1,3 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 4 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 4 
 		for ak=1,4 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 5 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 5 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 6 
+		ActMinLevel["ABL_EXHURU_YKSI"] = 6 
 		for ak=1,6 
 			Acts+="ABL_EXHURU_YKSI"
 		end
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 7 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 7 
 		for ak=1,1 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_FLAMETOUCH"] = 8 
+		ActMinLevel["ABL_FOE_FLAMETOUCH"] = 8 
 		for ak=1,8 
 			Acts+="ABL_FOE_FLAMETOUCH"
 		end
-		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 9 
+		ActMinLevel["ABL_FOE_FULLHEALTH"] = 9 
 		for ak=1,9 
 			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 10 
+		ActMinLevel["ABL_FOE_IDDQD"] = 10 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_POISONCLOUD"] = 11 
+		ActMinLevel["ABL_FOE_POISONCLOUD"] = 11 
 		for ak=1,2 
 			Acts+="ABL_FOE_POISONCLOUD"
 		end
-		Acts.ActMinLevel["ABL_FOE_TASER"] = 12 
+		ActMinLevel["ABL_FOE_TASER"] = 12 
 		for ak=1,3 
 			Acts+="ABL_FOE_TASER"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 13 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 13 
 		for ak=1,1 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 14 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 14 
 		for ak=1,1 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Acts.ActMinLevel["ABL_FOXY_MULTISTAB"] = 15 
+		ActMinLevel["ABL_FOXY_MULTISTAB"] = 15 
 		for ak=1,1 
 			Acts+="ABL_FOXY_MULTISTAB"
 		end
-		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 16 
+		ActMinLevel["ABL_FOXY_STUNSTAB"] = 16 
 		for ak=1,1 
 			Acts+="ABL_FOXY_STUNSTAB"
 		end
-		Acts.ActMinLevel["ARM_DART"] = 70 
+		ActMinLevel["ARM_DART"] = 70 
 		for ak=1,1 
 			Acts+="ARM_DART"
 		end
-		Acts.ActMinLevel["ARM_HEALINGSPRAY"] = 80 
+		ActMinLevel["ARM_HEALINGSPRAY"] = 80 
 		for ak=1,1 
 			Acts+="ARM_HEALINGSPRAY"
 		end
-		Acts.ActMinLevel["ITM_ADHBANDAGE"] = 60 
+		ActMinLevel["ITM_ADHBANDAGE"] = 60 
 		for ak=1,1 
 			Acts+="ITM_ADHBANDAGE"
 		end
@@ -179,7 +179,7 @@ module
 		for ak=1,20 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_ANTIDOTE"] = 70 
+		ActMinLevel["ITM_ANTIDOTE"] = 70 
 		for ak=1,1 
 			Acts+="ITM_ANTIDOTE"
 		end
@@ -193,7 +193,7 @@ module
 		for ak=1,19 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_ASTRILOPUPHONEY"] = 80 
+		ActMinLevel["ITM_ASTRILOPUPHONEY"] = 80 
 		for ak=1,1 
 			Acts+="ITM_ASTRILOPUPHONEY"
 		end
@@ -207,7 +207,7 @@ module
 		for ak=1,18 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_BANDAGE"] = 30 
+		ActMinLevel["ITM_BANDAGE"] = 30 
 		for ak=1,1 
 			Acts+="ITM_BANDAGE"
 		end
@@ -221,7 +221,7 @@ module
 		for ak=1,17 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_BIOHAZARD"] = 20 
+		ActMinLevel["ITM_BIOHAZARD"] = 20 
 		for ak=1,1 
 			Acts+="ITM_BIOHAZARD"
 		end
@@ -235,7 +235,7 @@ module
 		for ak=1,16 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_BLUBAFLOWER"] = 10 
+		ActMinLevel["ITM_BLUBAFLOWER"] = 10 
 		for ak=1,1 
 			Acts+="ITM_BLUBAFLOWER"
 		end
@@ -249,7 +249,7 @@ module
 		for ak=1,15 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_CHLOROFORM"] = 90 
+		ActMinLevel["ITM_CHLOROFORM"] = 90 
 		for ak=1,1 
 			Acts+="ITM_CHLOROFORM"
 		end
@@ -393,7 +393,7 @@ module
 		for ak=1,1 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_FIRSTAIDKIT"] = 1 
+		ActMinLevel["ITM_FIRSTAIDKIT"] = 1 
 		for ak=1,1 
 			Acts+="ITM_FIRSTAIDKIT"
 		end
@@ -407,7 +407,7 @@ module
 		for ak=1,1 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_GUBAFLOWER"] = 2 
+		ActMinLevel["ITM_GUBAFLOWER"] = 2 
 		for ak=1,1 
 			Acts+="ITM_GUBAFLOWER"
 		end
@@ -421,7 +421,7 @@ module
 		for ak=1,12 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_HEALINGCAPSULE"] = 1 
+		ActMinLevel["ITM_HEALINGCAPSULE"] = 1 
 		for ak=1,1 
 			Acts+="ITM_HEALINGCAPSULE"
 		end
@@ -435,7 +435,7 @@ module
 		for ak=1,11 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_HEATHRUB"] = 1 
+		ActMinLevel["ITM_HEATHRUB"] = 1 
 		for ak=1,1 
 			Acts+="ITM_HEATHRUB"
 		end
@@ -449,7 +449,7 @@ module
 		for ak=1,10 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_HOMEO"] = 1 
+		ActMinLevel["ITM_HOMEO"] = 1 
 		for ak=1,1 
 			Acts+="ITM_HOMEO"
 		end
@@ -463,7 +463,7 @@ module
 		for ak=1,9 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_ICEBOMB"] = 5 
+		ActMinLevel["ITM_ICEBOMB"] = 5 
 		for ak=1,1 
 			Acts+="ITM_ICEBOMB"
 		end
@@ -477,7 +477,7 @@ module
 		for ak=1,8 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_MEDICINE"] = 6 
+		ActMinLevel["ITM_MEDICINE"] = 6 
 		for ak=1,1 
 			Acts+="ITM_MEDICINE"
 		end
@@ -491,7 +491,7 @@ module
 		for ak=1,7 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_MEDIKIT"] = 8 
+		ActMinLevel["ITM_MEDIKIT"] = 8 
 		for ak=1,1 
 			Acts+="ITM_MEDIKIT"
 		end
@@ -505,7 +505,7 @@ module
 		for ak=1,6 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_MINDCLEARPILL"] = 1 
+		ActMinLevel["ITM_MINDCLEARPILL"] = 1 
 		for ak=1,1 
 			Acts+="ITM_MINDCLEARPILL"
 		end
@@ -519,7 +519,7 @@ module
 		for ak=1,5 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_MOLOTOV"] = 10 
+		ActMinLevel["ITM_MOLOTOV"] = 10 
 		for ak=1,1 
 			Acts+="ITM_MOLOTOV"
 		end
@@ -573,7 +573,7 @@ module
 		for ak=1,1 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_ROCK"] = 10 
+		ActMinLevel["ITM_ROCK"] = 10 
 		for ak=1,1 
 			Acts+="ITM_ROCK"
 		end
@@ -587,7 +587,7 @@ module
 		for ak=1,3 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_SPORES"] = 10 
+		ActMinLevel["ITM_SPORES"] = 10 
 		for ak=1,1 
 			Acts+="ITM_SPORES"
 		end
@@ -601,7 +601,7 @@ module
 		for ak=1,2 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_STEROIDS"] = 1 
+		ActMinLevel["ITM_STEROIDS"] = 1 
 		for ak=1,1 
 			Acts+="ITM_STEROIDS"
 		end
@@ -615,7 +615,7 @@ module
 		for ak=1,1 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_THUNDER_DIAMOND"] = 10 
+		ActMinLevel["ITM_THUNDER_DIAMOND"] = 10 
 		for ak=1,1 
 			Acts+="ITM_THUNDER_DIAMOND"
 		end

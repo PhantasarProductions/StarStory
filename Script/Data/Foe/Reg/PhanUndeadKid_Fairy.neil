@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,87 +85,87 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_DAMNYOU"] = 10 
+		ActMinLevel["ABL_FOE_DAMNYOU"] = 10 
 		for ak=1,20 
 			Acts+="ABL_FOE_DAMNYOU"
 		end
-		Acts.ActMinLevel["ABL_FOE_DAMNYOUALL"] = 20 
+		ActMinLevel["ABL_FOE_DAMNYOUALL"] = 20 
 		for ak=1,10 
 			Acts+="ABL_FOE_DAMNYOUALL"
 		end
-		Acts.ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 50 
+		ActMinLevel["ABL_FOE_DARKHEAL_FOE"] = 50 
 		for ak=1,30 
 			Acts+="ABL_FOE_DARKHEAL_FOE"
 		end
-		Acts.ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 5 
+		ActMinLevel["ABL_FOE_DARKHEAL_HERO"] = 5 
 		for ak=1,40 
 			Acts+="ABL_FOE_DARKHEAL_HERO"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEATH"] = 10 
+		ActMinLevel["ABL_FOE_DEATH"] = 10 
 		for ak=1,50 
 			Acts+="ABL_FOE_DEATH"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 2 
+		ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 2 
 		for ak=1,60 
 			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 1 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 1 
 		for ak=1,70 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 5 
+		ActMinLevel["ABL_FOE_IDDQD"] = 5 
 		for ak=1,80 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 10 
+		ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 10 
 		for ak=1,90 
 			Acts+="ABL_FOE_LIGHTNINGENCHANT"
 		end
-		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 5 
+		ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 5 
 		for ak=1,78 
 			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
+		ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
 		for ak=1,100 
 			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 8 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 8 
 		for ak=1,75 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 2 
+		ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 2 
 		for ak=1,90 
 			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 10 
+		ActMinLevel["ABL_WENDICKA_SHOCK"] = 10 
 		for ak=1,60 
 			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 6 
+		ActMinLevel["ABL_XENOBI_BLIZZARD"] = 6 
 		for ak=1,75 
 			Acts+="ABL_XENOBI_BLIZZARD"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
+		ActMinLevel["ABL_XENOBI_BREEZE"] = 10 
 		for ak=1,65 
 			Acts+="ABL_XENOBI_BREEZE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_FROST"] = 10 
+		ActMinLevel["ABL_XENOBI_FROST"] = 10 
 		for ak=1,65 
 			Acts+="ABL_XENOBI_FROST"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_HURRICANE"] = 10 
+		ActMinLevel["ABL_XENOBI_HURRICANE"] = 10 
 		for ak=1,80 
 			Acts+="ABL_XENOBI_HURRICANE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_QUAKE"] = 10 
+		ActMinLevel["ABL_XENOBI_QUAKE"] = 10 
 		for ak=1,80 
 			Acts+="ABL_XENOBI_QUAKE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_ROCK"] = 10 
+		ActMinLevel["ABL_XENOBI_ROCK"] = 10 
 		for ak=1,60 
 			Acts+="ABL_XENOBI_ROCK"
 		end
-		Acts.ActMinLevel["ABL_YIRL_CONFUSION"] = 10 
+		ActMinLevel["ABL_YIRL_CONFUSION"] = 10 
 		for ak=1,65 
 			Acts+="ABL_YIRL_CONFUSION"
 		end

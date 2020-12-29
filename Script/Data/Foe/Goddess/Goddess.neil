@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,51 +85,51 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 120 
+		ActMinLevel["ABL_FOE_IDDQD"] = 120 
 		for ak=1,5 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 200 
+		ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 200 
 		for ak=1,10 
 			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 100 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 100 
 		for ak=1,45 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 150 
+		ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 150 
 		for ak=1,30 
 			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
+		ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
 		for ak=1,50 
 			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
+		ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
 		for ak=1,1 
 			Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 1 
+		ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 1 
 		for ak=1,1 
 			Acts+="ZZZ_CYBERSUMMON_CAPT"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 1 
+		ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 1 
 		for ak=1,1 
 			Acts+="ZZZ_CYBERSUMMON_GUNNER"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 1 
+		ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 1 
 		for ak=1,1 
 			Acts+="ZZZ_CYBERSUMMON_JI"
 		end
-		Acts.ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 1 
+		ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 1 
 		for ak=1,1 
 			Acts+="ZZZ_CYBERSUMMON_MEDIC"
 		end
-		Acts.ActMinLevel["ZZZZ_GODDESS_ELECTRICHEALING"] = 60 
+		ActMinLevel["ZZZZ_GODDESS_ELECTRICHEALING"] = 60 
 		for ak=1,10 
 			Acts+="ZZZZ_GODDESS_ELECTRICHEALING"
 		end
-		Acts.ActMinLevel["ZZZZ_GODDESS_VOID"] = 10 
+		ActMinLevel["ZZZZ_GODDESS_VOID"] = 10 
 		for ak=1,25 
 			Acts+="ZZZZ_GODDESS_VOID"
 		end

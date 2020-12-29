@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -92,7 +92,7 @@ module
 		for ak=1,25 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 0 
+		ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 0 
 		for ak=1,20 
 			Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
 		end

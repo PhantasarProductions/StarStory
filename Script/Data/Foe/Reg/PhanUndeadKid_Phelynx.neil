@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,27 +85,27 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 1 
+		ActMinLevel["ABL_FOE_IDDQD"] = 1 
 		for ak=1,100 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
+		ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 1 
 		for ak=1,80 
 			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
+		ActMinLevel["ABL_WENDICKA_ELECTRICCHARGE"] = 1 
 		for ak=1,100 
 			Acts+="ABL_WENDICKA_ELECTRICCHARGE"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 20 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 20 
 		for ak=1,75 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 15 
+		ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 15 
 		for ak=1,80 
 			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 25 
+		ActMinLevel["ABL_WENDICKA_SHOCK"] = 25 
 		for ak=1,60 
 			Acts+="ABL_WENDICKA_SHOCK"
 		end
@@ -119,7 +119,7 @@ module
 		for ak=1,500 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 1 
+		ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 1 
 		for ak=1,950 
 			Acts+="SUPER_THRILLING_DAMNNATION"
 		end

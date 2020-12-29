@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,15 +85,15 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 80 
+		ActMinLevel["ABL_FOE_FULLHEALTH"] = 80 
 		for ak=1,100 
 			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 90 
+		ActMinLevel["ABL_FOE_IDDQD"] = 90 
 		for ak=1,25 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 100 
+		ActMinLevel["ABL_FOE_LIGHTNINGENCHANT"] = 100 
 		for ak=1,100 
 			Acts+="ABL_FOE_LIGHTNINGENCHANT"
 		end
@@ -107,11 +107,11 @@ module
 		for ak=1,80 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["MOO_ALLDOWN"] = 50 
+		ActMinLevel["MOO_ALLDOWN"] = 50 
 		for ak=1,90 
 			Acts+="MOO_ALLDOWN"
 		end
-		Acts.ActMinLevel["MOO_Z2_STERF"] = 2 
+		ActMinLevel["MOO_Z2_STERF"] = 2 
 		for ak=1,100 
 			Acts+="MOO_Z2_STERF"
 		end

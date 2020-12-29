@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,11 +85,11 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_XENOBI_VITALIZE"] = 25 
+		ActMinLevel["ABL_XENOBI_VITALIZE"] = 25 
 		for ak=1,70 
 			Acts+="ABL_XENOBI_VITALIZE"
 		end
-		Acts.ActMinLevel["ARM_FLAMETHROWER"] = 100 
+		ActMinLevel["ARM_FLAMETHROWER"] = 100 
 		for ak=1,1 
 			Acts+="ARM_FLAMETHROWER"
 		end

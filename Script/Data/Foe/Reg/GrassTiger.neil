@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,11 +85,11 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 30 
+		ActMinLevel["ABL_EXHURU_BATTLECRY"] = 30 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_BATTLECRY"
 		end
-		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 10 
+		ActMinLevel["ABL_FOE_SCRATCH"] = 10 
 		for ak=1,100 
 			Acts+="ABL_FOE_SCRATCH"
 		end

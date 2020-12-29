@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,15 +85,15 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
+		ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
 		for ak=1,10 
 			Acts+="ABL_EXHURU_BATTLECRY"
 		end
-		Acts.ActMinLevel["ABL_FOE_PHOTON"] = 1 
+		ActMinLevel["ABL_FOE_PHOTON"] = 1 
 		for ak=1,100 
 			Acts+="ABL_FOE_PHOTON"
 		end
-		Acts.ActMinLevel["ABL_FOE_TASER"] = 50 
+		ActMinLevel["ABL_FOE_TASER"] = 50 
 		for ak=1,1 
 			Acts+="ABL_FOE_TASER"
 		end
@@ -117,7 +117,7 @@ module
 		for ak=1,5 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_BANDAGE"] = 15 
+		ActMinLevel["ITM_BANDAGE"] = 15 
 		for ak=1,1 
 			Acts+="ITM_BANDAGE"
 		end
@@ -155,7 +155,7 @@ module
 		for ak=1,5 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_HEALINGCAPSULE"] = 50 
+		ActMinLevel["ITM_HEALINGCAPSULE"] = 50 
 		for ak=1,1 
 			Acts+="ITM_HEALINGCAPSULE"
 		end

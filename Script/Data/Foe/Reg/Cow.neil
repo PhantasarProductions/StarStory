@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -112,91 +112,91 @@ module
 		for ak=1,25 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["MOO_AGLDOWN"] = 0 
+		ActMinLevel["MOO_AGLDOWN"] = 0 
 		for ak=1,1 
 			Acts+="MOO_AGLDOWN"
 		end
-		Acts.ActMinLevel["MOO_ALLDOWN"] = 50 
+		ActMinLevel["MOO_ALLDOWN"] = 50 
 		for ak=1,1 
 			Acts+="MOO_ALLDOWN"
 		end
-		Acts.ActMinLevel["MOO_APDOWN"] = 5 
+		ActMinLevel["MOO_APDOWN"] = 5 
 		for ak=1,1 
 			Acts+="MOO_APDOWN"
 		end
-		Acts.ActMinLevel["MOO_DEFDOWN"] = 10 
+		ActMinLevel["MOO_DEFDOWN"] = 10 
 		for ak=1,1 
 			Acts+="MOO_DEFDOWN"
 		end
-		Acts.ActMinLevel["MOO_EVADOWN"] = 15 
+		ActMinLevel["MOO_EVADOWN"] = 15 
 		for ak=1,1 
 			Acts+="MOO_EVADOWN"
 		end
-		Acts.ActMinLevel["MOO_KUN_JE_NIET_BETER_MIKKEN"] = 20 
+		ActMinLevel["MOO_KUN_JE_NIET_BETER_MIKKEN"] = 20 
 		for ak=1,1 
 			Acts+="MOO_KUN_JE_NIET_BETER_MIKKEN"
 		end
-		Acts.ActMinLevel["MOO_MAXAPDOWN"] = 25 
+		ActMinLevel["MOO_MAXAPDOWN"] = 25 
 		for ak=1,1 
 			Acts+="MOO_MAXAPDOWN"
 		end
-		Acts.ActMinLevel["MOO_MAXHPDOWN"] = 30 
+		ActMinLevel["MOO_MAXHPDOWN"] = 30 
 		for ak=1,1 
 			Acts+="MOO_MAXHPDOWN"
 		end
-		Acts.ActMinLevel["MOO_POWERDOWN"] = 35 
+		ActMinLevel["MOO_POWERDOWN"] = 35 
 		for ak=1,1 
 			Acts+="MOO_POWERDOWN"
 		end
-		Acts.ActMinLevel["MOO_RESDOWN"] = 40 
+		ActMinLevel["MOO_RESDOWN"] = 40 
 		for ak=1,1 
 			Acts+="MOO_RESDOWN"
 		end
-		Acts.ActMinLevel["MOO_WILLDOWN"] = 45 
+		ActMinLevel["MOO_WILLDOWN"] = 45 
 		for ak=1,1 
 			Acts+="MOO_WILLDOWN"
 		end
-		Acts.ActMinLevel["MOO_Z1_DAT_WAS_IK_VERGETEN"] = 50 
+		ActMinLevel["MOO_Z1_DAT_WAS_IK_VERGETEN"] = 50 
 		for ak=1,1 
 			Acts+="MOO_Z1_DAT_WAS_IK_VERGETEN"
 		end
-		Acts.ActMinLevel["MOO_Z1_GIF"] = 55 
+		ActMinLevel["MOO_Z1_GIF"] = 55 
 		for ak=1,1 
 			Acts+="MOO_Z1_GIF"
 		end
-		Acts.ActMinLevel["MOO_Z1_IN_DE_WAR"] = 60 
+		ActMinLevel["MOO_Z1_IN_DE_WAR"] = 60 
 		for ak=1,1 
 			Acts+="MOO_Z1_IN_DE_WAR"
 		end
-		Acts.ActMinLevel["MOO_Z1_KAN_IK_NIET"] = 65 
+		ActMinLevel["MOO_Z1_KAN_IK_NIET"] = 65 
 		for ak=1,1 
 			Acts+="MOO_Z1_KAN_IK_NIET"
 		end
-		Acts.ActMinLevel["MOO_Z1_MOEDEEERRRRRRRRRR_WAT_BEN_IK_BANG"] = 70 
+		ActMinLevel["MOO_Z1_MOEDEEERRRRRRRRRR_WAT_BEN_IK_BANG"] = 70 
 		for ak=1,1 
 			Acts+="MOO_Z1_MOEDEEERRRRRRRRRR_WAT_BEN_IK_BANG"
 		end
-		Acts.ActMinLevel["MOO_Z1_SLAAP_KINDJE_SLAAP"] = 75 
+		ActMinLevel["MOO_Z1_SLAAP_KINDJE_SLAAP"] = 75 
 		for ak=1,1 
 			Acts+="MOO_Z1_SLAAP_KINDJE_SLAAP"
 		end
-		Acts.ActMinLevel["MOO_Z1_SLOTOPDIETAS"] = 80 
+		ActMinLevel["MOO_Z1_SLOTOPDIETAS"] = 80 
 		for ak=1,1 
 			Acts+="MOO_Z1_SLOTOPDIETAS"
 		end
-		Acts.ActMinLevel["MOO_Z1_VERLAMD"] = 85 
+		ActMinLevel["MOO_Z1_VERLAMD"] = 85 
 		for ak=1,1 
 			Acts+="MOO_Z1_VERLAMD"
 		end
-		Acts.ActMinLevel["MOO_Z1_ZIEK"] = 90 
+		ActMinLevel["MOO_Z1_ZIEK"] = 90 
 		for ak=1,1 
 			Acts+="MOO_Z1_ZIEK"
 		end
-		Acts.ActMinLevel["MOO_Z2_ALLE_STATUSSEN"] = 100 
+		ActMinLevel["MOO_Z2_ALLE_STATUSSEN"] = 100 
 		for ak=1,1 
 			Acts+="MOO_Z2_ALLE_STATUSSEN"
 		end
-		Acts.ActMinLevel["MOO_Z2_STERF"] = 95 
+		ActMinLevel["MOO_Z2_STERF"] = 95 
 		for ak=1,1 
 			Acts+="MOO_Z2_STERF"
 		end

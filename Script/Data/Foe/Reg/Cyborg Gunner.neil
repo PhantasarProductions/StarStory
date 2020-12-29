@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,35 +85,35 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
+		ActMinLevel["ABL_EXHURU_BATTLECRY"] = 0 
 		for ak=1,10 
 			Acts+="ABL_EXHURU_BATTLECRY"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 10 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 10 
 		for ak=1,10 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 15 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 15 
 		for ak=1,30 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 30 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 30 
 		for ak=1,60 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 120 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 120 
 		for ak=1,20 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_FOE_PHOTON"] = 0 
+		ActMinLevel["ABL_FOE_PHOTON"] = 0 
 		for ak=1,100 
 			Acts+="ABL_FOE_PHOTON"
 		end
-		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 10 
+		ActMinLevel["ABL_FOE_SCRATCH"] = 10 
 		for ak=1,10 
 			Acts+="ABL_FOE_SCRATCH"
 		end
-		Acts.ActMinLevel["ABL_FOE_TASER"] = 5 
+		ActMinLevel["ABL_FOE_TASER"] = 5 
 		for ak=1,1 
 			Acts+="ABL_FOE_TASER"
 		end
@@ -165,7 +165,7 @@ module
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=15
 		temp.VLT=false
-		Acts.ActMinLevel["ITM_HEALINGCAPSULE"] = 20 
+		ActMinLevel["ITM_HEALINGCAPSULE"] = 20 
 		for ak=1,1 
 			Acts+="ITM_HEALINGCAPSULE"
 		end

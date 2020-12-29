@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -86,63 +86,63 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 0 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 0 
 		for ak=1,1 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 0 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 0 
 		for ak=1,1 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 0 
+		ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 0 
 		for ak=1,2 
 			Acts+="ABL_FOE_LICKYOURWOUNDS"
 		end
-		Acts.ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 0 
+		ActMinLevel["ABL_FOE_PARALYZEFLUID"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_PARALYZEFLUID"
 		end
-		Acts.ActMinLevel["ABL_FOE_POISONCLOUD"] = 0 
+		ActMinLevel["ABL_FOE_POISONCLOUD"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_POISONCLOUD"
 		end
-		Acts.ActMinLevel["ABL_FOE_SCRATCH"] = 0 
+		ActMinLevel["ABL_FOE_SCRATCH"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_SCRATCH"
 		end
-		Acts.ActMinLevel["ABL_FOE_ULTRASONIC"] = 0 
+		ActMinLevel["ABL_FOE_ULTRASONIC"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_ULTRASONIC"
 		end
-		Acts.ActMinLevel["ABL_FOE_VENOMBITE"] = 0 
+		ActMinLevel["ABL_FOE_VENOMBITE"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_VENOMBITE"
 		end
-		Acts.ActMinLevel["ABL_FOE_VIRUSBITE"] = 0 
+		ActMinLevel["ABL_FOE_VIRUSBITE"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_VIRUSBITE"
 		end
-		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
+		ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_WATERBEAM"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 0 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 0 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 0 
 		for ak=1,1 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 0 
+		ActMinLevel["ABL_WENDICKA_MJOLNIR"] = 0 
 		for ak=1,1 
 			Acts+="ABL_WENDICKA_MJOLNIR"
 		end
-		Acts.ActMinLevel["ABL_YIRL_INTIMIDATE"] = 0 
+		ActMinLevel["ABL_YIRL_INTIMIDATE"] = 0 
 		for ak=1,1 
 			Acts+="ABL_YIRL_INTIMIDATE"
 		end
-		Acts.ActMinLevel["ITM_ICEBOMB"] = 0 
+		ActMinLevel["ITM_ICEBOMB"] = 0 
 		for ak=1,1 
 			Acts+="ITM_ICEBOMB"
 		end

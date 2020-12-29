@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,47 +85,47 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 200 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 200 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 400 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 400 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 800 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 800 
 		for ak=1,5 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_FOE_CAPTUREWEB"] = 200 
+		ActMinLevel["ABL_FOE_CAPTUREWEB"] = 200 
 		for ak=1,2 
 			Acts+="ABL_FOE_CAPTUREWEB"
 		end
-		Acts.ActMinLevel["ABL_FOE_DEATH"] = 200 
+		ActMinLevel["ABL_FOE_DEATH"] = 200 
 		for ak=1,1 
 			Acts+="ABL_FOE_DEATH"
 		end
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 200 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 200 
 		for ak=1,1 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_FEAR"] = 200 
+		ActMinLevel["ABL_FOE_FEAR"] = 200 
 		for ak=1,1 
 			Acts+="ABL_FOE_FEAR"
 		end
-		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 800 
+		ActMinLevel["ABL_FOE_FULLHEALTH"] = 800 
 		for ak=1,1 
 			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Acts.ActMinLevel["ABL_FOE_HORROR"] = 300 
+		ActMinLevel["ABL_FOE_HORROR"] = 300 
 		for ak=1,1 
 			Acts+="ABL_FOE_HORROR"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 800 
+		ActMinLevel["ABL_FOE_IDDQD"] = 800 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 200 
+		ActMinLevel["ABL_FOE_LICKYOURWOUNDS"] = 200 
 		for ak=1,1 
 			Acts+="ABL_FOE_LICKYOURWOUNDS"
 		end

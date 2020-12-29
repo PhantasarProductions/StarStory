@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -105,7 +105,7 @@ module
 		for ak=1,24 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_SPORES"] = 1 
+		ActMinLevel["ITM_SPORES"] = 1 
 		for ak=1,1000 
 			Acts+="ITM_SPORES"
 		end

@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,39 +85,39 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_AVADAKEDAVRA"] = 150 
+		ActMinLevel["ABL_FOE_AVADAKEDAVRA"] = 150 
 		for ak=1,50 
 			Acts+="ABL_FOE_AVADAKEDAVRA"
 		end
-		Acts.ActMinLevel["ABL_FOE_CRUCIO"] = 0 
+		ActMinLevel["ABL_FOE_CRUCIO"] = 0 
 		for ak=1,100 
 			Acts+="ABL_FOE_CRUCIO"
 		end
-		Acts.ActMinLevel["ABL_FOE_CURSEDHEALING"] = 100 
+		ActMinLevel["ABL_FOE_CURSEDHEALING"] = 100 
 		for ak=1,1 
 			Acts+="ABL_FOE_CURSEDHEALING"
 		end
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 500 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 500 
 		for ak=1,1 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_FEAR"] = 5 
+		ActMinLevel["ABL_FOE_FEAR"] = 5 
 		for ak=1,5 
 			Acts+="ABL_FOE_FEAR"
 		end
-		Acts.ActMinLevel["ABL_FOE_FULLHEALTH"] = 500 
+		ActMinLevel["ABL_FOE_FULLHEALTH"] = 500 
 		for ak=1,5 
 			Acts+="ABL_FOE_FULLHEALTH"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 100 
+		ActMinLevel["ABL_FOE_IDDQD"] = 100 
 		for ak=1,10 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_IMPERIO"] = 125 
+		ActMinLevel["ABL_FOE_IMPERIO"] = 125 
 		for ak=1,90 
 			Acts+="ABL_FOE_IMPERIO"
 		end
-		Acts.ActMinLevel["ABL_FOE_INFERNO"] = 111 
+		ActMinLevel["ABL_FOE_INFERNO"] = 111 
 		for ak=1,20 
 			Acts+="ABL_FOE_INFERNO"
 		end

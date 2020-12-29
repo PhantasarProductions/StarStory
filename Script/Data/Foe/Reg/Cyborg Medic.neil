@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,7 +85,7 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ITM_ADHBANDAGE"] = 1 
+		ActMinLevel["ITM_ADHBANDAGE"] = 1 
 		for ak=1,1 
 			Acts+="ITM_ADHBANDAGE"
 		end
@@ -109,7 +109,7 @@ module
 		for ak=1,5 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_BANDAGE"] = 1 
+		ActMinLevel["ITM_BANDAGE"] = 1 
 		for ak=1,5 
 			Acts+="ITM_BANDAGE"
 		end
@@ -141,7 +141,7 @@ module
 		temp.ITM="ITM_GUBAFLOWER"
 		temp.LVL=15
 		temp.VLT=false
-		Acts.ActMinLevel["ITM_HEALINGCAPSULE"] = 0 
+		ActMinLevel["ITM_HEALINGCAPSULE"] = 0 
 		for ak=1,100 
 			Acts+="ITM_HEALINGCAPSULE"
 		end

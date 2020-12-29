@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,55 +85,55 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_EXPDRAIN"] = 75 
+		ActMinLevel["ABL_FOE_EXPDRAIN"] = 75 
 		for ak=1,1 
 			Acts+="ABL_FOE_EXPDRAIN"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 10 
+		ActMinLevel["ABL_FOE_IDDQD"] = 10 
 		for ak=1,5 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 5 
+		ActMinLevel["ABL_FOE_WATERBEAM"] = 5 
 		for ak=1,5 
 			Acts+="ABL_FOE_WATERBEAM"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_JOLT"] = 26 
+		ActMinLevel["ABL_WENDICKA_JOLT"] = 26 
 		for ak=1,15 
 			Acts+="ABL_WENDICKA_JOLT"
 		end
-		Acts.ActMinLevel["ABL_WENDICKA_SHOCK"] = 1 
+		ActMinLevel["ABL_WENDICKA_SHOCK"] = 1 
 		for ak=1,15 
 			Acts+="ABL_WENDICKA_SHOCK"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_BLIZZARD"] = 25 
+		ActMinLevel["ABL_XENOBI_BLIZZARD"] = 25 
 		for ak=1,20 
 			Acts+="ABL_XENOBI_BLIZZARD"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_HEAL"] = 25 
+		ActMinLevel["ABL_XENOBI_HEAL"] = 25 
 		for ak=1,10 
 			Acts+="ABL_XENOBI_HEAL"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_HURRICANE"] = 25 
+		ActMinLevel["ABL_XENOBI_HURRICANE"] = 25 
 		for ak=1,20 
 			Acts+="ABL_XENOBI_HURRICANE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_MINDTRICK"] = 25 
+		ActMinLevel["ABL_XENOBI_MINDTRICK"] = 25 
 		for ak=1,10 
 			Acts+="ABL_XENOBI_MINDTRICK"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_QUAKE"] = 25 
+		ActMinLevel["ABL_XENOBI_QUAKE"] = 25 
 		for ak=1,10 
 			Acts+="ABL_XENOBI_QUAKE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 10 
+		ActMinLevel["ABL_XENOBI_QUICKSTRIKE"] = 10 
 		for ak=1,20 
 			Acts+="ABL_XENOBI_QUICKSTRIKE"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_RECOVER"] = 25 
+		ActMinLevel["ABL_XENOBI_RECOVER"] = 25 
 		for ak=1,25 
 			Acts+="ABL_XENOBI_RECOVER"
 		end
-		Acts.ActMinLevel["ABL_XENOBI_VITALIZE"] = 65 
+		ActMinLevel["ABL_XENOBI_VITALIZE"] = 65 
 		for ak=1,25 
 			Acts+="ABL_XENOBI_VITALIZE"
 		end
@@ -182,15 +182,15 @@ module
 		for ak=1,1000 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ZZZ_CID_DARKCHARGE"] = 45 
+		ActMinLevel["ZZZ_CID_DARKCHARGE"] = 45 
 		for ak=1,10 
 			Acts+="ZZZ_CID_DARKCHARGE"
 		end
-		Acts.ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
+		ActMinLevel["ZZZ_CID_DARKNESS"] = 30 
 		for ak=1,10 
 			Acts+="ZZZ_CID_DARKNESS"
 		end
-		Acts.ActMinLevel["ZZZ_CID_LORD_SUMMON"] = 35 
+		ActMinLevel["ZZZ_CID_LORD_SUMMON"] = 35 
 		for ak=1,10 
 			Acts+="ZZZ_CID_LORD_SUMMON"
 		end

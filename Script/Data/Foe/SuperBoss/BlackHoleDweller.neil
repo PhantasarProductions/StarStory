@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,23 +85,23 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 0 
+		ActMinLevel["ABL_FOE_IDDQD"] = 0 
 		for ak=1,1 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["BHD_BLIZZARD"] = 0 
+		ActMinLevel["BHD_BLIZZARD"] = 0 
 		for ak=1,25 
 			Acts+="BHD_BLIZZARD"
 		end
-		Acts.ActMinLevel["BHD_FIRE"] = 0 
+		ActMinLevel["BHD_FIRE"] = 0 
 		for ak=1,25 
 			Acts+="BHD_FIRE"
 		end
-		Acts.ActMinLevel["BHD_LIGHT"] = 0 
+		ActMinLevel["BHD_LIGHT"] = 0 
 		for ak=1,25 
 			Acts+="BHD_LIGHT"
 		end
-		Acts.ActMinLevel["BHD_LIGHTNING"] = 0 
+		ActMinLevel["BHD_LIGHTNING"] = 0 
 		for ak=1,25 
 			Acts+="BHD_LIGHTNING"
 		end

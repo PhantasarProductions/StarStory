@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,7 +85,7 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
+		ActMinLevel["ABL_FOE_WATERBEAM"] = 0 
 		for ak=1,100 
 			Acts+="ABL_FOE_WATERBEAM"
 		end

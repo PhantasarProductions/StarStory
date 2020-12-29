@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,15 +85,15 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 5 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 5 
 		for ak=1,55 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
-		Acts.ActMinLevel["ABL_FOXY_MULTISTAB"] = 5 
+		ActMinLevel["ABL_FOXY_MULTISTAB"] = 5 
 		for ak=1,60 
 			Acts+="ABL_FOXY_MULTISTAB"
 		end
-		Acts.ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
+		ActMinLevel["ABL_FOXY_STUNSTAB"] = 5 
 		for ak=1,65 
 			Acts+="ABL_FOXY_STUNSTAB"
 		end
@@ -157,7 +157,7 @@ module
 		for ak=1,5 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_CHLOROFORM"] = 4 
+		ActMinLevel["ITM_CHLOROFORM"] = 4 
 		for ak=1,55 
 			Acts+="ITM_CHLOROFORM"
 		end
@@ -216,7 +216,7 @@ module
 		for ak=1,10 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["ITM_HOMEO"] = 60 
+		ActMinLevel["ITM_HOMEO"] = 60 
 		for ak=1,10 
 			Acts+="ITM_HOMEO"
 		end

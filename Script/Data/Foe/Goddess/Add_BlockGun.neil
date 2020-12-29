@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,19 +85,19 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"] = 5 
+		ActMinLevel["ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"] = 5 
 		for ak=1,5 
 			Acts+="ZZZZ_ADD_GODDESS_BLACKLOCKSHOT"
 		end
-		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_HANDICAP"] = 5 
+		ActMinLevel["ZZZZ_ADD_GODDESS_HANDICAP"] = 5 
 		for ak=1,5 
 			Acts+="ZZZZ_ADD_GODDESS_HANDICAP"
 		end
-		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_HORROR_SHOT"] = 5 
+		ActMinLevel["ZZZZ_ADD_GODDESS_HORROR_SHOT"] = 5 
 		for ak=1,5 
 			Acts+="ZZZZ_ADD_GODDESS_HORROR_SHOT"
 		end
-		Acts.ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 1 
+		ActMinLevel["ZZZZ_ADD_GODDESS_TRAQUALIZERDART"] = 1 
 		for ak=1,5 
 			Acts+="ZZZZ_ADD_GODDESS_TRAQUALIZERDART"
 		end

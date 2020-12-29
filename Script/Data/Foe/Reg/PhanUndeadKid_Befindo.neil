@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -85,19 +85,19 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 100 
+		ActMinLevel["ABL_FOE_DEMON_SOUL_BREAKER"] = 100 
 		for ak=1,1 
 			Acts+="ABL_FOE_DEMON_SOUL_BREAKER"
 		end
-		Acts.ActMinLevel["ABL_FOE_IDDQD"] = 80 
+		ActMinLevel["ABL_FOE_IDDQD"] = 80 
 		for ak=1,5 
 			Acts+="ABL_FOE_IDDQD"
 		end
-		Acts.ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 60 
+		ActMinLevel["ABL_FOE_THRILLINGCHARGE"] = 60 
 		for ak=1,25 
 			Acts+="ABL_FOE_THRILLINGCHARGE"
 		end
-		Acts.ActMinLevel["ABL_FOXY_BACKSTAB"] = 75 
+		ActMinLevel["ABL_FOXY_BACKSTAB"] = 75 
 		for ak=1,5 
 			Acts+="ABL_FOXY_BACKSTAB"
 		end
@@ -238,7 +238,7 @@ module
 		for ak=1,1 
 			 ItemSteal+=temp
 		 end
-		Acts.ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 400 
+		ActMinLevel["SUPER_THRILLING_DAMNNATION"] = 400 
 		for ak=1,4 
 			Acts+="SUPER_THRILLING_DAMNNATION"
 		end

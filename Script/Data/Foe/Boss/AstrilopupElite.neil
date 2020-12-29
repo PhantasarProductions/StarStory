@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.28
+// Version 20.12.29
 
 
 
@@ -88,23 +88,23 @@ module
 		plua temp
 
 
-		Acts.ActMinLevel["ABL_EXHURU_KAKSI"] = 56 
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 56 
 		for ak=1,70 
 			Acts+="ABL_EXHURU_KAKSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KOLME"] = 58 
+		ActMinLevel["ABL_EXHURU_KOLME"] = 58 
 		for ak=1,60 
 			Acts+="ABL_EXHURU_KOLME"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_KUUSI"] = 54 
+		ActMinLevel["ABL_EXHURU_KUUSI"] = 54 
 		for ak=1,40 
 			Acts+="ABL_EXHURU_KUUSI"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_NELJA"] = 60 
+		ActMinLevel["ABL_EXHURU_NELJA"] = 60 
 		for ak=1,50 
 			Acts+="ABL_EXHURU_NELJA"
 		end
-		Acts.ActMinLevel["ABL_EXHURU_YKSI"] = 55 
+		ActMinLevel["ABL_EXHURU_YKSI"] = 55 
 		for ak=1,80 
 			Acts+="ABL_EXHURU_YKSI"
 		end
@@ -308,7 +308,7 @@ module
 		for ak=1,20 
 			 ItemDrop+=temp
 		end
-		Acts.ActMinLevel["ZZZ_ASTRILOPUPELITE_SUMMON"] = 112 
+		ActMinLevel["ZZZ_ASTRILOPUPELITE_SUMMON"] = 112 
 		for ak=1,5 
 			Acts+="ZZZ_ASTRILOPUPELITE_SUMMON"
 		end
