@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 20.12.28
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,6 +70,28 @@ class Combat_Fighter
 		return Char.Points.HP.Maximum
 	end
 	
+	// Position on the time gauge
+	int Gauge = 0
+	
+	table Stats = nil
+	table Buffs = nil
+	void InitStats()
+		int StatIndex(s,string key)
+			return Char.Stat["END_"..key]
+		end
+		void StatNewIndex(s,string key,int v)
+			Lua.error(sprintf("You cannot assing value %d to Combat_Fighter.%s.Stat.%s because it's read-only!",v,self.Tag,key))
+		end
+		int BuffIndex(s,string key)
+			return Char.Stat["BUFF_"..key]
+		end
+		void BuffNewIndex(s,string ket, int v)
+			Char.Stat["BUFF_"..key]=v
+		end
+		Stats = setmetatable({},{["__index"]=StatIndex,["__newindex"]=StatNewIndex})
+		Buffs = setmetatable({},{["__index"]=BuffIndex,["__newindex"]=BuffNewIndex})
+		CSayF("Metatables set for stats and buffs at character '%s'",self.Tag)
+	end
 	
 	static readonly table Fighters
 	static void Add(obj)
