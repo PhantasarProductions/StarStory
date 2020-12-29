@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 20.12.27
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -40,6 +40,7 @@ module
 	var Arena
 	var Start
 	var Fighter
+	var Time
 	
 	get var ArenaGet
 		if prefixed(Start.Arena,"SCRIPT:")
@@ -62,6 +63,7 @@ module
 		// Arena
 		DrawArena()
 		// Time Gauge
+		Time.DrawGauge()
 		// Combatnants
 		for t,f in pairs(Fighter.Fighters)
 			f.Draw()
