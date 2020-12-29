@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
-// Version: 20.10.20
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -50,6 +50,8 @@
 #macro __skill gvInt.Skill
 
 #macro __lang gvStr.Lang
+
+const delegate Error = Lua.error
 
 
 group Key
