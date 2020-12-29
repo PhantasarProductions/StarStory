@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 20.12.28
+// Version: 20.12.29
 // Copyright (C) 2020 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "libs/xmath"
+
 class Combat_Foe extends Combat_Fighter
 
 	readonly static int midx = math.floor(Screen.W/2)
@@ -47,11 +49,31 @@ class Combat_Foe extends Combat_Fighter
 	readonly var RawData
 	readonly int Level
 	
+			
+	
+	// This will be used for the humanoid enemies or oder to match Wendicka & co.
+	int Scale = 1
+	
 	int AltX = 0
 	int AltY = 0
 	
 	get string Tag
 		return sprintf("FOE_%d",Idx)
+	end
+
+	var _Img	
+	get string ImgFile
+		if not RawData
+			Lua.error("No raw data so I cannot retrieve the image file for foe: "..Tag)
+		end
+		return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
+	end
+	get var Img
+		if !_Img
+			_Img = Image.Load(ImgFile,"COMBAT_"..Tag)
+			_Img.HotBottomCenter()
+		end
+		return _Img
 	end
 	
 	get string Team
@@ -86,8 +108,11 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	void Draw()
-		// Placeholder
-		Graphics.Circle(X,Y,32)
+		// Circle = Placeholder for debugging
+		// Graphics.Circle(X,Y,32)
+		Graphics.Scale(scale,scale)
+		Img.Draw(X,Y)
+		Graphics.Scale(1,1)
 	end
 	
 	Constructor(string F,int Lvl)
@@ -97,8 +122,53 @@ class Combat_Foe extends Combat_Fighter
 		cnt++
 		RawData = Lua.Neil.Use("Script/Data/Foe/"..F)
 		Level = Lvl
-		Fighter.Fighters[Tag] = self
-
+		Fighter.Fighters[Tag] = self		
+		// Compile Foe into workable data during combat
+		CSayF("Compiling Foe %d: %s (%s)",idx,RawData.Name,F)
+		RPGChar.Create(Tag,RawData.Name)
+		var C = self.Char
+		//C.Name = RawData.Name
+		int ldif
+		int lvmin = RawData.Stat.LevelRange[1]
+		int lvmax = RawData.Stat.LevelRange[2]
+		// Code below is merely copied from the original Lua code
+		// The field foe was replaced by self, although Neil doesn't need it
+		// it was merely done to prevent confusion for myself.
+		for ckey,cvalue in spairs(RawData.Stat) 
+			if cvalue!="LevelRange"
+				int sint = math.abs(cvalue[2]-cvalue[1])
+				int rng = math.abs(lvmax - lvmin)
+				number sinc = sint / rng
+				//--CSay("Compiling stat: "..ckey)
+				if self.Level<lvmin 
+					ldif = lvmin - self.Level
+					int tstat = xmath.round(cvalue[1]-(sinc*ldif))
+					if tstat<5 
+						tstat = 5 
+					end
+					C["BASE_"..ckey] = tstat //RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,tstat)
+					CSay("Setting BASE_"..ckey.." (neg)")       
+				else   
+					ldif = self.Level - lvmin
+					C.Stat["BASE_"..ckey]=xmath.round(cvalue[1]+(sinc*ldif)) ////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
+					//--CSay("Setting BASE_"..ckey.." (pos)")       
+				end       
+				string formscript = "SUM:"..self.Tag
+				for i1,v1 in ipairs( { "UPGRADE_", "POWERUP_", "BUFF_", "END_"}) 
+					//RPGChar.DefStat(Foe.Tag,v1..ckey,0)
+					//--CSay("Added Stat: "..v1..ckey)
+					C.Stat[v1..ckey] = 0
+					if v1!="END_"
+						formscript += "."..v1..ckey
+					end
+				end
+				//RPGChar.ScriptStat(Foe.Tag,"END_"..ckey,"Script/CharStats/General.lua","CALC_"..ckey)    
+				RPGChar[Tag].StatScript["END_"..ckey] = formscript
+			end
+		end
+		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
+		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum
+		self.InitStats()
 	end
 	
 	static void AddFoe(string F,int lvl)
