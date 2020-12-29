@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 group ShowTagPointer
 
 	void Hero(string tag,int x,int y)
@@ -59,7 +60,7 @@ module
 	readonly var PointHero = Image.Obtain("COMBAT_POINTHERO")
 	readonly var PointFoe = Image.Obtain("COMBAT_POINTFOE")
 	readonly int gaugex 
-	readonly int gaugey = 10
+	readonly int gaugey = 40
 	var FClass
 	//screen.H - Gauge.H
 	
