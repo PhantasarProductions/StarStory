@@ -37,10 +37,12 @@
 
 group ShowTagPointer
 
-	void Hero(string tag,int x,int y)
+	void Hero(f,int x,int y)
 	end
 	
-	void Foe(string tag,int x,int y)
+	void Foe(f,int x,int y)
+		static var fnt = ImageFont.Obtain("SYSFONT")
+		fnt.Text(f.TagLetter,x-10,y+28)
 	end
 end
 	
@@ -117,7 +119,7 @@ module
 			//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
 			//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
 			__white 
-			ShowTagPointer[fk](fv,x,pointerypos[fk])
+			ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
 		end
 		//end // I needed one for-loop less, so also one end less.
 	//-- Done
