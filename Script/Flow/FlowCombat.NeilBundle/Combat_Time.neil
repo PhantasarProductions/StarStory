@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.01.18
+// Version: 21.01.19
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,12 +66,39 @@ module
 	readonly int gaugex 
 	readonly int gaugey = 40
 	var FClass
+	int HiSpeed = 0
 	//screen.H - Gauge.H
 	
 	CONSTRUCTOR
 		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
 		// Something I need to address later, but which is not my primary concern
 		gaugex = screen.W - (Gauge.Width+20)
+	end
+	
+	void CalcHighSpeed()
+		HiSpeed=0
+		for tag,data in pairs(Combat_Fighter.Fighters)			
+			HiSpeed = math.max(HiSpeed,data.Stats.Agility)
+			CSayF("HiSpeed: Check.%s = %d => %d",Tag,data.Stats.Agility,HiSpeed)
+		end
+		HiSpeed = math.max(HiSpeed,1)
+		CSayF("HiSpeed set to %d",HiSpeed)
+	end
+	
+	void UpdateGauge()
+		if HiSpeed==0
+			CalcHighSpeed()
+		end
+		for tag,fv in pairs(Combat_Fighter.Fighters)
+			if fv.Gauge<10000
+				//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
+				fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+			elseif fv.Gauge==10000
+				// TODO: Enter move based on team the fighter belongs to
+			elseif fv.Gauge>10000
+				// TODO: Move on based on the speed of the move
+			end
+		end
 	end
 	
 	void DrawGauge()
