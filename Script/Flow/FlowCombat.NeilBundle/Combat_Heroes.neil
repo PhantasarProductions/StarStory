@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 20.12.29
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.01.18
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -113,8 +113,7 @@ module
 				string T = RPGParty[i]
 				CSayF("Adding hero: %s",T)
 				var H = new Combat_Hero() 
-				H.Tag = T
-				
+				H.Tag = T				
 				Fighters.Add(H)
 				CSayF("= Party index: %d",H.PartyIndex)
 				CSayF("= Available:   %s",tostring(H.Available))
@@ -122,6 +121,7 @@ module
 				CSayF("= Team:        %s",H.Team)
 				CSayF("= Position     (%d,%d)",H.X,H.Y)
 				H.InitStats()
+				H.Gauge = Lua.math.random(900/__skill,9000/__skill)
 			end
 		end
 	end

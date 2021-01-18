@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 20.12.29
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.01.18
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -131,6 +131,7 @@ class Combat_Foe extends Combat_Fighter
 		int ldif
 		int lvmin = RawData.Stat.LevelRange[1]
 		int lvmax = RawData.Stat.LevelRange[2]
+		self.Gauge = Lua.math.random(200*__skill,3210/__skill)
 		// Code below is merely copied from the original Lua code
 		// The field foe was replaced by self, although Neil doesn't need it
 		// it was merely done to prevent confusion for myself.
