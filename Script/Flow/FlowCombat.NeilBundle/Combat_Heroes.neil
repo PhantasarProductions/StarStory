@@ -42,6 +42,8 @@ class Combat_Hero extends Combat_Fighter
 	readonly static int midy4 = math.floor(((Screen.H-120)/2)/4)
 	
 	string Tag
+	string GITag
+	var GIIMG
 
 	get int PartyIndex
 		for i=1,6
@@ -113,7 +115,8 @@ module
 				string T = RPGParty[i]
 				CSayF("Adding hero: %s",T)
 				var H = new Combat_Hero() 
-				H.Tag = T				
+				H.Tag = T
+				H.GITag = sPrintF("GAUGEICON_HERO_%s",T)
 				Fighters.Add(H)
 				CSayF("= Party index: %d",H.PartyIndex)
 				CSayF("= Available:   %s",tostring(H.Available))

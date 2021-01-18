@@ -38,6 +38,8 @@
 group ShowTagPointer
 
 	void Hero(f,int x,int y)
+		f.GIIMG = f.GIIMG || Image.LoadNew(sPrintF("GFX/Combat/GaugeIcons/%s.png",f.Tag),f.GITag)
+		f.GIIMG.Draw(x-10,y-40)
 	end
 	
 	void Foe(f,int x,int y)
