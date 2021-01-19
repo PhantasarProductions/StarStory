@@ -106,6 +106,7 @@ init
 	LAsset.C("Audio/Raw/145438__soughtaftersounds__old-music-box-5.ogg","LEVELUP",wh_Audio)
 	LAsset.C("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","SOLVED",wh_Audio)
 	LAsset.C("Audio/SFX/Alg/Buzz.wav","BUZZ",wh_Audio)
+	LAsset.C("Audio/SFX/Signal.ogg","SIGNAL",wh_Audio)
 
 
 	// Loading assets
