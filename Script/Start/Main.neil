@@ -88,6 +88,10 @@ init
 	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
 	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
 	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
+	LAsset.C(" GFX/Combat/PlayerInput/Bottom.png","COMBAT_PLAYINPUT_BUTTOM",wh_Image)
+	LAsset.C("GFX/Combat/PlayerInput/Item.png","COMBAT_PLAYINPUT_ITEM",wh_Image)
+	LAsset.C("GFX/Combat/PlayerInput/Sides.png","COMBAT_PLAYERINPUT_SIDES",wh_Image)
+	LAsset.C("GFX/Combat/PlayerInput/Top.png","COMBAT_PLAYERINPUT_TOP",wh_Image)
 	//LAsset.C("GFX/Field/Encounter.png","FLDFOE",wh_image)
 	//LAsset.C("GFX/Field/Boss.png","FLDBOSS",wh_image)
 	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water"}

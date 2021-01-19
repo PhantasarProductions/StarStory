@@ -107,7 +107,11 @@ end
 
 group Stage_PlayerInput
 	var Fighter
-	var Fighters	
+	var Fighters
+	ReadOnly var Top
+	ReadOnly Var Bottom
+	ReadOnly Var Item
+	ReadOnly Var Sides
 	string Tag
 	readonly var Signal
 	
@@ -129,6 +133,9 @@ group Stage_PlayerInput
 	
 	Constructor
 		Signal = Audio.Obtain("SIGNAL")
+		For PI In Each {"TOP","BOTTOM","ITEM","SIDES"}
+			self[PI]=Image.Obtain("COMBAT_PLAYERINPUT_"..PI)
+		End
 	end
 end
 
