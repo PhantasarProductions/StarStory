@@ -69,6 +69,10 @@ module
 	int HiSpeed = 0
 	//screen.H - Gauge.H
 	
+	get bool IsIDLE
+		return (!Stage.Current) or Stage.Current==Stage.IDLE 
+	end
+	
 	CONSTRUCTOR
 		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
 		// Something I need to address later, but which is not my primary concern
