@@ -97,8 +97,17 @@ module
 			if fv.Gauge<10000
 				//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
 				fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
-			elseif fv.Gauge==10000
-				// TODO: Enter move based on team the fighter belongs to
+			elseif fv.Gauge==10000				 
+				switch fv.Team
+					case "Hero"
+						if isIDLE
+							Stage_PlayerInput.ComeToMe(fv.Tag)
+						end
+					case "Foe"
+						// TODO: Enter enemy move
+				end
+			elseif fv.Gauge==20000
+				// TODO: Actually execute the action
 			elseif fv.Gauge>10000
 				// TODO: Move on based on the speed of the move
 			end

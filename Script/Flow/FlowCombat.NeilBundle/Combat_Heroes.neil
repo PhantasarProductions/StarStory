@@ -105,6 +105,33 @@ class Combat_Hero extends Combat_Fighter
 end
 
 
+group Stage_PlayerInput
+	var Fighter
+	var Fighters	
+	string Tag
+	readonly var Signal
+	
+	get var Hero
+		return Fighter.Fighters[Tag]
+	end
+	
+	Void ComeToMe(String ToTag)
+		Tag = ToTag
+		Stage.Current = self
+		Signal.Play()
+	End
+	
+	Void Draw()
+	End
+	
+	Void Update()
+	End
+	
+	Constructor
+		Signal = Audio.Obtain("SIGNAL")
+	end
+end
+
 
 module 
 	var Fighters

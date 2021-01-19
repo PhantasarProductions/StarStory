@@ -63,6 +63,8 @@ init
 	Combat_Foe.Fighter = Combat_Fighter
 	Combat_Time.FClass = Combat_Fighter	
 	Combat_Stage_IDLE.STime = Combat_Time
+	Stage_PlayerInput.Fighters = Combat_Fighter.Fighters
+	Stage_PlayerInput.Fighter = Combat_Fighter
 	Stage.IDLE = Combat_Stage_IDLE
 	// Init
 	Combat_Heroes.Compile()
