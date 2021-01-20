@@ -118,6 +118,7 @@ group Stage_PlayerInput
 	readonly var ItFont
 	int Height
 	int PartyPos
+	string Hover
 	
 	get var PWidth
 		return Screen.W/4
@@ -129,6 +130,14 @@ group Stage_PlayerInput
 	
 	get var MPos
 		return ((PartyPos-1)*PWidth)+math.floor(PWidth/2)-100
+	end
+	
+	get int MX
+		return events.mousex()
+	end
+	
+	get int MY
+		return events.mousey()
 	end
 	
 	Void ComeToMe(String ToTag)
@@ -152,10 +161,16 @@ group Stage_PlayerInput
 		Bottom.Draw(MPos,by)
 		Sides.Stretch(MPos,sy,200,Height)
 		Top.Draw(MPos,sy-16)
+		Hover = ""
 		for i,cmd in ipairs(Hero.InputItems)
 			__white
-			Item.Draw(MPos+12,sy+((i-1)*52))
+			int iy = sy+((i-1)*52)
+			Item.Draw(MPos+12,iy)
 			Graphics.Color(0,180,255)
+			if MX>MPos && MX<MPos+200 && MY>iy && MY<iy+52
+				Hover = cmd
+				Graphics.Color(0,255,255)
+			end
 			itFont.Text(cmd,mPos+100,sy+((i-1)*52)+26,2,2)
 		end	
 	End
