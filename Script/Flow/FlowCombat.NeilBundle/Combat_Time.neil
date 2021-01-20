@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.01.19
+// Version: 21.01.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,28 +94,30 @@ module
 			CalcHighSpeed()
 		end
 		for tag,fv in pairs(Combat_Fighter.Fighters)
-			if fv.Gauge<10000
-				//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
-				fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
-			elseif fv.Gauge==10000				 
-				switch fv.Team
-					case "Hero"
-						if isIDLE
-							Stage_PlayerInput.ComeToMe(fv.Tag)
+			if fv.Available
+				if fv.Gauge<10000
+					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
+					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					elseif fv.Gauge==10000				 
+						switch fv.Team
+							case "Hero"
+								if isIDLE
+									Stage_PlayerInput.ComeToMe(fv.Tag)
+								end
+							case "Foe"
+								// TODO: Enter enemy move
 						end
-					case "Foe"
-						// TODO: Enter enemy move
-				end
-			elseif fv.Gauge==20000
-				// TODO: Actually execute the action
-			elseif fv.Gauge>10000
-				// TODO: Move on based on the speed of the move
+					elseif fv.Gauge==20000
+						// TODO: Actually execute the action
+					elseif fv.Gauge>10000
+						// TODO: Move on based on the speed of the move
+					end
 			end
 		end
 	end
 	
 	void DrawGauge()
-		static const int iy = 40
+		const int iy = 40
 		//--int fk
 		//--int fs
 		//--int fi
@@ -141,27 +143,29 @@ module
 			//for fi,fv in pairs(fs) do
 			
 		for fi,fv in pairs(FClass.Fighters)
-			string fk = fv.Team
-			if fv.Gauge<=10000 then
-				g=180
-				b=(fv.Gauge/10000)*255
-				r=255-b
-				x=(fv.Gauge/10000)*300
-			else
-				r=255
-				g=0
-				b=0
-				x=300+(((fv.Gauge-10000)/10000)*99)
+			if fv.Available
+				string fk = fv.Team
+				if fv.Gauge<=10000 then
+					g=180
+					b=(fv.Gauge/10000)*255
+					r=255-b
+					x=(fv.Gauge/10000)*300
+				else
+					r=255
+					g=0
+					b=0
+					x=300+(((fv.Gauge-10000)/10000)*99)
+					end
+				Graphics.Color(r,g,b)
+				if !pointerypos[fk]
+					Lua.error(sprintf("No Y data for combat team '%s",fk))
+				end
+				self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
+				//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
+				//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
+				__white 
+				ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
 			end
-			Graphics.Color(r,g,b)
-			if !pointerypos[fk]
-				Lua.error(sprintf("No Y data for combat team '%s",fk))
-			end
-			self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
-			//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
-			//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
-			__white 
-			ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
 		end
 		//end // I needed one for-loop less, so also one end less.
 	//-- Done
