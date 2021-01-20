@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.01.19
+// Version: 21.01.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,7 +49,10 @@ class Combat_Foe extends Combat_Fighter
 	readonly var RawData
 	readonly int Level
 	
-			
+	get bool Available
+		// TODO: Automatically turn unavailable if an enemy is either dead or removed from battle
+		return true
+	end
 	
 	// This will be used for the humanoid enemies or oder to match Wendicka & co.
 	int Scale = 1
