@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.01.19
+// version: 21.01.20
 // End License Information
 table R_UniCrystal = { "Shoot", "Reload","Item","Guard"}
 return R_UniCrystal

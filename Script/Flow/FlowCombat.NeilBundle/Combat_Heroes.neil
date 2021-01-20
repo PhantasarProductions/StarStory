@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.01.19
+// Version: 21.01.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,6 +44,7 @@ class Combat_Hero extends Combat_Fighter
 	string Tag
 	string GITag
 	var GIIMG
+	table InputItems
 
 	get int PartyIndex
 		for i=1,6
@@ -114,27 +115,59 @@ group Stage_PlayerInput
 	ReadOnly Var Sides
 	string Tag
 	readonly var Signal
+	readonly var ItFont
+	int Height
+	int PartyPos
+	
+	get var PWidth
+		return Screen.W/4
+	end
 	
 	get var Hero
 		return Fighter.Fighters[Tag]
+	end
+	
+	get var MPos
+		return ((PartyPos-1)*PWidth)+math.floor(PWidth/2)-100
 	end
 	
 	Void ComeToMe(String ToTag)
 		Tag = ToTag
 		Stage.Current = self
 		Signal.Play()
+		Height = #Hero.InputItems * 52
+		PartyPos = 0
+		for i=1,3
+			if RPGParty[i]==ToTag
+				PartyPos = i
+			end
+		end
+		Lua.assert(PartyPos!=0,"Party member " .. ToTag .. " not found on front row!")
 	End
 	
 	Void Draw()
+		int by = Screen.H-228
+		int sy = by - Height
+		__white
+		Bottom.Draw(MPos,by)
+		Sides.Stretch(MPos,sy,200,Height)
+		Top.Draw(MPos,sy-16)
+		for i,cmd in ipairs(Hero.InputItems)
+			__white
+			Item.Draw(MPos+12,sy+((i-1)*52))
+			Graphics.Color(0,180,255)
+			itFont.Text(cmd,mPos+100,sy+((i-1)*52)+26,2,2)
+		end	
 	End
 	
 	Void Update()
 	End
 	
 	Constructor
+		itFont = ImageFont.Obtain("BIGTEXT")
 		Signal = Audio.Obtain("SIGNAL")
 		For PI In Each {"TOP","BOTTOM","ITEM","SIDES"}
-			self[PI]=Image.Obtain("COMBAT_PLAYERINPUT_"..PI)
+			self[PI]=Image.Obtain("COMBAT_PLAYINPUT_"..PI)
 		End
 	end
 end
@@ -159,6 +192,8 @@ module
 				CSayF("= Position     (%d,%d)",H.X,H.Y)
 				H.InitStats()
 				H.Gauge = Lua.math.random(900/__skill,9000/__skill)
+				//H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T..".Neil")
+				H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T)
 			end
 		end
 	end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadCombat.neil
-// Version: 21.01.19
+// Version: 21.01.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,13 +42,20 @@
 
 #use "Script/Flow/FlowCombat"
 
+
 global void Apollo_Flow()
-	// Development cheat screen
+	static var Mouse = Image.Obtain("MOUSE")
+	int mx = events.mousex()
+	int my = events.mousey()
+// Development cheat screen
 	Dev.ToConsole()
 	// Basic Draw Screen
 	Combat_Draw.DrawScreen()
 	// Call the correct stage
 	Stage.Draw()
+	// Mouse
+	__white
+	Mouse.Draw(mx,my)	
 	Stage.Update()	
 end
 
