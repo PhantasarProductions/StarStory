@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 20.12.29
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.01.20
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -69,6 +69,19 @@ class Combat_Fighter
 	get int MaxHP
 		return Char.Points.HP.Maximum
 	end
+	get int Ammo
+		return Char.Points.Ammo.Have
+	end
+	set int Ammo
+		Char.Points.Ammo.Have=value
+	end
+	get int MaxAmmo
+		return Char.Points.Ammo.Maximum
+	end
+	get int AmmoMax
+		return Char.Points.Ammo.Maximum
+	end
+	
 	
 	// Position on the time gauge
 	int Gauge = 0
