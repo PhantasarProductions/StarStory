@@ -37,7 +37,7 @@
 		ret.ARM_PRICE_XPower = 0
 		ret.ARM_PRICE_Weight = 0
 		ret.ARM_BLOCK_XPower = false
-		ret.AttackPower = 0
+		ret.AttackPower = 100
 		ret.AttackElement = "Non-Elemental"
 		ret.AttackStat = "Strength"
 		ret.DefenseStat = "Defense"
