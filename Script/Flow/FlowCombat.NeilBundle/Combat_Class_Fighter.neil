@@ -54,6 +54,7 @@ class Combat_Fighter
 	end
 	
 	abstract void Draw()
+	abstract void TIcon(int x,int y)
 	
 	// And these should not be overridden
 	get table Char

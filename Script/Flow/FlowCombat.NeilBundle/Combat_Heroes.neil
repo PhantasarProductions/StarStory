@@ -45,6 +45,10 @@ class Combat_Hero extends Combat_Fighter
 	string GITag
 	var GIIMG
 	table InputItems
+	
+	void TIcon(int x,int y)
+		GIIMG.Draw(x,y)
+	end
 
 	get int PartyIndex
 		for i=1,6
@@ -100,6 +104,19 @@ class Combat_Hero extends Combat_Fighter
 		return ret
 	end
 		
+	static get int AvgLevel
+		int aantal = 0
+		int totaal = 0
+		for _,hro in pairs ( self.Fighters)
+			if hro.Available && hro.Team=="Hero"
+				aantal++
+				totaal += hro.Level
+			end
+		end
+		int ret = math.floor(totaal / aantal) 
+		// CSayF("Totaal: %d, Aantal: %d, Average: %d",totaal, aantal, ret) // debug
+		return ret
+	end
 	
 	void Draw()
 		Graphics.Scale(2,2)
@@ -117,16 +134,17 @@ end
 group Stage_SelectTarget
 	var Act
 	readonly var amFont
-	readonly table targets
+	//readonly table targets
 	var Fighters
 	
 	void ClearTargets()
 		table Kill = {}
-		for k,_ in pairs(targets)
+		for k,_ in pairs(Act.targets_Tag)
 			Kill += k
 		end
 		for k in each(Kill)
-			targets[k] = nil
+			//CSayF("Killing '%s'",tostring(k))
+			Act.targets_Tag[k] = nil
 		end
 	end
 	
@@ -140,10 +158,45 @@ group Stage_SelectTarget
 	end
 	
 	void Draw()
+		static var fnt = ImageFont.Obtain("BOXTEXT")
 		Graphics.Color(255,180,0)
 		AmFont.Text(sprintf("%s: %s: Please select your target",Act.Executor.Name,Act.Act.Name),30,10)
 		graphics.Color(255,0,0)
 		AMFont.Text("X",5,10) // TODO: Click to cancel
+		int al = Combat_Hero.AvgLevel
+		for ttag in each(Act.Targets_Tag)
+			plua tdat = Fighters[ttag]
+			__white
+			tdat.TIcon(tdat.x-25,tdat.y-50)
+			int verschil = tdat.Level - al
+			if tdat.Team=="Hero"
+				__white
+			elseif verschil<-10
+				Graphics.Color(180,255,0)
+			elseif verschil<0				
+				Graphics.Color(0,255,0)
+			elseif verschil==0
+				Graphics.Color(255,255,255)
+			elseif verschil>10
+				Graphics.Color(255,0,0)
+			elseif verschil>5
+				Graphics.Color(255,200,0)
+			else
+				Graphics.Color(255,180,0)
+			end
+			String Lv = "Lv. "
+			if ((__skill==3 && verschil>2) || (__skill==2 && verschil>6)) && tdat.Team=="Foe"
+				Lv += "????"
+			elseif Lv==10000
+				lv += "MAX!"
+			else
+				Lv += sprintf("%04d",tdat.level)
+			end
+			//lv += tostring(verschil)
+			fnt.Text(Lv,tdat.x,tdat.y-50)
+			__white
+			fnt.Text(tdat.Name,tdat.x+125,tdat.y-50)
+		end
 	end
 	
 	Void Update()
@@ -165,6 +218,7 @@ group Stage_SelectTarget
 							Targets_Tag += ftag
 						end
 					case "1F"
+						//CSayF("%s: Team: %s; Hover: %s",fdat.Tag,fdat.Team,tostring(fdat.TargetHover))
 						if (fdat.Team=="Foe" || Act.Act.InDiscriminate) && fdat.TargetHover
 							Targets_Tag[1] = ftag
 							Targets_Tag[2] = nil
@@ -183,8 +237,7 @@ group Stage_SelectTarget
 	end
 	
 	Constructor
-		amFont = ImageFont.Obtain("BOXTEXT")
-		Targets = {}
+		amFont = ImageFont.Obtain("BOXTEXT")		
 	end
 end
 

@@ -113,8 +113,10 @@ class Combat_Foe extends Combat_Fighter
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW = Img.W div 2 
-		return events.MouseY()<Y && events.MouseY()>Y-(Img.H) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
+		int HW = Img.W div 2
+		bool ret = events.MouseY()<Y && events.MouseY()>Y-(Img.H) && Events.MouseX()>X-HW && Events.MouseX()<X+HW
+		//CSayF("%s: Mouse(%d,%d) within (%d,%d) and (%d,%d) => %s",Tag,Events.MouseX(),Events.MouseY(),X-HW,Y-img.H,X+HW,Y,tostring(ret))
+		return ret
 	end
 	
 	
@@ -134,6 +136,11 @@ class Combat_Foe extends Combat_Fighter
 		Graphics.Scale(scale,scale)
 		Img.Draw(X,Y)
 		Graphics.Scale(1,1)
+	end
+	
+	void TIcon(int x,int y)
+		static var fnt = ImageFont.Obtain("SYSFONT")
+		fnt.Text(TagLetter .. ".",x,y)
 	end
 	
 	Constructor(string F,int Lvl)
