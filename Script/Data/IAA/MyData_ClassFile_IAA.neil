@@ -5,6 +5,7 @@ class MyData_MyDataClass_IAA
 	bool UseCombat = true
 	bool UseField = true
 	string Target = "1F"
+	bool InDiscriminate
 	int ActSpeed = 250
 	bool untauntable
 	bool Dodgable

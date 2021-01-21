@@ -78,12 +78,21 @@ class Combat_Hero extends Combat_Fighter
 		return midy + (midy4*PartyIndex)
 	end
 	
+	readonly table Images
+	get bool TargetHover
+		if not Images.IDLE
+			// needless crash prevention. It should NOT be possible this scenario is ever true
+			return false
+		end
+		int HW = Images.IDLE.W 
+		return events.MouseY()<Y && events.MouseY()>Y-(Images.IDLE.H*2) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
+	end
+	
 	get int Level
 		return self.Char.Stat.Level
 	end
 	
 	string State = "Idle"
-	readonly table Images
 	get var GetImage
 		CSay("Getting combat sprite for "..Tag.." in state "..State)
 		var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
@@ -103,6 +112,80 @@ class Combat_Hero extends Combat_Fighter
 		Images = {}
 	end
 
+end
+
+group Stage_SelectTarget
+	var Act
+	readonly var amFont
+	readonly table targets
+	var Fighters
+	
+	void ClearTargets()
+		table Kill = {}
+		for k,_ in pairs(targets)
+			Kill += k
+		end
+		for k in each(Kill)
+			targets[k] = nil
+		end
+	end
+	
+	get var Targets_Tag
+		return Act.Targets_Tag
+	end
+	
+	void ComeToMe(Action)
+		Act = Action
+		Stage.Current = self
+	end
+	
+	void Draw()
+		Graphics.Color(255,180,0)
+		AmFont.Text(sprintf("%s: %s: Please select your target",Act.Executor.Name,Act.Act.Name),30,10)
+		graphics.Color(255,0,0)
+		AMFont.Text("X",5,10) // TODO: Click to cancel
+	end
+	
+	Void Update()
+		ClearTargets()
+		for ftag,fdat in pairs(Fighters)
+			if fdat.Available and fdat.Targetable_Hero
+				switch Act.Act.Target
+					case "OS"
+						Targets_Tag[1]=Act.Executor_Tag
+						Targets_Tag[2]=nil
+					case "EV"
+						Targets_Tag += ftag
+					case "AF"
+						if fdat.Team=="Foe"
+							Targets_Tag += ftag
+						end
+					case "AA"
+						if fdat.Team=="Hero"
+							Targets_Tag += ftag
+						end
+					case "1F"
+						if (fdat.Team=="Foe" || Act.Act.InDiscriminate) && fdat.TargetHover
+							Targets_Tag[1] = ftag
+							Targets_Tag[2] = nil
+						end
+					case "1A"
+						if (fdat.Team=="Hero" || Act.Act.InDiscriminate) && fdat.TargetHover
+							Targets_Tag[1] = ftag
+							Targets_Tag[2] = nil
+						end
+					default
+						Lua.error("Unknown targeting type: "..Act.Target)					
+				end
+			end
+		end
+
+	end
+	
+	Constructor
+		amFont = ImageFont.Obtain("BOXTEXT")
+		Targets = {}
+	end
 end
 
 
@@ -139,6 +222,13 @@ group Stage_PlayerInput
 	
 	get int MY
 		return events.mousey()
+	end
+	
+	Void DoShoot()
+		var a
+		a = new Class_Action(Tag,"ACT_SHOOT")
+		a.UseCommonAmmo = true
+		Stage_SelectTarget.ComeToMe(a)
 	end
 	
 	Void ComeToMe(String ToTag)
@@ -187,6 +277,9 @@ group Stage_PlayerInput
 	End
 	
 	Void Update()
+		if Events.MouseHitLeft() and Hover!=""
+			self["Do"..Hover]()
+		end
 	End
 	
 	Constructor

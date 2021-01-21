@@ -82,6 +82,9 @@ class Combat_Fighter
 		return Char.Points.Ammo.Maximum
 	end
 	
+	get string Name
+		return Char.Name
+	end
 	
 	// Position on the time gauge
 	int Gauge = 0

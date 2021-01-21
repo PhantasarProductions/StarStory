@@ -54,6 +54,15 @@ class Combat_Foe extends Combat_Fighter
 		return true
 	end
 	
+	get bool Targetable_Hero
+		return Available and self.HP>0
+	end
+	get bool Targetable_Foe
+		return Targetable_Hero and self.HP>0
+		// On the moment this code was written a bug in Neil requires me to use "self" when using identifiers from the base class when extending classes
+	end
+
+	
 	// This will be used for the humanoid enemies or oder to match Wendicka & co.
 	int Scale = 1
 	
@@ -78,7 +87,7 @@ class Combat_Foe extends Combat_Fighter
 		end
 		return _Img
 	end
-	
+		
 	get string Team
 		return "Foe"
 	end
@@ -99,6 +108,15 @@ class Combat_Foe extends Combat_Fighter
 		return ((idx%3)*Midy4)+midy
 	end
 
+	get bool TargetHover
+		if not Img
+			// needless crash prevention. It should NOT be possible this scenario is ever true
+			return false
+		end
+		int HW = Img.W div 2 
+		return events.MouseY()<Y && events.MouseY()>Y-(Img.H) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
+	end
+	
 	
 	static var Fighter
 	

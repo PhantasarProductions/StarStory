@@ -73,7 +73,7 @@ Class Class_Action
 		void TGT_SET(s,int idx,var ch)
 			Fighters[Targets_Tag[idx]]=ch.Tag
 		end
-		Targets = Lua.setmetatable({},{["__index"]== TGT_GET,["__newindex"]=TGT_SET})
+		Targets = Lua.setmetatable({},{["__index"]= TGT_GET,["__newindex"]=TGT_SET})
 		
 	end
 End
