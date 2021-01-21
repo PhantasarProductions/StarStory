@@ -38,7 +38,7 @@ quickmeta Killed
 
 	index
 		string k = Replace(key,"/","_")
-		return gv.int["Killed_"..k]
+		return gv.vint["Killed_"..k]
 	end
 	
 	newindex
