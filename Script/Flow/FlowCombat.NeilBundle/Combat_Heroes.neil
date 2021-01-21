@@ -196,6 +196,18 @@ group Stage_SelectTarget
 			fnt.Text(Lv,tdat.x,tdat.y-50)
 			__white
 			fnt.Text(tdat.Name,tdat.x+125,tdat.y-50)
+			if __skill!=3 || tdat.Team=="Hero"
+				__black
+				Graphics.Rect(tdat.x-1,tdat.y-26,257,27)
+				if tdat.Team=="Foe" && __skill==2 && Killed[tdat.File]<=0
+					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
+					fnt.Text("?",tdat.x+127,tdat.y-12)
+				else
+					int b = math.floor( (tdat.HP/tdat.MaxHP) * 255 )
+					Graphics.Color(255-b,b,0)
+					Graphics.Red(tdat.x,tdat.y-25,b,25)
+				end
+			end
 		end
 	end
 	
