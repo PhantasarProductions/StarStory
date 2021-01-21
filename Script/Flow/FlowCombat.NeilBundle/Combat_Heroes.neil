@@ -133,6 +133,7 @@ end
 
 group Stage_SelectTarget
 	var Act
+	var PInp
 	readonly var amFont
 	//readonly table targets
 	var Fighters
@@ -201,7 +202,7 @@ group Stage_SelectTarget
 				Graphics.Rect(tdat.x-1,tdat.y-26,257,27)
 				if tdat.Team=="Foe" && __skill==2 && Killed[tdat.File]<=0
 					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-					fnt.Text("?",tdat.x+127,tdat.y-12)
+					fnt.Text("?",tdat.x+127,tdat.y-12,2,2)
 				else
 					int b = math.floor( (tdat.HP/tdat.MaxHP) * 255 )
 					Graphics.Color(255-b,b,0)
@@ -245,7 +246,9 @@ group Stage_SelectTarget
 				end
 			end
 		end
-
+		if Events.MouseHitRight() || (Events.MouseHitLeft() && Events.MouseX()<50 && Events.MouseY()<25)
+			PInp.ComeToMe(Act.Executor.Tag)
+		end
 	end
 	
 	Constructor
@@ -354,6 +357,7 @@ group Stage_PlayerInput
 		For PI In Each {"TOP","BOTTOM","ITEM","SIDES"}
 			self[PI]=Image.Obtain("COMBAT_PLAYINPUT_"..PI)
 		End
+		Stage_SelectTarget.PInp = self
 	end
 end
 
