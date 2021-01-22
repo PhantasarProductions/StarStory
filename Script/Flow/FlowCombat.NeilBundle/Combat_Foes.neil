@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.01.21
+// Version: 21.01.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -140,7 +140,7 @@ class Combat_Foe extends Combat_Fighter
 	
 	void TIcon(int x,int y)
 		static var fnt = ImageFont.Obtain("SYSFONT")
-		fnt.Text(TagLetter .. ".",x,y)
+		fnt.DarkText(TagLetter .. ".",x,y)
 	end
 	
 	Constructor(string F,int Lvl)

@@ -194,9 +194,9 @@ group Stage_SelectTarget
 				Lv += sprintf("%04d",tdat.level)
 			end
 			//lv += tostring(verschil)
-			fnt.Text(Lv,tdat.x,tdat.y-50)
+			fnt.DarkText(Lv,tdat.x,tdat.y-50)
 			__white
-			fnt.Text(tdat.Name,tdat.x+125,tdat.y-50)
+			fnt.DarkText(tdat.Name,tdat.x+125,tdat.y-50)
 			if __skill!=3 || tdat.Team=="Hero"
 				__black
 				Graphics.Rect(tdat.x-1,tdat.y-26,257,27)
