@@ -123,10 +123,12 @@ class Combat_Hero extends Combat_Fighter
 		Images[State] = Images[State] or GetImage
 		Images[State].Draw(X,Y)
 		Graphics.Scale(1,1)
+		self.HurtShow()
 	end
 	
 	CONSTRUCTOR
 		Images = {}
+		self.HurtLijst = New LinkedList
 	end
 
 end

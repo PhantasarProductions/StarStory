@@ -34,6 +34,37 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "libs/LinkedList"
+
+class Combat_Hurt
+	int CD=125
+	readonly string txt
+	readonly int x
+	readonly int y
+	readonly int r
+	readonly int g
+	readonly int b
+	
+	void Draw(bool NCD=false)
+		static var font = ImageFont.Obtain("BoxText")
+		Graphics.Color(r,g,b)
+		font.DarkText(txt,x,y-CD,2,2)
+		if not NCD
+			CD = math.max(0,CD-1)
+		end
+	end
+	
+	Constructor(string atxt,int ax,int ay,int ar,int ag,int ab)
+		txt = atxt
+		x   = ax
+		y   = ay
+		r   = ar
+		g   = ag
+		b   = ab
+	end
+end
+
 class Combat_Fighter
 	// string Tag // All same pointer?
 	
@@ -57,6 +88,23 @@ class Combat_Fighter
 	abstract void TIcon(int x,int y)
 	
 	// And these should not be overridden
+	readonly var HurtLijst
+	
+	void Hurt_Show()
+		if HurtLijst.Count>0
+			var L = HurtLijst.First
+			var H = L.MyObject
+			H.Draw()
+			if H.CD<=0
+				L.Unlink()
+			end
+		end
+	end
+	
+	void Hurt(string txt,int r=255,int g=255,int b=255)
+		HurtLijst.AddLast(new Class_Hurt(txt,X,Y-10,r,g,b)
+	end
+	
 	get table Char
 		return RPGChar[self.Tag]
 	end
@@ -117,4 +165,5 @@ class Combat_Fighter
 	static void Add(obj)
 		Fighters[obj.Tag] = obj
 	end
+	
 end

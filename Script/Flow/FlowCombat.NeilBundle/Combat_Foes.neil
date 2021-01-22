@@ -136,6 +136,7 @@ class Combat_Foe extends Combat_Fighter
 		Graphics.Scale(scale,scale)
 		Img.Draw(X,Y)
 		Graphics.Scale(1,1)
+		self.HurtShow()
 	end
 	
 	void TIcon(int x,int y)
@@ -200,7 +201,8 @@ class Combat_Foe extends Combat_Fighter
 			end
 		end
 		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
-		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum		
+		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum
+		self.HurtLijst = New LinkedList
 	end
 	
 	static void AddFoe(string F,int lvl)
