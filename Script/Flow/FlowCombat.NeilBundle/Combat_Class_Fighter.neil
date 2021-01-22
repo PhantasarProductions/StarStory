@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 21.01.21
+// Version: 21.01.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -89,6 +89,7 @@ class Combat_Fighter
 	
 	// Position on the time gauge
 	int Gauge = 0
+		
 	
 	table Stats = nil
 	table Buffs = nil
@@ -109,6 +110,8 @@ class Combat_Fighter
 		Buffs = setmetatable({},{["__index"]=BuffIndex,["__newindex"]=BuffNewIndex})
 		CSayF("Metatables set for stats and buffs at character '%s'",self.Tag)
 	end
+	
+	var NextAct = nil
 	
 	static readonly table Fighters
 	static void Add(obj)

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.01.21
+// Version: 21.01.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -248,7 +248,11 @@ group Stage_SelectTarget
 		end
 		if Events.MouseHitRight() || (Events.MouseHitLeft() && Events.MouseX()<50 && Events.MouseY()<25)
 			PInp.ComeToMe(Act.Executor.Tag)
+		ElseIf Events.MouseHitLeft() && #Targets_Tag>0
+			Act.Executor.Gauge = 10001
+			Stage.Current = nil
 		end
+		
 	end
 	
 	Constructor
@@ -295,6 +299,7 @@ group Stage_PlayerInput
 	Void DoShoot()
 		var a
 		a = new Class_Action(Tag,"ACT_SHOOT")
+		Hero.NextAct = a
 		a.UseCommonAmmo = true
 		Stage_SelectTarget.ComeToMe(a)
 	end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.01.21
+// Version: 21.01.22
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,11 +61,16 @@ Class Class_Action
 		return _ActSpeed
 	end
 	
+	readonly int ID
 	Constructor(string Exe,String A_ActTag)
+		static int count=0
+		count++		
+		ID = count
 		Executor_Tag = Exe
 		Targets_Tag = {}
 		ActTag = A_ActTag
 		Act = Item[ActTag]
+		Executor.NextAct = self
 		
 		var TGT_GET(s,int idx)
 			return Fighters[Targets_Tag[idx]]
@@ -74,6 +79,10 @@ Class Class_Action
 			Fighters[Targets_Tag[idx]]=ch.Tag
 		end
 		Targets = Lua.setmetatable({},{["__index"]= TGT_GET,["__newindex"]=TGT_SET})
-		
+		CSayF("Action #%d has been created and been attached to fighter '%s'",ID,Exe)
+	end
+	
+	Destructor
+		CSayF("Action #%d has been destroyed and been detached from fighter '%s'",ID,Executor_Tag)
 	end
 End
