@@ -70,6 +70,7 @@ init
 	Combat_Foe.Fighter = Combat_Fighter
 	Combat_Time.FClass = Combat_Fighter	
 	Combat_Stage_IDLE.STime = Combat_Time
+	Combat_Time.Execution = Combat_Execution
 	Class_Action.Fighters = Combat_Fighter.Fighters
 	Stage_PlayerInput.Fighters = Combat_Fighter
 	Stage_SelectTarget.Fighters = Combat_Fighter.Fighters

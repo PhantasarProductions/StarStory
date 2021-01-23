@@ -73,6 +73,8 @@ module
 		return (!Stage.Current) or Stage.Current==Stage.IDLE 
 	end
 	
+	var Execution
+	
 	CONSTRUCTOR
 		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
 		// Something I need to address later, but which is not my primary concern
@@ -108,7 +110,13 @@ module
 								// TODO: Enter enemy move
 						end
 					elseif fv.Gauge==20000
-						// TODO: Actually execute the action
+						if not fv.NextAct
+							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
+							fv.Hurt("Cancel")
+							fv.Gauge=0						
+						elseif isIDLE
+							self.Execution.ComeTome(fv.NextAct)
+						end
 					elseif fv.Gauge>10000
 						if not fv.NextAct
 							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
