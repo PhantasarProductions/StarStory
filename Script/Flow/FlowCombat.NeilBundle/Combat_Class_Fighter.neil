@@ -90,7 +90,7 @@ class Combat_Fighter
 	// And these should not be overridden
 	readonly var HurtLijst
 	
-	void Hurt_Show()
+	void HurtShow()
 		if HurtLijst.Count>0
 			var L = HurtLijst.First
 			var H = L.MyObject
@@ -102,7 +102,7 @@ class Combat_Fighter
 	end
 	
 	void Hurt(string txt,int r=255,int g=255,int b=255)
-		HurtLijst.AddLast(new Class_Hurt(txt,X,Y-10,r,g,b)
+		HurtLijst.AddLast(new Combat_Hurt(txt,X,Y-10,r,g,b))
 	end
 	
 	get table Char

@@ -71,6 +71,7 @@ Class Class_Action
 		ActTag = A_ActTag
 		Act = Item[ActTag]
 		Executor.NextAct = self
+		ActSpeed = Act.ActSpeed
 		
 		var TGT_GET(s,int idx)
 			return Fighters[Targets_Tag[idx]]

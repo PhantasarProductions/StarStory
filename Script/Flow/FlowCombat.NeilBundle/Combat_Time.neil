@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.01.20
+// Version: 21.01.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -110,7 +110,12 @@ module
 					elseif fv.Gauge==20000
 						// TODO: Actually execute the action
 					elseif fv.Gauge>10000
-						// TODO: Move on based on the speed of the move
+						if not fv.NextAct
+							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
+							fv.Hurt("Cancel")
+							fv.Gauge=0
+						end
+						fv.Gauge = math.min(20000,fv.Gauge+fv.NextAct.ActSpeed)
 					end
 			end
 		end

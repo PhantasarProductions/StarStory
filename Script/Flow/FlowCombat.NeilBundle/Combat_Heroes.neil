@@ -128,7 +128,7 @@ class Combat_Hero extends Combat_Fighter
 	
 	CONSTRUCTOR
 		Images = {}
-		self.HurtLijst = New LinkedList
+		self.HurtLijst = New LinkedList()
 	end
 
 end
