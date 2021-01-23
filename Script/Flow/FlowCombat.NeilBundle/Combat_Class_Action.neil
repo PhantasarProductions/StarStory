@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.01.22
+// Version: 21.01.23
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,6 +37,7 @@
 Class Class_Action
 	Static Var Fighters
 	
+	bool Learning
 	bool UseCommonAmmo
 	bool UseARMAmmo
 	int ConsumeItem = -1
