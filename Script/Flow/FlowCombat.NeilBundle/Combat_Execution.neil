@@ -1,0 +1,128 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
+// Version: 21.01.23
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#macro _Announce 0
+#macro _SpellAni 1
+#macro _Effect 2
+
+Module
+
+	var Act
+	int Stage = _Announce
+	var Targets
+	
+	get var Executor
+		return Act.Executor
+	end
+	
+	void Fini()
+		// This "Nil" definitions are to make sure some crucial data won't 
+		// linger causing the garbage collector to bug.
+		Act = Nil
+		Stage.Current = Nil
+		Targets = Nil
+	end
+	
+	void Reject(string Reason)
+		static var Buzz = Audio.Obtain("BUZZ")
+		Buzz.Play()
+		Act.Executor.Hurt("Action Rejected!",255,0,0)
+		Act.Executor.Hurt(Reason,255,0,0)
+	end
+	
+	void CleanTargets()
+		// Remove targets that have become invalid by the time ACT was reached.
+		Targets = {}
+		// pairs and not ipairs. I must make sure ALL targets are seen. The order doesn't matter
+		for i,tag in pairs(Targets_Tag)
+			var tar = Targets[i]
+			if (tar.Available && ( (Executor.Team=="Hero" && tar.Targetable_Hero) || (Executor.Team=="Foe" && tar.Targetable_Foe))
+				Targets += tar
+			end
+		end
+		// Stuff cleaned to prevent issues with SpellAnis and stuff
+		Act.Targets_Tag = {}
+		for i,dat in ipairs(Targets)
+			Targets_Tag = dat.Tag
+		end
+	end
+	
+	get int CountTargets
+		return #Targets
+	end
+	
+	void ComeToMe(SetAct)
+		Act = SetAct
+		Stage.Current = self
+		CleanTargets()
+		Stage = _Announce
+		if CountTargets<=0
+			Reject("No more valid targets")
+			return
+		end
+		if Act.Learning and Executor.Team=="Hero"
+			Lua.error("Learning not yet supported!")
+			// TODO: Announce learning by BoxText
+			// TODO: Instantly cure blocking statuses to make sure the move is executed legally
+			// TODO: Grant the EXP bonus tied to this character for learning a new move.
+		end
+		if Act.UseCommonAmmo
+			if Executor.Ammo<=0
+				Reject("Out of Ammo")
+				return
+			end
+			Executor.Ammo--
+		elseif Act.BurnAP>0
+			if Executor.AP<Act.BurnAP
+				Reject("Not enough AP")
+				return
+			end
+			Executor.AP -= Act.BurnAP
+		elseif Act.ConsumeItem>=0
+			Lua.error("Item consumtion not yet supported")
+			// TODO: Value should contain the used item slot and remove an item from it. 
+			// Also reject the action if the slot is empty (possible thanks to stealing)
+		end
+	end	
+
+	void Draw()
+	end
+	
+	void Update()
+	end
+
+End
