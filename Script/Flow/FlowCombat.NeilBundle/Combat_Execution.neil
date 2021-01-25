@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.01.24
+// Version: 21.01.25
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,8 +36,9 @@
 // End License Information
 
 #macro _Announce 0
-#macro _SpellAni 1
-#macro _Effect 2
+#macro _Stance 1
+#macro _SpellAni 2
+#macro _Effect 3
 
 Module
 
@@ -144,6 +145,8 @@ Module
 		switch MyStage
 			case _Announce _Effect
 				// Do Nothing at all.
+			case _Stance
+				// TODO: Bring hero in specific pose, or make the enemy "flicker" with it's "negative" counterpart
 			case _SpellAni
 				// TODO: SpellAni 
 			default

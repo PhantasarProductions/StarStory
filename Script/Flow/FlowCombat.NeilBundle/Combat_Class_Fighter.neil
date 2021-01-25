@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 21.01.23
+// Version: 21.01.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -86,6 +86,7 @@ class Combat_Fighter
 	
 	abstract void Draw()
 	abstract void TIcon(int x,int y)
+	abstract bool Pose(Act)
 	
 	// And these should not be overridden
 	readonly var HurtLijst

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.01.23
+// Version: 21.01.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,6 +49,12 @@ class Combat_Hero extends Combat_Fighter
 	void TIcon(int x,int y)
 		GIIMG.Draw(x,y)
 	end
+	
+	bool Pose(Act)
+		// TODO: Actual pose cycle!
+		return true
+	end
+
 
 	get int PartyIndex
 		for i=1,6

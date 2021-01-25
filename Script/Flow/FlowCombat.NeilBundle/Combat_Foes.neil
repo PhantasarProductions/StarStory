@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.01.23
+// Version: 21.01.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -62,6 +62,10 @@ class Combat_Foe extends Combat_Fighter
 		// On the moment this code was written a bug in Neil requires me to use "self" when using identifiers from the base class when extending classes
 	end
 
+	bool Pose(Act)
+		// TODO: Actual pose cycle!
+		return true
+	end
 	
 	// This will be used for the humanoid enemies or oder to match Wendicka & co.
 	int Scale = 1
