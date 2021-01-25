@@ -1,0 +1,143 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/SpellAni/Templates/Projectile.neil
+// Version: 21.01.25
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+module 
+
+	void Init()
+		error("Projectile module should NEVER be used as a stand alone spellani")
+	end
+
+	var PrjImage
+	bool Turn = true
+	bool HotCenter = true
+	number ex
+	number ey
+	number tx
+	number ty
+	number dx
+	number dy
+	number cycles
+	number degrees
+	number x
+	number y
+	int Speed = 4
+	
+	//void Start(string Image,Exe,Tar,aTurn,aHC)
+	void Start(string Image,Act,aTurn,aHC)
+		// Original parameters
+		const var Exe = Act.Executor
+		const var Tar = Act.Targets[1]				
+		self.Turn = aTurn!=false and aTurn!=nil;
+		self.HotCenter = aHC!=false and aHC!=nil;
+		self.PrjImage = Image.LoadNew(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Image:upper(),"/","_"),tostring(self.Turn),tostring(self.HotCenter)))
+		self.ex = Exe.X
+		self.ey = Exe.Y - (Exe.H div 2)
+		self.tx = Tar.X
+		self.ty = Tar.Y - (Tar.H div 2)
+		self.x = Exe.X
+		self.y = Exe.Y
+		self.degrees = 0
+		if (self.HotCenter)
+			self.PrjImage.HotCenter()
+		end
+		if self.tx<self.ex
+			if math.abs(math.abs(self.ex)-math.abs(self.tx))>math.abs(math.abs(self.ey)-math.abs(self.ty))
+				self.dx=1
+				//if self.ex>self.tx
+					self.dx=-1
+				//end
+				//self.dy = math.abs(self.ty-self.ey)/self.ex
+				self.dy = (self.ty-self.ey)/self.ex
+				self.cycles=math.abs(self.ex-self.tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+			else
+				self.dy=1
+				if self.ey>self.ty
+					self.dy=-1
+				end
+				self.dx = math.abs(self.tx-self.ex)/self.ey
+				//self.cycles=math.abs(self.ex-self.tx)
+				self.cycles=math.abs(self.ey-self.ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+			end
+		else
+			if math.abs(math.abs(self.ex)-math.abs(self.tx))>math.abs(math.abs(self.ey)-math.abs(self.ty))
+				self.dx=1
+				//if self.ex>self.tx
+				//	self.dx=-1
+				//end
+				//self.dy = math.abs(self.ty-self.ey)/(self.tx-self.ex)
+				self.dy = (self.ty-self.ey)/(self.tx-self.ex)
+				self.cycles=math.abs(self.ex-self.tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+			else
+				self.dy=1
+				if self.ey>self.ty
+					self.dy=-1
+				end
+				self.dx = math.abs(self.tx-self.ex)/math.abs(self.ey-self.ty)
+				//self.cycles=math.abs(self.ex-self.tx)
+				self.cycles=math.abs(self.ey-self.ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+			end
+		end
+		// Not the most elegant method, but using Bresenham would get more issues
+	end
+	
+	bool Update()
+		int skippy
+		repeat
+			skippy++
+			--self.cycles
+			if self.cycles<=0
+				return true
+			end
+			self.x += self.dx
+			self.y += self.dy
+			if self.Turn
+				self.degrees++
+			end			
+		until skippy>=self.Speed
+		return false
+	end
+	
+	void Draw()
+		Rotate.Deg = self.degrees
+		self.PrjImage.XDraw(self.x,self.y)
+		Rotate.Deg = 0
+	end
+
+end
