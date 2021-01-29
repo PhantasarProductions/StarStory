@@ -52,8 +52,8 @@ class Combat_Hero extends Combat_Fighter
 	
 	string State = "Idle"
 	bool Pose(Act)
-		const int resettime = 250
-		static int time = 250		
+		const int resettime = 62
+		static int time = 62		
 		switch Act.Act.ABL_Pose
 			case "Attack"
 				int s = 2

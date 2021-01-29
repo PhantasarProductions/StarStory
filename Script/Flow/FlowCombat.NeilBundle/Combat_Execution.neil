@@ -129,7 +129,7 @@ Module
 			// TODO: Value should contain the used item slot and remove an item from it. 
 			// Also reject the action if the slot is empty (possible thanks to stealing)
 		end
-		AnnounceCD = 250
+		AnnounceCD = 123
 		AnnounceText = Act.Act.Name
 		AnnounceX = (Screen.W div 2) - (AnnounceFont.TextWidth(AnnounceText) div 2)
 		if Act.Act.Icon 
