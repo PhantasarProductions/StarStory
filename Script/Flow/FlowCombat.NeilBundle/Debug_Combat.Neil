@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/SpellAni/Shoot.neil
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Debug_Combat.Neil
 // Version: 21.01.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
@@ -35,53 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-module
-
-	readonly var Template 
-	
-	bool _Ended = false
-	
-
-	void Init(A)
-		_Ended = false
-		string img
-		Audio.LoadNew("Audio/SFX/photon.ogg","SPELLANI_SHOOT_SOUND").Play()
-		switch (A.Executor_Tag)
-			case "UniWendicka" "UniCrystal" "Briggs"
-				Template.r = 255
-				Template.g = 255
-				Template.b = 255
-				//Template.PrjImage = Image.LoadNew("GFX/Combat/Projectiles/PHOTON.png","SPELLANI_PHOTON")
-				img = "GFX/Combat/Projectiles/PHOTON.png"
-			case "Yirl" "Johnson"
-				Template.r = 255
-				Template.g = 255
-				Template.b = 255
-				//Template.PrjImage = Image.LoadNew("GFX/Combat/Projectiles/Yirl_Laser.png","SPELLANI_LASER")
-				img = "GFX/Combat/Projectiles/Yirl_Laser.png"
-			default
-				Lua.error("No projectile known for character: "..A.Executor_Tag)
-		end
-		Template.Start(img,A,false)
-		Template.Speed = 8
+global void CONSOLE_Positions()
+	for t,dat in spairs(Combat_Fighter.Fighters)
+		CSayF(sprintf(">%10s: (%d,%d) %dx%d",t,dat.x,dat.y,dat.w,dat.h))
 	end
-	
-	void Draw()
-		Template.Draw()
-	end
-		
-	void Update()
-		_Ended = Template.Update()
-	end
-	
-	get bool Ended
-		return _Ended
-	end
-	
-	Constructor
-		CSay("Shoot SpellANI - Loaded!")
-		Template = Lua.Neil.Use("Script/Use/Combat/SpellAni/Templates/Projectile")
-		CSay("Shoot SpellANI -  Projectile Template loaded!")
-	end
-	
 end

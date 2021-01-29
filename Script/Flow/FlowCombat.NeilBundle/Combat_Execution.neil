@@ -171,7 +171,7 @@ Module
 				if Executor.Pose(Act)
 					MyStage = _SpellAni
 					if Act.SpellAni
-						Act.SpellAni.Init)Act)
+						Act.SpellAni.Init(Act)
 					else
 						CSay("No spellani, so let's skip to the effect then!")
 						MyStage = _Effect

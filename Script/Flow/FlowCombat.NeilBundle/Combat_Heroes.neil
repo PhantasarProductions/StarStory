@@ -107,7 +107,24 @@ class Combat_Hero extends Combat_Fighter
 		return midy + (midy4*PartyIndex)
 	end
 	
+	
 	readonly table Images
+	get int H
+		return self.GetImage.H * 2
+	end
+	
+	Get int Height
+		return self.GetImage.H * 2
+	end
+	
+	get int W
+		return self.GetImage.W * 2
+	end
+	
+	get int Width
+		return self.GetImage.W * 2
+	end
+
 	get bool TargetHover
 		if not Images.IDLE
 			// needless crash prevention. It should NOT be possible this scenario is ever true

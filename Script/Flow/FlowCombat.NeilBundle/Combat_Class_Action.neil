@@ -65,10 +65,10 @@ Class Class_Action
 	var _SpellAni
 	get var SpellAni
 		// Internal or external won't have any more value
-		if (!Act.SpellAni_Reference) || Act.SpellAni_Referece==""
+		if (!Act.SpellAni_Reference) || Act.SpellAni_Reference==""
 			return nil
 		end
-		_SpellAni = _SpellAni || Neil.Use("Script/Use/Combat/SpellAni/"..Act.SpellAni_Reference)
+		_SpellAni = _SpellAni || NeilUse("Script/Use/Combat/SpellAni/"..Act.SpellAni_Reference)
 		return _SpellAni
 	end
 	

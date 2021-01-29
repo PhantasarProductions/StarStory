@@ -35,9 +35,9 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 module 
-
+	
 	void Init()
-		error("Projectile module should NEVER be used as a stand alone spellani")
+		Lua.error("Projectile module should NEVER be used as a stand alone spellani")
 	end
 
 	var PrjImage
@@ -63,58 +63,58 @@ module
 		// Original parameters
 		const var Exe = Act.Executor
 		const var Tar = Act.Targets[1]				
-		self.Turn = aTurn!=false and aTurn!=nil;
-		self.HotCenter = aHC!=false and aHC!=nil;
-		self.PrjImage = Image.LoadNew(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Image:upper(),"/","_"),tostring(self.Turn),tostring(self.HotCenter)))
-		self.ex = Exe.X
-		self.ey = Exe.Y - (Exe.H div 2)
-		self.tx = Tar.X
-		self.ty = Tar.Y - (Tar.H div 2)
-		self.x = Exe.X
-		self.y = Exe.Y
-		self.degrees = 0
-		if (self.HotCenter)
-			self.PrjImage.HotCenter()
+		Turn = aTurn!=false and aTurn!=nil;
+		HotCenter = aHC!=false and aHC!=nil;
+		PrjImage = Lua.Neil.Globals.Image.LoadNew(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Image:upper(),"/","_"),tostring(Turn),tostring(HotCenter)))
+		ex = Exe.X
+		ey = Exe.Y - (Exe.Height div 2)
+		tx = Tar.X
+		ty = Tar.Y - (Tar.Height div 2)
+		x = Exe.X
+		y = Exe.Y - (Exe.Height div 2)
+		degrees = 0
+		if (HotCenter)
+			PrjImage.HotCenter()
 		end
-		if self.tx<self.ex
-			if math.abs(math.abs(self.ex)-math.abs(self.tx))>math.abs(math.abs(self.ey)-math.abs(self.ty))
-				self.dx=1
-				//if self.ex>self.tx
-					self.dx=-1
+		if tx<ex
+			if math.abs(math.abs(ex)-math.abs(tx))>math.abs(math.abs(ey)-math.abs(ty))
+				dx=1
+				//if ex>tx
+					dx=-1
 				//end
-				//self.dy = math.abs(self.ty-self.ey)/self.ex
-				self.dy = (self.ty-self.ey)/self.ex
-				self.cycles=math.abs(self.ex-self.tx)
-				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+				//dy = math.abs(ty-ey)/ex
+				dy = (ty-ey)/ex
+				cycles=math.abs(ex-tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
 			else
-				self.dy=1
-				if self.ey>self.ty
-					self.dy=-1
+				dy=1
+				if ey>ty
+					dy=-1
 				end
-				self.dx = math.abs(self.tx-self.ex)/self.ey
-				//self.cycles=math.abs(self.ex-self.tx)
-				self.cycles=math.abs(self.ey-self.ty)
-				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+				dx = math.abs(tx-ex)/ey
+				//cycles=math.abs(ex-tx)
+				cycles=math.abs(ey-ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
 			end
 		else
-			if math.abs(math.abs(self.ex)-math.abs(self.tx))>math.abs(math.abs(self.ey)-math.abs(self.ty))
-				self.dx=1
-				//if self.ex>self.tx
-				//	self.dx=-1
+			if math.abs(math.abs(ex)-math.abs(tx))>math.abs(math.abs(ey)-math.abs(ty))
+				dx=1
+				//if ex>tx
+				//	dx=-1
 				//end
-				//self.dy = math.abs(self.ty-self.ey)/(self.tx-self.ex)
-				self.dy = (self.ty-self.ey)/(self.tx-self.ex)
-				self.cycles=math.abs(self.ex-self.tx)
-				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+				//dy = math.abs(ty-ey)/(tx-ex)
+				dy = (ty-ey)/(tx-ex)
+				cycles=math.abs(ex-tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
 			else
-				self.dy=1
-				if self.ey>self.ty
-					self.dy=-1
+				dy=1
+				if ey>ty
+					dy=-1
 				end
-				self.dx = math.abs(self.tx-self.ex)/math.abs(self.ey-self.ty)
-				//self.cycles=math.abs(self.ex-self.tx)
-				self.cycles=math.abs(self.ey-self.ty)
-				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",self.ex,self.ey,self.tx,self.ty,self.dx,self.dy,self.cycles)
+				dx = math.abs(tx-ex)/math.abs(ey-ty)
+				//cycles=math.abs(ex-tx)
+				cycles=math.abs(ey-ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
 			end
 		end
 		// Not the most elegant method, but using Bresenham would get more issues
@@ -124,25 +124,25 @@ module
 		int skippy
 		repeat
 			skippy++
-			--self.cycles
-			if self.cycles<=0
+			--cycles
+			if cycles<=0
 				return true
 			end
-			self.x += self.dx
-			self.y += self.dy
-			if self.Turn
-				self.degrees++
+			x += dx
+			y += dy
+			if Turn
+				degrees++
 			end			
-		until skippy>=self.Speed
+		until skippy>=Speed
 		return false
 	end
 	
 	void Draw()
 		Graphics.Color(r,g,b)
 		if !Turn
-			self.PrjImage.Draw(self.x,self.y)
+			PrjImage.Draw(x,y)
 		else
-			//Rotate.Deg = self.degrees
+			//Rotate.Deg = degrees
 			Lua.error("Turning projectiles not yet scripted!")
 			//Rotate.Deg = 0
 			// TODO: Turning projectiles
