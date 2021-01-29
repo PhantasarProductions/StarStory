@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.01.23
+// Version: 21.01.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -60,6 +60,16 @@ Class Class_Action
 	end
 	get int ActSpeed
 		return _ActSpeed
+	end
+	
+	var _SpellAni
+	get var SpellAni
+		// Internal or external won't have any more value
+		if (!Act.SpellAni_Reference) || Act.SpellAni_Referece==""
+			return nil
+		end
+		_SpellAni = _SpellAni || Neil.Use("Script/Use/Combat/SpellAni/"..Act.SpellAni_Reference)
+		return _SpellAni
 	end
 	
 	readonly int ID

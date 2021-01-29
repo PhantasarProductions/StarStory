@@ -148,7 +148,7 @@ Module
 			case _Stance
 				// TODO: Bring hero in specific pose, or make the enemy "flicker" with it's "negative" counterpart
 			case _SpellAni
-				// TODO: SpellAni 
+				Act.SpellAni.Draw()
 			default
 				Lua.error("Combat.Execution.Draw: Unknown stage ("..MyStage..")")
 		end
@@ -170,9 +170,18 @@ Module
 			case _Stance
 				if Executor.Pose(Act)
 					MyStage = _SpellAni
+					if Act.SpellAni
+						Act.SpellAni.Init)Act)
+					else
+						CSay("No spellani, so let's skip to the effect then!")
+						MyStage = _Effect
+					end
 				end
 			case _SpellAni
-				// TODO: SpellAni
+				Act.SpellAni.Update()
+				if Act.SpellAni.Ended
+					MyStage = _Effect
+				end
 			case _Effect
 				// TODO: Effect
 			default
