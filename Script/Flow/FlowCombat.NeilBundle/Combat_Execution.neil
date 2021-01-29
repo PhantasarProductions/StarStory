@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.01.25
+// Version: 21.01.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -165,7 +165,7 @@ Module
 			case _Announce
 				AnnounceCD--
 				if AnnounceCD<=0
-					MyStage = _SpellAni
+					MyStage = _Stance
 				end
 			case _Stance
 				if Executor.Pose(Act)
