@@ -50,9 +50,28 @@ class Combat_Hero extends Combat_Fighter
 		GIIMG.Draw(x,y)
 	end
 	
+	string State = "Idle"
 	bool Pose(Act)
-		// TODO: Actual pose cycle!
-		return true
+		const int resettime = 250
+		static int time = 250		
+		switch Act.Act.ABL_Pose
+			case "Attack"
+				int s = 2
+				if time<resettime div 2
+					s = 1
+				end
+				State = "Attack." .. s
+			case "Case"
+				State = "Cast"
+			default
+				State = "Cast"
+		end
+		time --
+		if time<=0
+			time=resettime
+			return true
+		end
+		return false
 	end
 
 
@@ -102,7 +121,7 @@ class Combat_Hero extends Combat_Fighter
 		return self.Char.Stat.Level
 	end
 	
-	string State = "Idle"
+	
 	get var GetImage
 		CSay("Getting combat sprite for "..Tag.." in state "..State)
 		var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)

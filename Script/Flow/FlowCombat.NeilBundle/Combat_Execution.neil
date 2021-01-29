@@ -167,6 +167,10 @@ Module
 				if AnnounceCD<=0
 					MyStage = _SpellAni
 				end
+			case _Stance
+				if Executor.Pose(Act)
+					MyStage = _SpellAni
+				end
 			case _SpellAni
 				// TODO: SpellAni
 			case _Effect
