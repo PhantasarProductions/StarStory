@@ -53,6 +53,9 @@ module
 	number degrees
 	number x
 	number y
+	int r = 255
+	int g = 255
+	int b = 255
 	int Speed = 4
 	
 	//void Start(string Image,Exe,Tar,aTurn,aHC)
@@ -135,9 +138,16 @@ module
 	end
 	
 	void Draw()
-		Rotate.Deg = self.degrees
-		self.PrjImage.XDraw(self.x,self.y)
-		Rotate.Deg = 0
+		Graphics.Color(r,g,b)
+		if !Turn
+			self.PrjImage.Draw(self.x,self.y)
+		else
+			//Rotate.Deg = self.degrees
+			Lua.error("Turning projectiles not yet scripted!")
+			//Rotate.Deg = 0
+			// TODO: Turning projectiles
+		end
+		
 	end
 
 end

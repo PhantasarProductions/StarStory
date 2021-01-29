@@ -37,17 +37,47 @@
 
 module
 
+	readonly var Template = Lua.Neil.Use("Script/Use/Combat/SpellAni/Templates/Projectile")
+	bool _Ended = false
+	
+
 	void Init(A)
+		_Ended = false
+		switch (A.Executor_Tag)
+			string img
+			Audio.LoadNew("Audio/SFX/photon.ogg","SPELLANI_SHOOT_SOUND").Play()
+			case "UniWendicka" "UniCrystal" "Briggs"
+				Template.r = 255
+				Template.g = 255
+				Template.b = 255
+				//Template.PrjImage = Image.LoadNew("GFX/Combat/Projectiles/PHOTON.png","SPELLANI_PHOTON")
+				img = "GFX/Combat/Projectiles/PHOTON.png"
+			case "Yirl" "Johnson"
+				Template.r = 255
+				Template.g = 255
+				Template.b = 255
+				//Template.PrjImage = Image.LoadNew("GFX\Combat\Projectiles\Yirl_Laser.png","SPELLANI_LASER")
+				img = "GFX\Combat\Projectiles\Yirl_Laser.png"
+			default
+				Lua.error("No projectile known for character: "..A.Executor_Tag)
+		end
+		Template.Start(img,A,false)
 	end
 	
 	void Draw()
+		Template.Draw()
 	end
-	
+		
 	void Update()
+		_Ended = Template.Update()
 	end
 	
 	get bool Ended
-		return true
+		return _Ended
+	end
+	
+	Constructor
+		CSay("Shoot SpellANI - Loaded!")
 	end
 	
 end
