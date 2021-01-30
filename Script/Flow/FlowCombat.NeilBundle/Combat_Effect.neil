@@ -64,7 +64,13 @@ Group CG_Effect
 	end
 	
 	bool Attack(Act,Tar)
+		// TODO: Code
 	end
+	
+	Bool CureOnAttack(Act,Tar)
+		// TODO: Code
+	end
+	
 	
 	bool Heal(Act,Tar)
 		// Please note that this is only for absolute and percent healing
@@ -87,6 +93,7 @@ Group CG_Effect
 			Hit = Cure(Act,Tar) || Hit
 			Hit = Heal(Act,Tar) || Hit
 			Hit = Attack(Act,Tar) || Hit
+			Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Script(Act,Tar) || Hit
 			Hit = Cause(Act,Tar) || Hit
 		else
