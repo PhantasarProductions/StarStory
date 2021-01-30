@@ -38,7 +38,23 @@ Group CG_Effect
 
 	bool HitCheck(Act,Tar)
 		// TODO: Miss chance for Crystal's ARMS
-		// TODO: Accuracy check on normal attacks
+		// Accuracy check on normal attacks (if applicable)
+		if Act.Act.Dodgable
+			// Original script from the original game. Dummied for reference purposes
+			// local ach = Fighters[ag][ai].Tag
+			// local tch = Fighters[tg][ti].Tag
+			// local acc = RPGStat.Stat(ach,"END_Accuracy")
+			// local eva = RPGStat.Stat(tch,"END_Evasion")
+			// local hit = rand(0,acc) -- acc + rand(1,math.ceil(acc*.75))
+			//local ddg = rand(1,eva) -- eva - rand(1,math.ceil(eva*.25))
+			// return ddg>hit
+			int acc = Act.Executor.Accuracy
+			int eva = Act.Tar.Evasion
+			int hit = math.random(0,acc)
+			int ddg = math.random(0,ddg)
+			// Original game did "true" if the attack was sucessfully dodged... But here I require "true" when the attack succesfully hit!
+			return !(ddg>hit)
+		end
 		return true
 	end
 
