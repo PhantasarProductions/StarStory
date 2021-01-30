@@ -1,0 +1,53 @@
+Group CG_Effect
+
+	bool HitCheck(Act,Tar)
+		// TODO: Miss chance for Crystal's ARMS
+		// TODO: Accuracy check on normal attacks
+		return true
+	end
+
+	// Cure Status Changes
+	bool Cure(Act,Tar) 
+		// TODO: Code
+	end
+	
+	bool Attack(Act,Tar)
+	end
+	
+	bool Heal(Act,Tar)
+		// Please note that this is only for absolute and percent healing
+		// After all, the stat based healing is an attack disguised as healing
+		// TODO: Code
+	end
+	
+	bool Script(Act,Tar)
+		// TODO: Script
+	end
+	
+	// Cause status changes
+	bool Cause(Act,Tar)
+		// TODO: Code
+	end
+	
+	void Effect(Act,Tar)
+		bool Hit = false
+		if HitCheck(Act,Tar)
+			Hit = Cure(Act,Tar) || Hit
+			Hit = Heal(Act,Tar) || Hit
+			Hit = Attack(Act,Tar) || Hit
+			Hit = Script(Act,Tar) || Hit
+			Hit = Cause(Act,Tar) || Hit
+		else
+			Tar.Hurt("Miss!")
+		end
+	end
+
+	void EffectAll(Act)
+		for tar in Act.EachTarget
+			Effect(Act,tar)
+		end
+	end
+
+End
+
+Return CG_Effect
