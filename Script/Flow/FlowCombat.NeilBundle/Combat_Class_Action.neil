@@ -51,6 +51,34 @@ Class Class_Action
 	ReadOnly Table Targets_Tag
 	ReadOnly Table Targets
 	
+	get delegate EachTarget
+		table Lijst = {}
+		for i,tar in ipairs(Targets_Tag)
+			if tar.Available
+				Lijst += tar
+			end
+		end
+		int idx=0
+		var ret()
+			idx++
+			if idx>#Lijst
+				return nil
+			end
+			return Lijst[idx]
+		end
+		return ret
+	end
+	
+	get int AvailableTargets
+		int ret = 0
+		for i,tar in ipairs(Targets_Tag)
+			if tar.Available
+				ret++
+			end
+		end
+		return ret
+	end
+	
 	ReadOnly String ActTag
 	ReadOnly Var Act
 	
@@ -88,7 +116,8 @@ Class Class_Action
 			return Fighters[Targets_Tag[idx]]
 		end
 		void TGT_SET(s,int idx,var ch)
-			Fighters[Targets_Tag[idx]]=ch.Tag
+			//Fighters[Targets_Tag[idx]]=ch.Tag
+			Targets_Tag[idx]=ch.Tag			
 		end
 		Targets = Lua.setmetatable({},{["__index"]= TGT_GET,["__newindex"]=TGT_SET})
 		CSayF("Action #%d has been created and been attached to fighter '%s'",ID,Exe)
