@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.01.29
+// Version: 21.02.01
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,7 +38,7 @@
 #macro _Announce 0
 #macro _Stance 1
 #macro _SpellAni 2
-#macro _Effect 3
+#macro _AblEffect 3
 
 Module
 
@@ -143,7 +143,7 @@ Module
 
 	void Draw()
 		switch MyStage
-			case _Announce _Effect
+			case _Announce _AblEffect
 				// Do Nothing at all.
 			case _Stance
 				// TODO: Bring hero in specific pose, or make the enemy "flicker" with it's "negative" counterpart
@@ -174,16 +174,23 @@ Module
 						Act.SpellAni.Init(Act)
 					else
 						CSay("No spellani, so let's skip to the effect then!")
-						MyStage = _Effect
+						MyStage = _AblEffect
 					end
 				end
 			case _SpellAni
 				Act.SpellAni.Update()
 				if Act.SpellAni.Ended
-					MyStage = _Effect
+					MyStage = _AblEffect
 				end
-			case _Effect
-				// TODO: Effect
+			case _AblEffect
+				// The true effect at last!
+				CG_Effect.EffectAll(Act)
+				Act.Executor.NextAct=nil
+				Act.Executor.Gauge=0
+				if (Act.Executor.Team=="Hero")
+					Act.Executor.State="IDLE"
+				end
+				Stage.Current=nil
 			default
 				Fini()
 		end

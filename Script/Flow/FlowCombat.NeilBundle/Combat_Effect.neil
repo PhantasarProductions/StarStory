@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.01.30
+// Version: 21.02.01
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -88,6 +88,7 @@ Group CG_Effect
 	end
 	
 	void Effect(Act,Tar)
+		CSayF("= Effect: %s; Target %s; Executor: %s",Act.Act.Name,Tar.Tag,Act.Executor.Tag)
 		bool Hit = false
 		if HitCheck(Act,Tar)
 			Hit = Cure(Act,Tar) || Hit
@@ -96,12 +97,15 @@ Group CG_Effect
 			Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Script(Act,Tar) || Hit
 			Hit = Cause(Act,Tar) || Hit
-		else
+		end
+		if not Hit
+			CSayF("Target %s has been missed for %s by %s",Tar.Tag,Act.Act.Name,Act.Executor.Tag)
 			Tar.Hurt("Miss!")
 		end
 	end
 
 	void EffectAll(Act)
+		CSayF("Let's go to effect for '%s' by %s",Act.Act.Name,Act.Executor.Tag)
 		for tar in Act.EachTarget
 			Effect(Act,tar)
 		end
