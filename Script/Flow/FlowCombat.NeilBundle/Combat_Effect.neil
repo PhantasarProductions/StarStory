@@ -48,8 +48,8 @@ Group CG_Effect
 			// local hit = rand(0,acc) -- acc + rand(1,math.ceil(acc*.75))
 			//local ddg = rand(1,eva) -- eva - rand(1,math.ceil(eva*.25))
 			// return ddg>hit
-			int acc = Act.Executor.Accuracy
-			int eva = Act.Tar.Evasion
+			int acc = Act.Executor.Stats.Accuracy
+			int eva = Tar.Stats.Evasion
 			int hit = math.random(0,acc)
 			int ddg = math.random(0,ddg)
 			// Original game did "true" if the attack was sucessfully dodged... But here I require "true" when the attack succesfully hit!
@@ -61,14 +61,17 @@ Group CG_Effect
 	// Cure Status Changes
 	bool Cure(Act,Tar) 
 		// TODO: Code
+		return false
 	end
 	
 	bool Attack(Act,Tar)
 		// TODO: Code
+		return false
 	end
 	
 	Bool CureOnAttack(Act,Tar)
 		// TODO: Code
+		return false
 	end
 	
 	
@@ -76,15 +79,18 @@ Group CG_Effect
 		// Please note that this is only for absolute and percent healing
 		// After all, the stat based healing is an attack disguised as healing
 		// TODO: Code
+		return false
 	end
 	
 	bool Script(Act,Tar)
 		// TODO: Script
+		return false
 	end
 	
 	// Cause status changes
 	bool Cause(Act,Tar)
 		// TODO: Code
+		return false
 	end
 	
 	void Effect(Act,Tar)

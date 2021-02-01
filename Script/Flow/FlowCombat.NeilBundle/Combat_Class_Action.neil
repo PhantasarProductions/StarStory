@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.01.30
+// Version: 21.02.01
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+
+
 Class Class_Action
 	Static Var Fighters
 	
@@ -54,8 +57,8 @@ Class Class_Action
 	get delegate EachTarget
 		table Lijst = {}
 		for i,tar in ipairs(Targets_Tag)
-			if tar.Available
-				Lijst += tar
+			if Targets[i].Available
+				Lijst += Targets[i]
 			end
 		end
 		int idx=0
