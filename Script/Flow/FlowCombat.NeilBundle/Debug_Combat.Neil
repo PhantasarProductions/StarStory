@@ -40,3 +40,9 @@ global void CONSOLE_Positions()
 		CSayF(sprintf(">%10s: (%d,%d) %dx%d",t,dat.x,dat.y,dat.w,dat.h))
 	end
 end
+
+global void CONSOLE_HP()
+	for t,dat in spairs(Combat_Fighter.Fighters)
+		CSayF("%s> Has: %d; Min: %d; Max: %d ",t,dat.Char.Points.HP.Have,dat.Char.Points.HP.Minimum,dat.Char.Points.HP.Maximum)
+	end
+end

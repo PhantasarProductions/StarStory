@@ -53,7 +53,7 @@ void MkTrueItem(string it)
 				var ret = Image.LoadNew(f,"ITEM__"..it)
 				ret.HotBottomCenter()
 				return ret
-			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED"
+			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER"
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")

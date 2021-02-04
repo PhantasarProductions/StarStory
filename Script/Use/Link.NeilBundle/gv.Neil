@@ -144,9 +144,12 @@ end
 
 module
 	readonly table vBool = gvbool
+	readonly table gBool = gvBool
 	readonly table vStr = gvstr
 	readonly table vString = gvstr
+	readonly table gString = gvstr
 	readonly table vInt = gvint
+	readonly table gInt = gvInt	
 	readonly table Done = Lua.Neil.Globals.Done
 	
 	string Sub(string a)

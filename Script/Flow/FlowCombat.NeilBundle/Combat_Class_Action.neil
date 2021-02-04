@@ -46,6 +46,10 @@ Class Class_Action
 	int ConsumeItem = -1
 	int BurnAP = 0
 	
+	static void AllUpAP()
+		Lua.Neil.Globals.Combat_Hero.AllUpAP()
+	end
+	
 	ReadOnly String Executor_Tag
 	get var Executor
 		return Fighters[Executor_Tag]

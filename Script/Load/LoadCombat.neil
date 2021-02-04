@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadCombat.neil
-// Version: 21.01.24
+// Version: 21.02.02
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+global bool FlawLessVictory = true
+
 #use "Script/Use/Anyway"
 #use "libs/LinkedList"
 #use "libs/xmath"
@@ -78,4 +81,7 @@ init
 	Stage.IDLE = Combat_Stage_IDLE
 	// Init
 	Combat_Heroes.Compile()
+	for i=__skill,2
+		Combat_Hero.AllUpAP()
+	end
 end

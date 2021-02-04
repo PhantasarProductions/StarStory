@@ -185,12 +185,16 @@ Module
 			case _AblEffect
 				// The true effect at last!
 				CG_Effect.EffectAll(Act)
+				Act.AllUpAP()
+				if Act.Executor.Team=="Hero"
+					Act.Executor.UpAP()
+				end
 				Act.Executor.NextAct=nil
 				Act.Executor.Gauge=0
 				if (Act.Executor.Team=="Hero")
 					Act.Executor.State="IDLE"
 				end
-				Stage.Current=nil
+				Stage.Current=nil				
 			default
 				Fini()
 		end

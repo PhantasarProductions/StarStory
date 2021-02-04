@@ -42,6 +42,27 @@ module
 	readonly int InventoryMaxVaultStack
 	
 	readonly int NeedExp
+	
+	get int Cycle
+		return math.max(1,gv.gint.GameCycle)
+	end
+	
+	set int Cycle
+		gv.gint.GameCycle = math.max(1,value)
+	end
+	
+	get int LevelMargin
+		switch __skill
+			case 1
+				return 10000
+			case 2
+				return 10
+			case 3
+				return 5
+			default
+				return 0
+		end
+	end
 
 	CONSTRUCTOR
 		// case 0 is to prevent bugs during the main menu, new game and load game setups

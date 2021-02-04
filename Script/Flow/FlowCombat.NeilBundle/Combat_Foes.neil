@@ -51,6 +51,9 @@ class Combat_Foe extends Combat_Fighter
 	
 	get bool Available
 		// TODO: Automatically turn unavailable if an enemy is either dead or removed from battle
+		if self.HP<=0 && self.scale<=0
+			return false
+		end
 		return true
 	end
 	
@@ -68,7 +71,7 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	// This will be used for the humanoid enemies or oder to match Wendicka & co.
-	int Scale = 1
+	number Scale = 1
 	
 	int AltX = 0
 	int AltY = 0
@@ -149,9 +152,80 @@ class Combat_Foe extends Combat_Fighter
 		end
 	end
 	
+	bool _killedcheck = false
+	void CheckKilled()
+		static int maxfactor = 350
+		static int ngpcount = math.min(gv.gint.GameCycle,1)
+		if self.HP>0
+			return
+		end
+		scale-=0.01
+		if !_killedcheck
+			_killedcheck=true
+			Killed[self.File]++
+			gv.vInt["COMBATSTAT.KILLS"]++
+			scale = scale * 1.25
+			// TODO: Kill count for ExHuRU, Rolf and Johnson
+			// Experience
+			for i=1,6
+				if RPGParty[i] && RPGParty[i]!=""
+					readonly string herotag = RPGParty[i]
+					readonly var hero = self.Fighters[herotag]
+					readonly var enemy = self
+					// local herolevel = RPGStat.Stat(herotag,"Level")
+					int gainexp = math.floor((enemy.level/hero.level)*maxfactor)
+					bool allowexpbonus = math.random(1,10000)>(hero.level/2)*__skill
+					int bonus = math.random(1,math.max(1,math.ceil(ngpcount/(2*__skill))))
+					//if bonus<1 then bonus = 1 end
+					//if bonus>100 then bonus=100 end
+					bonus = math.max(1,math.min(100,bonus))
+					if allowexpbonus 
+						gainexp = gainexp * bonus 
+					end
+					// In the hard mode you will gain less experience for enemies you've met before. From cycle 5 there is a possibility this no longer counts. In cycle 10 it's definite. Getting to level 10,000 must still be TECHNICALLY possible.
+					if __skill==3 and ngpcount>math.random(5,10) 
+						//then 
+						gainexp = gainexp - (killed[self.file]-1) 
+					end 
+					//if gainexp<0 or ((hero.level-enemy.level)>maxlvmargin[skill] and ngpcount<=rand(5,skill*5)) then gainexp=0 end
+					if gainexp<0 || ((hero.level-enemy.level)>Caps.LevelMargin and ngpcount<=math.random(5,__skill*5)) 
+						gainexp=0 
+					end
+					//if RPGStat.Points(herotag,"HP").Have==0 then
+					if hero.HP==0
+						//({
+						switch __skill
+							case 0
+								//function() end,
+								// No changes!
+								case 1
+								//function() gainexp = gainexp / 2 end,
+								gainexp = gainexp div 2
+								case 3
+								//function() gainexp = 0 end})[skill]()
+								gainexp = 0
+						// switch --> skill
+						end 
+					// if hero dead
+					end 
+					//RPGStat.Points(herotag,"EXP").Inc(gainexp)
+					hero.Experience += gainexp
+					CSayF("%s gains %d experience points and now has %d experience points",hero.name,gainexp,hero.experience)
+				// end if --> partymember	
+				end
+ 			// end for --> through party
+			end
+		Lua.Neil.Globals.Combat_Hero.AllUpAP()
+		// End if --> killed check
+		end
+		
+	// End function
+	end
+	
 	void Draw()
 		// Circle = Placeholder for debugging
 		// Graphics.Circle(X,Y,32)
+		CheckKilled()
 		Graphics.Scale(scale,scale)
 		Img.Draw(X,Y)
 		Graphics.Scale(1,1)

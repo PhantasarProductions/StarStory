@@ -138,6 +138,14 @@ class Combat_Hero extends Combat_Fighter
 		return self.Char.Stat.Level
 	end
 	
+	get int Experience
+		return self.Char.Points.EXP.Have
+	end
+	
+	set int Experience
+		self.Char.Points.EXP.Have = value
+	end
+	
 	
 	get var GetImage
 		CSay("Getting combat sprite for "..Tag.." in state "..State)
@@ -166,6 +174,28 @@ class Combat_Hero extends Combat_Fighter
 		Images[State].Draw(X,Y)
 		Graphics.Scale(1,1)
 		self.HurtShow()
+	end
+	
+	void UpAP()
+		self.AP++
+		if PartyIndex<3
+			for i=4,6
+				if RPGParty[i] && RPGParty[i]!=""
+					RPGChar[RPGParty[i]].AP++
+					if RPGParty[i]=="Crystal"
+						// TODO: Crystal's HP Up for backrow
+					end
+				end
+			end
+		end
+	end
+	
+	static void AllUpAP()
+		for k,v in pairs(self.Fighters)
+			if v.Team=="Hero"
+				v.UpAP()
+			end
+		end
 	end
 	
 	CONSTRUCTOR
@@ -250,7 +280,7 @@ group Stage_SelectTarget
 				else
 					int b = math.floor( (tdat.HP/tdat.MaxHP) * 255 )
 					Graphics.Color(255-b,b,0)
-					Graphics.Red(tdat.x,tdat.y-25,b,25)
+					Graphics.Rect(tdat.x,tdat.y-25,b,25)
 				end
 			end
 		end
