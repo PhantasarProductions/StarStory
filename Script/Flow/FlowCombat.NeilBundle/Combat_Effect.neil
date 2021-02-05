@@ -110,11 +110,11 @@ Group CG_Effect
 		int damage = atk + rand(0,round(atk*.75))
 		int defense = def + rand(0,round(def*.25))
 		int totaldamage = math.max(1,damage-defense)
+		CSayF("Attack(%d,%d); Roll(%d,%d); Total(%d)",atk,def,damage,defense,totaldamage)
 		if Tar.Guarding 
 			totaldamage = round( totaldamage * .75 )
 		end
-		Tar.Pain(totaldamage,element)
-		
+		Tar.Pain(totaldamage,element)		
 		return true
 	end
 	
