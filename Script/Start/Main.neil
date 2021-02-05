@@ -88,7 +88,7 @@ init
 	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
 	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
 	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
-	LAsset.C("GFX/StatusBar/LevelUp.png","LEVEL_YUP",wh_image)
+	LAsset.C("GFX/StatusBar/LevelUp.png","LEVEL_UP",wh_image)
 	LAsset.C("GFX/Combat/PlayerInput/Bottom.png","COMBAT_PLAYINPUT_BOTTOM",wh_Image)
 	LAsset.C("GFX/Combat/PlayerInput/Item.png","COMBAT_PLAYINPUT_ITEM",wh_Image)
 	LAsset.C("GFX/Combat/PlayerInput/Sides.png","COMBAT_PLAYINPUT_SIDES",wh_Image)
