@@ -6,7 +6,7 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 20.12.29
+// Version 21.02.05
 
 
 
@@ -51,6 +51,10 @@ module
 		DStat += 90
 		DStat = {}
 		Stat["AP"] = DStat
+		DStat += 0
+		DStat += 0
+		DStat = {}
+		Stat["Defense"] = DStat
 		DStat += 0
 		DStat += 0
 		DStat = {}
