@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 20.10.17
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.05
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -38,12 +38,17 @@
 #use "script/use/misc/box"
 #use "libs/xmath"
 
+#macro lvupend 315
+
 group SubParty
 
 	readonly table StatSubs = {"BASE","POWERUP","UPGRADE","BUFF","END"}
 	readonly table Stats = {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
 	readonly int bw = Screen.w Div 4
 	readonly var Fnt = ImageFont.Obtain("BOXTEXT")
+	readonly var LevelUp = Image.Obtain("LEVEL_UP")
+	readonly var AudioLevelUp = Audio.Obtain("AUDIO_LEVELUP")
+	table ScLvUp = {0,0,0}
 	
 	get delegate ToNumber
 		return Lua.tonumber
@@ -205,11 +210,28 @@ group SubParty
 						end
 					end
 				end
+				if ScLvUp[i]>0
+					Image.Rotate = math.min(lvupend,ScLvUp[i])
+					number scale = math.min(1,(ScLvUp[i]/lvupend))
+					Graphics.Scale(scale,scale)
+					LevelUp.XDraw(x+100,y+30)
+					Graphics.Scale(1,1)
+					Image.Rotate = 0
+					ScLvUp[i] = math.min(1000,ScLvUp[i]+2)%1000
+				elseif (RPGChar[Tag].Points.EXP.Have>=RPGChar[Tag].Points.EXP.Maximum) && Tag!="Briggs" && RPGChar[Tag].Stat.Level<Caps.LevelCap
+					int nlv = RPGChar[Tag].Stat.Level+1
+					RPGChar[Tag].Stat.Level = nlv
+					GrabLevel(Tag,nlv)
+					RPGChar[Tag].Points.EXP.Have=0
+					ScLvUp[i]=1
+					AudioLevelUp.Play()
+				end
 			end
 		end
 	end
 	
-	CONSTRUCTOR		
+	CONSTRUCTOR	
+		LevelUp.HotCenter()
 		for i=0,3
 			var t = new Box(i*bw,screen.H-100,bw,100,true)
 			cout("Box created: (",t.x,",",t.y,")\t",t.w,"x",t.h,"\n")
