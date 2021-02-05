@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.04
+// Version: 21.02.05
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -415,7 +415,7 @@ group Stage_PlayerInput
 			if cmd=="Shoot"
 				__black
 				amFont.Text(sprintf("%d/%d",Hero.Ammo,Hero.AmmoMax),mpos+100,by+20,2,0)
-				if Hero.AmmoMax
+				if Hero.Char.Points.Ammo.Maximum==0
 					Hero.Char.Points.Ammo.Maximum=6
 					Hero.Ammo=6
 				end
@@ -458,6 +458,9 @@ module
 				CSayF("= Tag:         %s",H.Tag)
 				CSayF("= Team:        %s",H.Team)
 				CSayF("= Position     (%d,%d)",H.X,H.Y)
+				if __skill < 3
+					H.Ammo = H.Char.Points.Ammo.Maximum
+				end
 				H.InitStats()
 				H.Gauge = Lua.math.random(900/__skill,9000/__skill)
 				//H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T..".Neil")
