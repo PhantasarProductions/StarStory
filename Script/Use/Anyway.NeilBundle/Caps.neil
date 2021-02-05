@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Caps.neil
-// (c) Jeroen Broks, 2020, All Rights Reserved.
+// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 20.09.15
+// version: 21.02.04
 // End License Information
 module
 
@@ -62,6 +62,21 @@ module
 			default
 				return 0
 		end
+	end
+	
+	get int LevelCap
+		static var LC
+		switch __skill
+			case 1
+				LC = LC || { 250, 500, 1000, 5000, 10000 } //, -- Easy Mode
+			case 2
+				LC = LC || { 200, 400, 750,  4500, 7500, 10000} //, -- Medium Mode
+			case 3
+				LC = LC || { 150, 300, 500,  3000, 5000, 6000, 10000} //-- Hard Mode
+			default
+				Lua.error("Cap skill error!")
+		end
+		return LC[math.min(Cycle,#LC)]
 	end
 
 	CONSTRUCTOR

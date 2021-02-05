@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Load/LoadCombat.neil
-// Version: 21.02.02
+// Version: 21.02.04
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,6 +46,15 @@ global bool FlawLessVictory = true
 #use "Script/Flow/FlowCombat"
 
 
+void VictoryCheck()
+	if Defeated.Foe
+		Stage.Current = Combat_Victory
+	elseif Defeated.Hero
+		Lua.error("Combat defeat not yet done")
+	end
+	
+end
+
 global void Apollo_Flow()
 	static var Mouse = Image.Obtain("MOUSE")
 	int mx = events.mousex()
@@ -74,6 +83,8 @@ init
 	Combat_Time.FClass = Combat_Fighter	
 	Combat_Stage_IDLE.STime = Combat_Time
 	Combat_Time.Execution = Combat_Execution
+	Combat_Victory.Start = Combat_Start
+	Combat_Stage_IDLE.VictoryCheck = VictoryCheck
 	Class_Action.Fighters = Combat_Fighter.Fighters
 	Stage_PlayerInput.Fighters = Combat_Fighter
 	Stage_SelectTarget.Fighters = Combat_Fighter.Fighters

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 21.02.02
+// Version: 21.02.04
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -347,4 +347,24 @@ class Combat_Fighter
 		Fighters[obj.Tag] = obj
 	end
 	
+	get bool TeamDefeated
+		return Lua.Neil.Globals.Defeated[self.Team]
+	end
+	
+end
+
+QuickMeta Defeated
+	index
+		bool ret = true
+		for k,v in pairs(Combat_Fighter.Fighters)
+			if v.Team:upper()==key:upper()
+				ret = ret && ((!v.Available) || v.HP<=0)
+			end
+		end
+		return ret
+	end
+	
+	newindex
+		Lua.error("Defeated is read-only!")
+	end
 end
