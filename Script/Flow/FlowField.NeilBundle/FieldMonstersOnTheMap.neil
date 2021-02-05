@@ -309,6 +309,7 @@ class FieldMonster
 			table TLA = LAY.TagListArray
 			CSayF("ScanFoes(): Layer: %s (%d objects)",L,#TLA)
 			for T in each(TLA)
+				var FObj = Lay.Obj(T)
 				string Kind = Lay.Obj(T).Kind
 				string Mov = "AS"
 				bool allow = prefixed(Kind,"$Enemy")
@@ -317,6 +318,13 @@ class FieldMonster
 				end				
 				allow = allow && (Lua.tonumber(Right(Kind,1)) || 0) <=__skill
 				allow = allow && (Mov=="AS" || math.random(1,2)==1)
+				if Kind=="$EnemyBoss" || FObj.Data.Always:upper()=="YES"
+					allow = prefixed(Kind,"$Enemy")
+					CSayF("Boss, or always set to 'Yes' for %s:%s, so let's force to allow it!",Kind,T) 
+				end
+				if prefixed(Kind,"$Enemy")
+					CSayF("%s> %s, Always:%s => %s",T,Kind,Lua.tostring(FObj.Data.Always:upper()),Lua.tostring(allow))
+				end
 				if allow
 					table LF
 					int n = 1
