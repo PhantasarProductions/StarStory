@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.02.05
+// Version: 21.02.06
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -133,6 +133,13 @@ Group CG_Effect
 	
 	bool Script(Act,Tar)
 		// TODO: Script
+		if Act.Act.ScriptEffect_Reference && Act.Act.ScriptEffect_Reference!=""
+			delegate E = NeilUse("Script/Use/Combat/SpellEffect/"..Act.Act.ScriptEffect_Reference)
+			bool success
+			bool ret
+			success,ret = Invoke(E,Act,Tar) 
+			return success && ret
+		end
 		return false
 	end
 	

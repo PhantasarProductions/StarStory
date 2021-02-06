@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.05
+// Version: 21.02.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -375,6 +375,13 @@ group Stage_PlayerInput
 		a = new Class_Action(Tag,"ACT_SHOOT")
 		Hero.NextAct = a
 		a.UseCommonAmmo = true
+		Stage_SelectTarget.ComeToMe(a)
+	end
+	
+	Void DoReload()
+		var a
+		a = new Class_Action(Tag,"ACT_RELOAD")
+		Hero.NextAct = a
 		Stage_SelectTarget.ComeToMe(a)
 	end
 	
