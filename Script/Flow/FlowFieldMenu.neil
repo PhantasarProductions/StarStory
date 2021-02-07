@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 20.10.20
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.07
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -59,6 +59,10 @@ init
 	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
 	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
 	Situations.FIELD = Situations_Field
+	Situations.COMBAT_ABILITY = { { Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } }
+	Situations.COMBAT_ARMS = Situations.COMBAT_ABILITY 
+	Situations.COMBAT_ITEMS = { Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
+	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 end
 
 global void PartyClick(int i,string ch)
