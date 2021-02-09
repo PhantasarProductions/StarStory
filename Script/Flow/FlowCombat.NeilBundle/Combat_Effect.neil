@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.02.06
+// Version: 21.02.09
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -127,8 +127,19 @@ Group CG_Effect
 	bool Heal(Act,Tar)
 		// Please note that this is only for absolute and percent healing
 		// After all, the stat based healing is an attack disguised as healing
-		// TODO: Code
-		return false
+		if Act.Act.Healing<=0
+			return false
+		end
+		switch Act.Act.HealingType
+			case "Absolute"
+				Tar.Heal(Act.Act.Healing)
+			case "Percent"
+				int h = math.min(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
+				Tar.Heal(h)
+			default
+				Lua.error("I do not know how to act on healing type: "..Act.Act.HealingType)
+		end
+		return true
 	end
 	
 	bool Script(Act,Tar)

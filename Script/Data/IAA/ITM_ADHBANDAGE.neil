@@ -29,7 +29,7 @@
 		ret.ABL_Instant = 0
 		ret.ABL_Cancel = 0
 		ret.ABL_DblPower = 0
-		ret.ABL_Pose = "Attack"
+		ret.ABL_Pose = "Cast"
 		ret.ARM_Hit_Procent = 0
 		ret.ARM_MaxAmmo = 0
 		ret.ARM_XPower = 0
@@ -117,7 +117,7 @@
 		ret.PermaBuff_AP = false
 		ret.CauseIDDQD = false
 		ret.SpellAni_External = false
-		ret.SpellAni_Reference = "Sparkleing"
+		ret.SpellAni_Reference = "Sparkle"
 		ret.SpellAni_Parameters = ""
 		ret.ScriptEffect_External = false
 		ret.ScriptEffect_Reference = ""

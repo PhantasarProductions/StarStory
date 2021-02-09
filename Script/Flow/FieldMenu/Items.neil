@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 20.10.17
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.09
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -42,6 +42,7 @@ module
 	readonly var IUse = Image.Obtain("USE")
 	string cItem
 	string rcItem
+	string LSituation
 	int rsItem
 	
 	void GetIt(int slot,string cht)
@@ -49,6 +50,10 @@ module
 		string ittag = ch.Data[sprintf("INVITEM%d",slot)]
 		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
 		if itamt == 0
+			return
+		end
+		if prefixed(LSituation,"COMBAT_")
+			State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem",sprintf("\"ITM_%s\",%d",ittag,slot))
 			return
 		end
 		ch.Stat[sprintf("INVAMNT%d",slot)]--
@@ -83,6 +88,7 @@ module
 		if CharTag=="Briggs"
 			return
 		end
+		LSituation = situation
 		int pmx = Events.MouseX()
 		int pmy = Events.MouseY()
 		int mx  = pmx - ubox.x
@@ -107,7 +113,7 @@ module
 			end
 			if ml && mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
 				switch situation:upper()
-					case "FIELD" "VAULT"
+					case "FIELD" "VAULT" "COMBAT_ITEMS"
 						CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
 						if cItem=="" and itamt==0
 							CSayF("Player clicked socket #%d for some reason I don't know!",i)

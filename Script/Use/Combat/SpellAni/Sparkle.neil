@@ -1,7 +1,7 @@
 // License Information:
-// src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
+// src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
 // Version: 21.02.09
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -34,60 +34,55 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-table TrueItem
-void MkTrueItem(string it)
-	it = it:upper()
-	if TrueItem[it]
-		return
-	end
-	State.LoadNew("SUB_ITEMS","Script/Subs/SubItems.neil")
-	table m
-	m.__index = var(s,string k)
-		k = k:upper()
-		switch k
-			case "ICON" "ICONFILE"
-				string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\"ICON\"))")
-				if k=="ICONFILE"
-					return f
-				end
-				var ret = Image.LoadNew(f,"ITEM__"..it)
-				ret.HotBottomCenter()
-				return ret
-			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING"
-				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-			case "INDISCRIMINATE"
-				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-			default
-				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
-					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-				end
-				return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")			
-		end
+
+module 
+
+	bool DrawOvertake
+	var Glitter
+	var MyAudio
+	readonly int MaxCycles = 20
+	int Cycles
+	var Act
+	
+	// The difference between a CONSTRUCTOR and the and Init function
+	// Is that CONSTRUCTOR is only automatically loaded when this
+	// module is called fo the first time in a combat.
+	// Init will be called EVERY time a move is being performed.
+	CONSTRUCTOR
+		self.Glitter = Image.Load("GFX/Combat/SpellAni/Glitter/Base.png","SPELLANI_Glitter")
+		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	end	
+
+	void Init(aact)
+		self.Cycles = 0
+		self.MyAudio.Play()
+		self.Act = aact
 	end
 	
-	void nindex(s,string k,v)
-		lua.error( "Item data base is read-only, so I cannot assign " .. tostring(v) .. " to " .. k .." in " .. it )
-	end
-	m.__newindex = nindex
-	TrueItem[it] = lua.setmetatable({},m)
-end
-
-bool GiveItem(string it,string ch)
-	return ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
-end
-
-quickmeta Item
-
-	newindex
-		lua.error("The table 'Item' is READ-ONLY")
+	bool _Ended = false
+	void Draw()
+		// Count on it!
+		self.Cycles ++
+		
+		// Draw it all!
+		// for tar in each(act.Targets)
+		for ti=1,#act.Targets_Tag
+			plua tar = act.Targets[ti]
+			for i=1,35 
+				Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
+				self.Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+			end
+		end
+		__white
+		
+		_Ended = self.Cycles>=self.MaxCycles
 	end
 	
-	index
-		if Key:upper()=="GIVE" || Key:upper()=="GIVEITEM"
-			return GiveItem
-		end
-		MkTrueItem(key)
-		return TrueItem[key:upper()]
+	void Update()
 	end
-
+	
+	get bool Ended
+		return _Ended
+	end
+	
 end

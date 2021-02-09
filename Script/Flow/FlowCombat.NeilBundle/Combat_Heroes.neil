@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.06
+// Version: 21.02.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -126,11 +126,11 @@ class Combat_Hero extends Combat_Fighter
 	end
 
 	get bool TargetHover
-		if not Images.IDLE
+		if not self.GetImage
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW = Images.IDLE.W 
+		int HW = self.GetImage.W 
 		return events.MouseY()<Y && events.MouseY()>Y-(Images.IDLE.H*2) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
 	end
 	
@@ -148,10 +148,15 @@ class Combat_Hero extends Combat_Fighter
 	
 	
 	get var GetImage
-		CSay("Getting combat sprite for "..Tag.." in state "..State)
-		var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
-		ret.HotBottomCenter()
-		return ret
+		string S = State:upper()
+		if !Images[S]
+			CSay("Getting combat sprite for "..Tag.." in state "..State)
+			var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
+			ret.HotBottomCenter()
+			Images[S] = ret
+		end
+		return Images[S]
+		//return ret
 	end
 		
 	static get int AvgLevel
@@ -290,6 +295,10 @@ group Stage_SelectTarget
 		ClearTargets()
 		for ftag,fdat in pairs(Fighters)
 			if fdat.Available and fdat.Targetable_Hero
+				// debug
+				// static var fnt = ImageFont.Obtain("BOXTEXT")
+				// fnt.Text(sprintf("Tag: %s, (%d,%d)=>%dx%d Hover: %s ",fdat.Tag,fdat.X,fdat.Y,fdat.W,fdat.H,tostring(fdat.TargetHover)),fdat.x,fdat.y,2,2)				
+				// end debug
 				switch Act.Act.Target
 					case "OS"
 						Targets_Tag[1]=Act.Executor_Tag
@@ -384,11 +393,39 @@ group Stage_PlayerInput
 		Hero.NextAct = a
 		Stage_SelectTarget.ComeToMe(a)
 	end
+
+	Void DoGuard()
+		var a
+		a = new Class_Action(Tag,"ACT_GUARD")
+		Hero.NextAct = a
+		Stage_SelectTarget.ComeToMe(a)
+	end
+
 	
-	Void ComeToMe(String ToTag)
+	Void DoItem()
+		FMenu.Go(Tag,"COMBAT_ITEMS")
+	end
+	
+	void ReturnCancel()
+		Self.ComeToMe(Tag,true)
+		Flow.GoToFlow("COMBAT")
+	end
+	
+	Void ReturnItem(string ItTag,int Socket)
+		var a
+		CSayF("Player picked item %s from socket #%d",ItTag,Socket)
+		a = new Class_Action(Tag,ItTag)
+		a.ConsumeItem = Socket
+		Stage_SelectTarget.ComeToMe(a)
+		Flow.GoToFlow("COMBAT")
+	End
+	
+	Void ComeToMe(String ToTag,nosignal)
 		Tag = ToTag
 		Stage.Current = self
-		Signal.Play()
+		if !NoSignal
+			Signal.Play()
+		end
 		Height = #Hero.InputItems * 52
 		PartyPos = 0
 		for i=1,3

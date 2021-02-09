@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 21.02.05
+// Version: 21.02.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -158,6 +158,8 @@ class Combat_Fighter
 		int elementalresistance = 3
 		if RPGChar[self.Tag].StatExists("ER_"..element)
     		elementalresistance = RPGChar[self.Tag].Stat["ER_"..element]
+    	else
+    		CSayF("%s> Note! ER_%s is non-existent, so filling in default value",self.Tag,element)
     	end
     	// if RPGStat.GetData(Fighters[tg][ti].Tag,"IMMUNE")=="YES" then elementalresistance=5 end                              
     	// -- @IF DEBUG_HURT
@@ -170,6 +172,7 @@ class Combat_Fighter
     	// Old code remorphed. Please note... Lua may not support switch statements, but Neil does!
     	// (({   -- Lua way of doing a 'switch case' statment. Ugly I know, but it works. :-P
     	//  -- (In this case ";" must be behind the last command. One of the few cases where Lua requires the use of ";". That is only the case if the last command before this ends with a ")")
+    	CSayF("%s> %d damage in element %s - Resistance %d",self.Tag,hp,element,elementalresistance)
     	switch elementalresistance
     	case 0
               //   [0] = function() -- fatal
@@ -215,7 +218,7 @@ class Combat_Fighter
                        report = "NO EFFECT!"      
                        r,g,b = 255,180,0
                 //       end,
-    	case 5
+    	case 6
               //   [6] = function()
               //         if RPGChar.Points(chtarget,"HP").Have == 0 then
                        if self.HP==0
@@ -254,7 +257,7 @@ class Combat_Fighter
 		self.HP -= dodmg
 		// if tg=="Hero" and RPGChar.Points(chtarget,"HP").Have>0 then UpPoint(i) end --RPGChar.Points(chtarget,"AP").Have = RPGChar.Points(chtarget,"AP").Have + 1 end
 		if self.Team=="Hero" and Self.HP>0 
-			self.UpPoint()
+			self.UpAP()
 		end
 		//CharReport(tg,ti,report,{r,g,b})
 		self.Hurt(Report,r,g,b)

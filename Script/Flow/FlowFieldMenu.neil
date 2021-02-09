@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 21.02.07
+// Version: 21.02.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -59,24 +59,30 @@ init
 	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
 	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
 	Situations.FIELD = Situations_Field
-	Situations.COMBAT_ABILITY = { { Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } }
+	Situations.COMBAT_ABILITY = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } }
 	Situations.COMBAT_ARMS = Situations.COMBAT_ABILITY 
-	Situations.COMBAT_ITEMS = { Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
+	Situations.COMBAT_ITEMS = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
 	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 end
 
 global void PartyClick(int i,string ch)
 	if i==1
-		if FMChar == ch
-			if itmod && itmod.citem!=""
-				CSayF("Returing item %s to socket #%d of character %s",itmod.citem,itmod.rsitem,itmod.rcitem)
-				RPGChar[itmod.rcitem].Stat[sprintf("INVAMNT%d",itmod.rsitem)]++
-				RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
-				itmod.citem=""
+		if Prefixed(FMSituation,"COMBAT_")
+			if FMChar == ch
+				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnCancel","nil")
 			end
-			Flow.Current="FLOW_FIELD"
-		else
-			FMChar = ch
+		else 
+			if FMChar == ch
+				if itmod && itmod.citem!=""
+					CSayF("Returing item %s to socket #%d of character %s",itmod.citem,itmod.rsitem,itmod.rcitem)
+					RPGChar[itmod.rcitem].Stat[sprintf("INVAMNT%d",itmod.rsitem)]++
+					RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
+					itmod.citem=""
+				end
+				Flow.Current="FLOW_FIELD"
+			else
+				FMChar = ch
+			end
 		end
 	end
 end
@@ -99,6 +105,7 @@ global void Apollo_Flow()
 	
 	// Top Icon Strip
 	// Lua.assert(Situations[FMSituation],"No situation named: "..FMSituation)
+	Lua.assert(Situations[FMSituation],sprintf("Situation '%s' does not exist!",FMSituation))
 	int iw = math.floor(Screen.W/(#Situations[FMSituation]+1))
 	// CSayF("Icons in situation '%s': %d",FMSituation,#Situations[FMSituation])
 	for i,ico in ipairs(Situations[FMSituation])

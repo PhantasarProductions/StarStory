@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.02.04
+// Version: 21.02.09
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,6 +73,21 @@ Module
 		Buzz.Play()
 		Act.Executor.Hurt("Action Rejected!",255,0,0)
 		Act.Executor.Hurt(Reason,255,0,0)
+		CSayF("Action reject: %s",Reason)
+		switch __skill
+			case 1
+				Act.Executor.Gauge=0
+				if Act.Executor.Team=="Hero"
+					Act.Executor.Gauge = 7500
+				end
+			case 2
+				Act.Executor.Gauge=5000
+			case 3
+				if Act.Executor.Team=="Foe"
+					Act.Executor.Gauge = 7500
+				end
+		end
+		Stage.Current = nil
 	end
 	
 	void CleanTargets()
@@ -125,9 +140,13 @@ Module
 			end
 			Executor.AP -= Act.BurnAP
 		elseif Act.ConsumeItem>=0
-			Lua.error("Item consumtion not yet supported")
-			// TODO: Value should contain the used item slot and remove an item from it. 
-			// Also reject the action if the slot is empty (possible thanks to stealing)
+			string socktag = sprintf("INVAMNT%d",Act.ConsumeItem)
+			if Act.Executor.Char.Stat[socktag]<=0
+				CSayF("%s: Socket %s appears to be set to %d and counts as empty!",Act.Executor.Tag,socktag,Act.Executor.Char.Stat[socktag])
+				Reject("Empty inventory socket")
+				return
+			end
+			Act.Executor.Char.Stat[socktag]--
 		end
 		AnnounceCD = 123
 		AnnounceText = Act.Act.Name

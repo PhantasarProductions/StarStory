@@ -29,7 +29,7 @@
 		ret.ABL_Instant = 0
 		ret.ABL_Cancel = 0
 		ret.ABL_DblPower = 0
-		ret.ABL_Pose = "Attack"
+		ret.ABL_Pose = "Cast"
 		ret.ARM_Hit_Procent = 0
 		ret.ARM_MaxAmmo = 0
 		ret.ARM_XPower = 0
