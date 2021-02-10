@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.02.09
+// Version: 21.02.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -89,7 +89,7 @@ Group CG_Effect
 		// local totaldamage = damage - defense
 		// if totaldamage<1 then totaldamage=1 end
 		// if Fighters[tg][ti].Act=='GRD' and Fighters[tg][ti].Gauge>10000 then totaldamage = round( totaldamage * .75 ) end
-		// Hurt(tg,ti,totaldamage,element)     
+		// Hurt(tg,ti,totaldamage,element)
 		var Exe = Act.Executor
 		var Data = Act.Act
 		if Lua.type(data.AttackPower)!="number"
@@ -105,6 +105,9 @@ Group CG_Effect
 		end
 		//int modifier = math.max(data.mod or 1,1)
 		int modifier = math.max( (data.AttackPower || 1) / 100,1)		
+		if Act.XPower
+			modifier += 4-__skill
+		end
 		int atk = Exe.Stats[data.attackstat] * modifier
 		int def = Tar.Stats[data.defensestat]
 		int damage = atk + rand(0,round(atk*0.75))
@@ -171,7 +174,11 @@ Group CG_Effect
 			Hit = Script(Act,Tar) || Hit
 			Hit = Cause(Act,Tar) || Hit
 		end
-		if not Hit
+		if Hit
+			if Act.CancelEffect
+				Tar.NextAct= nil
+			end
+		else
 			CSayF("Target %s has been missed for %s by %s",Tar.Tag,Act.Act.Name,Act.Executor.Tag)
 			Tar.Hurt("Miss!")
 		end

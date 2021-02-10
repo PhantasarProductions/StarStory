@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.02.04
+// Version: 21.02.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -45,6 +45,10 @@ Class Class_Action
 	bool UseARMAmmo
 	int ConsumeItem = -1
 	int BurnAP = 0
+	int XActSpeed = 1
+	string ActivatePowerUp = ""
+	bool xpower = false
+	bool CancelEffect = false
 	
 	static void AllUpAP()
 		Lua.Neil.Globals.Combat_Hero.AllUpAP()

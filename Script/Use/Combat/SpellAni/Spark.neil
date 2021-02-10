@@ -1,5 +1,5 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
+// src/Tricky Script/Script/Use/Combat/SpellAni/Spark.neil
 // Version: 21.02.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
@@ -49,8 +49,8 @@ module
 	// module is called fo the first time in a combat.
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
-		self.Glitter = Image.Load("GFX/Combat/SpellAni/Glitter/Base.png","SPELLANI_Glitter")
-		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+		self.Glitter = Image.LoadNew("GFX/Combat/SpellAni/Thunder/Spark.png","SPELLANI_SPARK")
+		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Spark.ogg","SPELLANI_SPARK_AUDIO")
 	end	
 
 	void Init(aact)
@@ -69,9 +69,11 @@ module
 		for ti=1,#act.Targets_Tag
 			plua tar = act.Targets[ti]
 			for i=1,35 
+				Image.Rotation = math.random(1,360)
 				Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-				self.Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+				self.Glitter.XDraw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
 			end
+			Image.Rotation = 0
 		end
 		__white
 		

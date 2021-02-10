@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.09
+// Version: 21.02.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -400,10 +400,16 @@ group Stage_PlayerInput
 		Hero.NextAct = a
 		Stage_SelectTarget.ComeToMe(a)
 	end
-
 	
 	Void DoItem()
 		FMenu.Go(Tag,"COMBAT_ITEMS")
+	end
+	
+	Void DoAbility()
+		FMenu.Go(Tag,"COMBAT_ABILITIES")
+	end
+	get var DoARMS
+		return DoAbility
 	end
 	
 	void ReturnCancel()
@@ -419,6 +425,26 @@ group Stage_PlayerInput
 		Stage_SelectTarget.ComeToMe(a)
 		Flow.GoToFlow("COMBAT")
 	End
+	
+	
+	Void ReturnAbility(string AblTag,int APCost,string ActivatePowerUp)
+		var a
+		Bool PwUp(string atag,string PU)
+			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..PU)
+		end
+		a = new Class_Action(Tag,"ABL_"..AblTag)
+		a.BurnAP = APCost
+		a.XPower = PwUp(abltag,"DblPower")
+		a.CancelEffect = PwUp(abltag,"Cancel")
+		a.ActivatePowerUp = ActivatePowerUp
+		if PwUp(AblTag,"Instant")
+			a.XActSpeed = 10000
+		elseif PwUp(AblTag,"DblSpeed")
+			a.XActSpeed = 2
+		end
+		Stage_SelectTarget.ComeToMe(a)
+		Flow.GoToFlow("COMBAT")
+	end
 	
 	Void ComeToMe(String ToTag,nosignal)
 		Tag = ToTag

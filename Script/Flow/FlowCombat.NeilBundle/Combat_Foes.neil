@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.02.04
+// Version: 21.02.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -292,6 +292,9 @@ class Combat_Foe extends Combat_Fighter
 				RPGChar[Tag].StatScript["END_"..ckey] = formscript
 				CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
 			end
+		end
+		for element in each {"Dark","DarkHealing","Earth","Fire","Frost","Healing","Light","Lightning","Water","Wind" }
+			C.Stat["ER_"..element] = RawData["EleRes_"..element]
 		end
 		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
 		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum

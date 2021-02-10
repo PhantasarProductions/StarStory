@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 20.10.20
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.10
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -79,11 +79,16 @@ module
 		//end
 		for atag in RPGChar[CharTag].List.ABL.Each
 			string CT = CharTag
+			string ActivatePWUP = ""
+			bool Hover = Events.MouseX()>ubox.x && Events.MouseX()<ubox.x+ubox.h && Events.MouseY()>y && Events.MouseY()<y+35
 			if CT=="UniWendicka"
 				CT="Wendicka"
 			end
 			var abl = Item["ABL_"..atag]
 			__skyblue
+			if Hover
+				Graphics.Color(0,255,255)
+			end
 			afont.Text(abl.Name,x,y)
 			int APCost = abl.ABL_AP
 			__ember
@@ -95,20 +100,33 @@ module
 			end
 			afont.Text(lua.tostring(APCost),ubox.x+ubox.w-10,y,1)
 			Graphics.Scale(0.75,0.75)
+			static table haspu = {}
+			haspu[CharTag] = haspu[CharTag] or {}			
 			int pux = (ubox.w div 2)+ubox.x
+			int groundvalue = gv.gInt["ABL.USED."..CT:upper().."."..atag:upper() ] + RPGChar[CT].Stat.Level
 			for pu,puc in spairs(ABL_PowerUpColors)
 				if abl["ABL_"..pu]>0
 					Graphics.Color(puc[1],puc[2],puc[3])
 					PUI.Socket = PUI.Socket || Image.Load("GFX/STATUSBAR/ABILITYPOWERUP/Socket.png")
 					PUI[pu] = PUI[pu] || Image.Load("GFX/STATUSBAR/ABILITYPOWERUP/"..pu..".png")
 					PUI.Socket.Draw(pux,y)
-					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pux)
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pu)
 						PUI[pu].Draw(pux,y)
+						haspu[CharTag][pu]=true
+					elseif math.random(0,abl["ABL_"..pu])<groundvalue && ActivatePWUP==""
+						ActivatePWUP = pu
 					end
 				end
 				pux += 25
 			end
 			Graphics.Scale(1,1)
+			if Hover && Events.MouseHitLeft() && Prefixed(situation,"COMBAT_")
+				int APCost = abl.ABL_AP
+				if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCut")
+					APCost = APCost Div 2
+				end
+				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
+			end
 			y += 35
 		end
 		__white

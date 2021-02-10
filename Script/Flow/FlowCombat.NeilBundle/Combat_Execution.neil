@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.02.09
+// Version: 21.02.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -179,6 +179,10 @@ Module
 		AnnounceFont.DarkText(AnnounceText,AnnounceX,200,0,1)
 	end
 	
+	string upper(string s)
+		return s:upper()
+	end
+	
 	void Update()
 		switch MyStage
 			case _Announce
@@ -212,6 +216,14 @@ Module
 				Act.Executor.Gauge=0
 				if (Act.Executor.Team=="Hero")
 					Act.Executor.State="IDLE"
+				end
+				if Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
+					ablused[Executor.Tag]++
+					gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
+					if Act.ActivatePowerUp!="" 
+						Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
+						Act.Executor.Char.List.ABL_POWERUP.Add = Act.ActTag.."."..Act.ActivatePowerUp
+					end
 				end
 				Stage.Current=nil				
 			default
