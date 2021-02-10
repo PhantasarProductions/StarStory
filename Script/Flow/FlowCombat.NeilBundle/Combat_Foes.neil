@@ -237,6 +237,12 @@ class Combat_Foe extends Combat_Fighter
 		fnt.DarkText(TagLetter .. ".",x,y)
 	end
 	
+	get string AI
+		return RawData.AI
+	end
+	
+	readonly table AI_Actions
+	
 	Constructor(string F,int Lvl)
 		static int cnt
 		File = F
@@ -299,6 +305,12 @@ class Combat_Foe extends Combat_Fighter
 		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
 		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum
 		self.HurtLijst = New LinkedList()
+		AI_Actions = {}
+		for A in Each(RawData.Acts)
+			if lvl>=RawData.ActMinLevel[A]
+				AI_Actions += A
+			end
+		end
 	end
 	
 	static void AddFoe(string F,int lvl)
