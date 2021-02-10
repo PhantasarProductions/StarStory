@@ -6,7 +6,10 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 21.02.05
+// Version 21.02.10
+
+
+// Generated 2/10/2021 9:28:29 PM
 
 
 
@@ -116,6 +119,10 @@ module
 		ActMinLevel["ABL_FOE_TASER"] = 5 
 		for ak=1,1 
 			Acts+="ABL_FOE_TASER"
+		end
+		ActMinLevel["ACT_ATTACK"] = 1 
+		for ak=1,10 
+			Acts+="ACT_ATTACK"
 		end
 		temp={}
 		temp.ITM="ITM_ADHBANDAGE"

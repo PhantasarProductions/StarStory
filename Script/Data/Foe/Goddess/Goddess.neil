@@ -6,7 +6,10 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 21.02.05
+// Version 21.02.10
+
+
+// Generated 2/10/2021 9:28:28 PM
 
 
 
@@ -108,6 +111,10 @@ module
 		ActMinLevel["ABL_WENDICKA_SHOCK"] = 80 
 		for ak=1,50 
 			Acts+="ABL_WENDICKA_SHOCK"
+		end
+		ActMinLevel["ACT_ATTACK"] = 0 
+		for ak=1,10 
+			Acts+="ACT_ATTACK"
 		end
 		ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 1 
 		for ak=1,1 

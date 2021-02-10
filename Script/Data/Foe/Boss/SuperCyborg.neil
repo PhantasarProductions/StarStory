@@ -6,7 +6,10 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 21.02.05
+// Version 21.02.10
+
+
+// Generated 2/10/2021 9:28:26 PM
 
 
 
@@ -124,6 +127,10 @@ module
 		ActMinLevel["ABL_FOE_IDDQD"] = 1 
 		for ak=1,120 
 			Acts+="ABL_FOE_IDDQD"
+		end
+		ActMinLevel["ACT_ATTACK"] = 0 
+		for ak=1,1000 
+			Acts+="ACT_ATTACK"
 		end
 		ActMinLevel["ITM_CHLOROFORM"] = 95 
 		for ak=1,1 

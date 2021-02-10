@@ -6,7 +6,10 @@
 //
 // 	If this file has no references at all, you may
 // 	use it under the terms of the zlib license!
-// Version 21.02.05
+// Version 21.02.10
+
+
+// Generated 2/10/2021 9:28:33 PM
 
 
 
@@ -120,6 +123,10 @@ module
 		ActMinLevel["ABL_FOE_VENOMSTING"] = 70 
 		for ak=1,10 
 			Acts+="ABL_FOE_VENOMSTING"
+		end
+		ActMinLevel["ACT_ATTACK"] = 0 
+		for ak=1,100 
+			Acts+="ACT_ATTACK"
 		end
 		temp={}
 		temp.ITM="ITM_BOOK2"
