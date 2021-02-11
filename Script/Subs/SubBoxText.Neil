@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubBoxText.Neil
-// Version: 20.09.19
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.12
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -81,6 +81,7 @@ class TextBox
 	int SP
 	string AltTxtFont
 	string Voice
+	var Font
 	int width
 	var txtbox
 	
@@ -141,9 +142,9 @@ class TextBox
 	
 	void Show()
 	
-		var Font
+		var LFont
 		
-		Font = ImageFont.Obtain("BOXTEXT")
+		LFont = ImageFont.Obtain("BOXTEXT")
 		
 		self.txtbox.Draw()
 		
@@ -155,7 +156,7 @@ class TextBox
 		//Color(255,180,0)
 		__red
 		//DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
-		Font.Text(Header,__BoxText_MinX,boxy+10)
+		LFont.Text(Header,__BoxText_MinX,boxy+10)
 		
 		__skyblue
 		for i,l in ipairs(self.Lines)
@@ -174,7 +175,7 @@ class TextBox
 			end
 			if p>0
 				//DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
-				Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+				self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
 			end
 		end
 	end
@@ -230,11 +231,13 @@ class TextBox
 		end
 		if rec.AltTxtFont and rec.AltTxtFont!="" then
 			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
-			CurrentFont = error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
+			CurrentFont = ImageFont.Load(rec.AltTxtFont)  
+			//error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
 		else
 			//CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
 			CurrentFont = ImageFont.Obtain("BOXTEXT")
 		end   
+		sb_data.Font = CurrentFont
 		CSay("= Textwrapping!")
 		for ak,txt in ipairs(rec.Lines) 
 			string cline

@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/MapScript/Prologue_Yaqirpa.neil
-// (c) Jeroen Broks, 2020, All Rights Reserved.
+// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,10 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 20.10.17
+// version: 21.02.11
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "20.10.17"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.11"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -66,6 +66,15 @@ group MScript
 		if !Done.Prologue_Yaqirpa_Explained_About_Diary_At_The_Start_By_Briggs
 			MapText("EXPLAIN_SAVE")
 		end
+	end
+	
+	void Enter_Kantoor()
+		Map.HideButLabel("Kantoor")
+		Map.ShowPlayer()
+		// TODO: Astrilopup encounter
+		// if !Done.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+			MapText("EAVESDROP_ASTRILOPUP_01")
+		// end
 	end
 	
 	void TutEnemy()
@@ -132,6 +141,7 @@ group MScript
 		ZA.Enter("Entrance_Zone","Entrance_Zone")
 		ZA.Enter("EnterSave","Enter_Save")
 		ZA.Enter("SAVEZONE1","Enter_Save")
+		ZA.Enter("Kantoor","Enter_Kantoor")
 		ZA.Enter("TutEnemy","TutEnemy")		
 		Yaqirpa_Warp.StartUp()
 	end
