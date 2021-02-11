@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.02.10
+// Version: 21.02.11
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -109,7 +109,8 @@ module
 									Stage_PlayerInput.ComeToMe(fv.Tag)
 								end
 							case "Foe"
-								// TODO: Enter enemy move
+								fv.AI.Decide(fv)
+								fv.Gauge=10001
 						end
 					elseif fv.Gauge==20000
 						if not fv.NextAct

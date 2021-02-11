@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.02.10
+// Version: 21.02.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -225,6 +225,7 @@ Module
 						Act.Executor.Char.List.ABL_POWERUP.Add = Act.ActTag.."."..Act.ActivatePowerUp
 					end
 				end
+				AnnouncePortrait = nil
 				Stage.Current=nil				
 			default
 				Fini()
