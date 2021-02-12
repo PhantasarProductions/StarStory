@@ -72,9 +72,16 @@ group MScript
 		Map.HideButLabel("Kantoor")
 		Map.ShowPlayer()
 		// TODO: Astrilopup encounter
-		if !Done.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+		if !gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
 			MapText("EAVESDROP_ASTRILOPUP_01")
 			Schedule.Add("After_KantoorAstrilo")
+			StartCombat.Prepare()
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
+			StartCombat.Tune = StartCombat.RandomTune
+			StartCombat.Boss = false
+			StartCombat.Arena = "Yaqirpa.png"	
+			StartCombat.Begin()
 		end
 	end
 	
@@ -82,6 +89,7 @@ group MScript
 		Map.Kill("Astro1",true)
 		Map.Kill("Astro2",true)
 		MapText("EAVESDROP_ASTRILOPUP_02")
+		gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1=true
 	end
 	
 	void TutEnemy()
