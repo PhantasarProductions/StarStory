@@ -237,6 +237,11 @@ quickmeta Player
 		switch key:upper()
 			case "WIND"
 				return Link_Map.ObjStr("PLAYER","Wind")
+			case "WALKTO"
+				void W(a,b)
+					Map.ObjWalkTo("PLAYER",a,b)
+				end
+				return W
 			default
 				return Link_Map.ObjInt("PLAYER",key)
 		end
