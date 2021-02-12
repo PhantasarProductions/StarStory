@@ -61,11 +61,23 @@ module
 		Map.ShowPlayer()
 	end
 	
+	void UpToTower1()
+		Warp("U_Tower1")
+	end
+	
+	void Tower1()
+		Map.HideButLabel("Tower1")
+		Map.ShowPlayer()
+	end
+
+	
 	void StartUp()
 		CSay("Yaqirpa stuff")
 		ZA.Enter("UPto1","YW.UPTo1")
 		ZA.Enter("Verdieping1","YW.ShowFloor1")
 		ZA.Enter("DownTo0","YW.DownTo0")
+		ZA.Enter("UpToTower1","YW.UpToTower1")
+		ZA.Enter("Tower1","YW.Tower1")
 	end
 
 end

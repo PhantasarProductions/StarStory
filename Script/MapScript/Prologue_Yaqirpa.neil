@@ -62,7 +62,13 @@ group MScript
 		Sleutel = true
 		Map.Kill("NPC_Sleutel",true)
 	end
-
+	
+	void NPC_Deur()
+		if Sleutel && (!Done.Prologue_Yaqirpa_Deur_Opened)
+			Map.Kill("NPC_DEUR")
+		end
+	end
+	
 	void GoToStart()
 		Map.SpawnPlayer("Start")
 		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")
@@ -81,7 +87,7 @@ group MScript
 			MapText("EXPLAIN_SAVE")
 		end
 	end
-	
+		
 	void Enter_Kantoor()
 		Map.HideButLabel("Kantoor")
 		Map.ShowPlayer()
@@ -175,7 +181,7 @@ group MScript
 		ZA.Enter("EnterSave","Enter_Save")
 		ZA.Enter("SAVEZONE1","Enter_Save")
 		ZA.Enter("Kantoor","Enter_Kantoor")
-		ZA.Enter("TutEnemy","TutEnemy")		
+		ZA.Enter("TutEnemy","TutEnemy")				
 		Yaqirpa_Warp.StartUp()
 	end
 

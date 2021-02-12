@@ -34,6 +34,9 @@
 // 
 // version: 21.02.12
 // End License Information
+
+#use "Script/MapScript/Yaqirpa_Warp"
+
 table NeedLessCrap
 
 init
@@ -43,4 +46,14 @@ init
 	NC += "Astro2"
 	NC += "NPC_Sleutel"
 	NC += "NPC_SAVE1"
+	NC += "NPC_DEUR"
+end
+
+
+group MScript
+	readonly var YW = Yaqirpa_Warp
+	
+	Constructor
+		Yaqirpa_Warp.StartUp()
+	end
 end
