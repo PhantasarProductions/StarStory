@@ -32,10 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 21.02.11
+// version: 21.02.12
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.11"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.12"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -72,9 +72,16 @@ group MScript
 		Map.HideButLabel("Kantoor")
 		Map.ShowPlayer()
 		// TODO: Astrilopup encounter
-		// if !Done.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+		if !Done.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
 			MapText("EAVESDROP_ASTRILOPUP_01")
-		// end
+			Schedule.Add("After_KantoorAstrilo")
+		end
+	end
+	
+	void After_KantoorAstrilo()
+		Map.Kill("Astro1",true)
+		Map.Kill("Astro2",true)
+		MapText("EAVESDROP_ASTRILOPUP_02")
 	end
 	
 	void TutEnemy()
