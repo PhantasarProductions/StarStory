@@ -48,6 +48,20 @@ group MScript
 	readonly delegate NPC_SAVE2 = MSave.ToSave
 	readonly delegate FTL = {"PLAYER","FCrystal","FBriggs"}
 	readonly var YW = Yaqirpa_Warp
+	
+	get bool Sleutel
+		return gv.gBool.Prologue_Yaqirpa_Sleutel
+	end
+	set bool Sleutel
+		gv.gBool.Prologue_Yaqirpa_Sleutel = value
+	end
+	
+	void NPC_Sleutel()
+		Player.WalkTo("SPOT_Sleutel")
+		MapText("KEYTOTOWER")
+		Sleutel = true
+		Map.Kill("NPC_Sleutel",true)
+	end
 
 	void GoToStart()
 		Map.SpawnPlayer("Start")
@@ -147,6 +161,10 @@ group MScript
 	end
 
 	void Draw()
+		static var ikey = Image.LoadImage("GFX/Textures/Things/Key.png")
+		if Sleutel
+			ikey.Draw(Screen.W-200,50)
+		end
 	end
 	
 	void Load()
