@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.02.11
+// Version: 21.02.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,8 +66,10 @@ class Combat_Foe extends Combat_Fighter
 	end
 
 	bool Pose(Act)
-		// TODO: Actual pose cycle!
-		return true
+		static int PoseTime = 0
+		PoseTime = (PoseTime + 1) % 125
+		self.Negger = PoseTime>0
+		return !self.Negger
 	end
 	
 	// This will be used for the humanoid enemies or oder to match Wendicka & co.
@@ -80,7 +82,7 @@ class Combat_Foe extends Combat_Fighter
 		return sprintf("FOE_%d",Idx)
 	end
 
-	var _Img	
+	
 	get string ImgFile
 		if not RawData
 			Lua.error("No raw data so I cannot retrieve the image file for foe: "..Tag)
@@ -88,13 +90,23 @@ class Combat_Foe extends Combat_Fighter
 		return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 	end
 	get var Img
+		static var _Img
 		if !_Img
 			_Img = Image.Load(ImgFile,"COMBAT_"..Tag)
 			_Img.HotBottomCenter()
 		end
 		return _Img
 	end
-		
+	get var NegImg
+		static var _NegImg
+		if !_NegImg
+			//_NegImg = Image.Negative(Img)
+			_NegImg = Image.Load(Replace(ImgFile:upper(),".PNG",".NEGATIVE.PNG"),"COMBAT_"..Tag.."_NEG")
+			_NegImg.HotBottomCenter()
+		end
+		return _NegImg
+	end
+	
 	get string Team
 		return "Foe"
 	end
@@ -222,12 +234,17 @@ class Combat_Foe extends Combat_Fighter
 	// End function
 	end
 	
+	bool Negger = false
 	void Draw()
 		// Circle = Placeholder for debugging
 		// Graphics.Circle(X,Y,32)
 		CheckKilled()
 		Graphics.Scale(scale,scale)
-		Img.Draw(X,Y)
+		if Negger && ( (FPS.Ticks div 250) % 2) == 1
+			NegImg.Draw(X,Y)
+		else
+			Img.Draw(X,Y)
+		end
 		Graphics.Scale(1,1)
 		self.HurtShow()
 	end
