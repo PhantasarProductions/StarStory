@@ -1,0 +1,10 @@
+table NeedLessCrap
+
+init
+	// These are only needed in the prologue, so let's get them out of here!
+	var NC = NeedlessCrap
+	NC += "Astro1"
+	NC += "Astro2"
+	NC += "NPC_Sleutel"
+	NC += "NPC_SAVE1"
+end
