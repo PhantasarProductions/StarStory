@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 20.12.25
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.12
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -166,6 +166,11 @@ group Link_Map
 	void SG()
 		MCall("SGMap","nil")
 	end
+
+	void LG()
+		MCall("LGMap","nil")
+	end
+	
 	
 	void Niets()
 	end
