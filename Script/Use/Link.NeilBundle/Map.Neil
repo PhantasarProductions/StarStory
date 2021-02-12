@@ -239,7 +239,7 @@ quickmeta Player
 				return Link_Map.ObjStr("PLAYER","Wind")
 			case "WALKTO"
 				void W(a,b)
-					Map.ObjWalkTo("PLAYER",a,b)
+					Link_Map.ObjWalkTo("PLAYER",a,b)
 				end
 				return W
 			default
