@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 20.12.25
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.12
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "20.12.25"
+#MKL_Version "Star Story - FieldMap.neil" "21.02.12"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -292,7 +292,16 @@ group FldMap
 		LoadedMap = Map:upper()
 		CSayF("Loading Kthura Map: %s",Map)
 		KthuraMap = Kthura.Load("Kthura/"..Map)
-		CSay("Remapping")
+		CSay("Sorting out kills")
+		if Kills[LoadedMap]
+			CSay("Remapping for kills")
+			KthuraMap.Remap()		
+			for moord in each(Kills[LoadedMap])
+				CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
+				KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
+			end			
+		end
+		CSay("Remapping again")
 		KthuraMap.Remap()
 		Layer = KthuraMap.Layers[1]
 		if State.Has("MAPSCRIPT")
@@ -476,13 +485,16 @@ global void SGMap()
 	SaveGameData["Map.neil"] = r
 end
 
+
 global void LGMap()
+	CSayF("Parsing Kills")
+	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
 	CSayF("Loading map: %s",gv.vstring["LOADEDMAP"])
 	FldMap.LoadMap(gv.vstring["LOADEDMAP"])
 	CSayF("Let's go to layer: %s",gv.vstring["MAPLAYER"])
 	FldMap.CurLayer.Spawn("PLAYER",0,0)
 	NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
-	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
+	
 	FldMap.AutoTexPlayer()
 end
 
