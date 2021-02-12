@@ -229,6 +229,7 @@ class Combat_Foe extends Combat_Fighter
 			end
 		Lua.Neil.Globals.Combat_Hero.AllUpAP()
 		// End if --> killed check
+		// TODO: Aurina and/or item drop (and shilders for the Phantasar monsters)
 		end
 		
 	// End function
