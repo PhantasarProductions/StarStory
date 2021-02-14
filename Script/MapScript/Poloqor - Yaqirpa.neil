@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.12
+// version: 21.02.14
 // End License Information
 
 #use "Script/MapScript/Yaqirpa_Warp"
@@ -42,8 +42,9 @@ table NeedLessCrap
 init
 	// These are only needed in the prologue, so let's get them out of here!
 	var NC = NeedlessCrap
-	NC += "Astro1"
-	NC += "Astro2"
+	for i=1,4
+		NC += "Astro"..i
+	end
 	NC += "NPC_Sleutel"
 	NC += "NPC_SAVE1"
 	NC += "NPC_DEUR"
@@ -52,6 +53,14 @@ end
 
 group MScript
 	readonly var YW = Yaqirpa_Warp
+	
+	void NoPrologue()
+		YW.Prologue = false
+		for T in each(NeedlessCrap)
+			Map.Kill(T)
+			CSayF("Removd prologue only object '%s'",T)
+		end
+	end
 	
 	Constructor
 		Yaqirpa_Warp.StartUp()
