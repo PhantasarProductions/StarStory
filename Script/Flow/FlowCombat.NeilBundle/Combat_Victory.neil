@@ -63,6 +63,7 @@ module
 			if Start.Tune!="*NOCHANGE*"
 				Music.Pull()
 			end
+			RPGChar.Kill("FOE_",1)
 			Flow.GoToFlow("FIELD")
 		end
 	end
