@@ -32,10 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 21.02.12
+// version: 21.02.14
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.12"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.14"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -87,6 +87,16 @@ group MScript
 			MapText("EXPLAIN_SAVE")
 		end
 	end
+	
+	void FightAstro()
+		StartCombat.Prepare()
+		StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
+		StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
+		StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Boss = false
+		StartCombat.Arena = "Yaqirpa.png"	
+		StartCombat.Begin()
+	end
 		
 	void Enter_Kantoor()
 		Map.HideButLabel("Kantoor")
@@ -94,16 +104,25 @@ group MScript
 		// TODO: Astrilopup encounter
 		if !gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
 			MapText("EAVESDROP_ASTRILOPUP_01")
-			Schedule.Add("After_KantoorAstrilo")
-			StartCombat.Prepare()
-			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
-			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
-			StartCombat.Tune = StartCombat.RandomTune
-			StartCombat.Boss = false
-			StartCombat.Arena = "Yaqirpa.png"	
-			StartCombat.Begin()
+			
+			FightAstro()
 		end
 	end
+	
+	void Astrilopups_Top()
+		if !gv.gBool.Prologue_Yaqirpa_Astrilotop
+			MapText("ASTRILOATTACK")
+			Schedule.Add("After_TopAstrilo")
+			FightAstro()
+		end
+	end
+	
+	void After_TopAstrilo()
+		Map.Kill("Astro3",true)
+		Map.Kill("Astro4",true)
+		gv.gBool.Prologue_Yaqirpa_Astrilotop=true
+	end
+	
 	
 	void After_KantoorAstrilo()
 		Map.Kill("Astro1",true)
@@ -181,7 +200,8 @@ group MScript
 		ZA.Enter("EnterSave","Enter_Save")
 		ZA.Enter("SAVEZONE1","Enter_Save")
 		ZA.Enter("Kantoor","Enter_Kantoor")
-		ZA.Enter("TutEnemy","TutEnemy")				
+		ZA.Enter("TutEnemy","TutEnemy")			
+		ZA.Enter("Astrilopups","Astrilopups_Top")
 		Yaqirpa_Warp.StartUp()
 	end
 
