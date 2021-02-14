@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Victory.neil
-// Version: 21.02.04
+// Version: 21.02.14
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -58,7 +58,7 @@ module
 	end
 	
 	void Update()
-		Frame-=2
+		Frame-=3
 		if Frame<-500
 			if Start.Tune!="*NOCHANGE*"
 				Music.Pull()
