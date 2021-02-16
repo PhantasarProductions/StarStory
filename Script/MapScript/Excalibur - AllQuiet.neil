@@ -38,25 +38,29 @@
 
 group MScript
 
-	Int SickBayDoors
+	Int SickBayDoors = 0
 	
 	void Draw()
-		if SickBayDoors>0
-			Map.SetObj("LeftDoorSickbay","X",288-SickBayDoors)
-			Map.SetObj("RightDoorSickbay","Y",320+SickBayDoors)
-			SickBayDoors--
-		end
 	end
 	
 	void Update()
+		if SickBayDoors>0
+			SickBayDoors--
+			CsayF("Closing sickbay doors: %d",SickBayDoors)
+			Map.ObjSet("LeftDoorSickBay","X",288-SickBayDoors)
+			Map.ObjSet("RightDoorSickBay","X",320+SickBayDoors)
+		end
 	end
+	
 	void Load()
 		CSay("Welcome to Excalibur - All is quiet and calm today!")
 	end
 
 	void ShowMedicalArea()
 		Map.HideButLabel("Sickbay")
+		Map.ShowPlayer()
 		if !Done.Done_Excalibur_Close_Sickbay_doors
+			CSay("Sesam sluit u!")
 			SickBayDoors = 40
 		end
 	end

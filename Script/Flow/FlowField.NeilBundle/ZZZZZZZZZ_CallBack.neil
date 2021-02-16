@@ -95,6 +95,7 @@ global void Apollo_Flow()
 	FieldMonster.CheckAll()		
 	FullDrawScreen()
 	Graphics.Color(255,255,255)
+	State.Call("MAPSCRIPT","MScript.Draw","nil")
 	ZoneAction.CheckAll()
 	if Events.MouseHitLeft()
 		if my<Screen.H-128
