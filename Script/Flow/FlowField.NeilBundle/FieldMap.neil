@@ -332,6 +332,9 @@ group FldMap
 				default
 					Lua.error("Unknown alternate music instruction!")
 			end
+		elseif KthuraMap.Meta["Music"]==""
+			CSay("Silence for music")
+			Music.Play("Music/Sys/Silence.ogg")
 		else
 			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
 			Music.Play(KthuraMap.Meta["Music"])
@@ -402,6 +405,9 @@ group FldMap
 			return
 		end
 		var PL=CurLayer.Obj("PLAYER")
+		if PL.Wind==""
+			PL.Wind="North"
+		end
 		if Leader=="UniWendicka"
 			PL.Texture = "GFX/Actors/Uniform/Wendicka.".. PL.Wind .. ".jpbf"
 		else

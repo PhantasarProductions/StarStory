@@ -348,7 +348,10 @@ class FieldMonster
 	end
 	
 	static void CheckAll()
-		Lua.assert(Lijst[Map.Layer],"No foe list set for layer: "..Map.Layer)
+		//Lua.assert(Lijst[Map.Layer],"No foe list set for layer: "..Map.Layer)
+		if (!Lijst[Map.Layer])
+			return
+		end
 		if Engaged
 			EngageCount = (EngageCount+1) % 30
 			Engaged = EngageCount>0

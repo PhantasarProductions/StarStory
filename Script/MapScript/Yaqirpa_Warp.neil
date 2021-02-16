@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.14
+// version: 21.02.15
 // End License Information
 #use "Script/Use/Anyway"
 module
@@ -154,6 +154,16 @@ module
 			MapText("TowerTop")
 		end
 	end
+	
+	void ShowBoss()
+		if Prologue
+			MapScript.Boss()
+		else
+			Map.HideButLabel("Boss")
+			Map.ShowPlayer()
+		end
+	end
+			
 
 	
 	void StartUp()
@@ -179,6 +189,8 @@ module
 		ZA.Enter("Tower5","YW.Tower5")
 		ZA.Enter("UpToTowerTop","YW.UpToTop")
 		ZA.Enter("ShowTop","YW.ShowTop")
+		ZA.Enter("LeaveBoss","YW.ShowTop")
+		ZA.Enter("EnterBoss","YW.ShowBoss")
 	end
 
 end

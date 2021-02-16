@@ -32,10 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.14
+// version: 21.02.15
 // End License Information
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.14"
+#define mother_boss
+
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.15"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -129,6 +131,71 @@ group MScript
 		Map.Kill("Astro2",true)
 		MapText("EAVESDROP_ASTRILOPUP_02")
 		gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1=true
+	end
+	
+	void PostBoss()
+		Map.ObjHide("FBriggs")
+		MapText("POSTBOSS_START")
+		Map.ObjHide("FCrystal")
+		Map.ObjHide("FBriggs")
+		Map.ObjShow("DeadCrystal")
+		RPGParty[2] = ""
+		MapText("POSTBOSS_WENDICKARAGE")
+		var explosion = Image.Load("GFX/Scenario/Explosion.png")
+		var sex = Audio.Load("Audio/Scenario/Explosion.ogg")
+		Graphics.Cls()
+		sex.Play()
+		for i=0,255
+			__white
+			explosion.Stretch(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(i)
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			if i==0
+				FPS.Sleep(2000)
+			else
+				FPS.Sleep(1)
+			end
+		end
+		CSay("Time to go to sickbay")
+		Map.Load("Excalibur - Sickbay")
+		Schedule.Add("Sickbay")
+		//Lua.error("Post Boss not yet scripted")
+	end
+	
+	void Boss()
+		Map.ObjWalkTo("FBriggs","PreBossBriggs1")
+		MapText("BOSS_START")
+		Map.ObjWalkTo("FBriggs","PreBossBriggs2")
+		Map.ObjSet("FBriggs","X",-20000)
+		Map.ObjHide("FBriggs")
+		Map.ObjShow("DeadBriggs")
+		For i=1760,1600,-4
+			Graphics.Cls()
+			Map.ObjSet("DeadBriggs","Y",i)
+			Map.DrawScreen()
+			Graphics.Flip()
+		End
+		MapText("BOSS_SHOUTBRIGGS")
+		MapText("BOSS_BRIGGSISDEAD")
+		Player.WalkTo("BossWendicka")
+		Map.ObjWalkTo("FCrystal","BossCrystal")		
+		Map.HideButLabel("Boss")
+		Map.ShowPlayer()
+		Map.ObjShow("FCrystal")
+		MapText("BOSS_COMMENCE")
+		RPGParty[3]=""
+		RPGChar.Kill("Briggs")
+		Schedule.Add("PostBoss")
+		#if mother_boss
+			StartCombat.Prepare()
+			StartCombat.Foe("Boss/BrainDroid",Caps.LvCycle(__skill+9,200,500,750,1000,2500,5000,2500*__skill,3000*__skill,4000*__skill,10000))
+			StartCombat.Tune = StartCombat.RandomBossTune
+			StartCombat.Boss = false
+			StartCombat.Arena = "Yaqirpa.png"	
+			StartCombat.Begin()		
+		#fi
 	end
 	
 	void TutEnemy()

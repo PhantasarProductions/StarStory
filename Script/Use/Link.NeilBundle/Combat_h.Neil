@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Combat_h.Neil
-// Version: 20.12.26
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.15
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -99,7 +99,7 @@ group StartCombat
 		end
 		return tunes[math.random(1,#tunes)]
 	end
-get string RandomBossTune
+	get string RandomBossTune
 		static table tunes = JCR6.GetDir("Music/Combat/Boss")
 		if #tunes==0
 			Print("Random tune requested, but none available!")

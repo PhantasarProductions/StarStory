@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.02.12
+// Version: 21.02.15
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -308,10 +308,10 @@ class Combat_Foe extends Combat_Fighter
 				A.Targets_Tag[1] = "FOE_"..n
 				A.Targets_Tag[2] = nil
 			case "AA"
-				int i=1
-				for i=1,6
-					A.Targets_Tag[i] = nil
+				for j=1,6
+					A.Targets_Tag[j] = nil
 				end				
+				int i=0
 				while self.Fighters["FOE_"..i]
 					var F = self.Fighters["FOE_"..i]
 					if F.Targetable_Foe
@@ -370,7 +370,7 @@ class Combat_Foe extends Combat_Fighter
 					if tstat<5 
 						tstat = 5 
 					end
-					C["BASE_"..ckey] = tstat //RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,tstat)
+					C.Stat["BASE_"..ckey] = tstat //RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,tstat)
 					CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
 				else   
 					ldif = self.Level - lvmin
