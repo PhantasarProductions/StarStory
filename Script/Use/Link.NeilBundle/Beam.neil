@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Beam.neil
-// Version: 20.09.26
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.16
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -63,8 +63,8 @@ module
 		MCall("ClBeam.Run","nil")
 	end
 	
-	void Quick(string Actor,bool Despawn=true,bool asc=true)
-		Add(Actor)
+	void Quick(string Actor,Despawn,asc)
+		Add(Actor,Despawn==true,asc==true)
 		Run()
 	end
 	

@@ -38,19 +38,21 @@
 
 const var Mouse = Image.Obtain("MOUSE")
 
-global void DrawScreen()
+global void DrawScreen(noauto)
 	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 	if FldMap.AutoScroll
 		FLDMap.ScrollX = GrPlayer.X - math.floor(Screen.W/2)
 		FLDMap.ScrollY = GrPlayer.Y - math.floor(Screen.H/2)
 	end
-	FldMap.AutoTexPlayer()
+	if !noauto
+		FldMap.AutoTexPlayer()
+	end
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 
-global void FullDrawScreen()
+global void FullDrawScreen(noauto)
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
-	DrawScreen()
+	DrawScreen(noauto)
 	Party.Boxes()
 	if !TMM.Draw()
 		// General statistics

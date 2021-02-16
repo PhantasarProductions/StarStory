@@ -36,10 +36,12 @@
 // End License Information
 #use "Script/Use/Anyway"
 
+#macro DonePrologue gv.gBool.Prologue_Excalibur_AllQuiet_Completed_Advanced_To_Real_Game
+
 group MScript
 
 	Int SickBayDoors = 0
-	
+		
 	void Draw()
 	end
 	
@@ -67,10 +69,49 @@ group MScript
 
 	void LeaveSickBay()
 		Map.SpawnPlayer("Start")
-		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")		
+		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.South.jpbf")		
+	end
+	
+	void BeamTo(string spot,string showlabel)
+		CSay("Beaming out!")
+		Beam.Quick("PLAYER",false,true)
+		CSayF("New location: %s>%s",ShowLabel,spot)
+		Map.HideButLabel(ShowLabel)
+		CSay("Despawning player")
+		Map.Kill("PLAYER")
+		CSay("Spawning player!")
+		Map.SpawnPlayer(spot)
+		CSay("Beaming in!")
+		Beam.Quick("PLAYER",false,false)
+		CSay("Texture correction!")
+		Player.Wind = "South"
+		if DonePrologue
+			Map.SetObjField("PLAYER","Texture","GFX/Actors/Player/Wendicka.South.jpbf")
+		else
+			Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.South.jpbf")
+		end
+		CSay("Done")
+	end
+	
+	void Sick2John()
+		MapText("TELEPORT_SICK2STAFF")
+		BeamTo("Johnson_Entrance","Staff")
+	end
+	
+	void NoBusiness()
+		if DonePrologue
+			MapText("NOBUSINESS.WENDICKA")
+		else
+			MapText("NOBUSINESS.UNIWENDICKA")
+		end
 	end
 	
 	Constructor
 		ZA.Enter("Sluit_Sickbay","ShowMedicalArea")
+		ZA.Enter("Transporter_Sickbay","Sick2John")
+		for nb in each { "Sickbay","Johnson", "Galahad", "Keuken1", "Keuken2" }
+			ZA.Enter(nb.."_NoBusiness","NoBusiness")
+			ZA.Enter("NoBusiness_"..nb,"NoBusiness")
+		end
 	end
 end
