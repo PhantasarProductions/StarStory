@@ -45,6 +45,10 @@ end
 bool BxsL = false
 module
 
+	void CSay(string f)
+		Lua.Neil.Globals.CSay(f)
+	end
+
 	void CallBack(int i,string char)
 		// This function is only to be called by the Party Sub
 		// It will look to what the flow in question had in mind for that 
@@ -69,6 +73,33 @@ module
 	void NewChar(string char,int level, string AltName="")
 		LoadPartySub()
 		State.Call("PARTY","SubParty.NewChar",Sprintf("\"%s\",%d,\"%s\"",char,level,altname))
+	end
+	
+	void ReloadARMS()
+		CSAY("TODO: RELOAD ARMS")
+	end
+	
+	void Recover(string ch="")
+		if ch==""
+			for i=1,6
+				if RPGParty[i] && RPGParty[i]!=""
+					self.Recover(RPGParty[i])
+				end
+			end
+			return
+		end
+		RPGChar[ch].Points.HP.Have = RPGChar[ch].Points.HP.Maximum
+		switch Lua.Neil.Globals.gv.gint.Skill
+			case 1
+				RPGChar[ch].Points.AP.Have = RPGChar[ch].Points.AP.Maximum
+			case 2 3
+				RPGChar[ch].Points.AP.Have = 0
+			default
+				Lua.error("Unknown skill setting!")
+		end
+		if ch=="Crystal"
+			ReloadARMS()
+		end
 	end
 	
 

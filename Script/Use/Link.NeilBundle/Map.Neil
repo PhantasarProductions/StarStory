@@ -220,6 +220,14 @@ group Link_Map
 		ObjSet(tag,"Visible",true)
 	end
 
+	void HideObj(string tag)
+		ObjSet(tag,"Visible",false)
+	end
+
+	void ShowObj(string tag)
+		ObjSet(tag,"Visible",true)
+	end
+
 	
 	void ObjWalkTo(string tag,a,b)
 		MCall("FldMap.ObjWalkTo",tag,a,b)

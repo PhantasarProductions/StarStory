@@ -328,7 +328,7 @@ group FldMap
 		if prefixed(KthuraMap.Meta["Music"],"*")
 			switch KthuraMap.Meta["Music"]:upper()
 				case "*MAPSCRIPT" "*MAP" "*SCRIPT"
-					MapScript.Music()
+					MapScript.MapMusic()
 				default
 					Lua.error("Unknown alternate music instruction!")
 			end

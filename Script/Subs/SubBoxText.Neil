@@ -55,12 +55,14 @@ void InitScenario()
 	Scenario.lang = __lang
 	
 	// Link JCR to the scenario library
-	Scenario.JCR_Lines = table(string file)
-		string content
+	//Scenario.JCR_Lines = table(string file)
+	table jl(string file)
+		//string content
 		string content
 		content = JCR6.LoadString(file)
 		return split(content,"\n")
 	end
+	Scenario.JCR_Lines = jl
 	
 	Scenario.print = CSay
 	Scenario.JCR_Exists = JCR6.EntryExists
