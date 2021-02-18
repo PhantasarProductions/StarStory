@@ -216,6 +216,7 @@ group MScript
 	end
 	
 	void NPC_Scyndi
+		FMenu.Go(Map.Leader,"VAULT")
 	end
 	
 	void Update()
