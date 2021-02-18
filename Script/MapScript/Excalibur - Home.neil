@@ -215,7 +215,7 @@ group MScript
 		Schedule.Add("Cook")
 	end
 	
-	void NPC_Scyndi
+	void NPC_Scyndi()
 		FMenu.Go(Map.Leader,"VAULT")
 	end
 	
