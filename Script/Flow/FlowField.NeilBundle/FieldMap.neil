@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.02.16
+// Version: 21.02.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,7 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "21.02.16"
+#MKL_Version "Star Story - FieldMap.neil" "21.02.18"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -178,7 +178,7 @@ class Clickable
 	
 	static bool All(int x, int y)
 		for CLK in List.Each
-			if Clk.Clicked(x,y)
+			if Clk.Clicked(x, y)
 				//Map.WalkTo(CLK.walkx,CLK.Walky)
 				Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
 				Map.ArriveFunc=CLK.func 

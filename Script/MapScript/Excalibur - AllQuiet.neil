@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.16
+// version: 21.02.18
 // End License Information
 #use "Script/Use/Anyway"
 
@@ -42,6 +42,7 @@ group MScript
 
 	Int SickBayDoors = 0
 	Int WendickaDoors = 0
+	Int KeukenDeur
 		
 	void Draw()
 	end
@@ -53,6 +54,12 @@ group MScript
 			Map.ObjSet("LeftDoorSickBay","X",288-SickBayDoors)
 			Map.ObjSet("RightDoorSickBay","X",320+SickBayDoors)
 		end
+		if KeukenDeur>0
+			KeukenDeur--
+			CsayF("Closing Keuken Deur: %d",KeukenDeur)
+			Map.ObjSet("Deur_Keuken_Links" ,"X",256-KeukenDeur)
+			Map.ObjSet("Deur_Keuken_Rechts","X",288+KeukenDeur)
+		end
 		if WendickaDoors>0
 			WendickaDoors++
 			CsayF("Opening Wendicka doors: %d",WendickaDoors)
@@ -63,6 +70,12 @@ group MScript
 				Schedule.Add("Binnenkomst")				
 			end
 		end
+	end
+	
+	void VKeuken()
+		Map.HideButLabel("Keuken")
+		Map.ShowObj("PLAYER")
+		DonePrologue = true
 	end
 	
 	void Load()
@@ -81,6 +94,11 @@ group MScript
 	void LeaveSickBay()
 		Map.SpawnPlayer("Start")
 		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.South.jpbf")		
+	end
+	
+	void ExitKeuken()
+		Map.SpawnPlayer("Keuken_Start")
+		KeukenDeur=60
 	end
 	
 	void BeamTo(string spot,string showlabel)
@@ -147,10 +165,18 @@ group MScript
 		WendickaDoors = 1
 	end
 	
+	Void VanKeukenNaarHuis()
+		MapText("TELEPORT_KITCHEN2HOME")
+		BeamTo("Galahad","Galahad")
+	end
+	
 	Constructor
 		ZA.Enter("Sluit_Sickbay","ShowMedicalArea")
 		ZA.Enter("Transporter_Sickbay","Sick2John")
 		ZA.Enter("Crystal_Panic","Crystal_Panic")
+		ZA.Enter("VKeuken","VKeuken")
+		ZA.Enter("Keuken_Transporter_Een" ,"VanKeukenNaarHuis")
+		ZA.Enter("Keuken_Transporter_Twee","VanKeukenNaarHuis")
 		for nb in each { "Sickbay","Johnson", "Galahad", "Keuken1", "Keuken2" }
 			ZA.Enter(nb.."_NoBusiness","NoBusiness")
 			ZA.Enter("NoBusiness_"..nb,"NoBusiness")

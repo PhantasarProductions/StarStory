@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.02.05
+// Version: 21.02.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -105,7 +105,7 @@ group SubParty
 			RPGChar.Briggs.Data.Guest = "true"
 		else
 			print("= "..Name.." is NOT a guest!")
-			RPGChar.Briggs.Data.Guest = "false"
+			RPGChar[Tag].Data.Guest = "false"
 		end
 		// Inventory slots
 		print("= Setting up inventory")

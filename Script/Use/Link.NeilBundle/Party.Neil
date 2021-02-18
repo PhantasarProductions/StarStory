@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Party.Neil
-// Version: 20.10.08
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.18
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -73,6 +73,11 @@ module
 	void NewChar(string char,int level, string AltName="")
 		LoadPartySub()
 		State.Call("PARTY","SubParty.NewChar",Sprintf("\"%s\",%d,\"%s\"",char,level,altname))
+	end
+	
+	void GrabLevel(string char,int level)
+		LoadPartySub()
+		State.Call("PARTY","SubParty.GrabLevel",sprintf("\"%s\",%d",char,level))
 	end
 	
 	void ReloadARMS()

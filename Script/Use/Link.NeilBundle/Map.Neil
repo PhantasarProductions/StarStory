@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.02.15
+// Version: 21.02.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -211,6 +211,10 @@ group Link_Map
 	void ObjSet(string tag,string vartag,value)
 		MCall("FldMap.ObjSet",tag,vartag,value)
 	end
+	void SetObj(string tag,string vartag,value)
+		MCall("FldMap.ObjSet",tag,vartag,value)
+	end
+
 	
 	void ObjHide(string tag)
 		ObjSet(tag,"Visible",false)
@@ -253,6 +257,40 @@ group Link_Map
 	
 end
 
+number PlayerDistance(a,b)
+	int ox
+	int oy
+	int px = Link_Map.ObjInt("PLAYER","X")
+	int py = Link_Map.ObjInt("PLAYER","Y")
+	switch Lua.type(a)
+		case "string"
+			ox = Link_Map.ObjInt(a,"X")
+			oy = Link_Map.ObjInt(a,"Y")
+		case "number"
+			ox = a
+			oy = Lua.tonumber(b) or 0
+		default
+			Lua.error("PlayerDistance("..tostring(a)..","..tostring(b).."): Illegal function call")
+	end
+	int dx = math.abs(px-ox)
+	int dy = math.abs(py-oy)
+	int hyp2 = (dx*dx)+(dy*dy)
+	return math.sqrt(hyp2)
+end
+bool PlayerInRange(a,b,c)
+	switch Lua.type(a)..":"..Lua.type(b)..":"..Lua.type(c)
+		case "string:number:nil"
+			return b>=PlayerDistance(a,b)
+		case "number:number:number"
+			return b>=PlayerDistance(a,b,c)
+		default
+			Lua.error("WTF do you want from InRange?")			
+	end
+	// Safety measure
+	return false
+end
+		
+
 quickmeta Player
 	index
 		switch key:upper()
@@ -263,6 +301,10 @@ quickmeta Player
 					Link_Map.ObjWalkTo("PLAYER",a,b)
 				end
 				return W
+			case "DISTANCE"
+				return PlayerDistance
+			case "INRANGE"
+				return PlayerInRange
 			default
 				return Link_Map.ObjInt("PLAYER",key)
 		end

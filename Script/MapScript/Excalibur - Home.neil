@@ -1,27 +1,44 @@
 // License Information:
-// src/Tricky Script/Script/MapScript/None.neil
-// Basic MapScript Template
-// version: 20.10.01
-// Copyright (C) 2020 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Excalibur - Home.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.02.18
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - None.neil" "20.10.01"
-#MKL_Lic     "Star Story - None.neil" "ZLib License"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.02.18"
+#MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
 
@@ -52,11 +69,91 @@ group MScript
 			case "All_Fine"
 				Music.Play("Music/Excalibur/Blip Stream.ogg")
 			case "Crystal_Crisis"
+				if RPGParty[1]=="Wendicka"
+					CSay("Welcome home Wendicka. Crystal will be home soon")
+					Situation="All_Fine"
+					return
+				end
 				Music.Play("Music/scenario/panic stations.ogg")
 			default
 				CSay("Situation unknown. Probably not yet set at all!")
 				Situation="Crystal_Crisis"			
 		end
+	end
+	
+	// Create Wendicka in her general game form (if the character did not yet exist in this form
+	void CreateWendicka()
+		if Caps.Cycle>1 || gv.gbool.ImportedWendicka
+			//CSay("Record for Wendicka is already there, so no need to create that anew!")
+			CSay("Just using record from older records")
+			return
+		end
+		CSay("Creating Character: Wendicka")
+		RPGChar.Create("Wendicka")
+		CSay("Linking all data with Uniformed version of Wendicka")
+		RPGChar.Wendicka.Link_Stat("UniWendicka","*")
+		RPGChar.Wendicka.Link_Data("UniWendicka","*")
+		RPGChar.Wendicka.Link_List("UniWendicka","*")
+		RPGChar.Wendicka.Link_Points("UniWendicka","*")
+		CSayF("All should be clear now. Wendicka has level: %04d",RPGChar.Wendicka.Stat.Level)
+	end
+	
+	void CreateCrystal()
+		//CSayF("Creation script for Crystal NOT yet done")
+		if Caps.Cycle>1 || gv.gbool.ImportedCrystal
+			CSay("Updating level stuff for Crystal")
+			Party.GrabLevel("Crystal",RPGChar.Crystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			return
+		end
+		CSay("Creating character Crystal!")
+		Party.NewChar("Crystal",RPGChar.UniCrystal.Stat.Level,"Crystal")
+		// Inventory sockets
+		for i=1,Caps.InventorySockets
+			RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
+			RPGChar.Crystal.Link_Stat("UniCrystal","INVAMNT"..i)
+			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
+		end
+		// Statistics
+		for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+			CSayF("Linking stat: %s",st)
+			for substat in each { "BUFF","POWERUP","UPGRADE" }
+				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+				RPGChar.Crystal.Link_Stat("UniCrystal",substat.."_"..st)
+			end
+		end
+		// Elemental Resistance
+		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
+			CSayF("Linking elemental resistance: %s",el)
+			if !RPGChar.UniCrystal.HasStat("ER_"..el)
+				CSay("= Original base was non-existent. Creating!")
+				switch el
+					case "Healing"
+						RPGChar.UniCrystal.Stat["ER_"..el] = 6
+					case "DarkHealing"
+						RPGChar.UniCrystal.Stat["ER_"..el] = 0
+					default
+						RPGChar.UniCrystal.Stat["ER_"..el] = 3
+				end
+			end
+			if !RPGChar.UniCrystal.HasStat("ER_MODIFIER_"..el)
+				CSay("= Original modifier was non-existent. Creating!")
+				RPGChar.UniCrystal.Stat["ER_MODIFIER_"..el] = 0
+			end
+			RPGChar.Crystal.Link_Stat("UniCrystal","ER_"..el)
+			RPGChar.Crystal.Link_Stat("UniCrystal","ER_MODIFIER_"..el)
+		end
+		// Status Resistance
+		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+			CSayF("Linking Status Change Resistance: %s",sr)
+			for subsr in each {"BASE","BUFF","EQBF","TRUE" }
+				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
+				RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)
+			end
+		end
+		// Experience Points
+		CSay("Linking Experience")
+		RPGChar.Crystal.Link_Points("UniCrystal","EXP")
+		CSay("Cyborg Crystal Created")
 	end
 
 	void Binnenkomst()
@@ -64,6 +161,61 @@ group MScript
 		if RPGParty[1]=="UniWendicka"
 			MapText("CRYSTAL_UNIFORM")
 		end
+	end
+	
+	void NPC_Brabant()
+		CSayF("Distance to flag: %1.5f",Player.Distance("NPC_Brabant"))
+		if Player.InRange("NPC_Brabant",170)
+			MapText("BRABANT."..(Map.Leader:upper()))
+		end
+	end
+	
+	void NPC_Crystal_Asleep()
+		CreateWendicka()
+		CreateCrystal()
+		Player.WalkTo("SPOT_Crystal_Asleep")
+		MapText("FOUNDCRYSTAL_FOUNDHER")
+		for a = 0,255,0.1
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			__black
+			Graphics.SetAlpha(math.floor(a))
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+		end
+		Map.ShowByLabel("CrystalFound")
+		for a = 255,0,-0.1
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			__black
+			Graphics.SetAlpha(math.floor(a))
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+		end
+		MapText("FOUNDCRYSTAL_SECURITY")
+		Map.Kill("NPC_Crystal_Asleep",true)
+		MapText("FOUNDCRYSTAL_AWAKE")
+		var oyl = Image.Load("GFX/Intro/1 year later.png")
+		oyl.HotCenter()
+		Graphics.Cls()
+		__White
+		oyl.Draw(Screen.W/2,Screen.H/2)
+		Graphics.Flip()
+		FPS.Sleep(3000)
+		RPGParty[1] = "Wendicka"
+		Map.Leader="Wendicka"
+		Map.Kill("NPC_MT_CrystalUniform",true)
+		Map.Kill("Crystal_Awake",true)
+		Map.Load("Excalibur - Kitchen")
+		Map.Remap()
+		Schedule.Add("Cook")
+	end
+	
+	void NPC_Scyndi
 	end
 	
 	void Update()
