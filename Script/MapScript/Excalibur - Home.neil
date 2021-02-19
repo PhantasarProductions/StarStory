@@ -379,6 +379,18 @@ group MScript
 		gv.gbool.Excalibur_Ellende_Begonnen = true
 	end
 	
+	void Vertrek()
+		switch Situation
+			case "Under_Attack"
+				Map.Load("Excalibur - Under Attack")
+				Schedule.Add("Start")
+			case "Final"
+				Lua.error("Exit during final mission not yet scripted!")
+			default
+				MapText("DONTLEAVE")
+		end
+	end
+	
 	void Update()
 	end
 
@@ -394,6 +406,7 @@ group MScript
 		for K in each {"Crystal","Woonkamer","Keuken","Wendicka","Badkamer"}
 			ZA.Enter("Kamer_"..K,"GNK."..K)
 		end
+		ZA.Enter("Exit","Vertrek")
 	end
 
 end
