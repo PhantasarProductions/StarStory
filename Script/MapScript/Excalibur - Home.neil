@@ -32,23 +32,35 @@
 // 
 // **********************************************
 // 
-// version: 21.02.18
+// version: 21.02.19
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.02.18"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.02.19"
 #MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
+#macro CrystalHome gv.gbool.CrystalCameHomeAtTheStartOfTheGame
 
 quickmeta GaNaarKamer
 	index
 		static table Kamer = {}
 		if !Kamer[key]
 			Kamer[key] = void()
+				CSayF("Entering room: %s; Situation: %s;   Crystal Home: %s",Key,Situation,lua.tostring(CrystalHome))
 				Map.HideButLabel(Key)
 				Map.ShowObj("PLAYER")
+				if Key=="Wendicka" && Situation=="All_Fine" && (!CrystalHome)
+					CrystalHome=true
+					MapText("CRYSTAL_HOME")
+				end
+				if Key=="Woonkamer" && CrystalHome && Situation=="All_Fine"
+					Map.ShowObj("NPC_Crystal")
+				end
+				if Key=="Woonkamer" && Situation=="Under_Attack"
+					Lua.Neil.Globals.MScript.ExD()
+				end
 			end
 		end
 		return Kamer[key]
@@ -107,6 +119,7 @@ group MScript
 		end
 		CSay("Creating character Crystal!")
 		Party.NewChar("Crystal",RPGChar.UniCrystal.Stat.Level,"Crystal")
+		self.Crystal_StartARMS()
 		// Inventory sockets
 		for i=1,Caps.InventorySockets
 			RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
@@ -145,7 +158,8 @@ group MScript
 		// Status Resistance
 		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
 			CSayF("Linking Status Change Resistance: %s",sr)
-			for subsr in each {"BASE","BUFF","EQBF","TRUE" }
+			for subsr in each {"BASE","BUFF","EQBF" }
+				// TRUE should NOT be linked!
 				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
 				RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)
 			end
@@ -217,6 +231,152 @@ group MScript
 	
 	void NPC_Scyndi()
 		FMenu.Go(Map.Leader,"VAULT")
+	end
+	
+	get int ExD1x
+		return gv.gint.WendickaHome_EXD1_x
+	end
+	get int ExD2x
+		return gv.gint.WendickaHome_EXD2_x
+	end
+	get int ExD1y
+		return gv.gint.WendickaHome_EXD1_y
+	end
+	get int ExD2y
+		return gv.gint.WendickaHome_EXD2_y
+	end
+	get int ExD1rot
+		return gv.gint.WendickaHome_EXD1_rotation
+	end
+	get int ExD2rot
+		return gv.gint.WendickaHome_EXD2_rotation
+	end
+	set int ExD1x
+		gv.gint.WendickaHome_EXD1_x = math.floor(math.max(180,value))
+	end
+	set int ExD2x
+		gv.gint.WendickaHome_EXD2_x = math.floor(math.max(180,value))
+	end
+	set int ExD1y
+		gv.gint.WendickaHome_EXD1_y = math.floor(math.max(100,value))
+	end
+	set int ExD2y
+		gv.gint.WendickaHome_EXD2_y = math.floor(math.max(100,value))
+	end
+	set int ExD1rot
+		gv.gint.WendickaHome_EXD1_rotation = value % 360
+	end
+	set int ExD2rot
+		gv.gint.WendickaHome_EXD2_rotation = value % 360
+	end
+	
+	void ExD()
+		Map.ShowObj("ExD1")
+		Map.SetObj("ExD1","X",ExD1x)
+		Map.SetObj("ExD1","Y",ExD1y)
+		Map.SetObj("ExD1","Rotation",ExD1rot)
+		Map.ShowObj("ExD2")
+		Map.SetObj("ExD2","X",ExD2x)
+		Map.SetObj("ExD2","Y",ExD2y)
+		Map.SetObj("ExD2","Rotation",ExD2rot)
+	end
+	
+	void Crystal_StartARMS()
+		if !Done.CrystalARMS_SetInitial
+			CrystalARMS.NewARM("Dart")
+			CrystalARMS.NewARM("HealingSpray")
+		end
+	end
+	
+	void Create_ExHuRU()
+		if Caps.Cycle==1
+			Party.NewChar("ExHuRU",20,"ExHuRU")
+		end
+	end
+	
+	void NPC_Crystal()
+		// Ignore when actor is not yet officially here
+		if !CrystalHome
+			return
+		end
+		// Fix it, Felix!
+		MapText("CRYSTAL_FIX")
+		// Red Alert
+		Music.Play("Music/Sys/Silence.ogg")
+		for i=1,10
+			CSayF("Red alert frame #%02d",i)
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			graphics.Flip()
+			FPS.Sleep(500)
+			Events.Poll()
+			Graphics.Color(255,0,0)
+			Graphics.SetAlpha(100)
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			FPS.Sleep(500)
+			Events.Poll()
+			if i==5
+				Music.Play("Music/scenario/panic stations.ogg")
+			end
+		end
+		MapText("CRYSTAL_REDALERT")
+		// ExHuRU makes his "entrance"
+		table deur={ { ["X"]=-4,["Y"]=0-math.random(5,10), ["R"]=math.random(360,400) },{ ["Y"]=-2,["X"]=math.random(4,10), ["R"]=math.random(360,400) } }
+		Map.SpawnXY("Android",336,328)
+		Map.SetObj("Android","Texture","GFX/Actors/Player/ExHuRU.North.jpbf")
+		bool klaar
+		ExD1x = 336
+		ExD1y = 320
+		ExD1rot = math.random(0,360)
+		ExD2x = 336
+		ExD2y = 320
+		ExD2rot = math.random(0,360)
+		int timeout = 100000
+		repeat
+			timeout--
+			Lua.assert(timeout>=0,"ExHuRU kick door time-out")
+			klaar = true
+			for i,d in ipairs(deur)
+				if d.X>0
+					d.X-=0.5
+				elseif d.X<0
+					d.X+=0.5
+				end
+				if d.Y<0
+					d.Y-=0.8
+				end
+				if d.R>0
+					d.R--
+				end
+				self["ExD"..i.."X"] += d.X
+				self["ExD"..i.."Y"] += d.Y
+				self["ExD"..i.."rot"] += d.R
+				ExD()
+				Graphics.Cls()
+				Map.DrawScreen()
+				Graphics.Flip()
+				Events.Poll()
+				klaar = klaar && d.R==0
+				CSayF("%05d:> Deur #%d (%d,%d), rotation %3d! Alter(%1.2f,%1.2f):%d",timeout,i,self["ExD"..i.."X"],self["ExD"..i.."Y"],self["ExD"..i.."rot"],d.X,d.Y,d.R)
+			end
+		until klaar
+		MapText("EXHURU_BREAK")
+		Map.ObjWalkTo("Android","NPC_Crystal")
+		MapText("EXHURU_CRYSTAL")
+		Map.SetObj("Android","Texture","GFX/Actors/Player/ExHuRU.South.jpbf")
+		MapText("EXHURU_COMEWITHME")
+		Crystal_StartARMS() // I forgot this in the original getup, and since this should be ingored later anyway (also due to the New Game+ and all) it's not real danger
+		Create_ExHuRU()
+		Map.Kill("NPC_Crystal",true)
+		Map.Kill("Android")
+		RPGParty[2] = "Crystal"
+		RPGParty[3] = "ExHuRU"
+		Situation = "Under_Attack"
+		MapMusic()
+		gv.gbool.Excalibur_Ellende_Begonnen = true
 	end
 	
 	void Update()
