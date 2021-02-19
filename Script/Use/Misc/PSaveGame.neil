@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 21.02.12
+// Version: 21.02.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -73,6 +73,7 @@ global void PerformSaveGame(string f)
 	SaveGame.Data["*PARTY"] = "YES"
 	GV.Save()
 	Map.SG()
+	Vault.Save()
 	MakeHeader()
 	SaveGame.Save()
 end
@@ -94,6 +95,12 @@ global bool PerformLoadGame(string f)
 		Flow.Load("FIELD","Script/Load/LoadField.neil")
 		CSay("Parsing Permakills")
 		State.Call("FLOW_FIELD","LGMap","nil")		
+		if SaveGame.HasData("VAULT.NEIL")
+			CSay("Loading vault data")
+			NeilDoString(SaveGame.Data["VAULT.NEIL"],"SG:Vault.Neil")
+		else
+			CSay("No vault data, hopefully everything's fine!")
+		end
 	//catch e
 	if false
 		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }
