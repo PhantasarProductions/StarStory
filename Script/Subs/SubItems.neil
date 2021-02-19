@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubItems.neil
-// Version: 20.10.17
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.19
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -39,6 +39,44 @@
 #use "Script/Data/IAA/MyData_ClassFile_IAA"
 
 table ItemData
+table InVault = {}
+
+global void StoreVault(string it,int amount)
+	it = it:upper()
+	Invault[it] = math.min(Caps.InventoryMaxVaultStack,(Invault[it] || 0) + amount)
+end
+
+global int GetVault(string it)
+	it = it:upper()
+	return InVault[it] || 0
+end
+
+global string VaultContents()
+	string ret = ""
+	for k,_ in spairs(InVault)
+		if ret!=""
+			ret += ";"
+		end
+		ret += k:upper()
+	end
+	//print("Returning: ",ret)
+	return ret
+end
+
+// Meant for savegames only
+global string VaultScript()
+	string ret = "Init\n\n\tVault.Reset()\n\n"
+	for k,v in spairs(InVault)
+		ret += sprintf("\tVault.Store(\"%s\",%d)\n",k,v)
+	end
+	ret += "\n\nend"
+	return ret
+end
+
+global void VaultReset()
+	Invault = {}
+end
+
 
 
 global var ItemBaseGet(string it,string key)

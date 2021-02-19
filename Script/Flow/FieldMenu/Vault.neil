@@ -1,0 +1,82 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FieldMenu/Vault.neil
+// Version: 21.02.19
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+module
+
+	readonly var fnt = ImageFont.Obtain("BOXTEXT")
+
+	void Flow(ubox)
+		static int ScrollY = 0
+		int y = 0
+		string Hover = ""
+		for i in Vault.Each
+			//print(Lua.type(i),i)
+			y += 25
+			if y>=25 && y<=ubox.h-50
+				if Events.MouseX()>ubox.x && Events.MouseY()>ubox.y+y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<ubox.y+y+25
+					Hover = i
+				end
+				Graphics.Color(0,180,255)
+				if Hover==i
+					Graphics.Color(0,255,255)
+				end
+				Fnt.Text(sprintf("%03d",Vault.Has(i)),ubox.x+25,ubox.y+y)
+				__white
+				Item["ITM_"..i].Icon.Draw(ubox.x+100,ubox.y+y+25)
+				Graphics.Color(255,180,0)
+				if Hover==i
+					Graphics.Color(255,255,0)
+				end
+				Fnt.Text(Item["ITM_"..i].Name,ubox.x+225,ubox.y+y)
+				__white
+			end
+		end
+		if Events.MouseHitLeft()
+			if itmod.citem!="" 
+				if Vault.Has(itmod.citem)<Caps.InventoryMaxVaultStack && Events.MouseX()>ubox.x && Events.MouseY()>ubox.y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<ubox.y+ubox.w
+					Vault.Store(itmod.citem)
+					itmod.citem=""
+				end
+			elseif Hover!="" 				
+				if Vault.Has(Hover)>0
+					Vault.Remove(Hover)
+					itmod.citem=Hover
+				end
+			end
+		end
+	end
+	
+end
