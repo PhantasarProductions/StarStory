@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.02.15
+// Version: 21.02.19
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,6 +49,14 @@ class Combat_Foe extends Combat_Fighter
 	readonly var RawData
 	readonly int Level
 	
+	get int MaxIdx
+		int ret
+		for _,v in pairs(self.Fighters)
+			if v.Team=="Foe"
+				ret = math.max(ret,v.Idx)
+			end
+		return ret
+	end
 	get bool Available
 		// TODO: Automatically turn unavailable if an enemy is either dead or removed from battle
 		if self.HP<=0 && self.scale<=0
@@ -89,16 +97,18 @@ class Combat_Foe extends Combat_Fighter
 		end
 		return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 	end
+	var _Img
 	get var Img
-		static var _Img
+		
 		if !_Img
+			CSayF("Loading '%s' to image tag 'COMBAT_%s'",ImgFile,Tag)
 			_Img = Image.Load(ImgFile,"COMBAT_"..Tag)
 			_Img.HotBottomCenter()
 		end
 		return _Img
 	end
-	get var NegImg
-		static var _NegImg
+	var _NegImg
+	get var NegImg		
 		if !_NegImg
 			//_NegImg = Image.Negative(Img)
 			_NegImg = Image.Load(Replace(ImgFile:upper(),".PNG",".NEGATIVE.PNG"),"COMBAT_"..Tag.."_NEG")
@@ -299,9 +309,9 @@ class Combat_Foe extends Combat_Fighter
 				loopwhile self.Fighters["FOE_"..i]
 				Lua.assert(i>0,"No targetable for foe to do AF-move!")
 				int TimeOut=10000
-				int n				
+				int n 			
 				repeat
-					n = math.random(1,n)
+					n = math.random(1,MaxIdx)
 					TimeOut--
 					Lua.assert(TimeOut>0,"Foe picking foe timeout!")
 				until self.Fighters["FOE_"..n].Targetable_Foe
@@ -315,8 +325,8 @@ class Combat_Foe extends Combat_Fighter
 				while self.Fighters["FOE_"..i]
 					var F = self.Fighters["FOE_"..i]
 					if F.Targetable_Foe
-						A.Targets += F.Tag
-						A.Targets[#A.Targets+1]=nil
+						A.Targets_Tag += F.Tag
+						A.Targets_Tag[#A.Targets+1]=nil
 						i++
 					end
 				end
