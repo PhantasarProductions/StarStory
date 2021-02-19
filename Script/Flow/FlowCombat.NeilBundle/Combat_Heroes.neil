@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.19
+// Version: 21.02.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,9 +56,9 @@ class Combat_Hero extends Combat_Fighter
 		static int time = 62		
 		switch Act.Act.ABL_Pose
 			case "Attack"
-				int s = 2
+				int s = 1
 				if time<resettime div 2
-					s = 1
+					s = 2
 				end
 				State = "Attack." .. s
 			case "Case"
