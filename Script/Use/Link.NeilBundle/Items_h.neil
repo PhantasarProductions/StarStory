@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.02.09
+// Version: 21.02.19
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,12 +35,17 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 table TrueItem
+
+void LdItems()
+	State.LoadNew("SUB_ITEMS","Script/Subs/SubItems.neil")
+end
+
 void MkTrueItem(string it)
 	it = it:upper()
 	if TrueItem[it]
 		return
 	end
-	State.LoadNew("SUB_ITEMS","Script/Subs/SubItems.neil")
+	LdItems()
 	table m
 	m.__index = var(s,string k)
 		k = k:upper()
@@ -90,4 +95,49 @@ quickmeta Item
 		return TrueItem[key:upper()]
 	end
 
+end
+
+group Vault
+	void Store(string TItem,int amm=1)
+		LdItems()
+		State.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,amm))
+	end
+	void Remove(string TItem,int amm=1)
+		LdItems()
+		State.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,0-amm))
+	end
+	int Has(string key)
+		LdItems()
+		return ISGET.Int("SUB_ITEMS",sprintf("GetVault(\"%s\")",key))
+	end
+	get table Contents
+		LdItems()
+		string c = ISGet.String("SUB_ITEMS","VaultContents()") 
+		//print("Contents received:",c)
+		return Split(c,";")
+	end
+	get delegate Each
+		int i=0
+		table c = Contents		
+		var Ret()
+			i++
+			if i>#c 
+				return nil
+			end
+			return c[i]
+		end
+		return Ret
+	end
+	get string Script
+		LdItems()
+		return ISGet.String("SUB_ITEMS","VaultScript()") 
+	end
+	void Save()
+		LdItems()
+		SaveGame.Data["Vault.neil"] = Script
+	end
+	void Reset()
+		LdItems()
+		State.Call("SUB_ITEMS","VaultReset","nil")
+	end
 end
