@@ -63,12 +63,12 @@ module
 	
 	CONSTRUCTOR
 		 Abilities[  30] = "YKSI"
-         Abilities[  60] = "KAKSI",
-         Abilities[ 120] = "BATTLECRY",
-         Abilities[ 240] = "KOLME",
-         Abilities[ 480] = "STOMP",
-         Abilities[ 960] = "NELJA",
-         Abilities[1920] = "KUUSI",
+         Abilities[  60] = "KAKSI"
+         Abilities[ 120] = "BATTLECRY"
+         Abilities[ 240] = "KOLME"
+         Abilities[ 480] = "STOMP"
+         Abilities[ 960] = "NELJA"
+         Abilities[1920] = "KUUSI"
          Abilities[3840] = "CONCENTRATE"
 	end
 	
