@@ -1,0 +1,86 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Excalibur - UnderAttack.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.02.19
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.02.19"
+#MKL_Lic     "Star Story - Excalibur - UnderAttack.neil" "Phantasar Closed License"
+
+#macro StartCyborgsDead gv.gbool.Excalibur_StartCyborgsDead
+
+group MScript
+	
+	get int Cycle
+		return Caps.Cycle
+	end
+
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	void Start()
+		Map.SpawnPlayer("Start")
+		Player.Wind="South"
+		if !StartCyborgsDead
+			MapText("WELCOME")
+			Schedule.Add("Killed_StartCyborgs")
+			StartCombat.Prepare()
+			StartCombat.Foe("Reg/Cyborg Medic",math.min(10000,math.random(__skill+3,(4*__skill)+1))+((Cycle-1)*100))
+			StartCombat.Foe("Reg/Cyborg Captain",math.min(10000,math.random(__skill+5,(6*__skill)+2)+((Cycle-1)*100)))
+			StartCombat.Foe("Reg/Cyborg Gunner",math.min(10000,math.random(__skill+3,(4*__skill)+1))+((Cycle-1)*100))
+			StartCombat.Tune = StartCombat.RandomTune
+			StartCombat.Boss = false
+			StartCombat.Arena = "Excalibur.png"	
+			StartCombat.Begin()			
+		end
+	end
+	
+	Void Killed_StartCyborgs()
+		MapText("MORGUE")
+		StartCyborgsDead = true
+	end
+		
+	
+	CONSTRUCTOR
+	end
+
+end

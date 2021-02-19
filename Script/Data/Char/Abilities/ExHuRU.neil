@@ -1,8 +1,8 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/CharacterResistance/Crystal.Neil
-// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
+// src/Tricky Script/Script/Data/Char/Abilities/ExHuRU.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -34,31 +34,42 @@
 // 
 // version: 21.02.19
 // End License Information
-init
-	//if RPGChar.Has("Crystal")
-	//	CSayF("Crystal should already have been set!")
-	//	return
-	//end
-	var p = RPGChar.UniCrystal.Stat
-	CSay("Crystal Elements")
-	p.ER_Dark = 3 
-	p.ER_Earth = 3
-	p.ER_Fire = 3 
-	p.ER_Frost = 3
-	p.ER_Healing = 6 
-	p.ER_Light = 3 
-	p.ER_Lightning = 3
-	p.ER_Water = 3
-	p.ER_Wind = 3 
+module
+
+	table Abilities
+	get Int Kills
+		return gv.Int.ERJ_Kills
+	end
 	
-	CSay("Crystal Status resistance")
-	p.SR_BASE_Block = 10 
-	p.SR_BASE_Buff = 0
-	p.SR_BASE_Damned = 10
-	p.SR_BASE_Death = 32
-	p.SR_BASE_Debuff = 0
-	p.SR_BASE_Disease = 20
-	p.SR_BASE_Paralysis = 25
-	p.SR_BASE_Poison = 30  
-	p.SR_BASE_Will = 20
+	string ShowNeed(string chtag)
+		int need = 40000
+		for i,a in pairs(Abilities)
+			if !RPGChar[chtag].List.ABL.Has(a)
+				need = math.min(need,i)
+			end
+		end
+		if need==40000
+			return ""
+		end
+		if need<=0
+			return "Attack any enemy"
+		end
+		if need==1
+			return "One more kill with "..chtag.." up front"
+		end
+		return sprintf("Make %d kills with %s up front",need,chtag)
+	end
+	
+	
+	CONSTRUCTOR
+		 Abilities[  30] = "YKSI"
+         Abilities[  60] = "KAKSI",
+         Abilities[ 120] = "BATTLECRY",
+         Abilities[ 240] = "KOLME",
+         Abilities[ 480] = "STOMP",
+         Abilities[ 960] = "NELJA",
+         Abilities[1920] = "KUUSI",
+         Abilities[3840] = "CONCENTRATE"
+	end
+	
 end

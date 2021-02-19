@@ -382,7 +382,7 @@ group MScript
 	void Vertrek()
 		switch Situation
 			case "Under_Attack"
-				Map.Load("Excalibur - Under Attack")
+				Map.Load("Excalibur - UnderAttack")
 				Schedule.Add("Start")
 			case "Final"
 				Lua.error("Exit during final mission not yet scripted!")
