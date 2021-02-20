@@ -329,16 +329,17 @@ class Combat_Foe extends Combat_Fighter
 				for j=1,6
 					A.Targets_Tag[j] = nil
 				end				
-				int i=0
+				//int i=0
 				int TimeOut=1000
-				while self.Fighters["FOE_"..i]
+				//while self.Fighters["FOE_"..i]
+				for t,f in pairs(self.Fighters)
 					Lua.assert(TimeOut>=0,"AA Target TimeOut!")
 					TimeOut--
-					var F = self.Fighters["FOE_"..i]
-					if F.Targetable_Foe
-						A.Targets_Tag += F.Tag
-						A.Targets_Tag[#A.Targets+1]=nil
-						i++
+					//var F = self.Fighters["FOE_"..i]
+					if F.Team=="Foe" && F.Targetable_Foe 
+						A.Targets_Tag[#A.Targets_Tag+1] = F.Tag
+						A.Targets_Tag[#A.Targets_Tag+1]=nil
+						//i++
 					end
 				end
 				Lua.assert(#A.Targets_Tag>0,"No targetable for foe to do AA-move!")
@@ -348,7 +349,7 @@ class Combat_Foe extends Combat_Fighter
 				end				
 				for t,f in pairs(self.Fighters)
 					if f.Targetable_Foe
-						A.Targets_Tag += t
+						A.Targets_Tag[#A.Targets_Tag+1] = t
 						A.Targets_Tag[#A.Targets_Tag+1]=nil
 					end
 				end
