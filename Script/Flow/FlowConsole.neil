@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 20.09.17
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.20
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -296,6 +296,10 @@ deftable icommandtable
 	HOUDOE = Bye
 	FPS = void()
 		Cline.Write(FPS.S,255,180,100)
+	end
+	LEAVEMEBE = void()
+		gv.gBool.LeaveMeBe = !gv.gBool.LeaveMeBe
+		CSayF("Leave me be: %s",Lua.tostring(gv.GBool.LeaveMeBe))
 	end
 	VARS = ShowGV
 	STATLIST = void(table chrs)

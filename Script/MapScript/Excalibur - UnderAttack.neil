@@ -117,12 +117,57 @@ group MScript
 		MapText("TRANSPORTERFIRST."..(Map.Leader:upper()))
 	end
 	
+	Void Secret()
+		Map.Leader = "Wendicka"
+		Map.Spawn("Crystal","PLAYER")
+		Map.Spawn("ExHuRU","PLAYER")
+		Map.SetObj("Crystal","Texture","GFX/Actors/Player/Crystal.North.jpbf")
+		Map.SetObj("ExHuRU","Texture","GFX/Actors/Player/ExHuRU.North.jpbf")
+		Player.WalkTo("Secret_Wendicka")
+		for i=1,100
+			if i==30
+				Map.ObjWalkTo("Crystal","Secret_Crystal")
+			elseif i==60
+				Map.ObjWalkTo("ExHuRU","Secret_ExHuRU")
+			end
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip(25)
+		end
+		MapText("SECRET")
+		for i=0,40
+			Map.SetObj("Geheim_Links" ,"X",3008-i)
+			Map.SetObj("Geheim_Rechts","X",3040+i)
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip(25)
+		end
+		Map.Remap()
+		MapText("SECRET.2")
+		for a in each { "PLAYER","Crystal", "ExHuRU" }
+			Map.ObjWalkTo(a,"EnWeg")
+		end
+		for i=100,0,-1
+			if i<40
+				Map.SetObj("Geheim_Links" ,"X",3008-i)
+				Map.SetObj("Geheim_Rechts","X",3040+i)
+			end
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip(25)
+		end
+		Map.Load("Excalibur - SecretPassage")
+		Schedule.Add("Start")
+	end
+	
 	CONSTRUCTOR
 		ZA.Enter("Go Home","GoHome")
 		ZA.Enter("BrokenTransporter","BrokenTransporter")
 		ZA.Enter("Guinevere","Guinevere")
 		ZA.Enter("Lancelot","Lancelot")		
 		ZA.Enter("Check_Transporter_First","CheckTransporterFirst")
+		ZA.Enter("Transporter_Gawain","Secret")
 	end
 
 end
