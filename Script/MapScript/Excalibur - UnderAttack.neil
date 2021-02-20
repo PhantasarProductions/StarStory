@@ -41,6 +41,7 @@
 #MKL_Lic     "Star Story - Excalibur - UnderAttack.neil" "Phantasar Closed License"
 
 #macro StartCyborgsDead gv.gbool.Excalibur_StartCyborgsDead
+#macro ShowAll gv.gbool.Excalibur_Broken_Transporter_Tried
 
 group MScript
 	
@@ -57,7 +58,15 @@ group MScript
 	void Load()
 	end
 	
+	void What2Show()
+		if !ShowAll
+			Map.HideButLabel("Galahad")
+		end
+		Map.ShowButLabel("TroepDieTochNietBestaat")
+	end
+	
 	void Start()
+		What2Show()
 		Map.SpawnPlayer("Start")
 		Player.Wind="South"
 		if !StartCyborgsDead
@@ -74,6 +83,11 @@ group MScript
 		end
 	end
 	
+	void GoHome()
+		Map.Load("Excalibur - Home")
+		Schedule.Add("Binnenkomst")
+	end
+	
 	Void Killed_StartCyborgs()
 		for i=1,3
 			Map.Kill("Cyborg"..i,true)
@@ -81,9 +95,34 @@ group MScript
 		MapText("MORGUE")
 		StartCyborgsDead = true
 	end
+	
+	Void BrokenTransporter()
+		Map.Kill("BrokenTransporter",true)
+		Map.Kill("Block4Transporter",true)
+		Map.Kill("Check_Transporter_First",true)
+		MapText("NoTransport")
+		ShowAll=true
+		What2Show()
+	End
 		
+	Void Guinevere()
+		MapText("GUINEVERE."..(Map.Leader:upper()))
+	end
+
+	Void Lancelot()
+		MapText("LANCELOT."..(Map.Leader:upper()))
+	end
+
+	Void CheckTransporterFirst()
+		MapText("TRANSPORTERFIRST."..(Map.Leader:upper()))
+	end
 	
 	CONSTRUCTOR
+		ZA.Enter("Go Home","GoHome")
+		ZA.Enter("BrokenTransporter","BrokenTransporter")
+		ZA.Enter("Guinevere","Guinevere")
+		ZA.Enter("Lancelot","Lancelot")		
+		ZA.Enter("Check_Transporter_First","CheckTransporterFirst")
 	end
 
 end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.02.16
+// Version: 21.02.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,10 +70,11 @@ global void PartyClick(int i,string ch)
 		case 1
 			CSay("Going to Field Menu!")
 			FieldMenu.Go(ch,"FIELD")
-		case 2
+		case 2 3
 			if gvStr.LoadedMap=="Prologue_Yaqirpa"
 				CSay("Switching leader NOT allowed in the Yaqirpa during the prologue")
 			end
+			Map.Leader = ch
 		default
 			CSayF("PartyClick:I don't understand mouse button: %d",i)
 	end

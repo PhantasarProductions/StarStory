@@ -175,6 +175,10 @@ class Combat_Foe extends Combat_Fighter
 		end
 	end
 	
+	get int Shilders
+		return self.RawData.Shilderse
+	end
+	
 	bool _killedcheck = false
 	void CheckKilled()
 		static int maxfactor = 350
@@ -187,6 +191,10 @@ class Combat_Foe extends Combat_Fighter
 			_killedcheck=true
 			Killed[self.File]++
 			gv.vInt["COMBATSTAT.KILLS"]++
+			if math.random(0,Self.Stats.Level)>math.random(0,Party.AvgLevel*__skill) and (not Shilders<=0)
+				__aurinas++
+				self.Hurt("Dropped Aurina",255, 180, 0)
+			end
 			scale = scale * 1.25
 			// TODO: Kill count for ExHuRU, Rolf and Johnson
 			// Experience

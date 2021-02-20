@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Party.Neil
-// Version: 21.02.18
+// Version: 21.02.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,12 +54,25 @@ module
 		// It will look to what the flow in question had in mind for that 
 		// action... it it has any at all.
 		//CSayF("Clicked with button %d on character %s",i,char)
+		//CSay(sprintf("Party.CallBack(%d,\"%s\")",i,char))
 		if GlobalExists("PartyClick")
 			// I had to bypass the identifier checker. Normally I wouldn't do this :)
 			Lua.Neil.Globals.PartyClick(i,char)
 		// else
 		//CSayF("No PartyClick found!")
 		end
+	end
+	
+	get Int AvgLevel
+		int tl
+		int nc
+		for i=1,6
+			if RPGParty[i] && RPGParty[i]!=""
+				nc++
+				tl+=RPGChar[RPGParty[i]].Stat.Level
+			end
+		end
+		return tl div nc
 	end
 
 	void Boxes(char)
