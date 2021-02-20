@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 21.02.06
+// Version: 21.02.20
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,6 +46,9 @@ module
 		if prefixed(Start.Arena,"SCRIPT:")
 			error("Scripted arena's not yet supported!")
 			return nil;
+		end
+		if !suffixed(Start.Arena:upper(),".PNG")
+			Start.Arena += ".png"
 		end
 		return Image.Load("GFX/Combat/Arena/"..Start.Arena,"ARENA")
 	end

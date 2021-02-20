@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldScedule.neil
-// Version: 21.02.15
+// Version: 21.02.21
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 #use "libs/LinkedList"
+#use "script/use/misc/minimessage"
 
 group GrSchedule
 
@@ -66,6 +67,10 @@ group GrSchedule
 			if prefixed(s,"LOAD:")
 				// This basically repeats the request, but now from the field flow, so that's safe! (I hope)
 				Map.Load(right(s,#s-5))
+			elseif prefixed(s,"MSG:")
+				MiniMessage.NewMsg(right(s,#s-4),255,180,0)
+			elseif prefixed(s,"SPAWN:")
+				Map.SpawnPlayer(right(s,#s-6))
 			else 
 				Map.Script(s,"nil")
 			end

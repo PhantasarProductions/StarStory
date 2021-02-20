@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Data/Char/Abilities/Wendicka.neil
-// (c) Jeroen Broks, 2020, All Rights Reserved.
+// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 20.10.22
+// version: 21.02.20
 // End License Information
 module
 
@@ -53,6 +53,9 @@ module
 			return ""
 		end
 		int need = m - ablused.Wendicka
+		if need<1
+			return "Make Wendicka learn a new ability by attacking any enemy"
+		end
 		if need<2
 			return "Wendicka needs to perform 1 more ability before she will learn a new one"
 		end
