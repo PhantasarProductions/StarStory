@@ -50,14 +50,30 @@ global void DrawScreen(noauto)
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 
+void GStat(string g,resetme)
+	static var fnt = ImageFont.Obtain("SYSFONT")
+	static int y
+	static int b = 0
+	if resetme
+		y = Screen.H - 128
+		b = 0
+	else
+		b = (b + 5) % 256
+	end
+	Graphics.Color(255-b,180,b)
+	fnt.Text(g,Screen.W-20,y,1,0)
+	y -= 30
+	__white
+end
+
 global void FullDrawScreen(noauto)
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
 	DrawScreen(noauto)
 	Party.Boxes()
 	if !TMM.Draw()
 		// General statistics
-		
-		// TODO: Actual code!
+		GStat("Time",true) // Always first!
+		GStat(sprintf("Aurinas: %d",__aurinas))
 	end
 end
 
