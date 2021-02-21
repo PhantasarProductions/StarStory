@@ -43,7 +43,7 @@
 group MScript
 
 	Void Arrival()
-		for c in each {"PLAYER","Crystal","ExHuRU" }
+		for c in each { "PLAYER","Crystal","ExHuRU" }
 			string Tex = c
 			if c=="PLAYER"
 				Map.SpawnPlayer("Start_Wendicka")
@@ -54,8 +54,14 @@ group MScript
 			Map.SetObj(c,"Texture","GFX/Actors/Player/"..Tex..".East.jpbf")
 		end
 		MapText("START")
-		for c in each {"Crystal","ExHuRU" }
+		for c in each { "Crystal","ExHuRU" }
 			Map.Kill(c)
+		end
+	end
+	
+	Void TutorPad()
+		if not Done.Tutorial_TransporterPads
+			MapText("TUT_PAD")
 		end
 	end
 
@@ -67,7 +73,9 @@ group MScript
 	
 	void Load()
 	end
+	
 	CONSTRUCTOR
+		ZA.Enter("Pad_Tutorial","TutorPad")
 	end
 
 end
