@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.02.20
+// Version: 21.02.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -246,6 +246,10 @@ group Link_Map
 	end
 	get int CamY
 		return ISGET.Int("FLOW_FIELD","FLDMap.ScrollY")
+	end
+	
+	string GetObjData(string tag,string dkey)
+		return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\").Data[\""..dkey.."\"]")
 	end
 
 	
