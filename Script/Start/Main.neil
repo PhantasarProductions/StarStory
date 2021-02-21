@@ -129,6 +129,7 @@ init
 		Graphics.Rect(0,Screen.H-50,math.floor( (i/m) * Screen.W ),50)
 		Graphics.Color(255,255,255)
 		Graphics.Flip()
+		Events.Poll()
 		printf("%5d/%5d: Loading ",i,m)
 		switch LA.what
 			case wh_Image
