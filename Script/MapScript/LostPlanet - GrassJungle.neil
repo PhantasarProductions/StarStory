@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Grass Jungle.neil
+// src/Tricky Script/Script/MapScript/LostPlanet - GrassJungle.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.02.21
+// version: 21.02.22
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Grass Jungle.neil" "21.02.21"
-#MKL_Lic     "Star Story - LostPlanet - Grass Jungle.neil" "Phantasar Closed License"
+#MKL_Version "Star Story - LostPlanet - GrassJungle.neil" "21.02.22"
+#MKL_Lic     "Star Story - LostPlanet - GrassJungle.neil" "Phantasar Closed License"
 
 group MScript
 
