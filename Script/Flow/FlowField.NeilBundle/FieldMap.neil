@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.02.18
+// Version: 21.02.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,11 +35,12 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-#MKL_Version "Star Story - FieldMap.neil" "21.02.18"
+#MKL_Version "Star Story - FieldMap.neil" "21.02.22"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
 class Clickable
+	static var CTrans
 	static readonly var List = new TLinkedList()
 	static readonly var Buzz = Audio.Obtain("BUZZ")
 	static int sid = 0
@@ -145,6 +146,15 @@ class Clickable
 					var fuck = Spot(Lay,T)
 					Create(T,L,fuck[1],fuck[2],MapScript[T],T)
 					CSayF("NPC: %s",T)
+				elseif prefixed(T,"Trans.Pad")
+					string Spot = Right(T,#T-10)
+					var TO = Lay.Obj(T)
+					var TS = Lay.Obj("Trans.Spot."..Spot)
+					Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
+					if !CTrans.Activated[spot]
+						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
+					end
+					CSayF("Transporter Pad: %s",Spot)
 				elseif Prefixed(T,"Item ")
 					CSayF("Item: %s",T)
 					if math.random(1,(__skill+1)^2)!=1
@@ -204,6 +214,7 @@ group FldMap
 	delegate ArriveFunc = nil
 	string ArriveParam = ""
 	delegate ScanFoes = nil
+	delegate ScanTrans = nil
 	
 	// This property is only meant for the auto clickable generator
 	// Generating random items
