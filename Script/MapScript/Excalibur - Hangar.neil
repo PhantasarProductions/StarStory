@@ -50,7 +50,82 @@ group MScript
 	
 	void Load()
 	end
+	
+	Void Event()
+		// Welcome
+		Map.HideByLabel("Space")
+		Map.Spawn("Cyborg","PLAYER")
+		Map.Spawn("Android","PLAYER")
+		Map.Leader = "Wendicka"
+		for k,v in pairs { ["PLAYER"]="Wendicka",["Cyborg"]="Crystal",["Android"]="ExHuRU" }
+			Map.SetObj(k,"Texture","GFX/Actors/Player/"..v..".North.jpbf")
+			Map.ObjWalkTo(k,v)
+		end
+		MapText("ESCAPE")
+		// Fly away
+		for k in each { "PLAYER","Cyborg","Android" }
+			Map.ObjWalkTo(k,"ShipSpot")
+		end
+		for i=32,-80,-1
+			FPS.WaitMinTicks()
+			Graphics.Cls()
+			Map.SetObj("BayDoor","Y",i)
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+		end
+		for k in each { "PLAYER","Cyborg","Android" }
+			Map.SetObj(k,"Dominance",0)
+		end
+		Map.Remap()
+		for i=480,0,-1
+			FPS.WaitMinTicks()
+			Graphics.Cls()
+			Map.SetObj("EscapePod","Y",i)
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+		end
+		for i=-80,32
+			FPS.WaitMinTicks()
+			Graphics.Cls()
+			Map.SetObj("BayDoor","Y",i)
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+		end
+		// Travel through space
+		Ach.Award("SCENARIO_ESCAPEEXCALIBUR")
+		Map.HideButLabel("Space")
+		Map.SetObj("Space","X",Map.CamX)
+		Map.SetObj("Space","Y",Map.CamY)
+		Map.SetObj("Space","W",Screen.W)
+		Map.SetObj("Space","H",Screen.H)
+		for i=Map.CamY+Screen.H+200,Map.CamY+(Screen.H div 2),-1
+			FPS.WaitMinTicks()
+			Graphics.Cls()
+			Map.SetObj("PodInSpace","Y",i)
+			Map.SetObj("PodInSpace","X",Map.CamX+(Screen.W div 2))
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+		end
+		MapText("SPACE")
+		for i=Map.CamY+(Screen.H div 2),Map.CamY-100,-1
+			FPS.WaitMinTicks()
+			Graphics.Cls()
+			Map.SetObj("PodInSpace","Y",i)
+			Map.SetObj("PodInSpace","X",Map.CamX+(Screen.W div 2))
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+		end
+		Map.Load("LostPlanet - GrassJungle")
+		Schedule.Add("Arrival")
+	end
+	
 	CONSTRUCTOR
+		ZA.Enter("Event","Event")
 	end
 
 end
