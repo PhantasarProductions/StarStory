@@ -73,6 +73,10 @@ global void FullDrawScreen(noauto)
 	if !TMM.Draw()
 		// General statistics
 		GStat("Time",true) // Always first!
+		GStat(FldMap.KthuraMap.Meta.Title)
+		if Prefixed(FldMap.Layer,"#")
+			GStat("Area: "..FldMap.Layer)
+		end
 		GStat(sprintf("Aurinas: %d",__aurinas))
 	end
 end
