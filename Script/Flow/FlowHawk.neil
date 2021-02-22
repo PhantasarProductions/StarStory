@@ -1,0 +1,46 @@
+class HData
+	string Name
+	string Map
+	string Layer
+	string Spot
+	Constructor(string N,M,L,S)
+		Name  = N
+		Map   = M
+		Layer = L
+		Spot  = S
+	end
+end
+
+group flHawk
+	
+	table HawkData = {}
+	
+	void Save()
+		string ret = "Init\n\tflHawk.HawkData = {}\n\n"
+		
+		for world,wlist in spairs(HawkData)
+			ret += sprintf("\tflHawk.HawkData[\"%s\"] = {}\n",World)
+			for node,nd in spairs(wlist)
+				ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
+			end
+			ret += "end"
+		end
+		SaveGame.Data["Hawk.neil"] = ret
+	end
+	
+	void Load()
+		if SaveGame.HasData("Hawk.neil")
+			NeilDoString(SaveGame.Data["Hawk.neil"])
+		else
+			HawkData = {}
+		end
+	end
+	
+	void Add(string spot,string World,string N,string M,string L)
+		string node = sprintf("%s.%s.%s",M,L,spot)
+		HawkData[World] = HawkData[World] or {}
+		HawkData[World][node] = new HData(N,M,L,spot)
+	end
+			
+
+end

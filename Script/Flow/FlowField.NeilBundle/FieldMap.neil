@@ -471,6 +471,11 @@ group FldMap
 		return ret
 	end
 	
+	void StopWalking()
+		CurLayer.Obj("PLAYER").StopWalking()
+		ArriveFunc = nil
+	end
+	
 	CONSTRUCTOR
 		CSay("FieldMap loaded!")
 	end

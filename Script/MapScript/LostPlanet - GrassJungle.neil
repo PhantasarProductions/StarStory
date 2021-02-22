@@ -61,7 +61,15 @@ group MScript
 	
 	Void TutorPad()
 		if not Done.Tutorial_TransporterPads
+			CSay("OP DE PLAATS, RUST!")
+			Player.StopWalking()
+			CSay("To the transporter! NOW!")
+			Player.WalkTo("Trans.Spot.GRASSJUNGLE_CRASH")
+			CSay("Explain!")
 			MapText("TUT_PAD")
+			CSay("Activate!")
+			Map.ActTrans("GRASSJUNGLE_CRASH")
+			CSay("Done!")
 		end
 	end
 

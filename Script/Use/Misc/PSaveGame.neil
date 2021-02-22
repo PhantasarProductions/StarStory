@@ -74,7 +74,8 @@ global void PerformSaveGame(string f)
 	GV.Save()
 	Map.SG()
 	Vault.Save()
-	Ach.Load()
+	Ach.Save()
+	Hawk.Save()
 	MakeHeader()
 	SaveGame.Save()	
 end
@@ -103,6 +104,7 @@ global bool PerformLoadGame(string f)
 			CSay("No vault data, hopefully everything's fine!")
 		end
 		Ach.Load()
+		Hawk.Load()
 	//catch e
 	if false
 		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }

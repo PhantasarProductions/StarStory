@@ -102,6 +102,9 @@ group Link_Map
 		Print("= Going to Layer: "..value)
 		Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
 	end
+	get string Layer
+		return ISGET.String("FLOW_FIELD","FldMap.Layer")
+	end
 		
 	void Spawn(string actor,string spot)
 		CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
@@ -237,6 +240,7 @@ group Link_Map
 		MCall("FldMap.ObjWalkTo",tag,a,b)
 	end
 	
+	
 	void DrawScreen()
 		MCall("DrawScreen","nil")
 	end
@@ -251,7 +255,19 @@ group Link_Map
 	string GetObjData(string tag,string dkey)
 		return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\").Data[\""..dkey.."\"]")
 	end
+	
+	void ActTrans(string spot)
+		MCall("Trans.Activate",spot)
+	end
 
+	get string LoadedMap
+		return ISGET.String("FLOW_FIELD","FldMap.LoadedMap")
+	end
+	
+	void PlayerStopWalking()
+		Cout("Stop walking!\b")
+		MCall("FLDMap.StopWalking","nil")
+	end
 	
 	CONSTRUCTOR
 		table m
@@ -313,6 +329,9 @@ quickmeta Player
 					Link_Map.ObjWalkTo("PLAYER",a,b)
 				end
 				return W
+			case "STOPWALKING"
+				Cout("Player must stop walking! ("..Lua.type(Link_Map.PlayerStopWalking).."/"..Lua.tostring(Link_Map.PlayerStopWalking)..")\n")
+				return Link_Map.PlayerStopWalking
 			case "DISTANCE"
 				return PlayerDistance
 			case "INRANGE"

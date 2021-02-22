@@ -1,0 +1,22 @@
+void LHawk()
+	State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
+end
+
+module
+	
+	void Add(string spot,string World,string N,string M,string L)
+		LHawk()
+		State.Call("FLOW_HAWK","FlHawk.Add",sprintf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",spot,World,N,M,L))
+	end
+	
+	void Save()
+		LHawk()
+		State.Call("FLOW_HAWK","FlHawk.Save","nil")
+	end
+
+	void Load()
+		LHawk()
+		State.Call("FLOW_HAWK","FlHawk.Save","nil")
+	end
+
+end

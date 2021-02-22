@@ -49,6 +49,14 @@ group Trans
 		return Map.GetObjData(tspot(spot),"TYPE")
 	end
 	
+	string tname(string spot)
+		return Map.GetObjData(tspot(spot),"LOCATION")
+	end
+
+	string tworld(string spot)
+		return Map.GetObjData(tspot(spot),"WORLD")
+	end
+	
 	void Go(string spot)	
 		CSayF("Go for transpad: %s",spot)
 		int px = Map.ObjInt(tspot(spot),"X")
@@ -65,16 +73,24 @@ group Trans
 		CSay("= Spot activated")
 	end
 	
+	void Activate(string spot)
+		Activated[spot]=true
+		CSay("= Spot activated by manual activation (script?)")
+	end
+	
 	Constructor
 		bool AIndex(s,string key)
 			return gv.gBool[sprintf("TRANS.ACTIVATED.%s",key)]
 		end
 		void ANewIndex(s,string key,bool value)
 			bool old = AIndex(s,key)
-			gv.gBool[sprintf("TRANS.ACTIVATED.%s",key)] = value
-			//TODO: Hawk addition if applicable
+			gv.gBool[sprintf("TRANS.ACTIVATED.%s",key)] = value			
 			if !old
 				Map.SetObj(tpad(key),"Texture","GFX/Textures/Teleporter Pad/"..ttype(key)..".png")
+				if ttype(key):upper()=="GENERAL"
+					Hawk.Add(key,tworld(key),tname(key),Map.LoadedMap,Map.Layer)
+					CSay("Added to location list in Hawk")
+				end
 			end
 		end
 		Activated = Lua.setmetatable({},{["__index"]=AIndex,["__newindex"]=ANewIndex})
