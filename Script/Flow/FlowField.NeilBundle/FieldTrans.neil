@@ -57,6 +57,67 @@ group Trans
 		return Map.GetObjData(tspot(spot),"WORLD")
 	end
 	
+	ReadOnly Table GenMenu = { "Beam","Recover & Save","Cancel" }
+	get bool AllowBeam
+		return gv.gBool.AllowBeam
+	end
+	
+	void Beam()
+		Lua.error("Beaming not yet supported!")
+	end
+	
+	void Recover()
+		Party.Recover()
+	end
+	
+	void Save()
+		MSave.ToSave()
+	end
+	
+	void PadGeneral()
+		static var Fnt = ImageFont.Obtain("BOXTEXT")
+		static var Pnt = Image.Obtain("MOUSE")
+		int CX = Screen.W div 2
+		Repeat
+			int Y = 50		
+			Events.Poll()
+			int MX = Events.MouseX()
+			int MY = Events.MouseY()
+			Graphics.Cls()
+			Graphics.Color(0,180,255)
+			Fnt.Text("What do you want to do?",CX,25,2,2)
+			for i,item in ipairs(GenMenu)
+				if i!=1 || AllowBeam
+					y+=25
+					if MY>=y && MY<y+25
+						Graphics.Color(255,255,0)
+						if Events.MouseHitLeft()
+							Switch i
+								case 1
+									Beam()
+									return
+								case 2
+									Recover()
+									Save()
+									return
+								case 3
+									return
+								default
+									Lua.error("??? What menu item is that?")
+							end
+						end
+					else
+						Graphics.Color(255,180,0)
+					end
+					Fnt.Text(Item,CX,Y,2,0)
+				end
+			end
+			Pnt.Draw(MX,MY)
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+		Forever
+	end
+	
 	void Go(string spot)	
 		CSayF("Go for transpad: %s",spot)
 		int px = Map.ObjInt(tspot(spot),"X")
@@ -71,6 +132,8 @@ group Trans
 		end
 		Activated[spot]=true
 		CSay("= Spot activated")
+		CSay("= Specific action")
+		Self["Pad"..ttype(spot)]()
 	end
 	
 	void Activate(string spot)
@@ -94,6 +157,7 @@ group Trans
 			end
 		end
 		Activated = Lua.setmetatable({},{["__index"]=AIndex,["__newindex"]=ANewIndex})
+		
 	end
 
 end
