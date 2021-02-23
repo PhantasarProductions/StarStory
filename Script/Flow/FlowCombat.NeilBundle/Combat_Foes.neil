@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.02.20
+// Version: 21.02.23
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -191,7 +191,7 @@ class Combat_Foe extends Combat_Fighter
 			_killedcheck=true
 			Killed[self.File]++
 			gv.vInt["COMBATSTAT.KILLS"]++
-			if math.random(0,Self.Stats.Level)>math.random(0,Party.AvgLevel*__skill) and (not Shilders<=0)
+			if (math.random(0,Self.Stats.Level)>math.random(0,Party.AvgLevel*__skill)) and (Shilders<=0)
 				__aurinas++
 				self.Hurt("Dropped Aurina",255, 180, 0)
 			end
