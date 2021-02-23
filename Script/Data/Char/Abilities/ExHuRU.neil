@@ -38,14 +38,14 @@ module
 
 	table Abilities
 	get Int Kills
-		return gv.Int.ERJ_Kills
+		return gv.gInt.ERJ_Kills
 	end
 	
 	string ShowNeed(string chtag)
 		int need = 40000
 		for i,a in pairs(Abilities)
 			if !RPGChar[chtag].List.ABL.Has(a)
-				need = math.min(need,i)
+				need = math.min(need,i-kills)
 			end
 		end
 		if need==40000
