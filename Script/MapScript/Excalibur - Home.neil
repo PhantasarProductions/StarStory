@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.19
+// version: 21.02.23
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.02.19"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.02.23"
 #MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
@@ -54,6 +54,7 @@ quickmeta GaNaarKamer
 				if Key=="Wendicka" && Situation=="All_Fine" && (!CrystalHome)
 					CrystalHome=true
 					MapText("CRYSTAL_HOME")
+					Spawn.Reset()
 				end
 				if Key=="Woonkamer" && CrystalHome && Situation=="All_Fine"
 					Map.ShowObj("NPC_Crystal")
