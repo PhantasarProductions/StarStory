@@ -16,7 +16,7 @@ module
 
 	void Load()
 		LHawk()
-		State.Call("FLOW_HAWK","FlHawk.Save","nil")
+		State.Call("FLOW_HAWK","FlHawk.Load","nil")
 	end
 
 end

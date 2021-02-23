@@ -23,14 +23,14 @@ group flHawk
 			for node,nd in spairs(wlist)
 				ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
 			end
-			ret += "end"
 		end
-		SaveGame.Data["Hawk.neil"] = ret
+		ret += "end"
+		SaveGame.Data["HAWK.NEIL"] = ret
 	end
 	
 	void Load()
-		if SaveGame.HasData("Hawk.neil")
-			NeilDoString(SaveGame.Data["Hawk.neil"])
+		if SaveGame.HasData("HAWK.NEIL")
+			NeilDoString(SaveGame.Data["HAWK.NEIL"])
 		else
 			HawkData = {}
 		end
