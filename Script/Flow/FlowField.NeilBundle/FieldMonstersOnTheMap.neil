@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.02.20
+// Version: 21.02.23
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -63,6 +63,8 @@ class FieldMonster
 	readonly string move
 	readonly string nLayer
 	readonly bool Boss = false
+	readonly string BossScript = ""
+	readonly string BossBarrier = ""
 	bool Killed
 	// Initial Skill is only needed for debugging
 	readonly int InitialSkill
@@ -292,7 +294,8 @@ class FieldMonster
 			Boss = true
 			Actor.Texture = "GFX/Field/Boss.png"
 			move = "AS"
-			// TODO: Boss script in stead of enemies
+			BossScript = SpawnSpot.Data.BOSSSCRIPT
+			BossBarrier = SpawnSpot.Data.BOSSBARRIER
 		else
 			Actor.Texture = "GFX/Field/Encounter.png"
 			move = mov
@@ -319,6 +322,7 @@ class FieldMonster
 				string Kind = Lay.Obj(T).Kind
 				string Mov = "AS"
 				bool allow = prefixed(Kind,"$Enemy")
+				bool isboss = false
 				if Kind!="$EnemyBoss"
 					Mov = Left(Right(Kind,3),2) // Not the best method, but I went for results, not to win the beauty contest!
 				end				
@@ -327,6 +331,7 @@ class FieldMonster
 				if Kind=="$EnemyBoss" || FObj.Data.Always:upper()=="YES"
 					allow = prefixed(Kind,"$Enemy")
 					CSayF("Boss, or always set to 'Yes' for %s:%s, so let's force to allow it!",Kind,T) 
+					isboss = true
 				end
 				if prefixed(Kind,"$Enemy")
 					CSayF("%s> %s, Always:%s => %s",T,Kind,Lua.tostring(FObj.Data.Always:upper()),Lua.tostring(allow))
@@ -347,7 +352,11 @@ class FieldMonster
 					int mini = map.minlevel
 					int maxi = map.maxlevel
 					// CSayF("Enemy spot: Level range %d-%d",mini,maxi)
-					Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1))))
+					if isboss
+						Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,"AS",1))
+					else
+						Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1))))
+					end
 				end
 			end
 		end
