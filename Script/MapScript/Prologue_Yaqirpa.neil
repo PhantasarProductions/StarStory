@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.16
+// version: 21.02.23
 // End License Information
 
 #define mother_boss
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.16"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.02.23"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -74,6 +74,7 @@ group MScript
 	void GoToStart()
 		Map.SpawnPlayer("Start")
 		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")
+		Spawn.Reset()
 	end
 	
 	void Entrance_Zone()
