@@ -171,7 +171,7 @@ class FieldMonster
 		if !Visible
 			return
 		end
-		if EngageRange
+		if Actor.X>=FldMap.ScrollX && Actor.Y>=FldMap.ScrollY && Actor.X<=FldMap.ScrollX+Screen.W && Actor.Y<=FldMap.ScrollY+Screen.H && EngageRange
 			Engage()
 			return
 		end
@@ -191,7 +191,7 @@ class FieldMonster
 				chasing = false
 				Actor.WalkTo(retX,retY)
 			end
-		else
+		elseif Actor.X>=FldMap.ScrollX && Actor.Y>=FldMap.ScrollY && Actor.X<=FldMap.ScrollX+Screen.W && Actor.Y<=FldMap.ScrollY+Screen.H
 			switch move
 				case "VT"
 					Actor.Y += mv
@@ -214,7 +214,7 @@ class FieldMonster
 				case "AS"
 					// Do nothing, but at least this prevents an error
 				default
-					error("Unknown enemy movement code: "..move)
+					Lua.error("Unknown enemy movement code: "..move)
 			end			
 		end
 	end
