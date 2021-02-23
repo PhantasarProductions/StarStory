@@ -82,6 +82,15 @@ group MScript
 		CSay("Hide the secret area")
 		Map.HideByLabel("Secret")
 	end
+	
+	Void ShowSecret()
+		CSay("Secret passage touched")
+		Map.ShowbyLabel("Secret")
+	end
+	
+	void ToSecretDungeon()
+		Lua.error("Access to dark caves not yet operative")
+	end
 
 	void Update()
 	end
@@ -94,12 +103,13 @@ group MScript
 	
 	CONSTRUCTOR
 		ZA.Enter("Pad_Tutorial","TutorPad")
-		for z in each {"WeGaanNaar2"}
+		for z in each {"WeGaanNaar2","TOSECRETDUNGEON"}
 			ZA.Enter(z,z)
 		end
 		for i=1,3
 			ZA.Enter("HIDE_SECRET"..i,"HideSecret")
-		end			
+		end
+		ZA.Enter("REVEAL_SECRET","ShowSecret")
 	end
 
 end
