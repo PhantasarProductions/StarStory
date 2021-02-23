@@ -89,7 +89,8 @@ group MScript
 	end
 	
 	void ToSecretDungeon()
-		Lua.error("Access to dark caves not yet operative")
+		Map.Load("LostPlanet - Bonus_Dark_Caves_of_Shilington")
+		Schedule.Add("SPAWN:Start")
 	end
 
 	void Update()
