@@ -57,6 +57,7 @@ group MScript
 		for c in each { "Crystal","ExHuRU" }
 			Map.Kill(c)
 		end
+		Spawn.Reset()
 	end
 	
 	Void TutorPad()
