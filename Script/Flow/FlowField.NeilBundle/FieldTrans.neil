@@ -78,6 +78,7 @@ group Trans
 		static var Fnt = ImageFont.Obtain("BOXTEXT")
 		static var Pnt = Image.Obtain("MOUSE")
 		int CX = Screen.W div 2
+		Spawn.Reset()
 		Repeat
 			int Y = 50		
 			Events.Poll()
@@ -126,7 +127,7 @@ group Trans
 		int dy = math.abs(py-Player.Y)
 		int dist = math.floor( math.sqrt ( (dx*dx)+(dy*dy) ) )
 		CSayF("= You are at %d pixels distance",dist)
-		if dist>64
+		if dist>70
 			CSay("= You are too far away")
 			return
 		end
