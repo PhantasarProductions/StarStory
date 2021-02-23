@@ -145,9 +145,9 @@ class Clickable
 		gv.gString.ARMOBTAINED = Item["ARM_"..d[3]].Name
 		BoxText.Serial("CRYSTAL","CRYSTAL")
 		CrystalARMS.NewARM(d[3])
+		RPGChar.Crystal.Points.EXP.Have += 1000
 		Map.Kill(T)
-	end
-			
+	end	
 	
 	static void Automate()
 		static int M_id = -1
