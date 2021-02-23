@@ -176,7 +176,7 @@ class Clickable
 				elseif prefixed(T,"ARMCHST")
 					table d = Split(T," ")
 					CSayF("ARMS Chest #%s > %s",d[2],d[3])
-					if RPGChar.Crystal.List.ARMS.Has(d[3])
+					if RPGChar.Crystal.List.ARM.Has(d[3])
 						CSay("Crystal already has this ARM, so let's remove it!")
 						Map.Kill(T)
 					else
