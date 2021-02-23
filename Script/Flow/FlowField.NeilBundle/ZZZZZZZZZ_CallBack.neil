@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.02.23
+// Version: 21.02.24
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,8 @@
 const var Mouse = Image.Obtain("MOUSE")
 
 global void DrawScreen(noauto)
+	static int oldx
+	static int oldy
 	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 	if FldMap.AutoScroll
 		FLDMap.ScrollX = GrPlayer.X - math.floor(Screen.W/2)
@@ -46,6 +48,10 @@ global void DrawScreen(noauto)
 	end
 	if !noauto
 		FldMap.AutoTexPlayer()
+		if math.abs(GrPlayer.Y-oldy)>60
+			FldMap.CurLayer.RemapDominance(FldMap.Layer)
+			oldx,oldy = GrPlayer.X,GrPlayer.Y
+		end
 	end
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
