@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 class MonRec
 	readonly string Foe
 	readonly int level
@@ -98,15 +99,19 @@ class FieldMonster
 		return FInRange(radius)
 	end
 
+	int _level=-1
 	get int Level
-		int tot
-		if #Recs==0
-			error("Cannot calculate level. Monster record empty")
+		if _level<0
+			int tot
+			if #Recs==0
+				Lua.error("Cannot calculate level. Monster record empty")
+			end
+			for R in each(Recs)
+				tot += R.level
+			end
+			_level = tot div #Recs
 		end
-		for R in each(Recs)
-			tot += R.level
-		end
-		return tot div #Recs
+		return _level
 	end
 	
 	get int PartyLevel
@@ -224,7 +229,8 @@ class FieldMonster
 			return
 		end
 		// Color and range
-		int diflevel = Map.maxlevel - Map.MinLevel
+		//int mapdiflevel = Map.maxlevel - Map.MinLevel
+		int diflevel = Level-PartyLevel
 		DoMove()
 		
 		if diflevel<-10 
