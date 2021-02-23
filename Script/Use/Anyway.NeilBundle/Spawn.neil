@@ -1,0 +1,28 @@
+module
+	
+	get int X
+		return Lua.Neil.Globals.gv.gint.SPAWN_X
+	end
+	
+	get int Y
+		return Lua.Neil.Globals.gv.gint.SPAWN_Y
+	end
+	
+	get string Map
+		return Lua.Neil.Globals.gv.gstring.SPAWN_MAP
+	end
+	
+	get string Layer
+		return Lua.Neil.Globals.gv.gstring.SPAWN_LAY
+	end
+	
+	void Reset()
+		Lua.Neil.Globals.gv.gint.SPAWN_X = Lua.Neil.Globals.Player.X
+		Lua.Neil.Globals.gv.gint.SPAWN_Y = Lua.Neil.Globals.Player.Y
+		Lua.Neil.Globals.gv.gstring.SPAWN_MAP = Lua.Neil.Globals.Map.LoadedMap
+		Lua.Neil.Globals.gv.gstring.SPAWN_LAY = Lua.Neil.Globals.Map.Layer
+		printf("Spawn Reset to %s.%s => (%d,%d)",Map,Layer,X,Y)
+	end
+
+end
+		
