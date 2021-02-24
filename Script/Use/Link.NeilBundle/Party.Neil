@@ -124,5 +124,16 @@ module
 		end
 	end
 	
+	void GiveEXP(int experience,string ch="")
+		if ch==""
+			for i=1,6
+				if RPGParty[i] && RPGParty[i]!=""
+					self.GiveEXP(experience,RPGParty[i])
+				end
+			end
+			return
+		end
+		RPGChar[ch].Points.EXP.Have += experience
+	end
 
 end
