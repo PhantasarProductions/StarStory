@@ -176,7 +176,7 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	get int Shilders
-		return self.RawData.Shilderse
+		return self.RawData.Shilders
 	end
 	
 	bool _killedcheck = false
@@ -203,9 +203,9 @@ class Combat_Foe extends Combat_Fighter
 			Killed[self.File]++
 			gv.vInt["COMBATSTAT.KILLS"]++
 			do
-				int L1 = math.random(0,Self.Stats.Level)
+				int L1 = math.random(0,Self.Level)
 				int L2 = math.random(0,Party.AvgLevel*__skill) 
-				CSayF("Aurina check Level(%d<%d=%s) Shilders(%d<=0=%s)",L1,L2,Lua.tostring(L1<L2),Shilders,Lua.tostring(Shilders<=0))    
+				CSayF("Aurina check Level(%d>%d=%s) Shilders(%d<=0=%s)",L1,L2,Lua.tostring(L1>L2),Shilders,Lua.tostring(Shilders<=0))    
 				if L1>L2 && (Shilders<=0) 
 					__aurinas++
 					self.Hurt("Dropped Aurina",255, 180, 0)
