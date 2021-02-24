@@ -53,8 +53,14 @@ class Combat_Hero extends Combat_Fighter
 	string State = "Idle"
 	bool Pose(Act)
 		const int resettime = 62
-		static int time = 62		
-		switch Act.Act.ABL_Pose
+		static int time = 62
+		string mypose = Act.Act.ABL_Pose
+		if prefixed(Act.ActTag,"ITM_") 
+			mypose = "Cast"
+		elseif prefixed(Act.ActTag,"ARM_")
+			mypose = "ARM"
+		end
+		switch mypose
 			case "Attack"
 				int s = 1
 				if time<resettime div 2
@@ -63,6 +69,9 @@ class Combat_Hero extends Combat_Fighter
 				State = "Attack." .. s
 			case "Case"
 				State = "Cast"
+			case "ARM"
+				State = "ARM"
+				// This pose is unique to Crystal (or obvious reasons)
 			default
 				State = "Cast"
 		end
