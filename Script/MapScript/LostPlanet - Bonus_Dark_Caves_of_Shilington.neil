@@ -88,7 +88,76 @@ group MScript
 				Lua.error("Unknown skill!")
 		end
 	end
-				
+	
+	
+	void FirstJump()
+		Player.Wind="South"
+		for i=1920,2080
+			Graphics.Cls()
+			Player.Y=i
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+			FPS.WaitMinTicks()
+		end
+	end
+	
+	void JumpDown()
+		Player.Wind="South"
+		for i=3360,3488
+			Graphics.Cls()
+			Player.Y=i
+			Map.DrawScreen()
+			Graphics.Flip()
+			Events.Poll()
+			FPS.WaitMinTicks()
+		end
+		Ach.Award("SECRETDUNGEON_DARKCAVES")
+		if !Done.Completed_DarkCavesShillington
+			Party.GiveEXP(2500)
+		end
+	end
+	
+	void NPC_EMERALD()
+		if item.give("EQP_EMERALD",Map.Leader)
+			Schedule.Add("MSG: "..Map.Leader.." obtained an Emerald")
+			bool perm
+			switch __skill
+				case 1
+					perm = math.random(1,20)==1
+				case 2
+					gv.gint.DarkCaveEmerald++
+					perm = math.random(1,math.max(1,20-gv.gint.DarkCaveEmerald))==1
+				case 3
+					perm = true
+				default
+					Lua.error("What?")
+			end
+			CSayF("Removing Emerald.... Permantent: %s",Lua.tostring(perm))
+			Map.Kill("NPC_EMERALD",perm)
+		end
+	end
+	
+	void NPC_RUBY()
+		if item.give("EQP_RUBY",Map.Leader)
+			Schedule.Add("MSG: "..Map.Leader.." obtained a Ruby")
+			bool perm
+			switch __skill
+				case 1
+					perm = math.random(1,20)==1
+				case 2
+					gv.gint.DarkCaveRuby++
+					perm = math.random(1,math.max(1,20-gv.gint.DarkCaveRuby))==1
+				case 3
+					perm = true
+				default
+					Lua.error("What?")
+			end
+			CSayF("Removing Ruby.... Permantent: %s",Lua.tostring(perm))
+			Map.Kill("NPC_RUBY",perm)
+		end
+	end
+	
 	
 	CONSTRUCTOR
 		for i=1,Secrets
@@ -112,6 +181,9 @@ group MScript
 		Schedule.Add("HideAllSecrets")
 		for l in each {'abc'}
 			ZA.Enter("Dom40"..Chr(l),"Dom40")
+		end
+		for j in each {"FirstJump","JumpDown"}
+			ZA.Enter(j,j)
 		end
 	end
 
