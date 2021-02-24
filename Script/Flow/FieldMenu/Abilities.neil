@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+
 class Crystal_ARMS
 
 	static readonly var sfont = ImageFont.Obtain("SYSFONT")
@@ -96,6 +97,9 @@ class Crystal_ARMS
 			__skyblue
 			if Hover
 				Graphics.Color(0,255,255)
+				if Events.MouseHitLeft() && Prefixed(situation,"COMBAT_")
+					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
+				end
 			end
 			//print(Lua.type(a.Name),"Name = "..Lua.tostring(a.Name))
 			afont.Text(A.Name,xnm,y)

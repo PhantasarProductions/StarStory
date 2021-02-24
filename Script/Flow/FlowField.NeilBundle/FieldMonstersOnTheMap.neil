@@ -375,7 +375,7 @@ class FieldMonster
 			if foe.Killed
 				lnk.Unlink()
 				Map.Kill(foe.ActorTag)
-			elseif foe.Visible
+			elseif foe.Visible && foe.Actor.X>FldMap.ScrollX && foe.Actor.Y>FldMap.ScrollY
 				foe.Check()
 			end
 		end

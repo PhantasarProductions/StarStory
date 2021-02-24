@@ -293,12 +293,14 @@ group Stage_SelectTarget
 	
 	Void Update()
 		ClearTargets()
+		int AllCount=0
 		for ftag,fdat in pairs(Fighters)
 			if fdat.Available and fdat.Targetable_Hero
 				// debug
 				// static var fnt = ImageFont.Obtain("BOXTEXT")
 				// fnt.Text(sprintf("Tag: %s, (%d,%d)=>%dx%d Hover: %s ",fdat.Tag,fdat.X,fdat.Y,fdat.W,fdat.H,tostring(fdat.TargetHover)),fdat.x,fdat.y,2,2)				
 				// end debug
+				
 				switch Act.Act.Target
 					case "OS"
 						Targets_Tag[1]=Act.Executor_Tag
@@ -307,11 +309,15 @@ group Stage_SelectTarget
 						Targets_Tag += ftag
 					case "AF"
 						if fdat.Team=="Foe"
-							Targets_Tag += ftag
+							AllCount++
+							Targets_Tag[AllCount]=ftag
+							Targets_Tag[AllCount+1]=nil
 						end
 					case "AA"
 						if fdat.Team=="Hero"
-							Targets_Tag += ftag
+							AllCount++
+							Targets_Tag[AllCount]= ftag
+							Targets_Tag[AllCount+1]=nil
 						end
 					case "1F"
 						//CSayF("%s: Team: %s; Hover: %s",fdat.Tag,fdat.Team,tostring(fdat.TargetHover))
@@ -334,6 +340,9 @@ group Stage_SelectTarget
 		ElseIf Events.MouseHitLeft() && #Targets_Tag>0
 			Act.Executor.Gauge = 10001
 			Stage.Current = nil
+			if Act.ActTag=="ACT_SHOOT" || Act.ActTag=="ACT_ATTACK"
+				Lua.Neil.Globals.Stage_PlayerInput.CheckLearn()
+			end
 		end
 		
 	end
@@ -379,18 +388,68 @@ group Stage_PlayerInput
 		return events.mousey()
 	end
 	
+	table ABL = {}
+	Void CheckLearn()
+		if Tag=="Crystal" || Tag=="UniCrystal" || Tag=="Briggs"
+			return
+		end
+		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/"..Tag)
+		string NewABL=ABL[Tag].Learn
+		if NewABL==""
+			return
+		end
+		var oa = Hero.NextAct
+		var a = new Class_Action(Tag,"ABL_"..NewABL)
+		Hero.NextAct = a
+		a.Learning = true
+		a.LearningABL = NewABL
+		switch a.Act.Target
+			case "OS" "1A"
+				A.Targets_Tag[1] = self.Tag
+				A.Targets_Tag[2] = nil
+			case "1F"
+				A.Targets_Tag[1] = oa.Targets_Tag[1]
+				A.Targets_Tag[2] = nil
+			case "AA"
+				for i=1,3
+					if RPGChar[i] && RPGChar[i]!=""
+						A.Targets_Tag[i]=RPGChar[i]
+					else
+						A.Targets_Tag[i] = nil
+					end
+				end
+				A.Targets_Tag[4] = nil
+			case "AF" "EV"
+				int i=0
+				for ft,fd in pairs(Combat_Fighter.Fighters)
+					if a.Act.Target=="EV" || fd.Team=="Foe"
+						i++
+						a.Targets_Tag[i]=ft
+					end
+				end
+				a.Targets_Tag[i+1]=nil
+			default
+				Lua.error("Learning error: Unknown target type: "..a.Act.Target)
+		end
+		a.ActSpeed = 9000
+		CSayF("As the learning requirements for %s's %s are met, a learning is in order!",Tag,NewABL)
+	end
+	
 	Void DoShoot()
 		var a
 		a = new Class_Action(Tag,"ACT_SHOOT")
 		Hero.NextAct = a
 		a.UseCommonAmmo = true
 		Stage_SelectTarget.ComeToMe(a)
+		//CheckLearn()
 	end
+	
 	Void DoAttack()
 		var a
 		a = new Class_Action(Tag,"ACT_ATTACK")
 		Hero.NextAct = a
 		Stage_SelectTarget.ComeToMe(a)
+		//CheckLearn()
 	end
 	
 	Void DoReload()
@@ -448,6 +507,14 @@ group Stage_PlayerInput
 		elseif PwUp(AblTag,"DblSpeed")
 			a.XActSpeed = 2
 		end
+		Stage_SelectTarget.ComeToMe(a)
+		Flow.GoToFlow("COMBAT")
+	end
+	
+	Void ReturnARM(string ablTag)
+		var a 
+		a = new Class_Action(Tag,"ARM_"..ablTag)
+		a.UseARMAmmo = true
 		Stage_SelectTarget.ComeToMe(a)
 		Flow.GoToFlow("COMBAT")
 	end

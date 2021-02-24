@@ -59,7 +59,23 @@ module
 		end
 		return sprintf("Make %d kills with %s up front",need,chtag)
 	end
-	
+
+		get string Learn
+		// Note! The required data is linked for ExHuRU, Rolf and Johnson
+		// It all points to the same memory addresses, so anything I do to
+		// ExHuRU will affect the others, and ExHuRU is the first to join, so
+		// Always in the memory along with the others.
+		static var ExHuRU = RPGChar.ExHuRU
+		for i,abl in pairs(abilities)
+			if !ExHuRU.List.ABL.Has("EXHURU_"..abl)
+				if i<=Kills
+					return "EXHURU_"..Abl
+				end
+			end
+		end
+		return ""
+	end
+
 	
 	CONSTRUCTOR
 		 Abilities[  30] = "YKSI"

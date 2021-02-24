@@ -41,11 +41,17 @@ module
 	string ShowNeed(string chtag)
 		// parameter seems odd, but don't forget about the link between ExHuRU, Johnson and Rolf, and Wendicka has a similar link, although in her case it may not matter that much, but for safety reasons, yeah, there goes!!
 		int m = 3000
+		// Learn from allies
 		if RPGChar[chtag].List.LEARN.Count>0
-			return "Attack any enemy and Wendicka will learn something new!"
+			for ABL in RPGChar[chtag].List.LEARN.Each
+				if !RPGChar[chtag].List.ABL.Has(ABL)
+					return "Attack any enemy and Wendicka will learn something new!"
+				end
+			end
 		end
+		// Learn from spell usage
 		for i,abl in pairs(spells)
-			if not (RPGChar[chtag].List.LEARN.Has(abl) || RPGChar[chtag].List.ABL.Has(abl))
+			if not (RPGChar[chtag].List.LEARN.Has("WENDICKA_"..abl) || RPGChar[chtag].List.ABL.Has("WENDICKA_"..abl))
 				m = math.min(m,i)
 			end
 		end
@@ -62,6 +68,24 @@ module
 		return sprintf("Wendicka needs to perform %d more abilities before she will learn a new one",need)
 	end
 	
+	get string Learn
+		// UniWendicka and not not normal Wendicka. The former is always in the memory, the latter only after the prologue 
+		// So this will always avoid crashes, and the two characters address the same memory locations, anyway.
+		static var Wendicka = RPGChar.UniWendicka
+		for ABL in Wendicka.List.LEARN.Each
+			if !Wendicka.List.ABL.Has(ABL)
+				return ABL
+			end
+		end
+		for i,abl in pairs(spells)
+			if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
+				if i<=ablused.Wendicka
+					return "WENDICKA_"..Abl
+				end
+			end
+		end
+		return ""
+	end
 	
 	CONSTRUCTOR
 		spells[15] = "JOLT"

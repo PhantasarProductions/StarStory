@@ -47,4 +47,6 @@ init
 	ClBeam.MP = FldMap
 	FldMap.ScanFoes = FieldMonster.ScanFoes
 	Clickable.CTrans = Trans
+	// I'll do this here, as the field is always loaded before combat and NEVER reloaded.
+	BoxText.Load("COMBAT","GENERAL/COMBAT")
 end

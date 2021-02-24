@@ -71,6 +71,9 @@ global void Apollo_Flow()
 	Stage.Update()	
 end
 
+global void BoxText_Back()
+	Combat_Draw.DrawScreen()
+end
 
 init
 	Print("A few needed things before we start!")

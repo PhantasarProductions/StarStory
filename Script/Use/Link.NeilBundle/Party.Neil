@@ -94,7 +94,11 @@ module
 	end
 	
 	void ReloadARMS()
-		CSAY("TODO: RELOAD ARMS")
+		for a in RPGChar.Crystal.List.ARM.Each
+			var p = RPGChar.Crystal.Points["ARM.AMMO."..a]
+			p.Have = p.Maximum
+			Lua.Neil.Globals.CSayF("Reloading Crystal's %s -> %d/%d",a,p.Have , p.Maximum)
+		end
 	end
 	
 	void Recover(string ch="")

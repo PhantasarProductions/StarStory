@@ -40,9 +40,10 @@
 Class Class_Action
 	Static Var Fighters
 	
-	bool Learning
+	bool Learning = false
 	bool UseCommonAmmo	
 	bool UseARMAmmo
+	string LearningABL = ""
 	int ConsumeItem = -1
 	int BurnAP = 0
 	int XActSpeed = 1

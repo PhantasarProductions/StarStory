@@ -96,7 +96,9 @@ Module
 		// pairs and not ipairs. I must make sure ALL targets are seen. The order doesn't matter
 		for i,tag in pairs(Act.Targets_Tag)
 			var tar = Act.Targets[i]
-			if tar.Available && ( (Executor.Team=="Hero" && tar.Targetable_Hero) || (Executor.Team=="Foe" && tar.Targetable_Foe))
+			if (!tar)
+				Dev.CWrite(sprintf("DA FUCK! Target '%s' on index %04d is nil?",tag,i),255,0,0)			
+			elseif tar.Available && ( (Executor.Team=="Hero" && tar.Targetable_Hero) || (Executor.Team=="Foe" && tar.Targetable_Foe))
 				Targets += tar
 			end
 		end
@@ -121,11 +123,11 @@ Module
 			Reject("No more valid targets")
 			return
 		end
-		if Act.Learning and Executor.Team=="Hero"
-			Lua.error("Learning not yet supported!")
-			// TODO: Announce learning by BoxText
+		if Act.Learning and Executor.Team=="Hero"			
+			// Announce learning by BoxText
+			BoxText.Serial("COMBAT","NEWABILITY."..Act.Executor.Tag,"FLOW_COMBAT")
 			// TODO: Instantly cure blocking statuses to make sure the move is executed legally
-			// TODO: Grant the EXP bonus tied to this character for learning a new move.
+			Act.Executor.Char.Points.EXP.Have += 1000
 		end
 		if Act.UseCommonAmmo
 			if Executor.Ammo<=0
@@ -139,6 +141,17 @@ Module
 				return
 			end
 			Executor.AP -= Act.BurnAP
+		elseif Act.UseARMAmmo
+			If Executor.Tag!="Crystal"
+				Lua.error("ARM used, but not by Crystal!")
+			end
+			string PA = right(Act.ActTag,#Act.ActTag-4)
+			var PNT = Executor.Char.Points["ARM.AMMO."..PA]
+			if PNT.Have<=0
+				Reject("Out of ammo")
+				return
+			end
+			PNT.Have--			
 		elseif Act.ConsumeItem>=0
 			string socktag = sprintf("INVAMNT%d",Act.ConsumeItem)
 			if Act.Executor.Char.Stat[socktag]<=0
@@ -224,9 +237,14 @@ Module
 						Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
 						Act.Executor.Char.List.ABL_POWERUP.Add = Act.ActTag.."."..Act.ActivatePowerUp
 					end
+					if Act.Learning
+						Act.Executor.Char.List.ABL.Add = Act.LearningABL
+						Act.Executor.Hurt("Learned: "..Act.Act.Name)
+					end
 				end
 				AnnouncePortrait = nil
-				Stage.Current=nil				
+				Stage.Current=nil		
+				
 			default
 				Fini()
 		end

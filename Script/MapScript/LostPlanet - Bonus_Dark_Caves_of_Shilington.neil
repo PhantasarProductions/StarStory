@@ -75,8 +75,11 @@ group MScript
 		for i=1,Secrets
 			string T = "Secret"..i
 			ZA.Enter(T,"Show."..T)
-			ZA.Leave(T,"Hide."..T)
+			if i!=4
+				ZA.Leave(T,"Hide."..T)
+			end
 		end
+		ZA.Enter("ByeSecret4","Hide.Secret4")
 		var Sh(s,string k)
 			Map.ShowByLabel(k)
 			return Niks
