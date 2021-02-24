@@ -90,6 +90,9 @@ group StartCombat
 	set string Tune
 		MCall("Combat_Start.SetValue","Tune",value)
 	end
+	set string RemoveBarrier
+		MCall("Combat_Start.SetValue","RemoveBarrier",value)
+	end
 	
 	get string RandomTune
 		static table tunes = JCR6.GetDir("Music/Combat/Random")

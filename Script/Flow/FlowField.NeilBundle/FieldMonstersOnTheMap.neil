@@ -146,14 +146,23 @@ class FieldMonster
 	void Engage()
 		StartCombat.Prepare()
 		CSayF("Engage with %d Enem(y)(ies)",#Recs)
-		for foe in each(Recs)
-			// FFF = Foe Full File 
-			string FFF = foe.Foe	
-			if (JCR6.ExtractDir(FFF)=="") 
-				FFF = "Reg/"..FFF 		
+		if Boss
+			CSayF("Executing: MapScript.%s",tostring(BossScript))
+			if !BossScript
+				Lua.error("Boss Script not defined!")
 			end
-			CSayF("Adding %s level %d",foe.foe,foe.level)
-			StartCombat.Foe(FFF,foe.level)
+			MapScript[BossScript]()
+			StartCombat.RemoveBarrier = BossBarrier 
+		else
+			for foe in each(Recs)
+				// FFF = Foe Full File 
+				string FFF = foe.Foe	
+				if (JCR6.ExtractDir(FFF)=="") 
+					FFF = "Reg/"..FFF 		
+				end
+				CSayF("Adding %s level %d",foe.foe,foe.level)
+				StartCombat.Foe(FFF,foe.level)
+			end
 		end
 		StartCombat.Boss = Boss
 		StartCombat.Arena = Map.KthuraMap.Meta.Arena
@@ -235,20 +244,20 @@ class FieldMonster
 		int diflevel = Level-PartyLevel
 		DoMove()
 		
-		if diflevel<-10 
+		if diflevel<-10 && (!Boss)
 			Actor.R = 0
 			Actor.G = 255
 			Actor.B = 0
 			radius = 50
 			chaseradius = 100 * __skill
-		elseif diflevel<=0 
+		elseif diflevel<=0 && (!Boss)
 			Actor.R = 180
 			Actor.G = 255
 			Actor.B = 0
 			radius = 150
 			chaseradius = 150 * __skill
 			//CSay("  = Easy")
-		elseif diflevel<10 
+		elseif diflevel<10 && (!Boss)
 			Actor.R = 255
 			Actor.G = 180
 			Actor.B = 0
@@ -294,8 +303,9 @@ class FieldMonster
 			Boss = true
 			Actor.Texture = "GFX/Field/Boss.png"
 			move = "AS"
-			BossScript = SpawnSpot.Data.BOSSSCRIPT
-			BossBarrier = SpawnSpot.Data.BOSSBARRIER
+			BossScript = SpawnSpot.Data.BOSSFUNCTION
+			BossBarrier = SpawnSpot.Data.LINKEDBARRIER
+			CSayF("Boss found! Script: %s; Barrier: %s",BossScript,BossBarrier)
 		else
 			Actor.Texture = "GFX/Field/Encounter.png"
 			move = mov

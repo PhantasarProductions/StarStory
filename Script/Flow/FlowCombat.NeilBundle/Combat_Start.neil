@@ -51,6 +51,7 @@ module
 	string Arena
 	string Tune = "*NOCHANGE*"
 	string ReturnFlow = "FIELD"
+	string RemoveBarrier = ""
 	bool Boss
 	
 	void AddFoe(string Enem,int Level)

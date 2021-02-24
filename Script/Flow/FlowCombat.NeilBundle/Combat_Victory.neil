@@ -65,6 +65,9 @@ module
 			end
 			RPGChar.Kill("FOE_",1)
 			Flow.GoToFlow("FIELD")
+			if Start.RemoveBarrier!=""
+				Map.Kill(Start.RemoveBarrier)
+			end
 		end
 	end
 	
