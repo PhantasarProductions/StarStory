@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldTrans.neil
-// Version: 21.02.23
+// Version: 21.02.24
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,6 +117,11 @@ group Trans
 			Graphics.Flip()
 			FPS.WaitMinTicks()
 		Forever
+	end
+	
+	void PadRecover()
+		Recover()
+		TMM.NewMsg("Party is completely recovered",180,255,0)
 	end
 	
 	void Go(string spot)	
