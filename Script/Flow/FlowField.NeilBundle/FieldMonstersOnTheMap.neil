@@ -363,6 +363,12 @@ class FieldMonster
 	end
 	
 	static void CheckAll()
+		static int SW
+		static int SH
+		if SW==0
+			SW = Screen.W
+			SH = Screen.H
+		end
 		//Lua.assert(Lijst[Map.Layer],"No foe list set for layer: "..Map.Layer)
 		if (!Lijst[Map.Layer]) || gv.gBool.LeaveMeBe
 			return
@@ -375,7 +381,7 @@ class FieldMonster
 			if foe.Killed
 				lnk.Unlink()
 				Map.Kill(foe.ActorTag)
-			elseif foe.Visible && foe.Actor.X>FldMap.ScrollX && foe.Actor.Y>FldMap.ScrollY
+			elseif foe.Visible && foe.Actor.X>FldMap.ScrollX && foe.Actor.Y>FldMap.ScrollY && foe.Actor.X<FldMap.ScrollX+SW && foe.Actor.Y<FldMap.ScrollY+SH
 				foe.Check()
 			end
 		end

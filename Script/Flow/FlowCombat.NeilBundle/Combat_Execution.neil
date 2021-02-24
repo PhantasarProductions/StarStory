@@ -206,6 +206,10 @@ Module
 			case _Stance
 				if Executor.Pose(Act)
 					MyStage = _SpellAni
+					if Prefixed(Act.ActTag,"ARM_")
+						static var Crystal_GunShot = Audio.Obtain("CRYSTAL_ARM")
+						Crystal_GunShot.Play()
+					end					
 					if Act.SpellAni
 						Act.SpellAni.Init(Act)
 					else
