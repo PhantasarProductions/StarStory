@@ -84,6 +84,7 @@ global void FullDrawScreen(noauto)
 		if Prefixed(FldMap.Layer,"#")
 			GStat("Area: "..FldMap.Layer)
 		end
+		GStat(sprintf("Credits: %d",Aurina.Cash))
 		GStat(sprintf("Aurinas: %d",__aurinas))
 	end
 end
