@@ -153,6 +153,7 @@ global void Apollo_Flow()
 						if !slot.have
 							Buzz.Play()
 						else
+							Loading()
 							if PerformLoadGame(GetSGFileName(i))
 								// Link to field if succesful
 								Flow.Current="FIELD"
