@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.15
+// version: 21.02.25
 // End License Information
 module
 
@@ -42,6 +42,20 @@ module
 	readonly int InventoryMaxVaultStack
 	
 	readonly int NeedExp
+	
+	get int MaxCash
+		switch __skill
+			case 1
+				return 2000000000
+			case 2
+				return  500000000
+			case 3
+				return  100000000
+			default
+				// Cheater!
+				return          1
+		end
+	end
 	
 	get int Cycle
 		return math.max(1,gv.gint.GameCycle)
