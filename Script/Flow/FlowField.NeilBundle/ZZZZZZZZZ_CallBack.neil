@@ -74,11 +74,12 @@ end
 
 global void FullDrawScreen(noauto)
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
+	static table sk = {"Easy","Casual","Hard"}
 	DrawScreen(noauto)
 	Party.Boxes()
 	if !TMM.Draw()
 		// General statistics
-		GStat("Time",true) // Always first!
+		GStat(sprintf("Star Story - %s mode - Cycle: %d",sk[__skill],Caps.Cycle),true) // Always first!
 		GStat(FldMap.KthuraMap.Meta.Title)
 		if Prefixed(FldMap.Layer,"#")
 			GStat("Area: "..FldMap.Layer)

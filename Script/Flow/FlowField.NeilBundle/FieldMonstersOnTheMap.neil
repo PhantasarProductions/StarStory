@@ -52,6 +52,13 @@ class FieldMonster
 	static int crcnt = -1
 	static readonly var Error = Lua.error
 	static readonly var Assert = Lua.assert
+	static table Reject
+	table RejectZones
+	// To make it clear enemies NOT in the correct reject zone will be rejected!
+	
+	static get var RZA
+		return Lua.Neil.Globals.ZoneAction
+	end
 	
 	readonly var spawnspot
 	readonly var spotname
@@ -81,6 +88,7 @@ class FieldMonster
 	
 	bool Returning = false
 	bool chasing = false
+	bool Rejected = false
 	int mv = 1
 	
 	bool FInrange(int r)
@@ -313,7 +321,66 @@ class FieldMonster
 		InitialSkill = IniLevel
 	end
 	
+	static void DoReject(string zone)
+		CSayF("Entering rejection zone '%s'",zone)
+		for foe,lnk in Lijst[Map.Layer].Each
+			//foe.Rejected=false
+			bool allow = false
+			for ZC in each(foe.RejectZones)
+				Allow = Allow || ZC:upper()==zone:upper()
+			end
+			foe.Rejected=(!Allow) && #foe.RejectZones>=1 && !foe.Boss
+			if foe.Rejected
+				CSayF("Rejected foe: %s",foe.ActorTag)
+				foe.Actor.WalkTo(foe.retX,foe.retY)
+			ELSE
+				CSayF("Allowed foe: %s",foe.ActorTag)
+			end
+		end
+	end
+	
+	static void ScanReject()
+		Reject = {}
+		RZA.RejectReject()
+		CSay("Reject scan - Start")
+		for LAY in each(Map.KthuraMap.Layers)
+			CSayF("Rejects in layer: %s",LAY)
+			table TLA = Map.KthuraMap.Layer(LAY).TagListArray
+			for T in each(TLA)
+				//print(T,t:upper())
+				if prefixed(T:upper(),"REJECT")
+					CSayF("Reject zone '%s' detected!",T)
+					Reject[T] = {}
+					RZA.Create("Enter",T,DoReject,T)
+				end
+			end
+		end
+		CSay("Reject scan - End")
+	end
+	
+	// Debug purposes only
+	static void DBGReject()
+		for LayTag,LayLst in spairs(Lijst)
+			int r
+			int g
+			int b
+			repeat
+				r,g,b = math.random(0,255),math.random(0,255),math.random(0,255)
+			until r+g+b>=255 && r+g+b<=525
+			Dev.CWrite("Layer: "..LayTag,r,g,b)
+			for foe,_ in LayLst.Each
+				Dev.CWrite("- Foe: "..Foe.ActorTag,r,g,b)
+				for rj in each(foe.RejectZones)
+					Dev.CWrite("  = Should be rejected unless player is in zone: "..rj,r,g,b)
+				end
+			end
+		end
+	end
+			
+	
 	static void ScanFoes()
+		// Reject MUST be scanned before the enemies are scanned or data can and WILL be messed up!
+		ScanReject()
 		static int count
 		CSayF("ScanFoes(): %05d",count)
 		//Lijst.Clear()
@@ -362,10 +429,23 @@ class FieldMonster
 					int mini = map.minlevel
 					int maxi = map.maxlevel
 					// CSayF("Enemy spot: Level range %d-%d",mini,maxi)
+					var NF
 					if isboss
-						Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,"AS",1))
+						//Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,"AS",1))
+						NF = new FieldMonster(L,T,mini,maxi,LF,"AS",1)
 					else
-						Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1))))
+						//Lijst[L].AddLast(new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1))))
+						NF = new FieldMonster(L,T,mini,maxi,LF,Mov,Lua.tonumber(Right(Kind,1)))
+					end
+					Lijst[L].AddLast(NF)
+					NF.RejectZones={}
+					for R,tab in pairs(Reject)
+						var RObj = Lay.Obj(R)
+						if FObj.X>=RObj.X && FObj.Y>=RObj.Y && FObj.X<=RObj.X+RObj.W && FObj.Y<=RObj.Y+RObj.H
+							CSayF("Enemy %s has been added to rejection zone %s",T,R)
+							tab+=T
+							NF.RejectZones+=R
+						end
 					end
 				end
 			end
@@ -391,6 +471,8 @@ class FieldMonster
 			if foe.Killed
 				lnk.Unlink()
 				Map.Kill(foe.ActorTag)
+			elseif foe.Rejected
+				// Nothing... Just a test to see if some speed has actually been won!
 			elseif foe.Visible && foe.Actor.X>FldMap.ScrollX && foe.Actor.Y>FldMap.ScrollY && foe.Actor.X<FldMap.ScrollX+SW && foe.Actor.Y<FldMap.ScrollY+SH
 				foe.Check()
 			end

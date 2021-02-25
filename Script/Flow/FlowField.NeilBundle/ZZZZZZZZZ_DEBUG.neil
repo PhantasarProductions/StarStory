@@ -137,3 +137,5 @@ global void CONSOLE_Foes()
 		CSayF("= Chasing %s; Returning %s",tostring(f.chasing),tostring(f.returning))
 	end
 end
+
+global delegate CONSOLE_ListReject = FieldMonster.DBGReject

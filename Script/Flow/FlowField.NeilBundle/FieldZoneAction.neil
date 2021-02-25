@@ -113,6 +113,15 @@ class ZoneAction
 		//vd = new ZoneAction("Enter","CatIsland",WorldMap["Cat-Island"])
 	end
 	
+	static void RejectReject()
+		for RR,RL in self.List.Enter.Each
+			if prefixed(RR.ActZone:upper(),"REJECT")
+				CSayF("Removed %s in ZA Reject Zone",RR.Zone)
+				RL.UnLink()
+			end
+		end
+	end
+	
 	static void Create(string Event,string Zone,AAct,param)
 		var vd
 		vd = new ZoneAction(Event,Zone,AAct,param)
