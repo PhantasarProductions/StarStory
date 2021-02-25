@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.25
+// version: 21.02.26
 // End License Information
 module
 
@@ -44,6 +44,8 @@ module
 	readonly int NeedExp
 	
 	get int MaxCash
+		// Now "cash" is a big word, when speaking of digital money (this is the year 3000 after all)
+		// But hey, you get the picture.. I think?
 		switch __skill
 			case 1
 				return 2000000000
@@ -56,6 +58,24 @@ module
 				return          1
 		end
 	end
+	get int MaxMoney
+		return MaxCash
+	end
+	
+	get int MaxAurinaRate
+		switch __skill
+			case 1
+				return 20000
+			case 2
+				return  5000
+			case 3
+				return  1000
+			default
+				// Cheater!
+				return     1
+		end
+	end
+
 	
 	get int Cycle
 		return math.max(1,gv.gint.GameCycle)
