@@ -53,7 +53,43 @@ group MScript
 	void Load()
 	end
 	
+	Void Jungle()
+		Map.Load("LostPlanet - GrassJungle_3")
+		Schedule.Add("SPAWN:Einde")
+	End
+	
+	Void IntroBar()
+		MapText("INTROBAR")
+		Party.GiveEXP(3000 div __skill)
+		Map.Kill("IntroBar",true)
+	End
+	
+	Void NPC_RICKROLL()
+		string L = Map.Leader:upper()
+		if L!="WENDICKA" && L!="CRYSTAL" && L!="FOXY"
+			MapText("RICKSILENT")
+			return
+		end
+		MapText("RICKROLL.1")
+		MapText("RICKROLL.2."..L)
+		MapText("RICKROLL.3")
+		Map.ShowObj("BANNER_RICKROLLED")
+		Music.Play("Music/Scenario/Rickrolled.ogg")
+		MapText("RICKROLL.4")
+		Map.HideObj("BANNER_RICKROLLED")
+		Music.Play("MUSIC/SYS/SILENCE.OGG")
+		MapText("RICKROLL.5."..L)
+		Music.Play(__MapTune)
+		if !Done.RickRolled
+			Ach.Award("RICKROLLED")
+		end
+	end
+
+	
 	CONSTRUCTOR
+		for z in each {"IntroBar","Jungle"}
+			ZA.Enter(z,z)
+		end
 	end
 
 end
