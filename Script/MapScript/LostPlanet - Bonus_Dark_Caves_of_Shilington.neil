@@ -158,6 +158,11 @@ group MScript
 		end
 	end
 	
+	Void Leave()
+		Map.Load("LostPlanet - GrassJungle_2")
+		Schedule.Add("SPAWN:FromSecret")
+	end
+	
 	
 	CONSTRUCTOR
 		for i=1,Secrets
@@ -182,7 +187,7 @@ group MScript
 		for l in each {'abc'}
 			ZA.Enter("Dom40"..Chr(l),"Dom40")
 		end
-		for j in each {"FirstJump","JumpDown"}
+		for j in each {"FirstJump","JumpDown","Leave"}
 			ZA.Enter(j,j)
 		end
 	end
