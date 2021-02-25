@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.25
+// version: 21.02.26
 // End License Information
 module
 
@@ -61,7 +61,7 @@ module
 	end
 	
 	set int Rate
-		G.gvInt.Skill = value
+		G.gvInt.Skill = math.min(value,g.caps.maxaurinarate)
 	end
 	
 	get int AurinaCredits
@@ -80,6 +80,30 @@ module
 		// Needed for the boxtext!
 		G.gvInt.AurinaCredits = AurinaCredits
 		Cash += AurinaCredits
+	end
+	
+	get int Spent4Rate
+		return g.gvint.AurinaSpent4rate
+	end
+	
+	set int Spent4Rate
+		static int rinc = 100*(10^__skill)
+		g.gvint.AurinaSpent4rate = value
+		while g.gvint.AurinaSpent4rate>rinc
+			g.gvint.AurinaSpent4rate-=rinc
+			Rate ++
+		end
+	end
+	
+	bool Pay(int amount)
+		if amount<0
+			Lua.error("Negative payment requested!")
+		elseif amount>Cash
+			return false
+		end
+		cash-=amount
+		Spent4Rate+=amount
+		return true
 	end
 	
 end
