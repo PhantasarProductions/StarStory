@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubAchievements.neil
-// Version: 21.02.22
+// Version: 21.02.24
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,7 +55,7 @@ group SubAch
 		string str = ""
 		for k,v in spairs(Awarded)
 			if v
-				if str==""
+				if str!=""
 					str += ", "
 				end
 				str += sprintf("\"%s\"",k)
