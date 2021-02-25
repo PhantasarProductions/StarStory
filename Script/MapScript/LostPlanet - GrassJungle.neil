@@ -169,7 +169,11 @@ group MScript
 		until y>450
 		Player.WalkTo("AfterJump")
 	end
-			
+
+	VOID Pub()
+		Map.Load("LostPlanet - BarOutside")
+		Schedule.Add("SPAWN:Start")
+	END
 	
 	void Update()
 	end
@@ -182,7 +186,7 @@ group MScript
 	
 	CONSTRUCTOR
 		ZA.Enter("Pad_Tutorial","TutorPad")
-		for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2","BossTutorial"}
+		for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2","BossTutorial","Pub"}
 			ZA.Enter(z,z)
 		end
 		for i=1,3
