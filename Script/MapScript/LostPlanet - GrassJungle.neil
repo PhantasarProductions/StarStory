@@ -148,6 +148,29 @@ group MScript
 		Map.Kill("BossTutorial",true)
 	end
 	
+	void EndJump()
+		number X = Player.X
+		number Y = Player.Y
+		Player.StopWalking()
+		repeat
+			Events.Poll()
+			Y++
+			if X<416
+				x+=0.5
+			elseif x>416
+				x-=0.5
+			end
+			Player.X = math.floor(x)
+			Player.Y = y
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+		until y>450
+		Player.WalkTo("AfterJump")
+	end
+			
+	
 	void Update()
 	end
 
@@ -166,6 +189,8 @@ group MScript
 			ZA.Enter("HIDE_SECRET"..i,"HideSecret")
 		end
 		ZA.Enter("REVEAL_SECRET","ShowSecret")
+		ZA.Enter("JumpEast","EndJump")
+		ZA.Enter("JumpWest","EndJump")
 	end
 
 end
