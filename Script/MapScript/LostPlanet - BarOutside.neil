@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.25
+// version: 21.02.26
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.02.25"
+#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.02.26"
 #MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
@@ -82,9 +82,21 @@ group MScript
 		Music.Play(__MapTune)
 		if !Done.RickRolled
 			Ach.Award("RICKROLLED")
-		end
+		end 
 	end
 
+	Void NPC_PoepAurina()
+		MapText("POEP")
+		if Aurina.Have<=0
+			MapText("POEPGEENAURINA")
+			return
+		end
+		Aurina.Verzilver()
+		MapText("POEPAURINA")
+		if math.random(10^__skill)==1
+			Aurina.Rate++
+		end
+	End
 	
 	CONSTRUCTOR
 		for z in each {"IntroBar","Jungle"}
