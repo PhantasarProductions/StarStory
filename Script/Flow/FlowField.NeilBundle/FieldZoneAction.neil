@@ -116,7 +116,7 @@ class ZoneAction
 	static void RejectReject()
 		for RR,RL in self.List.Enter.Each
 			if prefixed(RR.ActZone:upper(),"REJECT")
-				CSayF("Removed %s in ZA Reject Zone",RR.Zone)
+				CSayF("Removed %s in ZA Reject Zone",RR.ActZone)
 				RL.UnLink()
 			end
 		end
