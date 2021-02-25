@@ -93,7 +93,22 @@ group MScript
 		Map.Load("LostPlanet - Bonus_Dark_Caves_of_Shilington")
 		Schedule.Add("SPAWN:Start")
 	end
+	
+	void ToFloor3()
+		Map.Load("LostPlanet - GrassJungle_3")
+		Schedule.add("SPAWN:Start")
+	end
+	
+	void ToFloor1()
+		Map.Load("LostPlanet - GrassJungle")
+		Schedule.add("SPAWN:Einde")
+	end
 
+	void BackToFloor2()
+		Map.Load("LostPlanet - GrassJungle_2")
+		Schedule.add("SPAWN:Einde")
+	end
+	
 	void Update()
 	end
 
@@ -105,7 +120,7 @@ group MScript
 	
 	CONSTRUCTOR
 		ZA.Enter("Pad_Tutorial","TutorPad")
-		for z in each {"WeGaanNaar2","TOSECRETDUNGEON"}
+		for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2"}
 			ZA.Enter(z,z)
 		end
 		for i=1,3
