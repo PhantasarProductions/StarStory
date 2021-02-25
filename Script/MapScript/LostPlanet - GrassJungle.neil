@@ -109,6 +109,45 @@ group MScript
 		Schedule.add("SPAWN:Einde")
 	end
 	
+	void Boss()
+		Int BossLevel
+		switch Caps.Cycle
+			case 0 1
+				BossLevel = 15 + (__skill*5)
+			case 2 
+				BossLevel = 190 + (__skill*10)
+			case 3
+				BossLevel = 400 + (__skill*25)
+			case 4
+				BossLevel = 1000 + (__skill*50)
+			case 5 6
+				Bosslevel = 5000 + (__skill*100)
+			case 7 8
+				BossLevel = 3000 + (__skill*250)
+			case 9
+				BossLevel = 5500 + (__skill*500)
+			case 10
+				BossLevel = 7000
+			case 11
+				BossLevel = 8000
+			case 12
+				BossLevel = 9000
+			case 13
+				BossLevel = 9500
+			case 14
+				BossLevel = 9800
+			default
+				BossLevel = 10000
+		end
+		StartCombat.Foe("Boss/BigGrassTiger",BossLevel)
+	end
+	
+	void BossTutorial()
+		MapText("BOSS."..(Map.Leader:upper()))
+		MapText("BOSS.TUTORIAL")
+		Map.Kill("BossTutorial",true)
+	end
+	
 	void Update()
 	end
 
@@ -120,7 +159,7 @@ group MScript
 	
 	CONSTRUCTOR
 		ZA.Enter("Pad_Tutorial","TutorPad")
-		for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2"}
+		for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2","BossTutorial"}
 			ZA.Enter(z,z)
 		end
 		for i=1,3

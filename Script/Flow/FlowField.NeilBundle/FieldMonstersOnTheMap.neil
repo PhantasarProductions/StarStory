@@ -148,7 +148,11 @@ class FieldMonster
 	end
 	
 	get bool EngageRange
-		return FInrange(16)
+		if Boss
+			return FInrange(36)
+		else
+			return FInrange(16)
+		end
 	end
 	
 	void Engage()
