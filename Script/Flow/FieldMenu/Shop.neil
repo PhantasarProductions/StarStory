@@ -37,7 +37,42 @@
 
 
 module 
+	var fnt  = ImageFont.Obtain("BOXTEXT")
+	var sfnt = ImageFont.Obtain("SYSFONT")
+	var Store
+	table Stock
+	table StockItem
+	
+	get string StoreName
+		return Store.StoreName
+	end
+	
+	void LoadStore(string s)
+		Store = NeilUse("Script/Data/Shop/"..s)
+	end
+
 	void Flow(uBox,string CharTag,string situation)
-		
+		int x = ubox.x + 10
+		int y = ubox.y + 10
+		Lua.assert(Store,"No store loaded")
+		__red
+		fnt.Text(StoreName,x,y)
+	end
+	
+	Constructor
+		var gStock(s,int s)
+			if s<1 || s>10
+				return nil
+			end
+			return right(Store["Stock"..s],(#Store["Stock"..s])-5)
+		end
+		var gStockItem(s,int s)
+			if s<1 || s>10
+				return nil
+			end
+			return Item[Stock[s]]
+		end
+		Stock = Lua.setmetatable({},{["__index"]=gStock)
+		StockItem = Lua.setmetatable({},{["__index"]=gStockItem)
 	end
 end

@@ -65,6 +65,7 @@ init
 	Situations.COMBAT_ITEMS = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
 	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 	Situations.VAULT = {{ ["RIGHT"] = { ["ID"]="VAULT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
+	Situations.SHOP  = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 end
 
 global void PartyClick(int i,string ch)
@@ -92,6 +93,11 @@ end
 global void SetFM(string ch,string sit)
 	FMChar=ch
 	FMSituation=sit
+end
+
+global void LoadShop(string shp)
+	Situations.SHOP.RIGHT.MOD = Situations.SHOP.RIGHT.MOD || Neil.Use("Script/Flow/FieldMenu/Shop")
+	Situations.SHOP.RIGHT.MOD.LoadStore(shp)
 end
 
 global void Apollo_Flow()
