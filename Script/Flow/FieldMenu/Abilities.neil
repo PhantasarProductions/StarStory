@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 21.02.24
+// Version: 21.02.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,6 +70,9 @@ class Crystal_ARMS
 	get string Name
 		return Item["ARM_"..Tag].Name
 	end
+	get var ARM
+		return Item["ARM_"..Tag]
+	end
 	
 	Constructor(string atag)
 		Tag = aTag:upper()
@@ -84,6 +87,7 @@ class Crystal_ARMS
 		int xht = (vak*5) + ubox.x
 		int xwg = (vak*6) + ubox.x
 		int yhd = ubox.y+10
+		string ht
 		__red
 		sfont.text("Ammo",xam,yhd)
 		sfont.text("Extra Power",xpw,yhd)
@@ -96,6 +100,7 @@ class Crystal_ARMS
 			Bool Hover = Events.MouseX()>ubox.x && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>=y && Events.MouseY()<y+25 
 			__skyblue
 			if Hover
+				ht = A.ARM.Description
 				Graphics.Color(0,255,255)
 				if Events.MouseHitLeft() && Prefixed(situation,"COMBAT_")
 					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
@@ -114,6 +119,8 @@ class Crystal_ARMS
 			sfont.text(Lua.tostring(A.weight),xwg,y)
 			y+=25
 		end
+		__white
+		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
 	end
 end
 
@@ -153,6 +160,7 @@ module
 		end
 		int y = ubox.y + 20
 		int x = ubox.x + 40
+		string ht
 		//for list abl
 		//end
 		for atag in RPGChar[CharTag].List.ABL.Each
@@ -166,6 +174,7 @@ module
 			__skyblue
 			if Hover
 				Graphics.Color(0,255,255)
+				ht = abl.Description
 			end
 			afont.Text(abl.Name,x,y)
 			int APCost = abl.ABL_AP
@@ -209,6 +218,7 @@ module
 		end
 		__white
 		sfont.Text(mods[CharTag].ShowNeed(CharTag),x,y)
+		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
 	end
 	
 	CONSTRUCTOR
