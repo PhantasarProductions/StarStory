@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 21.02.18
+// Version: 21.02.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,6 +37,7 @@
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Box"
+#use "Libs/FitText"
 
 table Situations
 table Situations_Field
