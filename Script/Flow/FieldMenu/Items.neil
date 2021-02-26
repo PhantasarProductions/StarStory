@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.02.09
+// Version: 21.02.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -95,6 +95,10 @@ module
 		int my  = pmy - ubox.y
 		bool ml = Events.MouseHitLeft()
 		var ch  = RPGChar[CharTag]
+		var it
+		string itn = ""
+		string itd = ""
+		string its = ""
 		__White
 		for i=1,Caps.InventorySockets
 			int ci = i-1
@@ -104,32 +108,48 @@ module
 			int itamt    = ch.Stat[sprintf("INVAMNT%d",i)]
 			Socket.Draw(uBox.x+(cx*35),ubox.y+(cy*35))
 			// CSayF("Check: %s; %02d > %s:%d",CharTag,i,ittag,itamt) // debug only
+			it = nil
 			if itamt>0
-				var it = Item["ITM_"..ittag]
+				it = Item["ITM_"..ittag]
 				it.Icon.Draw(uBox.x+(cx*35)+17,uBox.y+(cy*35)+35)
 				if itamt>1
 					Fnt.DarkText(itamt,uBox.x+(cx*35)+35,uBox.y+(cy*35)+35,1,1)
 				end
 			end
-			if ml && mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
-				switch situation:upper()
-					case "FIELD" "VAULT" "COMBAT_ITEMS"
-						CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
-						if cItem=="" and itamt==0
-							CSayF("Player clicked socket #%d for some reason I don't know!",i)
-						elseif cItem=="" and itamt>0
-							GetIt(i,CharTag)
-						elseif itamt==0
-							PlaceIt(i,CharTag,citem)
-						elseif ittag==citem && __skill!=3
-							PlaceIt(i,CharTag,citem)
-						elseif itamt==1
-							string swp = citem
-							GetIt(i,CharTag)					
-							PlaceIt(i,CharTag,swp)
+			if mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
+				if it
+					//FitText.Text(Fnt,Lua.tostring(it.Name),pmx+20,pmy+20)
+					//FitText.Text(Fnt,Lua.tostring(it.Description),pmx+20,pmy+55)
+					itn = it.Name
+					itd = it.Description
+					if situation:upper()=="SHOP"
+						if it.ITM_Sellable && it.ITM_SellPrice>0
+							its = sprintf("Sell price: %d credits",it.ITM_SellPrice)
+						else
+							its = "This item cannot be sold"
 						end
-					default
-						lua.error("Situation unknown: "..situation)
+					end
+				end
+				if ml
+					switch situation:upper()
+						case "FIELD" "VAULT" "COMBAT_ITEMS"
+							CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
+							if cItem=="" and itamt==0
+								CSayF("Player clicked socket #%d for some reason I don't know!",i)
+							elseif cItem=="" and itamt>0
+								GetIt(i,CharTag)
+							elseif itamt==0
+								PlaceIt(i,CharTag,citem)
+							elseif ittag==citem && __skill!=3
+								PlaceIt(i,CharTag,citem)
+							elseif itamt==1
+								string swp = citem
+								GetIt(i,CharTag)					
+								PlaceIt(i,CharTag,swp)
+							end
+						default
+							lua.error("Situation unknown: "..situation)
+					end
 				end
 			end
 		end
@@ -143,5 +163,9 @@ module
 		if situation:upper()=="FIELD"
 			iUse.Draw(ubox.x+ubox.w-math.floor(Trash.Width*2.5),ubox.y+ubox.h-iUse.Height)
 		end
+		FitText.Dark(Fnt,itn,pmx+20,pmy+20)
+		FitText.Dark(Fnt,itd,pmx+20,pmy+55)
+		FitText.Dark(Fnt,its,pmx+20,pmy+90)
+
 	end
 end
