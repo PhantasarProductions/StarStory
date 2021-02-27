@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.02.25
+// Version: 21.02.27
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -46,7 +46,14 @@ global void DrawScreen(noauto)
 		FLDMap.ScrollX = GrPlayer.X - math.floor(Screen.W/2)
 		FLDMap.ScrollY = GrPlayer.Y - math.floor(Screen.H/2)
 	end
-	if !noauto
+	//print("Party Pop",PPop.Popped,PPop.Unpopping)
+	if PPop.Popped
+		FldMap.CurLayer.Obj("PLAYER").Visible=false
+		if PPop.Unpopping
+			PPop.UnPopCheck()
+			FldMap.CurLayer.Obj("PLAYER").Visible=!ppop.unpopping
+		end
+	elseif (!noauto) 
 		FldMap.AutoTexPlayer()
 		if math.abs(GrPlayer.Y-oldy)>60
 			FldMap.CurLayer.RemapDominance(FldMap.Layer)
