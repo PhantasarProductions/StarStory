@@ -19,13 +19,14 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
 
 #MKL_Version "Star Story - None.neil" "21.02.18"
 #MKL_Lic     "Star Story - None.neil" "ZLib License"
 
 group MScript
 
-	void CreateFoxy()
+	Void CreateFoxy()
 		if if Caps.Cycle>1 || gv.gbool.ImportedFoxy
 			return
 		end
@@ -49,7 +50,7 @@ group MScript
 		// Console.Write("Let's welcome Foxy!",0,255,0)
 	end
 	
-	void CreateYirl()
+	Void CreateYirl()
 		if  Caps.Cycle>1 || gv.gbool.ImportedYirl
 			Party.GrabLevel("Yirl",math.min(10000,RPGChar.Wendicka.stat.level+5))
 			return
@@ -82,6 +83,19 @@ group MScript
 		RPGParty[5]="Foxy"
 		gv.vBool.CanSwitch=true
 	end
+	
+	Void StartDungeon()
+		Map.SetObj("KijkGat","Y",0)
+		Map.SpawnPlayer("Start")
+		Map.Leader="Wendicka"
+		Player.Wind=South
+		MapText("CAPTURED")
+		for a=255,0,-0.02
+			Map.SetObj("KijkGat","Alpha255",math.floor(a))
+		end
+		Map.Kill("KijkGat",true)
+		MapText("CAPTURED2")
+	End
 
 	void Update()
 	end
