@@ -1,0 +1,101 @@
+// License Information:
+// src/Tricky Script/Script/MapScript/None.neil
+// Basic MapScript Template
+// version: 21.02.18
+// Copyright (C) 2020, 2021 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - None.neil" "21.02.18"
+#MKL_Lic     "Star Story - None.neil" "ZLib License"
+
+group MScript
+
+	void CreateFoxy()
+		if if Caps.Cycle>1 || gv.gbool.ImportedFoxy
+			return
+		end
+		Party.NewChar("Foxy",30 div __skill,"Foxy")
+		var Foxy = RPGChar.Foxy
+		Foxy.Data.INVITEM1="HEALINGCAPSULE"
+		Foxy.StatINVAMNT1=3
+		Foxy.Data.INVITEM2="FIRSTAIDKIT"
+		Foxy.StatINVAMNT2=7
+		Foxy.Data.INVITEM2="ANTIDOTE"
+		Foxy.StatINVAMNT2=8
+		Foxy.List.ABL.Add = "FOXY_MULTISTAB"
+		Foxy.List.ABL.Add = ="FOXY_PICKPOCKET"
+		Foxy.Stat.SR_BASE_Poison=30 div __skill
+		Foxy.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
+		Foxy.Stat.SR_BASE_Disease=60 div __skill
+		Foxy.Stat.SR_BASE_Will=100-((__skill-1)*10)
+		Foxy.Stat.SR_BASE_Block=72 div __skill
+		Foxy.Stat.SR_BASE_Death=90 div __skill)
+		Foxy.Stat.SR_BASE_Damned=70-(skill*10)
+		// Console.Write("Let's welcome Foxy!",0,255,0)
+	end
+	
+	void CreateYirl()
+		if  Caps.Cycle>1 || gv.gbool.ImportedYirl
+			Party.GrabLevel("Yirl",math.min(10000,RPGChar.Wendicka.stat.level+5))
+			return
+		end
+		Party.NewChar("Yirl",RPGChar.Wendicka.stat.level+5,"Yirl")
+		var Yirl = RPGChar.Yirl
+		Yirl.Data.INVITEM1="HEALINGCAPSULE"
+		Yirl.Stat.INVAMNT1=5
+		Yirl.Data.INVITEM2="FIRSTAIDKIT"
+		Yirl.Stat.INVAMNT2=1
+		Yirl.Stat.AMMO_BASE=6
+		Yirl.List.ABL.Add="Yirl_Intimidate"
+		// Yirl.Stat.PXM=42 // No longer needed
+		Yirl.Stat.SR_BASE_Poison=30 div __skill
+		Yirl.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
+		Yirl.Stat.SR_BASE_Disease=60 div __skill
+		Yirl.Stat.SR_BASE_Will=24 div __skill
+		Yirl.Stat.SR_BASE_Block=54 div __skill
+		Yirl.Stat.SR_BASE_Death=66 div __skill
+		Yirl.Stat.SR_BASE_Damned=60-(__skill*10)
+		// Yirl.Data.ShootSpellAni="Yirl_Laser" // Not needed!
+
+		// Console.Write("Let's welcome Yirl!=0,255,0)
+	end
+	
+	Void WelcomeYirlAndFoxy()
+		CreateYirl()
+		CreateFoxy()
+		RPGParty[4]="Yirl"
+		RPGParty[5]="Foxy"
+		gv.vBool.CanSwitch=true
+	end
+
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		if !Done.CreateYirlAndFoxy
+			WelcomeYirlAndFoxy()
+		end
+	end
+
+end
