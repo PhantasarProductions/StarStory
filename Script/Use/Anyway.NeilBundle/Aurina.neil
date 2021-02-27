@@ -78,10 +78,11 @@ module
 	
 	void Verzilver()
 		// Needed for the boxtext!		
-		g.gvStr.AURINAS       = sprintf("%4d",Have)
-		g.gvStr.AURINARATE    = sprintf("%4d",Rate)
-		g.gvStr.AURINACREDITS = sprintf("%6d",AurinaCredits)
-		Cash += AurinaCredits
+		g.gvStr.AURINAS           = sprintf("%4d",Have)
+		g.gvStr.AURINARATE        = sprintf("%4d",Rate)
+		g.gvStr.AURINACREDITS     = sprintf("%6d",AurinaCredits)
+		g.gvInt.AURINASEXCHANGED += Have
+		Cash += AurinaCredits		
 		Have = 0
 	end
 	
@@ -120,6 +121,7 @@ module
 		end
 		cash-=amount
 		Spent4Rate+=amount
+		g.gv.gint.TotalCashSpent+=amount
 		return true
 	end
 	
@@ -129,6 +131,13 @@ module
 		end
 		cash+=amount
 		Earned4Rate+=amount
+	end
+	
+	get int Shilders
+		return g.gv.gint.Shilders
+	end
+	set int Shilders
+		g.gv.gint.Shilders=value
 	end
 	
 end
