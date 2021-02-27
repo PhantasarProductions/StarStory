@@ -40,7 +40,45 @@
 #MKL_Version "Star Story - LostPlanet - BarInside.neil" "21.02.27"
 #MKL_Lic     "Star Story - LostPlanet - BarInside.neil" "Phantasar Closed License"
 
+#macro SpokenToStork gv.gBool.Done_LostPlanet_IllegalBar_SpokenToStork
+
 group MScript
+
+	Void Fight()
+		plua rand = math.random
+		plua FightPics = {}
+		for i=1,5  
+			FightPics[i] = Image.Load("GFX/Scenario/Fight/"..i..".png") 
+			Image.HotCenter(FightPics[i])
+		end	
+		plua FightTable = {}
+		for alpha=-200,100 
+			// DrawScreen()
+			Graphics.Cls()
+			__White
+			if #FightTable==0 || rand(1,10)==1 
+				FightTable[#FightTable+1] = { ["x"]	=rand(30,770), ["y"] = rand(30,570), ["pic"]=rand(1,5) } 
+			end
+			if rand(1,50)==1 
+				Lua.table.remove(FightTable,1) 
+			end
+			for f in each(FightTable) 
+				FightPics[f.pic].Draw(f.x,f.y) 
+			end
+			if alpha>0 then
+				__black
+				Graphics.SetAlpha(math.ceil((alpha/100)*255) // Result of old code to new. BlitzMax was a bit terrible here.
+				Graphics.Rect(0,0,800,600)
+			end
+			Graphics.Flip()
+			Events.Poll()
+			FPS.WaitMinTicks()
+		end	
+		for i=1,5 do 
+			//Image.Free(FightPics[i])
+			FightPics[i].Kill()
+		end
+	end
 
 	Void Astrilopup()
 		if Map.Leader=="Wendicka"
@@ -52,7 +90,43 @@ group MScript
 	End
 	ReadOnly Delegate NPC_Astrilopup1
 	ReadOnly Delegate NPC_Astrilopup2
+	
+	Void NPC_Bladeh()
+		if Map.Leader=="Wendicka"
+			MapText("ALIEN_WENDICKA")
+		else
+			MapText("ALIEN")
+		end
+	end
+	
+	Void NPC_Yirl()
+		if !SpokenToStork
+			MapText("YIRL_NOGO")
+		else
+			PPop.Pop("Yirl","North")
+			MapText("YIRL")
+			Fight()
+			Map.Load("LostPlanet - Dungeon - Cell")
+			Schedule.Add("StartDungeon")			
+		end
+	end
+	
+	Void NPC_Stork()
+		if !SpokenToStork
+			PPop.Pop("Stork","North")
+			MapText("STORK")
+			PPop.UnPop()
+			SpokenToStork=true
+		else
+			MapText("STORK_AGAIN")
+		end
+	end
 
+	Void GetOut()
+		Map.Load("LostPlanet - BarOutside")
+		Schedule.Add("SPAWN:NoWay")
+	end
+	
 	void Update()
 	end
 
@@ -65,6 +139,7 @@ group MScript
 	CONSTRUCTOR
 		NPC_Astrilopup1 = Astrilopup
 		NPC_Astrilopup2 = Astrilopup
+		ZA.Enter("Exit","GetOut")
 	end
 
 end
