@@ -104,8 +104,14 @@ group MScript
 	End
 	
 	Void EnterPub()
-		Map.Load("LostPlanet - BarInside")
-		Schedule.Add("SPAWN:Entrance")
+		If gv.gbool.BarDone
+			Player.StopWalking()
+			Player.WalkTo("NoWay")
+			MapText("NO_ENTER")
+		Else
+			Map.Load("LostPlanet - BarInside")
+			Schedule.Add("SPAWN:Entrance")
+		end
 	End
 	
 	CONSTRUCTOR
