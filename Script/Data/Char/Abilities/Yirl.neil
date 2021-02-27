@@ -1,0 +1,97 @@
+// License Information:
+// src/Tricky Script/Script/Data/Char/Abilities/Template.neil
+// Template for Star Story Abilities
+// version: 21.02.19
+// Copyright (C) 2021 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+module
+
+	table Ability
+	readonly var YA = RPGChar.Yirl
+	
+	get number BusinessPoints
+		int totalscore
+		// Please note. The code below is directly taken from the original
+		// source code and merely adapted
+		
+		
+		// general scores
+		TABLE calcscore = {}                     
+        calcscore.bonus = GV.GINT.BUSINESSBONUS
+        calcscore.aurinahave = AURINAS.HAVE*10
+        calcscore.aurinaexchanged = gv.gint.AURINAEXCHANGED*5
+        calcscore.cash = Aurinas.CASH/200
+        calcscore.cashspent = gv.gint.TotalCashSpent/300
+        calcscore.shilderhave = Aurinas.shilders/({10,25,50})[__skill]
+                  
+        // inventory calculation
+        string ch
+        for i=1,6 do
+        	ch = RPGParty[i] || ""
+        	if ch!="" 
+        		for socket=1,Caps.InventorySockets 
+        			calcscore.inventory = (calcscore.inventory or 0) + YAar.Stat["INVAMNT"..socket]*5
+        		end
+        	end
+        end
+   
+        // vault calculation
+        // for itcode in IVARS() do
+        // if prefixed(itcode,"%VAULT.") then calcscore.vault = (calcscore.valut or 0)+(CVV(itcode)*2.5) end
+        // end
+        for it in Vault.Each
+        	calcscore.vault = (calcscore.vault || 0) + (Vault.Has(it) * 2.5) 
+        end
+        // calculate
+        for f,v in spairs(calcscore) 
+        	totalscore += v
+        end		
+		return totalscore
+	end
+	
+	string ShowNeed(string chtag)
+		int i = 20000
+		for k,n in pairs(Ability)
+			if !YA.List.ABL.has("YIRL_"..k)
+				i = math.min(i,n)
+			end
+		end
+		if BusinessPoints>=i
+			return "Attack any enemy!"
+		elseif i<20000
+			return sprint("You got %4.2f business points and you need %4.2f",i,BusinessPoints)
+		else
+			return ""
+		end
+	end
+	
+	get string Learn
+			int i = 20000
+			for k,n in pairs(Ability)
+				if !YA.List.ABL.has("YIRL_"..k) && BusinessPoints>n
+					return "YIRL_"..k
+				end
+			end
+		end
+		return ""
+	end
+	
+	
+	CONSTRUCTOR
+		Ability = { ["TRIGGERHAPPY"] = 1400, ["TAUNT"] = 1800, ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
+	end
+	
+end
