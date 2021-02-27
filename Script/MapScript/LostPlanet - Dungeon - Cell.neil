@@ -38,7 +38,7 @@ group MScript
 		Foxy.Data.INVITEM2="ANTIDOTE"
 		Foxy.StatINVAMNT2=8
 		Foxy.List.ABL.Add = "FOXY_MULTISTAB"
-		Foxy.List.ABL.Add = ="FOXY_PICKPOCKET"
+		Foxy.List.ABL.Add = "FOXY_PICKPOCKET"
 		Foxy.Stat.SR_BASE_Poison=30 div __skill
 		Foxy.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
 		Foxy.Stat.SR_BASE_Disease=60 div __skill
@@ -61,7 +61,7 @@ group MScript
 		Yirl.Data.INVITEM2="FIRSTAIDKIT"
 		Yirl.Stat.INVAMNT2=1
 		Yirl.Stat.AMMO_BASE=6
-		Yirl.List.ABL.Add="Yirl_Intimidate"
+		Yirl.List.ABL.Add="YIRL_INTIMIDATE"
 		// Yirl.Stat.PXM=42 // No longer needed
 		Yirl.Stat.SR_BASE_Poison=30 div __skill
 		Yirl.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
