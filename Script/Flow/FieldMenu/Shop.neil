@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Shop.neil
-// Version: 21.02.26
+// Version: 21.02.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "libs/xmath"
+#use "Script/Data/Shops/MyData_ClassFile_Shops"
 
 module 
 	var fnt  = ImageFont.Obtain("BOXTEXT")
@@ -47,32 +49,121 @@ module
 		return Store.StoreName
 	end
 	
-	void LoadStore(string s)
-		Store = NeilUse("Script/Data/Shop/"..s)
+	void LoadStore(string sh)
+		Store = NeilUse("Script/Data/Shops/"..sh)
+	end
+	
+	get int Cash
+		return Aurina.Cash
+	end
+	
+	void Sell(string CharTag,int slot)
+		var ch = RPGChar[CharTag]
+		string ittag = ch.Data[sprintf("INVITEM%d",slot)]
+		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
+		if ittag=="" || itamt<=0
+			return
+		end
+		var it = Item["ITM_"..ittag]
+		ch.Stat[sprintf("INVAMNT%d",slot)]--
+		Aurina.Earn(it.itm_sellprice)
+		CSayF("Sold %s from socket #%d from character %s",ittag,slot,CharTag) 		
 	end
 
 	void Flow(uBox,string CharTag,string situation)
-		int x = ubox.x + 10
+		itmod.Sell = itmod.Sell || self.Sell
+		int x = ubox.x + 40
 		int y = ubox.y + 10
+		int w = ubox.w - 50
+		int rx= (ubox.x+ubox.w)-10
+		int ry= (ubox.y+ubox.h)-10
+		int pmx = Events.MouseX()
+		int pmy = Events.MouseY()
+		int mx  = pmx-ubox.x
+		int my  = pmy-ubox.y
+		string hoveritem=""
+		int hoveri=0
+		var hoverit=nil
+		bool ml = Events.MouseHitLeft()
+		bool mr = Events.MouseHitRight()
 		Lua.assert(Store,"No store loaded")
 		__red
-		fnt.Text(StoreName,x,y)
+		fnt.Text(StoreName,x,y)		
+		for i=1,10
+			var it = StockItem[i]
+			int iy = y+20+(i*25)
+			bool hover = pmx>ubox.x && pmx<ubox.x+ubox.h && pmy>iy && pmy<iy+25
+			if it
+				if hover
+					hoveri=i
+					hoverit=it
+					hoveritem = Stock[i]
+					Graphics.Color(0,255,255)
+				else
+					__skyblue
+				end
+				fnt.Text(it.Name,x,iy)
+				if it.ITM_BuyPrice>Aurina.Cash
+					__red
+				elseif hover
+					Graphics.Color(255,255,0)
+				else
+					__ember
+				end
+				sfnt.Text(sprintf("%d Credits",it.ITM_BuyPrice),rx,iy,1)
+			end
+		end
+		static number a
+		int col = math.floor(xmath.sin(a/10))
+		a = (a+1)%3600
+		Graphics.Color(255-col,col,0)
+		sfnt.Text(sprintf("You now have %d credits",Cash),x,ry,0,1)
+		if ml && itmod.citem!="" && pmx>ubox.x && pmx<ubox.x+ubox.w && pmy>ubox.y && Pmy<ubox.y+ubox.h && item["ITM_"..itmod.citem].itm_sellable && item["ITM_"..itmod.citem].itm_sellprice>0
+				Aurina.Earn(item["ITM_"..itmod.citem].itm_sellprice)
+				CSayF("Sold %s",itmod.citem) 
+				itmod.citem=""
+				itmod.rcitem=""
+				itmod.rsitem=0		
+		elseif hoverit
+			__white
+			FitText.Dark(sfnt,hoverit.Description,pmx+25,pmy+25)
+			if Cash>hoverit.ITM_BuyPrice
+				if ml 
+					CSay("Left mouse button clicked while hovering! Are we bying something?")
+					if itmod.citem==""
+						CSayF("Bought %s => %s",hoveritem,right(hoveritem,#hoveritem-4))
+						Aurina.Pay(hoverit.ITM_BuyPrice)
+						CSayF("Paid %d credits",hoverit.ITM_BuyPrice)
+						itmod.citem=right(hoveritem,#hoveritem-4)
+						itmod.rcitem = "SHOP"
+						itmod.rsitem = 0
+					end
+				elseif mr and Item.Give(hoveritem,CharTag)
+					Aurina.Pay(hoverit.ITM_BuyPrice)
+				end
+			end
+		end
 	end
 	
 	Constructor
-		var gStock(s,int s)
+		// Index for Stock metatable
+		var gStock(this,int s)
 			if s<1 || s>10
 				return nil
 			end
-			return right(Store["Stock"..s],(#Store["Stock"..s])-5)
+			return left(Store["Stock"..s],(#Store["Stock"..s])-5)
 		end
-		var gStockItem(s,int s)
+		// indx for StockItem metatable
+		var gStockItem(this,int s)
 			if s<1 || s>10
+				return nil
+			end
+			if prefixed(Stock[s],"*")
 				return nil
 			end
 			return Item[Stock[s]]
 		end
-		Stock = Lua.setmetatable({},{["__index"]=gStock)
-		StockItem = Lua.setmetatable({},{["__index"]=gStockItem)
+		Stock = Lua.setmetatable({},{["__index"]=gStock})
+		StockItem = Lua.setmetatable({},{["__index"]=gStockItem})		
 	end
 end

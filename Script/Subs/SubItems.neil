@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubItems.neil
-// Version: 21.02.19
+// Version: 21.02.27
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -93,6 +93,10 @@ global bool S_GiveItem(string it,string char)
 	if char=="Briggs"
 		return false
 	end
+	it = it:upper()
+	if prefixed(it,"ITM_")
+		it = right(it,#it-4)
+	end
 	
 	int FirstEmptyInvSocket()
 		int i=0
@@ -110,7 +114,7 @@ global bool S_GiveItem(string it,string char)
 	int i=0
 	string dtag
 	string stag
-	it = it:upper()
+	//it = it:upper()
 	repeat
 		i++
 		dtag = sprintf("INVITEM%d",i)

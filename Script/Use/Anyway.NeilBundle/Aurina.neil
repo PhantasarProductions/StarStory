@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.26
+// version: 21.02.27
 // End License Information
 module
 
@@ -98,6 +98,20 @@ module
 		end
 	end
 	
+	get int Earned4Rate
+		return g.gvint.AurinaEarned4rate
+	end
+
+	set int Earned4Rate
+		static int rinc = 123*(10^__skill)
+		g.gvint.AurinaEarned4rate = value
+		while g.gvint.AurinaEarned4rate>rinc
+			g.gvint.AurinaEarned4rate-=rinc
+			Rate ++
+		end
+	end
+
+	
 	bool Pay(int amount)
 		if amount<0
 			Lua.error("Negative payment requested!")
@@ -107,6 +121,14 @@ module
 		cash-=amount
 		Spent4Rate+=amount
 		return true
+	end
+	
+	void Earn(int amount)
+		if amount<0
+			Lua.error("Negative earning requested!")
+		end
+		cash+=amount
+		Earned4Rate+=amount
 	end
 	
 end

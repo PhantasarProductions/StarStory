@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/FieldMenu.neil
-// Version: 20.10.05
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.27
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -46,6 +46,12 @@ group FMenu
 		Flow.GoToFlow("FIELDMENU")
 	end
 	
+	void Shop(string store)
+		FML()
+		State.Call("FLOW_FIELDMENU","LoadShop","\""..store.."\"")
+		Go(Lua.Neil.Globals.Map.Leader,"SHOP")
+	end
+		
 
 end
 

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 21.02.26
+// Version: 21.02.27
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -77,6 +77,10 @@ global void PartyClick(int i,string ch)
 		else 
 			if FMChar == ch
 				if itmod && itmod.citem!=""
+					if itmod.rcitem:upper()=="SHOP"
+						CSay("Item from a shop cannot be returned! Put item somewhere before moving on!")
+						return
+					end
 					CSayF("Returing item %s to socket #%d of character %s",itmod.citem,itmod.rsitem,itmod.rcitem)
 					RPGChar[itmod.rcitem].Stat[sprintf("INVAMNT%d",itmod.rsitem)]++
 					RPGChar[itmod.rcitem].Data[sprintf("INVITEM%d",itmod.rsitem)]=itmod.citem
@@ -96,8 +100,8 @@ global void SetFM(string ch,string sit)
 end
 
 global void LoadShop(string shp)
-	Situations.SHOP.RIGHT.MOD = Situations.SHOP.RIGHT.MOD || Neil.Use("Script/Flow/FieldMenu/Shop")
-	Situations.SHOP.RIGHT.MOD.LoadStore(shp)
+	Situations.SHOP[1].RIGHT.MOD = Situations.SHOP[1].RIGHT.MOD || NeilUse("Script/Flow/FieldMenu/Shop")
+	Situations.SHOP[1].RIGHT.MOD.LoadStore(shp)
 end
 
 global void Apollo_Flow()

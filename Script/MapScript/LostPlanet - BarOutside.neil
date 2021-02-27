@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.26
+// version: 21.02.27
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.02.26"
+#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.02.27"
 #MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
@@ -98,8 +98,18 @@ group MScript
 		end
 	End
 	
+	Void NPC_Merchant()
+		MapText("MERCHANT")
+		FMenu.Shop("LOSTPLANET_BAR_ITEMS")
+	End
+	
+	Void EnterPub()
+		Map.Load("LostPlanet - BarInside")
+		Schedule.Add("SPAWN:Entrance")
+	End
+	
 	CONSTRUCTOR
-		for z in each {"IntroBar","Jungle"}
+		for z in each {"IntroBar","Jungle","EnterPub"}
 			ZA.Enter(z,z)
 		end
 	end

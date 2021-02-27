@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.02.26
+// Version: 21.02.27
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,6 +44,7 @@ module
 	string rcItem
 	string LSituation
 	int rsItem
+	delegate Sell
 	
 	void GetIt(int slot,string cht)
 		var ch  = RPGChar[cht]
@@ -94,6 +95,7 @@ module
 		int mx  = pmx - ubox.x
 		int my  = pmy - ubox.y
 		bool ml = Events.MouseHitLeft()
+		bool mr = Events.MouseHitRight()
 		var ch  = RPGChar[CharTag]
 		var it
 		string itn = ""
@@ -132,7 +134,7 @@ module
 				end
 				if ml
 					switch situation:upper()
-						case "FIELD" "VAULT" "COMBAT_ITEMS"
+						case "FIELD" "VAULT" "COMBAT_ITEMS" "SHOP"
 							CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
 							if cItem=="" and itamt==0
 								CSayF("Player clicked socket #%d for some reason I don't know!",i)
@@ -150,10 +152,17 @@ module
 						default
 							lua.error("Situation unknown: "..situation)
 					end
+				elseif mr
+					switch situation:upper()
+						case "SHOP"
+							Invoke(Sell,CharTag,i)
+						default
+							CSayF("Nothing appears to be done in situation %s",situation)
+					end
 				end
 			end
 		end
-		if situation:upper()=="FIELD" || situation:upper()=="VAULT"
+		if situation:upper()=="FIELD" || situation:upper()=="VAULT" || situation:upper()=="SHOP" 
 			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
 			if ml && Mx>ubox.w-Trash.Width && my<ubox.h && my>ubox.h-Trash.Height && cItem!=""
 				CSayF("Trashing: %s",cItem)
