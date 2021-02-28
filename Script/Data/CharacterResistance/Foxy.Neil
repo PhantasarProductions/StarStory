@@ -1,0 +1,66 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Data/CharacterResistance/Foxy.Neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.02.28
+// End License Information
+init
+	//if RPGChar.Has("Foxy")
+	//	CSayF("Foxy should already have been set!")
+	//	return
+	//end
+	var p = RPGChar.Foxy.Stat
+	CSay("Foxy Elements")
+	p.ER_Dark = 3 
+	p.ER_Earth = 3
+	p.ER_Fire = 3 
+	p.ER_Frost = 3
+	p.ER_Healing = 6 
+	p.ER_Light = 3 
+	p.ER_Lightning = 3
+	p.ER_Water = 3
+	p.ER_Wind = 3 
+	
+	CSay("Foxy Status resistance")
+	p.SR_BASE_Block = 10 
+	p.SR_BASE_Buff = 0
+	p.SR_BASE_Debuff = 5
+	p.SR_BASE_Poison=30 div __skill
+	p.SR_BASE_Paralysis=math.ceil(99 div __skill)
+	p.SR_BASE_Disease=60 div __skill
+	p.SR_BASE_Will=100-((__skill-1)*10)
+	p.SR_BASE_Block=72 div __skill
+	p.SR_BASE_Death=90 div __skill
+	p.SR_BASE_Damned=70-(__skill*10)
+	
+end
