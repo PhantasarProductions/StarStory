@@ -94,7 +94,7 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	get bool Available
-		return PartyIndex>0 and PartyIndex<6
+		return PartyIndex>0 and PartyIndex<=3
 	end
 	get bool Targetable_Hero
 		return Available
@@ -195,9 +195,10 @@ class Combat_Hero extends Combat_Fighter
 		if PartyIndex<3
 			for i=4,6
 				if RPGParty[i] && RPGParty[i]!=""
-					RPGChar[RPGParty[i]].AP++
+					RPGChar[RPGParty[i]].Points.AP.Have++
 					if RPGParty[i]=="Crystal"
-						// TODO: Crystal's HP Up for backrow
+						number deler = 1/(__skill*50)
+						RPGChar.Crystal.Points.HP.Have += math.ceil(deler*RPGChar.Crystal.Points.HP.Have)						
 					end
 				end
 			end
