@@ -48,19 +48,19 @@ module
 		// general scores
 		TABLE calcscore = {}                     
         calcscore.bonus = GV.GINT.BUSINESSBONUS
-        calcscore.aurinahave = AURINAS.HAVE*10
-        calcscore.aurinaexchanged = gv.gint.AURINAEXCHANGED*5
-        calcscore.cash = Aurinas.CASH/200
+        calcscore.aurinahave = Aurina.HAVE*10
+        calcscore.aurinaexchanged = gv.gint.AURINASEXCHANGED*5
+        calcscore.cash = Aurina.CASH/200
         calcscore.cashspent = gv.gint.TotalCashSpent/300
-        calcscore.shilderhave = Aurinas.shilders/({10,25,50})[__skill]
+        calcscore.shilderhave = Aurina.shilders/({10,25,50})[__skill]
                   
         // inventory calculation
         string ch
-        for i=1,6 do
+        for i=1,6 
         	ch = RPGParty[i] || ""
         	if ch!="" 
         		for socket=1,Caps.InventorySockets 
-        			calcscore.inventory = (calcscore.inventory or 0) + YAar.Stat["INVAMNT"..socket]*5
+        			calcscore.inventory = (calcscore.inventory or 0) + YA.Stat["INVAMNT"..socket]*5
         		end
         	end
         end
@@ -89,20 +89,19 @@ module
 		if BusinessPoints>=i
 			return "Attack any enemy!"
 		elseif i<20000
-			return sprint("You got %4.2f business points and you need %4.2f",i,BusinessPoints)
+			return sprintf("You got %4.2f business points and you need %4.2f",BusinessPoints,i)
 		else
 			return ""
 		end
 	end
 	
 	get string Learn
-			int i = 20000
-			for k,n in pairs(Ability)
-				if !YA.List.ABL.has("YIRL_"..k) && BusinessPoints>n
-					return "YIRL_"..k
-				end
+		int i = 20000
+		for k,n in pairs(Ability)
+			if !YA.List.ABL.has("YIRL_"..k) && BusinessPoints>n
+				return "YIRL_"..k
 			end
-		end
+		end		
 		return ""
 	end
 	
