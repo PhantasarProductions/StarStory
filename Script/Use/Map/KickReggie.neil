@@ -1,0 +1,86 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Map/KickReggie.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.02.28
+// End License Information
+void Kick(string Foxy,string Reggie,string wind)
+	Static Var Cuckoo = Audio.LoadNew("Audio/SFX/Cuckoo-clock-sound.ogg","CUCKOO")
+	int ox = Map.ObjInt(Reggie,"X")
+	int oy = Map.ObjInt(Reggie,"Y")
+	string oft = Map.ObjStr(Foxy,"Texture")
+	Map.SetObj(Foxy,"Texture","GFX/Actors/Player/Foxy."..wind..".jpbf")
+	Map.SetObj(Foxy,"Frame",1)
+	repeat
+		switch wind:upper()
+			case "NORTH"
+				Map.SetObj(Reggie,"Y",Map.ObjInt(Reggie,"Y")-4)
+			case "SOUTH"
+				Map.SetObj(Reggie,"Y",Map.ObjInt(Reggie,"Y")-4)
+			case "WEST"
+				Map.SetObj(Reggie,"X",Map.ObjInt(Reggie,"X")-4)
+			case "EAST"
+				Map.SetObj(Reggie,"X",Map.ObjInt(Reggie,"X")-4)
+			default
+				Lua.error("Kick Reggie to unknown direction: "..wind)
+		end
+		Graphics.Cls()
+		Map.DrawScreen()
+		Graphics.Flip()
+		Events.Poll()
+		FPS.WaitMinTicks()
+	until Map.Blocked(Map.ObjInt(Reggie,"X"),Map.ObjInt(Reggie,"Y"))
+	Cuckoo.Play()
+	Map.SetObj(Foxy,"Texture",oft)
+	Map.SetObj(Foxy,"Frame",0)
+	While Map.ObjInt(Reggie,"X")!=ox || Map.ObjInt(Reggie,"Y")!=oy
+		if Map.ObjInt(Reggie,"X")<ox
+			Map.SetObj(Reggie,"X",Map.ObjInt(Reggie,"X")+2)
+		elseif Map.ObjInt(Reggie,"X")>ox 
+			Map.SetObj(Reggie,"X",Map.ObjInt(Reggie,"X")-2)
+		end
+		if Map.ObjInt(Reggie,"Y")<oy
+			Map.SetObj(Reggie,"Y",Map.ObjInt(Reggie,"Y")+2)
+		elseif Map.ObjInt(Reggie,"Y")>oy 
+			Map.SetObj(Reggie,"Y",Map.ObjInt(Reggie,"Y")-2)
+		end
+		Graphics.Cls()
+		Map.DrawScreen()
+		Graphics.Flip()
+		Events.Poll()
+		FPS.WaitMinTicks()
+	end
+			
+end
+
+return Kick
