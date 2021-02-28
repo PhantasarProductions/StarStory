@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Templates/Projectile.neil
-// Version: 21.01.29
+// Version: 21.02.28
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -142,10 +142,9 @@ module
 		if !Turn
 			PrjImage.Draw(x,y)
 		else
-			//Rotate.Deg = degrees
-			Lua.error("Turning projectiles not yet scripted!")
-			//Rotate.Deg = 0
-			// TODO: Turning projectiles
+			Image.Rotate = degrees
+			PrjImage.XDraw(x,y)
+			Image.Rotate = 0			
 		end
 		
 	end
