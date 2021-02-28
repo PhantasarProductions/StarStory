@@ -252,7 +252,7 @@ group SubParty
 				// Mini border
 				__ember
 				Graphics.Line(x-2,y+2,x-2,y+40)
-				Graphics.Line(x-1,y-1,x+1,y+1)
+				Graphics.Line(x+1,y-1,x-1,y+1)
 				Graphics.Line(x+2,y-2,x+40,y-2)
 				// Mini face
 				__white
