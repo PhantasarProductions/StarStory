@@ -71,6 +71,8 @@ group GrSchedule
 				MiniMessage.NewMsg(right(s,#s-4),255,180,0)
 			elseif prefixed(s,"SPAWN:")
 				Map.SpawnPlayer(right(s,#s-6))
+			elseif prefixed(s,"LAYER:")
+				Map.Layer=right(s,#s-6)
 			else 
 				Map.Script(s,"nil")
 			end
