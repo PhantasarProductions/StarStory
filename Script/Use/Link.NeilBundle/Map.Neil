@@ -273,6 +273,22 @@ group Link_Map
 		return ISGET.Bool("FLOW_FIELD",sprintf("FLDMap.Blocked(%d,%d)",x,y))
 	end
 	
+	void GoToLayer(string aLayer,string SpawnPoint)		 
+		if HasTag("PLAYER")
+			Self.Kill("PLAYER")
+		end
+		Layer=aLayer
+		SpawnPlayer(SpawnPoint)
+	end
+	
+	void GoToMap(string aMap,string aLayer,string SpawnPoint)
+		static var SA = Lua.Neil.Globals.Schedule.Add
+		Self.LoadMap(aMap)
+		SA("LAYER:"..aLayer)
+		SA("SPAWN:"..SpawnPoint)
+	end
+		
+	
 	CONSTRUCTOR
 		table m
 		m = {}
