@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Switch.neil
-// Version: 20.10.20
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.02.28
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -39,10 +39,71 @@
 module 
 	var fnt = ImageFont.Obtain("BOXTEXT")
 	
+	var GetSmallPortrait(string sTag)
+		static table Portretten = {}
+		string Tag = "MINI__"..sTag
+		if not Portretten[Tag]			
+			string File
+			File = "GFX/Combat/GaugeIcons/"..sTag..".png"
+			Portretten[Tag] = Image.LoadNew(File,"GAUGEICON_HERO_"..sTag)
+			//Portretten[Tag].Hot(5,Portretten[Tag].Height)
+		end
+		return Portretten[Tag]
+	end
+	
+	get int mx
+		return Events.MouseX()
+	end
+	
+	get int my
+		return Events.MouseY()
+	end
+	
 	void Flow(uBox,string CharTag,string situation)		
 		if !gv.vBool.CanSwitch
 			__ember
 			fnt.Text("You cannot switch characters YET!",ubox.x+20,ubox.y+20)
 		end
+		__red
+		fnt.Text(sprintf("Switch %s with:",RPGChar[CharTag].Name),ubox.x+20,ubox.y+20)
+		int s
+		if situation=="FIELD"
+			s=1
+		else
+			s=4
+		end
+		int x = ubox.x+40
+		int w = ubox.w-40
+		for i=s,6
+			int y = ubox.y+40+(i*50)
+			if CharTag!=RPGParty[i] && RPGParty[i]!=""
+				var img = GetSmallPortrait(RPGParty[i])
+				// Mini border
+				__ember
+				Graphics.Line(x-2,y+2,x-2,y+40)
+				Graphics.Line(x-1,y+1,x+1,y-1)
+				Graphics.Line(x+2,y-2,x+w,y-2)
+				__white
+				img.Draw(x+10,y+10)
+				__SkyBlue
+				if mx>x && mx<x+w && my>y && my<y+40
+					__Cyan
+					if Events.MouseHitLeft()
+						for j=1,6
+							if RPGParty[j]==CharTag
+								string r = RPGParty[i]
+								RPGParty[j]=RPGParty[i]
+								RPGParty[i]=CharTag
+								if prefixed(situation,"COMBAT_")
+									State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnSwitch",sprintf("\"%s\"",r))
+								end
+							end
+						end
+					end
+				end
+				fnt.Text(RPGChar[RPGParty[i]].Name,x+60,y+10)
+			end
+		end
+		
 	end
 end
