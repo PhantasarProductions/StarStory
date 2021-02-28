@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.27
+// version: 21.02.28
 // End License Information
 table R_Yirl = { "Shoot", "Ability","Reload","Item","Guard"}
 return R_Yirl

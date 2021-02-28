@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.02.23
+// Version: 21.02.28
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -267,6 +267,10 @@ group Link_Map
 	void PlayerStopWalking()
 		Cout("Stop walking!\b")
 		MCall("FLDMap.StopWalking","nil")
+	end
+	
+	bool Blocked(int x,int y)
+		return ISGET.Bool("FLOW_FIELD",sprintf("FLDMap.Blocked(%d,%d)",x,y))
 	end
 	
 	CONSTRUCTOR

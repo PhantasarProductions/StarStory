@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.02.27
+// Version: 21.02.28
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.02.27"
+#MKL_Version "Star Story - FieldMap.neil" "21.02.28"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -403,6 +403,10 @@ group FldMap
 	
 	get var CurrentLayer
 		return CurLayer
+	end
+	
+	bool Blocked(int x,int y)
+		return CurLayer.Blocked(x,y)
 	end
 	
 	void SetObjField(string o,string key,value)
