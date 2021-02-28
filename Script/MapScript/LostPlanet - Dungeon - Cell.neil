@@ -141,6 +141,20 @@ group MScript
 		Player.Y=224
 		gv.gBool.Dungeon_TraliesWorkNow = true
 	End
+	
+	Void Tralies()
+		string L=Map.Leader:upper()
+		if L!="FOXY"
+			MapText("TRALIES."..L)
+			MapText("TRALIES.TUTORIAL")
+			Player.WalkTo("spot")
+		else
+			Map.Kill("Tralies",true)
+			Map.Kill("TraliesBlock",true)
+			Map.ActTrans("CellBlockLoveWithYou")
+			Spawn.Reset()
+		end
+	end
 
 	void Update()
 	end
@@ -155,6 +169,7 @@ group MScript
 		if !Done.CreateYirlAndFoxy
 			WelcomeYirlAndFoxy()
 		end
+		ZA.Enter("Tralies","Tralies")
 	end
 
 end
