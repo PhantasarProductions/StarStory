@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.02.24
+// Version: 21.02.28
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -525,6 +525,14 @@ group Stage_PlayerInput
 		a = new Class_Action(Tag,"ARM_"..ablTag)
 		a.UseARMAmmo = true
 		Stage_SelectTarget.ComeToMe(a)
+		Flow.GoToFlow("COMBAT")
+	end
+	
+	Void ReturnSwitch(string NewChar)
+		Hero.Gauge=0
+		Tag=NewChar
+		Hero.Gauge=9500+(300 div __skill)
+		Stage.Current=nil
 		Flow.GoToFlow("COMBAT")
 	end
 	
