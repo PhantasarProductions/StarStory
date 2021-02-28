@@ -486,6 +486,9 @@ group Stage_PlayerInput
 	get var DoARMS
 		return DoAbility
 	end
+	Void DoSwitch()
+		FMenu.Go(Tag,"COMBAT_SWITCH")
+	end
 	
 	void ReturnCancel()
 		Self.ComeToMe(Tag,true)
