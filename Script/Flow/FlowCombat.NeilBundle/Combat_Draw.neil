@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 21.02.20
+// Version: 21.02.28
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,8 +70,10 @@ module
 		Time.DrawGauge()
 		// Combatnants
 		for t,f in pairs(Fighter.Fighters)
-			__white
-			f.Draw()
+			if f.Available
+				__white
+				f.Draw()
+			end
 		end
 		// Target info
 		// Party Status Bar
