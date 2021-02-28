@@ -155,6 +155,10 @@ group MScript
 			Spawn.Reset()
 		end
 	end
+	
+	Void ToMain()
+		Map.GoToMap("LostPlanet - Dungeon","#001","Start")
+	End
 
 	void Update()
 	end
@@ -163,13 +167,14 @@ group MScript
 	end
 	
 	void Load()
-	end
+	end	
 	
 	CONSTRUCTOR
 		if !Done.CreateYirlAndFoxy
 			WelcomeYirlAndFoxy()
 		end
 		ZA.Enter("Tralies","Tralies")
+		ZA.Enter("ToMain","ToMain")
 	end
 
 end
