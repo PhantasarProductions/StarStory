@@ -1,0 +1,157 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/LostPlanet - Dungeon.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.02.28
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - LostPlanet - Dungeon.neil" "21.02.28"
+#MKL_Lic     "Star Story - LostPlanet - Dungeon.neil" "Phantasar Closed License"
+
+#macro ClockDone gv.gbool.Done_Dungeon_ClockPuzzle
+#macro IvoDone gv.gbool.Done_Dungeon_IVOPuzzle
+
+
+// The clock puzzle and Ivo's puzzle, require me a slight different approach.
+// This should work, though :P
+group TMScript
+
+	int CoolDown = 0
+
+	void Niks()
+		// Does nothing at all.
+		// "Niks" means "Nothing" in Dutch.
+		// I merely required a return value in my QuickMeta section below
+		// Or the MapScript linkthrough would fail.
+	end
+
+	void Clock(string Tag)
+		static table Check
+		if ClockDone			
+			return
+		end
+		if Tag=="*RESET*"
+			CSay("Resetting the clock puzzle")
+			string ol = Map.Layer
+			Map.Layer="#003"
+			Check = {}
+			for i=1,12
+				MAP.SetObj("NPC_Clock"..i,"Frame",0)
+			end
+			Map.Layer=ol
+			return
+		end
+		MAP.SetObj(Tag,"Frame",1)
+		for c in each(Check)
+			if c==Tag
+				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,#check)
+				return
+			end
+		end
+		check += Tag
+		CSayF("Clock: Setting plate '%s' - Total pressed %d",Tag,#check)
+		if #check>=12
+			bool cool = true
+			for i=1,12
+				cool = cool && check[i]=="NPC_Clock"..i
+			end
+			if cool
+				Map.Kill("ClockDoor",true)
+				ClockDone=true
+				Party.GiveExp(1200)
+				for i=1,12
+					Map.Kill("NPC_Clock"..i,true)
+				end
+			else
+				self.Clock("*RESET*")
+			end
+		end
+	end
+	
+	void ResetClock()
+		static bool D
+		if !D
+			Clock("*RESET*")
+			D=true
+		end
+	end
+	
+	void Ivo(string Tag)
+	end
+
+	void Update()
+		if CoolDown>0
+			CoolDown--
+		end
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		//Clock("*RESET*")
+		//Ivo("*IVO*")
+		for z in each{"ResetClock"}
+			ZA.Enter(z,z)
+		end
+	end
+
+end
+
+
+// Fake MapScript
+// Intercept Ivo's puzzle and the clock puzzle.
+// The rest must just be linked through normally.
+quickmeta MScript
+	index
+		if prefixed(key,"NPC_Clock")
+			if TMScript.CoolDown>0
+				CSayF("Clock: CoolDown on %d - Request ignored!",TMScript.CoolDown)
+				return TMScript.Niks
+			end
+			TMScript.Clock(key)
+			TMScript.CoolDown = 40
+			return TMScript.Niks
+		elseif prefixed(Key,"NPC_Ivo")
+			TMScript.Ivo(key)
+			return TMScript.Niks
+		else
+			return TMScript[key]
+		end
+	end
+end
