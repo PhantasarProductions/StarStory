@@ -77,8 +77,12 @@ void MkTrueItem(string it)
 	TrueItem[it] = lua.setmetatable({},m)
 end
 
-bool GiveItem(string it,string ch)
-	return ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
+bool GiveItem(string it,string ch,allowvault)
+	plua ret = ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
+	if (!ret) && allowvault
+		Lua.Neil.Globals.Vault.Store(it)
+	end
+	return ret
 end
 
 quickmeta Item
