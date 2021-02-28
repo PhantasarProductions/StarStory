@@ -35,4 +35,10 @@
 // version: 21.02.27
 // End License Information
 table R_Foxy = { "Attack", "Ability","Item","Guard"}
+init
+	if RPGParty[4]!="" 
+		R_Foxy += "Switch"
+	end
+end
+
 return R_Foxy

@@ -35,4 +35,10 @@
 // version: 21.02.28
 // End License Information
 table R_Yirl = { "Shoot", "Ability","Reload","Item","Guard"}
+init
+	if RPGParty[4]!="" 
+		R_Yirl += "Switch"
+	end
+end
+
 return R_Yirl

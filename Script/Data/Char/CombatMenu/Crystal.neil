@@ -35,4 +35,8 @@
 // version: 21.01.20
 // End License Information
 table R_Crystal = { "Attack", "ARMS","Item","Guard"}
+	if RPGParty[4]!="" 
+		R_Crystal += "Switch"
+	end
+
 return R_Crystal
