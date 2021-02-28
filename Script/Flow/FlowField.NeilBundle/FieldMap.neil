@@ -516,12 +516,18 @@ group FldMap
 
 end
 
+
+bool LGFIX=false
 quickmeta GrPlayer
 	index
 		return FldMap.CurLayer.Obj("PLAYER")[key]
 	end
 	
 	newindex
+		if LGFIX && (!FldMap.CurLayer.HasTag("PLAYER"))
+			FldMap.CurLayer.Spawn("PLAYER",0,0)
+			CSay("PLAYER was non-existent, but I had permission to spawn a new player, just for the occasion!")
+		end
 		FldMap.CurLayer.Obj("PLAYER")[key] = value
 	end
 
@@ -534,6 +540,7 @@ global void SGMap()
 	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
 	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
 	r += "\tFldMap.Layer = \""..FldMap.Layer.."\"\n"
+	r += "\tFldMap.CurLayer.Spawn(\"PLAYER\",0,0)\n"
 	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
 	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
 	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
@@ -543,14 +550,15 @@ end
 
 
 global void LGMap()
+	LGFix = true
 	CSayF("Parsing Kills")
 	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
 	CSayF("Loading map: %s",gv.vstring["LOADEDMAP"])
 	FldMap.LoadMap(gv.vstring["LOADEDMAP"])
 	CSayF("Let's go to layer: %s",gv.vstring["MAPLAYER"])
-	FldMap.CurLayer.Spawn("PLAYER",0,0)
+	//FldMap.CurLayer.Spawn("PLAYER",0,0)
 	NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
-	
+	LGFix = true
 	FldMap.AutoTexPlayer()
 end
 
