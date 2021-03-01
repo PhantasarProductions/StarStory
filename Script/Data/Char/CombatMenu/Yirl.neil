@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.28
+// version: 21.03.01
 // End License Information
 table R_Yirl = { "Shoot", "Ability","Reload","Item","Guard"}
 init
