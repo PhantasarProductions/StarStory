@@ -1,0 +1,35 @@
+module
+
+	var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
+	var TSA = NeilUse("Script/Use/Combat/SpellAni/Flame.neil")
+	int Alpha = 500
+	
+	Constructor
+		Reggie.HotCenter()
+	end
+	
+	void Start(act)
+		Alpha = 500
+		TSA.Start(act)
+	end
+	
+	void Draw()
+		Graphics.SetAlpha(math.max(0,math.min(255,Alpha)))
+		Reggie.Draw(Screen.W div 2,Screen.H div 2)
+		Graphics.SetAlpha(255)
+		if Alpha<300
+			TSA.Draw()
+		end
+	end
+	
+	void Update()
+		Alpha--
+		if Alpha<300
+			TSA.Update()
+		end
+	end
+
+	get bool Ended
+		return TSA.Ended && Alpha<=0
+	end
+end
