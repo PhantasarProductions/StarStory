@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.28
+// version: 21.03.01
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Dungeon.neil" "21.02.28"
+#MKL_Version "Star Story - LostPlanet - Dungeon.neil" "21.03.01"
 #MKL_Lic     "Star Story - LostPlanet - Dungeon.neil" "Phantasar Closed License"
 
 #macro ClockDone gv.gbool.Done_Dungeon_ClockPuzzle
@@ -109,6 +109,45 @@ group TMScript
 	end
 	
 	void Ivo(string Tag)
+		static table IvoTable={}
+		static table Check
+		if IvoDone			
+			return
+		end
+		if Tag=="*RESET*"
+			CSay("Resetting Ivo's puzzle")
+			//string ol = Map.Layer
+			//Map.Layer="#003"
+			Check = {}
+			for i=1,12
+				MAP.SetObj("NPC_Ivo"..i,"Frame",0)
+			end
+			//Map.Layer=ol
+			return
+		end
+		MAP.SetObj(Tag,"Frame",1)
+		for c in each(Check)
+			if c==Tag
+				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,#check)
+				return
+			end
+		end
+		check += Tag
+		CSayF("Ivo: Setting plate '%s' - Total pressed %d",Tag,#check)
+		bool cool = true
+		for i=1,3
+			cool = cool && check && #check>=3 && check[i] && (suffixed(check[i],"4") || suffixed(check[i],"6") || suffixed(check[i],"10")) && check[1]!=check[2] && check[1]!=check[3] && check[2]!=check[3]
+		end
+		if cool
+			Map.Kill("IvoDoor",true)
+			IvoDone=true
+			Party.GiveExp(2400)
+			for i=1,12
+				Map.Kill("NPC_Ivo"..i,true)
+			end
+		elseif #check>=3
+			self.Ivo("*RESET*")
+		end		
 	end
 
 	void Update()
@@ -148,7 +187,12 @@ quickmeta MScript
 			TMScript.CoolDown = 40
 			return TMScript.Niks
 		elseif prefixed(Key,"NPC_Ivo")
+			if TMScript.CoolDown>0
+				CSayF("Clock: CoolDown on %d - Request ignored!",TMScript.CoolDown)
+				return TMScript.Niks
+			end
 			TMScript.Ivo(key)
+			TMScript.CoolDown = 40
 			return TMScript.Niks
 		else
 			return TMScript[key]
