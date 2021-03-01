@@ -1,0 +1,57 @@
+// This script is translated from NIL to Neil
+// For Star Story
+
+module 
+
+	bool DrawOvertake
+	var Flame
+	var Audio
+	readonly int skipmax = 7
+	int skip 
+	int Frame
+	var Act
+	
+	// The difference between a CONSTRUCTOR and the and Init function
+	// Is that CONSTRUCTOR is only automatically loaded when this
+	// module is called fo the first time in a combat.
+	// Init will be called EVERY time a move is being performed.
+	CONSTRUCTOR
+		self.Flame = Image.LoadNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
+		self.Audio = Audio.LoadNew("SFX/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
+	end	
+
+	void Start(aact)
+		self.Act = aact
+		self.skip = 0
+		self.Frame = 0
+		self.Audio.Play()
+	end
+	
+	
+	void Draw()
+		// End it if we go overquota! This one is only a safety precaution
+		if self.Frame>=10
+			return 
+		end
+		// Draw it all!
+		for tar in each(act.Targets)
+			self.Flame.Draw(tar.X,tar.Y,self.Frame)
+		end		
+	end
+	
+	void Update()
+		// Calc results
+		self.skip++
+		if self.skip<self.skipmax
+			self.skip = 0
+			return
+		end
+		self.Frame++
+		return 
+	end
+	
+	get bool Ended
+		return self.Frame>=10
+	end
+	
+end
