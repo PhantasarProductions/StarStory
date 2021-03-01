@@ -211,7 +211,7 @@ Module
 						Crystal_GunShot.Play()
 					end					
 					if Act.SpellAni
-						Act.SpellAni.Init(Act)
+						Act.SpellAni.Start(Act)
 					else
 						CSay("No spellani, so let's skip to the effect then!")
 						MyStage = _AblEffect
