@@ -209,13 +209,13 @@ class Combat_Foe extends Combat_Fighter
 				if L1>L2 && (Shilders<=0) 
 					__aurinas++
 					self.Hurt("Dropped Aurina",255, 180, 0)
-				else math.random(1,(__skill*__skill)+1)
+				elseif math.random(1,(__skill*__skill)+1)
 					int pm = math.random(1,3)
 					int itn = math.random(1,#RawData.ItemDrop)
 					plua itd = RawData.ItemDrop[itn]
-					if itd && itd.LVL<=Self.Level && RPGParty[pm]!="" && Item.Give(itn.ITM,RPGCHar[pm],itn.VLT)
+					if itd && itd.LVL<=Self.Level && RPGParty[pm]!="" && Item.Give(itd.ITM,RPGCHar[pm],itd.VLT)
 						var Vinder = self.Fighters[RPGChar[pm]]
-						Vinder.Hurt("Picks up "..Item[itn.ITM].Name.." dropped by enemy",180,255,0)
+						Vinder.Hurt("Picks up "..Item[itd.ITM].Name.." dropped by enemy",180,255,0)
 					end
 				end				
 			end
