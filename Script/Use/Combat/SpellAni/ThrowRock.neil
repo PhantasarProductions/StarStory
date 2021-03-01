@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/ThrowRock.neil
-// Version: 21.02.28
+// Version: 21.03.01
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,7 +42,7 @@ module
 	bool _Ended = false
 	
 
-	void Init(A)
+	void Start(A)
 		_Ended = false
 		string img = "GFX/Inventory/Rock.png"
 		Template.Start(img,A,true,true)

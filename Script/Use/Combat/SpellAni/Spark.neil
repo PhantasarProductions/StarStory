@@ -53,7 +53,7 @@ module
 		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Spark.ogg","SPELLANI_SPARK_AUDIO")
 	end	
 
-	void Init(aact)
+	void Start(aact)
 		self.Cycles = 0
 		self.MyAudio.Play()
 		self.Act = aact
