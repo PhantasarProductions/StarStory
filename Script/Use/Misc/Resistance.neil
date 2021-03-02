@@ -56,7 +56,11 @@ void NewCharRes(string char)
 	table meta 
 	meta.__index = int(s,string k)
 		switch k
-			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water"
+			case "DarkHealing"
+				return 0
+			case "Non-Elemental"
+				return 3			
+			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water"  
 				if (char=="UniWendicka" || char=="Wendicka") && (!gv.vBool.WendickaGoddessReleased)
 					if k=="Lightning"
 						return 6

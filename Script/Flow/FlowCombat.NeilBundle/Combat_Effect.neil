@@ -51,9 +51,10 @@ Group CG_Effect
 			int acc = Act.Executor.Stats.Accuracy
 			int eva = Tar.Stats.Evasion
 			int hit = math.random(0,acc)
-			int ddg = math.random(0,ddg)
+			int ddg = math.random(0,eva)
 			// Original game did "true" if the attack was sucessfully dodged... But here I require "true" when the attack succesfully hit!
-			return !(ddg>hit)
+			CSayF("Attack on %s by %s - Accuracy roll %d/%d -- Evasion roll %d/%d",Tar.Tag,Act.Executor.Tag,hit,acc,ddg,eva)
+			return (ddg<=hit)
 		end
 		return true
 	end
@@ -67,8 +68,6 @@ Group CG_Effect
 	readonly delegate rand = math.random
 	
 	bool Attack(Act,Tar)
-		// TODO: Code
-		
 		// Original Lua code for referrence
 		// local chactor = FighterTag(ag,ai)
 		// local data = pdata or {}

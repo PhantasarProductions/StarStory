@@ -52,6 +52,7 @@ module
 	string Tune = "*NOCHANGE*"
 	string ReturnFlow = "FIELD"
 	string RemoveBarrier = ""
+	String StartScript = ""
 	bool Boss
 	
 	void AddFoe(string Enem,int Level)
@@ -85,6 +86,10 @@ module
 		end
 		for Enemy in each(enemies)
 			Combat_Foe.AddFoe(Enemy.Enemy,Enemy.Level)
+		end
+		if StartScript!=""
+			var SSM = NeilUse("Script/Use/Combat/StartScript/"..StartScript)
+			SSM()
 		end
 	end
 end

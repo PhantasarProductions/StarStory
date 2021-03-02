@@ -197,6 +197,13 @@ class Combat_Foe extends Combat_Fighter
 			return
 		end
 		scale-=0.01
+		if self.Name:upper()=="FLIRMOUSE KING"
+			for t,d in pairs(self.Fighters)
+				if d.Team=="Foe"
+					d.Char.Points.HP.Have = 0
+				end
+			end
+		end
 		if !_killedcheck
 			CSay("Enemy killed!")
 			_killedcheck=true

@@ -47,8 +47,10 @@ group StartCombat
 					pr += "\""..p.."\""
 				case "number" "boolean"
 					pr += tostring(p)
+				case "nil"
+					pr += "nil"
 				default
-					lua.error("Illegal MCall type "..lua.type(p))
+					lua.error("MCall."..func..": Illegal MCall type "..lua.type(p))
 			end
 		end
 		State.Call("FLOW_COMBAT",func,pr)
@@ -92,6 +94,9 @@ group StartCombat
 	end
 	set string RemoveBarrier
 		MCall("Combat_Start.SetValue","RemoveBarrier",value)
+	end
+	set string StartScript
+		MCall("Combat_Start.SetValue","StartScript",value)
 	end
 	
 	get string RandomTune

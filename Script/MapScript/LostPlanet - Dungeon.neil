@@ -149,6 +149,88 @@ group TMScript
 			self.Ivo("*RESET*")
 		end		
 	end
+	
+	void Boss()
+		Int BossLevel
+		switch Caps.Cycle
+			case 0 1
+				BossLevel = 25 + (__skill*5)
+			case 2 
+				BossLevel = 200 + (__skill*10)
+			case 3
+				BossLevel = 440 + (__skill*25)
+			case 4
+				BossLevel = 1234 + (__skill*50)
+			case 5 6
+				Bosslevel = 5000 + (__skill*100)
+			case 7 8
+				BossLevel = 5500 + (__skill*250)
+			case 9
+				BossLevel = 6500 + (__skill*500)
+			case 10
+				BossLevel = 7000
+			case 11
+				BossLevel = 8000
+			case 12
+				BossLevel = 9000
+			case 13
+				BossLevel = 9500
+			case 14
+				BossLevel = 9800
+			default
+				BossLevel = 10000
+		end
+		int SubjectLevel = math.floor(math.max(5,BossLevel * (0.25*__skill)))
+		if Caps.Cycle>16
+			SubjectLevel = 10000
+		end
+		switch __skill
+			case 1
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_King",BossLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+			case 2
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_King",BossLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+			case 3
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_King",BossLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+				StartCombat.Foe("Boss/FlirMouse_Subject",SubjectLevel)
+		end
+		StartCombat.StartScript = "FlirMouse_King"
+		Schedule.Add("ShowPostBoss")
+	end
+	
+	void ShowPostBoss()
+		Map.ShowByLabel("PostBoss")
+	end
+	
+	void EnterBoss()
+		static bool EnteredBefore = false
+		if !EnteredBefore
+			Map.HideByLabel("PostBoss")
+			EnteredBefore = true
+		end
+	end
+	
+	Void NPC_FreeAtLast()
+		Map.GoToMap("LostPlanet - Junkyard","#001","Start")
+		if !Done.Done_Completed_Dungeon_Lost_Planet
+			Party.GiveEXP(1000)
+			Schedule.Add("Welcome")
+		end
+	end
+	
 
 	void Update()
 		if CoolDown>0
@@ -165,7 +247,7 @@ group TMScript
 	CONSTRUCTOR
 		//Clock("*RESET*")
 		//Ivo("*IVO*")
-		for z in each{"ResetClock"}
+		for z in each{"ResetClock","EnterBoss"}
 			ZA.Enter(z,z)
 		end
 	end

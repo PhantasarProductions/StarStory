@@ -41,7 +41,7 @@ module
 
 	bool DrawOvertake
 	var Flame
-	var Audio
+	var MAudio
 	readonly int skipmax = 7
 	int skip 
 	int Frame
@@ -53,14 +53,15 @@ module
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
 		self.Flame = Image.LoadNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
-		self.Audio = Audio.LoadNew("SFX/Combat/SpellAni/Fire.ogg","SPELLANI_Flame")
+		self.MAudio = Audio.LoadNew("Audio/SpellAni/Fire.ogg","SPELLANI_Flame")
+		self.Flame.HotBottomCenter()
 	end	
 
 	void Start(aact)
 		self.Act = aact
 		self.skip = 0
 		self.Frame = 0
-		self.Audio.Play()
+		self.MAudio.Play()
 	end
 	
 	
@@ -70,18 +71,19 @@ module
 			return 
 		end
 		// Draw it all!
-		for tar in each(act.Targets)
+		for tart in each(act.Targets_Tag)
+			var tar = Combat_Fighter.Fighters[tart]
 			self.Flame.Draw(tar.X,tar.Y,self.Frame)
 		end		
 	end
 	
 	void Update()
 		// Calc results
-		self.skip++
-		if self.skip<self.skipmax
-			self.skip = 0
-			return
-		end
+		//self.skip++
+		//if self.skip>self.skipmax
+		//	self.skip = 0
+		//	return
+		//end
 		self.Frame++
 		return 
 	end

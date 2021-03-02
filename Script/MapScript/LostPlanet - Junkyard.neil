@@ -1,0 +1,77 @@
+// License Information:
+// src/Tricky Script/Script/MapScript/None.neil
+// Basic MapScript Template
+// version: 21.02.18
+// Copyright (C) 2020, 2021 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - None.neil" "21.02.18"
+#MKL_Lic     "Star Story - None.neil" "ZLib License"
+
+#macro HawkAvailable gv.gbool.Done_BeamedToTheHawk_ForTheFirstTime
+
+group MScript
+
+	Void Welcome()
+		MapText("ENTRY")
+	end
+
+	Void BossNotYet()
+		if !HawkAvailable
+			Player.StopWalking()
+			Player.WalkTo("BossNotYetSpot")
+			MapText("BOSSNOTYET")
+		end
+	end
+	
+	Void Award()
+		If !Done.Done_Completed_JunkYard
+			Party.GiveEXP(5000)
+		End
+	End
+	
+	Void UnderTheShip()
+		Player.StopWalking()
+		PPop.Pop("Ship","North")
+		MapText("HAWK")
+		Map.Kill("UnderTheShip",true)
+		Map.Kill("Shadow",true)
+		// Please note these must be two different definitions.
+		// HawkAvailable is only for this dungeon's mapscript.
+		// The other for the game as a whole.
+		// After all, the beam will be temporarily 
+		// disabled in the Science Facility and Volcania
+		HawkAvailable = true
+		gv.gBool.AllowBeam = true
+		Lua.error("Hawk not yet implemented")
+	End
+	
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		ZA.TabEnter {"BossNotYet","Award","UnderTheShip" }
+	end
+
+end

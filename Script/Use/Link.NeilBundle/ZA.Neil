@@ -59,4 +59,16 @@ module
 		Event("Leave",zone,mapscript,param)
 	end
 	
+	void TabEnter(table stuff)
+		for z in each(stuff)
+			Enter(z,z)
+		end
+	end
+
+	void TabLeave(table stuff)
+		for z in each(stuff)
+			Enter(z,"Leave_"..z)
+		end
+	end
+
 end

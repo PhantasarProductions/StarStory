@@ -36,6 +36,7 @@
 // End License Information
 
 #use "libs/LinkedList"
+#use "Script/Use/Misc/Resistance"
 
 class Combat_Hurt
 	int CD=125
@@ -160,6 +161,9 @@ class Combat_Fighter
     		elementalresistance = RPGChar[self.Tag].Stat["ER_"..element]
     	else
     		CSayF("%s> Note! ER_%s is non-existent, so filling in default value",self.Tag,element)
+    	end
+    	if self.Team=="Hero"
+    		elementalresistance = CharRes[self.Tag][element]
     	end
     	// if RPGStat.GetData(Fighters[tg][ti].Tag,"IMMUNE")=="YES" then elementalresistance=5 end                              
     	// -- @IF DEBUG_HURT

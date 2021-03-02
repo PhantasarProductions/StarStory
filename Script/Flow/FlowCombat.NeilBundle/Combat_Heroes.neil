@@ -533,9 +533,12 @@ group Stage_PlayerInput
 	end
 	
 	Void ReturnSwitch(string NewChar)
-		Hero.Gauge=0
+		//Hero.Gauge=0
 		Tag=NewChar
-		Self.Fighters[NewChar].Gauge=9500+(300 div __skill)
+		Combat_Fighter.Fighters[NewChar].Gauge=9500+(300 div __skill)
+		for fuck,you in spairs(Combat_Fighter.Fighters[NewChar])
+			CSayF("Time Gauge: %s => %05d",fuck,you.Gauge)
+		end
 		Stage.Current=nil
 		Flow.GoToFlow("COMBAT")
 	end

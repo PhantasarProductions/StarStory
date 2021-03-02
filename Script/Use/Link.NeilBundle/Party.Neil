@@ -135,5 +135,14 @@ module
 		end
 		RPGChar[ch].Points.EXP.Have += experience
 	end
+	
+	Void NoDeath()
+		for i=1,6
+			if RPGParty[i] && RPGParty[i]!=""
+				RPGChar[RPGParty[i]].Points.HP.Have = math.max(1,RPGChar[RPGParty[i]].Points.HP.Have)
+			end
+		end
+	end
+	
 
 end

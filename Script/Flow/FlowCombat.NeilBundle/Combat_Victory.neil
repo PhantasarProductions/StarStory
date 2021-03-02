@@ -68,6 +68,7 @@ module
 			if Start.RemoveBarrier!=""
 				Map.Kill(Start.RemoveBarrier)
 			end
+			Party.NoDeath()
 		end
 	end
 	
