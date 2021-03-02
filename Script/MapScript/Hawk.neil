@@ -1,0 +1,189 @@
+// License Information:
+// src/Tricky Script/Script/MapScript/None.neil
+// Basic MapScript Template
+// version: 21.02.18
+// Copyright (C) 2020, 2021 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - None.neil" "21.02.18"
+#MKL_Lic     "Star Story - None.neil" "ZLib License"
+
+#macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+
+var InPartyChecked
+QuickMeta InParty
+	index
+		key = key:upper()
+		InPartyChecked = InPartyChecked || {}
+		if InPartyChecked[key]
+			return InPartyChecked[key]>0
+		end
+		for i=1,6
+			if RPGParty[i]:upper()==Key:upper()
+				InPartyChecked[key]=1
+				return true
+			end
+		end
+		InPartyChecked[key]=0
+		return false
+	end
+end
+
+group MScript
+
+	readonly int SchuifDeur_Links  = 368
+	readonly int SchuifDeur_Rechts = 400
+	int Schuif = 0
+	bool SchuifOpen
+
+	Void MapMusic()
+		if gv.gstring.Hawk_Music==""
+			gv.gstring.Hawk_Music="Music/Hawk/001.ogg"
+		end
+		Music.Play(gv.gstring.Hawk_Music)
+	end
+
+	void Bridge()
+		static bool Removals
+		Map.HideButLabel("Bridge")
+		Map.ShowObj("PLAYER")
+		if !Removals
+			// Wendicka is no go area... and Foxy and Yirl will always be in the party
+			// while in the hawk
+			for ch in each { "Crystal", "ExHuRU","Xenobi","Rolf" }				
+				switch ch
+					case "Crystal"
+						if !InParty.Wendicka
+							// When Wendicka is unavailable, Crystal takes over!
+							Map.Kill("NPC_Hawk_Crystal")
+						end
+					default
+						if !InParty[ch]
+							Map.Kill("NPC_Hawk_"..ch)
+						end					
+				end							
+			end
+			Removals=true
+		end
+	end
+
+	void KickOff()
+		Map.Leader="Wendicka"
+		Player.Wind="North"
+		Bridge()
+		MapText("ARRIVAL.KICKOFF")
+	end
+	
+	void Talk(string ch)
+		Player.WalkTo("SPOT_Hawk_"..ch)
+		MapText(ch.."."..__hawk)
+	end
+	
+	void NPC_Hawk_Crystal()
+		Talk("Crystal")
+		// TODO: Sisters in all but blood
+	end
+	
+	void NPC_Hawk_ExHuRU()
+		Talk("ExHuRU")
+	end
+	
+	void NPC_Hawk_Yirl()
+		Talk("Yirl")
+		// TODO: Follow me
+	end
+	
+	void NPC_Hawk_Foxy()
+		Talk("Foxy")
+		// TODO: Kick Reggie
+		// TODO: Pickpocket
+	end
+	
+	void NPC_Hawk_Reggie()
+		Talk("Reggie")
+		// TODO: Kick Reggie
+	end
+	
+	void NPC_Hawk_Xenobi()
+		Talk("Xenobi")
+		// TODO: Vitalize
+	end
+	
+	void NPC_Hawk_Rolf()
+		Talk("Rolf")
+		// TODO: Kolme
+	end
+	
+
+	void Update()
+		if InParty.Wendicka 
+			if Map.Leader!="Wendicka"
+				Map.Leader = "Wendicka"
+			end
+		elseif Map.Leader != "Crystal"
+			Map.Leader = "Crystal"
+		end
+		Map.SetObj("Schuifdeur_Links" ,"X",SchuifDeur_Links -Schuif)
+		Map.SetObj("Schuifdeur_Rechts","X",SchuifDeur_Rechts+Schuif)
+		if SchuifOpen && Schuif<30
+			Schuif++
+		elseif (!SchuifOpen) && Schuif>0
+			Schuif--
+		end
+	end
+	
+	void ShowBack()
+		static bool Bakina_Checked
+		Map.HideButLabel("Back")
+		Map.ShowObj("PLAYER")
+		if !Bakina_Checked
+			if !gv.gbool.Found_Bakina
+				Map.Kill("NPC_Bakina")
+			end
+			Bakina_Checked=true
+		end
+	end
+	
+	void Vault()
+		FMenu.Go(Map.Leader,"VAULT")
+	end
+	
+	void Sesam_OpenU()
+		SchuifOpen=true
+	end
+	
+	Void Sesam_SluitU()
+		SchuifOpen=false
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		ZA.Enter("ShowBridge1","Bridge")
+		ZA.Enter("ShowBridge2","Bridge")
+		ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
+		ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
+		ZA.Enter("ShowBack","ShowBack")
+		ZA.TabEnter({"Vault"})
+	end
+
+end
