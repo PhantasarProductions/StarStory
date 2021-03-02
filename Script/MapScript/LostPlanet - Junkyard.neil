@@ -45,7 +45,7 @@ group MScript
 		End
 	End
 	
-	Void UnderTheShip()
+	Void UnderTheShip()		
 		Player.StopWalking()
 		PPop.Pop("Ship","North")
 		MapText("HAWK")
@@ -58,7 +58,10 @@ group MScript
 		// disabled in the Science Facility and Volcania
 		HawkAvailable = true
 		gv.gBool.AllowBeam = true
-		Lua.error("Hawk not yet implemented")
+		__hawk = "KICKOFF"
+		Map.Load("HAWK")
+		Schedule.Add("SPAWN:Welcome")
+		Schedule.Add("Kickoff")	
 	End
 	
 	void Update()
