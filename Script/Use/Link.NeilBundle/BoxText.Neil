@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/BoxText.Neil
-// Version: 20.09.19
-// Copyright (C) 2020 Jeroen Petrus Broks
+// Version: 21.03.03
+// Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -36,7 +36,7 @@
 // End License Information
 
 #MKL_Lic     "Star Story - BoxText.Neil" "Phantasar zLib License"
-#MKL_Version "Star Story - BoxText.Neil" "20.09.19"
+#MKL_Version "Star Story - BoxText.Neil" "21.03.03"
 
 
 void BTLoad()
