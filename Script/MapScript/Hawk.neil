@@ -65,8 +65,11 @@ group MScript
 
 	readonly int SchuifDeur_Links  = 368
 	readonly int SchuifDeur_Rechts = 400
+	readonly int VaultDoor = 608
 	int Schuif = 0
 	bool SchuifOpen
+	int VaultY = 0
+	bool VaultOpen
 
 	Void MapMusic()
 		if gv.gstring.Hawk_Music==""
@@ -162,6 +165,12 @@ group MScript
 		elseif (!SchuifOpen) && Schuif>0
 			Schuif--
 		end
+		Map.SetObj("Vault_Door","Y",VaultDoor+VaultY)
+		if VaultOpen && VaultY<62
+			VaultY++
+		elseif (!VaultOpen) && VaultY>0
+			VaultY--
+		end
 	end
 	
 	void ShowBack()
@@ -187,6 +196,19 @@ group MScript
 	Void Sesam_SluitU()
 		SchuifOpen=false
 	end
+	
+	Void OpenVaultDoor()
+		VaultOpen=true
+	End
+	
+	Void CloseVaultDoor()
+		VaultOpen=false
+	end
+	
+	Void NPC_Terminal()
+		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.neil")
+		State.GoToFlow("TERMINAL")
+	End
 
 	void Draw()
 	end
@@ -200,7 +222,9 @@ group MScript
 		ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
 		ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
 		ZA.Enter("ShowBack","ShowBack")
-		ZA.TabEnter({"Vault"})
+		ZA.TabEnter({"Vault","OpenVaultDoor"})
+		ZA.Leave("OpenVaultDoor","CloseVaultDoor")
+		Party.Recover()
 	end
 
 end
