@@ -33,6 +33,7 @@ group MScript
 	
 	void Load()
 	end
+	
 	CONSTRUCTOR
 	end
 
