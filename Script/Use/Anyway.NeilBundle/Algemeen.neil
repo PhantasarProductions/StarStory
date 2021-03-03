@@ -55,6 +55,8 @@
 
 #macro __aurinas gvInt.Aurinas
 
+#macro __hawk gvStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that
+
 
 const delegate Error = Lua.error
 
