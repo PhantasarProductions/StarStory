@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.02.28
+// version: 21.03.03
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.02.28"
+#MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.03.03"
 #MKL_Lic     "Star Story - LostPlanet - Dungeon - Cell.neil" "Phantasar Closed License"
 
 group MScript

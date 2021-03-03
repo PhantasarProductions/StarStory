@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.02.27
+// version: 21.03.03
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.02.27"
+#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.03.03"
 #MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
