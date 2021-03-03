@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.01
+// version: 21.03.03
 // End License Information
 table R_Foxy = { "Attack", "Ability","Item","Guard"}
 init

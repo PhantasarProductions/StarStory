@@ -2,7 +2,7 @@
 // **********************************************
 // 
 // src/Tricky Script/Script/Data/CharacterResistance/Briggs.Neil
-// (c) Jeroen Broks, 2020, All Rights Reserved.
+// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 20.10.08
+// version: 21.03.03
 // End License Information
 init
 	var p = RPGChar.Briggs.Stat

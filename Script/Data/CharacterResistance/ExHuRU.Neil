@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.19
+// version: 21.03.03
 // End License Information
 init
 	var p = RPGChar.ExHuRU.Stat

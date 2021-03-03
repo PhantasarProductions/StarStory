@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.01.20
+// version: 21.03.03
 // End License Information
 table R_UniWendicka = { "Shoot", "Ability","Reload","Item","Guard"}
 return R_UniWendicka

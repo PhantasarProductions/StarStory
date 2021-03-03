@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.02.28
+// version: 21.03.03
 // End License Information
 init
 	//if RPGChar.Has("Foxy")
