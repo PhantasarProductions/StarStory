@@ -209,6 +209,12 @@ group MScript
 		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.neil")
 		State.GoToFlow("TERMINAL")
 	End
+	
+	Void NPC_Nav()
+		if !Done.Done_Tutorial_Hawk_NavigationPanel
+			MapText("NAVTUTORIAL")
+		end
+	End
 
 	void Draw()
 	end
