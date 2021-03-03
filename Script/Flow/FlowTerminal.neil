@@ -1,0 +1,85 @@
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/Box"
+#use "Libs/LinkedList"
+
+Class TApp
+	ReadOnly String Name
+	ReadOnly Var Icon
+	ReadOnly String CheckInstalled
+	
+	Get Bool Installed
+		If CheckInstalled=="ALWAYS"
+			Return true
+		End
+		Return gv.gbook[CheckInstalled]
+	end
+	
+	ReadOnly Delegate Program
+	
+	Constructor(String AName,Delegate AProgram,String ACheckInstalled="ALWAYS")
+		CSayF("Creating App Object for: %s",AName)
+		Name=AName
+		Icon=Image.LoadNew("GFX/Terminal/"..AName..".png","TERMINAL_"..AName)
+		Program = AProgram
+		CheckInstalled = ACheckInstalled
+		Lua.assert(Icon,"I failed to load the icon for App: "..AName)
+	End
+End
+
+var Mouse = Image.Obtain("MOUSE")
+var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
+Var AppList = new LinkedList()
+Var Font = ImageFont.Obtain("BOXTEXT")
+
+Void ChainTutorial()
+	Lua.error("Tutorials not yet available")
+End
+
+Void ChainGameShoot()
+	Lua.error("Game Shoot not yet available")
+End
+
+Void ChainBestiary()
+	Lua.error("Bestiary not yet available")
+End
+
+Void ChainJukeBox()
+	Lua.error("Jukebox not yet available")
+end
+
+Init
+	AppList.AddLast(new TApp("Save",MSave.ToSave))
+	AppList.AddLast(new TApp("Tutor",ChainTutorial))
+	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
+	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
+	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARI"))
+End
+
+
+global void Apollo_Flow()
+	Dev.ToConsole()
+	ScreenBox.Draw()
+	// Mouse coordiniates
+	int mx = Events.MouseX()
+	int my = Events.MouseY()
+	int ax = 100
+	int ay = 100
+	for App in AppList.Each
+		if mx>ax && my>ay && mx<ax+50 && my<ay+80
+			__Cyan
+			if Events.MouseHitLeft()
+				App.Program()
+			end
+		else
+			__SkyBlue
+		end
+		App.Icon.Stretch(ax,ay,50,50)
+		Font.Text(App.Name,ax+25,ay+52,2,0)
+		ax+=120
+		if ax>Screen.W-150
+			ax=100
+			ay+=70
+		end
+	end
+	Mouse.Draw(mx,my)
+end	
