@@ -80,30 +80,52 @@ global void PerformSaveGame(string f)
 	SaveGame.Save()	
 end
 
+void Process(int p)
+	static int max = 10
+	Graphics.Cls()
+	Loading()
+	Graphics.Color(100,100,100)
+	Graphics.Rect(0,Screen.H-10,Screen.W,10)
+	Graphics.Color(255,math.ceil( (p/max)*180 ), 0)
+	Graphics.Rect(0,Screen.H-10,math.ceil( (p/max)*Screen.W),10)
+	Graphics.Flip()
+	Events.Poll()
+end
+
 global bool PerformLoadGame(string f)
 	static var tfnt
+	Process(1)
 	CSay("Clearing SaveGame buffer")
+	Process(2)
 	SaveGame.Clear()
+	Process(3)
 	SaveGame.Assign(f)
 	CSayF("Loading: %s",f)
 	//try
 		// Load in general
+		Process(4)
 		SaveGame.Load()
 		// Game Vars (must be first, as some data I need later is in there!
+		Process(5)
 		CSayF("Parsing Game Vars")
 		NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
 		// Map
+		Process(6)
 		CSay("Loading Field Flow")
 		Flow.Load("FIELD","Script/Load/LoadField.neil")
 		CSay("Parsing Permakills")
-		State.Call("FLOW_FIELD","LGMap","nil")		
+		Process(7)
+		State.Call("FLOW_FIELD","LGMap","nil")	
+		Process(8)
 		if SaveGame.HasData("VAULT.NEIL")
 			CSay("Loading vault data")
 			NeilDoString(SaveGame.Data["VAULT.NEIL"],"SG:Vault.Neil")
 		else
 			CSay("No vault data, hopefully everything's fine!")
 		end
+		Process(9)
 		Ach.Load()
+		Process(10)
 		Hawk.Load()
 	//catch e
 	if false
