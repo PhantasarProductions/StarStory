@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -536,7 +536,7 @@ group Stage_PlayerInput
 		//Hero.Gauge=0
 		Tag=NewChar
 		Combat_Fighter.Fighters[NewChar].Gauge=9500+(300 div __skill)
-		for fuck,you in spairs(Combat_Fighter.Fighters[NewChar])
+		for fuck,you in spairs(Combat_Fighter.Fighters)
 			CSayF("Time Gauge: %s => %05d",fuck,you.Gauge)
 		end
 		Stage.Current=nil
