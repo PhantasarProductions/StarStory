@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -139,3 +139,26 @@ global void CONSOLE_Foes()
 end
 
 global delegate CONSOLE_ListReject = FieldMonster.DBGReject
+
+global void CONSOLE_Tags(para)
+	int r
+	int g
+	int b
+	for T in each(FldMap.CurLayer.TagListArray)
+		var o = FldMap.CurLayer.Obj(T)
+		bool show = #para==0
+		if (#para>0)
+			for p in each(para)
+				show = show || p:upper()==o.Kind:upper()
+			end
+		end
+		if show
+			g=(g+1)%256
+			r=255-g
+			if (g==0)
+				b=(b+1)%256
+			end
+			dev.CWrite(sprintf("%s  %s",o.Kind,T),r,g,b)
+		end
+	end
+end
