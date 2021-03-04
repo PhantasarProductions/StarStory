@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldTrans.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -62,8 +62,11 @@ group Trans
 		return gv.gBool.AllowBeam
 	end
 	
-	void Beam()
-		Lua.error("Beaming not yet supported!")
+	void Scotty()
+		Beam.Quick("PLAYER",false,true)
+		Map.Load("HAWK")
+		Schedule.Add("SPAWN:Scotty")
+		Schedule.Add("ShowBack")
 	end
 	
 	void Recover()
@@ -95,7 +98,7 @@ group Trans
 						if Events.MouseHitLeft()
 							Switch i
 								case 1
-									Beam()
+									Scotty()
 									return
 								case 2
 									Recover()
@@ -122,6 +125,10 @@ group Trans
 	void PadRecover()
 		Recover()
 		TMM.NewMsg("Party is completely recovered",180,255,0)
+	end
+	
+	get delegate PadReturnOnly
+		return Scotty
 	end
 	
 	void Go(string spot)	
@@ -162,8 +169,7 @@ group Trans
 				end
 			end
 		end
-		Activated = Lua.setmetatable({},{["__index"]=AIndex,["__newindex"]=ANewIndex})
-		
+		Activated = Lua.setmetatable({},{["__index"]=AIndex,["__newindex"]=ANewIndex})		
 	end
 
 end
