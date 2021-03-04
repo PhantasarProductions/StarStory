@@ -351,7 +351,17 @@ group Stage_SelectTarget
 			Act.Executor.Gauge = 10001
 			Stage.Current = nil
 			if Act.ActTag=="ACT_SHOOT" || Act.ActTag=="ACT_ATTACK"
-				Lua.Neil.Globals.Stage_PlayerInput.CheckLearn()
+				if (!Lua.Neil.Globals.Stage_PlayerInput.CheckLearn()) 
+					if (Act.Executor.Tag=="Wendicka" || Act.Executor.Tag=="UniWendicka") && (!Act.Targets[1].Boss) && (math.random(0,Act.Targets[1].HP*__skill)<math.random(0,RPGChar.Wendicka.Points.HP.Have))
+						// HAH! Take that I'll kill ya!
+						BoxText.Serial("COMBAT","Special."..Act.Executor.Tag,"FLOW_COMBAT")
+						var oa = Act
+						var a = new Class_Action(Act.Executor.Tag,"ACT_WENDICKA_DEATHBLOW")
+						a.Targets_Tag[1] = oa.Targets_Tag[1]
+						a.Targets_Tag[2] = nil
+						Combat_Fighter.Fighters[Act.Executor.Tag].NextAct = a
+					end
+				end				
 			end
 		end
 		
@@ -399,14 +409,14 @@ group Stage_PlayerInput
 	end
 	
 	table ABL = {}
-	Void CheckLearn()
+	Bool CheckLearn()
 		if Tag=="Crystal" || Tag=="UniCrystal" || Tag=="Briggs"
-			return
+			return false
 		end
 		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/"..Tag)
 		string NewABL=ABL[Tag].Learn
 		if NewABL==""
-			return
+			return false
 		end
 		var oa = Hero.NextAct
 		var a = new Class_Action(Tag,"ABL_"..NewABL)
@@ -443,6 +453,7 @@ group Stage_PlayerInput
 		end
 		a.ActSpeed = 9000
 		CSayF("As the learning requirements for %s's %s are met, a learning is in order!",Tag,NewABL)
+		return true
 	end
 	
 	Void DoShoot()
