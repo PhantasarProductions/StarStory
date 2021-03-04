@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -60,7 +60,7 @@ void MkTrueItem(string it)
 				return ret
 			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING" "ITM_SELLPRICE" "ITM_BUYPRICE"
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-			case "INDISCRIMINATE" "ITM_SELLABLE"
+			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE"
 				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
