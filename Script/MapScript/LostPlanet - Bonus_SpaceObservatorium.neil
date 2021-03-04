@@ -49,8 +49,17 @@ group MScript
 		end
 	end
 	
+	void SLabel(string l)
+		Map.HideButLabel(l)
+		Map.ShowObj("PLAYER")
+	end
+	
 	void Entrance()
-		Map.HideButLabel("Entrance")
+		SLabel("Entrance")
+	end
+	
+	void Corridor1()
+		SLabel("Corridor1")
 	end
 
 	void Update()
@@ -65,6 +74,9 @@ group MScript
 	CONSTRUCTOR
 		ZA.Enter("Transporter","Entrance")
 		ZA.TabEnter{"Entrance"}
+		for C1 in each{"R","L","U"}
+			ZA.Enter("ToCorr1"..C1,"Corridor1")
+		end
 	end
 
 end
