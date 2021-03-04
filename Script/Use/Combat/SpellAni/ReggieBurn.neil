@@ -37,7 +37,7 @@
 module
 
 	var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
-	var TSA = NeilUse("Script/Use/Combat/SpellAni/Flame.neil")
+	var TSA = NeilUse("Script/Use/Combat/SpellAni/Flame")
 	int Alpha = 500
 	
 	Constructor
