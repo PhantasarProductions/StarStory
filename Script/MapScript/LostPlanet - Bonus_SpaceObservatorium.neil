@@ -58,6 +58,7 @@ class Schuifdeur
 	
 	bool Open = false
 	
+	
 	void Update()
 		if Open
 			if Schuif<30
@@ -69,7 +70,7 @@ class Schuifdeur
 			end
 		end
 		Map.SetObj(oTag.."L","X",LX)
-		Map.SetObj(oTag.."R","X",RX)
+		Map.SetObj(oTag.."R","X",RX)		
 	end
 	
 	Constructor(string Tag)
@@ -120,11 +121,90 @@ group MScript
 	void Corridor1()
 		SLabel("Corridor1")
 	end
+	
+	Void OpenWendicka()
+		DeurWendicka.Open=true
+		Map.SetObj("UnixD1L","Impassible",false)
+		Map.SetObj("UnixD1R","Impassible",false)
+		Map.Remap()
+	end
 
+	void NPC_Console()
+		if Map.Leader!="Wendicka"
+			gv.gString.CURRENTCHARNAME = RPGChar[Map.Leader].Name
+			MapText("UNIX.NOTWENDICKA")
+			return
+		end
+		if !Done.Observatorium_Console_Handled
+			MapText("UNIX1")
+			DeurWendicka.Open=true
+			for i=1,30
+				self.Update()
+				Graphics.Cls()
+				Map.DrawScreen()
+				Graphics.Flip()
+				FPS.WaitMinTicks()
+				Events.Poll()
+			end
+			MapText("UNIX1OPEN")
+		end
+		OpenWendicka()
+	end
+	
+	Void Enter()
+		SLabel("Observe1")
+		OpenWendicka()
+		if !Done.Observatorium_Wendicka_Conclusion
+			MapText("ENTER")
+		End
+	End
+	
+	void EndObs1()
+		SLabel("Observe1")
+	end
+	
+	void Obs1Cor2()
+		SLabel("Corridor2")
+	end
+	void ShowCorridor2()
+		SLabel("Corridor2")
+	end
+	void Plee()
+		SLabel("Plee")
+	end
+	void DObs2()
+		SLabel("Observe2")
+	end
+	void UObs2()
+		SLabel("Observe2")
+	end
+	
+	void TheEnd()
+		SLabel("TheEnd")
+		if !Done.Completed_Observatorium
+			Ach.Award("SECRETDUNGEON_OBSERVATORIUM")
+			Party.GiveExp( 6000 div __skill )
+		End
+	end
+	
+	void EndTrans()
+		SLabel("TheEnd")
+	end
+	
+	void NPC_Jukebox()
+		Map.Kill("NPC_Jukebox",true)
+		MapText("JUKEBOX")
+		gv.gbool.FOUNDAPP_JUKEBOX=true
+	end
+	
 	void Update()
 		for Deur in SchuifDeur.Lst.Each
 			Deur.Update()
 		end
+		Map.SetObj("SPACE","X",Map.CamX-2)
+		Map.SetObj("SPACE","Y",Map.CamY-2)
+		Map.SetObj("SPACE","W",Screen.W+4)
+		Map.SetObj("SPACE","H",Screen.H)
 	end
 
 	void Draw()
@@ -135,12 +215,17 @@ group MScript
 	
 	CONSTRUCTOR
 		ZA.Enter("Transporter","Entrance")
-		ZA.TabEnter{"Entrance"}
+		ZA.TabEnter{"Entrance","Enter","EndObs1","Obs1Cor2","ShowCorridor2","DObs2","UObs2","TheEnd","EndTrans"}
 		for C1 in each{"R","L","U"}
 			ZA.Enter("ToCorr1"..C1,"Corridor1")
 		end
+		for i=1,3
+			ZA.Enter("toplay"..i,"Plee")
+		end
 		SchuifDeur.Create("DtC1R","OpenCorr1R")
 		SchuifDeur.Create("DtC1L","OpenCorr1L")
+		SchuifDeur.Create("PleeL","OpenCorr2L")
+		SchuifDeur.Create("PleeR","OpenCorr2R")
 		DeurTabel = SchuifDeur.Tab
 	end
 
