@@ -42,18 +42,22 @@
 #MKL_Lic     "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "Phantasar Closed License"
 
 class Schuifdeur
+
 	readonly int OLX
 	readonly int OLY
 	readonly int ORX
 	readonly int ORY
+	readonly string otag
 	int schuif = 0
 	get int LX
 		return OLX - Schuif
 	end
 	get int RX
-		return ORY + Schuif
+		return ORX + Schuif
 	end
+	
 	bool Open = false
+	
 	void Update()
 		if Open
 			if Schuif<30
@@ -64,22 +68,26 @@ class Schuifdeur
 				Schuif--
 			end
 		end
+		Map.SetObj(oTag.."L","X",LX)
+		Map.SetObj(oTag.."R","X",RX)
 	end
+	
 	Constructor(string Tag)
+		otag = tag
 		OLX = Map.ObjInt(Tag.."L","X")
 		OLY = Map.ObjInt(Tag.."L","Y")
 		ORX = Map.ObjInt(Tag.."R","X")
 		ORY = Map.ObjInt(Tag.."R","Y")
 	end
 	
-	static Var Lst = new LinkedList
+	static Var Lst = new LinkedList()
 	static Var Tab
 	
 	static Var Create(string Deur,String Zone="")
 		var DeurObject = New SchuifDeur(Deur)
 		if Zone!=""
 			Tab = Tab || {}
-			Tab[Deur] = { ["O"] = NeilLoad(sprintf("MScript.DeurTabel.%s.D.Open = true",Deur)), ["C"] = NeilLoad(sprintf("MScript.DeurTabel.%s.D.Open = false",Deur)), ["D"] = DeurObject }
+			Tab[Deur] = { ["O"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = true\nend",Deur)), ["C"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = false\nend",Deur)), ["D"] = DeurObject }
 			ZA.Enter(Zone,sprintf("DeurTabel.%s.O",Deur))
 			ZA.Leave(Zone,sprintf("DeurTabel.%s.C",Deur))
 		end
@@ -90,7 +98,7 @@ end
 
 group MScript
 
-	readonly var DeurTabel = SchuifDeur.Tab
+	readonly var DeurTabel 
 	readonly var DeurWendicka = SchuifDeur.Create("UnixD1")
 
 	void Welcome()
@@ -114,6 +122,9 @@ group MScript
 	end
 
 	void Update()
+		for Deur in SchuifDeur.Lst.Each
+			Deur.Update()
+		end
 	end
 
 	void Draw()
@@ -130,6 +141,7 @@ group MScript
 		end
 		SchuifDeur.Create("DtC1R","OpenCorr1R")
 		SchuifDeur.Create("DtC1L","OpenCorr1L")
+		DeurTabel = SchuifDeur.Tab
 	end
 
 end
