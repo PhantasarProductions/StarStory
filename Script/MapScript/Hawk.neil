@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.04
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Hawk.neil" "21.03.03"
+#MKL_Version "Star Story - Hawk.neil" "21.03.04"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -214,6 +214,10 @@ group MScript
 		if !Done.Done_Tutorial_Hawk_NavigationPanel
 			MapText("NAVTUTORIAL")
 		end
+		// I must be 100% sure the Hawk Flow is loaded. 
+		// Seems almost impossible that it isn't, though
+		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
+		State.GoToFlow("HAWK")
 	End
 
 	void Draw()
