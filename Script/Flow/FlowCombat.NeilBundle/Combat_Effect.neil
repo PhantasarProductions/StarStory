@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -56,6 +56,7 @@ Group CG_Effect
 			CSayF("Attack on %s by %s - Accuracy roll %d/%d -- Evasion roll %d/%d",Tar.Tag,Act.Executor.Tag,hit,acc,ddg,eva)
 			return (ddg<=hit)
 		end
+		CSayF("Attack not dodgable, so will always hit!")
 		return true
 	end
 
