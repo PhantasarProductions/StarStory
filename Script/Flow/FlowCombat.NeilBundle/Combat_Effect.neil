@@ -61,10 +61,33 @@ Group CG_Effect
 	end
 
 	// Cure Status Changes
-	bool Cure(Act,Tar) 
-		// TODO: Code
-		return false
-	end
+	Bool Cure(Act,Tar) 
+		Static Table CureStat = { "Poison", "Disease", "Paralysis", "Sleep", "Handicapped", "Terrified", "BagLock", "Amnesia", "Confusion", "DeathOne", "DeathFull", "Damned", "Zombie" }
+		Bool ret = False
+		For st In Each(CureStat)
+			Switch st
+				Case "DeathOne"
+					If Tar.StatusChange.Fallen
+						Tar.StatusChange.Fallen=False
+						Tar.Hurt("Revive",0,255,0)
+						ret = True
+					End
+				Case "DeathFull"
+					If Tar.StatusChange.Fallen
+						Tar.StatusChange.Fallen=False
+						Tar.HP = Tar.MaxHP
+						Tar.Hurt("Resurrection",0,255,0)
+						ret = true
+					End
+				Default
+					If Act.Act["Cure"..st] && Tar.StatusChange[st]
+						Tar.Hurt("Cure: "..st,0,255,0)
+						ret=True
+					End
+			End
+  		End
+		Return ret
+	End
 	
 	readonly delegate rand = math.random
 	
