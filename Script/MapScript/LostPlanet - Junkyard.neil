@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.04
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.03.03"
+#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.03.04"
 #MKL_Lic     "Star Story - LostPlanet - Junkyard.neil" "Phantasar Closed License"
 
 #macro HawkAvailable gv.gbool.Done_BeamedToTheHawk_ForTheFirstTime
@@ -81,6 +81,51 @@ group MScript
 		Schedule.Add("Kickoff")	
 	End
 	
+	void BossBlockRemoval()
+		Map.Kill("BossBlock")
+	end
+	
+	Void Boss()
+			Int BossLevel
+		switch Caps.Cycle
+			case 0 1
+				BossLevel = 20 + (__skill*5)
+			case 2 
+				BossLevel = 200 + (__skill*10)
+			case 3
+				BossLevel = 420 + (__skill*25)
+			case 4
+				BossLevel = 1200 + (__skill*50)
+			case 5 6
+				Bosslevel = 5000 + (__skill*100)
+			case 7 8
+				BossLevel = 6000 + (__skill*250)
+			case 9
+				BossLevel = 6500 + (__skill*500)
+			case 10
+				BossLevel = 7500
+			case 11
+				BossLevel = 8800
+			case 12
+				BossLevel = 9900
+			case 13
+				BossLevel = 9999
+			case 14
+				BossLevel = 10000
+			default
+				BossLevel = 10000
+		end
+		StartCombat.Foe("Boss/SupaQual",BossLevel)
+		Schedule.Add("BossBlockRemoval")
+	End
+	
+	Void EnterObservatorium()
+		Player.WalkTo("SPOT_ToObservatorium")
+		Beam.Quick("PLAYER",false,true)
+		Map.GoToMap("LostPlanet - Bonus_SpaceObservatorium","OBS","Start_Fixed")
+		Schedule.Add("Welcome")
+	End
+	
 	void Update()
 	end
 
@@ -91,7 +136,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter {"BossNotYet","Award","UnderTheShip" }
+		ZA.TabEnter {"BossNotYet","Award","UnderTheShip","EnterObservatorium" }
 	end
 
 end
