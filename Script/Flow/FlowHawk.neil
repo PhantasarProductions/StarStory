@@ -32,13 +32,19 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.04
 // End License Information
-class HData
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/Box"
+
+
+Class HData
 	string Name
 	string Map
 	string Layer
 	string Spot
+		
 	Constructor(string N,M,L,S)
 		Name  = N
 		Map   = M
@@ -48,8 +54,13 @@ class HData
 end
 
 group flHawk
+
+	var Mouse = Image.Obtain("MOUSE")
+	var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
+	Var Font = ImageFont.Obtain("BOXTEXT")
 	
 	table HawkData = {}
+	String World = ""
 	
 	void Save()
 		string ret = "Init\n\tflHawk.HawkData = {}\n\n"
@@ -57,7 +68,14 @@ group flHawk
 		for world,wlist in spairs(HawkData)
 			ret += sprintf("\tflHawk.HawkData[\"%s\"] = {}\n",World)
 			for node,nd in spairs(wlist)
-				ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
+				switch node
+					case "ARRIVE"
+						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node, nd.Name,nd)
+					case "DISABLED"
+						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node, nd.Name,Lua.tostring(nd))
+					default
+						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
+				end
 			end
 		end
 		ret += "end"
@@ -70,13 +88,110 @@ group flHawk
 		else
 			HawkData = {}
 		end
+		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
 		string node = sprintf("%s.%s.%s",M,L,spot)
 		HawkData[World] = HawkData[World] or {}
+		HawkData[World].ZZZ = HawkData[World].ZZZ || new HData("<- Back","","")  
 		HawkData[World][node] = new HData(N,M,L,spot)
 	end
-			
+	
+	Constructor
+		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+	end
+	
+	get int mx
+		return Events.MouseX()
+	end
+	
+	get int my 
+		return Events.MouseY()
+	end
+	
+	get bool ml
+		return Events.MouseHitLeft()
+	end
+	
+	void GoSpace()
+		int wy=20
+		for w,d in spairs(HawkData)
+			if d.DISABLED
+				Graphics.Color(0,105,180)
+			elseif my>wy && my<wy+25
+				__Cyan
+				if ml
+					if d.ARRIVE && d.ARRIVE!=""
+						Schedule.Add(w.ARRIVE)
+						State.GoToFlow("FIELD")
+					end
+					World=w
+				end
+			else
+				__SkyBlue
+			end
+			Font.Text(w,40,wy)
+			wy+=30			
+		end
+	end
+	
+	void GoWorld()
+		int ty = 100
+		__red
+		Font.Text(World,40,40)
+		for node,ndata in spairs(HawkData[World])
+			if node!="ARRIVE" && node!="DISABLED"
+				if my>ty && my<ty+25
+					__Cyan
+					if node=="ZZZ"
+						__Yellow
+					// Node ZZZ
+					end
+					if ml
+						if node=="ZZZ"
+							World=""
+						// Node ZZZ
+						else
+							Map.GoToMap(NData.Map,NData.Layer,"Trans.Spot."..NData.Spot)
+							State.GoToFlow("FIELD")
+						// Node ZZZ Else
+						end
+					// ML
+					end
+				// Else Mouse Check
+				else
+					if node=="ZZZ"
+						__Ember						
+					else
+						__SkyBlue
+					// ZZZ
+					end
+				// Mouse Check
+				end
+				Font.Text(ndata.Name,40,ty)
+				ty+=30
+			// Node check
+			end
+		// For loop
+		end
+	// Method
+	end
+	
+	void Flow()
+		Dev.ToConsole()
+		ScreenBox.Draw()
+		if World==""
+			GoSpace()
+		else
+			GoWorld()
+		end
+		// Party
+		Party.Boxes()
+		// Mouse
+		Mouse.Draw(mx,my)		
+	end
 
 end
+
+Global Delegate Apollo_Flow = flHawk.Flow
