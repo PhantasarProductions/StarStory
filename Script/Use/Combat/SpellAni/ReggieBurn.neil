@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/ReggieBurnn.neil
+// src/Tricky Script/Script/Use/Combat/SpellAni/ReggieBurn.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.04
 // End License Information
 module
 
