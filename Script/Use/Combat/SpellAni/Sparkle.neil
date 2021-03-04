@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
-// Version: 21.03.03
+// Version: 21.03.04
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -53,7 +53,7 @@ module
 		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
 	end	
 
-	void Init(aact)
+	void Start(aact)
 		self.Cycles = 0
 		self.MyAudio.Play()
 		self.Act = aact
