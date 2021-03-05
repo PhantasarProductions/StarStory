@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.04
+// version: 21.03.05
 // End License Information
 module
 
-	var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
-	var TSA = NeilUse("Script/Use/Combat/SpellAni/Flame")
+	readonly var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
+	var TSA 
 	int Alpha = 500
 	
 	Constructor
@@ -45,11 +45,15 @@ module
 	end
 	
 	void Start(act)
-		Alpha = 500
-		TSA.Start(act)
+		Alpha = 400
+		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
+		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA.Start(act)
 	end
 	
 	void Draw()
+		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
+		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		Graphics.SetAlpha(math.max(0,math.min(255,Alpha)))
 		Reggie.Draw(Screen.W div 2,Screen.H div 2)
 		Graphics.SetAlpha(255)
@@ -59,13 +63,24 @@ module
 	end
 	
 	void Update()
-		Alpha--
-		if Alpha<300
+		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
+		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		Alpha-=2
+		if Alpha==300
+			TSA.Start()
+		elseif Alpha<300
 			TSA.Update()
 		end
 	end
 
 	get bool Ended
+		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
+		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		return TSA.Ended && Alpha<=0
+	end
+	
+	Constructor
+		CSay("REGGIE BURN! IS THE CONSTRUCTOR CALLED?")
+		TSA = NeilUse("Script/Use/Combat/SpellAni/Flame")
 	end
 end
