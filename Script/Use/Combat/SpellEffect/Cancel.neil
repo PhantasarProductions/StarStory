@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellEffect/Cancel.neil
-// Version: 21.03.03
+// Version: 21.03.05
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,6 +38,7 @@ bool Ret(Act)
 	for i,t in pairs(Act.Targets_Tag)
 		Act.Targets[i].NextAct=nil
 	end
+	return true
 end
 
 return Ret
