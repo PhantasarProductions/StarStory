@@ -32,9 +32,11 @@
 // 
 // **********************************************
 // 
-// version: 21.03.04
+// version: 21.03.05
 // End License Information
-bool Ret(Act,Tar)
+Bool Ret(Act,Tar)
 	Tar.Hurt("DEATH",255,0,0)
 	Tar.HP=0
-end
+	return true
+End
+Return Ret
