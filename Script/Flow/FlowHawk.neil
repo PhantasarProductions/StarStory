@@ -88,7 +88,7 @@ group flHawk
 		else
 			HawkData = {}
 		end
-		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+		HawkData.Physilium = HawkData.Physillium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
