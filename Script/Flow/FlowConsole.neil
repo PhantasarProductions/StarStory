@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.03.03
+// Version: 21.03.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -281,6 +281,11 @@ void Bye()
 	Flow.Quit()
 end
 
+VOID ToggleGod()
+	gv.gBool["CHEAT.GOD"]=!gv.gBool["CHEAT.GOD"]
+	CSayF("God mode: %s",Lua.tostring(gv.GBool["CHEAT.GOD"]))
+end
+
 deftable icommandtable
 	FUCK = FoulLanguage
 	SHIT = FoulLanguage
@@ -302,6 +307,8 @@ deftable icommandtable
 		CSayF("Leave me be: %s",Lua.tostring(gv.GBool.LeaveMeBe))
 	end
 	VARS = ShowGV
+	IDDQD = ToggleGod
+	GOD = ToggleGod
 	STATLIST = void(table chrs)
 		for ch in each(chrs)
 			table s = Split(RPGChar[ch].StatList,"\n")
