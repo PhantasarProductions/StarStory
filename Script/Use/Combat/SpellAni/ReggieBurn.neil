@@ -39,15 +39,17 @@ module
 	readonly var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
 	var TSA 
 	int Alpha = 500
+	var Act
 	
 	Constructor
 		Reggie.HotCenter()
 	end
 	
-	void Start(act)
+	void Start(aact)
 		Alpha = 400
 		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
 		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		Act = aact
 		//TSA.Start(act)
 	end
 	
@@ -67,7 +69,7 @@ module
 		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		Alpha-=2
 		if Alpha==300
-			TSA.Start()
+			TSA.Start(Act)
 		elseif Alpha<300
 			TSA.Update()
 		end
