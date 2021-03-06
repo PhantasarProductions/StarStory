@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.03.04
+// Version: 21.03.05
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -65,6 +65,9 @@ class Combat_Foe extends Combat_Fighter
 	get bool Available
 		// TODO: Automatically turn unavailable if an enemy is either dead or removed from battle
 		if self.HP<=0 && self.scale<=0
+			return false
+		end
+		if self.StatusChange.Gone
 			return false
 		end
 		return true

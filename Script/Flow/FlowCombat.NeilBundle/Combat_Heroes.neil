@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.03.04
+// Version: 21.03.05
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,6 +94,9 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	get bool Available
+		if self.StatusChange.Gone
+			return false
+		end
 		return PartyIndex>0 and PartyIndex<=3
 	end
 	get bool Targetable_Hero
@@ -432,8 +435,8 @@ group Stage_PlayerInput
 				A.Targets_Tag[2] = nil
 			case "AA"
 				for i=1,3
-					if RPGChar[i] && RPGChar[i]!=""
-						A.Targets_Tag[i]=RPGChar[i]
+					if RPGParty[i] && RPGParty[i]!=""
+						A.Targets_Tag[i]=RPGParty[i]
 					else
 						A.Targets_Tag[i] = nil
 					end
