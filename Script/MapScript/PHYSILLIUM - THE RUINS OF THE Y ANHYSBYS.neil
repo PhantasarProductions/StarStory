@@ -38,8 +38,13 @@
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
+
+#macro __Rejoined gv.gBool.Wendicka_Back_Y_Anhysbys
+
 #MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.03.06"
 #MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
+
+#macro __memprefix "MEMORY_TABLE_ANHYSBYS_"
 
 group MScript
 
@@ -64,6 +69,71 @@ group MScript
 		Map.ShowByLabel("SecretTwo")
 	end
 	
+	void NPC_MemoryTable()
+		string lt = __memprefix..right(Map.Layer,3)
+		if gv.gbool[lt]
+			return
+		end
+		Flow.Load("MINIGAME","Script/Flow/MiniGame/MemoryAnhysbys")
+		Flow.GotoFlow("MINIGAME")
+	end
+	
+	void Open_PD()
+		string lt = __memprefix..right(Map.Layer,3)
+		gv.gbool[lt] = true
+		int lx = Map.ObjInt("PDL"..Map.Layer,"X")
+		int rx = Map.ObjInt("PDR"..Map.Layer,"X")
+		for i=1,64
+			lx--
+			rx++
+			Map.SetObj("PDL"..Map.Layer,"X",lx)
+			Map.SetObj("PDR"..Map.Layer,"X",rx)
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		Map.Kill("PDL"..Map.Layer,true)
+		Map.Kill("PDR"..Map.Layer,true)
+		Party.GiveEXP(1000)
+		Map.Remap()
+		State.Kill("FLOW_MINIGAME")
+	end
+	
+	void Wendicka_Rejoin()
+		Map.ActTrans("TRANSWENDICKA")
+		PPop.Pop("Wen","North")
+		MapText("WENDICKA_REJOIN")
+		__Rejoined = true
+		PPop.UnPop()
+		for i=1,200
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		__hawk = "ANHYSBYS.REJOIN"
+		RPGParty[5] = "Wendicka"
+		Map.Kill("Wendicka",true)
+		Map.Kill("Wendicka_Rejoin",true)
+	end
+	
+	void WendickaSecret()
+		if __Rejoined && (Done.Wendicka_Mentioned_Secret_in_Y_AnHysbys)
+			MapText("WENDICKA_SECRET")
+		end
+	end
+	
+	void WendickaStop()
+		if !__Rejoined
+			Player.StopWalking()
+			Player.WalkTo("Start")
+			MapText("WENDICKA_STOP")
+		end
+	end
+		
 	void Update()
 	end
 
@@ -74,7 +144,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"Welcome","EnterSecretTwo"}
+		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret"}
 		for i=1,2
 			ZA.Enter("HTwo"..i,"HideTwo")
 		end
