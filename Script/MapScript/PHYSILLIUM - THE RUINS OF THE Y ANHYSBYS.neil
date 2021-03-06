@@ -48,6 +48,9 @@
 
 group MScript
 
+	bool BossOpen = false
+	int BossX = 0
+
 	void Welcome()
 		if Done.Welcome_To_The_Ruins_Of_The_Y_Anhysbys
 			return
@@ -133,8 +136,18 @@ group MScript
 			MapText("WENDICKA_STOP")
 		end
 	end
+	
+	void Boss()
+		BossOpen=true
+		StartCombat.Foe("Boss/BigLion",RPGChar.ExHuRU.Stat.Level)
+	end
 		
 	void Update()
+		if Map.Layer=="#004" && BossOpen && BossX<60
+			BossX++
+			Map.SetObj("BDL","X",752-BossX)
+			Map.SetObj("BDR","X",816+BossX)
+		end
 	end
 
 	void Draw()
