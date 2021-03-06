@@ -306,6 +306,10 @@ deftable icommandtable
 		gv.gBool.LeaveMeBe = !gv.gBool.LeaveMeBe
 		CSayF("Leave me be: %s",Lua.tostring(gv.GBool.LeaveMeBe))
 	end
+	JACKTHERIPPER = void()
+		gv.vbool["CHEAT.JACK"] = !gv.vbool["CHEAT.JACK"]
+		CSayF("Jack the Ripper: %s",Lua.tostring(gv.vbool["CHEAT.JACK"]))
+	end
 	VARS = ShowGV
 	IDDQD = ToggleGod
 	GOD = ToggleGod
