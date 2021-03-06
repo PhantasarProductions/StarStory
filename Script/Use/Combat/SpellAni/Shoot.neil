@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Shoot.neil
-// Version: 21.03.03
+// Version: 21.03.06
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,7 +42,7 @@ module
 	bool _Ended = false
 	
 
-	void Init(A)
+	void Start(A)
 		_Ended = false
 		string img
 		Audio.LoadNew("Audio/SFX/photon.ogg","SPELLANI_SHOOT_SOUND").Play()
