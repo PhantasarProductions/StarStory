@@ -219,6 +219,31 @@ group MScript
 		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
 		State.GoToFlow("HAWK")
 	End
+	
+	Void ARRIVE_PHYSILLIUM()
+		//Lua.error("next event not yet present")
+		Map.Spawn("ScenarioWendicka","PLAYER")
+		Map.HideObj("PLAYER")
+		Map.SetObj("ScenarioWendicka","Texture","GFX/Actors/Player/Wendicka.South.jpbf")		
+		Map.SetObj("Deken","W",800)
+		MapText("ARRIVAL_PHYSILLIUM_A")
+		SchuifOpen = true
+		Map.ObjWalkTo("ScenarioWendicka","Scotty")
+		for i=1,35
+			Update()
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		//Player.WalkTo("Scotty")
+		MapText("ARRIVAL_PHYSILLIUM_B")
+		for i,ch in ipairs { "Crystal", "ExHuRU", "Yirl", "Foxy", "", "" }
+			RPGParty[i]=ch
+		end
+		Map.GotoMap("PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS","#000","Start")
+	end
 
 	void Draw()
 	end
