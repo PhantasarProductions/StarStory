@@ -36,6 +36,7 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
 
 #MKL_Version "Star Story - Hawk.neil" "21.03.06"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
@@ -128,15 +129,25 @@ group MScript
 		// TODO: Follow me
 	end
 	
+	void Hawk_Kick_Reggie(int idx,__Inf)
+		Static Table Kicker = {}
+		Kicker[idx] = Kicker[idx] || {__inf}
+		for k in each(Kicker[idx])
+			if __hawk==k
+				KickReggie("NPC_Hawk_Foxy","NPC_Hawk_Reggie","South")
+			end
+		end
+	end
+	
 	void NPC_Hawk_Foxy()
 		Talk("Foxy")
-		// TODO: Kick Reggie
+		Hawk_Kick_Reggie(1)
 		// TODO: Pickpocket
 	end
 	
 	void NPC_Hawk_Reggie()
 		Talk("Reggie")
-		// TODO: Kick Reggie
+		Hawk_Kick_Reggie(2,"ANHYSBYS.REJOIN","CRYSTALFATHER","WENDICKAGONE")
 	end
 	
 	void NPC_Hawk_Xenobi()
