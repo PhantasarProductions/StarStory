@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.03.03
+// Version: 21.03.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.03.03"
+#MKL_Version "Star Story - FieldMap.neil" "21.03.06"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -178,7 +178,8 @@ class Clickable
 					CSayF("ARMS Chest #%s > %s",d[2],d[3])
 					if RPGChar.Crystal.List.ARM.Has(d[3])
 						CSay("Crystal already has this ARM, so let's remove it!")
-						Map.Kill(T)
+						//Map.Kill(T)
+						Lay.Kill(T)
 					else
 						var TS = Lay.Obj(T)
 						Create(T,L,TS.X,TS.Y+32,ObtainARM,T)
