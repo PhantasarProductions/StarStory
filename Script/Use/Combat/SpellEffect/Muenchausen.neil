@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.05
+// version: 21.03.06
 // End License Information
 Const Var KanonsKogel = Image.LoadNew("GFX/Combat/SpellAni/Muenchhaussen/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
 Const Var Stars = Image.LoadNew("GFX/Intro/Starfield.png","STARFIELD")
