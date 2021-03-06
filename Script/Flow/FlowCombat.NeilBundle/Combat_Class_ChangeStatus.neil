@@ -1,0 +1,134 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
+// Version: 21.03.06
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+Class Combat_StatusChanges
+	
+	static table Lijst = {}
+	abstract void Draw(tar)
+	
+	string Name
+	string Resist
+	bool CureOnAttack
+	
+	static var GetSt(string n)
+		return lijst[n:upper()]
+	end
+	
+	// Only to be used for cause. Otherwise a slowdown can and may be expected!
+	static get delegate Each
+		table items = {}
+		int index
+		for _,it in spairs(Lijst)
+			items += it
+		end
+		var Ret()
+			index++
+			return items[index]
+		end
+		return Ret
+	end
+	
+	static void Create(string name,instance,string resistance="")
+		Lijst[name:upper()] = instance
+		instance.resist = name
+		instance.name = name
+		if resistance!=""
+			instance.resist=resistance
+		end
+	end
+	
+end
+
+Class CSC_Death extends Combat_StatusChanges
+
+	void Draw(tar)
+		// Must be present, but both enemies as heroes have their own handing 
+		// to this
+	end
+	
+end
+
+class CSC_Paralysis extends Combat_StatusChanges
+	var img = Image.LoadNew("GFX/Combat/StatusAni/Paralysis/Paralysis.png","COMBAT_STATUSCHANGE_PARALYSIS")
+	void Draw(tar)
+		static int x
+		x = (x + 2) % 4
+		img.Tile(tar.x-((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
+		img.Tile(tar.x+((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
+		// Only cure automatically during the IDLE stage!
+		if Stage.Current == Stage.IDLE
+			return
+		end
+		// Auto cure - Dependent on difficulty setting (of course)
+		bool c
+		switch tar.Team
+			case "Hero"
+				c = math.random(0,__skill*10000) == 1
+			case "Foe"
+				c = math.random(0,30000 div __skill) == 1
+			default
+				Lua.error("??? Paralyse chech oddity")
+		end
+		if c
+			tar.StatusChange.Paralysis=false
+		end				
+	end
+end
+
+class CSC_Disease extends Combat_StatusChanges
+	var icon = Image.LoadNew("GFX/StatusChanges/Disease.png","COMBAT_STATUSCHANGES_DISEASE")
+	void Draw(tar)
+		icon.hotcenter()
+		int n=math.random(1,5)
+		for i=1,n
+			icon.draw(tar.x+math.random((-tar.w) div 2,tar.w div 2),tar.y-math.random(0,tar.h))
+		end
+	end
+end
+
+Init
+	// These ones merely need to exist to make causing effects easier
+	var death = new CSC_Death()
+	for d in each{"FALLEN","KO","KOED","DEAD","DEATH"}
+		Combat_StatusChanges.Create(d,death,"Death")
+	end
+	
+	// This one is only taken separately for safety reasons, but it should not be needed
+	// Combat_StatusChanges.Create("Destruction",new CSC_Death(),"Death")
+	
+	// And now the real stuff
+	Combat_StatusChanges.Create("Paralysis",new CSC_Paralysis())
+end
