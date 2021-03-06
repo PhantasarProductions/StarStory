@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.03.03
+// Version: 21.03.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -98,7 +98,7 @@ module
 		for tag,fv in pairs(Combat_Fighter.Fighters)
 			if fv.Available
 				if fv.StatusChange.Fallen || fv.StatusChange.Paralysis || fv.StatusChange.Sleep
-					fv.Gauge--
+					fv.Gauge=math.max(0,v.Gauge-2)
 				elseif fv.Gauge<10000
 					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
 					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
