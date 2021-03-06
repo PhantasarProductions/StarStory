@@ -70,9 +70,9 @@ group flHawk
 			for node,nd in spairs(wlist)
 				switch node
 					case "ARRIVE"
-						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node, nd.Name,nd)
+						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node,nd)
 					case "DISABLED"
-						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node, nd.Name,Lua.tostring(nd))
+						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = %s\n",World,node, Lua.tostring(nd))
 					default
 						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
 				end
@@ -122,9 +122,19 @@ group flHawk
 			elseif my>wy && my<wy+25
 				__Cyan
 				if ml
+					// debug
+					// for k,v in spairs(d)
+					//	CSayF("%s %s = %s",Lua.type(v),k,Lua.tostring(v))
+					// end
+					// end debug
 					if d.ARRIVE && d.ARRIVE!=""
-						Schedule.Add(w.ARRIVE)
+						CSayF("Schedule: %s",d.ARRIVE)
+						Schedule.Add(d.ARRIVE)
+						d.ARRIVE=nil
+						CSay("Back to field for the scheduled actions!")
 						State.GoToFlow("FIELD")
+						CSay("Break off the normal event!")
+						return
 					end
 					World=w
 				end
