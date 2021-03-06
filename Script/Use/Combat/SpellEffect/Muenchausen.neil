@@ -1,0 +1,97 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/SpellEffect/Muenchausen.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.05
+// End License Information
+Const Var KanonsKogel = Image.LoadNew("GFX/Combat/SpellAni/Muenchhaussen/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
+Const Var Stars = Image.LoadNew("GFX/Intro/Starfield.png","STARFIELD")
+ReadOnly Int KanonW = KanonsKogel.W
+ReadOnly Int KanonH = KanonsKogel.H
+readonly Var Fnt = ImageFont.Obtain("BIGTEXT")
+
+const delegate CLS=Graphics.Cls
+const delegate Flip=Graphics.Flip
+
+bool BaronVonMunchhaussen(Act,Tar)
+
+	// The Baron of Munchhausen said he flew through the sky on a cannon
+	// ball.... Let's visualize that
+	
+	if Tar.Team=="Player"
+		Lua.error("Munchhausen cannot be used on heros!\nWhat the hell went wrong here?")
+	end
+	if Tar.Boss
+		// You may not use the ARM on BOSSES (I mean come on!)
+		return false
+	end
+	
+	
+	int y = Screen.H+500
+	int x = Screen.W
+	int StarPoint = 0
+	int SkyAlpha = 400
+	
+	Repeat
+		CLS()
+		__white
+		Stars.Tile(0,0,Screen.W,Screen.H) // ,StarPoint,StarPoint)
+		StarPoint-=4
+		if SkyAlpha>0
+			__SkyBlue
+			Graphics.SetAlpha(math.min(255,SkyAlpha))
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			SkyAlpha--
+			Graphics.SetAlpha(255)
+		end
+		__white
+		KanonsKogel.Draw(x,y)
+		tar.img.draw(x+(KanonW div 2),y)
+		y-=2
+		x-=2
+		__ember
+		if y<-(KanonH*1)
+			Fnt.Text("Bye! Bye!",Screen.W div 2,Screen.H div 2)
+		elseif y<0
+			Fnt.Text("Bye!",Screen.W div 2,Screen.H div 2)
+		end
+		FLIP()
+		FPS.WaitMinTicks()
+		Events.Poll()		
+	LoopWhile y>0-(KanonH * 3)
+	Tar.StatusChange.Gone = true
+	return true
+End
+
+
+Return BaronVonMunchhaussen
