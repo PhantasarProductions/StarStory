@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.03.06
+// Version: 21.03.07
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.03.06"
+#MKL_Version "Star Story - FieldMap.neil" "21.03.07"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -428,6 +428,11 @@ group FldMap
 			Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
 		end
 		CurLayer.Kill(ObjTag)
+	end
+	
+	void PostKill(ObjTag)
+		Kills[LoadedMap] = Kills[LoadedMap] or {}
+		Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
 	end
 	
 	get string Leader

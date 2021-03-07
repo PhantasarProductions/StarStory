@@ -50,6 +50,9 @@ group MScript
 
 	bool BossOpen = false
 	int BossX = 0
+	bool EndEntered = false
+	bool EndSluit = false
+	int EndX = 0
 
 	void Welcome()
 		if Done.Welcome_To_The_Ruins_Of_The_Y_Anhysbys
@@ -141,12 +144,47 @@ group MScript
 		BossOpen=true
 		StartCombat.Foe("Boss/BigLion",RPGChar.ExHuRU.Stat.Level)
 	end
+	
+	
+	void OpenED()
+		Map.SetObj("EDB","Impassible",false)
+		Map.ReMap()
+		// Exact location doesn't matter, the closure routine will correct this anyway.
+		Map.SetObj("EDL","X",400)
+		Map.SetObj("EDR","X",400)
+		EndEntered = True
+	end
+	
+	void CloseED()
+		Map.SetObj("EDB","Impassible",true)
+		Map.ReMap()
+		Map.HideByLabel("Two")
+		if !EndEntered
+			return
+		end
+		EndSluit = True
+		EndX = 40
+	end
+	
+	void NPC_Banika()
+		if !Done.Found_Bakina
+			Map.PostKill("NPC_Banika")
+			MapText("BANIKA_A")
+		else
+			MapText("BANIKA_B")
+		end		
+	end		
 		
 	void Update()
 		if Map.Layer=="#004" && BossOpen && BossX<60
 			BossX++
 			Map.SetObj("BDL","X",752-BossX)
 			Map.SetObj("BDR","X",816+BossX)
+		end
+		if EndSluit && EndX>0
+			EndX--
+			Map.SetObj("EDL","X",480-ENDX)
+			Map.SetObj("EDR","X",512+ENDX)
 		end
 	end
 
@@ -157,7 +195,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret"}
+		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED"}
 		for i=1,2
 			ZA.Enter("HTwo"..i,"HideTwo")
 		end
