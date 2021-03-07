@@ -1,0 +1,124 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowBanika.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.08
+// End License Information
+#use "Script/Use/Anyway"
+#use "Libs/LinkedList"
+
+readonly var muis = Image.Obtain("MOUSE")
+readonly var Menu = new LinkedList()
+readonly var Font = ImageFont.Obtain("BIGTEXT")
+
+bool Always()
+	return true
+end
+
+class MenuItem
+	readonly delegate Exe
+	readonly String ExePara
+	readonly string Desc
+	readonly delegate Available
+	
+	Constructor(string D,Delegate E,Delegate A,string P="")
+		Exe  = E
+		Desc = D
+		Available = A || Always
+		ExePara = P
+		CSayF("Created Banika item: %s",D)
+		If (!Available)
+			CSay("= Assigning Available failed.... Setting it to 'Always'")
+			Available = Always
+		End
+	End
+end
+
+void ExAurina()
+	if Aurina.Have==0
+		MapText("BAKINA.GEENAURINA")
+	else
+		Aurina.Verzilver()
+		MapText("BAKINA.AURINA")
+	end
+end
+
+bool Cycle2()
+	return Caps.Cycle>=2
+end
+
+bool Cycle4()
+	return Caps.Cycle>=4
+end
+
+void ByeBye()
+	State.GoToFlow("FIELD")
+end
+
+Init
+	Menu.AddLast(New MenuItem("Exchange Aurinas",ExAurina))
+	Menu.AddLast(New MenuItem("Healing - Category I",FMenu.Shop,Always,"HAWK_BANIKA_HEAL"))
+	Menu.AddLast(New MenuItem("Healing - Categery II",FMenu.Shop,Cycle2,"HAWK_BANIKA_HEAL_CYCLE2"))
+	Menu.AddLast(New MenuItem("Support Items",FMenu.Shop,Always,"HAWK_BANIKA_SUPPORT"))
+	Menu.AddLast(New MenuItem("Ultra Stuff",FMenu.Shop,Cycle4,"HAWK_BANIKA_ULTRAHEAL"))
+	Menu.AddLast(New MenuItem("Attack Items",FMenu.Shop,Always,"HAWK_BANIKA_ATTACK"))
+	Menu.AddLast(New MenuItem("Exit",ByeBye))
+end
+
+Global Void Apollo_Flow()
+	Graphics.Cls()
+	__White
+	Map.DrawScreen()
+	__Black
+	Graphics.SetAlpha(100)
+	Graphics.Rect(0,0,Screen.W,Screen.H)
+	Graphics.SetAlpha(255)
+	int y = 255
+	For Item in Menu.Each
+		If Item.Available()
+			If Events.MouseY()>y && Events.MouseY()<y+40
+				__Cyan
+				If Events.MouseHitLeft()
+					Item.Exe(Item.ExePara)
+				End
+			Else
+				__SkyBlue
+			End
+			Font.Text(Item.Desc,Screen.W div 2, y,2)
+			y+=45
+		End
+	End
+	Dev.ToConsole()
+	Party.Boxes()
+	Muis.Draw(Events.MouseX(),Events.MouseY())
+End
