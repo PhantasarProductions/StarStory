@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 21.03.08
+// Version: 21.03.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,7 +42,7 @@
 table Situations
 table Situations_Field
 table SitActive
-string FMChar
+global string FMChar
 string FMSituation
 
 readonly var   Mouse = Image.Obtain("MOUSE")
@@ -95,6 +95,17 @@ global void PartyClick(int i,string ch)
 			end
 		end
 	end
+end
+
+
+// For Upgrade Only
+global void ClickARM(string ARMTAG)
+	var SitUp = Situations.UPGRADE[2].RIGHT.MOD
+	if !SitUp
+		CSay("Mod not yet loaded?")
+		return
+	end
+	SitUp.PickedARM = ARMTAG
 end
 
 global void SetFM(string ch,string sit)
