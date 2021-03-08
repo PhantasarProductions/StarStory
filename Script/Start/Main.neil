@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 21.03.03
+// Version: 21.03.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -85,9 +85,11 @@ init
 	LAsset.C("GFX/Save/Down.png","DOWN",wh_Image)
 	LAsset.C("GFX/StatusBar/Icons/Items.png","ICO_ITEMS",wh_Image)
 	LAsset.C("GFX/StatusBar/Icons/Abilities.png","ICO_ABILITIES",wh_Image)
-	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)
+	LAsset.C("GFX/StatusBar/Icons/Order.png","ICO_SWITCH",wh_Image)	
 	LAsset.C("GFX/FieldIcons/Achievements.png","ICO_ACHIEVEMENTS",wh_image)
 	LAsset.C("GFX/FieldIcons/Quit.png","ICO_QUIT",wh_image)
+	LAsset.c("GFX/StatusBar/Icons/Upgrade_ARM.png","ICO_UPGRADEARM",wh_image)
+	LAsset.c("GFX/StatusBar/Icons/Upgrade_Weapon.png","ICO_UPGRADEWEAPON",wh_image)
 	LAsset.C("GFX/StatusBar/LevelUp.png","LEVEL_UP",wh_image)
 	LAsset.C("GFX/Combat/PlayerInput/Bottom.png","COMBAT_PLAYINPUT_BOTTOM",wh_Image)
 	LAsset.C("GFX/Combat/PlayerInput/Item.png","COMBAT_PLAYINPUT_ITEM",wh_Image)
