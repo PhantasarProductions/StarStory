@@ -32,21 +32,209 @@
 // 
 // **********************************************
 // 
-// version: 21.03.08
+// version: 21.03.09
 // End License Information
 module
 	readonly var sfont = ImageFont.Obtain("SYSFONT")
 	readonly var afont = ImageFont.Obtain("BOXTEXT")
 	readonly var bfont = ImageFont.Obtain("BIGTEXT")
-
-	void Flow(uBox,string CharTag,string situation)
-		if CharTag!="Crystal"
-			__red
-			bfont.Text("Only Crystal has ARMS at her disposal",ubox.x+20,ubox.y+25)
-			bfont.Text("So it's only natural she is the only",ubox.x+25,ubox.y+50)
-			bfont.Text("character who can upgrade ARMS, isn't it?",ubox.x+30,ubox.y+75)
+	
+	string PickedARM = ""
+	
+	readonly var Img 
+	int strw
+	int strh
+	
+	void strinit(ubox)
+		static bool Gedaan
+		if Gedaan
 			return
 		end
-		
+		StrH = ubox.H-20
+		StrW = math.min(ubox.w,math.floor( (StrH/Img.H) * Img.W))
+		Gedaan = true
 	end
+	
+	
+	get var PARM
+		if PickedARM==""
+			return nil
+		end
+		return Item["ARM_"..PickedARM]
+	end
+	
+	get var ARMEach
+		static table Stuff = {"Ammo","Extra_Power","Hit","Weight"}
+		int i = 0
+		var Ret()
+			i++
+			return Stuff[i]
+		end
+		return Ret
+	end
+	
+	// Get 'em
+	get Var Crystal
+		return RPGChar.Crystal
+	end
+	
+	get int Ammo
+		return Crystal.Points["ARM.AMMO."..PickedARM].Maximum
+	end
+	get Int Extra_Power
+		return Crystal.Stats["ARM.XPOWER."..PickedARM]
+	end
+	Get Int Hit
+		return Crystal.Stats["ARM.HIT."..PickedARM]
+	end
+	Get Int Weight
+		return Crystal.Stats["ARM.WEIGHT."..PickedARM]
+	end
+	
+	// Set em
+	Set int Ammo
+		Crystal.Points["ARM.AMMO."..PickedARM].Maximum = value
+	end
+	Set Int Extra_Power
+		Crystal.Stats["ARM.XPOWER."..PickedARM] = value
+	end
+	Set Int Hit
+		Crystal.Stats["ARM.HIT."..PickedARM] = math.min(100,value)
+	end
+	Set Int Weight
+		Crystal.Stats["ARM.WEIGHT."..PickedARM] = value
+	end
+	
+	// Quanta Costa?
+	Int Price(string ARMStat)
+		string S = ARMStat:upper()
+		if S=="EXTRA_POWER"
+			S = "XPOWER"
+		elseif S=="HIT" && Hit>=100
+			return 0
+		end		
+		int r = Crystal.Stats["ARM."..PickedARM..".PRICE."..S]
+		// Bug fixing?
+		if r == 0
+			int I
+			switch S
+				case "AMMO"
+					I = lua.tonumber(PARM.ARM_PRICE_MaxAmmo)
+				case "HIT"					
+					if Hit>=100
+						return 0
+					end
+					I = lua.tonumber(PARM.ARM_PRICE_Hit_Procent)
+				case "EXTRA_POWER" "XPOWER"
+					I = lua.tonumber(PARM.ARM_PRICE_XPower)
+				case "WEIGHT"
+					I = lua.tonumber(PARM.ARM_PRICE_Weight)
+				default
+					Lua.error("Whatever! > "..ARMStat)
+			end
+			if I>0
+				CSayF("NULL-Price for %s:%s set to %d credits",ARMStat,PickedARM,I)
+			end
+			r = I
+			Crystal.Stats["ARM."..PickedARM..".PRICE."..S] = I
+		end
+		return r
+	end
+
+	void IncPrice(string ARMStat)
+		string S = ARMStat:upper()
+		int I
+		switch S
+			case "AMMO"
+				I = lua.tonumber(PARM.ARM_PRICE_MaxAmmo)
+				Crystal.Stats["ARM."..PickedARM..".PRICE.AMMO"] += I
+			case "HIT"
+				I = lua.tonumber(PARM.ARM_PRICE_Hit_Procent)
+				Crystal.Stats["ARM."..PickedARM..".PRICE.HIT"] += I
+			case "EXTRA_POWER"
+				I = lua.tonumber(PARM.ARM_PRICE_XPower)
+				Crystal.Stats["ARM."..PickedARM..".PRICE.XPOWER"] += I
+			case "WEIGHT"
+				I = lua.tonumber(PARM.ARM_PRICE_Weight)
+				Crystal.Stats["ARM."..PickedARM..".PRICE.WEIGHT"] += I
+			default
+				Lua.error("Whatever! > "..ARMStat)
+		end
+		CSayF("%s.%s Upgrade Prince Increased with %d",PickedARM,S,I)
+	end
+
+	get int MX
+		return Events.MouseX()
+	end
+	
+	get int MY
+		return Events.MouseY()
+	end
+	
+	get bool ML
+		return Events.MouseHitLeft()
+	end
+	
+	// And let's do it!
+	void Flow(uBox,string CharTag,string situation)
+		StrInit(ubox)
+		Img.Stretch(ubox.x,ubox.y,strw,strh)
+		if CharTag!="Crystal"
+			//__red
+			//bfont.Text("Only Crystal has ARMS at her disposal",ubox.x+20,ubox.y+25)
+			//bfont.Text("So it's only natural she is the only",ubox.x+25,ubox.y+50)
+			//bfont.Text("character who can upgrade ARMS, isn't it?",ubox.x+30,ubox.y+75)
+			//return
+			FMChar = "Crystal"
+		end
+		if PickedARM == ""
+			__red
+			bfont.Text("Pick an ARM",ubox.x+20,ubox.y+25)
+			return
+		end
+		__red
+		bfont.DarkText(PARM.Name,ubox.x+(ubox.w div 2),ubox.y+25,2,0)
+		int y = 100
+		int tab = ubox.h div 4
+		for sa in ARMEach
+			y+=30
+			bool H = MX>ubox.x && MY>y && MX<ubox.x+ubox.w && MY<y+25
+			if H
+				__Cyan
+			else
+				__SkyBlue
+			end
+			afont.DarkText(Replace(sa,"_"," "),ubox.x+tab,y)
+			int prc = Price(sa)
+			if prc>0 && prc<Caps.MaxCash
+				if prc>Aurina.Cash
+					__red
+				end
+				sfont.DarkText(sprintf("%d credits",prc),ubox.x+(tab*3),y)
+				//if ML
+				//	CSayF("ML: H:%s Cash:%s",lua.tostring(H),lua.tostring(Aurina.Cash>=prc))
+				//end
+				if H && ML && Aurina.Cash>=prc
+					if sa=="AMMO"
+						AMMO++
+						CSay("Another bullet!")
+					else
+						self[sa]+=4-__skill
+						CSayF("More points for %s => %d",sa,self[sa])
+					end
+					Aurina.Pay(prc)
+					IncPrice(sa)
+				end
+			else
+				__red
+				sfont.DarkText("---",ubox.x+(tab*3),y)
+			end
+		end
+		__Ember
+		afont.DarkText(sprintf("Credits: %9d",Aurina.Cash),ubox.x+20,(ubox.h+ubox.y)-20,0,1)
+	end
+	
+	Constructor
+		Img = Image.LoadNew("GFX/Upgrade/_Crystal.png","WUPGRADE_Crystal")
+	End
 end
