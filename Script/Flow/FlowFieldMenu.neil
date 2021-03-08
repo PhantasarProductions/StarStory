@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowFieldMenu.neil
-// Version: 21.03.03
+// Version: 21.03.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -66,6 +66,9 @@ init
 	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 	Situations.VAULT = {{ ["RIGHT"] = { ["ID"]="VAULT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 	Situations.SHOP  = {{ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
+	Situations.UPGRADE = {}
+	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADE" } ,        ["ICONFILE"] = "UPGRADEWEAPON" }
+	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="ABILITIES" }, ["RIGHT"] = { ["ID"]="UPGRADEARM" } ,        ["ICONFILE"] = "UPGRADEARM" }
 end
 
 global void PartyClick(int i,string ch)
