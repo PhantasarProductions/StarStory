@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Abilities.neil
-// Version: 21.03.03
+// Version: 21.03.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -102,8 +102,12 @@ class Crystal_ARMS
 			if Hover
 				ht = A.ARM.Description
 				Graphics.Color(0,255,255)
-				if Events.MouseHitLeft() && Prefixed(situation,"COMBAT_")
-					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
+				if Events.MouseHitLeft() 
+					if Prefixed(situation,"COMBAT_")
+						State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
+					elseif situation=="UPGRADE"
+						ClickARM(at)
+					end
 				end
 			end
 			//print(Lua.type(a.Name),"Name = "..Lua.tostring(a.Name))
@@ -116,7 +120,7 @@ class Crystal_ARMS
 			__ember
 			sfont.text(Lua.tostring(A.xpower),xpw,y)
 			sfont.text(A.HitProcent,xht,y)
-			sfont.text(Lua.tostring(A.weight),xwg,y)
+			sfont.text(Lua.tostring(0-A.weight),xwg,y)
 			y+=25
 		end
 		__white
@@ -207,12 +211,14 @@ module
 				pux += 25
 			end
 			Graphics.Scale(1,1)
-			if Hover && Events.MouseHitLeft() && Prefixed(situation,"COMBAT_")
-				int APCost = abl.ABL_AP
-				if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCut")
-					APCost = APCost Div 2
+			if Hover && Events.MouseHitLeft() 
+				if Prefixed(situation,"COMBAT_")
+					int APCost = abl.ABL_AP
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCut")
+						APCost = APCost Div 2
+					end
+					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
 				end
-				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
 			end
 			y += 35
 		end
