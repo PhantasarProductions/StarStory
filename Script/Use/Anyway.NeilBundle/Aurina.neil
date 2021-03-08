@@ -32,9 +32,17 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.08
 // End License Information
+
+
+
 module
+
+	void ChaChing()
+		static var ChaChingSound = Audio.LoadNew("Audio/Shopping/ChaChing.ogg","CHACHING")
+		ChaChingSound.Play()
+	end
 
 	readonly var G = Lua.Neil.Globals
 	
@@ -84,6 +92,7 @@ module
 		g.gvInt.AURINASEXCHANGED += Have
 		Cash += AurinaCredits		
 		Have = 0
+		ChaChing()
 	end
 	
 	get int Spent4Rate
@@ -122,6 +131,7 @@ module
 		cash-=amount
 		Spent4Rate+=amount
 		g.gv.gint.TotalCashSpent+=amount
+		ChaChing()
 		return true
 	end
 	
@@ -131,6 +141,7 @@ module
 		end
 		cash+=amount
 		Earned4Rate+=amount
+		ChaChing()
 	end
 	
 	get int Shilders
