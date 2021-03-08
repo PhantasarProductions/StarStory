@@ -35,6 +35,18 @@
 // version: 21.03.08
 // End License Information
 module
+	readonly var sfont = ImageFont.Obtain("SYSFONT")
+	readonly var afont = ImageFont.Obtain("BOXTEXT")
+	readonly var bfont = ImageFont.Obtain("BIGTEXT")
+
 	void Flow(uBox,string CharTag,string situation)
+		if CharTag!="Crystal"
+			__red
+			bfont.Text("Only Crystal has ARMS at her disposal",ubox.x+20,ubox.y+25)
+			bfont.Text("So it's only natural she is the only",ubox.x+25,ubox.y+50)
+			bfont.Text("character who can upgrade ARMS, isn't it?",ubox.x+30,ubox.y+75)
+			return
+		end
+		
 	end
 end
