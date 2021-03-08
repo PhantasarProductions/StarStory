@@ -270,6 +270,15 @@ group MScript
 	void Banika_Bye()
 		MapText("BAKINA.BYE")
 	end
+	
+	void NPC_Upgrade()
+		if !Done.FirstUpgrade
+			MapText("UPGRADEA")
+		else
+			MapText("UPGRADE")
+		end
+		FMenu.Go(Map.Leader,"UPGRADE")
+	end
 
 	void Draw()
 	end
