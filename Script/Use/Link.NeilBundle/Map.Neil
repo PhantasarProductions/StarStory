@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.03.07
+// Version: 21.03.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -241,11 +241,21 @@ group Link_Map
 		ObjSet(tag,"Visible",true)
 	end
 
-	
 	void ObjWalkTo(string tag,a,b)
 		MCall("FldMap.ObjWalkTo",tag,a,b)
 	end
-	
+
+	void ObjRelocate(string tag,a,b)		
+		switch Lua.type(a)
+			case "string"
+				ObjSet(tag,"X",ObjInt(a,"X"))
+				ObjSet(tag,"Y",ObjInt(a,"Y"))
+			case "number"
+				ObjSet(tag,"X",a)
+				ObjSet(tag,"Y",b || a)
+		end
+	end
+				
 	
 	void DrawScreen()
 		MCall("DrawScreen","nil")
@@ -355,6 +365,11 @@ quickmeta Player
 					Link_Map.ObjWalkTo("PLAYER",a,b)
 				end
 				return W
+			case "RELOCATE" "RELOC"
+				void RL(a,b)
+					Link_Map.ObjRelocate("PLAYER",a,b)
+				end
+				return RL
 			case "STOPWALKING"
 				Cout("Player must stop walking! ("..Lua.type(Link_Map.PlayerStopWalking).."/"..Lua.tostring(Link_Map.PlayerStopWalking)..")\n")
 				return Link_Map.PlayerStopWalking

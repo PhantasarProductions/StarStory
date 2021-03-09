@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.07
+// version: 21.03.09
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -41,7 +41,7 @@
 
 #macro __Rejoined gv.gBool.Wendicka_Back_Y_Anhysbys
 
-#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.03.07"
+#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.03.09"
 #MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
 
 #macro __memprefix "MEMORY_TABLE_ANHYSBYS_"
@@ -173,7 +173,17 @@ group MScript
 		else
 			MapText("BANIKA_B")
 		end		
-	end		
+	end
+	
+	void ByeBye()
+		if Done.Ji_DisasterEncounter
+			Player.StopWalking()
+			Player.WalkTo("Start")
+			MapText("NOGO")
+		else
+			Map.GoToMap("Physillium - Ji Rubble","HOLYSHIT","Start")
+		end
+	end
 		
 	void Update()
 		if Map.Layer=="#004" && BossOpen && BossX<60
@@ -187,6 +197,7 @@ group MScript
 			Map.SetObj("EDR","X",512+ENDX)
 		end
 	end
+		
 
 	void Draw()
 	end
@@ -195,7 +206,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED"}
+		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED","ByeBye"}
 		for i=1,2
 			ZA.Enter("HTwo"..i,"HideTwo")
 		end

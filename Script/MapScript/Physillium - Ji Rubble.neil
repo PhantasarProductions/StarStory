@@ -1,0 +1,147 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Physillium - Ji Rubble.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.09
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
+
+#MKL_Version "Star Story - Physillium - Ji Rubble.neil" "21.03.09"
+#MKL_Lic     "Star Story - Physillium - Ji Rubble.neil" "Phantasar Closed License"
+
+group MScript
+
+	void CreateXenobi()
+		if Caps.Cycle==1
+			Party.NewChar("Xenobi",RPGChar.Crystal.Stats.Level,"Xenobi")
+			var XAB = NeilUse("Script/Data/Char/Abilities/Xenobi")
+			for ABL,LVL in pairs(XAB.Abilities)
+				CSayF("Xenobi has level %d and needs %s for %s",RPGChar.Xenobi.Stats.Level,LVL,ABL)
+				if RPGChar.Xenobi.Stats.Level>=LVL
+					CSay("= Given")
+					RPGChar.Xenobi.List.ABL.Add = ABL
+				else
+					CSay("= Denied")
+				end
+			end
+		end
+	end
+
+	void BeginShit()
+		PPop.Pop("beg","North")
+		MapText("A_ENTER")
+		for ch in each{"Wendicka","Crystal","ExHuRU","Foxy","Yirl"}
+			CSayF("Walk on %s",ch)
+			Map.ObjWalkTo("PartyPopped_"..ch,"end_"..ch)
+		end
+		for i=1,320
+			Events.Poll()
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+		end
+		Player.Relocate("end_Wendicka")
+		MapText("B_MEETJI")
+		Map.SetObj("PartyPopped_Crystal","Texture","GFX/Actors/Player/Crystal.West.jpbf")
+		Map.SetObj("Ji-Zwaard","Texture","GFX/Actors/SinglePic/Ji/Ji East - Black long hair - Light Saber.png")
+		MapText("C_CRYSTALTHREATENED")
+		Map.ObjWalkTo("PartyPopped_Crystal","BossCrystal")
+		MapText("D_CRYSTALRESCUE")
+		// Boss
+		for i=2,6
+			RPGParty[i]=""
+		end
+		RPGParty[1]="Crystal"
+		int RevLev = RPGChar.Crystal.Stats.Level div 3
+		RevLev = math.max(5,RevLev*__skill)
+		Schedule.Add("EndShit")
+		StartCombat.Prepare()
+		StartCombat.Foe("Reg/Cyborg Gunner",RevLev)
+		StartCombat.Foe("Boss/Cyborg Lord",RPGChar.Crystal.Stats.Level+2)
+		StartCombat.Foe("Reg/Cyborg Medic" ,RevLev)
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = "*NOCHANGE*"
+		StartCombat.Boss = false
+		StartCombat.Arena = "Ji Rubble.png"	
+		StartCombat.Begin()
+	end
+	
+	void EndShit()
+		CSay("Remove Wendicka")
+		Map.Kill("PartyPopped_Wendicka")
+		CSay("Create Xenobi")
+		CreateXenobi()
+		for i,ch in iPairs{"Crystal","Yirl","Foxy","ExHuRU","Xenobi"}
+			CSayF("Party re-definition => [%d] => '%s'",i,ch)
+			RPGParty[i] = ch
+		end
+		CSay("Leader definition")
+		Map.Leader = "Crystal"
+		CSay("Make Xenobi appear") 
+		//Map.SetObj("Xenobi","Visible",true)
+		Map.Spawn("ActorXenobi","Xenobi")
+		Map.SetObj("ActorXenobi","Texture","GFX/Actors/Player/Xenobi.South.jpbf")
+		CSay("Xenobi walks to his spot!")
+		Map.ObjWalkTo("ActorXenobi","XenobiCrystal")
+		CSay("Crystal comes back!")
+		Map.SetObj("PartyPopped_Crystal","Texture","GFX/Actors/Player/Crystal.East.jpbf")
+		Map.ObjWalkTo("PartyPopped_Crystal","end_Crystal")
+		CSay("Resume the conversation")
+		MapText("E_POSTBOSS")
+		Map.SetObj("PartyPopped_Crystal","Texture","GFX/Actors/Player/Crystal.North.jpbf")
+		MapText("F_XENOBI")
+		Map.SetObj("Ji-Zwaard","Texture","GFX/Actors/SinglePic/Ji/Ji East - Black long hair.png")
+		MapText("G_XENOBI")
+		MapText("H_XENOBI_CRYSTAL")
+		KickReggie("PartyPopped_Foxy","Reggie","West")
+		MapText("I_YIRL")
+		Map.GoToMap("Physillium - Ji Temple","TEMPLE","Start")
+	end
+
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		ZA.Enter("BeginShit","BeginShit")
+	end
+
+end
