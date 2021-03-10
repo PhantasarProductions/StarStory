@@ -44,12 +44,15 @@ module
 	
 	string ShowNeed(string chtag)
 		int need = 40000
-		for abl,lvl in pairs(Abilities)
-			if lvl<Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
+		for ablt,lvl in pairs(Abilities)
+			string abl = "XENOBI_"..ablt
+			if (!RPGChar.Xenobi.List.ABL.Has(abl))
 				need = math.min(need,lvl)
 			end
 		end
-		if need==40000
+		if need<Level
+		     return "Attack any enemy"
+		elseif need==40000
 			return ""
 		else
 			return sprintf("Xenobi has to reach level %d",need)
@@ -57,7 +60,8 @@ module
 	end
 
 	get string Learn
-		for abl,lvl in pairs(Abilities)
+		for ablt,lvl in pairs(Abilities)
+			string abl = "XENOBI_"..ablt
 			if lvl<Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
 				return Learn==abl
 			end
