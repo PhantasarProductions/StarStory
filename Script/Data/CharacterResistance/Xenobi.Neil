@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.09
 // End License Information
 
 init
@@ -53,7 +53,7 @@ init
 	p.ER_Wind = 3 
 	
 	CSay("Xenobi Status resistance")
-	p.SR_BASE_Block = 90 div __skil 
+	p.SR_BASE_Block = 90 div __skill 
 	p.SR_BASE_Buff = 0
 	p.SR_BASE_Debuff = 10
 	p.SR_BASE_Poison=12 div __skill
