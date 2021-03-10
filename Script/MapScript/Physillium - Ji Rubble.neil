@@ -51,7 +51,7 @@ group MScript
 				CSayF("Xenobi has level %d and needs %s for %s",RPGChar.Xenobi.Stats.Level,LVL,ABL)
 				if RPGChar.Xenobi.Stats.Level>=LVL
 					CSay("= Given")
-					RPGChar.Xenobi.List.ABL.Add = ABL
+					RPGChar.Xenobi.List.ABL.Add = "XENOBI_"..ABL
 				else
 					CSay("= Denied")
 				end
