@@ -1,0 +1,89 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Physillium - Ji Temple.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.10
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
+
+#MKL_Version "Star Story - Physillium - Ji Temple.neil" "21.03.10"
+#MKL_Lic     "Star Story - Physillium - Ji Temple.neil" "Phantasar Closed License"
+
+group MScript
+
+	// Meet up on first visit
+	void Ji()
+		if !Done.First_Visit_Ji_Temple
+			PPop.Pop("Ji","North")
+			Map.SetObj("PartyPopped_Xenobi","Texture","GFX/Actors/Player/Xenobi.South.jpbf")
+			MapText("MEET_GRAND_MASTER")
+			KickReggie("PartyPopped_Foxy","Reggie","East")
+			MapText("MEET_B")
+			Map.Kill("Reggie",true)
+			PPop.UnPop()
+		end
+		if !Done.Situation_Wendicka_Kidnapped
+			__hawk = "WENDICKAGONE"
+			Hawk.Add("Start","Ysperon","Eugorvnia - Entrance","Ysperon - Eugorvnia","#001")
+		end
+	end
+	
+	void NPC_Master()
+		MapText("YA."..(Map.Leader:upper()))
+	end
+	
+	void NPC_IRVONA()
+		MapText("IRVONA")
+		if !Done.Spoken_to_Ji_Irvona
+			// Yes, she's a kind of reference to Irravonia. ;)
+			Hawk.Add("Start","Physillium","Black Castle - 1st Floor","Physillium - Black Castle","#001")
+			Party.GiveEXP(500)
+		end
+	end
+
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		ZA.Enter("Ji","Ji")
+	end
+
+end
