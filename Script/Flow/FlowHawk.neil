@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.06
+// version: 21.03.10
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -88,7 +88,8 @@ group flHawk
 		else
 			HawkData = {}
 		end
-		HawkData.Physilium = HawkData.Physillium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+		HawkData.Physillium = HawkData.Physillium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+		HawkData.Physilium = nil // nullifies the effect of an old bug (world misspelling)
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
