@@ -1,6 +1,6 @@
 // License Information:
-// src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
-// Version: 21.03.04
+// src/Tricky Script/Script/Use/Combat/SpellAni/Frost.neil
+// Version: 21.03.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -49,7 +49,7 @@ module
 	// module is called fo the first time in a combat.
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
-		self.Glitter = Image.Load("GFX/Combat/SpellAni/Ice32.png")
+		self.Glitter = Image.Load("GFX/Combat/SpellAni/Ice/Ice32.png")
 		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
 	end	
 
