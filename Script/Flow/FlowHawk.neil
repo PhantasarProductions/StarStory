@@ -93,7 +93,7 @@ group flHawk
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
-		string node = sprintf("%s.%s.%s",M,L,spot)
+		string node = sprintf("%s.%s.%s",M,L,spot):upper()
 		HawkData[World] = HawkData[World] or {}
 		HawkData[World].ZZZ = HawkData[World].ZZZ || new HData("<- Back","","")  
 		HawkData[World][node] = new HData(N,M,L,spot)

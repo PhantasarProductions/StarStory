@@ -255,6 +255,10 @@ group Link_Map
 				ObjSet(tag,"Y",b || a)
 		end
 	end
+	
+	void NewObj(string knd,string tag)
+		MCall("FldMap.CurLayer.NewObj",knd,tag)
+	end
 				
 	
 	void DrawScreen()

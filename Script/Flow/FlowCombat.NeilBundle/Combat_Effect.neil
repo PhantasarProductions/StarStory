@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.03.06
+// Version: 21.03.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -298,12 +298,12 @@ Group CG_Effect
 			if Act.Executor.Team=="Foe"
 				if ttag=="Wendicka" && ExHuRU
 					Tar = Combat_Fighter.Fighters.ExHuRU
-					BoxText.Serial("COMBAT","SPECIAL.EXHURU")
+					BoxText.Serial("COMBAT","SPECIAL.EXHURU","FLOW_COMBAT")
 				end
 				if ttag=="Foxy"
 					var Foxy=CheckFoxy
 					if Foxy
-						BoxText.Serial("COMBAT","SPECIAL.FOXY")
+						BoxText.Serial("COMBAT","SPECIAL.FOXY","FLOW_COMBAT")
 						Tar = Combat_Fighter.Fighters[Foxy]
 					end
 				end

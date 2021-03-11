@@ -182,6 +182,7 @@ group SubParty
 
 	
 	void Boxes(string char)
+		Graphics.SetAlpha(255)
 		Box.DrawAll()
 		// Front row
 		for i=1,3
@@ -271,7 +272,7 @@ group SubParty
 					RPGChar[Tag].Points.EXP.Have=0
 					// No "LEVEL UP" mark or music box jingle. This happens in silence now!
 					// The little debug line below will help me to see this happens though.
-					CSayF("%s went level up and is not level %d",Tag,nlv)					
+					CSayF("%s went level up and is now level %d",Tag,nlv)					
 				end
 				// Open/Close menu
 				for j=1,3

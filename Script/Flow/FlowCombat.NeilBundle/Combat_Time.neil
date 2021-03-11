@@ -113,6 +113,11 @@ module
 								fv.Gauge=10001
 						end
 					elseif fv.Gauge==20000
+						// Status changes that trigger pre-turn (like poison)
+						for sc in fv.StatusChange()
+							Combat_StatusChanges.GetSt(sc).PreTurn(fv)
+						end
+						// To Action
 						if not fv.NextAct
 							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
 							fv.Hurt("Cancel")

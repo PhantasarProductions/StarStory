@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
-// Version: 21.03.06
+// Version: 21.03.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,10 +34,16 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "libs/xmath"
+
 Class Combat_StatusChanges
 	
 	static table Lijst = {}
 	abstract void Draw(tar)
+	
+	void PreTurn(tar)
+	end
 	
 	string Name
 	string Resist
@@ -119,6 +125,47 @@ class CSC_Disease extends Combat_StatusChanges
 	end
 end
 
+class CSC_Poison extends Combat_StatusChanges
+	var icon
+	void Draw(tar)
+		int d		
+		Icon = Icon || Image.LoadNew("GFX/StatusChanges/Poison.png")
+		Icon.HotBottomCenter()
+		d = (d + 1) % 360
+		Icon.Draw(tar.x,tar.y-tar.h-math.ceil(10*xmath.sin(d)))
+	end
+	
+	void PreTurn(tar)
+		switch tar.Team
+			case "Hero"
+				switch __skill
+					case 1
+						tar.Pain(tar.Char.Stats.Level)
+					case 2
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5))
+					case 3
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 15))
+					default
+						Lua.error("Skill error!")
+				end
+			case "Foe"
+				switch __skill
+					case 1
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 25))
+					case 2
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5))
+					case 3
+						tar.Pain(5)
+					default
+						Lua.error("Skill error!")
+				end
+			default
+				Lua.error("Team error!")
+		end
+	end
+				
+end
+
 Init
 	// These ones merely need to exist to make causing effects easier
 	var death = new CSC_Death()
@@ -131,4 +178,6 @@ Init
 	
 	// And now the real stuff
 	Combat_StatusChanges.Create("Paralysis",new CSC_Paralysis())
+	Combat_StatusChanges.Create("Poison",new CSC_Poison())
+	Combat_StatusChanges.Create("Disease",new CSC_Disease())
 end

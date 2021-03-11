@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.09
+// version: 21.03.11
 // End License Information
 
 module
@@ -50,7 +50,7 @@ module
 				need = math.min(need,lvl)
 			end
 		end
-		if need<Level
+		if need<=Level
 		     return "Attack any enemy"
 		elseif need==40000
 			return ""
@@ -62,7 +62,7 @@ module
 	get string Learn
 		for ablt,lvl in pairs(Abilities)
 			string abl = "XENOBI_"..ablt
-			if lvl<Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
+			if lvl<=Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
 				return Learn==abl
 			end
 		end
@@ -74,17 +74,17 @@ module
 		 Abilities = {}
          Abilities.QUICKSTRIKE             = 10
          Abilities.HEAL                    = 25
-         Abilities.RECOVER                 = 50
-         Abilities.VITALIZE                = 80
-         Abilities.FROST                   = 30
+         Abilities.LIGHT                   = 35
          Abilities.MINDTRICK               = 40
+         Abilities.FROST                   = 30
+         Abilities.RECOVER                 = 50
+         Abilities.VITALIZE                = 41 * __skill
          Abilities.BLIZZARD                = 70
          Abilities.HURRICANE               = 75
          Abilities.ROCK                    = 78
          Abilities.QUAKE                   = 80
-         Abilities.LIGHT                   = 30
          Abilities.SOLARIA                 = 100
-         Abilities.FOCUSENERGY             = 250
+         Abilities.FOCUSENERGY             = 125 * __skill
 	end
 	
 end

@@ -162,7 +162,7 @@ class Clickable
 					CSayF("NPC: %s (MAPTEXT)",T)
 				elseif prefixed(T,"NPC_")
 					var fuck = Spot(Lay,T)
-					Create(T,L,fuck[1],fuck[2],MapScript[T],T)
+					Create(T,L,fuck[1],fuck[2],MapScript[T],"nil") //,sprintf("\"%s\"",T))
 					CSayF("NPC: %s",T)
 				elseif prefixed(T,"Trans.Pad")
 					string Spot = Right(T,#T-10)

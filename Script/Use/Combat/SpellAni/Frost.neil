@@ -1,7 +1,7 @@
 // License Information:
-// src/Tricky Script/Script/Flow/FieldMenu/Quit.neil
-// Version: 21.03.11
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
+// Version: 21.03.04
+// Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -35,12 +35,54 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-
 module 
-	void Flow(uBox,string CharTag,string situation)
-		static table Items = {["Quit"]="JustQuit", ["Quick Save & Quit"]="SaveAndQuit"}
-		int y = ubox.y+100
-		int x = ubox.x+(ubox.w div 2)
-		
+
+	bool DrawOvertake
+	var Glitter
+	var MyAudio
+	readonly int MaxCycles = 20
+	int Cycles
+	var Act
+	
+	// The difference between a CONSTRUCTOR and the and Init function
+	// Is that CONSTRUCTOR is only automatically loaded when this
+	// module is called fo the first time in a combat.
+	// Init will be called EVERY time a move is being performed.
+	CONSTRUCTOR
+		self.Glitter = Image.Load("GFX/Combat/SpellAni/Ice32.png")
+		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	end	
+
+	void Start(aact)
+		self.Cycles = 0
+		self.MyAudio.Play()
+		self.Act = aact
 	end
+	
+	bool _Ended = false
+	void Draw()
+		// Count on it!
+		self.Cycles ++
+		
+		// Draw it all!
+		// for tar in each(act.Targets)
+		for ti=1,#act.Targets_Tag
+			plua tar = act.Targets[ti]
+			for i=1,35 
+				Graphics.Color(math.random(0,5),math.random(0,255),math.random(180,255))
+				self.Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+			end
+		end
+		__white
+		
+		_Ended = self.Cycles>=self.MaxCycles
+	end
+	
+	void Update()
+	end
+	
+	get bool Ended
+		return _Ended
+	end
+	
 end

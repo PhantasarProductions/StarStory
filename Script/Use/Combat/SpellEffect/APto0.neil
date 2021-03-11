@@ -1,0 +1,12 @@
+// AP to zero!
+
+bool AllesWordtNiets(Act,Tar)
+	if Tar.Tag=="Crystal"
+		return false
+	end
+	Tar.Char.Points.AP.Have=0
+	Tar.Hurt("AP=0",255,0,255)
+	return true
+end
+
+return AllesWordtNiets
