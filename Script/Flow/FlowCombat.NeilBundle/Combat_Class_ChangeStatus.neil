@@ -129,7 +129,7 @@ class CSC_Poison extends Combat_StatusChanges
 	var icon
 	void Draw(tar)
 		int d		
-		Icon = Icon || Image.LoadNew("GFX/StatusChanges/Poison.png")
+		Icon = Icon || Image.LoadNew("GFX/StatusChanges/Poison.png","STATUS_CHANGE_POISON")
 		Icon.HotBottomCenter()
 		d = (d + 1) % 360
 		Icon.Draw(tar.x,tar.y-tar.h-math.ceil(10*xmath.sin(d)))
@@ -140,22 +140,22 @@ class CSC_Poison extends Combat_StatusChanges
 			case "Hero"
 				switch __skill
 					case 1
-						tar.Pain(tar.Char.Stats.Level)
+						tar.Pain(tar.Char.Stats.Level,"Non-Elemental")
 					case 2
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5))
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5),"Non-Elemental")
 					case 3
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 15))
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 15),"Non-Elemental")
 					default
 						Lua.error("Skill error!")
 				end
 			case "Foe"
 				switch __skill
 					case 1
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 25))
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 25),"Non-Elemental")
 					case 2
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5))
+						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5),"Non-Elemental")
 					case 3
-						tar.Pain(5)
+						tar.Pain(5,"Non-Elemental")
 					default
 						Lua.error("Skill error!")
 				end
