@@ -35,12 +35,33 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "Script/Use/Misc/PSaveGame"
 
 module 
+	var fnt  = ImageFont.Obtain("BOXTEXT")
+	
+	readonly delegate Exe_JustQuit = Flow.Quit
+	
+	void Exe_SaveAndQuit()
+		PerformSaveGame("QUIT")
+		Flow.Quit()
+	end
+	
 	void Flow(uBox,string CharTag,string situation)
+		
 		static table Items = {["Quit"]="JustQuit", ["Quick Save & Quit"]="SaveAndQuit"}
 		int y = ubox.y+100
 		int x = ubox.x+(ubox.w div 2)
-		
+		for k,v in spairs(Items)
+			__skyblue
+			y+=25
+			if Events.MouseX()>ubox.x && Events.MouseY()>y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<y+25
+				__Cyan
+				if Events.MouseHitLeft()
+					self["Exe_"..v]()
+				end
+			end
+			fnt.Text(k,x,y,2,0)
+		end
 	end
 end

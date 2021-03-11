@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/PSaveGame.neil
-// Version: 21.03.03
+// Version: 21.03.11
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -76,6 +76,9 @@ global void PerformSaveGame(string f)
 	Vault.Save()
 	Ach.Save()
 	Hawk.Save()
+	if f=="QUIT"
+		SaveGame.Data["KILL ME"]="KILL ME"
+	end
 	MakeHeader()
 	SaveGame.Save()	
 end
@@ -145,6 +148,10 @@ global bool PerformLoadGame(string f)
 		return false
 	end
 	// Lua.error("Loading game not yet implemented. Working on it!")
+	if SaveGame.HasData("KILL ME")
+		SaveGame.Mutilate()
+	end
+	
 	return true
 end
 
