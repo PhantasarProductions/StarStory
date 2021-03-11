@@ -32,8 +32,9 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.11
 // End License Information
+
 module
 
 	table Ability
@@ -104,7 +105,6 @@ module
 		end		
 		return ""
 	end
-	
 	
 	CONSTRUCTOR
 		Ability = { ["TRIGGERHAPPY"] = 1400, ["TAUNT"] = 1800, ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
