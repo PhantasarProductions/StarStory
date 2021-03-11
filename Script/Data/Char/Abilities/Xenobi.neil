@@ -63,7 +63,7 @@ module
 		for ablt,lvl in pairs(Abilities)
 			string abl = "XENOBI_"..ablt
 			if lvl<=Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
-				return Learn==abl
+				return abl
 			end
 		end
 		return ""
