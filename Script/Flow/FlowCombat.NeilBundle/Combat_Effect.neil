@@ -84,6 +84,7 @@ Group CG_Effect
 					End
 				Default
 					If Act.Act["Cure"..st] && Tar.StatusChange[st]
+						Tar.StatusChange[st] = False
 						Tar.Hurt("Cure: "..st,0,255,0)
 						ret=True
 					End
