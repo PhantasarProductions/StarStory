@@ -32,18 +32,24 @@
 // 
 // **********************************************
 // 
-// version: 21.03.11
+// version: 21.03.12
 // End License Information
+
+
+#region Preparations
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Ysperon - Eugorvnia.neil" "21.03.11"
+#MKL_Version "Star Story - Ysperon - Eugorvnia.neil" "21.03.12"
 #MKL_Lic     "Star Story - Ysperon - Eugorvnia.neil" "Phantasar Closed License"
 
+#macro __Facility gv.gBool.Eugorvnia_DidYouEverEnterTheFacilityFromEugorvniaBefore
 
 int SysVal(string n)
 	return Lua.tonumber(n)||0
 end
+
+#endregion
 
 #region sudoku
 plua Sudoku = {}
@@ -314,7 +320,50 @@ group MScript
 	void HideSecret()
 		Map.ShowButLabel("ToSecret")
 	end
-
+	
+	void BossRoom()
+		static bool Checked
+		if Checked
+			Return
+		end
+		if __Facility
+			Map.Kill("Trans.Pad.Transporter spot 4FF8737")
+			Map.SetObj("Fac_Barrier","W",100)
+		else
+			Map.Kill("Trans.Pad.Transporter spot 4FB7229")
+		end
+		Map.HideByLabel("PostBoss")
+	end
+	
+	void Boss()
+		Map.SetObj("BossWallThin","H",224+96)
+		StartCombat.Foe("Boss/QueenMyr",Map.Level+(__skill-2))
+		Map.ShowByLabel("PostBoss")
+	end
+	
+	void ToFacility() 
+		var MeanWhile = Image.Load("GFX/MeanWhile/AmberNeon.png")
+		__Facility = True
+		MeanWhile.HotCenter()
+		for a=0,300
+			Graphics.Cls()
+			Map.DrawScreen()
+			__black
+			Graphics.SetAlpha(math.min(255,a))
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			__white
+			Graphics.SetAlpha(255)
+			MeanWhile.Draw(Screen.W div 2,Screen.H div 2)
+			Graphics.Flip()
+			Events.Poll()
+			FPS.WaitMinTicks()
+		end
+		Map.GotoMap("Ysperon - Facility","#999","Wendicka_McLeen")
+		Schedule.Add("Wendicka_Intro")
+	end
+		
+			
+	
 	void Update()
 	end
 
@@ -327,7 +376,7 @@ group MScript
 	CONSTRUCTOR		
 		NPC_SUDO_BUTT_Eugorvnia1 = Sudoku_Button
 		//NPC_SUDO_BUTT_Eugorvnia1.Test() // Always dummied in final version!
-		ZA.TabEnter{"STARTROOM","ShowSecret","HideSecret","ToSecret"}
+		ZA.TabEnter{"STARTROOM","ShowSecret","HideSecret","ToSecret","BossRoom", "ToFacility"}
 		#pure
 		Sudoku.Eugorvnia1 = {
                              SolveRemove = {"Sudo1Solve1","Sudo1Solve2","Sudo1Barrier"},
