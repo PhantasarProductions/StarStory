@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 group StartCombat
 
 	void MCall(string func,a,b,c,d,e,f,g,h)
