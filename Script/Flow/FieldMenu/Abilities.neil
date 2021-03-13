@@ -184,6 +184,7 @@ module
 			int APCost = abl.ABL_AP
 			__ember
 			if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT") 
+				Graphics.Color(180,255,0)
 				APCost = math.ceil(APCost/2) 
 			end
 			if APCost > RPGChar[CharTag].Points["AP"].Have 
@@ -214,7 +215,7 @@ module
 			if Hover && Events.MouseHitLeft() 
 				if Prefixed(situation,"COMBAT_")
 					int APCost = abl.ABL_AP
-					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCut")
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
 						APCost = APCost Div 2
 					end
 					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
