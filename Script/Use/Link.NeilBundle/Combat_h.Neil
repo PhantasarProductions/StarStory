@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Combat_h.Neil
-// Version: 21.03.03
+// Version: 21.03.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,6 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#use "Libs/LinkedList"
+
 group StartCombat
 
 	void MCall(string func,a,b,c,d,e,f,g,h)
@@ -59,8 +61,67 @@ group StartCombat
 	
 
 	void Prepare()
-		// Todo: Graphic effect start combat (prior to loading makes the effect better)
-			
+		// Graphic effect start combat (prior to loading makes the effect better)
+		int r
+		int g
+		int b
+		int t
+		Lua.Neil.Globals.Player.StopWalking()
+		
+		// Step 1: Fade-out
+		repeat
+			r = math.random(1,255)
+			g = math.random(1,255)
+			b = math.random(1,255)
+			t = (r+g+b) div 3
+		until t>100 && t<200
+		for a = 0,255,5
+			Graphics.Cls()
+			Graphics.Color(255,255,255)
+			Lua.Neil.Globals.Map.DrawScreen()			
+			Graphics.Color(r,g,b)
+			Graphics.SetAlpha(math.floor(a))
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		
+		// Step 2: Prepare break-down
+		var L = New LinkedList()
+		int x=0
+		int y=0
+		int siz = Screen.W div 50
+		repeat
+			L.AddLast({["X"]=x,["Y"]=y,["Speed"]=math.random(5,100)})
+			x+=siz
+			if x>Screen.W
+				x=0
+				y+=siz
+			end
+		until y>Screen.H
+		
+		// Step 3: BreakDown + Loading
+		
+		repeat
+			Graphics.Cls()
+			Graphics.Color(255,255,255)
+			Lua.Neil.Globals.Loading("DON'T FLIP!")
+			Graphics.Color(r,g,b)
+			for tile,lnk in L.Each
+				tile.Y += tile.Speed
+				Graphics.Rect(tile.X,tile.Y,siz,siz)
+				if tile.Y>Screen.H
+					lnk.Unlink()
+				end
+			end
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		until L.Count<=0
+		
+		// Begin the combat preparations itself
 		State.LoadFlow("COMBAT","Script/Load/LoadCombat.neil")
 	end
 	

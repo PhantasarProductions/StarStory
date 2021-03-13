@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.03.11
+// Version: 21.03.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.03.11"
+#MKL_Version "Star Story - FieldMap.neil" "21.03.14"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -469,6 +469,10 @@ group FldMap
 		else
 			PL.Texture = "GFX/Actors/Player/".. Leader .. "." .. PL.Wind .. ".jpbf"
 		end
+	end
+	
+	bool XVisObj(string tag)
+		return CurLayer.Obj(Tag).XVisible(ScrollX,ScrollY)
 	end
 	
 	void WalkClick(int mx,int my)

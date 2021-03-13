@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.03.11
+// Version: 21.03.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -219,6 +219,10 @@ group Link_Map
 
 	bool ObjBool(string tag,string value)
 		return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
+	end
+	
+	bool Visible(string tag)
+		return ISGET.Bool("FLOW_FIELD","FLDMap.XVisObj(\""..tag.."\")")
 	end
 	
 	void ObjSet(string tag,string vartag,value)

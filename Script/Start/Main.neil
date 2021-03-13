@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 21.03.08
+// Version: 21.03.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,6 +72,7 @@ init
 	Print("Apollo is running in "..Core.Platform)
 	
 	Events.HideMouse();
+	Kthura.SetAutoVisible()
 
 
 	// Configure loading assets

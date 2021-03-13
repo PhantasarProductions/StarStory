@@ -32,16 +32,18 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.14
 // End License Information
 
-global void Loading()
+global void Loading(dontflip)
 	static var GPH = Image.Obtain("LOADING")
 	GPH.HotCenter()
 	Graphics.Cls()
 	Graphics.Color(255,255,255)
 	GPH.Draw(Screen.W/2,Screen.H/2)
-	Graphics.Flip()
+	if !dontflip
+		Graphics.Flip()
+	end
 end
 
 // Everything cool now?

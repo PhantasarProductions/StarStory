@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.03.03
+// Version: 21.03.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -344,7 +344,7 @@ class FieldMonster
 	end
 	
 	static void ScanReject()
-		Reject = {}
+		Reject = {}		
 		RZA.RejectReject()
 		CSay("Reject scan - Start")
 		for LAY in each(Map.KthuraMap.Layers)
@@ -354,7 +354,8 @@ class FieldMonster
 				//print(T,t:upper())
 				if prefixed(T:upper(),"REJECT")
 					CSayF("Reject zone '%s' detected!",T)
-					Reject[T] = {}
+					Reject[LAY] = Reject[LAY] || {}
+					Reject[LAY][T] = {}
 					RZA.Create("Enter",T,DoReject,T)
 				end
 			end
@@ -443,12 +444,14 @@ class FieldMonster
 					end
 					Lijst[L].AddLast(NF)
 					NF.RejectZones={}
-					for R,tab in pairs(Reject)
-						var RObj = Lay.Obj(R)
-						if FObj.X>=RObj.X && FObj.Y>=RObj.Y && FObj.X<=RObj.X+RObj.W && FObj.Y<=RObj.Y+RObj.H
-							CSayF("Enemy %s has been added to rejection zone %s",T,R)
-							tab+=T
-							NF.RejectZones+=R
+					if Reject[L]
+						for R,tab in pairs(Reject[L])
+							var RObj = Lay.Obj(R)
+							if FObj.X>=RObj.X && FObj.Y>=RObj.Y && FObj.X<=RObj.X+RObj.W && FObj.Y<=RObj.Y+RObj.H
+								CSayF("Enemy %s has been added to rejection zone %s",T,R)
+								tab+=T
+								NF.RejectZones+=R
+							end
 						end
 					end
 				end
