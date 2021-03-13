@@ -237,9 +237,10 @@ Module
 				if Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
 					ablused[Executor.Tag]++
 					gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
-					if Act.ActivatePowerUp!="" 
+					string ShActTag = right(Act.ActTag,#Act.ActTag-4)
+					if Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
 						Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
-						Act.Executor.Char.List.ABL_POWERUP.Add = Act.ActTag.."."..Act.ActivatePowerUp
+						Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
 					end
 					if Act.Learning
 						Act.Executor.Char.List.ABL.Add = Act.LearningABL
