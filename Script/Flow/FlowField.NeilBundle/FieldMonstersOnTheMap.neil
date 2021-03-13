@@ -179,7 +179,7 @@ class FieldMonster
 		StartCombat.Boss = Boss
 		StartCombat.Arena = Map.KthuraMap.Meta.Arena
 		if Map.KthuraMap.Meta.AltEncounterTune!=""
-			StartCombat.Tune = Map.KthuraMap.MetaFields.AltEncounterTune
+			StartCombat.Tune = Map.KthuraMap.Meta.AltEncounterTune
 		elseif Boss
 			StartCombat.Tune = StartCombat.RandomBossTune
 		else
