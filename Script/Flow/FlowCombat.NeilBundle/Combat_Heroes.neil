@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.03.06
+// Version: 21.03.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -194,13 +194,14 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	void UpAP()
-		self.AP++
+		int inc=math.min(12 div __skill,1+math.floor(self.Char.Stats.Level/(25*__skill)))		
+		self.AP+=inc
 		if PartyIndex<3
 			for i=4,6
 				if RPGParty[i] && RPGParty[i]!=""
-					RPGChar[RPGParty[i]].Points.AP.Have++
+					RPGChar[RPGParty[i]].Points.AP.Have+=inc
 					if RPGParty[i]=="Crystal"
-						number deler = 1/(__skill*50)
+						number deler = inc/(__skill*50)
 						RPGChar.Crystal.Points.HP.Have += math.ceil(deler*RPGChar.Crystal.Points.HP.Have)						
 					end
 				end
