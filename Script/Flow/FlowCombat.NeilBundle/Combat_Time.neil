@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.03.11
+// Version: 21.03.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -130,8 +130,9 @@ module
 							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
 							fv.Hurt("Cancel")
 							fv.Gauge=0
+						else
+							fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
 						end
-						fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
 					end
 			end
 		end
