@@ -1,0 +1,79 @@
+
+#use "libs/LinkedList"
+
+
+class SAC_Shine
+	static var List 
+	static int Count
+	
+	readonly int ID
+	readonly int X
+	readonly int Y
+	readonly int W
+	
+	int D=1
+	int C=0
+	
+	void CONSTRUCTOR(target)
+		self.Count++
+		self.List = self.List or new TLinkedList()
+		self.ID = self.Count
+		CSayF("Shine #%05d created!",self.ID)
+		self.W = target.W div 2
+		self.X = target.X-(self.W Div 2)
+		self.Y = target.Y
+		self.List.AddLast(self)
+	end
+	
+	void DESTRUCTOR()
+		CSayF("Shine #%05d destroyed!",self.ID)
+	end
+end
+
+module 
+	//SpellAni_Shine
+
+	bool DrawOvertake
+	var SAudio
+	readonly int MaxCycles = 20
+	var Act
+	
+	// The difference between a CONSTRUCTOR and the and Init function
+	// Is that CONSTRUCTOR is only automatically loaded when this
+	// module is called fo the first time in a combat.
+	// Init will be called EVERY time a move is being performed.
+	CONSTRUCTOR
+		self.SAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	end	
+
+	void Start(aact)
+		Act = aact
+		for i,tar in ipairs(act.Targets_Tag)
+			new SAC_Shine(Act.Targets[i])
+		end
+		self.SAudio.Play()
+	end
+	
+	Bool Ended = false
+	void Draw()
+		__white
+		Graphics.SetAlpha(200)
+		for s,l in SAC_Shine.List.Each
+			s.C += s.D
+			if s.C>=s.W
+				s.D=-1
+			end
+			if s.C<0
+				l.UnLink()
+			else
+				Graphics.Rect(s.X-s.C,0, s.C*2,s.Y)
+			end
+		end
+		Graphics.SetAlpha(255)
+		Ended = SAC_Shine.List.Count<=0
+	end
+	
+	void Update()
+	end
+	
+end
