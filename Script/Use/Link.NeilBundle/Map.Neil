@@ -201,6 +201,10 @@ group Link_Map
 		Call("FldMap.ShowPlayer","nil")
 	end
 	
+	get int Level
+		return ISGET.Int("FLOW_FIELD","FLDMap.Level()")
+	end
+	
 	bool HasTag(string tag)
 		return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.HasTag(\""..tag.."\")")
 	end

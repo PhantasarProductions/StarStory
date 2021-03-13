@@ -386,6 +386,11 @@ group FldMap
 		ScanFoes()
 		Kthura.AutoReMap(true)
 	end
+	
+	int Level()
+		int c = math.min(10,Caps.Cycle)
+		return Lua.tonumber(KthuraMap.Meta[sprintf("PT %2d Level",c)]||1)
+	end
 		
 	void ReMap()
 		KthuraMap.ReMap()
@@ -510,6 +515,8 @@ group FldMap
 		end
 		return ret
 	end
+	
+	
 	
 	void StopWalking()
 		CurLayer.Obj("PLAYER").StopWalking()
