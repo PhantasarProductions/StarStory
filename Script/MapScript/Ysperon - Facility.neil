@@ -1,0 +1,300 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Ysperon - Facility.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.12
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.12"
+#MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
+
+#undef DEBUG_SCHUIFDEUR
+
+#macro StartGuardsKilled gv.gbool.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion_ButLetsKillTheGuardsAtTheEntranceFirst
+
+class SchuifDeur
+	static table Mapje = {}
+	
+	readonly int prevLinks
+	readonly int prevRechts
+	readonly int nextLinks
+	readonly int nextRechts
+	static bool PrevOpen
+	static bool NextOpen
+	int NextSchuif
+	int PrevSchuif
+	
+	Constructor
+		for d in each{"PrevLinks","PrevRechts","NextLinks","NextRechts"}
+			if Map.HasTag(d)
+				self[d]=Map.ObjInt(d,"X")
+				CSayF("Layer %s: Schuifdeur: %s => x = %04d",Map.Layer,d,self[d])
+			else
+				self[d]=-1
+				CSayF("Layer %s: Schuifdeur: %s => Non-Existent!",Map.Layer,d)
+			end
+		end
+	end
+	
+	static void Check(string OL,string CL)
+		Mapje[CL] = Mapje[CL] || new SchuifDeur()
+		Mapje[CL].CheckFl(OL,CL)
+	end
+	
+	void CheckFL(string OL, string CL)
+		if PrevOpen 
+			if OL!=CL
+				PrevSchuif=30
+			elseif PrevSchuif<30
+				PrevSchuif++
+			end
+		else
+			if OL!=CL
+				PrevSchuif=0
+			elseif PrevSchuif>0
+				PrevSchuif--
+			end
+		end
+		if PrevLinks>=0
+			Map.SetObj("PrevLinks","X",PrevLinks-PrevSchuif)
+			Map.SetObj("PrevRechts","X",PrevRechts+PrevSchuif)
+		end
+		if NextOpen 
+			if OL!=CL
+				NextSchuif=30
+			elseif NextSchuif<30
+				NextSchuif++
+			end
+		else
+			if OL!=CL
+				NextSchuif=0
+			elseif NextSchuif>0
+				NextSchuif--
+			end
+		end
+		if NextLinks>=0
+			Map.SetObj("NextLinks","X",NextLinks-NextSchuif)
+			Map.SetObj("NextRechts","X",NextRechts+NextSchuif)
+		end
+	end
+	
+	#if DEBUG_SCHUIFDEUR
+	void Debug()
+		static var DFnt = ImageFont.Obtain("BOXTEXT")
+		dFnt.DarkText(sprintf("Prev Open: %s",lua.tostring(PrevOpen)),5,0)
+		dFnt.DarkText(sprintf("Prev Corr: %04d",PrevSchuif),5,30)
+		dFnt.DarkText(sprintf("Next Open: %s",lua.tostring(NextOpen)),5,60)
+		dFnt.DarkText(sprintf("Next Corr: %04d",NextSchuif),5,90)
+	end		
+	#fi
+end
+		
+
+group MScript
+
+	bool BossOpen = false
+	int BossX
+	
+	void BossDoor()
+		if BossOpen && BossX<30
+			BossX++
+		elseif (!BossOpen) && BossX>0
+			BossX--
+		end
+		If Map.Layer=="#006"
+			Map.SetObj("BossRechts","X",416+BossX)
+			Map.SetObj("BossLinks","X",384-BossX)
+		End
+	End
+	Void OpenBoss()
+		BossOpen=true
+	end
+	Void Leave_OpenBoss()
+		BossOpen=False
+	end
+
+	void Boss()
+		int lv = math.min(10000,(100*__skill)*Caps.Cycle)
+		StartCombat.Foe("Boss/AstrilopupElite",lv)
+	end
+	
+	void GroteKamer()
+		Map.HideByLabel("Bonus")
+	end
+	void OpenBonus()
+		Map.ShowByLabel("Bonus")
+	end
+
+	void MapMusic()
+		if !Done.DoNotStartTheMusicForTheFacilityYet
+			Music.Play("Music/Sys/Silence.ogg")
+		else
+			Music.Play("Music/Dungeon/AstrilopupBase.ogg")
+		end
+	end
+
+	void Wendicka_Intro()
+		Map.HideButLabel("Fake")
+		MapText("WENDICKA_A")
+		Map.ShowButLabel("Fake")
+		Map.HideObj("PLAYER")
+		MapText("WENDICKA_B")
+		Map.Spawn("Actor_McLeen","AstriloWest")
+		Map.SetObj("Actor_McLeen","Texture","GFX/Actors/McLeen/Masked.South.jpbf")
+		Map.ObjWalkTo("Actor_McLeen","Wendicka_McLeen")
+		for i=1,132
+			int x=math.min(31,i)
+			if i>100 
+				x=132-i
+			end
+			Map.SetObj("NextLinks","X",320-x)
+			Map.SetObj("NextRechts","X",352+x)
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		MapText("WENDICKA_C")
+		Map.Kill("Actor_McLeen") // I must not forget to put him back 
+		Map.GoToLayer("#001","Start")
+	end
+	
+	Void StartDungeon()
+		if not Done.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion
+			Spawn.Reset()
+			gv.gBool.AllowBeam=False
+		end
+		if !StartGuardsKilled
+			MapMusic()
+			PPop.Pop("PopStart","North")
+			MapText("ENTER_A")					
+			StartCombat.Prepare()
+			StartCombat.Foe("Reg/Cyborg Gunner",math.random(Map.Level div 2,Map.Level))
+			StartCombat.Foe("Reg/Cyborg Captain",math.random(Map.Level div 2,Map.Level))
+			StartCombat.Foe("Reg/Astrilopup",math.random(Map.Level div 2,Map.Level))
+			StartCombat.Foe("Reg/Astrilopup",math.random(Map.Level div 2,Map.Level))
+			//StartCombat.Tune = StartCombat.RandomTune
+			StartCombat.Tune = "*NOCHANGE*"
+			StartCombat.Boss = false
+			StartCombat.Arena = "Facility.png"	
+			StartCombat.Begin()
+			Schedule.Add("StartDungeon_II")
+			Party.GiveEXP(20)
+		end
+	end
+	Void StartDungeon_II()
+		For a in each{"AstrilGuard_A","AstrilGuard_B","Cyb_A","Cyb_B"}
+			CSayF("Removed %s permanently!",a)
+			Map.Kill(a,true)
+		end
+		Party.GiveEXP(2400 div __skill)
+		StartGuardsKilled=true
+		MapText("ENTER_B")
+		PPop.UnPop()
+	end
+
+	table BeenFloor
+	get bool BeenOnThisFloor
+		return BeenFloor[Map.Layer]
+	end
+	
+	void FloorExp()
+		if !BeenOnThisFloor
+			CSay("First time on floor "..Map.Layer.."! Floor Experience bonus!")
+			Switch __skill
+				case 1
+					Party.GiveEXP(3000)
+				case 2
+					Party.GiveEXP((Lua.tonumber(Map.Layer)||1)*100)
+				case 3
+					Party.GiveEXP(1)
+				default
+					Lua.error("Skill error")
+			end
+		end
+	end
+	
+	void SchuifPrev()
+		CSayF("PREV: Sesam open u")
+		SchuifDeur.PrevOpen = true
+	end
+	void Leave_SchuifPrev()
+		CSayF("PREV: En ga maar weer dicht")
+		SchuifDeur.PrevOpen = false
+	end
+	void SchuifNext()
+		CSayF("NEXT: Sesam open u")
+		SchuifDeur.NextOpen = true
+	end
+	void Leave_SchuifNext()
+		CSayF("NEXT: En ga maar weer dicht")
+		SchuifDeur.NextOpen = false
+	end
+	
+	void Update()
+		static string OldLayer = "Okay, laten we starten!"
+		string Layer = Map.Layer
+		if Layer != OldLayer			
+			FloorExp()
+		end
+		SchuifDeur.Check(OldLayer,Layer)
+		If Layer=="#006"
+			BossDoor()
+		End
+		OldLayer = Layer
+	end
+
+	void Draw()
+	#if DEBUG_SCHUIFDEUR
+		if SchuifDeur.Mapje[Map.Layer]
+			SchuifDeur.Mapje[Map.Layer].Debug()
+		end
+	#fi
+	end
+	
+	void Load()
+	end
+	
+	CONSTRUCTOR
+		bool BeenFloorIdx(s,string key)
+			return Done["Facility_Been_On_Floor_"..right(key,3)]
+		end
+		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus"}
+		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss"}
+	end
+
+end
