@@ -32,17 +32,19 @@
 // 
 // **********************************************
 // 
-// version: 21.03.14
+// version: 21.03.15
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.14"
+#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.15"
 #MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
 
 #macro StartGuardsKilled gv.gbool.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion_ButLetsKillTheGuardsAtTheEntranceFirst
+#macro WendickaFreed gv.gbool.WendickaFreedFacility
 
 class SchuifDeur
 	static table Mapje = {}
@@ -149,6 +151,35 @@ group MScript
 		int lv = math.min(10000,(100*__skill)*Caps.Cycle)
 		StartCombat.Foe("Boss/AstrilopupElite",lv)
 	end
+	
+	int GeheimX
+	bool GeheimOpen
+	void OpenGeheim()
+		GeheimOpen=true
+	end
+	void Leave_OpenGeheim()
+		GeheimOpen=false
+	end
+	void Geheim()
+		if Map.Layer!="#012"
+			return
+		end
+		if GeheimOpen && GeheimX<29
+			GeheimX++
+		elseif (!GeheimOpen) && GeheimX>0
+			GeheimX--
+		end
+		Map.SetObj("GeheimLinks" ,"X", 96-GeheimX)
+		Map.SetObj("GeheimRechts","X",128+GeheimX)
+	end
+	void HideGeheim()
+		Map.HideByLabel("Geheim")
+	end
+	void ShowGeheim()
+		Map.ShowByLabel("Geheim")
+		//Map.ShowObj("PLAYER")
+	end
+	
 	
 	void GroteKamer()
 		Map.HideByLabel("Bonus")
@@ -264,6 +295,98 @@ group MScript
 		SchuifDeur.NextOpen = false
 	end
 	
+	void To999()
+		Map.GoToLayer("#999","Start")
+		if !WendickaFreed
+			Schedule.Add("FREEWENDICKA_Fight")
+		end
+	end
+	
+	void FreeWendicka_Fight()
+		Map.Spawn("Actor_McLeen","Wendicka_McLeen")
+		PPop.Pop("Wen","West")
+		Map.SetObj("Actor_McLeen","Texture","GFX/Actors/McLeen/Masked.South.jpbf")
+		for c in each{'AB'}
+			Map.SetObj("Astrilo_"..chr(c),"Texture","GFX/Actors/SinglePic/Astrilopup/Astrilopup_E.png")
+		end
+		MapText("ASTRILOPUP_ALARM")
+		
+		StartCombat.Prepare()
+		StartCombat.Foe("Reg/Astrilopup",math.random(Map.Level div 2,Map.Level))
+		StartCombat.Foe("Reg/AstrilopupGuard",math.max(1,math.random(Map.Level div 5,Map.Level div 2)))
+		StartCombat.Tune = "*NOCHANGE*"
+		StartCombat.Boss = false
+		StartCombat.Arena = "Facility.png"	
+		StartCombat.Begin()
+		
+		
+		Schedule.Add("FREEWENDICKA")
+		//Lua.error("En de rest komt later :-P")
+	end
+	
+	void FreeWendicka()
+		for c in each{'AB'}
+			Map.Kill("Astrilo_"..chr(c),true)			
+		end
+		Map.Spawn("__Reggie","Wen_Reggie")
+		Map.SetObj("__Reggie","Texture","GFX/Actors/Reggie/ReggieW.png")
+		WendickaFreed = true
+		MapText("FREE_WENDICKA_A")
+		Beam.Quick("Actor_McLeen",true,true)
+		MapText("FREE_WENDICKA_B")
+		Graphics.Cls()
+		Graphics.Flip()
+		Events.Poll()
+		FPS.Sleep(1200)
+		Map.SetObj("WendickaInChains","Texture","GFX/Textures/Wendicka/Naked/WendickaNakedStandEast.png")
+		MapText("FREE_WENDICKA_C")
+		KickReggie("PartyPopped_Foxy","__Reggie","South")
+		MapText("FREE_WENDICKA_D")
+		Music.Play("Music/Scenario/Panic Stations.ogg")
+		SchuifDeur.PrevOpen = true
+		SchuifDeur.NextOpen = true
+		for i=1,5
+			for wnd in each{"East","West"}
+				var mytag = sprintf("SecurityGuardAstrilopup_%d_%s",i,wnd)
+				string tow = "E"
+				if wnd=="East"
+					tow="W"
+				end
+				Map.Spawn(mytag,"Astrilo"..wnd)
+				Map.SetObj(mytag,"Texture","GFX/Actors/SinglePic/Astrilopup/Astrilopup_"..tow..".png")
+				Map.ObjWalkto(mytag,sprintf("A%s%d",wnd,i))
+			end
+			for j=1,16
+				Graphics.Cls()
+				Map.DrawScreen()
+				self.Update()
+				Graphics.Flip()
+				FPS.WaitMinTicks()
+				Events.Poll()
+			end
+		end
+		MapText("FREE_WENDICKA_E")
+		Map.Kill("__Reggie")
+		Map.Kill("WendickaInChains",true)
+		For ch in each{"Crystal","Yirl","Foxy","Xenobi"}
+			Map.ObjWalkto("PartyPopped_"..ch,"ByeBye")
+		end
+		Map.ActTrans("Lab")
+		Map.SkipFrames(200)
+		For i=1,5
+			if RPGParty[i]=="ExHuRU"
+				RPGParty[i]="Wendicka"
+			end
+		end
+		Map.GoToMap("Hawk","BRIDGE","Welcome")
+		Map.Schedule("WendickaSaved")
+		Party.GiveEXP(1000000)
+		gv.gBool.AllowBeam=True
+		Hawk.AllowYsperon=True
+		Party.GrabLevel("Wendicka",RPGChar.Yirl.Stats.Level)
+	end
+	
+	
 	void Update()
 		static string OldLayer = "Okay, laten we starten!"
 		string Layer = Map.Layer
@@ -274,6 +397,7 @@ group MScript
 		If Layer=="#006"
 			BossDoor()
 		End
+		Geheim()
 		OldLayer = Layer
 	end
 
@@ -293,8 +417,8 @@ group MScript
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
-		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus"}
-		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss"}
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999"}
+		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss","OpenGeheim"}
 	end
 
 end
