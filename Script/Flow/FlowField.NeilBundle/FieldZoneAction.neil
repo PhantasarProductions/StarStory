@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldZoneAction.neil
-// Version: 21.03.06
+// Version: 21.03.15
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -130,6 +130,7 @@ class ZoneAction
 		vd = new ZoneAction(Event,Zone,AAct,param)
 	end
 	
+	string ActMap
 	string ActEvent
 	string ActZone
 	table ActParams
@@ -159,19 +160,25 @@ class ZoneAction
 		end
 		bool ret = false
 		for Event,ZoneList in pairs(self.List)
-			for Zone in ZoneList.Each
-				//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
-				Zone.WordtInZone = GrPlayer.IsInZone(Zone.ActZone)
-				if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
-					switch Zone.ActType
-						case "function" "delegate"
-							Zone.Act(ZAXPand(Zone.ActParams))
-							ret=true
-						case "string"
-							MapScript[Zone.Act](ZAXPand(Zone.ActParams))
-							ret=true
-						default
-							error("No action setup yet for ActType: "..Zone.ActType)
+			for Zone,lnk in ZoneList.Each
+				if Zone.ActMap!=FLDMap.LoadedMap && Zone.ActMap!=""
+					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FLDMap.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
+					return false
+					//lnk.UnLink()
+				else
+					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
+					Zone.WordtInZone = GrPlayer.IsInZone(Zone.ActZone)
+					if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
+						switch Zone.ActType
+							case "function" "delegate"
+								Zone.Act(ZAXPand(Zone.ActParams))
+								ret=true
+							case "string"
+								MapScript[Zone.Act](ZAXPand(Zone.ActParams))
+								ret=true
+								default
+								error("No action setup yet for ActType: "..Zone.ActType)
+						end
 					end
 				end
 				Zone.WasInZone = Zone.WordtInZone
@@ -183,13 +190,18 @@ class ZoneAction
 	//CONSTRUCTOR(string Event,string Zone,AAct,infinity)
 	CONSTRUCTOR(string Event,string Zone,AAct,param)
 		self.InitCheckDels()
+		self.ActMap = FldMap.LoadedMap
 		self.ActEvent = Event
 		self.ActZone = Zone
 		self.Act = AAct
+		//if Zone=="Next" || Zone=="Prev"
+		//	self.ActZone = ""
+		//end
+		
 		//self.ActParams = { infinity }
 		self.ActParams = { param }
 		self.List[Event].AddLast(self)
-		CSayF("%s event created in zone %s",Event,Zone)
+		CSayF("%s:%s event created in zone %s",FldMap.LoadedMap.."*"..Self.ActMap,Event,Zone)
 
 		//if not KettingInitDone
 		//	KettingKaart.ZA_Enter = void(string Zone,Action,infinity)
@@ -202,7 +214,7 @@ class ZoneAction
 	end
 	
 	DESTRUCTOR
-		CSayF("%s event disposed in zone %s",ActEvent,ActZone)
+		CSayF("%s:%s event disposed in zone %s",FLDMap.LoadedMap,ActEvent,ActZone)
 	end
 	
 end
