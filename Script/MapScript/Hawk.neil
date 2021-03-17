@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.08
+// version: 21.03.15
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.03.08"
+#MKL_Version "Star Story - Hawk.neil" "21.03.15"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -141,7 +141,7 @@ group MScript
 	
 	void NPC_Hawk_Foxy()
 		Talk("Foxy")
-		Hawk_Kick_Reggie(1)
+		Hawk_Kick_Reggie(1,"NAVULPINA")
 		// TODO: Pickpocket
 	end
 	
@@ -278,6 +278,15 @@ group MScript
 			MapText("UPGRADE")
 		end
 		FMenu.Go(Map.Leader,"UPGRADE")
+	end
+	
+	Void WendickaSaved()
+		Bridge()
+		Map.Leader="Wendicka"
+		Player.Wind="North"
+		MapText("GODDESS")
+		Map.GoToMap("Vulpina - Town","TOWN","TownStart")
+		Schedule.Add("ArrivalFirstTime")
 	end
 
 	void Draw()
