@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.15
+// version: 21.03.17
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.15"
+#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.17"
 #MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
@@ -380,17 +380,18 @@ group MScript
 		end
 		Map.GoToMap("Hawk","BRIDGE","Welcome")
 		Map.Schedule("WendickaSaved")
+		RPGChar.Wendicka.Stats.Level = math.min(RPGChar.Yirl.Stats.Level+(3-__skill),10000)
 		Party.GiveEXP(1000000)
 		gv.gBool.AllowBeam=True
-		Hawk.AllowYsperon=True
-		Party.GrabLevel("Wendicka",RPGChar.Yirl.Stats.Level)
+		Hawk.AllowYsperon=False
+		//Party.GrabLevel("Wendicka",RPGChar.Yirl.Stats.Level)
 	end
 	
 	
 	void Update()
 		static string OldLayer = "Okay, laten we starten!"
 		string Layer = Map.Layer
-		if Layer != OldLayer			
+		if Layer != OldLayer
 			FloorExp()
 		end
 		SchuifDeur.Check(OldLayer,Layer)
