@@ -1,0 +1,123 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Poloqor - Mid-Boss.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.17
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
+
+#MKL_Version "Star Story - Poloqor - Mid-Boss.neil" "21.03.17"
+#MKL_Lic     "Star Story - Poloqor - Mid-Boss.neil" "Phantasar Closed License"
+
+#macro __midboss gv.gbool.Done_Defeated_MidBoss_Poloqor
+
+group MScript
+
+	Void MapMusic()
+		if __midboss
+			Music.Play("Music/Ji/The_Loneliness.ogg")
+		else
+			Map.HideButLabel("Un")
+			Music.Play("Music/SYS/SILENCE.OGG")
+		end
+	End
+	
+	Void Scotty()
+		Beam.Quick("PLAYER",false,true)
+		Map.Load("HAWK")
+		Schedule.Add("SPAWN:Scotty")
+		Schedule.Add("ShowBack")
+	End
+
+	
+	Void MIDBOSS()
+		//Map.CamX = 0
+		//Map.CamY = 48
+		PPop.Pop("MB","West")
+		MapText("PREBOSS_A")
+		Map.ShowByLabel("Deux")
+		//Actors.Actor("PLAYER").Visible = 0 -- Needed otherwise Wendicka will be visible twice.
+		MapText("PREBOSS_B")
+		KickReggie("PartyPopped_Foxy","Reggie","EAST")
+		MapText("PREBOSS_C")
+		Schedule.Add("PostMIDBOSS")
+		StartCombat.Prepare()
+		StartCombat.Foe("Boss/Mid-Boss",RPGChar.Wendicka.Stats.Level)
+		StartCombat.Tune = "Music/SpecialBoss/Exit the Premises.ogg"
+		StartCombat.Boss = true
+		StartCombat.Arena = "Mid-Boss.png"	
+		StartCombat.Begin()
+	End
+	
+	Void PostMIDBOSS()
+		MapText("POSTBOSS")
+		__midboss = True
+		Map.Kill("Reggie",true)
+		PPop.UnPop()
+		Party.GiveEXP(2400 div __skill)
+		Map.HideButLabel("Un")
+		Map.Kill("Mid-Boss",true)
+		// TransporterPad("Start",2)
+		Ach.Award("BOSS_MIDBOSS") // Oh, so it does do this?		
+		PPop.UnpopWait()
+		Scotty()
+		Aurina.Rate += 4 - __skill
+	end
+
+	Void NPC_Stickie()
+		gv.gbool.FOUNDAPP_GAMESHOOT=true
+		MapText("GAMESHOOT")
+		Map.Kill("NPC_Stickie",true)
+		int a = 24 div __skill
+		Aurina.Have += a
+		Aurina.Rate += a * 2
+	End
+
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+		if !__midboss
+			ZA.Enter("STARTMIDBOSS","MIDBOSS")
+		end
+	End
+
+end
