@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/Box.neil
-// Version: 21.03.03
+// Version: 21.03.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 // #use "script/use/anyway"
 #use "libs/Vector"
 
@@ -46,6 +47,10 @@ module class
 	
 	static readonly var curve = Image.Obtain("BTHOEK")
 	static readonly table List = new Vector("table")
+	
+	static void Clear()
+		List.Clear()
+	end
 	
 	void Draw()
 		Graphics.Color(0,0,0)
