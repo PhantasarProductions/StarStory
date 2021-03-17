@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.11
+// version: 21.03.15
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -99,6 +99,15 @@ group flHawk
 		HawkData[World][node] = new HData(N,M,L,spot)
 	end
 	
+	Void AllowYsperon(Bool V)
+		HawkData.Ysperon.DISABLED = !V
+	End
+	
+	Void ArriveEvent(string World,string E)
+		HawkData[World] = HawkData[World] or {}
+		HawkData[World].ARRIVE=E
+	End
+		
 	Constructor
 		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
 	end

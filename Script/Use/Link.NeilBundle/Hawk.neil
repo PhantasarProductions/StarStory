@@ -32,27 +32,40 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.15
 // End License Information
-void LHawk()
+Void LHawk()
 	State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
-end
+End
 
-module
+Module
+
+	Set Bool YsperonEnabled
+		State.Call("FLOW_HAWK","FlHawk.AllowYsperon",Lua.tostring(value))
+	End
 	
-	void Add(string spot,string World,string N,string M,string L)
+	Set Bool AllowYsperon
+		State.Call("FLOW_HAWK","FlHawk.AllowYsperon",Lua.tostring(value))
+	end
+	
+	Void ArriveEvent(string W,string E)
+		LHawk()
+		State.Call("FLOW_HAWK","FlHawk.ArriveEvent",sprintf("\"%s\",\"%s\"",W,E))
+	End
+	
+	Void Add(string spot,string World,string N,string M,string L)
 		LHawk()
 		State.Call("FLOW_HAWK","FlHawk.Add",sprintf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",spot,World,N,M,L))
-	end
+	End
 	
-	void Save()
+	Void Save()
 		LHawk()
 		State.Call("FLOW_HAWK","FlHawk.Save","nil")
-	end
+	End
 
-	void Load()
+	Void Load()
 		LHawk()
 		State.Call("FLOW_HAWK","FlHawk.Load","nil")
-	end
+	End
 
-end
+End
