@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.03.11
+// Version: 21.03.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,12 +44,17 @@
 group SubParty
 
 	readonly table StatSubs = {"BASE","POWERUP","UPGRADE","BUFF","END"}
-	readonly table Stats = {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
-	readonly int bw = Screen.w Div 4
+	readonly table Stats = {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }	
 	readonly var Fnt = ImageFont.Obtain("BOXTEXT")
 	readonly var LevelUp = Image.Obtain("LEVEL_UP")
 	readonly var AudioLevelUp = Audio.Obtain("AUDIO_LEVELUP")
 	table ScLvUp = {0,0,0}
+	int scrw = -1
+	int scrh = -1
+	
+	get int bw
+		return Screen.w Div 4
+	end
 	
 	get delegate ToNumber
 		return Lua.tonumber
@@ -58,6 +63,15 @@ group SubParty
 	get delegate Error
 		return Lua.error
 	end
+	
+	void MakeBoxes()
+		Box.Clear()		
+		for i=0,3
+			var t = new Box(i*bw,screen.H-100,bw,100,true)
+			cout("Box created: (",t.x,",",t.y,")\t",t.w,"x",t.h,"\n")
+		end
+	end
+
 	
 	void GrabLevel(string tag,int level)
 		string n = tag
@@ -182,6 +196,11 @@ group SubParty
 
 	
 	void Boxes(string char)
+		if scrw!=Screen.W && scrh!=Screen.H
+			MakeBoxes()
+			scrw = Screen.W 
+			scrh = Screen.H
+		end
 		Graphics.SetAlpha(255)
 		Box.DrawAll()
 		// Front row
@@ -288,11 +307,7 @@ group SubParty
 	end
 	
 	CONSTRUCTOR	
-		LevelUp.HotCenter()
-		for i=0,3
-			var t = new Box(i*bw,screen.H-100,bw,100,true)
-			cout("Box created: (",t.x,",",t.y,")\t",t.w,"x",t.h,"\n")
-		end
+		LevelUp.HotCenter()		
 	end
 
 
