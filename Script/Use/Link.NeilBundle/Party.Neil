@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Party.Neil
-// Version: 21.03.03
+// Version: 21.03.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,7 +117,7 @@ module
 			case 2 3
 				RPGChar[ch].Points.AP.Have = 0
 			default
-				Lua.error("Unknown skill setting!")
+				Lua.error("Unknown skill setting! "..Lua.tostring(Lua.Neil.Globals.gv.gint.Skill))
 		end
 		if ch=="Crystal"
 			ReloadARMS()
