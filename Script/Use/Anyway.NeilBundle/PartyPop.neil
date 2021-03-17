@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/PartyPop.neil
-// Version: 21.03.03
+// Version: 21.03.15
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,6 +117,17 @@ group PPop
 		if Clear
 			CSay("Unpopping complete!")
 		end
+	end
+	
+	void UnPopWait()
+		repeat
+			UnPopCheck()
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		loopwhile Unpopping
 	end
 	
 end
