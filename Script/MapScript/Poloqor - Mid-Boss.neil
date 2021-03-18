@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.03.18
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Poloqor - Mid-Boss.neil" "21.03.17"
+#MKL_Version "Star Story - Poloqor - Mid-Boss.neil" "21.03.18"
 #MKL_Lic     "Star Story - Poloqor - Mid-Boss.neil" "Phantasar Closed License"
 
 #macro __midboss gv.gbool.Done_Defeated_MidBoss_Poloqor
@@ -90,7 +90,7 @@ group MScript
 		Map.HideButLabel("Un")
 		Map.Kill("Mid-Boss",true)
 		// TransporterPad("Start",2)
-		Ach.Award("BOSS_MIDBOSS") // Oh, so it does do this?		
+		Ach.Award("BOSS_MIDBOSS") // Oh, so it does do this?
 		PPop.UnpopWait()
 		Scotty()
 		Aurina.Rate += 4 - __skill
