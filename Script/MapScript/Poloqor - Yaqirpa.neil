@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.18
 // End License Information
 
 #use "Script/MapScript/Yaqirpa_Warp"
@@ -50,6 +50,9 @@ init
 	NC += "NPC_DEUR"
 end
 
+void Niks()
+	// Niks te zien hier, hoor!
+end
 
 group MScript
 	readonly var YW = Yaqirpa_Warp
@@ -62,7 +65,40 @@ group MScript
 		end
 	end
 	
-	Constructor
+	readonly delegate Draw = Niks
+	readonly delegate Load = Niks
+	readonly delegate Update = Niks
+
+	Void Entrance_Zone()
+		Map.HideButLabel("Entrance")
+		Map.ShowPlayer()
+	End
+	
+	Void Enter_Save()
+		Map.HideButLabel("save")
+		Map.ShowPlayer()
+	End
+	
+	Void Enter_Kantoor()
+		Map.HideButLabel("Kantoor")
+		Map.ShowPlayer()
+	End
+	
+	Void TutEnemy()
+		Map.HideButLabel("GreatHall")
+		Map.ShowPlayer()
+	End
+	
+	Constructor	
+		ZA.Enter("Entrance_Zone","Entrance_Zone")
+		ZA.Enter("EnterSave","Enter_Save")
+		ZA.Enter("SAVEZONE1","Enter_Save")
+		ZA.Enter("Kantoor","Enter_Kantoor")
+		ZA.Enter("TutEnemy","TutEnemy")			
+		for NoPrologue in each{ "NPC_SAVE1", "NPC_SAVE2", "NPC_Sleutel", "Astro1", "Astro2", "Astro3", "Astro4", "NPC_DEUR", "Brain" }
+			CSayF("Removed Prologue Object: %s",NoPrologue)
+			Map.Kill(NoPrologue)
+		End	
 		Yaqirpa_Warp.StartUp()
 	end
 end
