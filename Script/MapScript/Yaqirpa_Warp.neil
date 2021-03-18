@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.18
 // End License Information
 #use "Script/Use/Anyway"
 module
@@ -41,8 +41,8 @@ module
 	
 	void Warp(string newspot)
 		Map.Kill("PLAYER")
+		Map.SpawnPlayer(newspot)
 		if Prologue
-			Map.SpawnPlayer(newspot)
 			Map.Kill("FCrystal")
 			Map.Kill("FBriggs")
 		end
