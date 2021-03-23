@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Fighter.neil
-// Version: 21.03.03
+// Version: 21.03.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -95,6 +95,9 @@ class Combat_Fighter
 	abstract void Draw()
 	abstract void TIcon(int x,int y)
 	abstract bool Pose(Act)
+	
+	// If hurt, this will be called, if defined!
+	Delegate HurtResponse
 	
 	// And these should not be overridden
 	set bool FlawlessVictory
@@ -269,7 +272,8 @@ class Combat_Fighter
 		if (!noapgain) && (self.Team=="Hero")
 			self.UpAP()
 		end
-		CSayF("%s received %d damage => Left %d of %d HP",self.Tag,dodmg,self.HP,self.MaxHP)			
+		CSayF("%s received %d damage => Left %d of %d HP",self.Tag,dodmg,self.HP,self.MaxHP)
+		Invoke(HurtResponse)
 	end
 
 	void Heal(int hp)
