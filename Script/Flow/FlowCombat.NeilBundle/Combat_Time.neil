@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.03.12
+// Version: 21.03.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -182,11 +182,13 @@ module
 				if !pointerypos[fk]
 					Lua.error(sprintf("No Y data for combat team '%s",fk))
 				end
-				self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
-				//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
-				//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
-				__white 
-				ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
+				if fv.Gauge>=0
+					self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
+					//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
+					//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
+					__white 
+					ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
+				end
 			end
 		end
 		//end // I needed one for-loop less, so also one end less.
