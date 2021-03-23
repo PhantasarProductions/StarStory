@@ -1,0 +1,263 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Nizozemska - Space port.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.23
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Nizozemska - Space port.neil" "21.03.23"
+#MKL_Lic     "Star Story - Nizozemska - Space port.neil" "Phantasar Closed License"
+
+Class Deur
+	
+	static var D_In
+	static var D_Out
+	
+	readonly int Links
+	readonly int Rechts
+	readonly string Tag
+	int afw
+	bool IsOpen
+	
+	void Open()
+		IsOpen=true
+	end
+	
+	void Close()
+		IsOpen=false
+	end
+	
+	void InstantOpen()
+		IsOpen=true
+		afw=30
+	end
+	
+	void Update()
+		if IsOpen && afw<30
+			afw++
+		elseif (!IsOpen) && afw>0
+			afw--
+		end
+		Map.SetObj(Tag.."Links" , "X",Links -afw)
+		Map.SetObj(Tag.."Rechts", "X",Rechts+afw)
+	end
+	
+	static void UpdateAll()
+		D_In.Update()
+		D_Out.Update()
+	end
+	
+	Constructor(string DTag)
+		Tag    = DTag
+		Links  = Map.ObjInt(Tag.."Links" ,"X")
+		Rechts = Map.ObjInt(Tag.."Rechts","X")
+	end
+	
+end
+	
+	
+init
+	Deur.D_In  = new Deur("In")
+	Deur.D_Out = new Deur("Uit")
+end
+
+group MScript
+
+	get var DeurIn  
+		return Deur.D_In
+	end
+	Get var DeurOut 
+		return Deur.D_Out
+	End
+	
+	Get Bool DoorsBlocked
+		return Map.ObjBool("DoorBlock","Impassible")
+	end
+	Set Bool DoorsBlocked
+		Map.SetObj("DoorBlock","Impassible",value)
+		Map.SetObj("DoorBlock","Forcepassible",!value)
+		Map.ReMap()
+	End
+	
+	Void CreateRolf()
+		// Just use te old when on a new cycle
+		if Caps.Cycle>1 || gv.gbool.ImportedRolf
+			CSay("Updating level stuff for Rolf")
+			Party.GrabLevel("Rolf",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			return
+		end
+		// Create raw character record
+		CSay("Creating character Rolf!")
+		Party.NewChar("Rolf",RPGChar.ExHuRU.Stat.Level,"Rolf")
+		RPGChar.Rolf.Link_Stat("ExHuRU","Level")
+		// Inventory sockets
+		for i=1,Caps.InventorySockets
+			RPGChar.Rolf.Link_Data("ExHuRU","INVITEM"..i)
+			RPGChar.Rolf.Link_Stat("ExHuRU","INVAMNT"..i)
+			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
+		end
+		// Statistics
+		for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+			CSayF("Linking stat: %s",st)
+			for substat in each { "BUFF","POWERUP","UPGRADE" }
+				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+				RPGChar.Rolf.Link_Stat("ExHuRU",substat.."_"..st)
+			end
+		end
+		// Elemental Resistance
+		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
+			CSayF("Linking elemental resistance: %s",el)
+			if !RPGChar.ExHuRU.HasStat("ER_"..el)
+				CSay("= Original base was non-existent. Creating!")
+				switch el
+					case "Healing"
+						RPGChar.ExHuRU.Stat["ER_"..el] = 6
+					case "DarkHealing"
+						RPGChar.ExHuRU.Stat["ER_"..el] = 0
+					default
+						RPGChar.ExHuRU.Stat["ER_"..el] = 3
+				end
+			end
+			if !RPGChar.ExHuRU.HasStat("ER_MODIFIER_"..el)
+				CSay("= Original modifier was non-existent. Creating!")
+				RPGChar.ExHuRU.Stat["ER_MODIFIER_"..el] = 0
+			end
+			RPGChar.Rolf.Link_Stat("ExHuRU","ER_"..el)
+			RPGChar.Rolf.Link_Stat("ExHuRU","ER_MODIFIER_"..el)
+		end
+		// Status Resistance
+		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+			CSayF("Setting Status Change Base Resistance: %s",sr)
+			RPGChar.Rolf.Stat["SR_BASE_"..sr] = math.random(15 - (__skill*5),90 div __skill)
+			CSayF("Linking Status Change modifiaction Resistance: %s",sr)			
+			for subsr in each {"BUFF","EQBF" }
+				// TRUE should NOT be linked!
+				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
+				RPGChar.Rolf.Link_Stat("ExHuRU","SR_"..subsr.."_"..sr)
+			end
+		end
+		// Experience Points
+		CSay("Linking Experience")
+		RPGChar.Rolf.Link_Points("ExHuRU","EXP")
+		// Updates
+		if !RPGChar.ExHuRU.HasStat("UPGRADES")
+			RPGChar.ExHuRU.Stats.UPGRADES = 0
+		end
+		RPGChar.Rolf.Link_Stat("ExHuRU","UPGRADES")
+		// End
+		CSay("Rolf Created")		
+	End
+	
+	Void SkipFrames(int f)
+		for fidx=1,f
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+			self.Update()
+		end
+	end
+	
+	Void Welcome()		 
+		DeurIn.InstantOpen()
+		DoorsBlocked = False
+		Map.ReMap()
+		if Done.Welcome_To_Nizozemska
+			PLAYER.WalkTo("NStart")
+			SkipFrames(50)
+			DeurIn.Close()
+			DoorsBlocked=true
+			Map.ReMap()
+			return
+		end
+		Kthura.KillAutoVisible()
+		Map.Spawn("Actor_Sue","Point_Sue")
+		Map.SetObj("Actor_Sue","Texture","GFX/Actors/Sue/Sue.East.jpbf")
+		PPop.Pop("Sue","South")
+		Player.Reloc("Sue_Wendicka")
+		SkipFrames(50)
+		DeurIn.Close()
+		SkipFrames(32)
+		// DoorsBlocked=true // Not even important
+		MapText("SUE_A")
+		Map.SetObj("Actor_Sue","Texture","GFX/Actors/Sue/Sue.West.jpbf")
+		MapText("SUE_B")
+		Map.ObjWalkTo("Actor_Sue","Sue_Sue_Pre")
+		SkipFrames(50)
+		Map.SetObj("Actor_Sue","Texture","GFX/Actors/Sue/Sue.North.jpbf")
+		MapText("SUE_C")
+		Map.ObjWalkTo("Actor_Sue","Sue_Sue")
+		MapText("SUE_D")
+		Map.Spawn("Actor_Rolf","Start")
+		Map.SetObj("Actor_Rolf","Texture","GFX/Actors/Player/Rolf.North.jpbf")
+		Map.ObjWalkTo("Actor_Rolf","Rolf_WalkTo")
+		SkipFrames(10)
+		CSayF("Rolf (%04d,%04d)",Map.ObjInt("Actor_Rolf","X"),Map.ObjInt("Actor_Rolf","Y"))
+		MapText("SUE_E")
+		for ch in each{"PartyPopped_Wendicka","PartyPopped_Crystal","PartyPopped_Yirl","PartyPopped_Xenobi","PartyPopped_Foxy","Actor_Rolf","Actor_Sue"}
+			Map.ObjWalkTo(ch,"Start")
+		end
+		CreateRolf()
+		SkipFrames(250)
+		Kthura.SetAutoVisible()
+		Map.GotoMap("Nizozemska - Groenhart Bos","BOS","Einde")
+	End
+	
+	Void SouthEntrance()
+		DoorsBlocked = true
+	End
+	
+#region Callback
+	Void Update()
+		Deur.UpdateAll()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+#endregion
+	
+	CONSTRUCTOR
+		if !gv.gBool.Met_Marlon
+			Map.Kill("NPC_Douanier")
+		end
+		ZA.Enter("InZone","Welcome")
+		ZA.Enter("SouthEntrance","SouthEntrance")
+	End
+
+end
