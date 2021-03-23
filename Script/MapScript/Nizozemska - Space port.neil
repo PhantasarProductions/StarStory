@@ -36,6 +36,7 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/WorldMap"
 
 #MKL_Version "Star Story - Nizozemska - Space port.neil" "21.03.23"
 #MKL_Lic     "Star Story - Nizozemska - Space port.neil" "Phantasar Closed License"
@@ -116,6 +117,7 @@ group MScript
 		if Caps.Cycle>1 || gv.gbool.ImportedRolf
 			CSay("Updating level stuff for Rolf")
 			Party.GrabLevel("Rolf",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			RPGParty[6] = "Rolf"
 			return
 		end
 		// Create raw character record
@@ -176,8 +178,13 @@ group MScript
 			RPGChar.ExHuRU.Stats.UPGRADES = 0
 		end
 		RPGChar.Rolf.Link_Stat("ExHuRU","UPGRADES")
+		// Abilities
+		RPGChar.Rolf.Link_List("ExHuRU","ABL")
+		RPGChar.Rolf.Link_List("ExHuRU","ABL_POWERUP")
+		RPGChar.Rolf.Link_List("ExHuRU","LEARN")
 		// End
 		CSay("Rolf Created")		
+		RPGParty[6] = "Rolf"
 	End
 	
 	Void SkipFrames(int f)
@@ -230,7 +237,7 @@ group MScript
 		for ch in each{"PartyPopped_Wendicka","PartyPopped_Crystal","PartyPopped_Yirl","PartyPopped_Xenobi","PartyPopped_Foxy","Actor_Rolf","Actor_Sue"}
 			Map.ObjWalkTo(ch,"Start")
 		end
-		CreateRolf()
+		CreateRolf()		
 		SkipFrames(250)
 		Kthura.SetAutoVisible()
 		Map.GotoMap("Nizozemska - Groenhart Bos","BOS","Einde")
@@ -238,6 +245,14 @@ group MScript
 	
 	Void SouthEntrance()
 		DoorsBlocked = true
+	End
+	
+	Void Leave()
+		If gv.gBool.Met_Marlon
+			WorldMap("Nizozemska")
+		Else
+			Map.GotoMap("Nizozemska - Groenhart Bos","BOS","Einde")
+		End
 	End
 	
 #region Callback
@@ -257,7 +272,8 @@ group MScript
 			Map.Kill("NPC_Douanier")
 		end
 		ZA.Enter("InZone","Welcome")
-		ZA.Enter("SouthEntrance","SouthEntrance")
+		ZA.TabEnter{"SouthEntrance","Leave"}
+		
 	End
 
 end
