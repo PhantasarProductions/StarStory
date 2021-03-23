@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.03.11
+// Version: 21.03.22
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -95,7 +95,7 @@ Group CG_Effect
 	
 	readonly delegate rand = math.random
 	
-	bool Attack(Act,Tar)
+	bool Attack(Act,Tar,AltAttack)
 		// Original Lua code for referrence
 		// local chactor = FighterTag(ag,ai)
 		// local data = pdata or {}
@@ -119,10 +119,11 @@ Group CG_Effect
 		// Hurt(tg,ti,totaldamage,element)
 		var Exe = Act.Executor
 		var Data = Act.Act
-		if Lua.type(data.AttackPower)!="number"
-			CSayF("WARNING! DATA CORRUPTIOON! Attack power should be a number but is a %s containing value '%s'",Lua.type(data.AttackPower),Lua.tostring(data.AttackPower))
+		var dataAttackPower = AltAttack || data.AttackPower
+		if Lua.type(dataAttackPower)!="number"
+			CSayF("WARNING! DATA CORRUPTION! Attack power should be a number but is a %s containing value '%s'",Lua.type(data.AttackPower),Lua.tostring(data.AttackPower))
 		end
-		if data.AttackPower<=0
+		if dataAttackPower<=0
 			return false
 		end
 		// TODO: Interception of attacks when Foxy's "Oops Sorry" is triggered, or when ExHuRU's "Protection Protocol" is triggered
@@ -131,7 +132,7 @@ Group CG_Effect
 			element = "Non-Elemental"
 		end
 		//int modifier = math.max(data.mod or 1,1)
-		int modifier = math.max( (data.AttackPower || 1) / 100,1)		
+		int modifier = math.max( (DataAttackPower || 1) / 100,1)		
 		if Act.XPower
 			modifier += 4-__skill
 		end
