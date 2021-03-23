@@ -1,0 +1,5 @@
+Void Ret(string kaart)
+	Lua.error("World Map ("..kaart..") has not yet been created!")
+End
+
+Return Ret
