@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.03.23
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.03.17"
+#MKL_Version "Star Story - Hawk.neil" "21.03.23"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -73,6 +73,11 @@ group MScript
 	bool VaultOpen
 
 	Void MapMusic()
+		if gv.gbool.WendickaDream
+			Music.Play("Music/Scenario/Comfortable Mystery.ogg")
+			gv.gbool.WendickaDream = false
+			return
+		end
 		if gv.gstring.Hawk_Music==""
 			gv.gstring.Hawk_Music="Music/Hawk/001.ogg"
 		end
@@ -288,9 +293,48 @@ group MScript
 		Map.GoToMap("Vulpina - Town","TOWN","TownStart")
 		Schedule.Add("ArrivalFirstTime")
 	end
+	
+	Void Volcania_Pirates()
+		Music.Play("Music/Sys/Silence.ogg")
+		MapText("PIRATES_A")
+		Map.HideButLabel("LichtUit")
+		MapText("PIRATES_B")
+		For i=1,20
+			String p = sprintf("Yo_Ho_%02d_Yo_Ho_A_Pirates_Life_For_Me",i)
+			Map.Spawn(p,sprintf("Pirate%d",i))
+			Map.SetObj(p,"TEXTURE","GFX/Actors/SinglePic/Pirates/Pirate.png")
+			CSayF("Spawned: %s",p)
+		End
+		String l = "Today_will_be_known_as_the_day_you_almost_captured_Jacob_Spreeuw"
+		Map.Spawn(l,"PirateLeader")
+		Map.SetObj(l,"TEXTURE","GFX/Actors/SinglePic/Pirates/PirateLeader.png")
+		Map.HideButLabel("Bridge")
+		Map.ShowObj("PLAYER")
+		MapText("PIRATES_C")
+		gv.gBool.AllowBeam = False
+		Map.GoToMap("Volcania - Volcanic Plains","#006","START")
+	End
+	
+	Void GoddessGone()
+		Map.HideButLabel("Licht_Uit")
+		MapText("VONDELING")
+		MapMusic()
+		Map.HideButLabel("Back")
+		Map.ShowObj("PLAYER") 
+		Player.Wind="South"
+		Map.ShowByLabel("GoddessReleased")
+		MapText("RELEASED_A")
+		Player.Reloc("GoddessFreeSpot")
+		Player.Wind="North"
+		Map.HideButLabel("Back")
+		Ach.Award("SCENARIO_GODDESSRELEASED")
+		Aurina.Rate++
+		Hawk.Add("Niz_GatePoint","Nizozemska","Space Port","Nizozemska - Space Port","SPACEPORT")
+		__hawk = "GODDESSFREE"
+	End
 
-	void Draw()
-	end
+	Void Draw()
+	End
 	
 	void Load()
 	end
