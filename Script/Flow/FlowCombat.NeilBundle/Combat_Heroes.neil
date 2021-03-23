@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.03.15
+// Version: 21.03.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -50,7 +50,20 @@ class Combat_Hero extends Combat_Fighter
 		GIIMG.Draw(x,y)
 	end
 	
-	string State = "Idle"
+	string _State = "Idle"
+	
+	set string State
+		_State = value
+	end
+	
+	get string State
+		if RPGChar[Tag].Points.HP.Have == 0
+			return "Dead"
+		else
+			return _State
+		end
+	end
+	
 	bool Pose(Act)
 		const int resettime = 62
 		static int time = 62
