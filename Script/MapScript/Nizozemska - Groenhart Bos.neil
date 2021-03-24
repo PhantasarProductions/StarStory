@@ -62,6 +62,24 @@ group MScript
 	Void ExitSouth()
 		Map.GoToMap("Nizozemska - Space Port","SPACEPORT","Start")
 	End
+	
+	Void Enter_Hut()
+		Map.GoToLayer("HUT","Enter")
+	End
+
+	Void NPC_Hut()
+		Map.GoToLayer("HUT","Enter")
+	End
+
+	Void Exit_Hut()
+		Map.GoToLayer("BOS","Start_FromHut")
+	End
+	
+	Void NPC_HKCV()
+		MapText("HKCV")
+		MapTextLeader("HKCV")
+	End
+	
 
 	Void Update()
 	End
@@ -73,7 +91,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"BeginBos","ExitSouth"}
+		ZA.TabEnter{"BeginBos","ExitSouth","Enter_Hut","EXIT_HUT"}
 	End
 
 end
