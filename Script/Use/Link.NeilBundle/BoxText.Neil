@@ -49,6 +49,9 @@ global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 end
 
+global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
+	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
+end
 
 module
 	readonly delegate Map = MapText
