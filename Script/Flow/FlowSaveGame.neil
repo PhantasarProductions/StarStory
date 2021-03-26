@@ -97,7 +97,7 @@ table GetSlot(int i)
 		nr.have = h.Map!=nil
 		nr.header = h
 		slots[i] = nr
-		print(Serialize("SaveGameSlots",slots))
+		//print(Serialize("SaveGameSlots",slots))
 	end
 	return slots[i]
 end
