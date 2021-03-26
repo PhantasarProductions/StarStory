@@ -348,6 +348,7 @@ group MScript
 		ZA.TabEnter({"Vault","OpenVaultDoor"})
 		ZA.Leave("OpenVaultDoor","CloseVaultDoor")
 		Party.Recover()
+		gv.gbool.WendickaSwitchBlocked = false
 	end
 
 end
