@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/Char/CombatMenu/ExHuRU.neil
+// src/Tricky Script/Script/Data/Char/CombatMenu/Rolf.Neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.03.26
 // End License Information
 
 table R_ExHuRU = { "Attack", "Ability","Item","Guard"}
