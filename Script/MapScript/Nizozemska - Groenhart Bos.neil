@@ -32,13 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.03.23
+// version: 21.03.26
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
+#use "Script/Use/Misc/Save1970"
 
-#MKL_Version "Star Story - Nizozemska - Groenhart Bos.neil" "21.03.23"
+#MKL_Version "Star Story - Nizozemska - Groenhart Bos.neil" "21.03.26"
 #MKL_Lic     "Star Story - Nizozemska - Groenhart Bos.neil" "Phantasar Closed License"
 
 group MScript
@@ -78,6 +79,13 @@ group MScript
 	Void NPC_HKCV()
 		MapText("HKCV")
 		MapTextLeader("HKCV")
+	End
+	
+	Void NPC_Save()
+		If !Done.XT_Computer_FirstTime
+			MapText("WELCOME_SAVE")
+		end
+		Save1970()
 	End
 	
 
