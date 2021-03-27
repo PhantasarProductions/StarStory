@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.26
+// version: 21.03.27
 // End License Information
 
 table R_ExHuRU = { "Attack", "Ability","Item","Guard"}
