@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.03.15
+// Version: 21.03.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -479,8 +479,9 @@ class FieldMonster
 			if foe.Killed
 				lnk.Unlink()
 				Map.Kill(foe.ActorTag)
-			elseif foe.Rejected
+			elseif foe.Rejected or Engaged
 				// Nothing... Just a test to see if some speed has actually been won!
+				// And when engaged nothing should happen anymore anyway.
 			elseif foe.Visible && foe.Actor.X>FldMap.ScrollX && foe.Actor.Y>FldMap.ScrollY && foe.Actor.X<FldMap.ScrollX+SW && foe.Actor.Y<FldMap.ScrollY+SH
 				foe.Check()
 			end
