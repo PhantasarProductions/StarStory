@@ -32,14 +32,15 @@
 // 
 // **********************************************
 // 
-// version: 21.03.26
+// version: 21.03.27
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/WorldMap"
 #use "Script/Use/Misc/Save1970"
 
-#MKL_Version "Star Story - Nizozemska - Groenhart Bos.neil" "21.03.26"
+#MKL_Version "Star Story - Nizozemska - Groenhart Bos.neil" "21.03.27"
 #MKL_Lic     "Star Story - Nizozemska - Groenhart Bos.neil" "Phantasar Closed License"
 
 group MScript
@@ -48,6 +49,7 @@ group MScript
 		if Done.Welcome_To_The_Groenhart_Bos
 			return
 		end
+		Spawn.Reset()
 		RPGParty[6] = "Rolf"
 		PPop.Pop("E","North")
 		Map.SetObj("PartyPopped_Rolf","Texture","GFX/Actors/Player/Rolf.South.jpbf")
@@ -88,6 +90,15 @@ group MScript
 		Save1970()
 	End
 	
+	Void ExitNorth()
+	If gv.gbool.Met_Marlon
+			WorldMap("Nizozemska")
+		Else
+			MapText("BYE")			
+			Map.GotoMap("Nizozemska - Marlon's house","OUTSIDE","Start")
+		End		
+	end
+	
 
 	Void Update()
 	End
@@ -99,7 +110,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"BeginBos","ExitSouth","Enter_Hut","EXIT_HUT"}
+		ZA.TabEnter{"BeginBos","ExitSouth","Enter_Hut","EXIT_HUT","ExitNorth"}
 	End
 
 end
