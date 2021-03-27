@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Mjolnir.neil
-// Version: 21.03.23
+// Version: 21.03.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -64,7 +64,7 @@ module
 			var tar = act.Targets[i]
 			int sw = math.random(100,1000) / 750
 			int x = math.random(tar.X - tar.W,tar.X + tar.W )
-			int y = math.tar.y
+			int y = tar.y
 			number sh = y / ILight.H 
 			Graphics.Scale(sw,sh)
 			ILight.Draw(x,y)
