@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
-// Version: 21.03.11
+// Version: 21.03.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -142,18 +142,18 @@ class CSC_Poison extends Combat_StatusChanges
 					case 1
 						tar.Pain(tar.Char.Stats.Level,"Non-Elemental")
 					case 2
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5),"Non-Elemental")
+						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 5),"Non-Elemental")
 					case 3
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 15),"Non-Elemental")
+						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 15),"Non-Elemental")
 					default
 						Lua.error("Skill error!")
 				end
 			case "Foe"
 				switch __skill
 					case 1
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 25),"Non-Elemental")
+						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 25),"Non-Elemental")
 					case 2
-						tar.Pain(math.ceil(tar.Char.Points.HP.Have / 5),"Non-Elemental")
+						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 5),"Non-Elemental")
 					case 3
 						tar.Pain(5,"Non-Elemental")
 					default
