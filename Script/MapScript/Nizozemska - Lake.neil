@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Marlon's house.neil
+// src/Tricky Script/Script/MapScript/Nizozemska - Lake.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,45 +32,53 @@
 // 
 // **********************************************
 // 
-// version: 21.03.29
+// version: 21.03.28
 // End License Information
 
-#use "Script/Use/Anyway"
-#use "Script/Use/Map/Save1970"
-#use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Nizozemska - Marlon's house.neil" "21.03.29"
-#MKL_Lic     "Star Story - Nizozemska - Marlon's house.neil" "Phantasar Closed License"
+// Well this "map" is only an event. 
+// You'll only visit this place once
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Nizozemska - Lake.neil" "21.03.28"
+#MKL_Lic     "Star Story - Nizozemska - Lake.neil" "Phantasar Closed License"
 
 group MScript
 
-	Void MeetMarlon()
-		Map.HideObj("NPC_Marlon")
-		PPop.Pop("Mar","North")
-		MapText("COMINGHOME")
-		Map.ShowObj("UpMarlon")
-		MapText("COMINGHOME2")
-		Map.GoToLayer("INSIDE","Pointer")
+	Void LakeEvent()
+		CSay("Lake event triggered")
+		Map.Spawn("AYirl","StartYirl")
+		Map.ObjSet("AYirl","Texture","GFX/Actors/Player/Yirl.North.jpbf")
+		Map.ObjWalkTo("AYirl","YirlGoTo")
+		MapText("START")
+		Map.GotoLayer("MOON","Tortelduifjes")
 		Map.HideObj("PLAYER")
-		MapText("MARLON")
-		Map.Leader="Wendicka"
-		Map.GoToMap("Nizozemska - Lake","LAKE","Start")		
-	End
-	
-	Void NaDeSeks()
-		MapText("AFTERROMANCE")
-		Party.GiveEXP(9000 div __skill)
-	End
-	
-	Void NPC_Marlon()
-		Player.Reloc("Start")
-		MapText("DOWNMARLON")
-		Save1970()
-	End
-	
-	Void NPC_Sue()
-		MapText("SUE_LEAVE")
-		WorldMap("Nizozemska")
+		Map.NewObj("Rect","Fader")
+		for k,v in pairs{["X"]=Map.CamX,["Y"]=Map.CamY,["W"]=Screen.W,["H"]=Screen.H,["R"]=255,["G"]=255,["B"]=255,["Alpha"]=0,["Dominance"]=10}
+			Map.ObjSet("Fader",k,v)
+		end
+		Map.ReMap()
+		int FA = 0
+		int CA = 255
+		int CC = 255
+		Repeat
+			FA = math.min(255,FA+1)
+			If FA>150
+				CC=math.max(0,CC-1)
+				if CC<20
+					CA--
+				End
+			End
+			Map.ObjSet("Fader","Alpha",FA)
+			Map.ObjSet("Tortelduifjes","Alpha",CA)
+			Map.SetObj("Tortelduifjes","R",CC)
+			Map.SetObj("Tortelduifjes","G",CC)
+			Map.SetObj("Tortelduifjes","B",CC)
+			Map.SkipFrames(2)
+		LoopWhile CA>0
+		Map.GoToMap("Nizozemska - Marlon's house","Outside","Start")
+		Schedule.Add("NaDeSeks")
 	End
 
 	Void Update()
@@ -83,15 +91,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		if !Done.Met_Marlon			
-			ZA.Enter("StartMarlonEvent","MeetMarlon")
-		else
-			for k in each {"Marlon","Sue"}
-				// The auto-clickable refuses to work for some odd reason.
-				ZA.Enter("Act_"..k,"NPC_"..k)
-			end
-			ZA.Enter("Leave","NPC_Sue")
-		End
+		ZA.TabEnter{"LakeEvent"}
 	End
 
 end

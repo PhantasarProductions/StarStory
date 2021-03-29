@@ -1,0 +1,140 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowWorldMap.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.29
+// End License Information
+#use "Script/Use/Anyway"
+#use "Libs/LinkedList"
+
+Class WM_Item
+	readonly string Caption
+	readonly string Map
+	readonly string Layer
+	readonly string StartPoint
+	readonly string AvailVar
+	get bool Available
+		return AvailVar=="ALWAYS" || gv.gbool[AvailVar]
+	end
+	
+	Constructor(string C,string M,string L,string S="Start",string A="ALWAYS")
+		Caption=C
+		Map=M
+		Layer=L
+		StartPoint=S
+		AvailVar=A
+	End
+End
+
+Group Worlds
+	readonly var Nizozemska
+	readonly var Phantasar
+	
+	Constructor
+		Nizozemska = New LinkedList()
+		Nizozemska.AddLast(new WM_Item("Space Port","Nizozemska - Space Port","SPACEPORT"))
+		Nizozemska.AddLast(new WM_Item("Groenhart Bos","Nizozemska - Groenhart Bos","BOS"))
+		Nizozemska.AddLast(new WM_Item("Belioss","Nizozemska - Belioss","#001"))
+		Nizozemska.AddLast(new WM_Item("Marlon's Garden","Nizozemska - Marlon's Garden","GARDEN","Start","Belioss_Complete"))
+		
+		Phantasar = New LinkedList()
+		Phantasar.AddLast(new WM_Item("Frendor Bushses - Teleport Pad","Phantasar - Frendor Bushes - Arrival","ARRIVAL"))
+		Phantasar.AddLast(new WM_Item("Frendor Bushes","Phantasar - Frendor Bushes","BUSHES"))
+		Phantasar.AddLast(new WM_Item("Frendor","Phantasar - Frendor","FRENDOR","Start","Frendor_Bushes_Complete"))
+		Phantasar.AddLast(new WM_Item("Slagimon Forest","Phantasar - Slagimon Forest","FOREST","Start","Slagimon_Unlocked"))
+		Phantasar.AddLast(new WM_Item("Ghost House","Phantasar - Ghost House","#000","Start","Slagimon_Complete"))
+		Phantasar.AddLast(new WM_Item("Mines of Airom","Phantasar - Airom","MINE","Start","Airom_Unlocked"))
+	End
+End
+
+
+group WM
+
+	string World
+	readonly var Mouse = Image.Obtain("MOUSE")
+	readonly var Fnt = ImageFont.Obtain("BIGTEXT")
+	
+	get int MX
+		return Events.MouseX()
+	end
+	
+	get int MY
+		return Events.MouseY()
+	end
+	
+	get bool ML
+		return Events.MouseHitLeft()
+	end
+	
+	void SetWorld(string W)
+		World=W
+		Music.Play("Music/World/"..W..".ogg")
+	end
+
+	void CBFlow()
+		// init
+		int y = 100
+		
+		// Header
+		__Red
+		Fnt.Text(World,Screen.W div 2, 50,2,0)
+		
+		// Items
+		For WMI in Worlds[World].Each
+			if WMI.Available
+				if MY>y && MY<y+50
+					__Cyan
+					if ML
+						Map.GoToMap(WMI.Map,WMI.Layer,WMI.StartPoint)
+						Flow.GoToFlow("FIELD")
+					end
+				else
+					__SkyBlue
+				end
+				Fnt.Text(WMI.Caption,Screen.W div 2,y,2,0)
+				y+=50
+			End
+		End
+		
+	
+		// Party
+		Party.Boxes()
+	
+		// Mouse
+		__White
+		Mouse.Draw(mx,my)		
+	end
+	
+end
+		
+global const delegate Apollo_Flow = WM.CBFlow

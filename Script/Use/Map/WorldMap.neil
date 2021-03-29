@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Map/WorldMap.neil
-// Version: 21.03.27
+// Version: 21.03.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,8 +34,15 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+
+// "World map" is a big word, as this only handles two worlds where story
+// wise, a direct link to the Hawk would be unapplicable.
 Void Ret(string kaart)
-	Lua.error("World Map ("..kaart..") has not yet been created!")
+	State.LoadNew("FLOW_WORLDMAP","Script/Flow/FlowWorldMap.neil")
+	State.Call("FLOW_WORLDMAP","WM.SetWorld",sprintf("\"%s\"",kaart))
+	Flow.GoToFlow("FLOW_WORLDMAP")
+	
 End
 
 Return Ret
