@@ -34,7 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-bool EXP0()
+bool EXP0(tar)
 	tar.char.points.EXP.Have = 0
 	tar.hurt("EXP=0")
 	return true
