@@ -40,7 +40,7 @@
 #MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.30"
 #MKL_Lic     "Star Story - Physillium - Black Castle.neil" "Phantasar Closed License"
 
-#macro Killed_Moeder gv.bool.Killed_Dard_Moeder
+#macro Killed_Moeder gv.gbool.Killed_Dard_Moeder
 
 
 group MScript
