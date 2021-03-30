@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/Resistance.neil
-// Version: 21.03.03
+// Version: 21.03.31
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,7 +39,7 @@ table CharResTables
 void NewCharRes(string char)
 	if RPGChar[char].Data.ResistanceSet != "TRUE"
 		NeilUse("Script/Data/CharacterResistance/"..char)
-		for elem in each {"Dark", "Earth", "Fire", "Frost", "Healing", "Light", "Lightning", "NonElemental"}
+		for elem in each {"Dark", "Earth", "Fire", "Frost", "Wind", "Healing", "Light", "Lightning", "NonElemental"}
 			RPGChar[char].Stat["ER_MODIFIER_"..elem] = 0
 		end
 		for status in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
@@ -60,7 +60,7 @@ void NewCharRes(string char)
 				return 0
 			case "Non-Elemental"
 				return 3			
-			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water"  
+			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water" "Wind"
 				if (char=="UniWendicka" || char=="Wendicka") && (!gv.vBool.WendickaGoddessReleased)
 					if k=="Lightning"
 						return 6

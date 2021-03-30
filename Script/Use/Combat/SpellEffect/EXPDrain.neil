@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellEffect/EXPDrain.neil
-// Version: 21.03.30
+// Version: 21.03.31
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,7 +34,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-bool EXP0(tar)
+bool EXP0(a,tar)
 	tar.char.points.EXP.Have = 0
 	tar.hurt("EXP=0")
 	return true

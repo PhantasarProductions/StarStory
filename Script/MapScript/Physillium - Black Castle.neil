@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.30
+// version: 21.03.31
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.30"
+#MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.31"
 #MKL_Lic     "Star Story - Physillium - Black Castle.neil" "Phantasar Closed License"
 
 #macro Killed_Moeder gv.gbool.Killed_Dard_Moeder
@@ -73,16 +73,16 @@ group MScript
 				StartCombat.Foe("Reg/Cid" ,Map.Level)
 				FallThrough
 			case 2
-				StartCombat.Foe("Reg/Cid",Map.Level)
+				StartCombat.Foe("Reg/Cid",Map.Level div 2)
 				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill))
-				StartCombat.Foe("Reg/Cid" ,Map.Level)				
-				StartCombat.Foe("Reg/Cid" ,Map.Level)				
-				StartCombat.Foe("Reg/Cid" ,Map.Level)				
-				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 2)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 2)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 2)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 2)				
 			case 1
-				StartCombat.Foe("Reg/Cid",Map.Level)
+				StartCombat.Foe("Reg/Cid",Map.Level div 3)
 				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill))
-				StartCombat.Foe("Reg/Cid" ,Map.Level)	
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 3)	
 			default
 				Lua.error("?")
 		end
@@ -94,6 +94,7 @@ group MScript
 	end
 	
 	Void Post_Moeder()
+		Map.Kill("Boss Moeder",true)
 		MapText("POST_MOEDER")
 		PPop.UnPop()
 		Killed_Moeder = true

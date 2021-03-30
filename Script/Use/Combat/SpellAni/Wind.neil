@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Wind.neil
-// Version: 21.03.30
+// Version: 21.03.31
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -57,8 +57,8 @@ class Tornado
 		self.List.AddLast(self)
 		self.target = tar
 		self.W = math.floor(tar.Width / 2)
-		self.X = tar.X+self.W
-		self.Y = tar.Y+tar.Height
+		self.X = tar.X //+self.W
+		self.Y = tar.Y //+tar.Height
 		CSayF("Created tornado #%09x",self.id)
 	end
 	
@@ -88,7 +88,7 @@ module
 	// module is called fo the first time in a combat.
 	// Init will be called EVERY time a move is being performed.
 	CONSTRUCTOR
-		Tornado.img = Graphics.LoadNew("GFX/Combat/SpellAni/Wind/Wind.png","SPELLANI_WIND")
+		Tornado.img = Image.LoadNew("GFX/Combat/SpellAni/Wind/Wind.png","SPELLANI_WIND")
 		Tornado.img.HotBottomCenter()
 	end
 	
