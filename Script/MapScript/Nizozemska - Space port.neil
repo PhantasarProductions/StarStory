@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.26
+// version: 21.03.29
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Nizozemska - Space port.neil" "21.03.26"
+#MKL_Version "Star Story - Nizozemska - Space port.neil" "21.03.29"
 #MKL_Lic     "Star Story - Nizozemska - Space port.neil" "Phantasar Closed License"
 
 Class Deur
@@ -64,6 +64,7 @@ Class Deur
 		IsOpen=true
 		afw=30
 	end
+	
 	
 	void Update()
 		if IsOpen && afw<30
@@ -255,7 +256,36 @@ group MScript
 		End
 	End
 	
-#region Callback
+	#region Phantasar
+	void NPC_Jimmy()
+		if !Done.UnlockPhantasar1
+			Party.GiveEXP(250)
+		End
+		MapText("JIMMY")
+	end
+	#endregion
+	
+	#region Get outta here!
+	Void NPC_Douanier()
+		Player.Wind="North"
+		MapText("DOUANE")
+		DoorsBlocked = false
+		DeurOut.Open()
+		Player.WalkTo("LeaveNizozemska")			
+		Repeat
+			Player.Wind="North"			
+			if Player.Y<288 && DeurOut.IsOpen
+				DeurOut.Close()
+			end
+			Deur.UpdateAll()
+			Map.SkipFrames(1)
+		Until DeurOut.afw<=0 && Player.Y<288 
+		Map.GoToMap("Hawk","BRIDGE","Scotty")
+	End
+	#endregion
+	
+	
+	#region Callback
 	Void Update()
 		Deur.UpdateAll()
 	End
@@ -265,7 +295,7 @@ group MScript
 	
 	Void Load()
 	End
-#endregion
+	#endregion
 	
 	CONSTRUCTOR
 		if !gv.gBool.Met_Marlon
