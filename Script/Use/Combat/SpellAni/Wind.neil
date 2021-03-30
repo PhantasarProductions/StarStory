@@ -1,0 +1,125 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/SpellAni/Wind.neil
+// Version: 21.03.30
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+#use "libs/xmath"
+#use "libs/linkedlist"
+
+
+class Tornado
+	readonly int X
+	readonly int Y
+	readonly int W
+	readonly int H
+	int id
+	var target
+	static int count
+	static var List
+	static var img
+	
+	CONSTRUCTOR(tar)
+		self.count++
+		self.id = self.count
+		self.List = self.List or new TLinkedList()
+		self.List.AddLast(self)
+		self.target = tar
+		self.W = math.floor(tar.Width / 2)
+		self.X = tar.X+self.W
+		self.Y = tar.Y+tar.Height
+		CSayF("Created tornado #%09x",self.id)
+	end
+	
+	DESTRUCTOR
+		CSayF("Destroyed tornado #%09x",self.id)
+	end
+	
+	void Draw()
+		self.img.XDraw(self.X,self.Y)
+	end
+	
+	static void All()
+		for tor,lnk in Tornado.List.Each
+			tor.Draw()
+		end
+	end
+end
+
+
+module 
+	
+	readonly int MaxCycles = 1440
+	int D = 0
+	
+	// The difference between a CONSTRUCTOR and the and Init function
+	// Is that CONSTRUCTOR is only automatically loaded when this
+	// module is called fo the first time in a combat.
+	// Init will be called EVERY time a move is being performed.
+	CONSTRUCTOR
+		Tornado.img = Graphics.LoadNew("GFX/Combat/SpellAni/Wind/Wind.png","SPELLANI_WIND")
+		Tornado.img.HotBottomCenter()
+	end
+	
+	var Act
+	
+	void Start(aact)
+		Act=aact
+		self.D=self.MaxCycles
+		//for _,t in ipairs(act.Targets)
+		for i=1,#act.Targets_Tag		
+			var t = new Tornado(act[Targets[i]])
+		end
+	end
+	
+	void Draw()
+		self.D -= 4
+		if self.D<=0
+			Tornado.List.Clear()
+			return 
+		end
+		Graphics.SetScale(1,(750+math.ceil(xmath.sin(self.D)*500))/1000)
+		Tornado.All()
+		Graphics.SetScale(1,1)
+		return 
+	end
+	
+	void Update()
+	end
+	
+	get bool Ended
+		return self.D<=0
+	end
+	
+end
