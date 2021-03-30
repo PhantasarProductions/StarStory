@@ -349,6 +349,7 @@ group MScript
 		ZA.Leave("OpenVaultDoor","CloseVaultDoor")
 		Party.Recover()
 		gv.gbool.WendickaSwitchBlocked = false
+		gv.gBool.AllowBeam=true
 	end
 
 end
