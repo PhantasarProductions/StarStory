@@ -99,7 +99,7 @@ module
 		self.D=self.MaxCycles
 		//for _,t in ipairs(act.Targets)
 		for i=1,#act.Targets_Tag		
-			var t = new Tornado(act[Targets[i]])
+			var t = new Tornado(act.Targets[i])
 		end
 	end
 	
