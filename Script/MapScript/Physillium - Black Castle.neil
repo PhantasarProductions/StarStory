@@ -74,14 +74,14 @@ group MScript
 				FallThrough
 			case 2
 				StartCombat.Foe("Reg/Cid",Map.Levevel)
-				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill)
+				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill))
 				StartCombat.Foe("Reg/Cid" ,Map.Level)				
 				StartCombat.Foe("Reg/Cid" ,Map.Level)				
 				StartCombat.Foe("Reg/Cid" ,Map.Level)				
 				StartCombat.Foe("Reg/Cid" ,Map.Level)				
 			case 1
 				StartCombat.Foe("Reg/Cid",Map.Levevel)
-				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill)
+				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill))
 				StartCombat.Foe("Reg/Cid" ,Map.Level)	
 			default
 				Lua.error("?")
