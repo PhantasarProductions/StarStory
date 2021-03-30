@@ -1,0 +1,117 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Physillium - Black Castle.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.03.30
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.30"
+#MKL_Lic     "Star Story - Physillium - Black Castle.neil" "Phantasar Closed License"
+
+#macro Killed_Moeder gv.bool.Killed_Dard_Moeder
+
+
+group MScript
+
+	Void StartRoom()
+		if !Done.Welcome_to_the_black_castle
+			PPop.Pop("Start","North")
+			MapText("WELCOME")
+			PPop.UnPop()
+			Party.GiveEXP(2500)
+		Else
+			CSay("Already been in the castle, so no welcoming event... again!")
+		End
+	End
+	
+	Void Moeder()
+		if Killed_Moeder
+			return
+		end
+		PPop.Pop("Moeder","North")
+		MapText("MOEDER")
+		
+		
+		Schedule.Add("Post_Moeder")
+		StartCombat.Prepare()
+		switch __skill
+			case 3
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level)
+				FallThrough
+			case 2
+				StartCombat.Foe("Reg/Cid",Map.Levevel)
+				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill)
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+				StartCombat.Foe("Reg/Cid" ,Map.Level)				
+			case 1
+				StartCombat.Foe("Reg/Cid",Map.Levevel)
+				StartCombat.Foe("Boss/DardMoeder",Map.Level+(__skill*__skill)
+				StartCombat.Foe("Reg/Cid" ,Map.Level)	
+			default
+				Lua.error("?")
+		end
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = "Music/SpecialBoss/Exit the Premises.ogg"
+		StartCombat.Boss = true
+		StartCombat.Arena = "Black Castle.png"
+		StartCombat.Begin()
+	end
+	
+	Void Post_Moeder()
+		MapText("POST_MOEDER")
+		PPop.UnPop()
+		Killed_Moeder = true
+		Party.GiveEXP(1500 div __skill)
+	End
+
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+		CSayF("Welcome to the Dark Side!")
+		ZA.TabEnter{"StartRoom","Moeder"}
+	End
+
+end
