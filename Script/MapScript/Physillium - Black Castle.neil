@@ -100,6 +100,19 @@ group MScript
 		Killed_Moeder = true
 		Party.GiveEXP(1500 div __skill)
 	End
+	
+	Void HideSecret()
+		static bool hsdone = false
+		if (!hsdone) && __skill!=3
+			Map.Kill("Hard Barrier")
+			hsdone=true
+		end
+		Map.HideByLabel("Secret")
+	End
+	
+	Void Secret()
+		Map.ShowByLabel("Secret")
+	End
 
 	Void Update()
 	End
@@ -112,7 +125,9 @@ group MScript
 	
 	CONSTRUCTOR
 		CSayF("Welcome to the Dark Side!")
-		ZA.TabEnter{"StartRoom","Moeder"}
+		ZA.TabEnter{"StartRoom","Moeder","Secret"}
+		ZA.Enter("Main" ,"HideSecret")
+		ZA.Enter("Main2","HideSecret")
 	End
 
 end
