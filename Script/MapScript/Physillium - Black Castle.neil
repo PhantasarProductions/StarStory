@@ -113,6 +113,68 @@ group MScript
 	Void Secret()
 		Map.ShowByLabel("Secret")
 	End
+	
+	Void BossZone()
+		PPop.Pop("Boss","North")
+		MapText("Boss")
+		Schedule.Add("Post_Boss")
+		StartCombat.Prepare()
+		switch __skill
+			case 3
+				StartCombat.Foe("Reg/Cid" ,Map.Level)
+				StartCombat.Foe("Reg/Cid" ,Map.Level)
+				StartCombat.Foe("Reg/Cid" ,Map.Level)
+				FallThrough
+			case 2
+				StartCombat.Foe("Reg/Cid",(Map.Level div 4)*3)
+				StartCombat.Foe("Boss/DardBoorth",Map.Level+(__skill*__skill))
+				StartCombat.Foe("Reg/Cid" ,(Map.Level div 4)*3)
+				StartCombat.Foe("Reg/Cid" ,(Map.Level div 4)*3)
+				StartCombat.Foe("Reg/Cid" ,(Map.Level div 4)*3)
+				StartCombat.Foe("Reg/Cid" ,(Map.Level div 4)*3)
+			case 1
+				StartCombat.Foe("Reg/Cid",Map.Level div 3)
+				StartCombat.Foe("Boss/DardBoorth",Map.Level+(__skill*__skill))
+				StartCombat.Foe("Reg/Cid" ,Map.Level div 3)	
+			default
+				Lua.error("?")
+		end
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = "music/SpecialBoss/Back to Darkness.ogg"
+		StartCombat.Boss = true
+		StartCombat.Arena = "Black Castle.png"
+		StartCombat.Begin()	
+	End
+	
+	Void Post_Boss()
+		Map.Kill("BossZone",true)
+		Map.Kill("Boss",true)
+		Party.GiveEXP(1000)
+		PPop.UnPop()
+		Aurina.Rate++
+		Self.bach()
+	End
+	
+	Void BAch()
+		if !Done.Kill_DardBoorth
+			Ach.Award("BOSSDARDBOORTH")
+		end
+	end
+	
+	Void NPC_AurinaKast()
+		if !Done.AurinaKast_BlackCastle
+			Aurina.Rate = math.min((600 div __skill),Aurina.Rate*(4-__skill))
+			Party.GiveEXP(9000 div __skill)
+		end
+		CSayF("Aurina rate is now: %d credits per aurina",Aurina.Rate)
+	End
+	
+	Void NPC_AppBestiary()
+		gv.gbool.FOUNDAPP_BESTIARY=true
+		MapText("BESTIARY")
+		Party.GiveEXP(9000 div __skill)
+		Map.Kill("NPC_AppBestiary",true)
+	End
 
 	Void Update()
 	End
@@ -125,7 +187,7 @@ group MScript
 	
 	CONSTRUCTOR
 		CSayF("Welcome to the Dark Side!")
-		ZA.TabEnter{"StartRoom","Moeder","Secret"}
+		ZA.TabEnter{"StartRoom","Moeder","Secret","BossZone","BAch"}
 		ZA.Enter("Main" ,"HideSecret")
 		ZA.Enter("Main2","HideSecret")
 	End
