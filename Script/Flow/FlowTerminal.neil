@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowTerminal.neil
-// Version: 21.03.17
+// Version: 21.03.31
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -93,7 +93,7 @@ Init
 	AppList.AddLast(new TApp("Tutor",ChainTutorial))
 	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
 	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
-	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARI"))
+	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARY"))
 	AppList.AddLast(new TApp("Quit",Quit))
 End
 
