@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.04.01
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Vulpina - Town.neil" "21.03.17"
+#MKL_Version "Star Story - Vulpina - Town.neil" "21.04.01"
 #MKL_Lic     "Star Story - Vulpina - Town.neil" "Phantasar Closed License"
 
 group MScript
@@ -56,6 +56,15 @@ group MScript
 		Map.Kill("Geheel")
 		if !gv.gbool.UnlockPhantasar1
 			Map.Kill("NPC_Vulpivix")
+		end
+	End
+	
+	Void NPC_Vulpivix()
+		MapText("VULPIVIX")
+		if !Done.UnlockPhantasar2
+			Party.GiveEXP(110000)
+			Aurina.Rate+=24 div __skill
+			Hawk.Add("Start","Phantasar","Frendor Bushes","Phantasar - Frendor Bushes - Arrival","ARRIVAL")
 		end
 	End
 	
