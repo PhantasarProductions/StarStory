@@ -162,3 +162,12 @@ global void CONSOLE_Tags(para)
 		end
 	end
 end
+
+global void CONSOLE_Scotty()
+	if FldMap.LoadedMap:upper()=="HAWK" 
+		CSay("You're already on board the Hawk, silly!")
+		return
+	end
+	CSay("Beam me up, Scotty!") // Funny that nobody ever said this in the entire Star Trek franchise.	
+	Trans.Scotty()
+end
