@@ -107,7 +107,8 @@ module
 	end
 	
 	CONSTRUCTOR
-		Ability = { ["TRIGGERHAPPY"] = 1400, ["TAUNT"] = 1800, ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
+		Ability = { ["TRIGGERHAPPY"] = 1400,  ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
+		// ["TAUNT"] = 1800,
 	end
 	
 end
