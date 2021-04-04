@@ -216,6 +216,8 @@ class FieldMonster
 				Actor.WalkTo(retX,retY)
 			end
 		elseif Actor.X>=FldMap.ScrollX && Actor.Y>=FldMap.ScrollY && Actor.X<=FldMap.ScrollX+Screen.W && Actor.Y<=FldMap.ScrollY+Screen.H
+		//	CheckToChase()
+		//elseif false
 			switch move
 				case "VT"
 					Actor.Y += mv
