@@ -19,12 +19,22 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/Save1970"
 
 #MKL_Version "Star Story - None.neil" "21.03.15"
 #MKL_Lic     "Star Story - None.neil" "ZLib License"
 
 group MScript
 
+	Void To6()
+		Map.GoToLayer("#006","Start")
+	end
+	
+	
+
+	Void NPC_SaveSpot()
+		Save1970()
+	End
 
 	Void Update()
 	End
