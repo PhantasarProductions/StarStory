@@ -42,6 +42,9 @@
 
 group MScript
 
+	Void Bye()
+		Map.GoToMap("Nizozemska - Belioss","#007","FromSide")
+	End
 
 	Void Update()
 	End
@@ -53,6 +56,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
+		ZA.TabEnter{"Bye"}
 	End
 
 end
