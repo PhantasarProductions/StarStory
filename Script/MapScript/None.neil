@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/MapScript/None.neil
 // Basic MapScript Template
-// version: 21.03.15
+// version: 21.04.08
 // Copyright (C) 2020, 2021 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -20,7 +20,7 @@
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - None.neil" "21.03.15"
+#MKL_Version "Star Story - None.neil" "21.04.08"
 #MKL_Lic     "Star Story - None.neil" "ZLib License"
 
 group MScript

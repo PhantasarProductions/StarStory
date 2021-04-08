@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Belioss.neil
+// src/Tricky Script/Script/MapScript/Nizozemska - Dark Graveyard.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -36,39 +36,12 @@
 // End License Information
 
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/Save1970"
 
-#MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.08"
-#MKL_Lic     "Star Story - Nizozemska - Belioss.neil" "Phantasar Closed License"
+#MKL_Version "Star Story - Nizozemska - Dark Graveyard.neil" "21.04.08"
+#MKL_Lic     "Star Story - Nizozemska - Dark Graveyard.neil" "Phantasar Closed License"
 
 group MScript
 
-	Void To6()
-		Map.GoToLayer("#006","Start")
-	End
-	
-	Void To4()
-		Map.GoToLayer("#004","From6")
-	End
-
-	Void NPC_SaveSpot()
-		Save1970()
-	End
-	
-	Void HSecret()
-		Map.ShowButLabel("Secret")
-		Map.ShowByLabel("Base")
-		Map.ShowObj("PLAYER")
-	End
-	
-	Void SSecret()
-		Map.HideButLabel("Secret")
-		Map.ShowObj("PLAYER")
-	End
-	
-	Void SideQuest()
-		Map.GoToMap("Nizozemska - Dark Graveyard","GRAVEYARD","Start")
-	End
 
 	Void Update()
 	End
@@ -80,13 +53,6 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"To6","To4","SideQuest"}
-		For i=1,4
-			ZA.Enter("Base"..i,"HSecret")
-			If i<=2
-				ZA.Enter("Secret"..i,"SSecret")
-			End
-		End
 	End
 
 end
