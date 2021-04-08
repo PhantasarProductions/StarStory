@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 21.03.04
+// Version: 21.04.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -84,7 +84,22 @@ end
 global void CONSOLE_MyPos()
 	CSayF("Player coordinates (%4d,%4d) - Wind: %s",GrPlayer.X,GrPlayer.Y,GrPlayer.Wind)
 	CSayF("Player grid coordinates (%4d,%4d)",GrPlayer.X div 32,GrPlayer.Y div 32)
+	if (!GrPlayer.Visible) 
+		CSay("Warning! Player is hidden!")
+	end
 end
+
+global void CONSOLE_Reloc(para)
+	if para==nil or #para<1
+		CSay("Invalid number of parameters")
+	elseif !FldMap.CurLayer.HasTag(para[1])
+		CSay("Spot "..para[1].." doesn't exist")
+	else
+		CSay("Spot "..para[1].." relocation executed")
+		GrPlayer.MoveTo(para[1])
+	end
+end
+
 
 global void CONSOLE_MoveTo(para)
 	if para==nil or #para<1
