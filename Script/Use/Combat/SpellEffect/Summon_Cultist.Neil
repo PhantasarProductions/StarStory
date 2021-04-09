@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Dark Graveyard.neil
+// src/Tricky Script/Script/Use/Combat/SpellEffect/Summon_Cid.Neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,37 +32,10 @@
 // 
 // **********************************************
 // 
-// version: 21.04.08
+// version: 21.03.30
 // End License Information
-
-#use "Script/Use/Anyway"
-
-#MKL_Version "Star Story - Nizozemska - Dark Graveyard.neil" "21.04.08"
-#MKL_Lic     "Star Story - Nizozemska - Dark Graveyard.neil" "Phantasar Closed License"
-
-group MScript
-
-	Void Bye()
-		Map.GoToMap("Nizozemska - Belioss","#007","FromSide")
-	End
-	
-void Boss()
-		Int BossLevel = 200 * Caps.Cycle
-		StartCombat.Foe("Boss/Cultist Leader",BossLevel)
-	end
-		
-
-	Void Update()
-	End
-
-	Void Draw()
-	End
-	
-	Void Load()
-	End
-	
-	CONSTRUCTOR
-		ZA.TabEnter{"Bye"}
-	End
-
+bool Cultist_Oproep()
+	Combat_Foe.AddFoe("Reg/Cultist",math.random(1,math.min(10,100*Caps.Cycle)))
+	return true
 end
+return Cultist_Oproep

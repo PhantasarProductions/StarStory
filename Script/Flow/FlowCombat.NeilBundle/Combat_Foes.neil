@@ -103,7 +103,17 @@ class Combat_Foe extends Combat_Fighter
 		if not RawData
 			Lua.error("No raw data so I cannot retrieve the image file for foe: "..Tag)
 		end
-		return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
+				// Cultist texture change
+		static table Sex = {"Male","Female"}
+		switch RawData.ImageFile:upper()
+			case "*CULTIST"
+				return "GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[math.random(1,#Sex)]..".png"
+			case "*CULTISTLEADER"
+				return "GFX/Combat/Fighters/Foe/Reg/Cultist Leader "..Sex[math.random(1,#Sex)]..".png"
+			default
+				return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
+		end
+
 	end
 	var _Img
 	get var Img
@@ -416,7 +426,7 @@ class Combat_Foe extends Combat_Fighter
 		cnt++
 		RawData = Lua.Neil.Use("Script/Data/Foe/"..F)
 		Level = Lvl
-		Fighter.Fighters[Tag] = self		
+		Fighter.Fighters[Tag] = self
 		// Compile Foe into workable data during combat
 		CSayF("Compiling Foe %d: %s (%s) to tag %s",idx,RawData.Name,F,Tag)
 		RPGChar.Create(Tag,RawData.Name)
@@ -425,7 +435,8 @@ class Combat_Foe extends Combat_Fighter
 		int ldif
 		int lvmin = RawData.Stat.LevelRange[1]
 		int lvmax = RawData.Stat.LevelRange[2]
-		self.Gauge = Lua.math.random(200*__skill,3210/__skill)
+		self.Gauge = Lua.math.random(200*__skill,3210/__skill)		
+		
 		// Code below is merely copied from the original Lua code
 		// The field foe was replaced by self, although Neil doesn't need it
 		// it was merely done to prevent confusion for myself.
