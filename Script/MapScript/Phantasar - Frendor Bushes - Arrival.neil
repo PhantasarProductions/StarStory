@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.08
+// version: 21.04.10
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "21.04.08"
+#MKL_Version "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "21.04.10"
 #MKL_Lic     "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "Phantasar Closed License"
 
 group MScript
@@ -66,7 +66,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"Base","Bye"}
+		ZA.TabEnter{"Bye"}
 	End
 
 end

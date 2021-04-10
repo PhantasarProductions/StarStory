@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Dark Graveyard.neil
+// src/Tricky Script/Script/MapScript/Phantasar - Frendor Bushes.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,27 +32,27 @@
 // 
 // **********************************************
 // 
-// version: 21.04.09
+// version: 21.04.10
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Nizozemska - Dark Graveyard.neil" "21.04.09"
-#MKL_Lic     "Star Story - Nizozemska - Dark Graveyard.neil" "Phantasar Closed License"
+#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.10"
+#MKL_Lic     "Star Story - Phantasar - Frendor Bushes.neil" "Phantasar Closed License"
 
 group MScript
 
-	Void Bye()
-		Map.GoToMap("Nizozemska - Belioss","#007","FromSide")
+#region Script
+	Void ExitSouthWest()
+		WorldMap("Phantasar")
 	End
+#endregion
 	
-void Boss()
-		Int BossLevel = 200 * Caps.Cycle
-		StartCombat.Foe("Boss/Cultist Leader",BossLevel)
-	end
-		
-
+#region Callbacks
 	Void Update()
+		Phan_Encounter.Check()
 	End
 
 	Void Draw()
@@ -60,9 +60,11 @@ void Boss()
 	
 	Void Load()
 	End
-	
+#endregion
+
 	CONSTRUCTOR
-		ZA.TabEnter{"Bye"}
+		ZA.TabEnter{"ExitSouthWest"}
+		Phan_Encounter.SetUp()
 	End
 
 end

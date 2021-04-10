@@ -32,17 +32,19 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.04.10
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.03.03"
+#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.04.10"
 #MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
 
 group MScript
+
+	bool NotTheGirls = false
 
 	void Update()
 	end
@@ -114,10 +116,27 @@ group MScript
 		end
 	End
 	
+	void NPC_MindTrick()
+		if NotTheGirls
+			MapText("MIND")
+			Beam.Quick("ACT_MindTrick",true,true)
+			MapText("MIND_A")
+			Party.GiveEXP(10000)
+			Aurina.Rate+=(90 div __skill)
+			gv.gbool.TheseAreNotTheGirlsYoureLookingFor=true
+			NotTheGirls=false
+		end
+	end
+	
 	CONSTRUCTOR
 		for z in each {"IntroBar","Jungle","EnterPub"}
 			ZA.Enter(z,z)
 		end
+		If (gv.gbool.WendickaFreedFacility) && (!gv.gbool.TheseAreNotTheGirlsYoureLookingFor)
+			NotTheGirls=true
+			Map.Spawn("ACT_MindTrick","MindTrick")
+			Map.SetObj("ACT_MindTrick","Texture","GFX/ACTORS/SINGLEPIC/PIRATES/PIRATE.PNG")
+		End
 	end
 
 end

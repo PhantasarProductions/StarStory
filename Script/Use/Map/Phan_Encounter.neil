@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Map/Phan_Encounter.neil
-// Version: 21.04.08
+// Version: 21.04.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,5 +35,94 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 module
+	ReadOnly Int EncReset = 500
+	int Enc=550
+	table NoWay
+	
+	get int EncBlck
+		switch __skill
+			case 1
+				return 100
+			case 2
+				return 450
+			case 3
+				return 950
+			default
+				return 1000
+		end
+	end
+
+	get table Foes
+		table ret
+		//for i = 1 , math.min(gv.vint.Cycle,5)
+			var l = Map.Meta.Foes
+			table ketting = Split(l,";")
+			for it in each (ketting)
+				table thisitem = Split(it,",")
+				switch #thisitem
+					case 1
+						ret += thisitem[1]
+					case 2
+						for j=1,(lua.tonumber(thisitem[2]) or 1)
+							ret += thisitem[1]
+						end
+					default
+						lua.error("Foe chain syntax error")
+				end
+			end
+		//end
+		return ret
+	end
+	
+	Void Engage()
+		Player.StopWalking()
+		if !Done["PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_"..Map.Leader]
+			BoxText.Serial("PHANTASAR","RAND."..(Map.Leader:upper()))
+		end
+		var F = Foes
+		int num = 3
+		if math.random(0,10)<=__skill^2
+			num = 6
+		end
+		if math.random(0,15)<=__skill^2
+			num = 9
+		end
+		StartCombat.Prepare()
+		for i=1,num
+			StartCombat.Foe("Reg/"..F[math.random(1,#F)] ,math.random(Map.MinFoeLevel,Map.MaxFoeLevel))
+		end
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = Map.Meta.AltEncounterTune
+		StartCombat.Boss = false
+		StartCombat.Arena = Map.Meta.Arena
+		StartCombat.Begin()
+	End
+		
+
+	Void Setup(table ANW)
+		NoWay = {}
+		for A in each(ANW || {})
+			NoWay[A] = true
+			// This is faster!
+		end
+		BoxText.Load("PHANTASAR","GENERAL/PHANTASAR")
+	end
+	
+	Void Check()
+		static int OPX
+		static int OPY
+		if NoWay[Map.Layer] && Enc<EncReset
+			Enc++
+		elseif OPX!=Player.X && OPX!=Player.Y
+			OPX=Player.X 
+			OPX=Player.Y
+			Enc--
+			if Enc<EncBlck && math.random(1,Enc)==1
+				Engage()
+				Enc = EncReset
+			end	
+		end
+	end
+		
 
 end

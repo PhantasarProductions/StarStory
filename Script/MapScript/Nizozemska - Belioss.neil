@@ -32,13 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.04.08
+// version: 21.04.10
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/Save1970"
+#use "Script/Use/Map/Worldmap"
 
-#MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.08"
+#MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.10"
 #MKL_Lic     "Star Story - Nizozemska - Belioss.neil" "Phantasar Closed License"
 
 group MScript
@@ -69,6 +70,37 @@ group MScript
 	Void SideQuest()
 		Map.GoToMap("Nizozemska - Dark Graveyard","GRAVEYARD","Start")
 	End
+	
+	Void Boss()
+		switch(__skill)
+			case 1
+				StartCombat.Foe("Boss/Thief Chief",Map.Level)
+			case 2
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Boss/Thief Chief",Map.Level)
+				StartCombat.Foe("Reg/Thief",Map.Level-5)
+			case 3
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Boss/Thief Chief",Map.Level)
+				StartCombat.Foe("Reg/Thief",Map.Level-5)
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+				StartCombat.Foe("Reg/Thief",Map.Level-5)			
+			default
+				Lua.error("Skill error!")
+		end
+	end
+	
+	Void Complete()
+		If !Done.Belioss_Complete
+			Party.GiveEXP(1000)
+			__hawk = "MARLON"
+		End
+		WorldMap("Nizozemska")
+	End
 
 	Void Update()
 	End
@@ -80,7 +112,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"To6","To4","SideQuest"}
+		ZA.TabEnter{"To6","To4","SideQuest","Complete"}
 		For i=1,4
 			ZA.Enter("Base"..i,"HSecret")
 			If i<=2

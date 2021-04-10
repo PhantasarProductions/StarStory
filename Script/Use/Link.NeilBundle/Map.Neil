@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.03.23
+// Version: 21.04.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -329,6 +329,16 @@ group Link_Map
 		end
 	end
 	
+	readonly var Meta = {}
+	
+	get int MinFoeLevel
+		return ISGET.INT("FLOW_FIELD","FldMap.MinLevel")
+	end
+	
+	get int MaxFoeLevel
+		return ISGET.INT("FLOW_FIELD","FldMap.MinLevel")
+	end
+	
 	CONSTRUCTOR
 		table m
 		m = {}
@@ -341,6 +351,12 @@ group Link_Map
 		end
 		m.__index = idx
 		Lua.setmetatable(MapScript,m)
+		
+		string MetaIndex(s,string key)
+			//CSayF("Remoye Map Meta Request: %s",key)
+			return ISGET.STRING("FLOW_FIELD",sprintf("FldMap.KthuraMap.Meta[\"%s\"]",key))
+		end
+		Lua.setmetatable(Meta,{["__index"]=MetaIndex})
 	end
 	
 end
