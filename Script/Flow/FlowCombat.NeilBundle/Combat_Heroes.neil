@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.03.22
+// Version: 21.04.11
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -263,6 +263,7 @@ group Stage_SelectTarget
 		CSay("Player must select their target")
 		Act = Action
 		Stage.Current = self
+		CSay("Stage changed!")
 	end
 	
 	void Draw()
