@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_Action.neil
-// Version: 21.03.03
+// Version: 21.04.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -136,6 +136,7 @@ Class Class_Action
 	end
 	
 	Destructor
-		CSayF("Action #%d has been destroyed and been detached from fighter '%s'",ID,Executor_Tag)
+		Print("Action Destructor")
+		//CSayF("= Action #%d has been destroyed and been detached from fighter '%s'",ID,Executor_Tag)
 	end
 End
