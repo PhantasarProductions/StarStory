@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Victory.neil
-// Version: 21.03.03
+// Version: 21.04.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -68,6 +68,7 @@ module
 			if Start.RemoveBarrier!=""
 				Map.Kill(Start.RemoveBarrier)
 			end
+			Combat_Hero.AllUpAP()
 			Party.NoDeath()
 		end
 	end
