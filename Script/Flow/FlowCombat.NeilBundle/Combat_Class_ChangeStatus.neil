@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
-// Version: 21.03.27
+// Version: 21.04.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -136,6 +136,8 @@ class CSC_Poison extends Combat_StatusChanges
 	end
 	
 	void PreTurn(tar)
+		CSay("Poison Damage!")
+		CSayF("= Team: %s",tar.Team)
 		switch tar.Team
 			case "Hero"
 				switch __skill
