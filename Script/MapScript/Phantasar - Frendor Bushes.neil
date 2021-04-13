@@ -32,22 +32,48 @@
 // 
 // **********************************************
 // 
-// version: 21.04.11
+// version: 21.04.14
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.11"
+#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.14"
 #MKL_Lic     "Star Story - Phantasar - Frendor Bushes.neil" "Phantasar Closed License"
 
+void GreenSave()
+	Party.Recover()
+	MSave.ToSave()
+End
+
 group MScript
+
+#region Save Spots
+	readonly delegate NPC_GREEN_1 = GreenSave
+	readonly delegate NPC_GREEN_2 = GreenSave
+	readonly delegate NPC_GREEN_3 = GreenSave
+#endregion
 
 #region Script
 	Void ExitSouthWest()
 		WorldMap("Phantasar")
 	End
+	
+	Void ExitNorthEast()
+		If !Done.Frendor_Bushes_Complete
+			Party.GiveExp(9000-(__skill*3000))
+			Aurina.Rate+=(90 div __skill)
+		End
+		WorldMap("Phantasar")
+	End
+	
+	Void Boss()
+		gv.gbool.CombatMusicForcedSet = true
+		StartCombat.Foe("Boss/GiantSnake",RPGChar.Wendicka.Stat.Level)
+		StartCombat.Tune = "Music/Combat/Phantasar/Boss.ogg"
+	End
+	
 #endregion
 	
 #region Callbacks
@@ -63,7 +89,7 @@ group MScript
 #endregion
 
 	CONSTRUCTOR
-		ZA.TabEnter{"ExitSouthWest"}
+		ZA.TabEnter{"ExitSouthWest","ExitNorthEast"}
 		Phan_Encounter.SetUp()
 	End
 
