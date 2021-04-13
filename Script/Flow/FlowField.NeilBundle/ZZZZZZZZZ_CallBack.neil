@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.03.03
+// Version: 21.04.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -90,6 +90,9 @@ global void FullDrawScreen(noauto)
 		GStat(FldMap.KthuraMap.Meta.Title)
 		if Prefixed(FldMap.Layer,"#")
 			GStat("Area: "..FldMap.Layer)
+		end
+		if gv.gbool.Shilder1st
+			GStat(sprintf("Shilders: %d",Aurina.Shilders))
 		end
 		GStat(sprintf("Credits: %d",Aurina.Cash))
 		GStat(sprintf("Aurinas: %d",__aurinas))
