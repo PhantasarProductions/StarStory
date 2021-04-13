@@ -1,0 +1,172 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Phantasar - Frendor.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.04.14
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.04.14"
+#MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
+
+#macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
+
+group MScript
+
+#region Alt save spot
+	Void NPC_SaveSpot()
+		Party.Recover()
+		Spawn.Reset()
+		MSave.ToSave()
+	End
+#endregion
+
+#region NPC
+	Void QTaal(string niet,string wel)
+		if TaalGeleerd
+			MapText(wel)
+		else
+			MapText(niet)
+		end
+	End
+	
+	Void QQTaal(string Pers)
+		QTaal(Pers..".CANNOTSPEAK",Pers.."CANSPEAK")
+	End
+
+	Void NPC_Feenalaria()
+		if !TaalGeleerd
+			MapText("FEENA_HUH")
+			return
+		end
+		Lua.error("Feenalaria not yet scripted")
+	end
+	
+	Void NPC_Irravonia()
+		QQTaal("IRRAVONIA")
+	End
+	
+	Void NPC_Scyndi()
+		QQTaal("SCYNDI")
+	End
+	
+	Void NPC_Rachel()
+		if !TaalGeleerd
+			MapText("RACHEL.CANNOTSPEAK")
+			return
+		end
+		Lua.error("Rachel not yet fully scripted")
+	End
+	
+	Void NPC_Merya()
+		QQTaal("MERYA")
+		if !TaalGeleerd
+			return
+		end
+		Lua.error("Merya's further script not yet done!")
+	End
+	
+	Void NPC_Merchant()
+		QQTaal("MERCHANT")
+		if TaalGeleerd
+			Lua.error("Merchant not yet scripted!")
+		end
+	End
+	
+	
+#endregion
+
+#region Other scripts
+
+	Bool DoesCrystalHaveAllARMS()
+		Table ARMS = {}
+		ARMS += "DART"
+		ARMS += "HEALINGSPRAY"
+		ARMS += "WATERGUN"
+		ARMS += "POISONDART"
+		ARMS += "VIRUSBOMB"
+		ARMS += "MUNCHHAUSEN"
+		ARMS += "MULTIBLAST"
+		ARMS += "FLAMETHROWER"
+		ARMS += "MINICANNON"
+		ARMS += "ICEBULLET"
+		ARMS += "STUN_GUN"
+		ARMS += "DOPING_SHOT"
+		ARMS += "BIOHAZARD"
+		ARMS += "HEALINGSHOWER"
+		ARMS += "ROCKTHROWER"
+		ARMS += "NAPALMSHOWER"
+		ARMS += "RISINGNOVAARMS"
+		bool ret = true                      
+		bool have
+		for ARM in each(ARMS) 
+ 			//have = RPGChar.ListHas('Crystal','ARMS',ARM)==1
+ 			have = RPGChar.Crystal.List.ARMS.Has(ARM)
+ 			ret = ret && have
+ 			CSay("Check ARM: "..ARM.."  => "..tostring(have).." == ret> "..tostring(ret))
+ 		end
+ 		return ret
+ 	end
+ 	
+ 	Void StartZone() 		
+ 		if !DoesCrystalHaveAllARMS()
+ 			Map.Kill("NPC_Rachel")
+ 			CSay("As Crystal does not yet have all ARMS, Rachel should not be present on the map")
+ 		end
+ 		if !gv.gBool.Completed_GhostHouse
+ 			Map.Kill("NPC_MT_MARRILONA")
+ 			CSay("Marrilona's not here yet. Finish the ghost house first!")
+ 		end
+ 		Map.Kill("StartZone")
+ 	End
+	
+#endregion
+
+
+#region Just the required callbacks that had to be there
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+#endregion
+	
+	CONSTRUCTOR
+		ZA.TabEnter{"StartZone"}
+	End
+
+end
