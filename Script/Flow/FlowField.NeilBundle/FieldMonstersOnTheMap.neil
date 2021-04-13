@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.04.08
+// Version: 21.04.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -179,7 +179,9 @@ class FieldMonster
 		end
 		StartCombat.Boss = Boss
 		StartCombat.Arena = Map.KthuraMap.Meta.Arena
-		if Map.KthuraMap.Meta.AltEncounterTune!=""
+		if gv.gbool.CombatMusicForcedSet
+			gv.gbool.CombatMusicForcedSet=false
+		elseif Map.KthuraMap.Meta.AltEncounterTune!=""
 			StartCombat.Tune = Map.KthuraMap.Meta.AltEncounterTune
 		elseif Boss
 			StartCombat.Tune = StartCombat.RandomBossTune
