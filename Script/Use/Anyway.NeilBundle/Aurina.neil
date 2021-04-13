@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.04.12
 // End License Information
 
 
@@ -147,10 +147,11 @@ module
 		ChaChing()
 	end
 	
-	get int Shilders
+	get int Shilders	
 		return g.gv.gint.Shilders
 	end
 	set int Shilders
+		g.gv.gbool.Shilder1st=true
 		g.gv.gint.Shilders=value
 	end
 	
