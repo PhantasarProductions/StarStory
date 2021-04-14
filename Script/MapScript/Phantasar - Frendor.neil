@@ -62,7 +62,7 @@ group MScript
 	End
 	
 	Void QQTaal(string Pers)
-		QTaal(Pers..".CANNOTSPEAK",Pers.."CANSPEAK")
+		QTaal(Pers..".CANNOTSPEAK",Pers..".CANSPEAK")
 	End
 
 	Void NPC_Feenalaria()
@@ -104,6 +104,19 @@ group MScript
 		end
 	End
 	
+	Void NPC_Rosetta()
+		If TaalGeleerd
+			MapText("ROSETTA")
+		Else
+			MapText("ROSETTA_PRE")
+			PPop.Pop("Rosetta","North")
+			MapText("ROSETTA_FIRST")
+			TaalGeleerd = true
+			Party.GiveEXP(1000)
+			Aurina.Rate++
+			PPop.UnPop()
+		End
+	End
 	
 #endregion
 
@@ -149,6 +162,7 @@ group MScript
  			CSay("Marrilona's not here yet. Finish the ghost house first!")
  		end
  		Map.Kill("StartZone")
+ 		Map.HideObj("Feena_Reggie")
  	End
 	
 #endregion
