@@ -1,0 +1,132 @@
+Module
+
+	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT") 
+	
+	Table Stock
+	Bool IsReset
+	
+	get int my
+		return Events.MouseY()
+	end
+	
+	get int mx 
+		return Events.MouseX()
+	end
+	
+	get bool mr
+		return Events.MouseHitRight()
+	end
+	
+	get bool ml
+		return Events.MouseHitLeft()
+	end
+	
+	bool InStock(string itm)
+		itm=itm:upper()
+		If (!prefixed(itm,"PHANTASAR_")) 
+			itm = "PHANTASAR_"..itm
+		End
+		for k in each(Stock)
+			if itm==k
+				return true
+			end
+		end
+		return false
+	End
+
+	Void UpdateStock()
+		// Init stock
+		Stock = Split(gv.gString.PhantasarStock,";")
+		If #Stock==0 
+			Stock={"PHANTASAR_APPLE"}
+		End
+		
+		// Scan all inventories
+		For chi=1,6
+			Var ch=RPGParty[chi]
+			If ch!=""
+				For i=1,Caps.InventorySockets
+					String ittag = RPGChar[ch].Data[sprintf("INVITEM%d",i)]:upper()
+					If Prefixed(ittag,"PHANTASAR_") && (!InStock(ittag))
+						Stock += ittag
+					End
+				End
+			End
+		End
+		
+		// Scan the vault
+		For vi In Vault.Each
+			If Prefixed(vi,"PHANTASAR_") && (!InStock(vi))
+				Stock += vi
+			End
+		End
+		
+		// Update the Stock Storage
+		Lua.table.sort(Stock)
+		String sstock
+		For i,v in ipairs(Stock)
+			If i>2
+				sstock+=";"
+			End
+			sstock+=v
+		End
+	End
+	
+	Void Buy(string CharTag, string ItemTag, bool Instant)
+		if Item["ITM_"..ItemTag].ITM_ShilderPrice>Aurina.Shilders
+			return
+		end
+		if Instant
+			if !Item.Give(ItemTag,CharTag)
+				CSayF("Giving item '%s' to %s failed",ItemTag,CharTag) 
+				return
+			end
+		else
+			itmod.citem=ItemTag
+			itmod.rcitem = "SHOP"
+			itmod.rsitem = 0
+		end
+		Aurina.ChaChing()
+		Aurina.Shilders-=Item["ITM_"..ItemTag].ITM_ShilderPrice
+		if math.random(1,__skill*(__skill*10))<math.random(1,Item["ITM_"..ItemTag].ITM_ShilderPrice)
+			Aurina.Rate++
+		end
+	end
+	
+	Void Flow(uBox,string CharTag,string situation)
+		string HoverText = ""
+		If !IsReset
+			UpdateStock()
+			IsReset=true
+		End
+		__Red
+		Fnt.Text("Sellameria's Item Shop",ubox.x+(ubox.w div 2),ubox.y+20,2,0)
+		For idx,tag in ipairs(Stock)
+			int y = ubox.y+20+(idx*25)
+			bool hover
+			if mx>ubox.x && my>y && mx<ubox.x+ubox.w && my<y+25
+				__Cyan
+				hover=true
+				HoverText = Item["ITM_"..tag].Description
+				if ml || mr
+					Buy(CharTag,tag,mr)
+				end
+			else
+				__SkyBlue
+			end
+			Fnt.Text(Item["ITM_"..tag].Name,ubox.x + 20, y)
+			if Aurina.Shilders<Item["ITM_"..tag].ITM_ShilderPrice
+				__Red
+			elseif hover
+				__Yellow
+			else
+				__Ember
+			end
+			Fnt.Text(sprintf("%d shilders",Item["ITM_"..tag].ITM_ShilderPrice),(ubox.x+ubox.w)-20,y,1,0)
+		End
+		__White
+		FitText.Dark(Fnt,HoverText,mx+20,my+20)
+		Fnt.Text(sprintf("Shilders: %d",Aurina.Shilders),ubox.x+40,ubox.y+ubox.h,0,1)
+	End
+	
+End

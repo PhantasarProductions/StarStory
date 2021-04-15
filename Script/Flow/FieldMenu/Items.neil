@@ -134,7 +134,7 @@ module
 				end
 				if ml
 					switch situation:upper()
-						case "FIELD" "VAULT" "COMBAT_ITEMS" "SHOP"
+						case "FIELD" "VAULT" "COMBAT_ITEMS" "SHOP" "PHANSHOP"
 							CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
 							if cItem=="" and itamt==0
 								CSayF("Player clicked socket #%d for some reason I don't know!",i)
@@ -162,7 +162,7 @@ module
 				end
 			end
 		end
-		if situation:upper()=="FIELD" || situation:upper()=="VAULT" || situation:upper()=="SHOP" 
+		if situation:upper()=="FIELD" || situation:upper()=="VAULT" || situation:upper()=="SHOP" || situation:upper()=="PHANSHOP" 
 			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
 			if ml && Mx>ubox.w-Trash.Width && my<ubox.h && my>ubox.h-Trash.Height && cItem!=""
 				CSayF("Trashing: %s",cItem)

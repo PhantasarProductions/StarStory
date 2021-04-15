@@ -36,6 +36,7 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
 
 #MKL_Version "Star Story - Phantasar - Frendor.neil" "21.04.14"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
@@ -70,7 +71,22 @@ group MScript
 			MapText("FEENA_HUH")
 			return
 		end
-		Lua.error("Feenalaria not yet scripted")
+		if (!Done.Slagimon_Unlocked)
+			MapText("FEENA_1A")
+			PPop.Pop("Feena","North")
+			Map.ShowObj("Feena_Reggie")
+			MapText("FEENA_1B")
+			KickReggie("PartyPopped_Foxy","Feena_Reggie","East")
+			MapText("FEENA_1C")
+			PPop.UnPop()
+			Party.GiveEXP(1234)			
+			return
+		end
+		if !gv.gBool.Completed_GhostHouse
+			MapText("FEENA_ONLYHOPE")
+			return
+		end
+		Lua.error("Feenalaria not yet scripted for this particular situation")
 	end
 	
 	Void NPC_Irravonia()
@@ -94,13 +110,54 @@ group MScript
 		if !TaalGeleerd
 			return
 		end
-		Lua.error("Merya's further script not yet done!")
+		if !Done.Merya_StouteJongens
+			int deg=0
+			number scale=0
+			var RPic = Image.Load("GFX/Scenario/Reggie_Big.png")
+			Var RinkelDeKinkel = Audio.Load("Audio/SFX/scenario/Reggie_Crash.ogg")
+			RPic.HotCenter()
+			Map.Leader="Foxy"
+			MapText("MERYA.REGGIE")
+			Player.Wind="South"
+			Repeat
+				deg++
+				scale+=0.05
+				Graphics.Cls()
+				Map.DrawScreen()
+				Graphics.Scale(scale,scale)
+				__white
+				Image.Rotate=deg
+				RPic.XDraw(Screen.W div 2,Screen.H div 2)
+				Graphics.Scale(1,1)
+				Graphics.Flip()
+				FPS.WaitMinTicks()
+			LoopWhile RPic.Height*scale<=Screen.H*2
+			RinkelDeKinkel.Play()
+			Music.Play("Music/Sys/Silence.ogg")
+			RPic.Kill()
+			RPic=nil
+			Map.SetObj("ColorBars","X",Map.CamX- 1)
+			Map.SetObj("ColorBars","Y",Map.CamY- 1)
+			Map.SetObj("ColorBars","W",Screen.W+ 2)
+			Map.SetObj("ColorBars","H",Screen.H-95)
+			for c in each{"R","G","B"}
+				Map.SetObj("ColorBars",c,255)
+			end
+			MapText("FOXY.OOPS")
+			Map.Kill("ColorBars")
+			Ach.Award("SCENARIO_CRASH")
+			Party.GiveEXP(20000)
+			Music.Play("Music/Dungeon/Enchanted Valley.ogg")
+			RinkelDeKinkel.Kill()
+		end
+		//Lua.error("Merya's further script not yet done!")
 	End
 	
 	Void NPC_Merchant()
 		QQTaal("MERCHANT")
 		if TaalGeleerd
-			Lua.error("Merchant not yet scripted!")
+			//Lua.error("Merchant not yet scripted!")
+			FMenu.Go(Map.Leader,"PHANSHOP")
 		end
 	End
 	

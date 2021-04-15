@@ -14,6 +14,7 @@ class MyData_MyDataClass_IAA
 	bool ITM_Sellable = true
 	int ITM_BuyPrice = 100
 	int ITM_SellPrice = 75
+	int ITM_ShilderPrice
 	int ABL_AP = 0
 	int ABL_Speed
 	int ABL_APCut

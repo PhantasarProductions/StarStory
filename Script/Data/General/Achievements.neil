@@ -422,7 +422,6 @@ do
 		ret.Icon = "*DEFAULT*"
 		ret.Type = "Gold"
 		ret.Show = "Achieved"
-
 	retbase["SCENARIO_CRASH"] = ret
 end
 
