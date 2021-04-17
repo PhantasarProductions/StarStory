@@ -355,6 +355,7 @@ group MScript
 		Party.Recover()
 		gv.gbool.WendickaSwitchBlocked = false
 		gv.gBool.AllowBeam=true
+		Map.AllowQuitSave=false
 	end
 
 end
