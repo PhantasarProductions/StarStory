@@ -344,7 +344,7 @@ group Link_Map
 	end
 	
 	set bool AllowQuitSave
-		MCall("FldMap.SetAllowQuitSave",lua.tostring(value):lower())
+		MCall("FldMap.SetAllowQuitSave",value)
 	end
 	
 	CONSTRUCTOR
