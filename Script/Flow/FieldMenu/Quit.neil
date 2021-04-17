@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Quit.neil
-// Version: 21.03.11
+// Version: 21.04.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -55,7 +55,9 @@ module
 		for k,v in spairs(Items)
 			__skyblue
 			y+=25
-			if Events.MouseX()>ubox.x && Events.MouseY()>y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<y+25
+			if v=="SaveAndQuit" && (!Map.AllowQuitSave)
+				__Red
+			elseif Events.MouseX()>ubox.x && Events.MouseY()>y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<y+25
 				__Cyan
 				if Events.MouseHitLeft()
 					self["Exe_"..v]()
