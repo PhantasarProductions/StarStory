@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.03.15
+// Version: 21.04.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.03.15"
+#MKL_Version "Star Story - FieldMap.neil" "21.04.17"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -244,6 +244,7 @@ group FldMap
 	string ArriveParam = ""
 	delegate ScanFoes = nil
 	delegate ScanTrans = nil
+	bool AllowQuitSave
 	
 	// This property is only meant for the auto clickable generator
 	// Generating random items
@@ -325,9 +326,14 @@ group FldMap
 		end
 		BoxText.Load("MAPTEXT","Maps/"..gvStr.LoadedMap)
 	end
+	
+	void SetAllowQuitSave(bool value)
+		AllowQuitSave=value
+	end
 
 	void LoadMap(string Map)
 		// Begin
+		AllowQuitSave=true
 		PPop.Popped=false
 		PPop.Unpopping=false
 		Loading()

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.04.11
+// Version: 21.04.17
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -337,6 +337,14 @@ group Link_Map
 	
 	get int MaxFoeLevel
 		return ISGET.INT("FLOW_FIELD","FldMap.MinLevel")
+	end
+	
+	get bool AllowQuitSave
+		return ISGET.BOOL("FLOW_FIELD","FldMap.AllowQuitSave")
+	end
+	
+	set bool AllowQuitSave
+		MCall("FldMap.SetAllowQuitSave",lua.tostring(value):lower())
 	end
 	
 	CONSTRUCTOR
