@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.03.29
+// version: 21.04.17
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/Save1970"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Nizozemska - Marlon's house.neil" "21.03.29"
+#MKL_Version "Star Story - Nizozemska - Marlon's house.neil" "21.04.17"
 #MKL_Lic     "Star Story - Nizozemska - Marlon's house.neil" "Phantasar Closed License"
 
 group MScript
@@ -83,6 +83,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
+		Map.AllowQuitSave=false
 		if !Done.Met_Marlon			
 			ZA.Enter("StartMarlonEvent","MeetMarlon")
 		else

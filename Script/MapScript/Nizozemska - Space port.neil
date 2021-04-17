@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.29
+// version: 21.04.17
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Nizozemska - Space port.neil" "21.03.29"
+#MKL_Version "Star Story - Nizozemska - Space port.neil" "21.04.17"
 #MKL_Lic     "Star Story - Nizozemska - Space port.neil" "Phantasar Closed License"
 
 Class Deur
@@ -298,6 +298,7 @@ group MScript
 	#endregion
 	
 	CONSTRUCTOR
+		Map.AllowQuitSave=false
 		if !gv.gBool.Met_Marlon
 			Map.Kill("NPC_Douanier")
 		end
