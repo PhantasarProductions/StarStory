@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.10
+// version: 21.04.17
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.04.10"
+#MKL_Version "Star Story - Hawk.neil" "21.04.17"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
