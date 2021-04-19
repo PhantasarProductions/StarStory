@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.29
+// version: 21.04.17
 // End License Information
 #use "Script/Use/Anyway"
 #use "Libs/LinkedList"
@@ -115,6 +115,7 @@ group WM
 				if MY>y && MY<y+50
 					__Cyan
 					if ML
+						CSayF("Going to Map '%s'; Layer: '%s', Start point '%s'",WMI.Map,WMI.Layer,WMI.StartPoint)
 						Map.GoToMap(WMI.Map,WMI.Layer,WMI.StartPoint)
 						Flow.GoToFlow("FIELD")
 					end
