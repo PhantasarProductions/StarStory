@@ -37,6 +37,7 @@
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/WorldMap"
 
 #MKL_Version "Star Story - Phantasar - Frendor.neil" "21.04.17"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
@@ -221,6 +222,10 @@ group MScript
  		Map.Kill("StartZone")
  		Map.HideObj("Feena_Reggie")
  	End
+ 	
+ 	void ByeBye()
+ 		WorldMap("Phantasar")
+ 	end
 	
 #endregion
 
@@ -237,7 +242,7 @@ group MScript
 #endregion
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"StartZone"}
+		ZA.TabEnter{"StartZone","Byebye"}
 		Map.AllowQuitSave=false
 	End
 
