@@ -1,0 +1,79 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/SpellAni/Stomp.neil
+// Version: 21.04.19
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+
+// NOTE: This script was original written in NIL and I merely translated this
+// to Neil and some needed adaptions with the Apollo engine (which is different
+// from NALA at some points)
+
+
+
+module
+	readonly var vuist = Image.LoadNew("GFX/Combat/SpellAni/Stomp/Fist.png","SPELLANI_FIST")
+	readonly var CrashGeluid = Audio.LoadNew("Audio/SFX/Scenario/Reggie_Crash.ogg","SPELLANI_RINKELDEKINKEL")
+	readonly number sinc=0.01
+	number s=0
+	
+	CONSTRUCTOR
+		vuist.HotCenter()
+	end
+
+
+	
+	
+	void Start()
+		s = sinc
+	end
+	
+	get bool Ended 
+		bool ret = (s*vuist.W>Screen.W) && (s*vuist.H>Screen.H)
+		if ret
+			CrashGeluid.Play()
+		end
+		return ret
+	end
+	
+	void Draw()
+		Graphics.SetScale(s,s)
+		Vuist.Draw(Screen.W div 2, Screen.H div 2)
+		Graphics.SetScale(1,1)		
+	end
+	
+	Void Update()
+		s += sinc
+	End
+	
+end
