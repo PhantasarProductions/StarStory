@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.03.22
+// Version: 21.04.19
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -165,13 +165,32 @@ Group CG_Effect
 			case "Absolute"
 				Tar.Heal(Act.Act.Healing)
 			case "Percent"
-				int h = math.min(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
+				int h = math.max(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
 				Tar.Heal(h)
 			default
 				Lua.error("I do not know how to act on healing type: "..Act.Act.HealingType)
 		end
 		return true
 	end
+	
+	bool RecoverAP(Act,Tar)
+		if Act.Act.APRecover<=0
+			return false
+		end
+		switch Act.Act.APRecoverType
+			case "Absolute"
+				Tar.char.Points.AP.Have += Act.Act.APRecover
+				Tar.Hurt(Lua.tostring(Act.Act.APRecover),0,180,255)
+			case "Percent"
+				int h = math.max(1,math.floor(Tar.Char.Points.AP.Maximum * (Act.Act.APRecover/100)))
+				Tar.Hurt(Lua.tostring(h),0,180,255)
+				Tar.char.Points.AP.Have += h
+			default
+				Lua.error("I do not know how to act on AP Recovery type: "..Act.Act.APRecoverType)
+		end
+		return true
+	end
+			
 	
 	bool Script(Act,Tar)
 		// TODO: Script
@@ -217,6 +236,7 @@ Group CG_Effect
 		if HitCheck(Act,Tar)
 			Hit = Cure(Act,Tar) || Hit
 			Hit = Heal(Act,Tar) || Hit
+			Hit = RecoverAP(Act,Tar) || Hit
 			Hit = Attack(Act,Tar) || Hit
 			Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Script(Act,Tar) || Hit
