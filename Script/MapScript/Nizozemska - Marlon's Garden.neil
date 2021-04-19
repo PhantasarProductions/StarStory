@@ -1,0 +1,220 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Nizozemska - Marlon's Garden.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.04.19
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/WorldMap"
+
+#MKL_Version "Star Story - Nizozemska - Marlon's Garden.neil" "21.04.19"
+#MKL_Lic     "Star Story - Nizozemska - Marlon's Garden.neil" "Phantasar Closed License"
+
+
+group MScript
+#region Music
+	string MMusic
+	Void MapMusic()
+		Music.Play(MMusic)
+	End
+#endregion
+
+	int Round(number b)
+		return math.floor(b+0.5)
+	end
+	
+#region Het kan mij niet boeien, dat koeien loeien!
+	Get Int TelKoeien
+		Int ret=0
+		For i=1,6
+			If Map.HasTag("NPC_KOE"..i)
+				ret++
+			End
+		End
+		Return ret
+	End
+	
+	Void CheckDiablo()
+		If TelKoeien>0
+			Return
+		End
+		Map.ShowObj("NPC_DIABLO")
+		Schedule.Add("MSG:Diablo is mad because you killed his cows and wants to kill you!")
+	End
+	
+	Get Int Koe_Lev
+		int mini
+		int maxi
+		switch __skill
+			case 1
+            	mini = 1
+            default
+                mini = Map.Level - round( Map.Level/2 )  
+         end
+         maxi = Map.Level + round((Map.Level/5)*__skill)
+         return math.random(mini,maxi)
+    End
+
+    string Tag_Koe
+	Void Koe(string Tag)
+		Static Int Hoeveel
+		Hoeveel = (Hoeveel % __skill) + 1
+		CSayF("Activated cow: %s",Tag)
+		StartCombat.Prepare()
+		For i=1,Hoeveel
+			StartCombat.Foe("Reg/Cow",Koe_Lev)
+		End			
+		StartCombat.Tune = "*NOCHANGE*"
+		StartCombat.Boss = True
+		StartCombat.Arena = "Bos - Loofbomen.png"	
+		StartCombat.Begin()
+		Tag_Koe=Tag
+		Schedule.Add("Koe_Kapot")
+	End
+	
+	Void Koe_Kapot()
+		Map.Kill(Tag_Koe,true)
+		CSayF("%s has been permanently removed from the garden",Tag_Koe)
+		CSayF("Cows left: %d",TelKoeien)
+		CheckDiablo()
+	End
+	
+	void NPC_KOE1()
+		Koe("NPC_KOE1")
+	end
+	
+	void NPC_KOE2()
+		Koe("NPC_KOE2")
+	end
+	
+	void NPC_KOE3()
+		Koe("NPC_KOE3")
+	end
+	
+	void NPC_KOE4()
+		Koe("NPC_KOE4")
+	end
+	
+	void NPC_KOE5()
+		Koe("NPC_KOE5")
+	end
+	
+	void NPC_KOE6()
+		Koe("NPC_KOE6")
+	end
+	
+	Void NPC_DIABLO()
+		If TelKoeien>0
+			CSay("Diablo triggered by player, but ignored as there are still cows alive!")
+			Return
+		End
+		Static Int Hoeveel = __skill		
+		CSay("Activated cow: BOSS")
+		StartCombat.Prepare()
+		StartCombat.Foe("Boss/Diablo",Koe_Lev+(5*__skill))
+		For i=2,Hoeveel
+			StartCombat.Foe("Reg/Cow",Koe_Lev)
+		End			
+		StartCombat.Tune = "*NOCHANGE*"
+		StartCombat.Boss = True
+		StartCombat.Arena = "Bos - Loofbomen.png"	
+		StartCombat.Begin()		
+		Schedule.Add("Diablo_Kapot")
+	End
+	
+	Void Diablo_Kapot()
+		Map.Kill("NPC_DIABLO",true)
+		Map.Kill("Blokkade") // NOT PERMANENT KILL, so safe! Is to get Sue out safely
+		PPop.Pop("Start","South")
+		Music.Play("Music/Garden/Ranz des Vaches.ogg")
+		Map.Spawn("Sue","Start")
+		Map.SetObj("Sue","Texture","GFX/Actors/Sue/Sue.North.jpbf")
+		Player.Reloc("Start_Wendicka")
+		//Map.ObjWalkTo("Sue","Start")
+		MapText("SUE")				
+		Map.SetObj("Sue","Texture","GFX/Actors/Sue/Sue.South.jpbf")
+		Map.ObjWalkTo("Sue","SueSpot")
+		MapText("SUE2")
+		GV.GBOOL.NIZOZEMSKA_GARDEN = true
+		Hawk.AllowYsperon=True
+		Party.GiveEXP(9000 div __skill)
+		__hawk = "BACK2YSPERON"
+		Map.GoToMap("Hawk","BRIDGE","Scotty")
+	End
+		
+#endregion
+
+	Void Welcome()
+		CSay("Welcome event")
+		Spawn.Reset()
+		Map.Kill("Welcome",true)
+		PPop.Pop("Start","North")
+		MapText("WELCOME")
+		KickReggie("PartyPopped_Foxy","Reggie","North")
+		MapText("WELCOME2")
+		PPop.UnPop()
+		Map.Kill("Reggie",true)
+		CSayF("Aantal koeien: %d",TelKoeien)
+	End
+
+	Void Bye()
+		WorldMap("Nizozemska")
+		
+	End
+
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+		Map.AllowQuitSave=false
+		if GV.GBOOL.NIZOZEMSKA_GARDEN
+			MMusic = "Music/Garden/Ranz des Vaches.ogg"
+			ZA.Enter("Exit",Bye)
+		else
+			CSay("Ready to kick some cow?")
+			MMusic = "Music/Garden/River Valley Breakdown.ogg"
+			Map.HideObj("NPC_DIABLO")
+			ZA.Enter("Welcome","Welcome")
+			CheckDiablo()
+		end
+	End
+
+end
