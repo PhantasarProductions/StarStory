@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.04.19
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Ysperon - Facility.neil" "21.03.17"
+#MKL_Version "Star Story - Ysperon - Facility.neil" "21.04.19"
 #MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
@@ -401,6 +401,18 @@ group MScript
 		Geheim()
 		OldLayer = Layer
 	end
+	
+	void ToFacility012()
+		Map.GoToLayer("#012","Einde")
+	end
+	
+	void ToFacility2()
+		Map.GoToMap("Ysperon - Facility 2","#013","Start")
+	end
+	
+	Void GoBackToTheLab()
+		Map.GoToMap("Ysperon - Facility","#999","Einde")
+	End
 
 	void Draw()
 	#if DEBUG_SCHUIFDEUR
@@ -418,7 +430,7 @@ group MScript
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
-		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999"}
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab"}
 		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss","OpenGeheim"}
 	end
 
