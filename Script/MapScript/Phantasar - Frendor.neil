@@ -148,8 +148,7 @@ group MScript
 			Map.Kill("ColorBars")
 			Ach.Award("SCENARIO_CRASH")
 			Party.GiveEXP(20000)
-			Music.Play("Music/Dungeon/Enchanted Valley.ogg")
-			RinkelDeKinkel.Kill()
+			Music.Play("MUSIC/TOWN/ENCHANTED VALLEY.OGG")
 		end
 		//Lua.error("Merya's further script not yet done!")
 	End
