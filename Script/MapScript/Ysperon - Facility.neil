@@ -413,6 +413,43 @@ group MScript
 	Void GoBackToTheLab()
 		Map.GoToMap("Ysperon - Facility","#999","Einde")
 	End
+	
+	Void Boss_ExHuRU()
+		Kthura.KillAutoVisible()
+		PPop.Pop("Ex","North")
+		MapText("EXHURU1")
+		Map.Spawn("BSEX","SpotExHuRU")
+		Map.SetObj("BSEX","Texture","GFX/Actors/Player/ExHuRU.South.jpbf")
+		Map.ObjWalkTo("BSEX","MeetExHuRU")
+		int L = Map.ObjInt("ExLinks","X")
+		int R = Map.ObjInt("ExRechts","X")
+		for O=1,33 
+			Graphics.Cls()
+			Map.SetObj("ExLinks","X",L-O)
+			Map.SetObj("ExRechts","X",R+O)
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			CSayF("ExHuRU (%04d,%04d): ",Map.ObjInt("BSEX","X"),Map.ObjInt("BSEX","Y"))
+		End
+		MapText("EXHURU2")
+		Schedule.Add("Terminated")
+		Kthura.SetAutoVisible()
+		StartCombat.Prepare()
+		StartCombat.Foe("Boss/ExHuRU",RPGChar.Rolf.Stats.Level)
+		StartCombat.Tune = "Music/Combat/SpecialBoss/ExHuRU.ogg"
+		StartCombat.Boss = True
+		StartCombat.Arena = "Facility.png"	
+		StartCombat.Begin()				
+	End
+	
+	Void Terminated()
+		Map.SetObj("BSEX","GFX/Combat/Fighters/Hero/ExHuRu.Dead.png")
+		Map.ObjWalkTo("PartyPopped_Wendicka","Wendicka_Analyze")
+		MapText("EXHURU3")
+		Party.GiveEXP(3500 div __skill)
+		PPop.UpPop()
+	End
 
 	void Draw()
 	#if DEBUG_SCHUIFDEUR
@@ -430,7 +467,7 @@ group MScript
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
-		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab"}
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab","Boss_ExHuRU"}
 		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss","OpenGeheim"}
 	end
 
