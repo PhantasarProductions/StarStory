@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.17
+// version: 21.04.20
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.04.17"
+#MKL_Version "Star Story - Hawk.neil" "21.04.20"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -172,6 +172,10 @@ group MScript
 	
 
 	void Update()
+		if Lua.Neil.Globals.gv.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap
+			CSay("Auto reset Spawn!")
+			Spawn.Reset()
+		end
 		if InParty.Wendicka 
 			if Map.Leader!="Wendicka"
 				Map.Leader = "Wendicka"
