@@ -444,11 +444,14 @@ group MScript
 	End
 	
 	Void Terminated()
-		Map.SetObj("BSEX","GFX/Combat/Fighters/Hero/ExHuRu.Dead.png")
-		Map.ObjWalkTo("PartyPopped_Wendicka","Wendicka_Analyze")
+		Map.SetObj("BSEX","Texture","GFX/Combat/Fighters/Hero/ExHuRu.Dead.png")		
+		Map.ObjWalkTo("PartyPopped_Wendicka","Wendicka_Analyse")
 		MapText("EXHURU3")
 		Party.GiveEXP(3500 div __skill)
-		PPop.UpPop()
+		PPop.UnPop()
+		Map.Kill("Boss_ExHuRU",true)
+		Map.Kill("ExLinks",true)
+		Map.Kill("ExRechts",true)
 	End
 
 	void Draw()
