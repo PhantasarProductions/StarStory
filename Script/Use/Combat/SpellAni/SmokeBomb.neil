@@ -1,0 +1,134 @@
+// License Information:
+// src/Tricky Script/Script/Use/Specific/CombatModules/SpellAni/SmokeBomb.nil
+// Version: 20.07.24
+// Copyright (C) 2020 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "libs/linkedlist"
+
+#region Bypass
+void SetAlpha(int A)
+	Graphics.SetAlpha(A)
+End
+#endregion
+
+class TSmoke
+	int x
+	int y
+	int alpha = 255
+	readonly int dx
+	readonly int dy
+	
+	static var Smoke
+	static var List
+	static int count
+	
+	CONSTRUCTOR(int ax,int ay,int adx, int ady)
+		self.x  = ax
+		self.y  = ay
+		self.dx = adx
+		self.dy = ady
+		self.List.AddLast(self)
+		CSayF("CONSTRUCTOR: TSmoke (%4d,%4d,%2d,%2d) -- Have %d",ax,ay,adx,ady,self.List.Count)
+	end
+	
+	DESTRUCTOR
+		//CSayF(" DESTRUCTOR: TSmoke (%4d,%4d,%2d,%2d)",self.x,self.y,self.dx,self.dy)
+	end
+	
+	void Draw()
+		SetAlpha(self.alpha)
+		self.Smoke.Draw(self.x,self.y)
+		CSayF("Count: %d",self.count)
+		if self.count % 2 == 0 
+			CSay("Rolling the animation")
+			#+ self.x self.dx
+			#+ self.y self.dy
+		end
+		--self.alpha
+		SetAlpha(255)
+	end
+	
+	static void DrawAll()
+		self.count++
+		for Smoke,Link in self.List.Each
+			CSay("Smoke cycle")
+			Smoke.Draw()
+			if Smoke.alpha<=0
+				CSayF("    UNLINK: TSmoke (%4d,%4d,%2d,%2d)",Smoke.x,Smoke.y,Smoke.dx,Smoke.dy)
+				Link.UnLink()
+			end
+		end
+		CSay("All smoke drawn")
+	end
+end
+
+module 
+
+	link Smoke = TSmoke.Smoke
+	
+	CONSTRUCTOR
+		self.Smoke = LoadIfNew("GFX/Combat/SpellAni/Smoke Bomb.png","SPELLANI_SmokeBOMB")
+		self.Smoke.HotBottomCenter()
+		TSmoke.List = new TLinkedList		
+	end
+	
+	void Start(act)
+		TSmoke.count = 0
+		for tidx,ttag in ipairs(act.Targets_Tag)
+			var t = act.Targets[tidx]
+			if not t.Boss
+				t.StatusChange.Gone = true
+			end
+			for _,d in ipairs { {-1,0}, {1,0}, {0,-1}, {0,1} }
+				new TSmoke(math.floor(t.X+(t.Width/2)),t.Y+(t.Height),d[1],d[2])
+			end
+		end
+		// Stage.NoVicCheck = true
+	end
+	
+	void Draw()
+					
+		TSmoke.DrawAll()
+		CSayF("Smoke entries %d -- Empty: %s",TSmoke.List.Count,tostring(TSmoke.List.Count==0))		
+		//Stage.NoVicCheck = TSmoke.List.Count!=0
+		//return not Stage.NoVicCheck
+	end
+	
+	void Update()
+	End
+	
+	get bool Ended
+		return TSmoke.List.Count<=0
+	end
+end
