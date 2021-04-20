@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Frendor Bushes.neil
+// src/Tricky Script/Script/MapScript/Phantasar - Slagimon Forest.neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,15 +32,15 @@
 // 
 // **********************************************
 // 
-// version: 21.04.14
+// version: 21.04.20
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.14"
-#MKL_Lic     "Star Story - Phantasar - Frendor Bushes.neil" "Phantasar Closed License"
+#MKL_Version "Star Story - Phantasar - Slagimon Forest.neil" "21.04.20"
+#MKL_Lic     "Star Story - Phantasar - Slagimon Forest.neil" "Phantasar Closed License"
 
 void GreenSave()
 	Party.Recover()
