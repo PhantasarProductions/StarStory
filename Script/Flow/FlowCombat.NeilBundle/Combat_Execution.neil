@@ -170,6 +170,9 @@ Module
 		end
 		if Executor.Team=="Hero"
 			AnnouncePortrait = Image.Obtain("PORTRET_"..Executor.Tag)
+		elseif Executor.Name=="ExHuRU"
+			AnnouncePortrait = Image.LoadNew("GFX/Portret/ExHuRU/General.png","PORTRET_ExHuRU")
+			AnnouncePortrait.HotBottomCenter()
 		end
 	end
 
