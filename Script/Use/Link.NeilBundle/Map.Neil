@@ -336,7 +336,7 @@ group Link_Map
 	end
 	
 	get int MaxFoeLevel
-		return ISGET.INT("FLOW_FIELD","FldMap.MinLevel")
+		return ISGET.INT("FLOW_FIELD","FldMap.MaxLevel")
 	end
 	
 	get bool AllowQuitSave
