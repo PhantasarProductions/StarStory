@@ -1,0 +1,84 @@
+// License Information:
+// src/Tricky Script/Script/Use/Combat/AI/Default.neil
+// Version: 21.03.03
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#undef ai_default_debug
+
+module
+
+	CONSTRUCTOR
+		int lv = RPGChar.ExHuRU.Stats.Level
+		Party.GrabLevel("ExHuRU",lv)
+		for s in each({"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion"}) 
+			RPGChar.FOE_0.Link_Stat("ExHuRU","BASE_"..s)
+		end
+		RPGChar.FOE_0.Stats.BASE_HP=lv*(250)*__skill
+		plua hp = RPGChar.FOE_0.Points.HP
+		hp.Maximum = RPGChar.FOE_0.Stat.BASE_HP
+		hp.Have = hp.Maximum
+		Combat_Time.HiSpeed = 0 // Enforce Hi Speed recalculation
+	End
+
+	Void Decide(f)
+		#if ai_default_debug
+		for i,a in ipairs(f.AI_Actions)
+			CSayF("AI: %03d > %s",i,a)
+		end
+		#fi
+		bool WendickaFront = false
+		for i = 1,3
+			WendickaFront = WendickaFront || RPGParty[i]=="Wendicka"
+		end
+		WendickaFront = WendickaFront && RPGChar.Wendicka.Points.HP.Have>0
+		if WendickaFront
+			int n = math.random(1,#f.AI_Actions)
+			CSayF("Chosen action %d out of %d > ",n,#f.AI_Actions,f.AI_Actions[n])
+			var a = new Class_Action(f.Tag,f.AI_Actions[n])
+			f.NextAct = a
+			f.NextAct.Targets_Tag[1]="Wendicka"
+			f.NextAct.Targets_Tag[2]=nil
+			//f.SetTarget()
+		else
+			var a = new Class_Action(f.Tag,"ZZZ_TOTALDESTRUCTION")
+			f.NextAct = a
+			// Make sure EVERYBODY is dead!
+			for i,c in ipairs{ "Wendicka", "Crystal", "Yirl", "Foxy", "Xenobi", "Rolf" }
+				f.NextAct.Targets_Tag[i  ]=c
+				f.NextAct.Targets_Tag[i+1]=nil
+			end
+		end
+	end
+	
+end
