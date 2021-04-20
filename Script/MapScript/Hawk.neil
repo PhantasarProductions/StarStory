@@ -172,7 +172,7 @@ group MScript
 	
 
 	void Update()
-		if Lua.Neil.Globals.gv.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap
+		if Lua.Neil.Globals.gv.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap && Map.HasTag("PLAYER")
 			CSay("Auto reset Spawn!")
 			Spawn.Reset()
 		end
