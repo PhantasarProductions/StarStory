@@ -87,6 +87,7 @@ module
 		if math.random(0,15)<=__skill^2
 			num = 9
 		end
+		CSay("Level range %05d - %05d",Map.MinFoeLevel,Map.MaxFoeLevel)
 		StartCombat.Prepare()
 		for i=1,num
 			StartCombat.Foe("Reg/"..F[math.random(1,#F)] ,math.random(Map.MinFoeLevel,Map.MaxFoeLevel))
