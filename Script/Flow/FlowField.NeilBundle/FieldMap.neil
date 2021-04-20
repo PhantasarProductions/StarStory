@@ -205,6 +205,8 @@ class Clickable
 						O.X = S.X
 						O.Y = S.Y
 						O.Dominance = S.Dominance
+						O.Visible = true
+						O.Alpha255 = 255
 						O.Labels = S.Labels
 						Map.KthuraMap.Remap()
 						CSayF("F: %s; S: %s;  OTag: %s",O.Data["ITEM_F"],O.Data["ITEM_S"],O.Tag)
