@@ -453,6 +453,34 @@ group MScript
 		Map.Kill("ExLinks",true)
 		Map.Kill("ExRechts",true)
 	End
+	
+	Void McLeen()
+		if Done.Mol_Definitief_Ontmaskerd
+			return
+		end
+		PPop.Pop("END","NORTH")
+		MapText("DEADEND1")
+		SchuifDeur.NextOpen = true
+		for j=1,32
+			Graphics.Cls()
+			Map.DrawScreen()
+			self.Update()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Events.Poll()
+		end
+		MapText("DEADEND2")
+		Map.GoToLayer("MOL","Pos_Wendicka")
+		Map.HideObj("PLAYER")
+		MapText("MOL1")
+		KickReggie("Foxy","Reggie","East")
+		MapText("MOL2")
+		Party.GiveEXP(1234567)
+		__hawk="CRYSTALFATHER"
+		Hawk.Add("Start","Vulpina","Flower Forest - South Area","Vulpina - Flower Forest","#001")
+		Ach.Award("SCENARIO_WENDICKAPREGNANT")
+		Map.GoToMap("Hawk","BRIDGE","Scotty")
+	End
 
 	void Draw()
 	#if DEBUG_SCHUIFDEUR
@@ -470,7 +498,7 @@ group MScript
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
-		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab","Boss_ExHuRU"}
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab","Boss_ExHuRU","McLeen"}
 		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss","OpenGeheim"}
 	end
 
