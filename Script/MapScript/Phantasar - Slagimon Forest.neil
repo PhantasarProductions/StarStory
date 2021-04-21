@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.04.20
+// version: 21.04.21
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Slagimon Forest.neil" "21.04.20"
+#MKL_Version "Star Story - Phantasar - Slagimon Forest.neil" "21.04.21"
 #MKL_Lic     "Star Story - Phantasar - Slagimon Forest.neil" "Phantasar Closed License"
 
 void GreenSave()
