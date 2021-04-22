@@ -415,6 +415,7 @@ quickmeta Player
 				return W
 			case "RELOCATE" "RELOC"
 				void RL(a,b)
+					Player.StopWalking()
 					Link_Map.ObjRelocate("PLAYER",a,b)
 				end
 				return RL
