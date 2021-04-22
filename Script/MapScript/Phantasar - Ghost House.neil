@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.04.22
+// version: 21.04.23
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Ghost House.neil" "21.04.22"
+#MKL_Version "Star Story - Phantasar - Ghost House.neil" "21.04.23"
 #MKL_Lic     "Star Story - Phantasar - Ghost House.neil" "Phantasar Closed License"
 
 void GreenSave()
@@ -97,6 +97,33 @@ group TrueMapScript
 	Void Boss()
 		StartCombat.Foe("Boss/LichKing",Map.Level)
 	End
+	
+	Void The_End()
+		Ach.Award("SCENARIO_PHANTASAR_GHOSTHOUSE")
+		PPop.Pop("MAR","NORTH")
+		MapText("MARRILONA")
+		Party.GiveEXP(1500)
+		Map.Kill("THE_END",true)
+		Map.Kill("NPC_Marrilona")
+		Map.Kill("NPC_Myrah")
+		PPop.UnPop()
+		gv.gBool.Completed_GhostHouse = true
+	End
+	
+	Void NPC_Marrilona()
+		// Nothing here. Crash prevention
+	End
+	
+	Void NPC_Myrah()
+		// Nothing here. Crash prevention
+	End
+	
+	Void Oprotten()
+		Map.GoToLayer("#001","Start")
+		Party.GiveEXP(1500 div __skill)
+	End
+	
+	
 #endregion
 	
 #region Callbacks
@@ -112,7 +139,7 @@ group TrueMapScript
 #endregion
 
 	CONSTRUCTOR
-		ZA.TabEnter{"Back","Byebye","Plate2Open"}
+		ZA.TabEnter{"Back","Byebye","Plate2Open","THE_END","Oprotten"}
 		for i=1,40
 			ZA.Enter("Back"..i,"Back")
 			ZA.Enter("RMBack"..i,"RMBack"..i)
