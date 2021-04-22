@@ -101,6 +101,7 @@ class Lijk
 			SuperCountDown = iterval * 5
 		end
 	end
+end
 	
 module 
 	
