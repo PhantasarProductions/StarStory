@@ -1,7 +1,7 @@
 // License Information:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellEffect/Summon_Myr.Neil
+// src/Tricky Script/Script/Use/Combat/SpellEffect/Summon_Bef.Neil
 // (c) Jeroen Broks, 2021, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.11
+// version: 21.04.23
 // End License Information
 bool Mier_Oproep()
 	Combat_Foe.AddFoe("Reg/PhanUndeadKid_Befindo",math.random(__skill*3,math.max(10,Map.Level+(__skill*5)-4)))
