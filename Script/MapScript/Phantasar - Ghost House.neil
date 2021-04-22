@@ -1,0 +1,144 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Phantasar - Ghost House.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.04.22
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/Phan_Encounter"
+
+#MKL_Version "Star Story - Phantasar - Ghost House.neil" "21.04.22"
+#MKL_Lic     "Star Story - Phantasar - Ghost House.neil" "Phantasar Closed License"
+
+void GreenSave()
+	Party.Recover()
+	MSave.ToSave()
+End
+
+group TrueMapScript
+
+#region Save Spots
+	readonly delegate NPC_SAVE_GREEN1 = GreenSave
+	readonly delegate NPC_SAVE_GREEN2 = GreenSave
+	//readonly delegate NPC_GREEN_3 = GreenSave
+#endregion
+
+#region Script
+	Void ByeBye()
+		WorldMap("Phantasar")
+	End
+	
+	Get Bool BackSolved
+		return gv.gbool["Phantasar_GhostHouse_"..Map.Layer]
+	End
+	
+	Set Bool BackSolved
+		gv.gbool["Phantasar_GhostHouse_"..Map.Layer] = value
+	End
+	
+	Void Back()
+		If !BackSolved
+			String L = Map.Leader:upper()
+			Map.GoToLayer(Map.Layer,"Start")
+			//Player.StopWalking()
+			//Player.Reloc("Start")
+			//Player.WalkTo("Start")
+			MapText("BACK."..L)
+			//Player.Reloc("Start")
+			//Player.WalkTo("Start")
+		End
+	End
+	
+	Void Plate2Open()
+		BackSolved = true
+		Party.GiveEXP(1000)
+		Map.Kill("Plate2Open",true)
+		Map.Kill("BlockNext",true)
+		Audio.LoadNew("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","PSOLVED").Play()
+	End
+		
+	Void NPC_SAVE_GREEN()
+		Party.Recover()
+		MSave.ToSave()
+	End	
+	
+	Void Boss()
+		StartCombat.Foe("Boss/LichKing",Map.Level)
+	End
+#endregion
+	
+#region Callbacks
+	Void Update()
+		Phan_Encounter.Check()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+#endregion
+
+	CONSTRUCTOR
+		ZA.TabEnter{"Back","Byebye","Plate2Open"}
+		for i=1,40
+			ZA.Enter("Back"..i,"Back")
+			ZA.Enter("RMBack"..i,"RMBack"..i)
+		end
+		Phan_Encounter.SetUp{"#000","#005","#010","#011","#012"}
+	End
+
+end
+
+QuickMeta MScript
+	Index
+		If Prefixed(key:upper(),"BACK")
+			return TrueMapScript.Back
+		ElseIf Prefixed(key:upper(),"RMBACK")
+			void ret()
+				static table Removed = {}
+				string tag = Right(key,#key-2)
+				if !Removed[tag]
+					Map.Kill(tag)
+					Removed[tag] = true
+					CSayF("Removed back: %s",tag)
+				end
+			end
+			return ret
+		Else
+			return TrueMapScript[key]
+		End
+	End
+End
