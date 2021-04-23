@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.04.19
+// Version: 21.04.23
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -40,7 +40,10 @@
 Group CG_Effect
 
 	bool HitCheck(Act,Tar)
-		// TODO: Miss chance for Crystal's ARMS
+		// Miss chance for Crystal's ARMS
+		if Act.Executor.Tag=="Crystal" && Act.Act.ARM_Hit_Procent>0
+			return math.random(1,100)<=Act.Act.ARM_Hit_Procent
+		end
 		// Accuracy check on normal attacks (if applicable)
 		if Act.Act.Dodgable
 			// Original script from the original game. Dummied for reference purposes
