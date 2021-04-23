@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.04.19
+// Version: 21.04.23
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -546,7 +546,7 @@ group Stage_PlayerInput
 	Void ReturnAbility(string AblTag,int APCost,string ActivatePowerUp)
 		var a
 		Bool PwUp(string atag,string PU)
-			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..PU)
+			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..(PU:upper()))
 		end
 		a = new Class_Action(Tag,"ABL_"..AblTag)
 		a.BurnAP = APCost
