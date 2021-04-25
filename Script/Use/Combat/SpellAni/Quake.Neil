@@ -44,12 +44,12 @@ module
 	
 
 	void Start(A)
-		var shot = Graphics.GrabScreen()
+		var shot = Image.GrabScreen()
 		// Dirty code, but it will have to do!
 		for r=1,640
 			__white
 			Graphics.Cls()
-			Shot.Draw(0,y+math.floor(xmath.sin(r)*500))
+			Shot.Draw(0,math.floor(xmath.sin(r)*500))
 			Graphics.Flip()
 			Events.Poll()
 			FPS.WaitMinTicks()
