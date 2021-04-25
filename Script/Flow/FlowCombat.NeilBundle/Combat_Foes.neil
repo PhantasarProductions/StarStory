@@ -49,6 +49,9 @@ class Combat_Foe extends Combat_Fighter
 	readonly var RawData
 	readonly int Level
 	
+	// Make sure that pickpocket only works once.
+	Bool StolenFrom = false
+	
 	get bool Boss
 		return RawData.Boss
 	end

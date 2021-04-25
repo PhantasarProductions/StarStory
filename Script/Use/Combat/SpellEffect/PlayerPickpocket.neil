@@ -1,0 +1,25 @@
+Bool Jat(act,tar)
+	If  math.random(0,Tar.Char.Stat.Level)>math.random(1,Act.Executor.Char.Stat.Level)
+		Return False
+	End
+	Table st = Tar.RawData.ItemSteal
+	If Tar.StolenFrom || #st==0
+		Tar.Hurt("Has Nothing",255,180,0)
+		Return True
+	End
+	String sti = st[math.random(1,#st)].ITM
+	If Item.Give(sti,Act.Executor.Tag,False)
+		Act.Executor.Hurt("Stolen: "..Item[sti].Name,255,180,0)
+		Tar.StolenFrom = True
+		if Act.Executor.Tag=="Foxy"
+			Audio.LoadNew("audio/sfx/foxy/yes.ogg","PICKPOCKET_FOXY_YES").Play()
+		End
+		Return True
+	Else
+		Act.Executor.Hurt("Overloaded!",255,0,0)
+		Return False
+	End
+	
+End
+
+Return Jat
