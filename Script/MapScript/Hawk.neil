@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.20
+// version: 21.04.25
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.04.20"
+#MKL_Version "Star Story - Hawk.neil" "21.04.25"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -71,6 +71,13 @@ group MScript
 	bool SchuifOpen
 	int VaultY = 0
 	bool VaultOpen
+	
+	// debug
+	Void BoolChain(table bools)
+		for i,b in ipairs(bools)
+			CSayF("%03d/%03d:> %s",i,#bools,lua.tostring(b))
+		end
+	End
 
 	Void MapMusic()
 		if gv.gbool.WendickaDream
@@ -157,7 +164,13 @@ group MScript
 	
 	void NPC_Hawk_Xenobi()
 		Talk("Xenobi")
-		// TODO: Vitalize
+		// Vitalize
+		BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gv.gbool.FOUNDAPP_BESTIARY , gv.gbool.WendickaGoddessReleased , (!gv.gbool.Wendicka_Xenobi)}
+		If RPGChar.Wendicka.Stat.Level>=50 && RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") && gv.gbool.FOUNDAPP_BESTIARY && gv.gbool.WendickaGoddessReleased && (!gv.gbool.Wendicka_Xenobi)
+			gv.gbool.Wendicka_Xenobi = true
+			MapText("TEACH.XENOBI")
+			RPGChar.Wendicka.List.LEARN.Add="XENOBI_VITALIZE"
+		End
 	end
 	
 	Void NPC_Hawk_Rolf()
