@@ -54,6 +54,23 @@ group MScript
 	void ToCity()
 		Map.GotoMap("Ysperon - Eugorvnia","#002","FromSecret")
 	end
+	
+	Void Boss()
+		Int lv=math.ceil( Map.Level * ({.75,1,1.25})[__skill] )
+		StartCombat.Foe("Reg/Spider",lv div 2)
+		StartCombat.Foe("Boss/DeathMyrQueen",lv)
+		If __skill==3
+			StartCombat.Foe("Reg/Spider",lv div 2)
+		End
+	End
+	
+	Void Complete()
+		If !Done.Complete_EugorvniaCaves
+			Ach.Award("SECRETDUNGEON_EUGCAVES")
+			Party.GiveEXP(1200)
+		End
+	End
+		
 
 	void Update()
 	end
@@ -65,7 +82,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"ActivateTransporter","ToCity"}
+		ZA.TabEnter{"ActivateTransporter","ToCity","Complete"}
 	end
 
 end
