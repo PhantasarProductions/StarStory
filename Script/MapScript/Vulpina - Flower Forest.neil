@@ -1,0 +1,129 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Vulpina - Flower Forest.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.04.26
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.04.26"
+#MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
+
+group MScript
+
+	Get Int Kota_Stage
+		return math.max(1,gv.gint.Vulpina_Stage_Kota)
+	End
+	
+	Set Int Kota_Stage
+		gv.gint.Vulpina_Stage_Kota = math.max(1,value)
+	End
+	
+	Void Kota_Lose()
+		MapText("KOTA.LOSE")
+		Map.GoToMap("HAWK","BRIDGE","Scotty")
+	End
+	
+	Void Kota_Win()
+		Kota_Stage++
+		MapText("KOTA.WIN")
+		Lua.error("No script yet for victory on Kota")
+	End
+	
+	Void Kota_StartNIM()
+		MapText("TUTORIAL")
+		Lua.error("Kota's NIM game not yet implemented")
+	End
+	
+	// 1st meeting
+	Void Kota1()
+		If Map.Leader!="Yirl"
+			MapText("KOTA.NOTYIRL")
+			return
+		End
+		Kota_Stage++
+		MapText("KOTA.TALK1")
+		Map.GoToLayer("BINNEN","Wendicka")
+		Map.ObjHide("PLAYER")
+		MapText("KOTA.TALK2")
+		Do
+			int wx = Map.ObjInt("Wendicka","X")
+			int wy = Map.ObjInt("Wendicka","Y")
+			int kx = Map.ObjInt("Kota","X")
+			int ky = Map.ObjInt("Kota","Y")
+			While wx>kx && wy>ky
+				wx = math.max(wx-4,kx)
+				wy = math.max(wy-4,ky)
+				If ky-wy<16
+					Map.SetObj("Kota","Y",ky-4)
+				End
+				Map.SetObj("Wendicka","X",wx)
+				Map.SetObj("Wendicka","Y",wy)
+				Map.DrawScreen()
+				FPS.WaitMinTicks()
+				Graphics.Flip()
+			End
+		End
+		MapText("KOTA.TALK3")
+		Kota_StartNIM()
+	End
+	
+	// Meeting when not won NIM game
+	Void Kota2()
+		MapText("KOTA.AGAIN")
+		Kota_StartNIM()
+	End
+	
+	// Meeting when you *did* win the NIM game
+	Void Kota3()
+	End
+	
+	Void NPC_Kota()
+		Self["Kota"..Kota_Stage]()
+	End
+	
+
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+	End
+
+end
