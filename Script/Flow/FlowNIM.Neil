@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNIM.Neil
-// Version: 21.04.26
+// Version: 21.04.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,15 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#use "Script/Use/Anyway"
+
+#region General
+var Mouse = Image.Obtain("MOUSE")
+Var Font = ImageFont.Obtain("BOXTEXT")
+Var BFnt = ImageFont.Obtain("BIGTEXT")
+#endregion
+
 #region Artificial Intelligence
 Class AI_Move
 
@@ -50,66 +59,66 @@ Class AI_Move
 End
 
 Init
-		AI_Moves.Situations["111"] = new AI_Moves(0,0) // No win
-        AI_Moves.Situations["112"] = new AI_Moves(3,2)
-        AI_Moves.Situations["113"] = new AI_Moves(3,3)
-        AI_Moves.Situations["121"] = new AI_Moves(2,2)
-        AI_Moves.Situations["122"] = new AI_Moves(1,1)
-        AI_Moves.Situations["123"] = new AI_Moves(0,0) // No win 123
-        AI_Moves.Situations["131"] = new AI_Moves(2,3)
-        AI_Moves.Situations["132"] = new AI_Moves(0,0) // NoWin 123
-        AI_Moves.Situations["133"] = new AI_Moves(1,1)
-        AI_Moves.Situations["141"] = new AI_Moves(2,4)
-        AI_Moves.Situations["142"] = new AI_Moves(2,1)
-        AI_Moves.Situations["143"] = new AI_Moves(2,2)
-        AI_Moves.Situations["211"] = new AI_Moves(1,2)
-        AI_Moves.Situations["212"] = new AI_Moves(2,1)
-        AI_Moves.Situations["213"] = new AI_Moves(0,0) // No win 123
-        AI_Moves.Situations["221"] = new AI_Moves(3,1)
-        AI_Moves.Situations["222"] = new AI_Moves(2,2)
-        AI_Moves.Situations["223"] = new AI_Moves(3,3)
-        AI_Moves.Situations["231"] = new AI_Moves(0,0) // No win 123
-        AI_Moves.Situations["232"] = new AI_Moves(2,3)
-        AI_Moves.Situations["233"] = new AI_Moves(1,2)
-        AI_Moves.Situations["241"] = new AI_Moves(2,1)
-        AI_Moves.Situations["242"] = new AI_Moves(2,4)
-        AI_Moves.Situations["243"] = new AI_Moves(2,3)
-        AI_Moves.Situations["311"] = new AI_Moves(1,3)
-        AI_Moves.Situations["312"] = new AI_Moves(0,0) // No win 123
-        AI_Moves.Situations["313"] = new AI_Moves(2,1)
-        AI_Moves.Situations["321"] = new AI_Moves(0,0) // No win 123
-        AI_Moves.Situations["322"] = new AI_Moves(1,3)
-        AI_Moves.Situations["323"] = new AI_Moves(2,2)
-        AI_Moves.Situations["331"] = new AI_Moves(3,1)
-        AI_Moves.Situations["332"] = new AI_Moves(3,2)
-        AI_Moves.Situations["333"] = new AI_Moves(3,3)
-        AI_Moves.Situations["341"] = new AI_Moves(2,2)
-        AI_Moves.Situations["342"] = new AI_Moves(2,3)
-        AI_Moves.Situations["343"] = new AI_Moves(2,4)
-        AI_Moves.Situations["411"] = new AI_Moves(1,4)
-        AI_Moves.Situations["412"] = new AI_Moves(1,1)
-        AI_Moves.Situations["413"] = new AI_Moves(1,2)
-        AI_Moves.Situations["421"] = new AI_Moves(1,1)
-        AI_Moves.Situations["422"] = new AI_Moves(1,4)
-        AI_Moves.Situations["423"] = new AI_Moves(1,3)
-        AI_Moves.Situations["431"] = new AI_Moves(1,2)
-        AI_Moves.Situations["432"] = new AI_Moves(1,3)
-        AI_Moves.Situations["433"] = new AI_Moves(1,4)
-        AI_Moves.Situations["441"] = new AI_Moves(3,1)
-        AI_Moves.Situations["442"] = new AI_Moves(3,2)
-        AI_Moves.Situations["443"] = new AI_Moves(3,3)
-        AI_Moves.Situations["511"] = new AI_Moves(1,5)
-        AI_Moves.Situations["512"] = new AI_Moves(1,2)
-        AI_Moves.Situations["513"] = new AI_Moves(1,3)
-        AI_Moves.Situations["521"] = new AI_Moves(1,3)
-        AI_Moves.Situations["522"] = new AI_Moves(1,5)
-        AI_Moves.Situations["523"] = new AI_Moves(1,4)
-        AI_Moves.Situations["531"] = new AI_Moves(1,3)
-        AI_Moves.Situations["532"] = new AI_Moves(1,4)
-        AI_Moves.Situations["533"] = new AI_Moves(1,5)
-        AI_Moves.Situations["541"] = new AI_Moves(0,0) // No win!
-        AI_Moves.Situations["542"] = new AI_Moves(1,2)
-        AI_Moves.Situations["543"] = new AI_Moves(3,2)
+		AI_Move.Situations["111"] = new AI_Move(0,0) // No win
+        AI_Move.Situations["112"] = new AI_Move(3,2)
+        AI_Move.Situations["113"] = new AI_Move(3,3)
+        AI_Move.Situations["121"] = new AI_Move(2,2)
+        AI_Move.Situations["122"] = new AI_Move(1,1)
+        AI_Move.Situations["123"] = new AI_Move(0,0) // No win 123
+        AI_Move.Situations["131"] = new AI_Move(2,3)
+        AI_Move.Situations["132"] = new AI_Move(0,0) // NoWin 123
+        AI_Move.Situations["133"] = new AI_Move(1,1)
+        AI_Move.Situations["141"] = new AI_Move(2,4)
+        AI_Move.Situations["142"] = new AI_Move(2,1)
+        AI_Move.Situations["143"] = new AI_Move(2,2)
+        AI_Move.Situations["211"] = new AI_Move(1,2)
+        AI_Move.Situations["212"] = new AI_Move(2,1)
+        AI_Move.Situations["213"] = new AI_Move(0,0) // No win 123
+        AI_Move.Situations["221"] = new AI_Move(3,1)
+        AI_Move.Situations["222"] = new AI_Move(2,2)
+        AI_Move.Situations["223"] = new AI_Move(3,3)
+        AI_Move.Situations["231"] = new AI_Move(0,0) // No win 123
+        AI_Move.Situations["232"] = new AI_Move(2,3)
+        AI_Move.Situations["233"] = new AI_Move(1,2)
+        AI_Move.Situations["241"] = new AI_Move(2,1)
+        AI_Move.Situations["242"] = new AI_Move(2,4)
+        AI_Move.Situations["243"] = new AI_Move(2,3)
+        AI_Move.Situations["311"] = new AI_Move(1,3)
+        AI_Move.Situations["312"] = new AI_Move(0,0) // No win 123
+        AI_Move.Situations["313"] = new AI_Move(2,1)
+        AI_Move.Situations["321"] = new AI_Move(0,0) // No win 123
+        AI_Move.Situations["322"] = new AI_Move(1,3)
+        AI_Move.Situations["323"] = new AI_Move(2,2)
+        AI_Move.Situations["331"] = new AI_Move(3,1)
+        AI_Move.Situations["332"] = new AI_Move(3,2)
+        AI_Move.Situations["333"] = new AI_Move(3,3)
+        AI_Move.Situations["341"] = new AI_Move(2,2)
+        AI_Move.Situations["342"] = new AI_Move(2,3)
+        AI_Move.Situations["343"] = new AI_Move(2,4)
+        AI_Move.Situations["411"] = new AI_Move(1,4)
+        AI_Move.Situations["412"] = new AI_Move(1,1)
+        AI_Move.Situations["413"] = new AI_Move(1,2)
+        AI_Move.Situations["421"] = new AI_Move(1,1)
+        AI_Move.Situations["422"] = new AI_Move(1,4)
+        AI_Move.Situations["423"] = new AI_Move(1,3)
+        AI_Move.Situations["431"] = new AI_Move(1,2)
+        AI_Move.Situations["432"] = new AI_Move(1,3)
+        AI_Move.Situations["433"] = new AI_Move(1,4)
+        AI_Move.Situations["441"] = new AI_Move(3,1)
+        AI_Move.Situations["442"] = new AI_Move(3,2)
+        AI_Move.Situations["443"] = new AI_Move(3,3)
+        AI_Move.Situations["511"] = new AI_Move(1,5)
+        AI_Move.Situations["512"] = new AI_Move(1,2)
+        AI_Move.Situations["513"] = new AI_Move(1,3)
+        AI_Move.Situations["521"] = new AI_Move(1,3)
+        AI_Move.Situations["522"] = new AI_Move(1,5)
+        AI_Move.Situations["523"] = new AI_Move(1,4)
+        AI_Move.Situations["531"] = new AI_Move(1,3)
+        AI_Move.Situations["532"] = new AI_Move(1,4)
+        AI_Move.Situations["533"] = new AI_Move(1,5)
+        AI_Move.Situations["541"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["542"] = new AI_Move(1,2)
+        AI_Move.Situations["543"] = new AI_Move(3,2)
 End
 #endregion
 
@@ -125,11 +134,13 @@ Class Nim_Man
 		X = cx
 		Y = cy
 		Img = Image.LoadNew("GFX/Actors/SinglePic/Random/Alien"..sp..".png","NIM_"..(sp:upper()))
-		Img.BottomCenter()
+		Img.HotBottomCenter()
 	End
 End
 
 Class Nim_Row
+	
+
 	ReadOnly Int ResetNum
 	ReadOnly Int Y
 	
@@ -138,7 +149,8 @@ Class Nim_Row
 	End
 	
 	Get Int H
-		return (Screen.H - 100) div 4 
+		return (Screen.H - 100) div 4
+	End
 	
 	Table Men = {}
 	
@@ -148,6 +160,7 @@ Class Nim_Row
 			If Men[i]
 				R++
 			End
+		End
 		Return R
 	End
 	
@@ -169,29 +182,81 @@ Class Nim_Row
 			R.Reset()
 		End
 	End
+	
+	Void Draw()
+		For i=1,ResetNum
+			If Row[i]
+				Row[i].Img.Draw(Row[i].X,Row[i].Y)
+			End
+		End
+	End
+	
+	Static Void DrawAll()
+		For R in each(Row)
+			R.Draw()
+		End
+	End
+	
 End
 	
 Init
-	Nim_Row.Row[1] = New Nim_Row(5)
-	Nim_Row.Row[2] = New Nim_Row(4)
-	Nim_Row.Row[3] = New Nim_Row(3)
+	int H  = Screen.H
+	int RH = H div 5
+	Nim_Row.Row[1] = New Nim_Row(RH,5)
+	Nim_Row.Row[2] = New Nim_Row(RH,4)
+	Nim_Row.Row[3] = New Nim_Row(RH,3)
 End
 #endregion
 
 Group NIMGame
-	string Turn
-	string Stage
+	Get Int mx
+		Return Events.MouseX()
+	End
 	
-	int WelkeRij
+	Get Int my 
+		Return Events.MouseY()
+	End
+	
+	get bool ml
+		return Events.MouseHitLeft()
+	end
+
+
+	String Turn
+	String Stage
+	String ReturnTo
+	Number ScL
+	
+	Int WelkeRij
 	Int HoeveelMoetenErWeg
 	
+	#region Start
 	Void NewGame()
 		Turn = "PLAYER"
 		Stage = "WhichRow"
 		Nim_Row.ResetAll()
 	End
 	
+	Void GoToGame(string retto)
+		ReturnTo=RetTo
+		NewGame()
+		ScL = Screen.W / 7
+	End
+	#endregion
+	
+	
+	
 	Void Flow()
+		// Game
+		Graphics.Scale(ScL,ScL)
+		Nim_Row.DrawAll()
+		Graphics.Scale(1,1)
+		// Debug
+		Dev.ToConsole()
+		// Party
+		Party.Boxes()
+		// Mouse
+		Mouse.Draw(mx,my)		
 	End
 End
 
