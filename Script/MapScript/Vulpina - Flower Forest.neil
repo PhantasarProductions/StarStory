@@ -32,12 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.26
+// version: 21.04.27
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Misc/GoToNIM"
 
-#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.04.26"
+#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.04.27"
 #MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
 
 group MScript
@@ -63,7 +64,8 @@ group MScript
 	
 	Void Kota_StartNIM()
 		MapText("TUTORIAL")
-		Lua.error("Kota's NIM game not yet implemented")
+		//Lua.error("Kota's NIM game not yet implemented")
+		GoToNIM("KOTA")
 	End
 	
 	// 1st meeting
