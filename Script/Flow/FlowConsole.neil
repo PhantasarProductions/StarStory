@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.04.25
+// Version: 21.04.27
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -325,6 +325,11 @@ deftable icommandtable
 	end
 	AURINA = void()
 		CSayF("Current Aurina rate is %d credits per aurina",Aurina.Rate)
+	end
+	NIM = void()
+		Static Delegate SNIM
+		SNIM = SNIM || NeilUse("Script/Use/Misc/GoToNIM")
+		SNIM("DEBUG")
 	end
 end
 
