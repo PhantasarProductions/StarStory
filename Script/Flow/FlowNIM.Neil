@@ -185,8 +185,8 @@ Class Nim_Row
 	
 	Void Draw()
 		For i=1,ResetNum
-			If Row[i]
-				Row[i].Img.Draw(Row[i].X,Row[i].Y)
+			If Men[i]
+				Men[i].Img.Draw(Row[i].X,Row[i].Y)
 			End
 		End
 	End
