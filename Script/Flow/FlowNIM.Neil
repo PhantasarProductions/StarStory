@@ -135,6 +135,7 @@ Class Nim_Man
 		Y = cy
 		Img = Image.LoadNew("GFX/Actors/SinglePic/Random/Alien"..sp..".png","NIM_"..(sp:upper()))
 		Img.HotBottomCenter()
+		CSayF("Spawned a %s on (%04d,%04d)",sp,x,y)
 	End
 End
 
@@ -144,11 +145,11 @@ Class Nim_Row
 	ReadOnly Int ResetNum
 	ReadOnly Int Y
 	
-	Get Int W
+	static Get Int W
 		return Screen.W div 7
 	End
 	
-	Get Int H
+	static Get Int H
 		return (Screen.H - 100) div 4
 	End
 	
@@ -186,13 +187,16 @@ Class Nim_Row
 	Void Draw()
 		For i=1,ResetNum
 			If Men[i]
-				Men[i].Img.Draw(Row[i].X,Row[i].Y)
+				Men[i].Img.Draw(Men[i].X,Y)
 			End
 		End
 	End
 	
 	Static Void DrawAll()
-		For R in each(Row)
+		For i,R in ipairs(Row)
+			__SkyBlue
+			BFnt.Text(""..i..":",3,R.Y-5,0,1)
+			__White
 			R.Draw()
 		End
 	End
@@ -200,11 +204,11 @@ Class Nim_Row
 End
 	
 Init
-	int H  = Screen.H
-	int RH = H div 5
-	Nim_Row.Row[1] = New Nim_Row(RH,5)
-	Nim_Row.Row[2] = New Nim_Row(RH,4)
-	Nim_Row.Row[3] = New Nim_Row(RH,3)
+	//int H  = Screen.H
+	//int RH = H div 5
+	Nim_Row.Row[1] = New Nim_Row(Nim_Row.H * 2,5)
+	Nim_Row.Row[2] = New Nim_Row(Nim_Row.H * 3,4)
+	Nim_Row.Row[3] = New Nim_Row(Nim_Row.H * 4,3)
 End
 #endregion
 
@@ -240,7 +244,8 @@ Group NIMGame
 	Void GoToGame(string retto)
 		ReturnTo=RetTo
 		NewGame()
-		ScL = Screen.W / 7
+		ScL = Screen.W / (7*64)
+		CSayF("Scale = %1.5f",Scl)
 	End
 	#endregion
 	
@@ -254,7 +259,9 @@ Group NIMGame
 		// Debug
 		Dev.ToConsole()
 		// Party
-		Party.Boxes()
+		If RPGParty.Max>0
+			Party.Boxes()
+		End
 		// Mouse
 		Mouse.Draw(mx,my)		
 	End
