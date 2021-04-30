@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNIM.Neil
-// Version: 21.04.27
+// Version: 21.04.30
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,12 +36,23 @@
 // End License Information
 
 #use "Script/Use/Anyway"
+#use "Libs/LinkedList"
+
+#macro __NG Lua.Neil.Globals.NIMGame
 
 #region General
 var Mouse = Image.Obtain("MOUSE")
 Var Font = ImageFont.Obtain("BOXTEXT")
 Var BFnt = ImageFont.Obtain("BIGTEXT")
+Var Buzz = Audio.Obtain("BUZZ")
+Var UFO  = Image.LoadNew("GFX/Special/UFO.png","NIM_UFO")
+Var Proj = Image.LoadNew("GFX/Special/Projectile.png","NIM_PROJECTILE")
 #endregion
+
+Init
+	UFO.HotCenter()
+	Proj.HotCenter()
+End
 
 #region Artificial Intelligence
 Class AI_Move
@@ -119,6 +130,68 @@ Init
         AI_Move.Situations["541"] = new AI_Move(0,0) // No win!
         AI_Move.Situations["542"] = new AI_Move(1,2)
         AI_Move.Situations["543"] = new AI_Move(3,2)
+        
+        // Situation zero
+        AI_Move.Situations["000"] = new AI_Move(0,0) // komt niet voor!
+        AI_Move.Situations["001"] = new AI_Move(3,1)
+        AI_Move.Situations["002"] = new AI_Move(3,2)
+        AI_Move.Situations["003"] = new AI_Move(3,3)
+        AI_Move.Situations["010"] = new AI_Move(2,1)
+        AI_Move.Situations["011"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["012"] = new AI_Move(3,1)
+        AI_Move.Situations["013"] = new AI_Move(3,2)
+        AI_Move.Situations["020"] = new AI_Move(2,2)
+        AI_Move.Situations["021"] = new AI_Move(2,1)
+        AI_Move.Situations["022"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["023"] = new AI_Move(2,1)
+        AI_Move.Situations["030"] = new AI_Move(2,3)
+        AI_Move.Situations["031"] = new AI_Move(2,2)
+        AI_Move.Situations["032"] = new AI_Move(2,1)
+        AI_Move.Situations["033"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["040"] = new AI_Move(2,4)
+        AI_Move.Situations["041"] = new AI_Move(2,3)
+        AI_Move.Situations["042"] = new AI_Move(2,2)
+        AI_Move.Situations["043"] = new AI_Move(2,1)
+        AI_Move.Situations["100"] = new AI_Move(1,1)
+        AI_Move.Situations["101"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["102"] = new AI_Move(3,1)
+        AI_Move.Situations["103"] = new AI_Move(3,2)
+        AI_Move.Situations["110"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["120"] = new AI_Move(2,1)
+        AI_Move.Situations["130"] = new AI_Move(2,2)
+        AI_Move.Situations["140"] = new AI_Move(2,3)
+        AI_Move.Situations["200"] = new AI_Move(1,2)
+        AI_Move.Situations["201"] = new AI_Move(1,1)
+        AI_Move.Situations["202"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["203"] = new AI_Move(3,1)
+        AI_Move.Situations["210"] = new AI_Move(1,1)
+        AI_Move.Situations["220"] = new AI_Move(0,0) // no win!
+        AI_Move.Situations["230"] = new AI_Move(2,1)
+        AI_Move.Situations["240"] = new AI_Move(2,2)
+        AI_Move.Situations["300"] = new AI_Move(1,3)
+        AI_Move.Situations["301"] = new AI_Move(1,2)
+        AI_Move.Situations["302"] = new AI_Move(3,1)
+        AI_Move.Situations["303"] = new AI_Move(0,0) // no win!
+        AI_Move.Situations["310"] = new AI_Move(1,2)
+        AI_Move.Situations["320"] = new AI_Move(1,1)
+        AI_Move.Situations["330"] = new AI_Move(0,0) // No Win!
+        AI_Move.Situations["340"] = new AI_Move(2,1)
+        AI_Move.Situations["400"] = new AI_Move(1,4)
+        AI_Move.Situations["401"] = new AI_Move(1,3)
+        AI_Move.Situations["402"] = new AI_Move(1,2)
+        AI_Move.Situations["403"] = new AI_Move(1,1)
+        AI_Move.Situations["410"] = new AI_Move(1,3)
+        AI_Move.Situations["420"] = new AI_Move(1,2)
+        AI_Move.Situations["430"] = new AI_Move(1,1)
+        AI_Move.Situations["440"] = new AI_Move(0,0) // No win!
+        AI_Move.Situations["500"] = new AI_Move(1,4)
+        AI_Move.Situations["501"] = new AI_Move(1,3)
+        AI_Move.Situations["502"] = new AI_Move(1,2)
+        AI_Move.Situations["503"] = new AI_Move(1,4)
+        AI_Move.Situations["510"] = new AI_Move(1,4)
+        AI_Move.Situations["520"] = new AI_Move(1,3)
+        AI_Move.Situations["530"] = new AI_Move(1,2)
+        AI_Move.Situations["540"] = new AI_Move(1,1)
 End
 #endregion
 
@@ -137,13 +210,15 @@ Class Nim_Man
 		Img.HotBottomCenter()
 		CSayF("Spawned a %s on (%04d,%04d)",sp,x,y)
 	End
-End
+End	
 
 Class Nim_Row
 	
-
 	ReadOnly Int ResetNum
 	ReadOnly Int Y
+	
+	static int HoverRow = 0
+	static int HoverShoot = 0
 	
 	static Get Int W
 		return Screen.W div 7
@@ -153,7 +228,7 @@ Class Nim_Row
 		return (Screen.H - 100) div 4
 	End
 	
-	Table Men = {}
+	Var Men
 	
 	Get Int Num
 		Int R = 0
@@ -166,6 +241,7 @@ Class Nim_Row
 	End
 	
 	Void Reset()
+		Men = {}
 		For i=1,ResetNum
 			Men[i] = new Nim_Man(i*W,Y)
 		End
@@ -188,17 +264,29 @@ Class Nim_Row
 		For i=1,ResetNum
 			If Men[i]
 				Men[i].Img.Draw(Men[i].X,Y)
+				If __NG.MX>Men[i].X-(16*__NG.Scl) && __NG.MX<Men[i].X+(16*__NG.ScL)
+					HoverShoot=i
+				End
 			End
 		End
 	End
 	
 	Static Void DrawAll()
+		HoverRow=0
+		HoverShoot=0
 		For i,R in ipairs(Row)
 			__SkyBlue
 			BFnt.Text(""..i..":",3,R.Y-5,0,1)
 			__White
 			R.Draw()
+			if __NG.MY>R.Y-(64*__NG.ScL) && __NG.MY<R.Y
+				HoverRow=i
+			end
 		End
+	End
+	
+	Static Var __NumberIndex(int idx)
+		Return Row[idx]
 	End
 	
 End
@@ -206,10 +294,58 @@ End
 Init
 	//int H  = Screen.H
 	//int RH = H div 5
-	Nim_Row.Row[1] = New Nim_Row(Nim_Row.H * 2,5)
-	Nim_Row.Row[2] = New Nim_Row(Nim_Row.H * 3,4)
-	Nim_Row.Row[3] = New Nim_Row(Nim_Row.H * 4,3)
+	Nim_Row.Row[1] = New Nim_Row(math.floor(Nim_Row.H * 1.5),5)
+	Nim_Row.Row[2] = New Nim_Row(math.floor(Nim_Row.H * 2.5),4)
+	Nim_Row.Row[3] = New Nim_Row(math.floor(Nim_Row.H * 3.5),3)
 End
+
+
+Class Nim_Projectile
+	Static Get Var Img
+		return Proj
+	End
+	Readonly Int X
+	ReadOnly Int StartY
+	ReadOnly Int ToY
+	ReadOnly Int KillRij
+	ReadOnly Int KillMan
+	Int Y
+	
+	Constructor(int sy,int r,int s)
+		StartY  = SY
+		KillRij = r
+		KillMan = s
+		ToY = NIM_Row[r].Y - 40
+		X   = NIM_Row[r].Men[s].X
+		Y   = StartY
+		Self.List.AddLast(Self)
+	End
+	
+	Static Var List = New LinkedList()
+	Static Get Int Num
+		Return List.Count
+	End
+	Static Get Bool Any
+		return Num>0
+	End
+	Static Get Bool None
+		Return !Any
+	End
+	
+	Static Void Cycle()
+		// CSayF("Cycle. Num: %d",Num)
+		For P,L in List.Each
+			// CSayF("Projectile: %d -> (%d,%d) -> %d",P.StartY,P.X,P.Y,P.ToY)
+			P.Y += 3
+			Img.Draw(P.X,P.Y)
+			If P.Y>=P.ToY
+				NIM_Row[P.KillRij].Men[P.KillMan] = nil
+				L.UnLink()
+			End
+		End
+	End
+	
+End	
 #endregion
 
 Group NIMGame
@@ -224,7 +360,10 @@ Group NIMGame
 	get bool ml
 		return Events.MouseHitLeft()
 	end
-
+	
+	get var Row
+		return NIM_Row
+	end
 
 	String Turn
 	String Stage
@@ -243,12 +382,144 @@ Group NIMGame
 	
 	Void GoToGame(string retto)
 		ReturnTo=RetTo
-		NewGame()
 		ScL = Screen.W / (7*64)
 		CSayF("Scale = %1.5f",Scl)
+		NewGame()
+		Music.Push()
+		Music.Play("Music/BlockShooter/Overworld.ogg")
 	End
 	#endregion
 	
+	#region Stages
+	Void Stage_WhichRow()
+		string TXT
+		int HC = Events.GetChar()-48
+		Switch(gv.gstring.Lang)
+			Case "Dutch"
+				TXT = "Welke rij? "
+			Default
+				TXT = "Which row? "
+		End
+		if HC>=1 && HC<=3
+			TXT += HC
+			WelkeRij = HC
+			Stage = "RemoveHowMany"
+		elseif NIM_Row.HoverRow>0
+			TXT += NIM_Row.HoverRow
+			if ML
+				WelkeRij = NIM_Row.HoverRow
+				Stage = "RemoveHowMany"
+			end
+		end
+		
+		__Ember
+		Font.Text(TXT,Screen.W div 2, Screen.H - 150, 2, 2)
+		Events.Flush()
+	End
+	
+	Void Stage_RemoveHowMany()
+		Static Int NVED1
+		string TXT 
+		int HC = Events.GetChar()-48
+		TXT = "Row "..WelkeRij..": "
+		Switch NIM_Row[WelkeRij].Num
+			Case 0
+				Buzz.Play()
+				Stage = "WhichRow"
+			Case 1
+				Switch(gv.gstring.Lang)
+					Case "Dutch"
+						TXT += "Nu verdwijnt er dus 1"
+					Default
+						TXT += "So now 1 will be removed"
+				End
+				NVED1 = (NVED1+1) % 150
+				If NVED1==0
+					Stage="Shoot"
+				End
+				HoeveelMoetenErWeg=1
+			Default
+				Switch(gv.gstring.Lang)
+					Case "Dutch"
+						TXT += "Hoeveel moeten er weg? "
+					Default
+						TXT += "How many should be removed? "
+				End
+				if HC>0 && HC<=NIM_Row[WelkeRij].Num
+					HoeveelMoetenErWeg = HC
+					Stage="Shoot"
+				elseIf NIM_Row.HoverRow==Welkerij && NIM_Row.HoverShoot>0
+					TXT += NIM_Row.HoverShoot
+					If ML
+						HoeveelMoetenErWeg = NIM_ROW.HoverShoot
+						Stage="Shoot"
+					End
+				End
+		End
+		__Ember
+		Font.Text(TXT,Screen.W div 2, Screen.H - 150, 2, 2)
+		Events.Flush()
+	End
+	
+	Void Stage_Shoot()
+		Static int SPD = math.max(1,Screen.W div 256)
+		Static int X = -250
+		Static int Y = 80
+		For i=1,SPD
+			X++
+			If HoeveelMoetenErWeg>0				
+				For idx,m in pairs(Row[WelkeRij].Men)
+					//CSayF("Projectile: %04d; Men[%d]: %04d",X,idx,m.X) // DEBUG ONLY!
+					If m.X==X
+						HoeveelMoetenErWeg--
+						CSayF("Projectile: %s",tostring(new NIM_Projectile(Y,WelkeRij,idx)))
+					End
+				End
+			End			
+		End
+		__white
+		NIM_Projectile.Cycle()
+		Switch Turn
+			Case "PLAYER"
+				__GREEN
+			Case "COMPUTER"
+				__RED
+			Default
+				Lua.error("? Turn error")
+		End
+		UFO.Draw(X,Y)
+		if X>Screen.W+250 && Nim_Projectile.None
+			CSayF("End of %s turn!",Turn)
+			X=-300
+			bool EndGame=True
+			For R in each(Row.Row)
+				EndGame=EndGame && R.Num==0
+			End
+			If EndGame
+				Stage="Victory_"..Turn
+				Return
+			End
+			switch Turn
+				Case "PLAYER"
+					Turn = "COMPUTER"
+					Stage = "ComputerAI"
+					Return
+				Case "COMPUTER"
+					Turn = "PLAYER"
+					Stage = "WhichRow"
+					Return
+				Default
+					Lua.error("? Turn error")
+			End
+		End
+	End
+	
+	Void Stage_ComputerAI()
+		static int time
+		time++
+		// to be continued!
+	End
+	#endregion
 	
 	
 	Void Flow()
@@ -256,6 +527,17 @@ Group NIMGame
 		Graphics.Scale(ScL,ScL)
 		Nim_Row.DrawAll()
 		Graphics.Scale(1,1)
+		Switch(Turn)
+			case "PLAYER"
+				__Green
+				BFnt.Text("Your turn",Screen.W div 2, 20, 2, 2)
+			case "COMPUTER"
+				__Red
+				BFnt.Text("My turn",Screen.W div 2, 20, 2, 2)
+			default
+				lua.error("Turn error: "..turn)
+		End
+		Self["Stage_"..Stage]()
 		// Debug
 		Dev.ToConsole()
 		// Party
