@@ -47,6 +47,7 @@ Var BFnt = ImageFont.Obtain("BIGTEXT")
 Var Buzz = Audio.Obtain("BUZZ")
 Var UFO  = Image.LoadNew("GFX/Special/UFO.png","NIM_UFO")
 Var Proj = Image.LoadNew("GFX/Special/Projectile.png","NIM_PROJECTILE")
+Var Shot = Audio.LoadNew("Audio/SFX/photon.ogg","SPELLANI_SHOOT_SOUND")
 #endregion
 
 Init
@@ -319,6 +320,7 @@ Class Nim_Projectile
 		X   = NIM_Row[r].Men[s].X
 		Y   = StartY
 		Self.List.AddLast(Self)
+		Shot.Play()
 	End
 	
 	Static Var List = New LinkedList()
@@ -346,6 +348,22 @@ Class Nim_Projectile
 	End
 	
 End	
+
+Class NIM_Schelden
+	ReadOnly String TXT
+	ReadOnly Int R
+	ReadOnly Int G
+	ReadOnly Int B
+	ReadOnly Int Y
+	
+	Constructor(int aY,String aTXT,int aR=255,int aG=180,int aB=0)
+		TXT = aTXT
+		Y   = aY
+		R   = aR
+		G   = aG
+		B   = aB
+	End
+End		
 #endregion
 
 Group NIMGame
@@ -562,8 +580,110 @@ Group NIMGame
 			End
 		End
 	End
+	
+	Void Stage_Victory_COMPUTER()
+		Static Int Tick=0
+		Static Var I_WON
+		Tick = (Tick+1)%250
+		if !I_WON
+			if JCR6.EntryExists("GFX/Special/WIN_"..gv.gstring.Lang..".png")
+				I_WON = Image.Load("GFX/Special/WIN_"..gv.gstring.Lang..".png")
+			else
+				I_WON = Image.Load("GFX/Special/WIN_ENGLISH.png")
+			end
+		end
+		__White
+		I_WON.Stretch(0,0,Screen.W,Screen.H-100)
+		if Tick==0
+			Self.EndGame(false)
+		end
+	End
+			
+	
+	Void Stage_Victory_PLAYER()
+		// Declarations
+		Static Int Tick
+		Static Table Lines
+		Static Var Scheldwoorden
+		Static String ScheldDir = "Script/Data/NIM_Schelden/"
+		Static String ScheldFile = ScheldDir .. gv.gstring.Lang
+		static Table ScheldTabel
+		// Load foul words
+		If !JCR6.EntryExists(ScheldFile)
+			ScheldFile = ScheldDir.."English"
+		End
+		ScheldWoorden = Scheldwoorden || NeilUse(ScheldFile)
+		// Init on tick 0
+		If Tick==0
+			ScheldTabel = {}
+			Bool FoundSame = False
+			int TimeOut=10000
+			Repeat
+				ScheldTabel = {}
+				FoundSame = False
+				For i=1,5
+					ScheldTabel += ScheldWoorden[math.random(1,#ScheldWoorden)]
+					For j=1,#ScheldTabel
+						FoundSame = FoundSame || (j!=i && ScheldTabel[i]==ScheldTabel[j])
+						CSayF("%05d:> Check %d(%s).%d(%s)",TimeOut,i,ScheldTabel[i],j,ScheldTabel[j]) 
+					End
+				End
+				TimeOut--
+				Lua.assert(TimeOut>=0,"Foul language TimeOut!")
+			LoopWhile FoundSame
+			Lines = {}
+			Switch gv.gString.Lang
+				Case "Dutch"
+					Lines += new NIM_Schelden(50,"DOOR DE EEN OF ANDERE "..ScheldTabel[1])
+				Default
+					Lines += new NIM_Schelden(50,"DUE TO SOME "..ScheldTabel[1])
+			End
+			for i=2,#ScheldTabel
+				Lines += new NIM_Schelden(i*50,ScheldTabel[i])
+			end
+			Int YWZ = (#ScheldTabel+1)*50
+			Switch gv.gString.Lang
+				Case "Dutch"
+					Lines += new NIM_Schelden(YWZ,"WANHOOPSZET",255,0,0)
+					Lines += new NIM_Schelden(YWZ+100,"HEB JIJ GEWONNEN!",0,180,255)
+				Default
+					Lines += new NIM_Schelden(YWZ,"STROKE OF FATE",255,0,0)
+					Lines += new NIM_Schelden(YWZ+100,"YOU WON!",0,180,255)
+			End
+		ElseIf Tick>#Lines*80
+			Self.EndGame(true)
+		Else
+			For i=0, Tick Div 75
+				If i>0 && i<=#Lines
+					Var L=Lines[i]
+					Graphics.Color(L.R,L.G,L.B)
+					Font.Text(L.TXT,Screen.W div 2,L.Y,2,2)
+				End
+			End		
+		End
+		Tick++
+	End
 	#endregion
 	
+	
+	Void EndGame(bool Win)
+		Music.Pop()
+		Switch ReturnTo
+			Case "DEBUG"
+				Flow.GoToFlow("CONSOLE")
+			Case "KOTA"
+				If Win
+					Map.Schedule("KOTA_WIN")
+				Else
+					Map.Schedule("KOTA_LOSE")
+				End
+				Flow.GoToFlow("FIELD")
+			Case "HAWK"
+				State.GoToFlow("TERMINAL")
+			Default
+				Lua.error("Unknown NIM-End return setting: "..ReturnTo)
+		End
+	End
 	
 	Void Flow()
 		// Game
