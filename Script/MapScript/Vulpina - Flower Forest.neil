@@ -41,6 +41,8 @@
 #MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.04.27"
 #MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
 
+#macro RioolOpen gv.GBool.Sewers_Opened
+
 group MScript
 
 	Get Int Kota_Stage
@@ -58,8 +60,13 @@ group MScript
 	
 	Void Kota_Win()
 		Kota_Stage++
-		MapText("KOTA.WIN")
-		Lua.error("No script yet for victory on Kota")
+		MapText("KOTA.WIN")		
+		Hawk.Add("BeginDungeon","Excalibur","Hangar","Excalibur","#000")
+		Hawk.ArriveEvent("Excalibur","Excalibur_Arrival")
+		__hawk = "AFTERKOTA"
+		Party.GiveEXP(2500)
+		Map.GoToMap("HAWK","BRIDGE","Scotty")
+		// Lua.error("No script yet for victory on Kota")
 	End
 	
 	Void Kota_StartNIM()
@@ -109,9 +116,22 @@ group MScript
 	
 	// Meeting when you *did* win the NIM game
 	Void Kota3()
+		If !RioolOpen && math.random(1,__skill*(__skill*3))==1
+			RioolOpen = True
+			Hawk.Add("Start","Vulpina","Sewers - Entrance","Vulpina - Sewers","#001")
+			Party.GiveEXP(1234)
+			MapText("KOTA.SEWERS")
+		Else
+			MapText("KOTA.BANIKA")
+		End
 	End
 	
-	Void NPC_Kota()
+	Get Delegate Kota4
+		// Needed due to an old bug that kept permanent damage in my savegame files
+		Return Kota3
+	End
+	
+	Void NPC_Kota()		
 		Self["Kota"..Kota_Stage]()
 	End
 	
