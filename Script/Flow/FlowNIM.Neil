@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNIM.Neil
-// Version: 21.05.01
+// Version: 21.05.02
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -678,7 +678,7 @@ Group NIMGame
 					Map.Schedule("KOTA_LOSE")
 				End
 				Flow.GoToFlow("FIELD")
-			Case "HAWK"
+			Case "HAWK" "TERMINAL"
 				State.GoToFlow("TERMINAL")
 			Default
 				Lua.error("Unknown NIM-End return setting: "..ReturnTo)
