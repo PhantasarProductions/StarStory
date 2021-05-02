@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.05.02
 // End License Information
 
 #define mother_boss
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.03.03"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.05.02"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -193,7 +193,7 @@ group MScript
 			StartCombat.Prepare()
 			StartCombat.Foe("Boss/BrainDroid",Caps.LvCycle(__skill+9,200,500,750,1000,2500,5000,2500*__skill,3000*__skill,4000*__skill,10000))
 			StartCombat.Tune = StartCombat.RandomBossTune
-			StartCombat.Boss = false
+			StartCombat.Boss = true
 			StartCombat.Arena = "Yaqirpa.png"	
 			StartCombat.Begin()		
 		#fi
