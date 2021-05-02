@@ -1,0 +1,109 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Vulpina - Sewers.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.02
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - Vulpina - Sewers.neil" "21.05.02"
+#MKL_Lic     "Star Story - Vulpina - Sewers.neil" "Phantasar Closed License"
+
+group MScript
+
+	Void Boss()
+		If gv.gBool.SECRETDUNGEON_SEWERS 
+			Return 
+		End
+		Player.Wind="West"
+		MapText("ALIVE1")
+		Map.SetObj("Frank","Texture","GFX/Actors/SinglePic/Sewers/MadScientistHU.png")
+		MapText("ALIVE2")
+		Int lv=Map.Level
+		StartCombat.Prepare()
+		StartCombat.Arena="Riool.png"
+		StartCombat.Tune = StartCombat.RandomBossTune
+		StartCombat.Boss = true
+		Switch __skill
+   			Case 1
+   				StartCombat.Foe("Boss/SuperZombie",lv)
+   			Case 2
+   				StartCombat.Foe("Reg/Zombie",math.random(50,lv))
+   				StartCombat.Foe("Boss/SuperZombie",lv)
+   				StartCombat.Foe("Reg/Zombie",math.random(50,lv))
+   			Case 3
+   				For i=1,4
+   					StartCombat.Foe("Reg/Zombie",math.random(50,lv))
+   				End
+   				StartCombat.Foe("Boss/SuperZombie",lv)
+   				For i=1,4
+   					StartCombat.Foe("Reg/Zombie",math.random(50,lv))
+   				End
+   			Default
+   				Lua.error("Boss skill error: "..__skill)
+   		End
+   		StartCombat.Begin()
+   		Schedule.Add("PostBoss")
+   		// Sys.Error('Boss Event itself not yet scripted')
+   	End	
+   	
+   	Void PostBoss()
+   		gv.gBool.SECRETDUNGEON_SEWERS = true
+		Map.Kill("Frank",true)
+		Map.Kill("Monster",true)
+		Party.GiveEXP(3000)
+		Ach.Award("SECRETDUNGEON_SEWERS")
+   	End
+   	
+   	Void NPC_NIMSTICK()
+   		gv.gbool.FOUNDAPP_NIM=true
+   		Schedule.Add("MSG:NIMGAME added to terminal on the Hawk")
+   		Party.GiveEXP(3000)
+   		Map.Kill("NPC_NIMSTICK",true)
+   	End
+
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+		ZA.TabEnter{"Boss"}
+	End
+
+end
