@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowTerminal.neil
-// Version: 21.03.31
+// Version: 21.05.02
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,6 +37,9 @@
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Box"
+
+#use "Script/Use/Misc/GoToNIM"
+
 #use "Libs/LinkedList"
 
 Class TApp
@@ -84,6 +87,10 @@ Void ChainJukeBox()
 	Lua.error("Jukebox not yet available")
 end
 
+Void ChainGameNIM()
+	GoToNIM("TERMINAL")
+End
+
 Void Quit()
 	State.GoToFlow("FIELD")
 end
@@ -93,6 +100,7 @@ Init
 	AppList.AddLast(new TApp("Tutor",ChainTutorial))
 	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
 	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
+	AppList.AddLast(new TApp("GameNIM",ChainGameNIM,"FOUNDAPP_NIM"))
 	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARY"))
 	AppList.AddLast(new TApp("Quit",Quit))
 End
