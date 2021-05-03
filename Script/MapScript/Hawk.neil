@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.25
+// version: 21.05.03
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.04.25"
+#MKL_Version "Star Story - Hawk.neil" "21.05.03"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -353,6 +353,13 @@ group MScript
 		Aurina.Rate++
 		Hawk.Add("Niz_GatePoint","Nizozemska","Space Port","Nizozemska - Space Port","SPACEPORT")
 		__hawk = "GODDESSFREE"
+	End
+	
+	Void Excalibur_Arrival()
+		Music.Play("Music/Excalibur/Final.ogg")
+		MapText("BACK2EXCALIBUR")
+		Party.GiveEXP(1000000)
+		Map.GoToMap("Excalibur - Final","#000","Trans.Spot.InDenBeginne")
 	End
 
 	Void Draw()
