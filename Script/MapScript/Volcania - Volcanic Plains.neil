@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.23
+// version: 21.05.03
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Volcania - Volcanic Plains.neil" "21.03.23"
+#MKL_Version "Star Story - Volcania - Volcanic Plains.neil" "21.05.03"
 #MKL_Lic     "Star Story - Volcania - Volcanic Plains.neil" "Phantasar Closed License"
 
 group MScript
@@ -123,6 +123,10 @@ group MScript
 			North() 
 		End
 	End
+	
+	Void ToSecret()
+		Map.GoToMap("Volcania - Caves","#001","Start")
+	End
 
 	Void Draw()
 	End
@@ -139,6 +143,8 @@ group MScript
 		ZA.Enter("N006","North")
 		ZA.Enter("S000","South")
 		ZA.Enter("StartBOSS","StartBOSS")
+		ZA.Enter("ToSecret","ToSecret")
+		
 	End
 
 end
