@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.05.03
+// version: 21.05.04
 // End License Information
 
 #use "Script/Use/Anyway"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.03"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.04"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -53,7 +53,42 @@ QuickMeta Crystal_Reload
 	End
 End
 
+QuickMeta Has_Key
+	Index
+		Return gv.gbool["EXC_HASKEY_"..Key.."_"..Map.Layer]
+	End
+	
+	NewIndex
+		gv.gbool["EXC_HASKEY_"..Key.."_"..Map.Layer] = Value
+	End
+End
+
+QuickMeta Unlocked_Floor
+	Index
+		If gv.gbool["EXC_UNLOCKED_FLOOR_"..Key]
+			Return True
+		End
+		int KN = Lua.tonumber(right(Key,#key-1)) || 0
+		int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+		If (LN+1==KN && Has_Key.Red) || Key=="#001"
+			gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] = True
+			Has_Key.Red = False
+			CSayF("Unlocked floor: %s",Key)
+			If KN<=10
+				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Neil.Globals.MScript.Names[Map.Layer],"Excalibur - Final",Key)
+			Else
+				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Neil.Globals.MScript.Names[Map.Layer],"Excalibur - Final 2",Key)
+			End
+			Return True
+		End
+		Return False
+	End
+End
+
 Group MScript
+
+	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah/Yeah.ogg","EXCALIBUR_YEAH")
+	ReadOnly Var Card = Image.LoadNew("GFX/Textures/Excalibur/Keycard.png","EXCALIBUR_KEYCARD")
 
 	Table Names
 	ReadOnly Var Fnt = ImageFont.Obtain("BIGTEXT")  
@@ -67,7 +102,7 @@ Group MScript
 				End
 			End
 		Else
-			For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi"}
+			For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi",""}
 				RPGParty[I]=Ch
 			End
 		End
@@ -148,9 +183,35 @@ Group MScript
     	Else
     		MapText("CRYSTAL.FULL")    		
     	End
+    End    
+    #endregion
+    
+    #region Keys
+    Void GetKey(string Color)
+    	int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    	Yeah.Play()
+    	Party.GiveEXP(LN * 250)
+    	Has_Key[Color] = True
+    	Map.Kill("NPC_"..(Color:upper()),true)
     End
     
+    Void NPC_Red()
+    	GetKey("Red")
+    End
+    
+    Void NPC_Blue()
+    	GetKey("Blue")
+    End
+    
+    Void NPC_Green()
+    	GetKey("Green")
+    End
+    
+    Void NPC_Gold()
+    	GetKey("Gold")
+    End
     #endregion
+    
 	
 	#region 000 - Hangar
 	Void EntranceWalkSouth()
@@ -175,14 +236,50 @@ Group MScript
 		Map.SetObj("BlockStart","Impassible",true)
 		Map.ReMap()
 	End
+	
+	Void ToDungeon()
+		Map.GoToLayer("#001","BeginMetNummer1")
+	End
+	
+	Void TerugNaarHangar()
+		Map.GoToLayer("#000","From001")
+	End
+	#endregion
+	
+	
+	#region Transporter
+	Void Transporter()
+	End
 	#endregion
 
 	Void Update()
 	End
 
 	Void Draw()
+		Static Table Cards = {"Red","Green","Blue","Gold"}
+		Static Int CSX = (Screen.W div 2) - 40
 		__SkyBlue
 		Fnt.DarkText(Names[Map.Layer] || "???",Screen.W div 2,5,2,0)
+		For i,c In Pairs(Cards)
+			If Has_Key[c]
+				Switch i
+					Case 1
+						Graphics.Color(255,0,0)
+					Case 2
+						Graphics.Color(0,255,0)
+					Case 3
+						Graphics.Color(0,0,255)
+					Case 4
+						Graphics.Color(255,180,0)
+					Default
+						Lua.error("Key color error")
+				End
+			Else
+				Graphics.Color(64,64,64)
+			End
+			Card.Draw(CSX+(i*20),80)
+		End
+		__White
 	End
 	
 	Void Load()
@@ -192,7 +289,7 @@ Group MScript
 		CSay("Excalibur!")
 		InitNames()
 		ReplaceRolfWithJohnson()
-		ZA.TabEnter{"EntranceWalkSouth"}
+		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar"}
 	End
 
 end
