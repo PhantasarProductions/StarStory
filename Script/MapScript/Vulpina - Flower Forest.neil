@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.05.03
+// version: 21.05.04
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/GoToNIM"
 
-#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.05.03"
+#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.05.04"
 #MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
 
 #macro RioolOpen gv.GBool.Sewers_Opened
@@ -61,7 +61,7 @@ group MScript
 	Void Kota_Win()
 		Kota_Stage++
 		MapText("KOTA.WIN")		
-		Hawk.Add("InDenBeginne","Excalibur","Hangar","Excalibur","#000")
+		Hawk.Add("InDenBeginne","Excalibur","Hangar","Excalibur - Final","#000")
 		Hawk.ArriveEvent("Excalibur","Excalibur_Arrival")
 		__hawk = "AFTERKOTA"
 		Party.GiveEXP(2500)
