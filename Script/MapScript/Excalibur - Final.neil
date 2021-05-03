@@ -1,0 +1,198 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Excalibur - Final.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.03
+// End License Information
+
+#use "Script/Use/Anyway"
+
+
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.03"
+#MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
+
+#macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
+
+QuickMeta Crystal_Reload
+	Index
+		return gv.gint["EXC_CRYSTAL_RELOAD_"..Map.Layer]
+	End
+	
+	NewIndex
+		gv.gint["EXC_CRYSTAL_RELOAD_"..Map.Layer] = value
+	End
+End
+
+Group MScript
+
+	Table Names
+	ReadOnly Var Fnt = ImageFont.Obtain("BIGTEXT")  
+
+	#region General stuff
+	Void ReplaceRolfWithJohnson()
+		If JohnsonJoined
+			For I=1,6
+				If RPGParty[I]=="Rolf"
+					RPGParty[I]="Johnson"
+				End
+			End
+		Else
+			For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi"}
+				RPGParty[I]=Ch
+			End
+		End
+	End		
+	
+	Void InitNames()
+		Names = {}
+		Names["#000"] = "Secret Hangar"
+		Names["#001"] = "Hidden layer"
+		Names["#002"] = "Security department"
+		Names["#003"] = "Lady of the Lake - Artificial Park"
+		Names["#004"] = "Coder Section - Apollo" // Used to be 'LAURA'
+		Names["#005"] = "Residential Area - Galahad"
+		Names["#006"] = "Junk collection area - Donald"
+		Names["#007"] = "Camelot - Town Square"
+		Names["#008"] = "Coder Section - C++" // Used to be 'Blitz'
+		Names["#009"] = "Maintenance Deck"
+		Names["#010"] = "Residential Area - Guinevere"
+		Names["#011"] = "Crystal's bar"
+		Names["#012"] = "Junk collection area - Geert"
+		Names["#013"] = "Casino"
+		Names["#014"] = "Weapon Storage"
+		Names["#015"] = "Medical department"
+		Names["#016"] = "Coder Section - Neil" // Used to be 'Lua'
+		Names["#017"] = "Playground"
+		Names["#018"] = "Junk collection area - Marine"
+		Names["#019"] = "Staff department"
+		Names["#020"] = "High Security Department"
+		Names.SECRET1 = "Secret Science Lab"
+		Names.SECRET2 = "Secret labyrinth of \"the Mole\""        
+    End
+    
+    Var RL
+    Get Int Reloads
+    	If !Done["EXC_AMMO_INIT_"..Map.Layer]
+    		Switch __Skill
+    			case 1    				
+    				RL = RL || {}
+    				RL[Map.Layer] = RL[Map.Layer] || 1000
+    			case 2 
+    				RL = Crystal_Reload
+    				RL[Map.Layer] = math.random(20,250)
+    			case 3
+    				RL = Crystal_Reload
+    				RL[Map.Layer]= math.random(1,5)
+    			default
+    				Lua.error("Skill error on reload")
+    		End    				    			
+    	End
+    	return RL[Map.Layer]
+    End
+    
+    Set Int Reloads
+    	RL[Map.Layer] = value
+    End
+    
+    Void NPC_AMMO()
+    	Bool FilledAny
+    	If Reloads<=0
+    		MapText("CRYSTAL.EMPTY")
+    		Return
+    	End
+    	For AT in RPGChar.Crystal.List.ARM.Each
+    		Var Ammo = RPGChar.Crystal.Points["ARM.AMMO."..AT]
+    		FilledAny = FilledAny || (Ammo.Have<Ammo.Maximum)
+    		Ammo.Have=Ammo.Maximum
+    	End
+    	If FilledAny
+    		MapText("CRYSTAL.REFILL")
+    		Reloads--
+    		If (Reloads>1)
+    			Schedule.Add(sprintf("MSG: %d reloads left at this refill point!",Reloads))
+    		ElseIf (Reloads==1) 
+    			Schedule.Add("MSG:Warning only one more refill at this point!")
+    		Else
+    			Schedule.Add("MSG:Warning! This refill point is now empty")
+    		End
+    	Else
+    		MapText("CRYSTAL.FULL")    		
+    	End
+    End
+    
+    #endregion
+	
+	#region 000 - Hangar
+	Void EntranceWalkSouth()
+		Int DL = Map.ObjInt("EntranceLeft","X")
+		Int DR = Map.ObjInt("EntranceRight","X")
+		Map.SetObj("EntranceLeft","X",DL-32)
+		Map.SetObj("EntranceRight","X",DR+32)
+		Map.SetObj("BlockStart","Impassible",false)
+		Map.ReMap()
+		Player.WalkTo("BeginDungeon")
+		If !Done.Arrival_Excalibur_FinalMission_First_Time
+			MapText("WENDICKA_WELCOMEBACK")
+		End
+		For i=32,0,-1
+			Graphics.Cls()
+			Map.DrawScreen()
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+			Map.SetObj("EntranceLeft","X",DL-i)
+			Map.SetObj("EntranceRight","X",DR+i)
+		End
+		Map.SetObj("BlockStart","Impassible",true)
+		Map.ReMap()
+	End
+	#endregion
+
+	Void Update()
+	End
+
+	Void Draw()
+		__SkyBlue
+		Fnt.DarkText(Names[Map.Layer] || "???",Screen.W div 2,5,2,0)
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR	
+		CSay("Excalibur!")
+		InitNames()
+		ReplaceRolfWithJohnson()
+		ZA.TabEnter{"EntranceWalkSouth"}
+	End
+
+end
