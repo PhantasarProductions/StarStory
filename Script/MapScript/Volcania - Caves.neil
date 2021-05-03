@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.03
+// version: 21.05.04
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Volcania - Caves.neil" "21.05.03"
+#MKL_Version "Star Story - Volcania - Caves.neil" "21.05.04"
 #MKL_Lic     "Star Story - Volcania - Caves.neil" "Phantasar Closed License"
 
 group MScript
