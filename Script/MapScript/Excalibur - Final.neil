@@ -35,6 +35,7 @@
 // version: 21.05.04
 // End License Information
 
+#use "Libs/xmath"
 #use "Script/Use/Anyway"
 
 
@@ -55,22 +56,26 @@ End
 
 QuickMeta Has_Key
 	Index
-		Return gv.gbool["EXC_HASKEY_"..Key.."_"..Map.Layer]
+		Return gv.gbool["EXC_HASKEY_"..(Key:upper()).."_"..Map.Layer]
 	End
 	
 	NewIndex
-		gv.gbool["EXC_HASKEY_"..Key.."_"..Map.Layer] = Value
+		gv.gbool["EXC_HASKEY_"..(Key:upper()).."_"..Map.Layer] = Value
 	End
 End
 
 QuickMeta Unlocked_Floor
 	Index
+#if fucked
 		If gv.gbool["EXC_UNLOCKED_FLOOR_"..Key]
 			Return True
 		End
 		int KN = Lua.tonumber(right(Key,#key-1)) || 0
 		int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
-		If (LN+1==KN && Has_Key.Red) || Key=="#001"
+		//CSayF("KN=%d; LN=%d; Compare=%s; Red:%s",LN,KN,lua.tostring(LN+1==KN),lua.tostring(Has_Key.Red)) // DEBUG ONLY!
+		bool u = gv.gbool[sprintf("EXC_HASKEY_RED_%03d",KN-1)]
+		//If (LN+1==KN && Has_Key.Red) || Key=="#001"
+		If u || Key=="#001"
 			gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] = True
 			Has_Key.Red = False
 			CSayF("Unlocked floor: %s",Key)
@@ -83,19 +88,31 @@ QuickMeta Unlocked_Floor
 		End
 		Return False
 	End
+#fi
+		Return gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] || Key=="#001"
+	End
+	NewIndex
+		gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] = value
+	End
 End
 
 Group MScript
 
 	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah/Yeah.ogg","EXCALIBUR_YEAH")
 	ReadOnly Var Card = Image.LoadNew("GFX/Textures/Excalibur/Keycard.png","EXCALIBUR_KEYCARD")
+	
+	ReadOnly Var Mouse = Image.Obtain("Mouse")
 
 	Table Names
 	ReadOnly Var Fnt = ImageFont.Obtain("BIGTEXT")  
+	ReadOnly Var SFt = ImageFont.Obtain("BOXTEXT")
 
 	#region General stuff
 	Void ReplaceRolfWithJohnson()
 		If JohnsonJoined
+			If !Done.The1stTimeJohnsonBack
+				MapText("JOHNSON_BACK")
+			End		
 			For I=1,6
 				If RPGParty[I]=="Rolf"
 					RPGParty[I]="Johnson"
@@ -188,11 +205,18 @@ Group MScript
     
     #region Keys
     Void GetKey(string Color)
-    	int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    	String Tag = "NPC_"..(Color:upper())
+    	Int KeyX = Map.ObjInt(Tag,"X")
+    	Int KeyY = Map.ObjInt(Tag,"Y")
+    	Int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    	If xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)>64
+    		CSay("Player to far away from key. Request rejected")
+    		Return
+    	End
     	Yeah.Play()
     	Party.GiveEXP(LN * 250)
     	Has_Key[Color] = True
-    	Map.Kill("NPC_"..(Color:upper()),true)
+    	Map.Kill(Tag,true)
     End
     
     Void NPC_Red()
@@ -215,6 +239,7 @@ Group MScript
 	
 	#region 000 - Hangar
 	Void EntranceWalkSouth()
+		Self.LeftTrans = true
 		Int DL = Map.ObjInt("EntranceLeft","X")
 		Int DR = Map.ObjInt("EntranceRight","X")
 		Map.SetObj("EntranceLeft","X",DL-32)
@@ -247,12 +272,151 @@ Group MScript
 	#endregion
 	
 	
-	#region Transporter
+	#region Transporter	
+	Get Bool MR
+		Return Events.MouseHitRight()
+	End
+
+	Get Bool ML
+		Return Events.MouseHitLeft()
+	End
+	
+	Get Int MX
+		Return Events.MouseX()
+	End
+	
+	Get Int MY
+		Return Events.MouseY()
+	End
+	
+	Bool LeftTrans = False
+	
+	Void LeaveTrans()
+		LeftTrans=true
+	End
+		
 	Void Transporter()
+		Static Table XTRA = {"Save Game","Back to Hawk","Cancel"}
+		String Lay = Map.Layer
+		Int ILay = Lua.tonumber(right(Lay,#Lay-1)) || 0
+		Int XW = Screen.W Div (#XTRA + 1)		
+		if !LeftTrans
+			Return
+		End
+		Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
+		Player.Wind="South"
+		LeftTrans=true
+		If !Done.Excalibur_FirstFloor_Hawk_Set
+			Hawk.Add("F001","Excalibur",Lua.Neil.Globals.MScript.Names["#001"],"Excalibur - Final","#001")
+		End
+		If Has_Key.Red && Map.Layer!="#020"
+			CSay("Red Card Used To Unlock Next Floor")
+			Int L = Lua.tonumber(right(Lay,#Lay-1)) || 0
+			Lua.assert(L>0,"Layer number catchup failed!")
+			Int NL = L+1
+			String NLS = sprintf("#%03d",NL)
+			Unlocked_Floor[sprintf("#%03d",NL)]=True
+			If NL<=10
+				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final",NLS)
+			Else
+				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final 2",NLS)
+			End			
+			CSayF("Floor %d has been unlocked",NL)
+			Has_Key.Red = False
+		Else
+			CSayF("Unlock new rejected: Red Card: %s; Floor: %s ",lua.tostring(Has_Key.Red),Map.Layer)			
+		End
+		Events.Flush()
+		Repeat
+			Events.Poll()
+			Graphics.Cls()
+			__Ember
+			Fnt.Text("Navigation system Hawk",Screen.W div 2,1,2,0)
+			If MR || Events.KeyHit(27)
+				Return
+			End
+			For i=1,20
+				String Tag = sPrintF("#%03d",i)
+				Static Int W = (Screen.W div 2)
+				Static Int H = 30
+				Int X = (((i-1) div 10))*W
+				Int Y = (((i-1) % 10)*30)+75
+				If Unlocked_Floor[Tag]
+					__SkyBlue
+					If i==ILay
+						__Ember
+					ElseIf MX>X && MX<X+Sft.TextWidth(Names[Tag]) && MY>Y && MY<Y+H
+						__Cyan
+						If ML
+							Beam.Quick("PLAYER",false,true)
+							Map.HideObj("PLAYER")
+							If (ILay<=10 && i<=10) || (ILay>10 && i>10)
+								Map.GoToLayer(sprintf("#%03d",i),sprintf("Trans.Spot.F%03d",i))
+							Elseif (i<=10)
+								Map.GoToMap("Excalibur - Final",sprintf("#03d",i),sprintf("Trans.Spot.F%03d",i))
+							Else
+								Map.GoToMap("Excalibur - Final - 2",sprintf("#03d",i),sprintf("Trans.Spot.F%03d",i))
+							End
+							Events.Flush()
+							Return
+						End
+					End
+					SFt.Text(Names[Tag],X,Y)
+				Else
+					__Red
+					SFt.Text(sprintf("<< Locked:%s >>",Tag),X,Y)
+				End
+			End
+			For i,feat In iPairs(XTRA)
+				//If (MY>SCREEN.H-50) && (MX>((i-1)*XW)-(XW div 4)) && (MX<((i+1)*XW)-(XW div 4))
+				Int TW = Fnt.TextWidth(feat)
+				If (MY>SCREEN.H-50) && (MX>(i*XW)-(TW div 2)) && (MX<(i*XW)+(TW div 2))
+					__Cyan
+					If ML
+						Switch i
+							Case 1
+								MSave.ToSave()
+								Return
+						    Case 2
+						    	If JohnsonJoined
+						    		If !Done.The1stTimeJohnsonLeave
+						    			MapText("JOHNSON_LEAVE")
+						    		End
+						    		For I=1,6
+						    			If RPGParty[I]=="Johnson"	
+						    				RPGParty[I]="Rolf"
+						    			End
+						    		End
+						    	Else
+						    		For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
+						    			RPGParty[I]=Ch
+						    		End
+						    	End
+						    	Beam.Quick("PLAYER",true,true)
+						    	Map.GoToMap("Hawk","BRIDGE","Scotty")
+						    	//Map.MCall("Trans.Scotty","nil")
+						    	//Lua.error("Beaming back to Hawk not yet properly scripted")
+						    	Return
+						    Case 3
+						    	Return
+						    Default
+						    	Lua.error("Unknown XPick: "..i)
+						End
+					End
+				Else
+					__SkyBlue
+				End
+				Fnt.Text(feat,i*XW,Screen.H,2,1)
+			End
+			__White
+			Mouse.Draw(MX,MY)
+			Graphics.Flip()
+			FPS.WaitMinTicks()
+		Forever
 	End
 	#endregion
 
-	Void Update()
+	Void Update()		
 	End
 
 	Void Draw()
@@ -290,6 +454,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar"}
+		ZA.Leave("Transporter","LeaveTrans")
 	End
 
 end
