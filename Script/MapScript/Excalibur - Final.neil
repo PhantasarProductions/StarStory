@@ -32,14 +32,15 @@
 // 
 // **********************************************
 // 
-// version: 21.05.04
+// version: 21.05.05
 // End License Information
 
 #use "Libs/xmath"
 #use "Script/Use/Anyway"
+#use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.04"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.05"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -110,14 +111,17 @@ Group MScript
 	#region General stuff
 	Void ReplaceRolfWithJohnson()
 		If JohnsonJoined
-			If !Done.The1stTimeJohnsonBack
-				MapText("JOHNSON_BACK")
-			End		
+			//If !Done.The1stTimeJohnsonBack
+			//	MapText("JOHNSON_BACK")
+			//End		
 			For I=1,6
 				If RPGParty[I]=="Rolf"
 					RPGParty[I]="Johnson"
 				End
 			End
+			// ReSync needed or Johnson's stats will not be correct if Rolf gained a level in the meantime
+			// This is also why Rolf is ReSynced when you leave Excalibur.
+			Party.GrabLevel("Johnson",RPGChar.Johnson.Stat.Level)
 		Else
 			For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi",""}
 				RPGParty[I]=Ch
@@ -209,8 +213,9 @@ Group MScript
     	Int KeyX = Map.ObjInt(Tag,"X")
     	Int KeyY = Map.ObjInt(Tag,"Y")
     	Int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
-    	If xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)>64
-    		CSay("Player to far away from key. Request rejected")
+    	Number Afstand = xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)
+    	If Afstand>70
+    		CSayF("Player to far away from key (%02.03f). Request rejected",Afstand)
     		Return
     	End
     	Yeah.Play()
@@ -271,6 +276,105 @@ Group MScript
 	End
 	#endregion
 	
+	#region 003 - Lady of the Lake - Artificial Park
+	Void CreateJohnson()
+	// Just use te old when on a new cycle
+		if Caps.Cycle>1 || gv.gbool.ImportedJohnson
+			CSay("Updating level stuff for Johnson")
+			Party.GrabLevel("Johnson",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			RPGParty[6] = "Johnson"
+			return
+		end
+		// Create raw character record
+		CSay("Creating character Johnson!")
+		Party.NewChar("Johnson",RPGChar.ExHuRU.Stat.Level,"Admiral Johnson")
+		RPGChar.Johnson.Link_Stat("ExHuRU","Level")
+		// Inventory sockets
+		for i=1,Caps.InventorySockets
+			RPGChar.Johnson.Link_Data("ExHuRU","INVITEM"..i)
+			RPGChar.Johnson.Link_Stat("ExHuRU","INVAMNT"..i)
+			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
+		end
+		// Statistics
+		for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+			CSayF("Linking stat: %s",st)
+			for substat in each { "BUFF","POWERUP","UPGRADE" }
+				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+				RPGChar.Johnson.Link_Stat("ExHuRU",substat.."_"..st)
+			end
+		end
+		// Elemental Resistance
+		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
+			CSayF("Linking elemental resistance: %s",el)
+			if !RPGChar.ExHuRU.HasStat("ER_"..el)
+				CSay("= Original base was non-existent. Creating!")
+				switch el
+					case "Healing"
+						RPGChar.ExHuRU.Stat["ER_"..el] = 6
+					case "DarkHealing"
+						RPGChar.ExHuRU.Stat["ER_"..el] = 0
+					default
+						RPGChar.ExHuRU.Stat["ER_"..el] = 3
+				end
+			end
+			if !RPGChar.ExHuRU.HasStat("ER_MODIFIER_"..el)
+				CSay("= Original modifier was non-existent. Creating!")
+				RPGChar.ExHuRU.Stat["ER_MODIFIER_"..el] = 0
+			end
+			RPGChar.Johnson.Link_Stat("ExHuRU","ER_"..el)
+			RPGChar.Johnson.Link_Stat("ExHuRU","ER_MODIFIER_"..el)
+		end
+		// Status Resistance
+		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+			CSayF("Setting Status Change Base Resistance: %s",sr)
+			RPGChar.Johnson.Stat["SR_BASE_"..sr] = math.random(15 - (__skill*5),90 div __skill)
+			CSayF("Linking Status Change modifiaction Resistance: %s",sr)			
+			for subsr in each {"BUFF","EQBF" }
+				// TRUE should NOT be linked!
+				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
+				RPGChar.Johnson.Link_Stat("ExHuRU","SR_"..subsr.."_"..sr)
+			end
+		end
+		// Experience Points
+		CSay("Linking Experience")
+		RPGChar.Johnson.Link_Points("ExHuRU","EXP")
+		// Updates
+		if !RPGChar.ExHuRU.HasStat("UPGRADES")
+			RPGChar.ExHuRU.Stats.UPGRADES = 0
+		end
+		RPGChar.Johnson.Link_Stat("ExHuRU","UPGRADES")
+		// Abilities
+		RPGChar.Johnson.Link_List("ExHuRU","ABL")
+		RPGChar.Johnson.Link_List("ExHuRU","ABL_POWERUP")
+		RPGChar.Johnson.Link_List("ExHuRU","LEARN")
+		// Ammo
+		RPGChar.Johnson.Stat.AMMO_BASE = 16 div __skill 
+		// End
+		CSay("Johnson Created")
+	End
+	
+	Void Admiraal()
+		If JohnsonJoined
+			Return
+		End
+		JohnsonJoined = true
+		Map.SetObj("Reggie","Visible",true)
+		Kthura.KillAutoVisible()
+		PPop.Pop("adm","South")
+		MapText("ADMIRAAL1")
+		CreateJohnson()
+		RPGParty[6]="Johnson"
+		Map.Spawn("PartyPopped_Johnson","spawn_admiraal")
+		Map.SetObj("PartyPopped_Johnson","Texture","GFX/Actors/Player/Johnson.North.jpbf")
+		Map.ObjWalkTo("PartyPopped_Johnson","go_admiraal")
+		MapText("ADMIRAAL2")
+		KickReggie("PartyPopped_Foxy","Reggie","East")
+		MapText("ADMIRAAL3")
+		Kthura.SetAutoVisible()
+		Map.Kill("Reggie",true)
+		PPop.UnPop()
+	End
+	#endregion
 	
 	#region Transporter	
 	Get Bool MR
@@ -301,6 +405,9 @@ Group MScript
 		Int ILay = Lua.tonumber(right(Lay,#Lay-1)) || 0
 		Int XW = Screen.W Div (#XTRA + 1)		
 		if !LeftTrans
+			If JohnsonJoined && gv.gbool.The1stTimeJohnsonLeave &&  (!Done.The1stTimeJohnsonBack)
+				MapText("JOHNSON_BACK")
+			End		
 			Return
 		End
 		Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
@@ -386,13 +493,14 @@ Group MScript
 						    			If RPGParty[I]=="Johnson"	
 						    				RPGParty[I]="Rolf"
 						    			End
+						    			Party.GrabLevel("Rolf",RPGChar.Rolf.Stat.Level)
 						    		End
 						    	Else
 						    		For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
 						    			RPGParty[I]=Ch
 						    		End
 						    	End
-						    	Beam.Quick("PLAYER",true,true)
+						    	Beam.Quick("PLAYER",false,true)
 						    	Map.GoToMap("Hawk","BRIDGE","Scotty")
 						    	//Map.MCall("Trans.Scotty","nil")
 						    	//Lua.error("Beaming back to Hawk not yet properly scripted")
@@ -415,9 +523,108 @@ Group MScript
 		Forever
 	End
 	#endregion
-
-	Void Update()		
+	
+	#region Doors
+	Table GetDoors(string Color)
+		// Should have used a class, but I was a bit lazy this time.
+		CSayF("Checking layer %s for door %s",Map.Layer,Color)
+		Color = Color:upper()
+		Table Ret 
+		Ret = {}
+		If Map.HasTag(Color.."_LINKS") && Map.HasTag(Color.."_RECHTS")
+			Ret.Available = True
+			Ret.Color = Color
+			Ret.IniL = Map.ObjInt(Color.."_LINKS" ,"X")
+			Ret.IniR = Map.ObjInt(Color.."_RECHTS","X")
+			Ret.Open = !Map.HasTag("OPEN_"..Color)
+			If Ret.Open
+				Ret.Pos = 30
+				Map.SetObj(Color.."_LINKS" ,"Impassible",False)
+				Map.SetObj(Color.."_RECHTS","Impassible",False)
+				Map.RemAp()
+				CSay("= Door open by default!")
+			Else
+				Map.HideByLabel("K_"..Color)
+				Ret.Pos = 0				
+			End
+			CSay("= Door activated")
+		Else
+			Ret.Available = False
+			CSay("= Door NOT available!")
+		End
+		Return Ret
 	End
+	
+	Void OPEN_RED()
+		If Has_Key.Red
+			Map.Kill("OPEN_RED",true)
+			Has_Key.Red = False
+			If Map.Layer=="SECRET1"
+				Map.ShowByLabel("K_RED")
+			End
+			Party.GiveEXP(10000)
+		End
+	End
+
+	Void OPEN_GREEN()
+		If Has_Key.Green
+			Map.Kill("OPEN_GREEN",true)
+			Has_Key.Green = False
+			Map.ShowByLabel("K_GREEN")
+			Party.GiveEXP(250)
+		End
+	End
+
+	Void OPEN_BLUE()
+		if Has_Key.Blue
+			Map.Kill("OPEN_BLUE",true)
+			Has_Key.Blue = False
+			Map.ShowByLabel("K_BLUE")
+			Party.GiveEXP(250)
+		End
+	End
+	
+	Void OPEN_GOLD()
+		if Has_Key.Gold
+			Map.Kill("OPEN_GOLD",true)
+			Has_Key.Gold = False
+			Map.ShowByLabel("K_GOLD")
+			Party.GiveEXP(250)
+		End
+	End
+	
+	Void Update()
+		Static Table Cards = {"RED","GREEN","BLUE","GOLD"}
+		Static Table UpdatedDoors = {}
+		Static Int Teller
+		//UpdatedDoors[Map.Layer] = UpdatedDoors[Map.Layer] || {}
+		If !UpdatedDoors[Map.Layer]
+			CSayF("Create Door Table for layer %s",Map.Layer)
+			UpdatedDoors[Map.Layer] = {}
+			For i,C in iPairs(Cards)
+				UpdatedDoors[Map.Layer][i] = GetDoors(C)
+			End
+		End
+		Teller = (Teller+1) % 50
+		For Deur In Each(UpdatedDoors[Map.Layer])
+			If Deur.Available
+				If Teller==0
+					Deur.Open = !Map.HasTag("OPEN_"..Deur.Color)				
+					End
+				If Deur.Open
+					If Deur.Pos<31
+						Deur.Pos++
+						Map.SetObj(Deur.Color.."_LINKS" ,"Impassible",False)
+						Map.SetObj(Deur.Color.."_RECHTS","Impassible",False)
+						Map.SetObj(Deur.Color.."_LINKS" ,"X",Deur.IniL-Deur.Pos)
+						Map.SetObj(Deur.Color.."_RECHTS" ,"X",Deur.IniR+Deur.Pos)
+						Map.Remap()
+					End
+				End	
+			End
+		End		
+	End
+	#endregion
 
 	Void Draw()
 		Static Table Cards = {"Red","Green","Blue","Gold"}
@@ -453,8 +660,9 @@ Group MScript
 		CSay("Excalibur!")
 		InitNames()
 		ReplaceRolfWithJohnson()
-		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar"}
+		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal"}
 		ZA.Leave("Transporter","LeaveTrans")
+		Map.AllowQuitSave=false
 	End
 
 end
