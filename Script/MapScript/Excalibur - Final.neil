@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.05
+// version: 21.05.06
 // End License Information
 
 #use "Libs/xmath"
@@ -40,10 +40,11 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.05"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.06"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
+#macro __chats 7
 
 QuickMeta Crystal_Reload
 	Index
@@ -64,6 +65,22 @@ QuickMeta Has_Key
 		gv.gbool["EXC_HASKEY_"..(Key:upper()).."_"..Map.Layer] = Value
 	End
 End
+
+Void Niks()
+	CSay("NIKS!") // DEBUG!
+End
+
+QuickMeta QM_Chat
+	Index
+		If !Done["Excalibur_Chat_"..key]
+			MapText("CHAT"..key)
+			Party.GiveEXP(key*(3000 div __skill))
+		End
+		Return Niks
+	End
+End
+
+
 
 QuickMeta Unlocked_Floor
 	Index
@@ -107,6 +124,8 @@ Group MScript
 	Table Names
 	ReadOnly Var Fnt = ImageFont.Obtain("BIGTEXT")  
 	ReadOnly Var SFt = ImageFont.Obtain("BOXTEXT")
+	
+	Var Chat
 
 	#region General stuff
 	Void ReplaceRolfWithJohnson()
@@ -663,6 +682,12 @@ Group MScript
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
+		Chat = QM_Chat
+		For c=1,__chats
+			String Tag = sprintf("Chat[%d]",c)
+			ZA.Enter("Chat"..c,Tag)
+			ZA.Enter("CHAT"..c,Tag)
+		End
 	End
 
 end
