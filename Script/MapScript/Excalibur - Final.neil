@@ -45,6 +45,7 @@
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
 #macro __chats 7
+#macro __boss005 gv.gbool.Excalibur_Boss_SuperCyborg_On_Area_005_Defeated
 
 QuickMeta Crystal_Reload
 	Index
@@ -223,7 +224,58 @@ Group MScript
     	Else
     		MapText("CRYSTAL.FULL")    		
     	End
-    End    
+    End
+    
+    Get String RandomCyborg
+    	Static Var RC
+    	If !RC
+    		RC = {}
+    		For i=1,9 - (__skill * 3)
+    			RC += "Cyborg Medic"
+    		End
+   			RC += "Cyborg Captain"
+   			RC += "Cyborg Gunner"
+   			RC += "Cyborg Gunner"
+   			If Caps.Cycle > (3-__skill)
+   				RC += "Cyborg Astrilopup"
+   				RC += "Cyborg Ji"
+   			End
+   		End
+   		Return "Reg/"..RC[math.random(1,#RC)]
+   	End
+    
+    Void StartBoss(string FoeBoss,string CombatMusic)
+    	StartCombat.Prepare()
+    	String BossFile = "Boss/"..FoeBoss
+    	If (BossFile=="McLeen")
+    		BossFile = "SpecialBoss/McLeen"
+    	End
+		switch __skill
+			case 3
+				StartCombat.Foe(RandomCyborg ,Map.Level)				
+				StartCombat.Foe(RandomCyborg ,Map.Level)				
+				StartCombat.Foe(RandomCyborg ,Map.Level)
+				FallThrough
+			case 2
+				StartCombat.Foe(RandomCyborg,Map.Level div 2)
+				StartCombat.Foe(BossFile,Map.Level)
+				StartCombat.Foe(RandomCyborg ,Map.Level div 2)				
+				StartCombat.Foe(RandomCyborg ,Map.Level div 2)				
+				StartCombat.Foe(RandomCyborg ,Map.Level div 2)				
+				StartCombat.Foe(RandomCyborg ,Map.Level div 2)				
+			case 1
+				StartCombat.Foe(RandomCyborg,Map.Level div 3)
+				StartCombat.Foe(BossFile,Map.Level)
+				StartCombat.Foe(RandomCyborg ,Map.Level div 3)	
+			default
+				Lua.error("?")
+		end
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = CombatMusic
+		StartCombat.Boss = true
+		StartCombat.Arena = "Excalibur.png"
+		StartCombat.Begin()
+	End
     #endregion
     
     #region Keys
@@ -231,7 +283,15 @@ Group MScript
     	String Tag = "NPC_"..(Color:upper())
     	Int KeyX = Map.ObjInt(Tag,"X")
     	Int KeyY = Map.ObjInt(Tag,"Y")
-    	Int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    	Int LN
+    	Switch Map.Layer
+    		Case "SECRET1"
+    			LN=2500
+    		case "SECRET2"
+    			LN=5000
+    		Default
+    			LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    	End
     	Number Afstand = xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)
     	If Afstand>70
     		CSayF("Player to far away from key (%02.03f). Request rejected",Afstand)
@@ -395,6 +455,62 @@ Group MScript
 	End
 	#endregion
 	
+	
+	#region 005 - Residential Section Galahad
+	Void Boss005()
+		If __boss005
+			Return
+		End
+		Player.StopWalking()
+		MapTextLeader("BOSS005")
+		Schedule.Add("PostBoss005")
+		StartBoss("SuperCyborg","Music/SpecialBoss/Exit the Premises.ogg")
+	End
+	
+	Void PostBoss005()
+		__boss005 = true
+		Party.GiveEXP(2500)
+		Map.Kill("SuperCyborg",true)
+	End
+	
+	Void GoHome()
+		gv.gstring.Situatie_In_Het_Huis_Van_Wendicka="Final"
+		Map.GoToMap("Excalibur - Home","LAYERLESS","Voordeur")
+		If !Done.Excalibur_EnterHome_During_Final_Mission
+			Ach.Award("BONUS_HOME")
+			Party.GiveEXP(1500)
+		End
+	End
+	#endregion
+	
+	#region 007 - Camelot - Town Square
+	Void HideSecret()
+		Map.HideByLabel("SECRET")
+	End
+	
+	Void ShowSecret()
+		Map.ShowByLabel("SECRET")
+	End
+	
+	Void OPEN_SECRET_1()
+		CSay("Check to open secret")
+		If Has_Key.Red || Unlocked_Floor["#008"]
+			CSay("= Should open if not opened yet")
+			If Map.HasTag("OPEN_RED")
+				CSay("= Open Sesame")
+				Party.GiveEXP(9000 div __skill)
+				Map.Kill("OPEN_RED",true)
+			End
+		End
+	End
+	
+	Void ToSecret1()
+		Self.LeftTrans=False
+		Beam.Quick("PLAYER",False,True)
+		Map.GoToLayer("SECRET1","Start")		
+	End		
+	#endregion
+	
 	#region Transporter	
 	Get Bool MR
 		Return Events.MouseHitRight()
@@ -429,13 +545,20 @@ Group MScript
 			End		
 			Return
 		End
-		Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
+		Switch Map.Layer
+			Case "SECRET1"
+				Player.Reloc("Start")
+			Case "SECRET2"
+				Lua.error("Exit for secret 2 not yet scripted")
+			Default
+				Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
+			End
 		Player.Wind="South"
 		LeftTrans=true
 		If !Done.Excalibur_FirstFloor_Hawk_Set
 			Hawk.Add("F001","Excalibur",Lua.Neil.Globals.MScript.Names["#001"],"Excalibur - Final","#001")
 		End
-		If Has_Key.Red && Map.Layer!="#020"
+		If Has_Key.Red && Map.Layer!="#020" && Map.Layer!="SECRET1" && Map.Layer!="SECRET2"
 			CSay("Red Card Used To Unlock Next Floor")
 			Int L = Lua.tonumber(right(Lay,#Lay-1)) || 0
 			Lua.assert(L>0,"Layer number catchup failed!")
@@ -669,6 +792,11 @@ Group MScript
 			End
 			Card.Draw(CSX+(i*20),80)
 		End
+		Switch Map.Layer
+			Case "#006"
+				Map.SetObj("Conveyor","InsertY",(Map.ObjInt("Conveyor","InsertY")+1)%300)
+			Default
+		End
 		__White
 	End
 	
@@ -679,7 +807,8 @@ Group MScript
 		CSay("Excalibur!")
 		InitNames()
 		ReplaceRolfWithJohnson()
-		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal"}
+		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
