@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Inferno.neil
-// Version: 21.03.28
+// Version: 21.05.07
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,7 +94,12 @@ end
 //module SpellAni_BurnBabyBurn_DiscoInferno
 module
 
-	link Flame = SInferno_Flame.Flame
+	Get Var Flame 
+		Return SInferno_Flame.Flame
+	End
+	Set Var Flame 
+		SInferno_Flame.Flame = value
+	End
 	var Audio
 	
 	CONSTRUCTOR
@@ -110,17 +115,17 @@ module
 		aantal = math.random(20,50)
 		repeat
 			--aantal
-			new SInferno_Flame
+			new SInferno_Flame()
 		until aantal<=0
 		self.Audio.Play()
 	end
 	
 	bool Ended = false
 	void Draw()
-		Color(255,100,0)
-		SetAlpha(95)
-		Rect(0,0,Screen.W,Screen.H)
-		SetAlpha(255)
+		Graphics.Color(255,100,0)
+		Graphics.SetAlpha(95)
+		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.SetAlpha(255)
 		__white
 		SInferno_Flame.DrawAll()
 		Ended = SInferno_Flame.List.Count==0
