@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.04.27
+// Version: 21.05.07
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -331,6 +331,10 @@ deftable icommandtable
 		SNIM = SNIM || NeilUse("Script/Use/Misc/GoToNIM")
 		SNIM("DEBUG")
 	end
+	WHIZZY = void()
+		gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
+		CSayF("God mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
+	End
 end
 
 

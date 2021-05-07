@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.03.22
+// Version: 21.05.07
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -91,6 +91,16 @@ module
 		CSayF("HiSpeed set to %d",HiSpeed)
 	end
 	
+	void RegenCheat()
+		if gv.gBool["CHEAT.REGEN"]
+			for tag,fv in pairs(Combat_Fighter.Fighters)
+				if fv.Team=="Hero"
+					fv.Char.Points.HP.Have++
+				end
+			end
+		end
+	end
+	
 	void UpdateGauge()
 		if HiSpeed==0
 			CalcHighSpeed()
@@ -102,7 +112,8 @@ module
 				elseif fv.Gauge<10000
 					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
 					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
-					elseif fv.Gauge==10000				 
+					elseif fv.Gauge==10000
+						RegenCheat()
 						switch fv.Team
 							case "Hero"
 								if isIDLE
@@ -114,6 +125,7 @@ module
 						end
 					elseif fv.Gauge==20000
 						// Status changes that trigger pre-turn (like poison)
+						RegenCheat()
 						for sc in fv.StatusChange()
 							Combat_StatusChanges.GetSt(sc).PreTurn(fv)
 						end
