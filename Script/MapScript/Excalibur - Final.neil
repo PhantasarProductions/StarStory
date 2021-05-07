@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.06
+// version: 21.05.07
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.06"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.07"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -512,6 +512,24 @@ Group MScript
 	End		
 	#endregion
 	
+	#region Secret Area 1
+	Void BossSecret1()
+		gv.gbool.CombatMusicForcedSet = true
+		StartCombat.Foe("Boss/HWSNBN",math.floor(Map.Level*({0.50,0.95,1})[__skill]))
+		StartCombat.Tune = "Music/specialboss/Back to Darkness.ogg"
+	End
+	
+	Void Nova()
+		If Done.GOT_RISING_NOVA
+			Return 
+		End
+		Ach.Award("BONUS_NOVA")
+		If __skill!=3 
+			Party.GiveEXP(6000/__skill)
+		End
+	End
+	#endregion
+	
 	#region Transporter	
 	Get Bool MR
 		Return Events.MouseHitRight()
@@ -809,7 +827,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
