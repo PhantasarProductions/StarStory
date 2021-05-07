@@ -471,6 +471,7 @@ Group MScript
 		__boss005 = true
 		Party.GiveEXP(2500)
 		Map.Kill("SuperCyborg",true)
+		Ach.Award('BOSS_SUPERCYBORG')
 	End
 	
 	Void GoHome()
