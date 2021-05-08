@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.04.23
+// Version: 21.05.08
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -333,7 +333,11 @@ Group CG_Effect
 					end
 				end
 			end
-			Effect(Act,tar)
+			If !Tar
+				CSayF("Warning! 'nil' for target: %d.%s",tidx,Act.Targets_Tag[tidx] || "<Nothing, for some odd reason>")
+			Else
+				Effect(Act,tar)
+			End
 		end
 	end
 

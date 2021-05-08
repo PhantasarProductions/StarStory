@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.04.20
+// version: 21.05.08
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.04.20"
+#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.05.08"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
 
 #macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
@@ -99,11 +99,21 @@ group MScript
 	End
 	
 	Void NPC_Rachel()
-		if !TaalGeleerd
+		If !TaalGeleerd
 			MapText("RACHEL.CANNOTSPEAK")
 			return
-		end
-		Lua.error("Rachel not yet fully scripted")
+		End
+		If RPGChar.Crystal.List.ARM.Has("ARKSMASH") || (Map.Leader!="Crystal")
+			MapText("RACHEL.NOTCRYSTAL")
+			Return
+		End
+		if gv.gBool.Completed_Airom
+			Lua.error("Rachel not yet fully scripted")
+			Return
+		End
+		MapText("RACHEL.CRYSTAL")
+		gv.gbool.Airom_Unlocked = True
+		//Lua.error("Rachel not yet fully scripted")
 	End
 	
 	Void NPC_Merya()
@@ -197,12 +207,12 @@ group MScript
 		ARMS += "HEALINGSHOWER"
 		ARMS += "ROCKTHROWER"
 		ARMS += "NAPALMSHOWER"
-		ARMS += "RISINGNOVAARMS"
+		ARMS += "RISINGNOVA"
 		bool ret = true                      
 		bool have
 		for ARM in each(ARMS) 
  			//have = RPGChar.ListHas('Crystal','ARMS',ARM)==1
- 			have = RPGChar.Crystal.List.ARMS.Has(ARM)
+ 			have = RPGChar.Crystal.List.ARM.Has(ARM)
  			ret = ret && have
  			CSay("Check ARM: "..ARM.."  => "..tostring(have).." == ret> "..tostring(ret))
  		end
