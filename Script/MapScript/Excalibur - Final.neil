@@ -46,6 +46,7 @@
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
 #macro __chats 7
 #macro __boss005 gv.gbool.Excalibur_Boss_SuperCyborg_On_Area_005_Defeated
+#macro __boss010 gv.gbool.Excalibur_Boss_GoldKillerDroid_On_Area_010_Defeated
 
 QuickMeta Crystal_Reload
 	Index
@@ -551,7 +552,20 @@ Group MScript
 		Map.ReMap()
 	End
 	
+	Void Boss10()
+		If __boss010
+			Return
+		End
+		Player.StopWalking()
+		Schedule.Add("PostBoss010")
+		StartBoss("Gold Killer Droid","Music/Dungeon/Spiedkiks_-_05_-_Freak_Boutique.ogg")	
+	End
 	
+	Void PostBoss010()
+		Map.Kill("Boss10Obj",True)
+		Party.GiveEXP(10000 div ((__skill * Caps.Cycle) * 25))
+		Aurina.Rate += (120/__skill)
+	End
 	#endregion
 	
 	#region Transporter	
@@ -645,9 +659,9 @@ Group MScript
 							If (ILay<=10 && i<=10) || (ILay>10 && i>10)
 								Map.GoToLayer(sprintf("#%03d",i),sprintf("Trans.Spot.F%03d",i))
 							Elseif (i<=10)
-								Map.GoToMap("Excalibur - Final",sprintf("#03d",i),sprintf("Trans.Spot.F%03d",i))
+								Map.GoToMap("Excalibur - Final",sprintf("#%03d",i),sprintf("Trans.Spot.F%03d",i))
 							Else
-								Map.GoToMap("Excalibur - Final - 2",sprintf("#03d",i),sprintf("Trans.Spot.F%03d",i))
+								Map.GoToMap("Excalibur - Final - 2",sprintf("#%03d",i),sprintf("Trans.Spot.F%03d",i))
 							End
 							Events.Flush()
 							Return
@@ -851,7 +865,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
