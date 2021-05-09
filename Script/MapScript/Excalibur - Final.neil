@@ -625,7 +625,7 @@ Group MScript
 			If NL<=10
 				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final",NLS)
 			Else
-				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final 2",NLS)
+				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final - 2",NLS)
 			End			
 			CSayF("Floor %d has been unlocked",NL)
 			Has_Key.Red = False
@@ -852,6 +852,10 @@ Group MScript
 		Switch Map.Layer
 			Case "#006"
 				Map.SetObj("Conveyor","InsertY",(Map.ObjInt("Conveyor","InsertY")+1)%300)
+			Case "#012"
+				Static Int Jerry = 0
+				Jerry = (Jerry+1) % 40
+				Map.SetObj("JerrycanTrack","InsertX",40-Jerry)
 			Default
 		End
 		__White
