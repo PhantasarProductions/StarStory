@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.07
+// version: 21.05.09
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.07"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.09"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -530,6 +530,30 @@ Group MScript
 	End
 	#endregion
 	
+	#region 010 - Guinevere
+	Void ToU()
+		//Player.StopMoving()
+		Player.Reloc("PlayU")
+		Map.SetObj("PLAYER","Dominance",75)
+		Map.SetObj("UBD","Impassible",True)
+		Map.SetObj("UBU","Impassible",True)
+		Map.SetObj("UB","ForcePassible",True)
+		Map.ReMap()
+	End
+	
+	Void ToD()
+		//Player.StopMoving()
+		Player.Reloc("PlayD")
+		Map.SetObj("PLAYER","Dominance",20)
+		Map.SetObj("UBD","Impassible",False)
+		Map.SetObj("UBU","Impassible",False)
+		Map.SetObj("UB","ForcePassible",False)
+		Map.ReMap()
+	End
+	
+	
+	#endregion
+	
 	#region Transporter	
 	Get Bool MR
 		Return Events.MouseHitRight()
@@ -827,7 +851,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
