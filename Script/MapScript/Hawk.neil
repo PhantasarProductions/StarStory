@@ -136,10 +136,14 @@ group MScript
 		Talk("ExHuRU")
 	end
 	
-	void NPC_Hawk_Yirl()
+	Void NPC_Hawk_Yirl()
 		Talk("Yirl")
 		// TODO: Follow me
-	end
+		If RPGChar.Yirl.List.ABL.Has("YIRL_FOLLOWME") && gv.gbool.Met_Marlon && (!RPGChar.Wendicka.List.ABL.Has("YIRL_FOLLOWME"))
+			MapText("TEACH.YIRL")
+			RPGChar.Wendicka.List.LEARN.Add="YIRL_FOLLOWME"
+		End
+	End
 	
 	void Hawk_Kick_Reggie(int idx,__Inf)
 		Static Table Kicker = {}
