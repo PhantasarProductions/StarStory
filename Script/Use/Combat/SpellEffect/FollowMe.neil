@@ -38,11 +38,12 @@
 
 bool VolgMe(Act,Tar)
 	For i=1,3
-		If RPGParty[i]!="" && RPGParty[i]!=Act.Executioner.Tag
+		If RPGParty[i]!="" && RPGParty[i]!=Act.Executor.Tag
 			Var FLA = Combat_Fighter.Fighters[RPGParty[i]]
 			FLA.Gauge = math.max(9999,FLA.Gauge)
 		End	
 	End
+	Return True
 End
 
 return VolgMe
