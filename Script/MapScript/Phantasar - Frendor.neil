@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.05.08
+// version: 21.05.09
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.05.08"
+#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.05.09"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
 
 #macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
@@ -108,7 +108,40 @@ group MScript
 			Return
 		End
 		if gv.gBool.Completed_Airom
-			Lua.error("Rachel not yet fully scripted")
+			//Lua.error("Rachel not yet fully scripted")
+			MapText("RACHEL.GOTIT")
+			//RPGChar.Crystal.List.ARM.Add = "ARKSMASH"
+			CrystalARMS.NewARM("ARKSMASH")
+			Party.GiveEXP(2500,"Crystal")
+			Var Crystal = RPGChar.Crystal
+			Table ARMS = {}
+			ARMS += "DART"
+			ARMS += "HEALINGSPRAY"
+			ARMS += "WATERGUN"
+			ARMS += "POISONDART"
+			ARMS += "VIRUSBOMB"
+			ARMS += "MUNCHHAUSEN"
+			ARMS += "MULTIBLAST"
+			ARMS += "FLAMETHROWER"
+			ARMS += "MINICANNON"
+			ARMS += "ICEBULLET"
+			ARMS += "STUN_GUN"
+			ARMS += "DOPING_SHOT"
+			ARMS += "BIOHAZARD"
+			ARMS += "HEALINGSHOWER"
+			ARMS += "ROCKTHROWER"
+			ARMS += "NAPALMSHOWER"
+			ARMS += "RISINGNOVA"
+			//local stats = mysplit(RPGChar.StatFields('Crystal'),";")
+			For Arm in Each(ARMS)
+				CSayF("Upgrading: %s",Arm)
+				Crystal.Points["ARM.AMMO."..Arm].Maximum += 6 div __skill
+				For sstat in Each{"HIT","XPOWER","WEIGHT"}
+					Crystal.Stat[sprintf("ARM.%s.%s",sstat,ARM)] += 4 - __skill
+				End
+				Crystal.Stat[sprintf("ARM.HIT.%s",ARM)] = math.min(100,Crystal.Stat[sprintf("ARM.HIT.%s",ARM)])
+			End
+			Ach.Award("ALLABL_CRYSTAL")
 			Return
 		End
 		MapText("RACHEL.CRYSTAL")
