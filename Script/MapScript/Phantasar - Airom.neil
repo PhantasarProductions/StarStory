@@ -54,6 +54,27 @@ group TMS
 		End
 	End
 	
+	Void Boss()
+		MapText("STUFF")
+		Schedule.Add("PostBoss")
+		StartCombat.Prepare()
+		StartCombat.Foe("Boss/UberGremlin",Map.Level)
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = "Music/Combat/Phantasar/Boss.ogg"
+		StartCombat.Boss = true
+		StartCombat.Arena = "Mines.png"	
+		StartCombat.Begin()	
+	End
+	
+	Void PostBoss()
+		gv.gBool.Completed_Airom = true
+		Map.Kill("Boss",true)		
+		Map.Kill("Stuff",true)
+		MapText("POSTBOSS")
+		WorldMap("Phantasar")
+		Party.GiveEXP(3500)
+	End
+	
 	Void Update()
 		Phan_Encounter.Check()
 	End
@@ -74,6 +95,13 @@ group TMS
 		HideAllSecrets()
 		Phan_Encounter.SetUp()
 		CSay("= Done")
+		If Map.HasTag("Stuff")
+			If RPGChar.Crystal.List.ARM.Has("ARKSMASH")
+				Map.Kill("Boss",True)
+				Map.Kill("Stuff",True)
+			End
+		End
+		ZA.TabEnter{"Boss"}
 	End
 
 end
