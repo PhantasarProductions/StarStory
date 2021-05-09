@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 21.03.06
+// Version: 21.05.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -58,6 +58,17 @@ module
 		Arena.Stretch(0,0,Screen.W,Screen.H-100)
 	end
 	
+	Void DrawFighters()
+		for t,f in pairs(Fighter.Fighters)
+			if f.Available
+				__white
+				for sc in f.StatusChange()
+					Combat_StatusChanges.GetSt(sc).Draw(f)
+				end
+				f.Draw()
+			end
+		end
+	End
 	
 	void DrawScreen()
 		__white
@@ -69,15 +80,7 @@ module
 		// Time Gauge
 		Time.DrawGauge()
 		// Combatnants
-		for t,f in pairs(Fighter.Fighters)
-			if f.Available
-				__white
-				for sc in f.StatusChange()
-					Combat_StatusChanges.GetSt(sc).Draw(f)
-				end
-				f.Draw()
-			end
-		end
+		DrawFighters()
 		// Target info
 		// Party Status Bar
 		Party.Boxes()
