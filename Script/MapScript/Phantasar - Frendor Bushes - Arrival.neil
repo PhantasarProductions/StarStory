@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.10
+// version: 21.05.08
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "21.04.10"
+#MKL_Version "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "21.05.08"
 #MKL_Lic     "Star Story - Phantasar - Frendor Bushes - Arrival.neil" "Phantasar Closed License"
 
 group MScript
@@ -66,6 +66,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
+		gv.gbool.Airom_Unlocked = gv.gbool.Airom_Unlocked || RPGChar.Crystal.List.ARM.Has("ARKSMASH")
 		ZA.TabEnter{"Bye"}
 	End
 
