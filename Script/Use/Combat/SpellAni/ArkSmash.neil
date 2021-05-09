@@ -1,0 +1,136 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/SpellAni/ArkSmash.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.09
+// End License Information
+#use "Libs/LinkedList"
+
+Class Planet
+	ReadOnly Static Int Speed = 4
+	ReadOnly String Name
+	ReadOnly Number Scale
+	ReadOnly Var Img
+	ReadOnly Int StartX
+	Int X
+	
+	Static Var Mercury
+	
+	Static Var Lijst = New LinkedList()
+	
+	Constructor(string N, number S, int SX)
+		Name = N
+		Scale = S
+		Img = Image.LoadNew("GFX/Space/"..Name,"SPELLANI_ARKSMASH_"..(Name:upper())
+		Img.HotCenter()
+		StartX = SX
+		CSayF("Created Planet: %s",Name)
+		if N=="Mercury"
+			Mercury = Self
+			CSayF("= Extra link up for Mercury")
+			// As Mercury is the closes to the sun, Mercury will serve to trigger the sun
+		End
+	End
+End
+
+Init
+	Planet.Lijst.AddLast(new Planet("Neptune",1.5,-10))
+	Planet.Lijst.AddLast(new Planet("Uranus",1.5,-600))
+	Planet.Lijst.AddLast(new Planet("Saturn",4.5,-2000))
+	Planet.Lijst.AddLast(new Planet("Jupiter",6,-4000))
+	Planet.Lijst.AddLast(new Planet("Mars",0.8,-8000))
+	Planet.Lijst.AddLast(new Planet("Earth",1,-8500))
+	Planet.Lijst.AddLast(new Planet("Venus",0.7,-9000))
+	Planet.Lijst.AddLast(new Planet("Mercury",4.5,-9500))
+End
+
+Class AS_Star
+	Int X
+	Int Y
+	Int Speed
+	
+	Constructor
+		X = 0 - math.random(0,100)
+		Y = math.random(0,Screen.W-100)
+		Speed = math.random(1,8)
+	End
+	
+	Static Var Lijst = new LinkedList
+	
+	Static Void DrawAll()
+		Int Tel = 0
+		__white
+		For S,L in Lijst.Each
+			T++
+			Graphics.Plot(X,Y)
+			X+=Speed
+			If X>Screen.W
+				L.UnLink()
+			End
+		End
+		If math.random(0,Tel)<=100
+			Lijst.AddLast(New(AS_Star()))
+		End
+	End
+End
+
+module
+	Int Stage = 1
+	Table Stages
+
+	Void Stage_Planets()
+		Graphics.Cls()
+		AS_Star.DrawAll()
+		For P in Planet.Lijst.Each
+			Graphics.Scale(P.Scale,P.Scale)
+			P.X+=Planet.Speed
+			P.Img.Draw(P.X,P.Y)
+		End		
+		Graphics.Scale(1,1)
+		Combat_Draw.DrawFighters()
+		Party.Boxes()
+		If Mercury.X>Screen.W
+			Stage = 2
+		End
+	End
+	
+	Void Stage_TheSun()
+	End
+	
+	Void Stage_Inferno()
+	End
+	
+	Constructor
+		Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
+	End
+End
