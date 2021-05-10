@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.09
+// version: 21.05.10
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.09"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.10"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -179,6 +179,18 @@ Group MScript
     
     Var RL
     Get Int Reloads
+    	If !RL
+			Switch __Skill
+    			Case 1    				
+    				RL = RL || {}
+    			Case 2 
+    				RL = Crystal_Reload
+    			Case 3
+    				RL = Crystal_Reload
+    			Default
+    				Lua.error("Skill error on reload")
+    		End    				    			
+    	End
     	If !Done["EXC_AMMO_INIT_"..Map.Layer]
     		Switch __Skill
     			case 1    				
@@ -568,6 +580,15 @@ Group MScript
 	End
 	#endregion
 	
+	#region 014 - Weapon Storage
+	Void ToSecret2()
+		Player.StopWalking()
+		Player.WalkTo("Geheimpje")
+		Beam.Quick("PLAYER",False,True)
+		Map.GoToLayer("SECRET2","Start")
+	End
+	#endregion
+	
 	#region Transporter	
 	Get Bool MR
 		Return Events.MouseHitRight()
@@ -606,7 +627,8 @@ Group MScript
 			Case "SECRET1"
 				Player.Reloc("Start")
 			Case "SECRET2"
-				Lua.error("Exit for secret 2 not yet scripted")
+				Player.Reloc("Trans.Spot.FET2")
+				//Lua.error("Exit for secret 2 not yet scripted")
 			Default
 				Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
 			End
@@ -856,6 +878,10 @@ Group MScript
 				Static Int Jerry = 0
 				Jerry = (Jerry+1) % 40
 				Map.SetObj("JerrycanTrack","InsertX",40-Jerry)
+			case "#014"
+				If Has_Key.Red && Map.HasTag("OPEN_RED")
+					Map.Kill("OPEN_RED",True)
+				End
 			Default
 		End
 		__White
@@ -869,7 +895,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
