@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.05.07
+// Version: 21.05.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -112,8 +112,12 @@ module
 				elseif fv.Gauge<10000
 					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
 					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					elseif fv.Gauge==10000 && fv.ChargedAct
+						fv.NextAct = fv.ChargedAct
+						fv.ChargedAct = nil
+						fv.Gauge=10001
 					elseif fv.Gauge==10000
-						RegenCheat()
+						RegenCheat()						
 						switch fv.Team
 							case "Hero"
 								if isIDLE

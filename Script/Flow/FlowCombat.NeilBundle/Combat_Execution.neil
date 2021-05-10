@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.04.20
+// Version: 21.05.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,7 @@
 #macro _Stance 1
 #macro _SpellAni 2
 #macro _AblEffect 3
+#macro _AblCharge 4
 
 Module
 
@@ -178,7 +179,7 @@ Module
 
 	void Draw()
 		switch MyStage
-			case _Announce _AblEffect
+			case _Announce _AblEffect _AblCharge
 				// Do Nothing at all.
 			case _Stance
 				// TODO: Bring hero in specific pose, or make the enemy "flicker" with it's "negative" counterpart
@@ -226,6 +227,10 @@ Module
 					MyStage = _AblEffect
 				end
 			case _AblEffect
+				if Act.Act.UserNextMove && Act.Act.UserNextMove!=""
+					MyStage = _AblCharge
+					Return
+				end
 				// The true effect at last!
 				CG_Effect.EffectAll(Act)
 				Act.AllUpAP()
@@ -251,8 +256,22 @@ Module
 					end
 				end
 				AnnouncePortrait = nil
-				Stage.Current=nil		
-				
+				Stage.Current = nil		
+			case _AblCharge
+				Var Exe = Act.Executor
+				Var CAc = New Class_Action(Exe.Tag,Act.Act.UserNextMove)
+				Exe.ChargedAct = CAc
+				For i,tag in iPairs(Act.Targets_Tag)
+					Cac.Targets_Tag[i] = tag
+				End
+				Act.Executor.Hurt("Charged",180,0,255)
+				AnnouncePortrait     = nil
+				Stage.Current        = nil
+				Act.Executor.NextAct = nil
+				Exe.Gauge            = 0
+				if (Act.Executor.Team=="Hero")
+					Act.Executor.State="IDLE"
+				end
 			default
 				Fini()
 		end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.05.08
+// Version: 21.05.10
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -236,6 +236,10 @@ Group CG_Effect
 	void Effect(Act,Tar)
 		CSayF("= Effect: %s; Target %s; Executor: %s",Act.Act.Name,Tar.Tag,Act.Executor.Tag)
 		bool Hit = false
+		if (Act.Act.UserNextMove) && (Act.Act.UserNextMove!="")
+			// No action at all when charging up!
+			Return
+		end
 		if HitCheck(Act,Tar)
 			Hit = Cure(Act,Tar) || Hit
 			Hit = Heal(Act,Tar) || Hit
@@ -243,7 +247,7 @@ Group CG_Effect
 			Hit = Attack(Act,Tar) || Hit
 			Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Script(Act,Tar) || Hit
-			Hit = Cause(Act,Tar) || Hit
+			Hit = Cause(Act,Tar) || Hit			
 		end
 		if Hit
 			if Act.CancelEffect
