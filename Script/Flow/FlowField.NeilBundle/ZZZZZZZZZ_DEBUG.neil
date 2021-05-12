@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_DEBUG.neil
-// Version: 21.04.08
+// Version: 21.05.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -185,4 +185,8 @@ global void CONSOLE_Scotty()
 	end
 	CSay("Beam me up, Scotty!") // Funny that nobody ever said this in the entire Star Trek franchise.	
 	Trans.Scotty()
+end
+
+global void CONSOLE_Wipe()
+	Spawn.Wipe()
 end
