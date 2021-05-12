@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.10
+// version: 21.05.12
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.10"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.12"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -260,7 +260,7 @@ Group MScript
     Void StartBoss(string FoeBoss,string CombatMusic)
     	StartCombat.Prepare()
     	String BossFile = "Boss/"..FoeBoss
-    	If (BossFile=="McLeen")
+    	If (FoeBoss=="McLeen")
     		BossFile = "SpecialBoss/McLeen"
     	End
 		switch __skill
@@ -370,6 +370,7 @@ Group MScript
 	
 	#region 003 - Lady of the Lake - Artificial Park
 	Void CreateJohnson()
+	gv.gstring.Johnson = "Admiral Johnson"
 	// Just use te old when on a new cycle
 		if Caps.Cycle>1 || gv.gbool.ImportedJohnson
 			CSay("Updating level stuff for Johnson")
@@ -586,6 +587,57 @@ Group MScript
 		Player.WalkTo("Geheimpje")
 		Beam.Quick("PLAYER",False,True)
 		Map.GoToLayer("SECRET2","Start")
+	End
+	#endregion
+	
+	#region Secret 2 - The secret labyrinth of "The Mole"
+	Void TalkLab()
+		If !Done.Discovered_LabOfTheMole_Excalibur
+			PPop.Pop("LAB","South")
+			MapText("LAB")
+			PPop.UnPop()
+			Party.GiveEXP(6000 div __skill)
+		End
+	End
+	#endregion
+	
+	#region 015 - Medical Department
+	Void HideDead015()
+		Map.HideByLabel("DEAD")
+	End
+	
+	Void FightMcLeen()
+		PPop.Pop("Mac","West")
+		MapText("MCLEEN1")
+		Schedule.Add("McLeen_Post")
+		//Lua.error("Fight McLeen not yet implemented")
+		gv.gstring.Johnson = "Ashley"
+		RPGChar.Johnson.Name = "Ashley"
+		StartBoss("McLeen","Music/Combat/SpecialBoss/GeorgeMcLeen.ogg")		
+	End	
+	
+	Void McLeen_Post()
+		// If the fight ended because Crystal was the last one standing
+		If gv.gbool.CrystalMcLeenBeamOut
+			Music.PopVoid()
+			gv.gbool.CrystalMcLeenBeamOut=False
+			For ch in each {"Wendicka","Yirl","Xenobi","Foxy","Johnson"}
+				Map.Kill("PartyPopped_"..ch)
+			End
+			Map.ShowByLabel("DEAD")
+			MapText("MCLEEN.CRYSTALALONE1")
+			Beam.Quick("PartyPopped_Crystal",true,true)
+			MapText("MCLEEN.CRYSTALALONE2")
+			Spawn.Wipe()
+			Return
+		End
+		MapText("MCLEEN2")
+		PPop.UnPop()
+		Party.GiveEXP(6000)
+		Ach.Award("BOSS_MCLEEN")
+		__hawk="MCLEENDEAD"
+		Map.Kill("FightMcLeen",True)
+		Map.Kill("McLeen",True)
 	End
 	#endregion
 	
@@ -895,7 +947,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2","TalkLab","HideDead015","FightMcLeen"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
