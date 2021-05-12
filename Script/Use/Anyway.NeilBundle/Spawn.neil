@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Spawn.neil
-// Version: 21.03.03
+// Version: 21.05.12
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,30 +34,89 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#macro _LNG Lua.Neil.Globals
+
 module
 	
 	get int X
-		return Lua.Neil.Globals.gv.gint.SPAWN_X
+		return _LNG.gv.gint.SPAWN_X
 	end
 	
 	get int Y
-		return Lua.Neil.Globals.gv.gint.SPAWN_Y
+		return _LNG.gv.gint.SPAWN_Y
 	end
 	
 	get string Map
-		return Lua.Neil.Globals.gv.gstring.SPAWN_MAP
+		return _LNG.gv.gstring.SPAWN_MAP
 	end
 	
 	get string Layer
-		return Lua.Neil.Globals.gv.gstring.SPAWN_LAY
+		return _LNG.gv.gstring.SPAWN_LAY
 	end
 	
 	void Reset()
-		Lua.Neil.Globals.gv.gint.SPAWN_X = Lua.Neil.Globals.Player.X
-		Lua.Neil.Globals.gv.gint.SPAWN_Y = Lua.Neil.Globals.Player.Y
-		Lua.Neil.Globals.gv.gstring.SPAWN_MAP = Lua.Neil.Globals.Map.LoadedMap
-		Lua.Neil.Globals.gv.gstring.SPAWN_LAY = Lua.Neil.Globals.Map.Layer
+		_LNG.gv.gint.SPAWN_X = _LNG.Player.X
+		_LNG.gv.gint.SPAWN_Y = _LNG.Player.Y
+		_LNG.gv.gstring.SPAWN_MAP = _LNG.Map.LoadedMap
+		_LNG.gv.gstring.SPAWN_LAY = _LNG.Map.Layer
 		printf("Spawn Reset to %s.%s => (%d,%d)",Map,Layer,X,Y)
 	end
-
+	
+	void Go()		
+		_LNG.Map.LoadMap(Map)
+		_LNG.Map.Layer = Layer
+		_LNG.Map.MCall("FldMap.CurLayer.Spawn","PLAYER",0,0)
+		_LNG.Player.X = X
+		_LNG.Player.Y = Y
+		_LNG.Player.Wind = "South"
+	end
+	
+	void Wipe(noshow,fuckschedule)
+		_LNG.Party.Recover()
+		for i=1,6
+			var ch = RPGParty[i]
+			if ch && ch!=""
+				var CHAR = RPGChar[ch]
+				switch __skill
+					case 1
+						Char.Points.EXP.Have--
+					case 2
+						Char.Points.EXP.Have = Char.Points.EXP.Have div 2
+					case 3
+						Char.Points.EXP.Have = 0
+						Char.Points.EXP.Maxium += 25
+					default
+						lua.error("Wipe Skill Error! (charexp)")
+				end
+				if ch=="Johnson" && (!prefixed(Map:upper(),"EXCALIBUR"))
+					RPGParty[i]="Rolf"
+				end
+			end
+		end
+		switch __skill
+			case 1
+				_LNG.Aurina.Have--
+			case 2
+				_LNG.Aurina.Have = 0
+			case 3
+				_LNG.Aurina.Have = 0
+				_LNG.Aurina.Rate = math.max(0,_LNG.Aurina.Rate- 25)
+			default
+				lua.error("Wipe Skill Error! (aurina)")
+		end
+		if (!noshow)
+			Music.Play("Music/Special/Wiped.ogg")
+			static var Defeated = Image.LoadNew("GFX/Combat/Defeated.png","COMBAT_DEFEATED")
+			//Defeated.Hot(0,Defeated.H div 2)
+			__white
+			Graphics.Cls()
+			int H = math.floor( (Screen.W / 1052) * 110)
+			Defeated.Stretch(0,(Screen.H div 2)-(H div 2),Screen.W,H)
+			Graphics.Flip()
+			FPS.Sleep(6000)
+		end
+		//Go()
+		Schedule.Add("SPAWN.GO")
+	end
 end
