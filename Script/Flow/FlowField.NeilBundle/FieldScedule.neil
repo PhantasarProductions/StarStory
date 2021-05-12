@@ -73,6 +73,8 @@ group GrSchedule
 				Map.SpawnPlayer(right(s,#s-6))
 			elseif prefixed(s,"LAYER:")
 				Map.Layer=right(s,#s-6)
+			elseif s=="SPAWN.GO"
+				Spawn.Go()
 			elseif s=="SPAWN.RESET"
 				Spawn.Reset()
 			else 
