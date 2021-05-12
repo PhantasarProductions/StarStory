@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Debug_Combat.Neil
-// Version: 21.03.03
+// Version: 21.05.12
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,5 +44,42 @@ end
 global void CONSOLE_HP()
 	for t,dat in spairs(Combat_Fighter.Fighters)
 		CSayF("%s> Has: %d; Min: %d; Max: %d ",t,dat.Char.Points.HP.Have,dat.Char.Points.HP.Minimum,dat.Char.Points.HP.Maximum)
+	end
+end
+
+global void CONSOLE_CmbKill(victims)
+	//print(sprintf("Kill request> \"%s\"",victim || "<Huh?>"))
+	string victim
+	switch lua.type(victims) 
+		case "table"
+			for k,v in pairs(victims) 
+				print(k,v) 
+			end
+			victim=victims[1] || "?HUH?"
+		case "string"
+			victim=victims
+	end
+	switch victim:upper()
+		case "HERO" "HEROES"
+			for t,dat in spairs(Combat_Fighter.Fighters)
+				if dat.Team=="Hero"
+					CONSOLE_CmbKill(t)
+				end
+			end
+		case "FOE" "FOES" "ENEMY" "ENEMIES" "MONSTER" "MONSTERS"
+			for t,dat in spairs(Combat_Fighter.Fighters)
+				if dat.Team=="Foe"
+					CONSOLE_CmbKill(t)
+				end
+			end
+		case "" 
+			CSay("I need more input!")
+		default
+			if Combat_Fighter.Fighters[victim]
+				Combat_Fighter.Fighters[victim].Char.Points.HP.Have = 0
+				CSayF("Killed %s!",victim)
+			else
+				CSayF("Nothing to kill with '%s' as parameter!",victim)
+			end
 	end
 end
