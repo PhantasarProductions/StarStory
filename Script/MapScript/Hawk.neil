@@ -156,9 +156,23 @@ group MScript
 	end
 	
 	void NPC_Hawk_Foxy()
+		// Only randomizes once per time the script is loaded.
+		// But as the script is wiped from the RAM when you leave the Hawk
+		// And reloaded all anew when you come back, this will therefore trigger
+		// each time you get at the hawk. This prevents endless checking Foxy until she gives in
+		// But will make you need to come back multiple times.
+		static int W = math.random(1,RPGChar.Wendicka.Stat.Level)
+		static int M = math.random(1,Caps.LevelCap * (__skill^__skill))
+		CSayF("Foxy check %d/%d",W,M)
 		Talk("Foxy")
 		Hawk_Kick_Reggie(1,"NAVULPINA")
-		// TODO: Pickpocket
+		// Pickpocket
+		if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
+			if (!Done.Foxy_Teaches_Pickpocket)
+				MapText("TEACH.FOXY")
+				RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
+			end
+		end
 	end
 	
 	void NPC_Hawk_Reggie()
