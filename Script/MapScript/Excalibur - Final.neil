@@ -116,6 +116,15 @@ QuickMeta Unlocked_Floor
 	End
 End
 
+QuickMeta CONV_BAG
+	index
+		return Map.ObjInt("CONV_BAG",Key)
+	end
+	newindex
+		Map.SetObj("CONV_BAG",key,value)
+	end
+end
+
 Group MScript
 
 	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah/Yeah.ogg","EXCALIBUR_YEAH")
@@ -820,6 +829,7 @@ Group MScript
 				Map.HideByLabel("K_"..Color)
 				Ret.Pos = 0				
 			End
+			Map.ShowByLabel("BASE")
 			CSay("= Door activated")
 		Else
 			Ret.Available = False
@@ -934,6 +944,46 @@ Group MScript
 				If Has_Key.Red && Map.HasTag("OPEN_RED")
 					Map.Kill("OPEN_RED",True)
 				End
+			case "#018"
+				// Reference from original Lua code in LAURA II
+				// -- Define quick refs
+				//        local o = Maps.Obj.Obj('CONV_BAG')
+				//       local mt = 'Coordinate Marker Up'
+				//       local mrk = Maps.Obj.Obj(mt)
+				//       local lt = 'Len'
+				//       local lnm = Maps.Obj.Obj(lt)
+                //            -- Corrections
+                //            local hx,hy = -5,5
+                //            local exy = 100
+                //            local maxy = lnm.Y + lnm.H + exy
+                //            local miny = mrk.Y
+                //            local minx = mrk.X
+                //            -- Animate
+                //            if o.Y<miny then o.X = minx + maxy + hx; o.Y = miny + maxy + hy end -- Yes, x is set with maxy too. After all we got a perfect 45 degree angle.
+                //            o.X = o.X - 1
+                //            o.Y = o.Y - 1
+                // Since Apollo has a completely different set up the stuff above will NOT work, so let's not even try!
+                // But it does point me the way to go, eh?
+                //string mt = "Coordinate Marker Up"
+				//string lt = "Len"
+				//static int hx  = -5
+				//static int hy  = 5
+				//static int exy = 100
+				//int maxy = Map.ObjInt(lt,"Y") + Map.ObjInt(lt,"H") + exy
+				//int miny = Map.ObjInt(mt,"Y")
+				//int minx = Map.ObjInt(mt,"X")
+                var o = CONV_BAG
+                __white
+                //Fnt.Text(sprintf("min(%d,%d), max:%d",minx,miny,maxy),5,40)
+                if o.Y<0 
+                	//miny 
+                	//o.X = minx + maxy + hx
+                	//o.Y = miny + maxy + hy
+                	O.X = 400 - 16
+                	O.Y = 288
+                end
+                O.X--
+                O.Y--
 			Default
 		End
 		__White
