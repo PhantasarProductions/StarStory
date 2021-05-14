@@ -43,6 +43,8 @@
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 
+#macro __TeachSIABB Lua.tostring(TeachSIABB)
+
 #undef debugfoxy
 
 var InPartyChecked
@@ -133,14 +135,18 @@ group MScript
 		Talk("Crystal")
 		// TODO: Sisters in all but blood
 		Bool TeachSIABB = RPGChar.Crystal.List.ARM.Has("ARKSMASH")
+		CSayF("ArkSmash: %s",__TeachSIABB)
 		for abl in each {"EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
-			TeachSIABB = TeachSIABB && RPGChar.Wendicka.ABL.Has(abl)
+			TeachSIABB = TeachSIABB && RPGChar.Wendicka.List.ABL.Has(abl)
+			CSayF("%s: %s",abl,__TeachSIABB)
 		end
-		TeachSIAB = TeachSIAB && gv.gbool.EXC_UNLOCKED_FLOOR_16 
-		if TeachSIAB
-			if !RPGChar.Wendicka.List.LEARN.Has("ABL_WENDICKA_SISTERS")
+		TeachSIABB = TeachSIABB && gv.vbool["EXC_UNLOCKED_FLOOR_#016"]  
+		CSayF("Excalibur: %s",__TeachSIABB)
+		if TeachSIABB
+			CSay("Teach if not already having it!")
+			if !RPGChar.Wendicka.List.LEARN.Has("WENDICKA_SISTERS")
 				MapText("TEACH.CRYSTAL")
-				RPGChar.Wendicka.List.LEARN.Add="ABL_WENDICKA_SISTERS"
+				RPGChar.Wendicka.List.LEARN.Add="WENDICKA_SISTERS"
 			end
 		end
 	end
