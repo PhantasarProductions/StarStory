@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.04.23
+// Version: 21.05.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -69,6 +69,9 @@ void MkTrueItem(string it)
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
 					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				end
+				if Prefixed(k,"BUFF_")
+					return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 				end
 				return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")			
 		end
