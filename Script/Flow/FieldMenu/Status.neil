@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 21.03.03
+// Version: 21.05.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -105,6 +105,11 @@ module
 			__skyblue
 			Fnt.Text(s,x+25,iy)
 			__ember
+			if RPGChar[CharTag].Stat["BUFF_"..s]>0
+				__green
+			elseif RPGChar[CharTag].Stat["BUFF_"..s]<0
+				__red
+			end
 			Fnt.Text(RPGChar[CharTag].Stat["END_"..s],x+(bw/2),iy,1)
 		end
 		for i,e in ipairs(Elements)
