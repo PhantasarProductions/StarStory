@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.04.12
+// Version: 21.05.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -120,9 +120,14 @@ global void PartyClick(int i,string ch)
 end
 
 global void Apollo_Flow()
+	static int ABX 
 	int mx = events.mousex()
 	int my = events.mousey()
 	Dev.ToConsole()
+	ABX = (ABX + 1) % 200
+	if ABX == 0
+		Party.AutoBuffExpire()
+	End
 	if GrSchedule.WaitingForMovingActors
 		//CSay("Waiting for moving actors")
 		GrSchedule.WaitingForMovingActors = FldMap.CurLayer.AnythingMoving
