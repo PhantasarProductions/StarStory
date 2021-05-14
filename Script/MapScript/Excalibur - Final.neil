@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.12
+// version: 21.05.14
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.12"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.14"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
