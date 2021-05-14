@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.05.07
+// Version: 21.05.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -333,7 +333,17 @@ deftable icommandtable
 	end
 	WHIZZY = void()
 		gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
-		CSayF("God mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
+		CSayF("Whizzy mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
+	End
+	ALLCHARS = void()
+		Table AC = RPGChar.All
+		For i,tag in iPairs(AC)
+			Int b = math.floor( (i/#AC) * 255)
+			Int r = 255 - b
+			Int g = 180
+			CLine.Write(Tag,r,g,b)
+		End
+		CLine.Write(sprintf("Total characters loaded: %d",#AC),180,255,180)
 	End
 end
 
