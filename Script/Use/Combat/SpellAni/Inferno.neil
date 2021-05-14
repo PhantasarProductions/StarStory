@@ -65,7 +65,7 @@ class SInferno_Flame
 	end
 	
 	DESTRUCTOR
-		CSayF("Inferno flame #%d destroyed!",self.id)
+		//CSayF("Inferno flame #%d destroyed!",self.id)
 	end
 	
 	bool Draw()
