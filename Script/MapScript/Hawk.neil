@@ -43,6 +43,8 @@
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 
+#undef debugfoxy
+
 var InPartyChecked
 QuickMeta InParty
 	index
@@ -130,6 +132,17 @@ group MScript
 	void NPC_Hawk_Crystal()
 		Talk("Crystal")
 		// TODO: Sisters in all but blood
+		Bool TeachSIABB = RPGChar.Crystal.List.ARM.Has("ARKSMASH")
+		for abl in each {"EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
+			TeachSIABB = TeachSIABB && RPGChar.Wendicka.ABL.Has(abl)
+		end
+		TeachSIAB = TeachSIAB && gv.gbool.EXC_UNLOCKED_FLOOR_16 
+		if TeachSIAB
+			if !RPGChar.Wendicka.List.LEARN.Has("ABL_WENDICKA_SISTERS")
+				MapText("TEACH.CRYSTAL")
+				RPGChar.Wendicka.List.LEARN.Add="ABL_WENDICKA_SISTERS"
+			end
+		end
 	end
 	
 	void NPC_Hawk_ExHuRU()
@@ -167,7 +180,11 @@ group MScript
 		Talk("Foxy")
 		Hawk_Kick_Reggie(1,"NAVULPINA")
 		// Pickpocket
+		#if debugfoxy
+		do
+		#else
 		if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
+		#fi
 			if (!Done.Foxy_Teaches_Pickpocket)
 				MapText("TEACH.FOXY")
 				RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
