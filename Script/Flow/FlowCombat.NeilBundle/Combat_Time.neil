@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.05.10
+// Version: 21.05.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -117,7 +117,8 @@ module
 						fv.ChargedAct = nil
 						fv.Gauge=10001
 					elseif fv.Gauge==10000
-						RegenCheat()						
+						RegenCheat()	
+						Party.AutoBuffExpire()
 						switch fv.Team
 							case "Hero"
 								if isIDLE
@@ -130,6 +131,7 @@ module
 					elseif fv.Gauge==20000
 						// Status changes that trigger pre-turn (like poison)
 						RegenCheat()
+						Party.AutoBuffExpire()
 						for sc in fv.StatusChange()
 							Combat_StatusChanges.GetSt(sc).PreTurn(fv)
 						end
@@ -146,6 +148,7 @@ module
 							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
 							fv.Hurt("Cancel")
 							fv.Gauge=0
+							Party.AutoBuffExpire()
 						else
 							fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
 						end

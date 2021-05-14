@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.05.12
+// Version: 21.05.14
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -235,7 +235,22 @@ Group CG_Effect
 	end
 	
 	Bool Buff(Act,Tar)
-	
+		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+		Bool Ret = False
+		For Stat In Each(Stats)
+			Int buff = Act.Act["BUFF_"..Stat]
+			Int value = math.floor(Tar.Char.Stats["BASE_"..Stat] * (buff/100))
+			If buff<0
+				Tar.Char.Stats["BUFF_"..Stat] = math.min(Tar.Char.Stats["BUFF_"..Stat],value)
+				Ret = True
+				Tar.Hurt(sprintf("%s down %d%%",Stat,math.abs(buff)),255,0,0)
+			Elseif buff>0
+				Tar.Char.Stats["BUFF_"..Stat] = math.max(Tar.Char.Stats["BUFF_"..Stat],value)
+				Tar.Hurt(sprintf("%s up %d%%",Stat,math.abs(buff)),0,255,0)
+				Ret = True
+			End
+		End
+		Return Ret
 	End
 	
 	void Effect(Act,Tar)

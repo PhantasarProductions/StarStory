@@ -35,6 +35,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#macro __AUTOSTAT RPGChar[ch].Stat["BUFF_"..Stat]
 
 
 void LoadPartySub()
@@ -122,6 +123,9 @@ module
 		if ch=="Crystal"
 			ReloadARMS()
 		end
+		for stat in each  {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+			RPGChar[ch].Stat["BUFF_"..stat] = 0
+		end
 	end
 	
 	void GiveEXP(int experience,string ch="")
@@ -144,5 +148,43 @@ module
 		end
 	end
 	
-
+	Void AutoBuffExpire()
+		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+		For ch in Each(RPGChar.All)
+			Bool Foe = prefixed(ch,"FOE_")			
+			For Stat in Each(Stats)
+				//RPGChar[ch].Stat["BUFF_"..Stat]
+				If RPGChar[ch].Points.HP.Have == 0
+					__AUTOSTAT = 0
+				End
+				Switch Lua.Neil.Globals.gv.gint.skill
+					Case 1
+						If __AUTOSTAT>0 && Foe
+							__AUTOSTAT = math.max(0,__AUTOSTAT-5)
+						ElseIf __AUTOSTAT>0
+							__AUTOSTAT--
+						ElseIf __AUTOSTAT<0 && (!Foe)
+							__AUTOSTAT= math.min(0,__AUTOSTAT+5)
+						End
+					Case 2
+						If __AUTOSTAT>0
+							__AUTOSTAT = math.max(0,__AUTOSTAT-2)
+						ElseIf __AUTOSTAT<0
+							__AUTOSTAT = math.max(0,__AUTOSTAT+2)
+						End
+					Case 3
+						If __AUTOSTAT<0 && Foe
+							__AUTOSTAT = math.max(0,__AUTOSTAT+5)
+						ElseIf __AUTOSTAT<0
+							__AUTOSTAT++
+						ElseIf __AUTOSTAT>0 && (!Foe)
+							__AUTOSTAT= math.min(0,__AUTOSTAT-5)
+						End
+					Default
+						Lua.error("AutoBuffExpire - Skill Error "..Lua.Neil.Globals.gv.gint.skill)
+				End
+			End
+		End
+	End
+	
 end

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Victory.neil
-// Version: 21.04.11
+// Version: 21.05.14
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -70,6 +70,9 @@ module
 			end
 			Combat_Hero.AllUpAP()
 			Party.NoDeath()
+			For i=1,__skill^2
+				Party.AutoBuffExpire()
+			End
 		end
 	end
 	
