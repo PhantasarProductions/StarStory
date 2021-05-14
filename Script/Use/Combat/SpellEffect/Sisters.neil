@@ -1,0 +1,67 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/SpellEffect/Sisters.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.14
+// End License Information
+Bool CrystalFront()
+	For i=1,3
+		If RPGParty[i]=="Crystal" || RPGParty[i]=="UniCrystal"
+			Return True
+		End
+	End
+	Return False
+End
+
+Bool Sisters(act,tar)
+	if !CrystalFront
+		Return False
+	End
+	String pre=""
+	If act.executor.tag=="UniWendicka"
+		pre = "Uni"
+	End
+	BoxText.Serial("COMBAT","SISTERS","FLOW_COMBAT")
+	For ch In Each{"Wendicka","Crystal"}
+		For Stat In Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+			If RPGChar[ch].Stat["BASE_"..stat]>0
+				RPGChar[ch].Stat["BUFF_"..stat] = math.max(RPGChar[ch].Stat["BUFF_"..stat],math.random(RPGChar[ch].Stat["BASE_"..stat] div 2,RPGChar[ch].Stat["BASE_"..stat] * 2))
+				CSayF("Sisters.%s.%s = %d",ch,stat,RPGChar[ch].Stat["BUFF_"..stat])
+			End
+		End
+		Combat_Fighter.Fighters[pre..ch].Hurt("All statistics up",180,255,0)
+	End
+	Return True
+End
+
+Return Sisters
