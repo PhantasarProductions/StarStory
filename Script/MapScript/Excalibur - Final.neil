@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.14
+// version: 21.05.15
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.14"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.15"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -650,6 +650,13 @@ Group MScript
 	End
 	#endregion
 	
+	#region 020 - High Security
+	Void Goddess()
+		Party.GiveEXP(3500)
+		Map.GoToMap("Excalibur - Final Boss","#020","Start")
+	End
+	#endregion
+	
 	#region Transporter	
 	Get Bool MR
 		Return Events.MouseHitRight()
@@ -997,7 +1004,7 @@ Group MScript
 		InitNames()
 		ReplaceRolfWithJohnson()
 		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2","TalkLab","HideDead015","FightMcLeen"}
+		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2","TalkLab","HideDead015","FightMcLeen", "Goddess"}
 		ZA.Leave("Transporter","LeaveTrans")
 		Map.AllowQuitSave=false
 		Chat = QM_Chat
