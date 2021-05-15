@@ -1,0 +1,198 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/Excalibur - Final Boss.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.15
+// End License Information
+
+#use "Script/Use/Anyway"
+#use "script/Use/Map/KickReggie"
+
+#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.15"
+#MKL_Lic     "Star Story - Excalibur - Final Boss.neil" "Phantasar Closed License"
+
+class SchuifDeur
+	static table Mapje = {}
+	
+	readonly int prevLinks
+	readonly int prevRechts
+	readonly int nextLinks
+	readonly int nextRechts
+	static bool PrevOpen
+	static bool NextOpen
+	int NextSchuif
+	int PrevSchuif
+	
+	Constructor
+		for d in each{"PrevLinks","PrevRechts","NextLinks","NextRechts"}
+			if Map.HasTag(d)
+				self[d]=Map.ObjInt(d,"X")
+				CSayF("Layer %s: Schuifdeur: %s => x = %04d",Map.Layer,d,self[d])
+			else
+				self[d]=-1
+				CSayF("Layer %s: Schuifdeur: %s => Non-Existent!",Map.Layer,d)
+			end
+		end
+	end
+	
+	static void Check(string OL,string CL)
+		Mapje[CL] = Mapje[CL] || new SchuifDeur()
+		Mapje[CL].CheckFl(OL,CL)
+	end
+	
+	void CheckFL(string OL, string CL)
+		if PrevOpen 
+			if OL!=CL
+				PrevSchuif=30
+			elseif PrevSchuif<30
+				PrevSchuif++
+			end
+		else
+			if OL!=CL
+				PrevSchuif=0
+			elseif PrevSchuif>0
+				PrevSchuif--
+			end
+		end
+		if PrevLinks>=0
+			Map.SetObj("PrevLinks","X",PrevLinks-PrevSchuif)
+			Map.SetObj("PrevRechts","X",PrevRechts+PrevSchuif)
+		end
+		if NextOpen 
+			if OL!=CL
+				NextSchuif=30
+			elseif NextSchuif<30
+				NextSchuif++
+			end
+		else
+			if OL!=CL
+				NextSchuif=0
+			elseif NextSchuif>0
+				NextSchuif--
+			end
+		end
+		if NextLinks>=0
+			Map.SetObj("NextLinks","X",NextLinks-NextSchuif)
+			Map.SetObj("NextRechts","X",NextRechts+NextSchuif)
+		end
+	end
+	
+	#if DEBUG_SCHUIFDEUR
+	void Debug()
+		static var DFnt = ImageFont.Obtain("BOXTEXT")
+		dFnt.DarkText(sprintf("Prev Open: %s",lua.tostring(PrevOpen)),5,0)
+		dFnt.DarkText(sprintf("Prev Corr: %04d",PrevSchuif),5,30)
+		dFnt.DarkText(sprintf("Next Open: %s",lua.tostring(NextOpen)),5,60)
+		dFnt.DarkText(sprintf("Next Corr: %04d",NextSchuif),5,90)
+	end		
+	#fi
+end
+	
+
+
+group MScript
+
+	void SchuifPrev()
+		CSayF("PREV: Sesam open u")
+		SchuifDeur.PrevOpen = true
+	end
+	void Leave_SchuifPrev()
+		CSayF("PREV: En ga maar weer dicht")
+		SchuifDeur.PrevOpen = false
+	end
+	void SchuifNext()
+		CSayF("NEXT: Sesam open u")
+		SchuifDeur.NextOpen = true
+	end
+	void Leave_SchuifNext()
+		CSayF("NEXT: En ga maar weer dicht")
+		SchuifDeur.NextOpen = false
+	end
+	
+	Void DIE_Lovejoy()
+		If !Done.Lovejoy_is_dead			
+			Music.Play("Music/Special/Wiped.ogg")
+			PPop.Pop("LJ","North")
+			MapText("LOVEJOY")
+			Party.GiveEXP(1234)
+			PPop.UnPop()
+			// Crash prevention?
+			Map.SetObj("PLAYER", "Texture", "GFX/Actors/Uniform/Wendicka.North.jpbf")
+		End
+	End
+	
+	Void NPC_LoveJoy()
+		MapTextLeader("LOVEJOY.DEAD")
+	End
+
+	Void Goddess_Room()
+		Music.Play("Music/Sys/Silence.ogg")
+		If !Done.Entered_Room_Of_The_Goddess
+			Party.GiveEXP(1234)
+		End
+		Map.HideObj("Reggie")
+	End
+	
+	Void NPC_Goddess()
+		Map.ShowObj("Reggie")
+		PPop.Pop("Goddess","North")
+		MapText("GODDESS1")
+		KickReggie("PartyPopped_Foxy","Reggie","West")
+		MapText("GODDESS2")
+		Lua.error("Goddess fight not yet scripted")
+	End
+	
+	Void Post_Goddess()
+		Lua.error("No post-boss script yet!")
+	End
+	
+	Void Update()
+		static string OldLayer = "Okay, laten we starten!"
+		string Layer = Map.Layer
+		SchuifDeur.Check(OldLayer,Layer)
+		OldLayer = Layer
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	
+	CONSTRUCTOR
+		Map.AllowQuitSave=false
+		ZA.TabEnter{"SchuifPrev","SchuifNext","DIE_Lovejoy"}
+		ZA.TabLeave{"SchuifPrev","SchuifNext"}
+	End
+
+end
