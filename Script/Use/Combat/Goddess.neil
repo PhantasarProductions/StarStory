@@ -76,7 +76,7 @@ Void InitGoddess()
 			modifier=({1,0.25,0.75})[__skill]
 		End
 		// HP should be handled differently
-		FGoddess.Stat["BASE_"..key] = math.floor(value/modifier)
+		FGoddess.Char.Stat["BASE_"..key] = math.floor(value/modifier)
 	End
 	Int HP = FGoddess.Points.HP
 	HP.Maximum = FGoddess.Stat["BASE_"..key]
