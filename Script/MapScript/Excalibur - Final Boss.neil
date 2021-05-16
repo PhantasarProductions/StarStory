@@ -32,13 +32,15 @@
 // 
 // **********************************************
 // 
-// version: 21.05.15
+// version: 21.05.16
 // End License Information
+
+#define Fight_Goddess
 
 #use "Script/Use/Anyway"
 #use "script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.15"
+#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.16"
 #MKL_Lic     "Star Story - Excalibur - Final Boss.neil" "Phantasar Closed License"
 
 class SchuifDeur
@@ -169,11 +171,60 @@ group MScript
 		MapText("GODDESS1")
 		KickReggie("PartyPopped_Foxy","Reggie","West")
 		MapText("GODDESS2")
-		Lua.error("Goddess fight not yet scripted")
+		Schedule.Add("Post_Goddess")		
+		#if Fight_Goddess
+			//Lua.error("Goddess fight not yet scripted")
+			Int Lv
+			Do
+				Int TLv = 0
+				For ch In each{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Johnson"}
+					TLv += RPGChar[ch].Stat.Level
+				End
+				Lv = TLv Div (8 - __skill)
+			End
+			StartCombat.Prepare()
+			StartCombat.Foe("Goddess/Goddess",Lv)
+			Table Adds = {"Add_Gunner","Add_FlameThrower","Add_IceCannon","Add_WaterGun","Add_WindGun","Add_RockThrower","Add_LightGun","Add_DarkGun","Add_VenomGun","Add_virusGun","Add_Trq","Add_BlockGun","Add_ConfuseGun"}
+  			Table Got = {}
+  			static Table LvMargin = {0.50,0.25,0.10}
+  			int maxadds = (3*__skill)
+			For i=1,maxadds
+				CSayF("Adding add: %d/%d",i,maxadds)
+				String Picked
+				Int TimeOut = 1000
+				Repeat
+					Picked = Adds[math.random(1,#Adds)]
+					TimeOut --
+					Lua.assert(TimeOut>0,"Goddess Add Time-Out")
+				LoopWhile Got[Picked]
+				Got[Picked]=True
+				StartCombat.Foe("Goddess/"..Picked,math.random(math.floor(lv-(lv*LvMargin[__skill])),lv))
+			End
+			StartCombat.Tune = "Music/SpecialBoss/Spellbound.ogg"
+			StartCombat.Boss = True
+			StartCombat.Arena = "Orionnevel.png"
+			StartCombat.Begin()
+		#fi
 	End
 	
 	Void Post_Goddess()
-		Lua.error("No post-boss script yet!")
+		//Player.Y -= 40
+		Map.SetObj("PartyPopped_Wendicka","Y",Map.ObjInt("PartyPopped_Wendicka","Y")-40)
+		Map.SetObj("PartyPopped_Wendicka","TEXTURE","GFX/Actors/Player/Wendicka.Hose.png")
+		MapText("POSTBOSS1")
+		Map.SetObj("PartyPopped_Wendicka","TEXTURE","GFX/Actors/Player/Wendicka.Hose.Water.png")
+		MapText("POSTBOSS2")
+		Map.Kill("NPC_Goddess",true)
+		Map.SetObj("PartyPopped_Wendicka","TEXTURE","GFX/Actors/Player/Wendicka.Hose.png")
+		MapText("POSTBOSS3")
+		Map.HideButLabel("ONTRIAL")
+		MapText("TRIAL")
+		Map.GoToMap("Excalibur - Post Game","POSTGAME","Start")
+		For i,ch In iPairs {"Wendicka","Crystal","Foxy","Yirl","Xenobi",""}
+			RPGParty[i]=ch
+		End
+		Map.Leader="Wendicka"
+		//Lua.error("No post-boss script yet!")
 	End
 	
 	Void Update()
@@ -191,7 +242,7 @@ group MScript
 	
 	CONSTRUCTOR
 		Map.AllowQuitSave=false
-		ZA.TabEnter{"SchuifPrev","SchuifNext","DIE_Lovejoy"}
+		ZA.TabEnter{"SchuifPrev","SchuifNext","DIE_Lovejoy","Goddess_Room"}
 		ZA.TabLeave{"SchuifPrev","SchuifNext"}
 	End
 
