@@ -88,7 +88,7 @@ Void InitGoddess()
 	For Drone,i in GDrone.Each
 		Degs[i]=0
 		Drone.AltX = Screen.W Div 4
-		Drone.AltY = -(Screen.H * 50)
+		Drone.AltY = 0-(i*50)
 		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum 
 	End
 
@@ -105,8 +105,8 @@ Void RetGoddess()
 		Return
 	End
 	For Drone,i in GDrone.Each
-		If Drone.Y<FGoddess.Y-100
-			Drone.Y++
+		If Drone.Y<FGoddess.Y-227
+			Drone.AltY++
 		Else
 			Degs[i] = Degs[i] || 0
 			If (i%2==0)
@@ -115,7 +115,7 @@ Void RetGoddess()
 				Degs[i] = (Degs[i]+1)%360
 			End
 			Drone.AltX = math.floor(XMath.Sin(Degs[i])*123)+FGoddess.X
-			Drone.AltY = math.floor(XMath.Cos(Degs[i])*100)+FGoddess.Y
+			Drone.AltY = math.floor(XMath.Cos(Degs[i])*100)+FGoddess.Y-128
 		End
 	End
 End
