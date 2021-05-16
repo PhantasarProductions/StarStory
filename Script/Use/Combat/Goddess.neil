@@ -40,7 +40,7 @@ Var FGoddess
 
 QuickMeta GDrone
 	Index
-		If value:upper()=="EACH"
+		If key:upper()=="EACH"
 			int i = 0
 			Var Ret()
 				i++
@@ -51,7 +51,7 @@ QuickMeta GDrone
 			End
 			Return Ret,i
 		End
-		Return Combat_Fighter.Fighters[sprintf("FOE_%d",value)]
+		Return Combat_Fighter.Fighters[sprintf("FOE_%d",key)]
 	End
 End
 
@@ -68,7 +68,7 @@ Void InitGoddess()
 		End
 	End
 	Int modifier = 6
-	For key,value in pairs(totalstat)
+	For key,value in pairs(StatTotal)
 		If __skill==3 
 			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
 		End
