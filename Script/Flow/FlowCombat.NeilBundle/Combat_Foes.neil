@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.04.25
+// Version: 21.05.16
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -463,7 +463,17 @@ class Combat_Foe extends Combat_Fighter
 					CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
 				else   
 					ldif = self.Level - lvmin
-					C.Stat["BASE_"..ckey]=xmath.round(cvalue[1]+(sinc*ldif)) ////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
+					int val = xmath.round(cvalue[1]+(sinc*ldif)) 
+					////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
+					if val!=math.floor(val)
+						CSay("WARNING! Non-integer value: "..val)
+						val=math.floor(val)
+						if val!=val
+							CSay("Value even appears to be a NAN. Converting to zero!")
+							val = 0
+						end
+					end
+					C.Stat["BASE_"..ckey]=val
 					CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])       
 				end       
 				string formscript = "SUM:"..self.Tag
