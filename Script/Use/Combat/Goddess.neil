@@ -80,8 +80,8 @@ Void InitGoddess()
 		Lua.assert(mkvalue==mkvalue,sprintf("Init Goddess stat %s created a NaN. (%d / %1.2f)",key,value,modifier))
 		FGoddess.Char.Stat["BASE_"..key] = mkvalue
 	End
-	Int HP = FGoddess.Points.HP
-	HP.Maximum = FGoddess.Stat["BASE_"..key]
+	Int HP = FGoddess.Char.Points.HP
+	HP.Maximum = FGoddess.Char.Stat["BASE_HP"]
 	HP.Minimum = 1 // Special Script should ignite in the Godess' case.
 	HP.Have = HP.Maximum
 	// Drone init
