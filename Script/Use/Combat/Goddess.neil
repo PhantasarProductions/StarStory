@@ -47,9 +47,9 @@ QuickMeta GDrone
 				If i>__skill*3
 					return nil,nil
 				End
-				Return Combat_Fighter.Fighters[sprintf("FOE_%d",i)]
+				Return Combat_Fighter.Fighters[sprintf("FOE_%d",i)],i
 			End
-			Return Ret,i
+			Return Ret
 		End
 		Return Combat_Fighter.Fighters[sprintf("FOE_%d",key)]
 	End
@@ -80,7 +80,7 @@ Void InitGoddess()
 		Lua.assert(mkvalue==mkvalue,sprintf("Init Goddess stat %s created a NaN. (%d / %1.2f)",key,value,modifier))
 		FGoddess.Char.Stat["BASE_"..key] = mkvalue
 	End
-	Int HP = FGoddess.Char.Points.HP
+	Var HP = FGoddess.Char.Points.HP
 	HP.Maximum = FGoddess.Char.Stat["BASE_HP"]
 	HP.Minimum = 1 // Special Script should ignite in the Godess' case.
 	HP.Have = HP.Maximum
@@ -88,7 +88,7 @@ Void InitGoddess()
 	For Drone,i in GDrone.Each
 		Degs[i]=0
 		Drone.AltX = Screen.W Div 4
-		Drone.AltY = -(Screen.Y * 50)
+		Drone.AltY = -(Screen.H * 50)
 		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum 
 	End
 
