@@ -72,7 +72,7 @@ Void InitGoddess()
 		If __skill==3 
 			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
 		End
-		If key=='HP' 
+		If key=="HP" 
 			modifier=({1,0.25,0.75})[__skill]
 		End
 		// HP should be handled differently
