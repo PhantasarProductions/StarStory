@@ -64,10 +64,10 @@ Void InitGoddess()
 	Table StatTotal
 	For ch in Each{"Wendicka","Crystal","Foxy","Xenobi","Johnson","Yirl"}
 		For S in Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","HP"}
-			StatTotal[S] = (StatTotal[S] || 0) + RPGChar[ch].Stat[S]
+			StatTotal[S] = (StatTotal[S] || 0) + RPGChar[ch].Stat["END_"..S]
 		End
 	End
-	Int modifier = 6
+	Number modifier = 6
 	For key,value in pairs(StatTotal)
 		If __skill==3 
 			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
