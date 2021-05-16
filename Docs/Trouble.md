@@ -49,3 +49,8 @@ And don't send me messages saying that "MacOS X" is no longer the name, as I don
 
 This is the only Mac specific issue I can help with, as this is a very general issue with free applications on Mac in general. Technical items I cannot help with, and you'll have to bother the makers of the Mac port about that, I'm afraid.
 
+
+## I see my Max HP go down over time
+
+That is not a bug. This only happens if a character is under the influence of a HP buff, which temporarily raises the maximum of you HP. This will gradually go back to its official unbuffed value. Once that value is reached the 
+going down will stop. The reason I note it here, is because this may appear a bit frightening when you see this happening without any explanation.
