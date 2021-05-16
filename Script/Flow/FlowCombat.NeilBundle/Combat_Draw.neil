@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 21.05.09
+// Version: 21.05.16
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -41,6 +41,7 @@ module
 	var Start
 	var Fighter
 	var Time
+	delegate Goddess
 	
 	get var ArenaGet
 		if prefixed(Start.Arena,"SCRIPT:")
@@ -71,6 +72,7 @@ module
 	End
 	
 	void DrawScreen()
+		Invoke(Goddess)
 		__white
 		// Mouse coordinates
 		int mx = events.mousex()
