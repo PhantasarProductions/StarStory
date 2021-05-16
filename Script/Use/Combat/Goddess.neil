@@ -76,7 +76,9 @@ Void InitGoddess()
 			modifier=({1,0.25,0.75})[__skill]
 		End
 		// HP should be handled differently
-		FGoddess.Char.Stat["BASE_"..key] = math.floor(value/modifier)
+		number mkvalue = math.floor(value/modifier)
+		Lua.assert(mkvalue==mkvalue,sprintf("Init Goddess stat %s created a NaN. (%d / %1.2f)",key,value,modifier))
+		FGoddess.Char.Stat["BASE_"..key] = mkvalue
 	End
 	Int HP = FGoddess.Points.HP
 	HP.Maximum = FGoddess.Stat["BASE_"..key]
