@@ -1,0 +1,125 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/Goddess.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.16
+// End License Information
+#use "Libs/XMath"
+
+Var FGoddess
+
+QuickMeta GDrone
+	Index
+		If value:upper()=="EACH"
+			int i = 0
+			Var Ret()
+				i++
+				If i>__skill*3
+					return nil,nil
+				End
+				Return Combat_Fighter.Fighters[sprintf("FOE_%d",i)]
+			End
+			Return Ret,i
+		End
+		Return Combat_Fighter.Fighters[sprintf("FOE_%d",value)]
+	End
+End
+
+Table Degs = {}
+
+Void InitGoddess()
+	FGoddess = Combat_Fighter.Fighters.Goddess
+	FGoddess.AltX = Screen.W Div 4
+	FGoddess.AltY = (Screen.H - 100) Div 2
+	Table StatTotal
+	For ch in Each{"Wendicka","Crystal","Foxy","Xenobi","Johnson","Yirl"}
+		For S in Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","HP"}
+			StatTotal[S] = (StatTotal[S] || 0) + RPGChar[ch].Stat[S]
+		End
+	End
+	Int modifier = 6
+	For key,value in pairs(totalstat)
+		If __skill==3 
+			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
+		End
+		If key=='HP' 
+			modifier=({1,0.25,0.75})[__skill]
+		End
+		// HP should be handled differently
+		FGoddess.Stat["BASE_"..key] = math.floor(value/modifier)
+	End
+	Int HP = FGoddess.Points.HP
+	HP.Maximum = FGoddess.Stat["BASE_"..key]
+	HP.Minimum = 1 // Special Script should ignite in the Godess' case.
+	HP.Have = HP.Maximum
+	// Drone init
+	For Drone,i in GDrone.Each
+		Degs[i]=0
+		Drone.AltX = Screen.W Div 4
+		Drone.AltY = -(Screen.Y * 50)
+		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum 
+	End
+
+End
+
+Void RetGoddess()
+	Static Bool DoneInit
+	If !DoneInit
+		InitGoddess()
+		DoneInit=True
+	End
+	If FGoddess.Char.Points.HP<=1
+		Flow.GoToFlow("FIELD")
+		Return
+	End
+	For Drone,i in GDrone.Each
+		If Drone.Y<FGoddess.Y-100
+			Drone.Y++
+		Else
+			Degs[i] = Degs[i] || 0
+			If (i%2==0)
+				Degs[i] = (Degs[i]-1)%360
+			Else
+				Degs[i] = (Degs[i]+1)%360
+			End
+			Drone.AltX = math.floor(XMath.Sin(Degs[i])*123)+FGoddess.X
+			Drone.AltY = math.floor(XMath.Cos(Degs[i])*100)+FGoddess.Y
+		End
+	End
+End
+
+Init
+	CSay("Goddess subscript loaded and running!")
+end
+
+Return RetGoddess
