@@ -58,7 +58,7 @@ End
 Table Degs = {}
 
 Void InitGoddess()
-	FGoddess = Combat_Fighter.Fighters.Goddess
+	FGoddess = Combat_Fighter.Fighters.FOE_0
 	FGoddess.AltX = Screen.W Div 4
 	FGoddess.AltY = (Screen.H - 100) Div 2
 	Table StatTotal
