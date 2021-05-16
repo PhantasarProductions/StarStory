@@ -100,7 +100,7 @@ Void RetGoddess()
 		InitGoddess()
 		DoneInit=True
 	End
-	If FGoddess.Char.Points.HP<=1
+	If FGoddess.Char.Points.HP.Have<=1
 		Flow.GoToFlow("FIELD")
 		Return
 	End
