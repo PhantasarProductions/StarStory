@@ -67,8 +67,8 @@ Void InitGoddess()
 			StatTotal[S] = (StatTotal[S] || 0) + RPGChar[ch].Stat["END_"..S]
 		End
 	End
-	Number modifier = 6
 	For key,value in pairs(StatTotal)
+		Number modifier = 6
 		If __skill==3 
 			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
 		End
@@ -120,8 +120,8 @@ Void RetGoddess()
 			Else
 				Degs[i] = (Degs[i]+1)%360
 			End
-			Drone.AltX = math.floor(XMath.Sin(Degs[i])*123)+FGoddess.X
-			Drone.AltY = math.floor(XMath.Cos(Degs[i])*100)+FGoddess.Y-128
+			Drone.AltX = math.floor(XMath.Sin(Degs[i])*255)+FGoddess.X
+			Drone.AltY = math.floor(XMath.Cos(Degs[i])*150)+FGoddess.Y-128
 		//End
 	End
 End
