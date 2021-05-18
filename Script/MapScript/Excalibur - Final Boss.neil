@@ -216,6 +216,7 @@ group MScript
 		MapText("POSTBOSS2")
 		Map.Kill("NPC_Goddess",true)
 		Map.SetObj("PartyPopped_Wendicka","TEXTURE","GFX/Actors/Player/Wendicka.Hose.png")
+		Music.Pop()
 		MapText("POSTBOSS3")
 		Map.HideButLabel("ONTRIAL")
 		MapText("TRIAL")
