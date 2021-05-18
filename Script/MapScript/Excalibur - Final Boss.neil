@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.16
+// version: 21.05.18
 // End License Information
 
 #define Fight_Goddess
@@ -40,7 +40,7 @@
 #use "Script/Use/Anyway"
 #use "script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.16"
+#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.18"
 #MKL_Lic     "Star Story - Excalibur - Final Boss.neil" "Phantasar Closed License"
 
 class SchuifDeur
