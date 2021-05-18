@@ -1,0 +1,30 @@
+#use "Libs/Music"
+#use "Script/Data/General/Credits"
+
+
+ReadOnly Var OrionNevel = Image.LoadNew("GFX/XSpace/Orionnevel.png","OrionNevel")
+ReadOnly Var Font = ImageFont.Obtain("BIGTEXT")
+
+Init
+	Music.Play("Music/Introduction/Introduction.ogg")
+End
+
+
+Global Void Apollo_Flow()
+	Bool ItsOver = True
+	Graphics.Color(255,180,0)
+	OrionNevel.Stretch(0,0,Screen.W,Screen.H)
+	For Cl in Credits.Each
+		Cl.Y--
+		ItsOver = ItsOver && Cl.Y<-250
+		If Cl.Y<Screen.H + 100 && Cl.Y>-100
+			Graphics.Color(Cl.R,Cl.G,Cl.B)
+			Font.DarkText(Cl.Txt,Screen.W div 2,CL.Y,2,2)
+		End
+	End
+	If ItsOver
+		//Lua.error("No chain event after the credits roll, yet!")
+		//Map.GoToMap("Hawk_PostGame")
+		Flow.GoToFlow("FIELD")
+	End
+End
