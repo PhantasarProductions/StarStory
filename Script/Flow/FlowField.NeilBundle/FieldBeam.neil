@@ -34,72 +34,78 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-class ClBeam
+Class ClBeam
 
-	static var Sound = Audio.Obtain("BEAM")
-	static delegate DS
-	static var MP
-	static get string LY
-		return Map.Layer
-	end
+	Static var Sound = Audio.Obtain("BEAM")
+	Static delegate DS
+	Static var MP
+	Static get String   LY
+		Return Map.Layer
+	End
 	
-	static readonly var Lijst = new TLinkedList("var")
+	Static ReadOnly  var Lijst = new TLinkedList("var")
 	
-	int Frame = -1
-	readonly int Route = 1
-	readonly bool despawn
-	readonly string Actor
-	readonly bool NIMT0
-	readonly string Texture
-	get var Act
-		return MP.CurLayer.Obj(Actor)
+	Int Frame = -1
+	ReadOnly Int Route = 1
+	ReadOnly Bool  despawn
+	ReadOnly String   Actor
+	ReadOnly Bool  NIMT0
+	ReadOnly String   Texture
+	ReadOnly Bool  IsActor
+	Get Var Act
+		Return MP.CurLayer.Obj(Actor)
 		//Layer(LY).Obj(Actor)
-	end
+	End
 	
-	void Update()
+	Void Update()
 		Act.AnimFrame = Frame
-	end
+	End
 	
-	static void Add(string ActTag,bool DespawnAfter,bool Ascending)
-		Lijst.AddLast(new ClBeam(ActTag,DespawnAfter,Ascending))
-	end
+	Static void Add(String   ActTag,Bool  DespawnAfter,Bool  AscEnding)
+		Lijst.AddLast(new ClBeam(ActTag,DespawnAfter,AscEnding))
+	End
 	
-	CONSTRUCTOR(string Tag,bool Des,bool asc)
-		Actor = Tag
-		Despawn = Des
-		NIMT0 = Act.NotMovingThen0
-		Texture = Act.Texture
+	CONSTRUCTOR(String   Tag,Bool  Des,Bool  asc)
+		Actor       = Tag
+		Despawn     = Des
+		Texture     = Act.Texture
+		IsActor     = Act.Kind=="Actor"
 		Act.Texture = "GFX/Actors/Teleport/Teleport.jpbf"
-		Act.NotMovingThen0 = false
-		CSayF("Beaming '%s' - Despawn: %s - Ascending: %s",Tag,lua.tostring(des),lua.tostring(asc))
+		If IsActor
+			NIMT0 = Act.NotMovingThen0
+			Act.NotMovingThen0 = False
+		End
+		CSayF("Beaming '%s' - Despawn: %s - AscEnding: %s",Tag,lua.tostring(des),lua.tostring(asc))
 		if !asc
 			Frame=100
 			Route=-1
-		end
-	end
+		End
+	End
 	
-	static void Run()
+	Static Void Run()
 		FPS.WaitMinTicks()
 		Sound.Play()
-		while Lijst.Count>0
-			for ob,lnk in Lijst.Each
+		While Lijst.Count>0
+			For ob,lnk in Lijst.Each
 				ob.Frame += ob.Route
-				if ob.Frame>100 || ob.Frame<0
-					ob.Act.NotMovingThen0 = ob.NIMT0
+				If ob.Frame>=100 || ob.Frame<0
+					If ob.IsActor
+						ob.Act.NotMovingThen0 = ob.NIMT0
+					End
 					// ob.Act.Texture = ob.Texture
 					lnk.Unlink()
-					if ob.Despawn
+					If ob.Despawn
 						MP.CurLayer.Kill(ob.Actor)
 						MP.Remap()
-					end
-				else
+					End
+				Else
 					ob.Update()
-				end
-			end
+				End
+			End
 			FPS.WaitMinTicks()
 			Graphics.Cls()
-			DS(true)
+			DS(True)
 			Graphics.Flip()
-		end
-	end
-end
+		End
+	End
+End
