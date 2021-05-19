@@ -53,6 +53,13 @@ group MScript
 	End
 #endregion
 
+	Void NPC_Terminal()
+		gv.gbool.PostGameTerminal = True // Just a safety setting.
+		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.neil")
+		State.GoToFlow("TERMINAL")
+	End
+
+
 	Void NPC_Bakina()
 		MapText("BANIKA")
 	ENd
