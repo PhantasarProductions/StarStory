@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.18
+// version: 21.05.20
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.18"
+#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.20"
 #MKL_Lic     "Star Story - Hawk_PostGame.neil" "Phantasar Closed License"
 
 group MScript
@@ -66,6 +66,13 @@ group MScript
 	
 	Void NPC_Upgrade()
 		MapText("SAPPAE")
+	End
+	
+	Void NPC_NewGamePlus()
+		MapText("NGP")
+		MapText("NGP2")
+		State.LoadNew("FLOW_STARTGAME_PLUS","Script/Flow/FlowNewGamePlus.neil")
+		State.GoToFlow("STARTGAME_PLUS")
 	End
 
 	Void ShowBack()
