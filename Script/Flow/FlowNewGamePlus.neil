@@ -1,0 +1,84 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Flow/FlowNewGamePlus.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.20
+// End License Information
+#use "Script/Use/Anyway"
+#use "libs/linkedlist"
+
+ReadOnly Var Font = ImageFont.Obtain("BIGTEXT")
+
+
+ReadOnly Int HeaderY = Screen.H Div 6
+ReadOnly Int X = Screen.W Div 2 
+
+Void Start_NewCycle()
+	Lua.error("New Cycle not yet implemented")
+End
+
+Void Reject_NewCycle()
+	Flow.GoToFlow()
+End
+
+Class Answer
+	ReadOnly Int Y
+	ReadOnly String Caption
+	ReadOnly Delegate Action
+	
+	Static Int YDist = Screen.H Div 7
+	Static Int YMin = HeaderY+50
+	Static Var Lijst = New LinkedList()
+	
+	Constructor(string C,int _Y,Delegate A)
+		Caption = C
+		Y = _Y
+		Action = A
+		Lijst.AddLast(Self)
+	End
+	
+End
+
+ReadOnly Var Yes = New Answer("Yes",(Answer.YDist*2)+Answer.YMin,Start_NewCycle)
+ReadOnly Var No  = New Answer("No",(Answer.YDist*4)+Answer.YMin,Reject_NewCycle)
+
+Global Void Apollo_Flow()
+	Dev.ToConsole()
+	Graphics.Cls()
+	__Red
+	Font.Text(sprintf("Do you wish to start the new game+ -- Cycle #%d",Caps.Cycle+1),X,HeaderY,2,2)
+	For A in Answer.Lijst.Each
+		__SkyBlue
+		Font.Text(A.Caption,X,A.Y,2,2)
+	End
+End
