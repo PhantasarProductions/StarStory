@@ -32,23 +32,50 @@
 // 
 // **********************************************
 // 
-// version: 21.05.20
+// version: 21.05.21
 // End License Information
 #use "Script/Use/Anyway"
 #use "libs/linkedlist"
 
 ReadOnly Var Font = ImageFont.Obtain("BIGTEXT")
+ReadOnly Var Mouse = Image.Obtain("MOUSE")
 
 
 ReadOnly Int HeaderY = Screen.H Div 6
 ReadOnly Int X = Screen.W Div 2 
 
 Void Start_NewCycle()
+	Events.Flush()
+	Loading()
+	Events.Poll()
+	// Game Var Reset
+	CSay("GameVar Reset")
+	Var Trans = NeilUse("Script/Data/General/TransferVars_To_NewCycle")
+	Table Temp = {}
+	For TI in Each(Trans)
+		String GT  = TI.VTYPE
+		String GVK = TI.VVAR
+		Var GVV = gv[GT][GVK]
+		Temp[GT] = Temp[GT] || {}
+		CSayF("= Temp store %s.%s = %s",GT,GVK,Lua.tostring(GVV))
+		Temp[GT][GVK] = GVV
+	End
+	CSay("= Reset main system")
+	GV.Clear()
+	For GT,GVS in sPairs(Temp)
+		// Temp[GT] = {}
+		For GVK,GVV in sPairs(GVS)
+			CSayF("= Restore %s.%s = %s",GT,GVK,Lua.tostring(GVV))
+			gv[GT][GVK] = GVV
+		End
+	End
+	// Swap Reset
+	
 	Lua.error("New Cycle not yet implemented")
 End
 
 Void Reject_NewCycle()
-	Flow.GoToFlow()
+	Flow.GoToFlow("FIELD")
 End
 
 Class Answer
@@ -73,12 +100,22 @@ ReadOnly Var Yes = New Answer("Yes",(Answer.YDist*2)+Answer.YMin,Start_NewCycle)
 ReadOnly Var No  = New Answer("No",(Answer.YDist*4)+Answer.YMin,Reject_NewCycle)
 
 Global Void Apollo_Flow()
+	Int MX = Events.MouseX()
+	Int MY = Events.MouseY()
 	Dev.ToConsole()
 	Graphics.Cls()
 	__Red
 	Font.Text(sprintf("Do you wish to start the new game+ -- Cycle #%d",Caps.Cycle+1),X,HeaderY,2,2)
 	For A in Answer.Lijst.Each
 		__SkyBlue
+		if MY>A.Y-30 && MY<A.Y+30
+			__Cyan
+			if Events.MouseHitLeft()
+				A.Action()
+			End
+		End
 		Font.Text(A.Caption,X,A.Y,2,2)
-	End
+	End	
+	__white
+	Mouse.Draw(MX,MY)
 End
