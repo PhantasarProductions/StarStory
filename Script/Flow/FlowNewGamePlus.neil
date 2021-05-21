@@ -70,8 +70,29 @@ Void Start_NewCycle()
 		End
 	End
 	// Swap Reset
-	
-	Lua.error("New Cycle not yet implemented")
+	CSay("Reset Map PermaKills")
+	Map.KillReset()
+	// Recreate Briggs
+	CSayF("Recreating Briggs at level %05d",Caps.LevelCap) // This must happen BEFORE the cycle is counted up!
+	Party.NewChar("Briggs",Caps.LevelCap)
+	// Sync Uniform Crystal
+	CSayF("Sync Crystal for uniform at level %d",RPGChar.Crystal.Stat.Level)
+	Party.GrabLevel("UniCrystal",RPGChar.Crystal.Stat.Level)
+	RPGChar.UniCrystal.Stat.Level = RPGChar.Crystal.Stat.Level
+	// Reforming Party
+	CSay("Resetting Party!")
+	For i,ch in Pairs{"UniWendicka","UniCrystal","Briggs","","",""}
+		CSayF("%d:> %s",i,ch)
+		RPGParty[i] = ch
+	End
+	CSayF("Increase cycle number: %s",Caps.Cycle+1)
+	Caps.Cycle++
+	// Redirecting to the Yaqirpa
+	CSay("Going back to the Yaqirpa")
+	Map.GoToMap("Prologue_Yaqirpa","YAQIRPA","Start")
+	// Lua.error("New Cycle not yet implemented")
+	CSay("All preparations done! Let's 'resume' in the new cycle")
+	Flow.GoToFlow("FIELD")
 End
 
 Void Reject_NewCycle()
