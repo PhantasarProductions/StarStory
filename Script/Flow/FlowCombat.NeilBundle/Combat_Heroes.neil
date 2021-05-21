@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.04.23
+// Version: 21.05.21
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -268,6 +268,7 @@ group Stage_SelectTarget
 	
 	void Draw()
 		static var fnt = ImageFont.Obtain("BOXTEXT")
+		static var sys = ImageFont.Obtain("SYSFONT")
 		Graphics.Color(255,180,0)
 		AmFont.Text(sprintf("%s: %s: Please select your target",Act.Executor.Name,Act.Act.Name),30,10)
 		graphics.Color(255,0,0)
@@ -316,6 +317,13 @@ group Stage_SelectTarget
 					Graphics.Color(255-b,b,0)
 					Graphics.Rect(tdat.x,tdat.y-25,b,25)
 				end
+				__white
+				If tdat.NextAct && tdat.gauge>10000
+					For i=1,#tdat.NextAct.Targets_Tag
+						tdat.NextAct.Targets[i].TIcon(tdat.x+((i-1)*20),tdat.Y+25)
+					End
+					Sys.DarkText(tdat.NextAct.Act.Name,tdat.x,tdat.Y+5)
+				End
 			end
 		end
 	end
