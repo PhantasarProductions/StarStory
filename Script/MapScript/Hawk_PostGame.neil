@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.20
+// version: 21.05.21
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.20"
+#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.21"
 #MKL_Lic     "Star Story - Hawk_PostGame.neil" "Phantasar Closed License"
 
 group MScript
@@ -83,6 +83,7 @@ group MScript
 	CONSTRUCTOR	
 		CSay("The Hawk - Post Game")
 		ZA.TabEnter{"ShowBack"}
+		Party.Recover()
 	End
 
 end
