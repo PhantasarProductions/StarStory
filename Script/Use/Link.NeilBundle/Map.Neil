@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
-// Version: 21.04.22
+// Version: 21.05.21
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -35,13 +35,13 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
-global table MapScript
+Global Table MapScript
 
-group Link_Map
-	get delegate CSayF
-		static delegate ret = Lua.Neil.Globals.CSayF
-		return ret
-	end
+Group Link_Map
+	Get Delegate CSayF
+		Static Delegate ret = Lua.Neil.Globals.CSayF
+		Return ret
+	End
 	
 	get string Leader
 		return ISGET.STRING("FLOW_FIELD","FLDMAP.LEADER")
@@ -51,7 +51,7 @@ group Link_Map
 		State.Call("FLOW_FIELD","FldMap.SetLeader","\""..value.."\"")
 	end
 	
-	void Call(string func,para)
+	Void Call(string func,para)
 		string p 
 		switch type(para)
 			case "nil"
@@ -73,7 +73,7 @@ group Link_Map
 		State.Call("FLOW_FIELD",func,p)
 	end
 	
-	void MCall(string func,a,b,c,d,e,f,g,h)
+	Void MCall(string func,a,b,c,d,e,f,g,h)
 		string pr
 		for i,p in ipairs {a,b,c,d,e,f,g,h}
 			if i>1 
@@ -91,11 +91,11 @@ group Link_Map
 		State.Call("FLOW_FIELD",func,pr)
 	end
 	
-	void ActorMoveTo(string actor,a,b)
+	Void ActorMoveTo(string actor,a,b)
 		MCall("FldMap.ActorMoveTo",Actor,a,b)
 	end
 	
-	void MoveTo(a,b)
+	Void MoveTo(a,b)
 		MCall("FldMap.ActorMoveTo","PLAYER",a,b)
 	end
 	
@@ -107,17 +107,17 @@ group Link_Map
 		return ISGET.String("FLOW_FIELD","FldMap.Layer")
 	end
 		
-	void Spawn(string actor,string spot)
+	Void Spawn(string actor,string spot)
 		CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
 		Call("FldMap.CurLayer.Spawn",{"\""..actor.."\"","\""..spot.."\""})
 	end
 	
-	void SpawnXY(string actor,int x,int y)
+	Void SpawnXY(string actor,int x,int y)
 		CSayF("Spawning actor '%s' on coordinates (%4d,%dd)",actor,x,y)
 		MCall("FldMap.CurLayer.Spawn",actor,x,y)
 	end
 	
-	void SetObjField(string obj,string field,value)
+	Void SetObjField(string obj,string field,value)
 		plua v = lua.tostring(value)
 		if lua.type(value)=="string"
 			v = "\""..value.."\""
@@ -125,11 +125,11 @@ group Link_Map
 		Call("FldMap.SetObjField",{"\""..obj.."\"","\""..field.."\"",v})
 	end
 	
-	void SpawnPlayer(string spot)
+	Void SpawnPlayer(string spot)
 		Spawn("PLAYER",spot)
 	end
 
-	void LoadMap(string Map)
+	Void LoadMap(string Map)
 		if ApolloState.Name=="MAPSCRIPT"
 			MCall("GrSchedule.Add","LOAD:"..Map)
 		else
@@ -137,21 +137,21 @@ group Link_Map
 		end
 	end
 	
-	void Load(string Map)
+	Void Load(string Map)
 		LoadMap(Map)
 	end
 	
-	void Script(string script,string para="nil")
+	Void Script(string script,string para="nil")
 		CSayF("Executing MapScript: %s(%s)",Script,para)
 		State.Call("MAPSCRIPT","MScript."..script,para)
 	end
 	
-	void Schedule(string func)
+	Void Schedule(string func)
 		CSayF("Scheduled: %s",func)
 		State.Call("FLOW_FIELD","GrSchedule.Schedule","\""..func.."\"")
 	end
 	
-	void ReMap()
+	Void ReMap()
 		Call("FldMap.KthuraMap.ReMap","nil")
 	end
 	
@@ -163,42 +163,46 @@ group Link_Map
 		return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
 	end
 	
-	void Kill(string ObjTag,perma)
+	Void Kill(string ObjTag,perma)
 		MCall("FLDMap.Kill",ObjTag,perma==true)
 	end
 	
+	Void KillReset()
+		Call("FldMap.KillReset","nil")
+	End
+	
 	// Won't remove the object immediately, but it will be gone the next time 
 	// You come here.
-	void PostKill(string ObjTag)
+	Void PostKill(string ObjTag)
 		MCall("FLDMap.PostKill",ObjTag)
 	end
 	
-	void SG()
+	Void SG()
 		MCall("SGMap","nil")
 	end
 
-	void LG()
+	Void LG()
 		MCall("LGMap","nil")
 	end
 	
 	
-	void Niets()
+	Void Niets()
 	end
 	
-	void HideButLabel(string label)
+	Void HideButLabel(string label)
 		Mcall("FldMap.CurLayer.HideButLabel",label)
 	end
-	void ShowButLabel(string label)
+	Void ShowButLabel(string label)
 		Mcall("FldMap.CurLayer.ShowButLabel",label)
 	end
-	void HideByLabel(string label)
+	Void HideByLabel(string label)
 		Mcall("FldMap.CurLayer.HideByLabel",label)
 	end
-	void ShowByLabel(string label)
+	Void ShowByLabel(string label)
 		Mcall("FldMap.CurLayer.ShowByLabel",label)
 	end
 	
-	void ShowPlayer()
+	Void ShowPlayer()
 		Call("FldMap.ShowPlayer","nil")
 	end
 	
@@ -226,35 +230,35 @@ group Link_Map
 		return ISGET.Bool("FLOW_FIELD","FLDMap.XVisObj(\""..tag.."\")")
 	end
 	
-	void ObjSet(string tag,string vartag,value)
+	Void ObjSet(string tag,string vartag,value)
 		MCall("FldMap.ObjSet",tag,vartag,value)
 	end
-	void SetObj(string tag,string vartag,value)
+	Void SetObj(string tag,string vartag,value)
 		MCall("FldMap.ObjSet",tag,vartag,value)
 	end
 
 	
-	void ObjHide(string tag)
+	Void ObjHide(string tag)
 		ObjSet(tag,"Visible",false)
 	end
 
-	void ObjShow(string tag)
+	Void ObjShow(string tag)
 		ObjSet(tag,"Visible",true)
 	end
 
-	void HideObj(string tag)
+	Void HideObj(string tag)
 		ObjSet(tag,"Visible",false)
 	end
 
-	void ShowObj(string tag)
+	Void ShowObj(string tag)
 		ObjSet(tag,"Visible",true)
 	end
 
-	void ObjWalkTo(string tag,a,b)
+	Void ObjWalkTo(string tag,a,b)
 		MCall("FldMap.ObjWalkTo",tag,a,b)
 	end
 
-	void ObjRelocate(string tag,a,b)		
+	Void ObjRelocate(string tag,a,b)		
 		switch Lua.type(a)
 			case "string"
 				ObjSet(tag,"X",ObjInt(a,"X"))
@@ -265,21 +269,21 @@ group Link_Map
 		end
 	end
 	
-	void NewObj(string knd,string tag)
+	Void NewObj(string knd,string tag)
 		MCall("FldMap.CurLayer.NewObj",knd,tag)
 	end
 				
 	
-	void DrawScreen()
+	Void DrawScreen()
 		MCall("DrawScreen","nil")
 	end
 	
-	get int CamX
-		return ISGET.Int("FLOW_FIELD","FLDMap.ScrollX")
-	end
-	get int CamY
-		return ISGET.Int("FLOW_FIELD","FLDMap.ScrollY")
-	end
+	Get Int CamX
+		Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollX")
+	End
+	Get Int CamY
+		Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollY")
+	End
 	
 	
 	
@@ -287,7 +291,7 @@ group Link_Map
 		return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\").Data[\""..dkey.."\"]")
 	end
 	
-	void ActTrans(string spot)
+	Void ActTrans(string spot)
 		MCall("Trans.Activate",spot)
 	end
 
@@ -295,7 +299,7 @@ group Link_Map
 		return ISGET.String("FLOW_FIELD","FldMap.LoadedMap")
 	end
 	
-	void PlayerStopWalking()
+	Void PlayerStopWalking()
 		Cout("Stop walking!\b")
 		MCall("FLDMap.StopWalking","nil")
 	end
@@ -304,7 +308,7 @@ group Link_Map
 		return ISGET.Bool("FLOW_FIELD",sprintf("FLDMap.Blocked(%d,%d)",x,y))
 	end
 	
-	void GoToLayer(string aLayer,string SpawnPoint)		 
+	Void GoToLayer(string aLayer,string SpawnPoint)		 
 		if HasTag("PLAYER")
 			Self.Kill("PLAYER")
 		end
@@ -312,14 +316,14 @@ group Link_Map
 		SpawnPlayer(SpawnPoint)
 	end
 	
-	void GoToMap(string aMap,string aLayer,string SpawnPoint)
+	Void GoToMap(string aMap,string aLayer,string SpawnPoint)
 		static var SA = Lua.Neil.Globals.Schedule.Add
 		Self.LoadMap(aMap)
 		SA("LAYER:"..aLayer)
 		SA("SPAWN:"..SpawnPoint)
 	end
 	
-	void SkipFrames(int f)
+	Void SkipFrames(int f)
 		for fidx=1,f
 			Graphics.Cls()
 			DrawScreen()
@@ -351,7 +355,7 @@ group Link_Map
 		table m
 		m = {}
 		delegate idx(s,string key)
-			void f(para)
+			Void f(para)
 				para = para || "nil"
 				Script(key,para)
 			end
@@ -409,12 +413,12 @@ quickmeta Player
 			case "WIND"
 				return Link_Map.ObjStr("PLAYER","Wind")
 			case "WALKTO"
-				void W(a,b)
+				Void W(a,b)
 					Link_Map.ObjWalkTo("PLAYER",a,b)
 				end
 				return W
 			case "RELOCATE" "RELOC"
-				void RL(a,b)
+				Void RL(a,b)
 					Player.StopWalking()
 					Link_Map.ObjRelocate("PLAYER",a,b)
 				end
