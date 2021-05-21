@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.05.04
+// Version: 21.05.21
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.05.04"
+#MKL_Version "Star Story - FieldMap.neil" "21.05.21"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -252,7 +252,7 @@ group FldMap
 	// Generating random items
 	get table LRitems
 		table ret
-		for i = 1 , math.min(gv.vint.Cycle,5)
+		for i = 1 , math.min(Caps.Cycle,5)
 			string l = KthuraMap.Meta[sprintf("PT %2d Items",i)]
 			table ketting = Split(l,";")
 			for it in each (ketting)
@@ -296,7 +296,7 @@ group FldMap
 	
 	
 	get int minLevel
-		static string rngt = sprintf("PT %2d Level Range",math.min(10,gv.vint.Cycle))
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng = KthuraMap.Meta[rngt]
 		table trng = Split(rng,"-")
 		int ret = math.max(1,lua.tonumber(trng[1]) or 1)
@@ -305,7 +305,7 @@ group FldMap
 	end
 
 	get int maxLevel
-		static string rngt = sprintf("PT %2d Level Range",math.min(10,gv.vint.Cycle))
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng = KthuraMap.Meta[rngt]
 		table trng = Split(rng,"-")
 		return math.min(20000,lua.tonumber(trng[2]) or minlevel)
@@ -450,7 +450,12 @@ group FldMap
 		Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
 	end
 	
-	get string Leader
+	Void KillReset()
+		CSay("Resetting kills")
+		Kills = {}
+	End
+	
+	Get String Leader
 		if gv.vStr.Leader==""
 			CSay("Leader not set! Autosetting to character #1!")
 			gv.vStr.Leader = RPGParty[1]
