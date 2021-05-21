@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.02
+// version: 21.05.21
 // End License Information
 
 #define mother_boss
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.05.02"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.05.21"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -254,7 +254,7 @@ group MScript
 	end
 
 	void Draw()
-		static var ikey = Image.LoadImage("GFX/Textures/Things/Key.png")
+		static var ikey = Image.Load("GFX/Textures/Things/Key.png")
 		if Sleutel
 			ikey.Draw(Screen.W-200,50)
 		end
@@ -279,7 +279,7 @@ group MScript
 		Map.AutoScroll = true
 		// No transporter pads in the prologue
 		// (I can do this safely as the place you get back to is aliased, to prevent conflicts as the prologue differs too much in setup from the rest of the game).
-		for NoTrans in each {"Start","Top"}
+		for NoTrans in each {"","Top"}
 			CSayF("Removing transpad: %s",NoTrans)
 			Map.Kill(sprintf("Trans.Pad.Yaqirpa%s",NoTrans))
 		end
