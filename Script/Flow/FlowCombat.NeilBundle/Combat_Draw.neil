@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Draw.neil
-// Version: 21.05.16
+// Version: 21.05.21
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -83,7 +83,6 @@ module
 		Time.DrawGauge()
 		// Combatnants
 		DrawFighters()
-		// Target info
 		// Party Status Bar
 		Party.Boxes()
 	end
