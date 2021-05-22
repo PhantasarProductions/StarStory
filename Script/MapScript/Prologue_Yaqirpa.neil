@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.21
+// version: 21.05.22
 // End License Information
 
 #define mother_boss
 
-#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.05.21"
+#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.05.22"
 #MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Script/Use/Anyway"
@@ -91,10 +91,16 @@ group MScript
 		end
 	end
 	
-	void FightAstro()
+	Void FightAstro()
 		StartCombat.Prepare()
-		StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
-		StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
+		if Caps.Cycle==1
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
+		Else
+			Int L = RPGChar.Briggs.Stat.Level
+			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
+			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
+		End
 		StartCombat.Tune = StartCombat.RandomTune
 		StartCombat.Boss = false
 		StartCombat.Arena = "Yaqirpa.png"	
@@ -103,11 +109,11 @@ group MScript
 		
 	void Enter_Kantoor()
 		Map.HideButLabel("Kantoor")
-		Map.ShowPlayer()
-		// TODO: Astrilopup encounter
+		Map.ShowPlayer()				
 		if !gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+			Player.StopWalking()
 			MapText("EAVESDROP_ASTRILOPUP_01")
-			
+			Schedule.Add("After_KantoorAstrilo")
 			FightAstro()
 		end
 	end
