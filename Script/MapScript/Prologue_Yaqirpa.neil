@@ -120,6 +120,7 @@ group MScript
 	
 	void Astrilopups_Top()
 		if !gv.gBool.Prologue_Yaqirpa_Astrilotop
+			Player.StopWalking()
 			MapText("ASTRILOATTACK")
 			Schedule.Add("After_TopAstrilo")
 			FightAstro()
