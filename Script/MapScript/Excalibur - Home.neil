@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.06
+// version: 21.05.22
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.05.06"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.05.22"
 #MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
@@ -174,16 +174,17 @@ group MScript
 	void Binnenkomst()
 		Map.SpawnPlayer("Voordeur")
 		if RPGParty[1]=="UniWendicka"
+			GaNaarKamer.Woonkamer()
 			MapText("CRYSTAL_UNIFORM")
 		end
 	end
 	
-	void NPC_Brabant()
+	Void NPC_Brabant()
 		CSayF("Distance to flag: %1.5f",Player.Distance("NPC_Brabant"))
-		if Player.InRange("NPC_Brabant",170)
+		If Player.InRange("NPC_Brabant",170)
 			MapText("BRABANT."..(Map.Leader:upper()))
-		end
-	end
+		End
+	End
 	
 	void NPC_Crystal_Asleep()
 		CreateWendicka()
