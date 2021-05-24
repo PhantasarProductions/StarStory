@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.05.23
 // End License Information
 #use "Script/Use/Anyway"
 
@@ -171,6 +171,7 @@ group MScript
 	end
 	
 	Constructor
+		Map.AllowQuitSave=false
 		ZA.Enter("Sluit_Sickbay","ShowMedicalArea")
 		ZA.Enter("Transporter_Sickbay","Sick2John")
 		ZA.Enter("Crystal_Panic","Crystal_Panic")

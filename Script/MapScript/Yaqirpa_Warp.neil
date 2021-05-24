@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.18
+// version: 21.05.23
 // End License Information
 #use "Script/Use/Anyway"
 module
@@ -167,6 +167,7 @@ module
 
 	
 	void StartUp()
+		Map.AllowQuitSave=false
 		CSay("Yaqirpa stuff")
 		ZA.Enter("UPto1","YW.UPTo1")
 		ZA.Enter("Verdieping1","YW.ShowFloor1")

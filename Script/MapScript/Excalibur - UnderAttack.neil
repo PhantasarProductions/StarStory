@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.05.23
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.03.03"
+#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.05.23"
 #MKL_Lic     "Star Story - Excalibur - UnderAttack.neil" "Phantasar Closed License"
 
 #macro StartCyborgsDead gv.gbool.Excalibur_StartCyborgsDead
@@ -162,6 +162,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
+		Map.AllowQuitSave=false
 		ZA.Enter("Go Home","GoHome")
 		ZA.Enter("BrokenTransporter","BrokenTransporter")
 		ZA.Enter("Guinevere","Guinevere")
