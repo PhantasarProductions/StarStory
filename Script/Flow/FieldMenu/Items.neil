@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.04.16
+// Version: 21.05.23
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -61,6 +61,7 @@ module
 		citem=ittag
 		rcitem = cht
 		rsitem=slot
+		JwlRecalc(cht)
 	end
 	
 	bool PlaceIt(int slot,string cht,string item)
@@ -82,6 +83,7 @@ module
 		if citem==item
 			citem=""
 		end
+		JwlRecalc(cht)
 		return true
 	end
 	

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.05.14
+// Version: 21.05.23
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -162,6 +162,7 @@ Module
 				return
 			end
 			Act.Executor.Char.Stat[socktag]--
+			JwlRecalc(Act.Executor.Tag)
 		end
 		AnnounceCD = 123
 		AnnounceText = Act.Act.Name

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.05.14
+// Version: 21.05.23
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,11 @@ table TrueItem
 void LdItems()
 	State.LoadNew("SUB_ITEMS","Script/Subs/SubItems.neil")
 end
+
+Global Void JwlRecalc(string char)
+	LdItems()
+	State.Call("SUB_ITEMS","JewelRecalc",sprintf("\"%s\"",char))
+End
 
 void MkTrueItem(string it)
 	it = it:upper()
