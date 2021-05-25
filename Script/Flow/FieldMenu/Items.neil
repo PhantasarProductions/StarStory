@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.05.23
+// Version: 21.05.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -48,13 +48,19 @@ module
 	
 	void GetIt(int slot,string cht)
 		var ch  = RPGChar[cht]
-		string ittag = ch.Data[sprintf("INVITEM%d",slot)]
+		string ittag = ch.Data[sprintf("INVITEM%d",slot)]:upper()
 		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
 		if itamt == 0
 			return
 		end
-		if prefixed(LSituation,"COMBAT_")
-			State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem",sprintf("\"ITM_%s\",%d",ittag,slot))
+		if prefixed(LSituation,"COMBAT_")	
+			CSayF("%s => %s (%s)",ittag,Lua.tostring(Item["ITM_"..ittag].UseCombat),Lua.type(Item["ITM_"..ittag].UseCombat))
+			If Item["ITM_"..ittag].UseCombat
+				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem",sprintf("\"ITM_%s\",%d",ittag,slot))
+			Else
+				Static Var Buzz = Audio.Obtain("BUZZ")
+				Buzz.Play()
+			End
 			return
 		end
 		ch.Stat[sprintf("INVAMNT%d",slot)]--

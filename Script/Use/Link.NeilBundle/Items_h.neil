@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.05.23
+// Version: 21.05.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -69,7 +69,7 @@ void MkTrueItem(string it)
 				// Just a block, as the previous one got too big...
 				// Figures.
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE"
+			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE" "USECOMBAT" "USEFIELD"
 				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
