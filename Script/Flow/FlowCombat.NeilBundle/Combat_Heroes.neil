@@ -574,6 +574,7 @@ group Stage_PlayerInput
 		var a 
 		a = new Class_Action(Tag,"ARM_"..ablTag)
 		a.UseARMAmmo = true
+		a.ActSpeed += RPGChar.Crystal.Stat["ARM.WEIGHT."..ablTag]
 		Stage_SelectTarget.ComeToMe(a)
 		Flow.GoToFlow("COMBAT")
 	end
