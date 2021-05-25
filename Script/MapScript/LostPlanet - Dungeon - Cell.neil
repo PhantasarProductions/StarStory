@@ -32,19 +32,23 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.05.25
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.03.03"
+#MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.05.25"
 #MKL_Lic     "Star Story - LostPlanet - Dungeon - Cell.neil" "Phantasar Closed License"
 
 group MScript
 
 	Void CreateFoxy()
 		if Caps.Cycle>1 || gv.gbool.ImportedFoxy
+			if RPGChar.Foxy.Stat.Level<9999 - (999 div __skill)
+				RPGChar.Foxy.Stat.Level += 30 div __skill
+				Party.GrabLevel("Foxy",RPGChar.Foxy.Stat.Level)
+			end
 			return
 		end
 		CSay("Creating Foxy")
@@ -70,7 +74,9 @@ group MScript
 	
 	Void CreateYirl()
 		if Caps.Cycle>1 || gv.gbool.ImportedYirl
-			Party.GrabLevel("Yirl",math.min(10000,RPGChar.Wendicka.stat.Level+5))
+			Int nwlv = math.max(RPGChar.Yirl.Stat.Level, math.min(10000,RPGChar.Wendicka.stat.Level+5))
+			Party.GrabLevel("Yirl",nwlv)
+			RPGChar.Yirl.Stat.Level = nwlv
 			return
 		end
 		CSay("Creating Yirl!")
