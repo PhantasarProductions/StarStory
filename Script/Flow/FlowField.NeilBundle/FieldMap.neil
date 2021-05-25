@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMap.neil
-// Version: 21.05.21
+// Version: 21.05.25
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,7 +37,7 @@
 
 #use "libs/xmath"
 
-#MKL_Version "Star Story - FieldMap.neil" "21.05.21"
+#MKL_Version "Star Story - FieldMap.neil" "21.05.25"
 #MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
 
 
@@ -73,7 +73,7 @@ class Clickable
 		else
 			Buzz.Play()
 			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.GetData("ITEM_S"),O.GetData("ITEM_F"),O.Tag)
-			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data("ITEM_F")].Name),255,0,0)
+			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.GetData("ITEM_F")].Name),255,0,0)
 		end
 	end
 
