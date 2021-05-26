@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Misc/MiniMessage.neil
-// Version: 21.03.03
+// Version: 21.05.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -79,7 +79,7 @@ class TMM
 		bool ret = false
 		// bool Over = OverPos()
 		bool Ovr1 = false
-		int sy = (Screen.h-120) - (Lijst.Count*30)
+		int sy = (Screen.h-120) - ((Lijst.Count-1)*30)
 		int gy = sy		
 		for o,l in Lijst.Each
 			ret = true
