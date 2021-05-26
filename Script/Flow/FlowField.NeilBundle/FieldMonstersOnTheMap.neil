@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.04.12
+// Version: 21.05.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -165,7 +165,8 @@ class FieldMonster
 				Lua.error("Boss Script not defined!")
 			end
 			MapScript[BossScript]()
-			StartCombat.RemoveBarrier = BossBarrier 
+			StartCombat.RemoveBarrier = BossBarrier
+			Map.AllowQuitSave=false
 		else
 			for foe in each(Recs)
 				// FFF = Foe Full File 
