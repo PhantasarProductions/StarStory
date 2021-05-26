@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Items_h.neil
-// Version: 21.05.25
+// Version: 21.05.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -65,14 +65,14 @@ void MkTrueItem(string it)
 				return ret
 			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING" "ITM_SELLPRICE" "ITM_BUYPRICE" "ITM_SHILDERPRICE" "APRECOVER"
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
-			case "ARM_HIT_PROCENT"
+			case "ARM_HIT_PROCENT" "GRANTEXP"
 				// Just a block, as the previous one got too big...
 				// Figures.
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE" "USECOMBAT" "USEFIELD"
 				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			default
-				if prefixed(k,"CAUSE") || prefixed(k,"CURE")
+				if prefixed(k,"CAUSE") || prefixed(k,"CURE") || prefixed(k,"PERMABUFF")
 					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 				end
 				if Prefixed(k,"BUFF_")

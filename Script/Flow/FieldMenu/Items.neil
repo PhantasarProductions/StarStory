@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.05.25
+// Version: 21.05.26
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -40,13 +40,78 @@ module
 	readonly var Fnt = ImageFont.Obtain("SYSFONT")
 	readonly var Trash = Image.Obtain("TRASH")
 	readonly var IUse = Image.Obtain("USE")
+	readonly var Buzz = Audio.Obtain("BUZZ")
 	string cItem
 	string rcItem
 	string LSituation
 	int rsItem
 	delegate Sell
 	
-	void GetIt(int slot,string cht)
+	Bool Use(string tItem,string cht)
+		Var  ch   = RPGChar[cht]
+		Var  UItm = Item[tItem]
+		Bool Ret  = False
+		// Not usable? Then don't even check for what's to come!
+		if !UItm.UseField
+			Buzz.Play()
+			Return False
+		End
+		// Healing
+		If UItm.Healing>0 && ch.Points.HP.Have<ch.Points.HP.Maximum
+			Switch UItm.HealingType
+				Case "Absolute"
+					ch.Points.HP.Have += UItm.Healing
+					CSayF("Absolute healing %d",UItm.Healing)
+				Case "Percent"
+					ch.Points.HP.Have += math.ceil((UItm.Healing / 100) * ch.Points.HP.Maximum)
+					CSayF("Percent healing %d%%",UItm.Healing)
+				Default
+					Lua.error("Unknown HealingType: "..UItm.HealingType)
+			End
+			Ret = true
+		End
+		// AP Recovery
+		If UItm.APRecover>0 && ch.Points.AP.Have<ch.Points.AP.Maximum
+			Switch UItm.APRecoverType
+				Case "Absolute"
+					ch.Points.AP.Have += UItm.APRecover
+				Case "Percent"
+					ch.Points.AP.Have += math.ceil((UItm.APRecover / 100) * ch.Points.AP.Maximum)
+				Default
+					Lua.error("Unknown APRecoverType: "..UItm.APRecoverType)
+			End
+			Ret = true
+		End
+		// Grant EXP
+		If UItm.GrantEXP>0 && ch.Points.EXP.Have<ch.Points.EXP.Maximum && ch.Stat.Level<Caps.LevelCap
+			Switch UItm.GrantEXPType
+				Case "Absolute"
+					ch.Points.EXP.Have += UItm.GrantEXP
+				Case "Percent"
+					ch.Points.EXP.Have += math.ceil((UItm.GrantEXP / 100) * ch.Points.EXP.Maximum)
+				Default
+					Lua.error("Unknown GrantEXPType: "..UItm.GrantEXPType)
+			End
+			Ret = true
+		End
+		// Permabuffs
+		Static Table pbm = {["HP"]=100,["AP"]=5}
+		Static Table pbms = {5,3,1}
+		For stat in Each {"Strength","Defense","Agility","Will","Resistance","Accuracy","Evasion","HP","AP"}
+			If Uitm["PermaBuff_"..stat] && ch.Stat["BASE_"..stat]>0
+				ch.Stat["POWERUP_"..stat] += math.ceil( (pbm[stat] or 1) * pbms[__skill] ) 
+				Ret = true
+			End
+		End
+		// Not used? Buzz!
+		If !Ret			
+			Buzz.Play()
+		End
+		// Return the result
+		Return Ret
+	End
+	
+	Void GetIt(int slot,string cht)
 		var ch  = RPGChar[cht]
 		string ittag = ch.Data[sprintf("INVITEM%d",slot)]:upper()
 		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
@@ -164,6 +229,12 @@ module
 					switch situation:upper()
 						case "SHOP"
 							Invoke(Sell,CharTag,i)
+						case "FIELD"
+							if ch.Stat[sprintf("INVAMNT%d",i)]<=0
+								Buzz.Play()
+							ElseIf Use("ITM_"..ch.Data[sprintf("INVITEM%d",i)]:upper(),CharTag)
+								ch.Stat[sprintf("INVAMNT%d",i)]--
+							End
 						default
 							CSayF("Nothing appears to be done in situation %s",situation)
 					end
@@ -179,6 +250,11 @@ module
 		end
 		if situation:upper()=="FIELD"
 			iUse.Draw(ubox.x+ubox.w-math.floor(Trash.Width*2.5),ubox.y+ubox.h-iUse.Height)
+			if ml && cItem!="" && my<ubox.h && my>ubox.h-Trash.Height && Mx<ubox.w-Trash.Width && ubox.x+ubox.w-math.floor(Trash.Width*2.5)
+				if Use("ITM_"..cItem,CharTag)
+					cItem=""
+				end
+			end
 		end
 		FitText.Dark(Fnt,itn,pmx+20,pmy+20)
 		FitText.Dark(Fnt,itd,pmx+20,pmy+55)
