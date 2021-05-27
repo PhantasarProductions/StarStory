@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.04
+// version: 21.05.27
 // End License Information
 
 #use "Libs/LinkedList"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "21.03.04"
+#MKL_Version "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "21.05.27"
 #MKL_Lic     "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "Phantasar Closed License"
 
 class Schuifdeur
@@ -227,6 +227,7 @@ group MScript
 		SchuifDeur.Create("PleeL","OpenCorr2L")
 		SchuifDeur.Create("PleeR","OpenCorr2R")
 		DeurTabel = SchuifDeur.Tab
+		Map.AllowQuitSave=false
 	end
 
 end
