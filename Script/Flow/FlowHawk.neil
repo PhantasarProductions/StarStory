@@ -32,12 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
+// version: 21.05.27
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Box"
 
+#undef CleanUp
 
 Class HData
 	string Name
@@ -106,6 +107,11 @@ group flHawk
 	Void ArriveEvent(string World,string E)
 		HawkData[World] = HawkData[World] or {}
 		HawkData[World].ARRIVE=E
+	End
+	
+	Void TheGreatReset()
+		CSay("The Great Reset!")
+		HawkData = { ["Physilium"] = { ["ARRIVE"]="ARRIVE_PHYSILLIUM" } }
 	End
 		
 	Constructor
@@ -215,3 +221,20 @@ group flHawk
 end
 
 Global Delegate Apollo_Flow = flHawk.Flow
+
+#if CleanUp
+Global Void CONSOLE_OnlyLostPlanet()
+	Table Kill = {}
+	For k,_ in pairs(flHawk.HawkData)
+		CSayF(Lua.type(k).." "..Lua.tostring(k))
+		if k!="The Lost Planet"
+			Kill += k
+			CSay("Gonna kill: "..k)
+		end
+	end
+	For victim in Each(Kill)
+		CSayF("Killing: "..Lua.tostring(victim))
+		flHawk.HawkData[victim]=nil
+	End
+End
+#fi
