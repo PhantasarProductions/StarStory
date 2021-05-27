@@ -32,12 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.05.20
+// version: 21.05.27
 // End License Information
 Table Ret = {}
 
 Init
 	Ret += {["VTYPE"] = "vbool", ["VVAR"] = "AIROM_UNLOCKED"}
+	Ret += {["VTYPE"] = "vbool", ["VVAR"] = "BARDONE"}
 	Ret += {["VTYPE"] = "vbool", ["VVAR"] = "CHEAT.GOD"}
 	Ret += {["VTYPE"] = "vbool", ["VVAR"] = "CHEAT.REGEN"}
 	Ret += {["VTYPE"] = "vbool", ["VVAR"] = "COMPLETED_AIROM"}
@@ -55,6 +56,7 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_BATTLECRY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KAKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_NELJA"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_YKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_BACKSTAB"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_DRAGON_BURN"}
@@ -66,6 +68,8 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KAKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KOLME"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_STOMP"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_JOLT"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_MJOLNIR"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_SHOCK"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.WENDICKA.ABL_EXHURU_KOLME"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.WENDICKA.ABL_FOXY_PICKPOCKET"}
@@ -115,6 +119,7 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "EXC_CRYSTAL_RELOAD_#007"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "EXC_CRYSTAL_RELOAD_#014"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "EXC_CRYSTAL_RELOAD_#020"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "GAMECYCLE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_BOSS_ASTRILOPUPELITE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_BOSS_BIGGRASSTIGER"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_BOSS_BIGLION"}
