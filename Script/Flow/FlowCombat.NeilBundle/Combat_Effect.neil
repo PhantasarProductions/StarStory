@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.05.14
+// Version: 21.05.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -253,17 +253,41 @@ Group CG_Effect
 		Return Ret
 	End
 	
-	void Effect(Act,Tar)
+	Bool ExtraEXP(Act,Tar)
+		// Extra EXP absolute or by percent
+		Var abl = Act.Act
+		Bool Effect = False
+		If abl.GrantEXP && abl.GrantEXP>0 && Tar.Team=="Hero"
+			Switch abl.GrantEXPType
+				Case "Absolute" 
+					Tar.Char.Points.EXP.Have += abl.GrantEXP*2
+					effect=true
+				Case "Percent"
+					pLua hpt = Tar.Char.Points.EXP
+					pLua hpm = hpt.Maximum
+					Plua points = (hpm div 100)
+					//RPGChar.Points(cht,"EXP").Inc(abl.GrantEXP)
+					Tar.Char.Points.EXP.Have += points*2
+					effect=true
+				Default
+					Lua.error("Unknown ExtraEXPType: "..abl.GrantEXPType)
+			End
+		End
+		Return Effect
+   End
+   
+   Void Effect(Act,Tar)
 		CSayF("= Effect: %s; Target %s; Executor: %s",Act.Act.Name,Tar.Tag,Act.Executor.Tag)
 		bool Hit = false
 		if (Act.Act.UserNextMove) && (Act.Act.UserNextMove!="")
 			// No action at all when charging up!
 			Return
 		end
-		if HitCheck(Act,Tar)
+		if HitCheck(Act,Tar)		
 			Hit = Cure(Act,Tar) || Hit
 			Hit = Heal(Act,Tar) || Hit
 			Hit = RecoverAP(Act,Tar) || Hit
+			Hit = ExtraEXP(Act,Tar) || Hit
 			Hit = Attack(Act,Tar) || Hit
 			Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Buff(Act,Tar) || Hit
