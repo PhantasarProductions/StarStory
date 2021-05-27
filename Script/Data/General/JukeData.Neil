@@ -1,0 +1,391 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Data/General/JukeData.Neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.05.27
+// End License Information
+#use "Libs/LinkedList"
+
+Class _JukeData
+	String File
+	String Artist
+	String License
+	String Site
+	String File
+	Static Var Lijst = New LinkedList()
+End
+
+Init
+	Var M
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Overworld"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "X-Ray"
+	M.Artist  = "Jeroen P. Broks"
+	M.License = "Creative Commons - By Attribution - Share-Alike"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Agnus Dei X"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Dark City"
+	M.Artist  = "Rockit Maxx"
+	M.License = "Creative Commons - By Attribution - Non-Commercial"
+	M.Site    = "https://leerosevere.bandcamp.com/"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Dungeon 1"
+	M.Artist  = "J.W.H. Broeders"
+	M.License = "This music was created for use in games by Jeroen P. Broks. You will have to contact the artist for terms to use it yourself"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Electro Cabello"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Evergreen Dream"
+	M.Artist  = "Widzy"
+	M.License = "Dedicated stuff. Contact Widzy for terms. May not be extracted from this project without permission of original artist."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Motherlode"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Opening Theme C"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Public Domain"
+	M.Site    = "https://freepd.com/"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Pippin the Hunchback"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Prisoner of War"
+	M.Artist  = "Widzy"
+	M.License = "Dedicated stuff. Contact Widzy for terms. May not be extracted from this project without permission of original artist."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Freak Boutique"
+	M.Artist  = "Spiedkiks"
+	M.License = "Creative Commons - By Attribution - Non-Commercial"
+	M.Site    = "https://freemusicarchive.org/music/Spiedkiks/none_given_1696/05_-_Spiedkiks_-_Freak_Boutique_-_Take_Off_Your_Make_Up"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Tempting Secrets"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "The Complex"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Fiber visits the Q-Continuum"
+	M.Artist  = "Weirdomusic"
+	M.License = "Creative Commons - By Attribution - Non-Commercial"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Blip Stream"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Ranz des Vaches"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "River Valley Breakdown"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "The Loneliness"
+	M.Artist  = "Sergey Cheremisinov"
+	M.License = "Creative Commons - By Attribute - Non-Commercial"
+	M.Site    = "https://freemusicarchive.org/music/Sergey_Cheremisinov"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Don't talk too much"
+	M.Artist  = "Fake Music Generator"
+	M.License = "As this piece of music has been generated by a computer and not a human being no kinds of copyrights come with it, and thus you can consider this piece as 'Public Domain' -- Fake Music Generator can be found at: http://fakemusicgenerator.com"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Funky Chunk"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Honey Bee"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Lilith's Rage"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Heated Battle 1"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. -- http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Normal Enemy"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. -- http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Insidia"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. -- http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Tense Battle "
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Desert Battle"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Megaboss"
+	M.Artist  = "Aaron Krogh"
+	M.License = "Free to use. No usage restrictions. Commercial game use is encouraged. -- http://aaronkrogh.tumblr.com"
+	M.Site    = "http://aaronkrogh.tumblr.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Born Barnstomers"
+	M.Artist  = "Brian Boyko"
+	M.License = "Public Domain"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Disco Medusae"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Disco4"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Disquiet"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Fahuds Waltz (Loopable)"
+	M.Artist  = "Widzy"
+	M.License = "Dedicated stuff. Contact Widzy for terms. May not be extracted from this project without permission of original artist."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Ghosts of Disease"
+	M.Artist  = "Knight of Fire"
+	M.License = "Public Domain"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "GM115"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Public Domain"
+	M.Site    = "https://freepd.com/"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Once Around The Solar System"
+	M.Artist  = "Eric Matyas"
+	M.License = "(Copied from original website) The music and soundscapes on this site are all original (composed and performed by me) and are free to use for both non-commercial projects (projects not intended to make money) as well as commercial projects (projects intended to make money.) IMPORTANT: You must properly credit me in order to use the music legally:\nIf you are using only my music, and not that of another artist(s) then on your credits screen write:\nMusic by Eric Matyas\nwww.soundimage.org\n\nIf you are using my music as well as that of another artist(s) then you need to identify which tracks are mine and credit me, for example: \'Invasion of the Giant Disco Ants\' \'Too Quiet\' \'Mayhem\' by Eric Matyas  www.soundimage.org"
+	M.Site    = "https://www.soundimage.org"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Phantom from Space"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Rising"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Strangled"
+	M.Artist  = "Matt McFarland"
+	M.License = "Creative Commons - By Attribution"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "The Start To Fantasy"
+	M.Artist  = "Wicky77 & Wout"
+	M.License = "Music made for Jeroen P. Broks. Don't extract without permission."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Urban Sci-Fi heroes"
+	M.Artist  = "Eric Matyas"
+	M.License = "(Copied from original website) The music and soundscapes on this site are all original (composed and performed by me) and are free to use for both non-commercial projects (projects not intended to make money) as well as commercial projects (projects intended to make money.) IMPORTANT: You must properly credit me in order to use the music legally:\nIf you are using only my music, and not that of another artist(s) then on your credits screen write:\nMusic by Eric Matyas\nwww.soundimage.org\n\nIf you are using my music as well as that of another artist(s) then you need to identify which tracks are mine and credit me, for example: \'Invasion of the Giant Disco Ants\' \'Too Quiet\' \'Mayhem\' by Eric Matyas  www.soundimage.org"
+	M.Site    = "https://www.soundimage.org"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Warfield"
+	M.Artist  = "Matt McFarland"
+	M.License = "Creative Commons - By Attribution"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Emily Rose (A duet with Jennifer Carpenter)"
+	M.Artist  = "Your Marginally Talented Photographer Girlfriend"
+	M.License = "Creative Commons - Attribution-NonCommercial-ShareAlike License."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Calm Indoors"
+	M.Artist  = "Widzy"
+	M.License = "Dedicated stuff. Contact Widzy for terms. May not be extracted from this project without permission of original artist."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Chicken Clucking"
+	M.Artist  = "Alexander"
+	M.License = "Licensed under a  'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)' license -- http://creativecommons.org/licenses/by-nc/4.0/"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Comfortable mystery"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Dream culture"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Night on the docks"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Panic Stations"
+	M.Artist  = "Widzy"
+	M.License = "Dedicated stuff. Contact Widzy for terms. May not be extracted from this project without permission of original artist."
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Rickrolled"
+	M.Artist  = "Jeroen P. Broks"
+	M.License = "Creative Commons - By Attribution - Share-Alike"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Back to Darkness"
+	M.Artist  = "SJ Mellia"
+	M.License = "Creative Commons - By Attribution - Non-Commercial"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Exit the Premises"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Spellbound"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "*"
+	M.Artist  = "Jeroen P. Broks"
+	M.License = "Creative Commons - By Attribution - Share-Alike"
+	M.Site    = ""
+	M = new _JukeData
+	M.Lijst.AddLast(M)
+	M.Title   = "Enchanted valley"
+	M.Artist  = "Kevin McLeod"
+	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
+	M.Site    = "https://incompetech.com"
+End
+
+
+
+
+Return _JukeData
