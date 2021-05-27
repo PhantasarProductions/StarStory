@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.04
+// version: 21.05.27
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.03.04"
+#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.05.27"
 #MKL_Lic     "Star Story - LostPlanet - Junkyard.neil" "Phantasar Closed License"
 
 #macro HawkAvailable gv.gbool.Done_BeamedToTheHawk_ForTheFirstTime
@@ -135,7 +135,7 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
+	CONSTRUCTOR	 
 		ZA.TabEnter {"BossNotYet","Award","UnderTheShip","EnterObservatorium" }
 	end
 
