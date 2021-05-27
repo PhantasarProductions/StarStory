@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.21
+// version: 21.05.27
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.21"
+#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.27"
 #MKL_Lic     "Star Story - Hawk_PostGame.neil" "Phantasar Closed License"
 
 group MScript
@@ -52,6 +52,11 @@ group MScript
 	Void Load()
 	End
 #endregion
+
+	// Needed to prevent issues with the Jukebox
+	Void MapMusic()
+		Music.Play("music/introduction/introduction.ogg")
+	End
 
 	Void NPC_Terminal()
 		gv.gbool.PostGameTerminal = True // Just a safety setting.
