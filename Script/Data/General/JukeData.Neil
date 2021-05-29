@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.28
+// version: 21.05.29
 // End License Information
 #use "Libs/LinkedList"
 
@@ -478,14 +478,6 @@ Init
 	M.License = "Creative Commons - By Attribution License - (https://incompetech.com/music/royalty-free/licenses/)"
 	M.Site    = "https://incompetech.com"
 	M.File    = "MUSIC/SPECIALBOSS/SPELLBOUND.OGG"
-
-	M = new _JukeData()
-	M.Lijst.AddLast(M)
-	M.Title   = "*"
-	M.Artist  = "Jeroen P. Broks"
-	M.License = "Creative Commons - By Attribution - Share-Alike"
-	M.Site    = ""
-	M.File    = "MUSIC/SYS/SILENCE.OGG"
 
 	M = new _JukeData()
 	M.Lijst.AddLast(M)
