@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.28
+// version: 21.05.29
 // End License Information
 
 #use "Libs/Music"
@@ -40,7 +40,8 @@
 #use "Script/Use/Anyway"
 
 
-
+ReadOnly Var ButtonUp = Image.Obtain("UP")
+ReadOnly Var ButtonDown = Image.Obtain("DOWN")
 ReadOnly Var Mouse = Image.Obtain("MOUSE")
 ReadOnly Var Font  = ImageFont.Obtain("BOXTEXT")
 ReadOnly Var Head  = ImageFont.Obtain("BIGTEXT")
@@ -168,6 +169,28 @@ Global Void Apollo_Flow()
 			Font.Text(JukeTrack.Title,5,Y)
 		End
 		Y+=25
+	End
+	// Scrolling
+	If Scroll>0
+		__ember
+		If MY<64 && MX<Screen.W div 2 && MX>(Screen.W div 2)-32
+			__yellow
+			If ML
+				Scroll = math.max(32,Scroll - 32)
+			End
+		End
+		
+		ButtonUp.Draw((Screen.W div 2) - 32,5)
+	End
+	If Y>Screen.H-50
+		__ember
+		If MY>Screen.H-40 && MX<Screen.W div 2 && MX>(Screen.W div 2)-32
+			__yellow
+			If ML
+				Scroll += 32
+			End
+		End
+		ButtonDown.Draw((Screen.W div 2) - 32,Screen.H - 40)
 	End
 	// Track Info
 	If Playing
