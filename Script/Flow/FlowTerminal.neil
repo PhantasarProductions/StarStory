@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowTerminal.neil
-// Version: 21.05.02
+// Version: 21.05.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -84,7 +84,10 @@ Void ChainBestiary()
 End
 
 Void ChainJukeBox()
-	Lua.error("Jukebox not yet available")
+	//Lua.error("Jukebox not yet available")
+	State.LoadNew("FLOW_JUKEBOX","Script/Flow/FlowJukebox.Neil")
+	State.Call("FLOW_JUKEBOX","Arrival","ReturnHawk")
+	Flow.Current="JUKEBOX"
 end
 
 Void ChainGameNIM()

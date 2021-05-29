@@ -49,7 +49,7 @@ ReadOnly Var FSys  = ImageFont.Obtain("SYSFONT")
 
 int ReturnTo = 0
 global const int ReturnMain  = 1
-global const int ReturnField = 2
+global const int ReturnHawk  = 2
 
 Var Playing = nil
 
@@ -118,7 +118,7 @@ End
 
 Init
 	Lua.ReturnMain  = ReturnMain
-	Lua.ReturnField = ReturnField
+	Lua.ReturnHawk = ReturnHawk
 End
 
 Table License
