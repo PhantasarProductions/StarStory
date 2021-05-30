@@ -54,7 +54,7 @@ group MScript
 	bool EndSluit = false
 	int EndX = 0
 
-	void Welcome()
+	void Welcome_Ruins()
 		if Done.Welcome_To_The_Ruins_Of_The_Y_Anhysbys
 			return
 		end
@@ -206,7 +206,7 @@ group MScript
 	end
 	
 	CONSTRUCTOR
-		ZA.TabEnter{"Welcome_Here","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED","ByeBye"}
+		ZA.TabEnter{"Welcome_Ruins","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED","ByeBye"}
 		for i=1,2
 			ZA.Enter("HTwo"..i,"HideTwo")
 		end
