@@ -194,6 +194,12 @@ global bool S_GiveItem(string it,string char)
 	return ok
 end
 
+Global Bool ItemMemberCheck(string it,string m)
+	pLua a
+	pLua b
+	a,b = ItemBaseGet(it,".hasmember")(m)
+	return a!=nil
+End
 
 init
 	Lua.ItemBaseGet = ItemBaseGet

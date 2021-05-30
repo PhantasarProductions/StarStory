@@ -146,9 +146,14 @@ Group CG_Effect
 		int defense = def + rand(0,round(def*0.25))
 		int totaldamage = math.max(1,damage-defense)
 		CSayF("Attack(%d,%d); Roll(%d,%d); Total(%d)",atk,def,damage,defense,totaldamage)
-		if Tar.Guarding 
-			totaldamage = round( totaldamage * .75 )
-		end
+		//if Tar.Guarding 
+		//	totaldamage = round( totaldamage * .75 )
+		//end
+		// I chose a different method for this!
+		For sc In Tar.StatusChange()
+			Damage = Combat_StatusChanges.GetSt(sc).AltDamage(tar,Damage)
+		End
+
 		Tar.Pain(totaldamage,element)		
 		return true
 	end
@@ -211,8 +216,8 @@ Group CG_Effect
 	// Cause status changes
 	bool Cause(Act,Tar)
 		bool ret
-		for Status in Combat_StatusChanges.Each
-			if Act.Act["Cause"..Status.Name]
+		for Status in Combat_StatusChanges.Each		
+			If Act.Act[".hasmember"]("Cause"..Status.Name) && Act.Act["Cause"..Status.Name]
 				if Tar.HP>0 && (!Tar.StatusChange[Status.Name])
 					int Res = 0
 					switch Tar.Team

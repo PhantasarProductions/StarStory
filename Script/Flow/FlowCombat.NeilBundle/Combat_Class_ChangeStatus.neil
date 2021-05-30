@@ -8,26 +8,26 @@
 // series or saga which is property of Jeroen P. Broks.
 // This means that it may contain references to a story-line plus characters
 // which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// along with an unmodIf ied version of the game.
 // 
 // As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
+// references, or any termology specIf ically set up For the Phantasar universe,
 // or any other univers a story of Jeroen P. Broks is set up for,
 // the restrictions of this file are removed and will automatically become
 // zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
+// Please note that doing so counts as a modIf ication and must be marked as such
 // in accordance to the zLib license.
 // ===========================
 // zLib license terms:
 // This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
+// warranty.  In no event will the authors be held liable For any damages
 // arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
+// Permission is granted to anyone to use this software For any purpose,
 // including commercial applications, and to alter it and redistribute it
 // freely, subject to the following restrictions:
 // 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
+// claim that you wrote the original software. If  you use this software
 // in a product, an acknowledgment in the product documentation would be
 // appreciated but is not required.
 // 2. Altered source versions must be plainly marked as such, and must not be
@@ -39,147 +39,184 @@
 
 Class Combat_StatusChanges
 	
-	static table Lijst = {}
-	abstract void Draw(tar)
+	Static table Lijst = {}
+	Abstract Void Draw(tar)
 	
-	void PreTurn(tar)
-	end
+	Void PReturn(tar)
+	End
 	
-	string Name
-	string Resist
-	bool CureOnAttack
+	Void AltDamage(tar)
+	End
 	
-	static var GetSt(string n)
-		return lijst[n:upper()]
-	end
+	String Name
+	String Resist
+	Bool CureOnAttack
 	
-	// Only to be used for cause. Otherwise a slowdown can and may be expected!
-	static get delegate Each
-		table items = {}
-		int index
-		for _,it in spairs(Lijst)
+	Static Var GetSt(String n)
+		Return lijst[n:upper()]
+	End
+	
+	// Only to be used For cause. Otherwise a slowdown can and may be expected!
+	Static get delegate Each
+		Table items = {}
+		Int index
+		For _,it in spairs(Lijst)
 			items += it
-		end
-		var Ret()
+		End
+		Var Ret()
 			index++
-			return items[index]
-		end
-		return Ret
-	end
+			Return items[index]
+		End
+		Return Ret
+	End
 	
-	static void Create(string name,instance,string resistance="")
+	Static Void Create(String name,instance,String resistance="")
 		Lijst[name:upper()] = instance
 		instance.resist = name
 		instance.name = name
-		if resistance!=""
+		If  resistance!=""
 			instance.resist=resistance
-		end
-	end
+		End
+	End
 	
-end
+End
 
-Class CSC_Death extends Combat_StatusChanges
+Class CSC_Death ExtEnds Combat_StatusChanges
 
-	void Draw(tar)
+	Void Draw(tar)
 		// Must be present, but both enemies as heroes have their own handing 
 		// to this
-	end
+	End
 	
-end
+End
 
-class CSC_Paralysis extends Combat_StatusChanges
-	var img = Image.LoadNew("GFX/Combat/StatusAni/Paralysis/Paralysis.png","COMBAT_STATUSCHANGE_PARALYSIS")
-	void Draw(tar)
-		static int x
+Class CSC_Paralysis ExtEnds Combat_StatusChanges
+	Var img = Image.LoadNew("GFX/Combat/StatusAni/Paralysis/Paralysis.png","COMBAT_STATUSCHANGE_PARALYSIS")
+	Void Draw(tar)
+		Static Int x
 		x = (x + 2) % 4
 		img.Tile(tar.x-((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
 		img.Tile(tar.x+((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
 		// Only cure automatically during the IDLE stage!
-		if Stage.Current == Stage.IDLE
-			return
-		end
-		// Auto cure - Dependent on difficulty setting (of course)
-		bool c
-		switch tar.Team
-			case "Hero"
+		If  Stage.Current == Stage.IDLE
+			Return
+		End
+		// Guarding ends when paralyis is caused
+		tar.StatusChange.Guard=false
+		// Auto cure - DepEndent on dIf ficulty setting (of course)		
+		Bool c
+		Switch  tar.Team
+			Case "Hero"
 				c = math.random(0,__skill*10000) == 1
-			case "Foe"
+			Case "Foe"
 				c = math.random(0,30000 div __skill) == 1
-			default
+			Default
 				Lua.error("??? Paralyse chech oddity")
-		end
-		if c
+		End
+		If  c
 			tar.StatusChange.Paralysis=false
-		end				
-	end
-end
+		End				
+	End
+End
 
-class CSC_Disease extends Combat_StatusChanges
-	var icon = Image.LoadNew("GFX/StatusChanges/Disease.png","COMBAT_STATUSCHANGES_DISEASE")
-	void Draw(tar)
+Class CSC_Disease ExtEnds Combat_StatusChanges
+	Var icon = Image.LoadNew("GFX/StatusChanges/Disease.png","COMBAT_STATUSCHANGES_DISEASE")
+	Void Draw(tar)
 		icon.hotcenter()
-		int n=math.random(1,5)
-		for i=1,n
+		Int n=math.random(1,5)
+		For i=1,n
 			icon.draw(tar.x+math.random((-tar.w) div 2,tar.w div 2),tar.y-math.random(0,tar.h))
-		end
-	end
-end
+		End
+	End
+End
 
-class CSC_Poison extends Combat_StatusChanges
-	var icon
-	void Draw(tar)
-		int d		
+Class CSC_Poison ExtEnds Combat_StatusChanges
+	Var icon
+	Void Draw(tar)
+		Int d		
 		Icon = Icon || Image.LoadNew("GFX/StatusChanges/Poison.png","STATUS_CHANGE_POISON")
 		Icon.HotBottomCenter()
 		d = (d + 1) % 360
 		Icon.Draw(tar.x,tar.y-tar.h-math.ceil(10*xmath.sin(d)))
-	end
+	End
 	
-	void PreTurn(tar)
+	Void PReturn(tar)
 		CSay("Poison Damage!")
 		CSayF("= Team: %s",tar.Team)
-		switch tar.Team
-			case "Hero"
-				switch __skill
-					case 1
+		Switch  tar.Team
+			Case "Hero"
+				Switch  __skill
+					Case 1
 						tar.Pain(tar.Char.Stats.Level,"Non-Elemental")
-					case 2
+					Case 2
 						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 5),"Non-Elemental")
-					case 3
+					Case 3
 						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 15),"Non-Elemental")
-					default
+					Default
 						Lua.error("Skill error!")
-				end
-			case "Foe"
-				switch __skill
-					case 1
+				End
+			Case "Foe"
+				Switch  __skill
+					Case 1
 						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 25),"Non-Elemental")
-					case 2
+					Case 2
 						tar.Pain(math.ceil(tar.Char.Points.HP.Maximum / 5),"Non-Elemental")
-					case 3
+					Case 3
 						tar.Pain(5,"Non-Elemental")
-					default
+					Default
 						Lua.error("Skill error!")
-				end
-			default
+				End
+			Default
 				Lua.error("Team error!")
-		end
-	end
+		End
+	End
 				
-end
+End
+
+
+Class CSC_Guard ExtEnds Combat_StatusChanges
+	Void Draw()
+		// No visual effects! But as this is an abstract I had to override
+	End
+	
+	Int AltDamage(tar,Int Dmg)
+		If Dmg<0
+			Return Dmg
+		End
+		String W = SPrintF("%s%d",tar.Team,__skill)
+		Switch  W
+			Case "Foe1" "Hero3"
+				Return Dmg
+			Case "Foe2" "Hero2"
+				Return Dmg Div 2
+			Case "Foe3" "Hero1"
+				Return 0
+			Default
+				// Should not be possible, but just in Case!
+				Lua.error("Guard damage cannot be calculated on generated worktag: "..W)
+		End
+	End	
+	
+	Void PreTurn(tar)
+		tar.StatusChange.Guard=false
+	End
+End
 
 Init
 	// These ones merely need to exist to make causing effects easier
-	var death = new CSC_Death()
-	for d in each{"FALLEN","KO","KOED","DEAD","DEATH"}
+	Var death = new CSC_Death()
+	For d in Each{"FALLEN","KO","KOED","DEAD","DEATH"}
 		Combat_StatusChanges.Create(d,death,"Death")
-	end
+	End
 	
-	// This one is only taken separately for safety reasons, but it should not be needed
+	// This one is only taken separately For safety reasons, but it should not be needed
 	// Combat_StatusChanges.Create("Destruction",new CSC_Death(),"Death")
 	
 	// And now the real stuff
 	Combat_StatusChanges.Create("Paralysis",new CSC_Paralysis())
 	Combat_StatusChanges.Create("Poison",new CSC_Poison())
 	Combat_StatusChanges.Create("Disease",new CSC_Disease())
-end
+	
+	// Special statusses
+	Combat_StatusChanges.Create("Guard",new CSC_Guard())
+End

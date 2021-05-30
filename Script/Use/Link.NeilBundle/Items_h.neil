@@ -71,6 +71,11 @@ void MkTrueItem(string it)
 				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE" "USECOMBAT" "USEFIELD"
 				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+			case ".HASMEMBER"
+				bool Check(m)
+					return ISGET.Bool("SUB_ITEMS","ItemMemberCheck(\""..it.."\",\"".. m.."\")")
+				End
+				Return Check
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE") || prefixed(k,"PERMABUFF")
 					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
