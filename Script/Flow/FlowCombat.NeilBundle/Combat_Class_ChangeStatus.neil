@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
-// Version: 21.04.11
+// Version: 21.05.31
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -8,26 +8,26 @@
 // series or saga which is property of Jeroen P. Broks.
 // This means that it may contain references to a story-line plus characters
 // which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodIf ied version of the game.
+// along with an unmodified version of the game.
 // 
 // As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specIf ically set up For the Phantasar universe,
+// references, or any termology specifically set up for the Phantasar universe,
 // or any other univers a story of Jeroen P. Broks is set up for,
 // the restrictions of this file are removed and will automatically become
 // zLib licensed (see below).
 // 
-// Please note that doing so counts as a modIf ication and must be marked as such
+// Please note that doing so counts as a modification and must be marked as such
 // in accordance to the zLib license.
 // ===========================
 // zLib license terms:
 // This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable For any damages
+// warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
-// Permission is granted to anyone to use this software For any purpose,
+// Permission is granted to anyone to use this software for any purpose,
 // including commercial applications, and to alter it and redistribute it
 // freely, subject to the following restrictions:
 // 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If  you use this software
+// claim that you wrote the original software. If you use this software
 // in a product, an acknowledgment in the product documentation would be
 // appreciated but is not required.
 // 2. Altered source versions must be plainly marked as such, and must not be
@@ -45,7 +45,8 @@ Class Combat_StatusChanges
 	Void PReturn(tar)
 	End
 	
-	Void AltDamage(tar)
+	Int AltDamage(tar,int D)
+		Return D
 	End
 	
 	String Name
@@ -194,6 +195,7 @@ Class CSC_Guard ExtEnds Combat_StatusChanges
 			Default
 				// Should not be possible, but just in Case!
 				Lua.error("Guard damage cannot be calculated on generated worktag: "..W)
+				Return 0
 		End
 	End	
 	
