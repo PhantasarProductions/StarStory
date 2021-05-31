@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.04.21
+// version: 21.05.31
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Ysperon - Facility.neil" "21.04.21"
+#MKL_Version "Star Story - Ysperon - Facility.neil" "21.05.31"
 #MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
@@ -454,7 +454,7 @@ group MScript
 		Map.Kill("ExRechts",true)
 	End
 	
-	Void McLeen()
+	Void Event_McLeen()
 		if Done.Mol_Definitief_Ontmaskerd
 			return
 		end
@@ -498,7 +498,7 @@ group MScript
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
-		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab","Boss_ExHuRU","McLeen"}
+		ZA.TabEnter{"StartDungeon","SchuifPrev","SchuifNext","OpenBoss","GroteKamer","OpenBonus","HideGeheim","ShowGeheim","OpenGeheim","To999","ToFacility012","ToFacility2","GoBackToTheLab","Boss_ExHuRU","Event_McLeen"}
 		ZA.TabLeave{"SchuifPrev","SchuifNext","OpenBoss","OpenGeheim"}
 	end
 

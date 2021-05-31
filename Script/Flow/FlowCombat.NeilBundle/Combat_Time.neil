@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Time.neil
-// Version: 21.05.14
+// Version: 21.05.31
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -83,9 +83,13 @@ module
 	
 	void CalcHighSpeed()
 		HiSpeed=0
-		for tag,data in pairs(Combat_Fighter.Fighters)			
-			HiSpeed = math.max(HiSpeed,data.Stats.Agility)
-			CSayF("HiSpeed: Check.%s = %d => %d",Tag,data.Stats.Agility,HiSpeed)
+		for tag,data in pairs(Combat_Fighter.Fighters)	
+			If Data.Char.Points.HP.Have>0 || Data.Team == "Hero"
+				HiSpeed = math.max(HiSpeed,data.Stats.Agility)
+				CSayF("HiSpeed: Check.%s = %d => %d",Tag,data.Stats.Agility,HiSpeed)
+			else
+				CSayF("HiSpeed: Check.%s - Ignored. Character appears to have fallen",Tag)
+			end
 		end
 		HiSpeed = math.max(HiSpeed,1)
 		CSayF("HiSpeed set to %d",HiSpeed)
