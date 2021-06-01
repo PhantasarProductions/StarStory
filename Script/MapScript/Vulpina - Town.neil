@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.04.01
+// version: 21.06.01
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Vulpina - Town.neil" "21.04.01"
+#MKL_Version "Star Story - Vulpina - Town.neil" "21.06.01"
 #MKL_Lic     "Star Story - Vulpina - Town.neil" "Phantasar Closed License"
 
 group MScript
@@ -135,6 +135,7 @@ group MScript
 	End
 	
 	CONSTRUCTOR
+		Map.AllowQuitSave = false
 		ZA.TabEnter{"Geheel","GoBack","CrystalXenobi"}
 	End
 
