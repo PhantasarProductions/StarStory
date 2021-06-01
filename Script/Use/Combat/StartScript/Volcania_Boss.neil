@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.23
+// version: 21.06.01
 // End License Information
 
 Void BliksemWendicka()
@@ -73,7 +73,7 @@ Void KillWendicka()
 	// I want to break free
 	var Goddess = Image.Load("GFX/SPECIAL/GODDESS.png") //,"GODDESS"); 
 	Goddess.HotCenter("GODDESS")
-	int alpha = 0
+	number alpha = 0
 	number alphadir = 0.2
 	number scale = 0
 	repeat                                                                           
@@ -89,10 +89,10 @@ Void KillWendicka()
 		Graphics.Scale(scale,scale) 
 		Graphics.SetAlpha(math.floor(alpha))
 		Goddess.Draw(Screen.W div 2,Screen.H div 2) //Image.Draw("GODDESS",Screen.W div 2,Screen.H div 2)                                                        
-		scale=scale+0.5
+		scale=scale+0.005
 		alpha=alpha+alphadir
 		if alpha>=255 
-    		alphadir=-0.075 
+    		alphadir=-0.1 
     	end              
     	Graphics.Scale(1,1)
     	Graphics.SetAlpha(255)
@@ -101,7 +101,6 @@ Void KillWendicka()
     	FPS.WaitMinTicks()
     until alpha<=0                                                                       	
 	// End combat
-	//Lua.error("Wendicka killed not yet scripted")
 	Goddess.Kill()
 	gv.vBool.WendickaGoddessReleased = true
 	gv.gbool.WendickaDream = true
