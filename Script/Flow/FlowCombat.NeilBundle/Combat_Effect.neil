@@ -255,6 +255,9 @@ Group CG_Effect
 				Ret = True
 			End
 		End
+		If Ret
+			Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+		End
 		Return Ret
 	End
 	

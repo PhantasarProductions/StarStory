@@ -123,6 +123,7 @@ module
 					elseif fv.Gauge==10000
 						RegenCheat()	
 						Party.AutoBuffExpire()
+						self.CalcHighSpeed()
 						switch fv.Team
 							case "Hero"
 								if isIDLE
@@ -136,6 +137,7 @@ module
 						// Status changes that trigger pre-turn (like poison)
 						RegenCheat()
 						Party.AutoBuffExpire()
+						self.CalcHighSpeed()
 						for sc in fv.StatusChange()
 							Combat_StatusChanges.GetSt(sc).PreTurn(fv)
 						end
@@ -153,6 +155,7 @@ module
 							fv.Hurt("Cancel")
 							fv.Gauge=0
 							Party.AutoBuffExpire()
+							self.CalcHighSpeed()
 						else
 							fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
 						end
