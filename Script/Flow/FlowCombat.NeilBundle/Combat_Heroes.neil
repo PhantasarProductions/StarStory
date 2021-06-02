@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.05.25
+// Version: 21.06.02
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -387,7 +387,7 @@ group Stage_SelectTarget
 						a.Targets_Tag[1] = oa.Targets_Tag[1]
 						a.Targets_Tag[2] = nil
 						Combat_Fighter.Fighters[Act.Executor.Tag].NextAct = a
-					elseif Act.Executor.Tag=="ROLF" && math.random(1,(__skill+5)*__skill)
+					elseif Act.Executor.Tag=="Rolf" && math.random(1,(__skill+5)*__skill)
 						// HAH! Take that I'll kill ya!
 						BoxText.Serial("COMBAT","Special."..Act.Executor.Tag,"FLOW_COMBAT")
 						var oa = Act
