@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Achievements.neil
-// Version: 21.03.03
+// Version: 21.06.02
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,10 +36,11 @@
 // End License Information
 
 
-module 
-	void Flow(uBox,string CharTag,string situation)
-		if CharTag=="UniCrystal" || CharTag=="Briggs"
-			return
-		end
-	end
-end
+Module 
+	Void Flow(uBox,string CharTag,string situation)
+		Static Var Param
+		Param = Param || SPrintF("%d,%d,%d,%d",ubox.X,ubox.Y,ubox.X+ubox.W,ubox.Y+ubox.H)
+		State.LoadNew("ACHIEVEMENTS","Script/Subs/SubAchievements.Neil")
+		State.Call("ACHIEVEMENTS","SubAch.List",Param)
+	End
+End

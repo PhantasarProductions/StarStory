@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubAchievements.neil
-// Version: 21.03.03
+// Version: 21.06.02
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -42,14 +42,17 @@ group SubAch
 	table Awarded = {}
 	readonly var Data = NeilUse("Script/Data/General/Achievements")
 
-	void Award(string a)
+	Void Award(String a)
 		a = a:upper()
-		if !Data[a]
+		If !Data[a]
 			Lua.error("Non-existent achievement: "..a)
-		end
-		Awarded[a] = true
+		End
+		If Awarded[a]
+			Return
+		End
+		Awarded[a] = True
 		Schedule.Add("MSG:You earned the achievement: "..Data[a].Title)
-	end
+	End
 	
 	void Save()
 		string str = ""
@@ -76,4 +79,57 @@ group SubAch
 			Awarded[k:upper()]=true
 		end
 	end
-end
+	
+	Void List(Int SX,Int SY,Int EX, Int EY)
+		Static Int H = 40
+		Static Int Scroll = 0
+		Static Var CFnt = ImageFont.Obtain("BOXTEXT")
+		Static Var DFnt = ImageFont.Obtain("SYSFONT")
+		Int Y = SY-Scroll
+		//CSayF("Rukkie fukkie: (%d,%d)->(%d,%d)",SX,SY,EX,EY)
+		For K,A in sPairs(Data)
+			If Y>=SY && Y<=EY-H
+				If Awarded[K]
+					__SkyBlue
+				Else
+					Graphics.Color(0,100,180)
+				End
+				CFnt.Text(A.Title,SX+20,Y)
+				DFnt.Text(A.Description,SX+25,Y+22)
+				If Y+(H*2)<=EY
+					__Ember
+					Graphics.Line(SX,Y+(H),EX-40,Y+(H))
+				End
+			End
+			Y+=H			
+		End
+		// Scroll
+		Static Var ButtonUp = Image.Obtain("UP")
+		Static Var ButtonDown = Image.Obtain("DOWN")
+		Int  MX = Events.MouseX()
+		Int  MY = Events.MouseY()
+		Bool ML = Events.MouseHitLeft()
+		If Scroll!=0
+			If MY>SY && MY<SY+32 && MX>EX-65 && MX<EX
+				__Ember
+				If ML
+					Scroll-=H
+				End
+			Else
+				Graphics.Color(180,100,0)
+			End
+			ButtonUp.Draw(EX-65,SY)
+		End
+		If Y>EY
+			If MY<EY && MY>EY-32 && MX>EX-65 && MX<EX
+				__Ember
+				If ML
+					Scroll+=H
+				End
+			Else
+				Graphics.Color(180,100,0)
+			End
+			ButtonDown.Draw(EX-65,EY-35)
+		End
+	End
+End
