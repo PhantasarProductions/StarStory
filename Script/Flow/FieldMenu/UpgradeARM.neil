@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.09
+// version: 21.06.02
 // End License Information
 module
 	readonly var sfont = ImageFont.Obtain("SYSFONT")
@@ -147,12 +147,19 @@ module
 		switch S
 			case "AMMO"
 				I = lua.tonumber(PARM.ARM_PRICE_MaxAmmo)
+				If __skill!=1
+					I = math.ceil(Crystal.Stats["ARM."..PickedARM..".PRICE.AMMO"] / 2)
+				End
 				Crystal.Stats["ARM."..PickedARM..".PRICE.AMMO"] += I
 			case "HIT"
 				I = lua.tonumber(PARM.ARM_PRICE_Hit_Procent)
+				If __skill!=1
+					I = math.ceil(Crystal.Stats["ARM."..PickedARM..".PRICE.HIT"] / (4-__skill))
+				End
 				Crystal.Stats["ARM."..PickedARM..".PRICE.HIT"] += I
 			case "EXTRA_POWER"
-				I = lua.tonumber(PARM.ARM_PRICE_XPower)
+				// I = lua.tonumber(PARM.ARM_PRICE_XPower)
+				I = math.ceil(Crystal.Stats["ARM."..PickedARM..".PRICE.XPOWER"] / (4-__skill))
 				Crystal.Stats["ARM."..PickedARM..".PRICE.XPOWER"] += I
 			case "WEIGHT"
 				I = lua.tonumber(PARM.ARM_PRICE_Weight)
