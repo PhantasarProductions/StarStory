@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Thriller.neil
-// Version: 21.04.23
+// Version: 21.06.02
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,11 +39,13 @@
 
 #use "libs/LinkedList"
 
+#macro __interval 25
+
 class Lijk
 
-	static readonly int interval = 25
+	static readonly int interval = __interval
 
-	static int SuperCountDown = iterval * 5
+	static int SuperCountDown = __interval * 5
 	
 	readonly int X
 	readonly int Y
@@ -76,7 +78,7 @@ class Lijk
 	
 	static void Create(int ax,int ay)
 		static int sx = Screen.W div 11
-		static int sy = (Screen.Y-100) div 5
+		static int sy = (Screen.H-100) div 5
 		static table rassen = {"Human","Fairy","Phelynx","Elf","Befindo"}
 		int r
 		repeat
@@ -92,13 +94,13 @@ class Lijk
 				Create(x,y)
 			end
 		end
-		LIjst.AddLast(new Lijk(Screen.H div 2,math.ceil(((Screen.Y-100) div 5)*4.5),"MICHAEL",35*Interval))
+		LIjst.AddLast(new Lijk(Screen.H div 2,math.ceil(((Screen.H-100) div 5)*4.5),"MICHAEL",35*Interval))
 	end
 	
 	static void Reset()
 		for L in Lijst.Each
 			L.CountDown = L.InitialCountDown
-			SuperCountDown = iterval * 5
+			SuperCountDown = interval * 5
 		end
 	end
 end
