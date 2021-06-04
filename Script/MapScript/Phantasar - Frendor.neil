@@ -32,17 +32,18 @@
 // 
 // **********************************************
 // 
-// version: 21.05.09
+// version: 21.06.03
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.05.09"
+#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.06.03"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
 
 #macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
+#macro prismdiamondsgiven gv.gInt.PrismDiamondsGivenByFeenalaria
 
 group MScript
 
@@ -87,7 +88,25 @@ group MScript
 			MapText("FEENA_ONLYHOPE")
 			return
 		end
-		Lua.error("Feenalaria not yet scripted for this particular situation")
+		if gv.gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"]
+			MapText("FEENA_NEVER")
+			Return
+		End
+		// Completed Ghosthouse
+		MapText("FEENA_REWARD")
+		Bool give = math.random(0,prismdiamondsgiven)==0
+		String diamant = ({ [true]="ITM_EQP_PHAN_PRISMDIAMOND", [false]="ITEM_PHAN_PRISMDIAMOND"})[give]
+		If Item.Give(diamant,Map.Leader)
+			Party.GiveEXP(10000)
+			If give
+				prismdiamondsgiven = math.min(prismdiamondsgiven + (__skill*__skill),10000)
+				//if prismdiamondsgiven>100000 then prismdiamondsgiven=100000 end -- Prevent crashes in long term
+			End
+			gv.gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"] = true
+		Else
+			MapText("FEENA_FULL")
+		End
+		//Lua.error("Feenalaria not yet scripted for this particular situation")
 	end
 	
 	Void NPC_Irravonia()

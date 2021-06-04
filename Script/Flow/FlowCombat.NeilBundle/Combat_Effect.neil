@@ -158,10 +158,11 @@ Group CG_Effect
 		return true
 	end
 	
-	Bool CureOnAttack(Act,Tar)
-		// TODO: Code
-		return false
-	end
+	//Bool CureOnAttack(Act,Tar)
+	//	// TODO: Code
+	//	return false
+	//end
+	// Tackled this a simpler way
 	
 	
 	bool Heal(Act,Tar)
@@ -297,7 +298,7 @@ Group CG_Effect
 			Hit = RecoverAP(Act,Tar) || Hit
 			Hit = ExtraEXP(Act,Tar) || Hit
 			Hit = Attack(Act,Tar) || Hit
-			Hit = CureOnAttack(Act,Tar) || Hit
+			//Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Buff(Act,Tar) || Hit
 			Hit = Script(Act,Tar) || Hit
 			Hit = Cause(Act,Tar) || Hit			
