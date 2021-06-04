@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Class_ChangeStatus.neil
-// Version: 21.05.31
+// Version: 21.06.04
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -76,8 +76,9 @@ Class Combat_StatusChanges
 		instance.resist = name
 		instance.name = name
 		If  resistance!=""
-			instance.resist=resistance
+			instance.resist=resistance		
 		End
+		CSayF("Created Status %s - Resisted by %s",instance.name,instance.resist)
 	End
 	
 End
@@ -124,8 +125,9 @@ Class CSC_Sleep ExtEnds Combat_StatusChanges
 	Var fnt = ImageFont.Obtain("BIGTEXT")
 	Void Draw(tar)
 		Int T = FPS.Ticks
-		Graphics.Color(math.abs(xmath.sin(T)*255),180,math.abs(xmath.cos(T)*255))
-		fnt.Draw("Z",tar.X,(Tar.Y-50)+(xmath.sin(T div 3)*25))
+		Graphics.Color(math.floor(math.abs(xmath.sin(T div 2)*255)),180,math.floor(math.abs(xmath.cos(T div 2)*255)))
+		fnt.Text("Z",tar.X,(Tar.Y-tar.h-50)+(xmath.sin(T div 3)*25),2,1)
+		__white
 		// Only cure automatically during the IDLE stage!
 		If  Stage.Current != Stage.IDLE
 			Return
@@ -245,7 +247,7 @@ Init
 	
 	// And now the real stuff
 	Combat_StatusChanges.Create("Paralysis",new CSC_Paralysis())
-	Combat_StatusChanges.Create("Sleep",new CSC_Sleep())
+	Combat_StatusChanges.Create("Sleep",new CSC_Sleep(),"Will")
 	Combat_StatusChanges.Create("Poison",new CSC_Poison())
 	Combat_StatusChanges.Create("Disease",new CSC_Disease())
 	
