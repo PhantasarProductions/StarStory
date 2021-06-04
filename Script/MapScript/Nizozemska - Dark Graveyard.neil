@@ -47,7 +47,7 @@ group MScript
 	End
 	
 void Boss()
-		Int BossLevel = 200 * Caps.Cycle
+		Int BossLevel = math.ceil(10000,200 * Caps.Cycle)
 		StartCombat.Foe("Boss/Cultist Leader",BossLevel)
 	end
 		
