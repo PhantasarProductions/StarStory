@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Schedule.Neil
-// Version: 21.05.12
+// Version: 21.06.05
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -67,6 +67,10 @@ module
 	
 	Void Flush()
 		MCall("GrSchedule.Scheduled.Clear")
+	End
+	
+	Void Stop(string C="")
+		MCall("GrSchedule.StopIt",C)
 	End
 	
 end
