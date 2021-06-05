@@ -136,11 +136,16 @@ Group CG_Effect
 			element = "Non-Elemental"
 		end
 		//int modifier = math.max(data.mod or 1,1)
-		int modifier = math.max( (DataAttackPower || 1) / 100,1)		
+		int modifier = math.max( (DataAttackPower || 1) / 100,1)
+		int apu = 0
 		if Act.XPower
 			modifier += 4-__skill
 		end
-		int atk = Exe.Stats[data.attackstat] * modifier
+		if Act.Executor.Tag=="Crystal" && Prefixed(Act.ActTag,"ARM_")
+			apu = RPGChar.Crystal.Stat["ARM.XPOWER."..Replace(Act.ActTag,"ARM_","")]
+			CSayF("Added %d ARM XPower!",apu)
+		end
+		int atk = (Exe.Stats[data.attackstat]+apu) * modifier
 		int def = Tar.Stats[data.defensestat]
 		int damage = atk + rand(0,round(atk*0.75))
 		int defense = def + rand(0,round(def*0.25))
