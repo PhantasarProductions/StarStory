@@ -47,6 +47,7 @@ class Combat_Hero extends Combat_Fighter
 	table InputItems
 	
 	void TIcon(int x,int y)
+		GIIMG = GIIMG || Image.LoadNew(sPrintF("GFX/Combat/GaugeIcons/%s.png",Tag),GITag)
 		GIIMG.Draw(x,y)
 	end
 	
