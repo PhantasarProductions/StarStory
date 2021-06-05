@@ -388,7 +388,7 @@ group Stage_SelectTarget
 						a.Targets_Tag[1] = oa.Targets_Tag[1]
 						a.Targets_Tag[2] = nil
 						Combat_Fighter.Fighters[Act.Executor.Tag].NextAct = a
-					elseif Act.Executor.Tag=="Rolf" && math.random(1,(__skill+5)*__skill)
+					elseif Act.Executor.Tag=="Rolf" && math.random(1,(__skill+5)*__skill)==1
 						// Feel the pain!
 						BoxText.Serial("COMBAT","Special."..Act.Executor.Tag,"FLOW_COMBAT")
 						var oa = Act
