@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 21.03.26
+// Version: 21.06.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -44,25 +44,25 @@
 #macro slotm 5
 
 #macro starty 100
-#macro endy Screen.H-228
+#macro Endy Screen.H-228
 
-var Mouse = Image.Obtain("MOUSE")
-var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
-var BigFont = ImageFont.Obtain("BIGTEXT")
-var SysFont = ImageFont.Obtain("SYSFONT")
-var Buzz = Audio.Obtain("BUZZ")
-var ButtonUp = Image.Obtain("UP")
-var ButtonDown = Image.Obtain("DOWN")
+Var Mouse = Image.Obtain("MOUSE")
+Var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,False)
+Var BigFont = ImageFont.Obtain("BIGTEXT")
+Var SysFont = ImageFont.Obtain("SYSFONT")
+Var Buzz = Audio.Obtain("BUZZ")
+Var ButtonUp = Image.Obtain("UP")
+Var ButtonDown = Image.Obtain("DOWN")
 
-readonly int slotsonscreen = math.floor((endy-starty)/(sloth+slotm))
-int scroll = 0
-table slots
+ReadOnly Int slotsonscreen = math.floor((Endy-starty)/(sloth+slotm))
+Int scroll = 0
+Table slots
 
-table SaveIconsF
-table SaveIcons
+Table SaveIconsF
+Table SaveIcons
 
-init	
-	SaveIconsF += "GFX/Portret/Wendicka/General.png"
+Init	
+	SaveIconsF += "GFX/Portret/WEndicka/General.png"
 	SaveIconsF += "GFX/Portret/Crystal/General.png"
 	SaveIconsF += "GFX/Portret/ExHuRU/General.png"
 	SaveIconsF += "GFX/Portret/Yirl/General.png"
@@ -73,51 +73,63 @@ init
 	SaveIconsF += "GFX/Portret/Briggs/General.png"
 	SaveIconsF += "GFX/Portret/Astrilopup/West.png"
 	SaveIconsF += "GFX/Portret/Doctor/General.png"
-	SaveIconsF += "GFX/Portret/Johnson/Uniform.png"
+	SaveIconsF += "GFX/Portret/Johnson/UniForm.png"
 	SaveIconsF += "GFX/Portret/Reggie/General.png"
 	SaveIconsF += "GFX/Portret/Banika/General.png"
 	SaveIconsF += "GFX/Portret/Sue/General.png"
 	SaveIconsF += "GFX/Portret/Kota/General.png"
 	SaveIconsF += "GFX/Portret/Goddess/General.png"
-	var s
+	Var s
 	s = SaveGame.LoadIndieString("Star Story - Scroll")
 	CSayF("Getting scroll: %s",lua.tostring(s))
 	scroll = lua.tonumber(s or "0") or 0
-end
+End
 
-void SaveScroll()
+Void SaveScroll()
 	SaveGame.SaveIndieString("Star Story - Scroll",tostring(scroll))
-end
+End
 
 
-table GetSlot(int i)
-	if !slots[i]
-		table h = GetHeader(i)
-		table nr
+Table GetSlot(Int i)
+	If !slots[i]
+		Table h = GetHeader(i)
+		Table nr
 		nr.have = h.Map!=nil
 		nr.header = h
 		slots[i] = nr
 		//print(Serialize("SaveGameSlots",slots))
-	end
-	return slots[i]
-end
+	End
+	Return slots[i]
+End
 
 
 
 
 string Action = "Save"
 
-global void SetActionLoad()
+Global Void SetActionLoad()
 	Action = "Load"
-end
+End
 
-global void Apollo_Flow()
+Void Cancel()
+	Switch Action
+		Case "Save"
+			Flow.Current="FIELD"
+		Case "Load"
+			Flow.Current="MAINMENU"
+		Default
+			Lua.error( "I do not know how to cancel action: "..Action)
+			// Should never happen, but just in Case
+	End
+End
+
+Global Void Apollo_Flow()
 	Dev.ToConsole()
 	// Mouse coordiniates
-	int mx = Events.MouseX()
-	int my = Events.MouseY()
-	bool AlUp = scroll>0
-	bool AlDown = true
+	Int mx = Events.MouseX()
+	Int my = Events.MouseY()
+	Bool AlUp = scroll>0
+	Bool AlDown = true
 	
 	// ScreenBox
 	ScreenBox.Draw()
@@ -127,85 +139,94 @@ global void Apollo_Flow()
 	BigFont.Text(Action.." game",45,10)
 	
 	// Slots
-	for i=scroll,math.min(scroll+slotsonscreen,maxsg)
+	For i=scroll,math.min(scroll+slotsonscreen,maxsg)
 		AlDown=AlDown and i<=maxsg
-		table slot = GetSlot(i)
-		int y = starty+((i-scroll)*(sloth+slotm))
+		Table slot = GetSlot(i)
+		Int y = starty+((i-scroll)*(sloth+slotm))
 		__white
-		if slot.have
-			int iconi = (i%#SaveIconsF)+1
+		If slot.have
+			Int iconi = (i%#SaveIconsF)+1
 			SaveIcons[iconi] = SaveIcons[iconi] || Image.Load(SaveIconsF[iconi])
 			SaveIcons[iconi].Stretch(10,y,sloth,math.floor( SaveIcons[iconi].Width * ( sloth / SaveIcons[iconi].Height) ))
-		end
+		End
 		__skyblue
-		if mx>100 and my>=y and my<=y+sloth and mx<Screen.W-100
+		If mx>100 and my>=y and my<=y+sloth and mx<Screen.W-100
 			Graphics.Color(0,200,255)
-			if Events.MouseHitLeft()
+			If Events.MouseHitLeft()
 				SaveScroll()
 				switch Action
-					case "Save"
-						PerformSaveGame(GetSGFileName(i))
+					Case "Save"
+						PerFormSaveGame(GetSGFileName(i))
 						// Force to update the data, next time
 						slots[i] = nil
 						Flow.Current="FIELD"
-						return
-					case "Load"
-						if !slot.have
+						Return
+					Case "Load"
+						If !slot.have
 							Buzz.Play()
-						else
+						Else
 							Loading()
-							if PerformLoadGame(GetSGFileName(i))
-								// Link to field if succesful
+							If PerFormLoadGame(GetSGFileName(i))
+								// Link to field If succesful
 								Flow.Current="FIELD"
 								Action="Save"
-								return
-							end
-						end
-					default
+								Return
+							End
+						End
+					Default
 						Lua.error("Unknown action: "..Action)
-				end
-			end
-		end
-		if slot.have
+				End
+			End
+		End
+		If slot.have
 			// TODO: Data			
 			BigFont.Text(slot.header.Map,100,y)
 			SysFont.Text(slot.header.Protagonist.." lv "..slot.header.ProtaLevel,100,y+40)
 			SysFont.Text(slot.header.Difficulty.." mode",Screen.W/2,y+40,2)
 			SysFont.Text("Cycle: "..slot.header.Cycle.."; Saved: "..slot.header.Saved,Screen.W-100,y+40,1)
-		else
+		Else
 			BigFont.Text("== Empty slot ==",100,y)
-		end
-	end
+		End
+	End
 	__white
-	static bool clk = false
-	if AlDown
+	Static Bool clk = false
+	If AlDown
 		ButtonDown.Draw(Screen.W-100,Screen.H-228)
-		if (!clk) && Events.MouseHitLeft() and mx>Screen.W-100 and my>Screen.H-228 and my<Screen.H-128
+		If (!clk) && Events.MouseHitLeft() and mx>Screen.W-100 and my>Screen.H-228 and my<Screen.H-128
 			Scroll++
 			CSayF("Scrolled down to: %04d",Scroll)
 			clk=true
-		else
+		Else
 			clk=false
-		end
-	end
-	if AlUp
+		End
+	End
+	If AlUp
 		ButtonUp.Draw(Screen.W-100,100)
-		if (!clk) and Events.MouseHitLeft() and mx>Screen.W-100 and my>100 and my<128
+		If (!clk) and Events.MouseHitLeft() and mx>Screen.W-100 and my>100 and my<128
 			Scroll = math.max(0,Scroll-1)
 			CSayF("Scrolled up to: %04d",Scroll)
 			clk=true
-		else
+		Else
 			clk=false
-		end
-	end
-
+		End
+	End
 	
-
+	// Cancel by Escape key or right mouse button
+	If Events.KeyHit(27) || Events.MouseHitRight()
+		Cancel()
+	End
+	// Cancel by Icon
+	__Red	
+	BigFont.Text("X",Screen.W-100,160)
+	If Events.MouseHitLeft() and mx>Screen.W-100 and my>160 and my<200
+		Cancel()
+	End
 	// Party
-	if Action=="Save"
+	__white
+	If Action=="Save"
 		Party.Boxes()
-	end
+	End
 	// Mouse Pointer: Must be very last
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)
-end
+End
