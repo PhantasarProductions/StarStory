@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Dev.neil
-// Version: 21.03.03
+// Version: 21.06.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,73 +36,73 @@
 // End License Information
 #define Development
 
-global void CSay(string message)
-		#if Development
+Global Void CSay(String message)
+		#If Development
 			//print("\x1b[34,1m"..message.."\x1b[0m")			
 			//CWrite(message,0,180,255,false)
-			if State.Has("FLOW_CONSOLE")
+			If State.Has("FLOW_CONSOLE")
 				State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", 0x00, 0xbf, 0xff")	
-			end
-			cout("CSAY>\x1b[34;1m",message,"\x1b[0m\n")
-		#fi
-	end
+			End
+			COut("CSAY>\x1b[34;1m",message,"\x1b[0m\n")
+		#Fi
+	End
 	
-global void CSayF(string fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
-	end
+Global Void CSayF(String fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		CSay(SPrintF(fmt,Exp&&({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+	End
 
-module
+Module
 
-	readonly int leftshift = Events.KeyByName("Left Shift")
-	readonly int rightshift = Events.KeyByName("Right Shift")
-	readonly int kp_minus = Events.KeyByName("Keypad -")
+	ReadOnly Int leftshift = Events.KeyByName("Left Shift")
+	ReadOnly Int rightshift = Events.KeyByName("Right Shift")
+	ReadOnly Int kp_minus = Events.KeyByName("Keypad -")
 
 
-	get bool indev
-		#if Development
-			return true
-		#else
-			return false
-		#fi
-	end
+	Get Bool indev
+		#If Development
+			Return true
+		#Else
+			Return false
+		#Fi
+	End
 	
-	get bool inrelease
-		return not indev
-	end
+	Get Bool inrelease
+		Return not indev
+	End
 	
-	void CWrite(string message,byte r=255, byte g=255,byte b=255,bool cli=true)
-		#if Development
-			if cli
+	Void CWrite(String message,byte r=255, byte g=255,byte b=255,Bool cli=true)
+		#If Development
+			If cli
 				print("CWRITE>",message)
-			end
+			End
 			State.Call("FLOW_CONSOLE","CLine.Write","\""..message.."\", "..r..", "..g..", "..b)	
-		#fi
-	end
+		#Fi
+	End
 		
 	
-	void ToConsole()
+	Void ToConsole()
 		// print("ToConsole:",indev , LeftShift,Events.KeyDown(LeftShift) , RightShift,Events.KeyDown(RightShift) , KP_Minus,Events.KeyDown(KP_Minus) )
-		if indev and Events.KeyDown(LeftShift) and Events.KeyDown(RightShift) and Events.KeyDown(KP_Minus)
+		If indev && Events.KeyDown(LeftShift) && Events.KeyDown(RightShift) && Events.KeyDown(KP_Minus)
 			State.Call("FLOW_CONSOLE","CLine.SetRetFlow","\""..ApolloState.Name.."\"")
 			Flow.GoToFlow("CONSOLE")
-		end
-	end
+		End
+	End
 	
-	void CommandCallBack(string _opdracht,table para)
-		string Opdracht = "CONSOLE_".._opdracht
-		if GlobalExists(opdracht)
+	Void Comm&&CallBack(String _opdracht,Table para)
+		String Opdracht = "CONSOLE_".._opdracht
+		If GlobalExists(opdracht)
 			Lua.Neil.Globals[opdracht](para)
-		else
-			CWrite("ERROR! Command '".._opdracht.."' not understood!",255,0,0)
-		end
-	end
+		Else
+			CWrite("ERROR! Comm&& '".._opdracht.."' not understood!",255,0,0)
+		End
+	End
 	
 
-end
+End
 
 
-init
-	#if Development
+Init
+	#If Development
 		State.LoadNew("FLOW_CONSOLE","Script/Flow/FlowConsole.neil")
-	#endif	
-end
+	#EndIf	
+End
