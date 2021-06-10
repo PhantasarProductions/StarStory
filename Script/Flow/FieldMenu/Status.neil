@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Status.neil
-// Version: 21.05.14
+// Version: 21.06.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -45,7 +45,7 @@ module
 	readonly table Stats = {  "Strength", "Defense", "Will", "Resistance", "Accuracy", "Evasion", "Agility" }
 	
 	readonly table StatusChanges = { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
-	readonly table Elements      = { "Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water" }
+	readonly table Elements      = { "Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind" }
 	readonly table EleIco
 	readonly table StatIco
 	

@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowTerminal.neil
-// Version: 21.05.29
+// Version: 21.06.08
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -80,7 +80,10 @@ Void ChainGameShoot()
 End
 
 Void ChainBestiary()
-	Lua.error("Bestiary not yet available")
+	//Lua.error("Bestiary not yet available")
+	Loading()
+	State.LoadNew("FLOW_BESTIARY","Script/Flow/FlowBestiary.Neil")
+	Flow.Current="BESTIARY"
 End
 
 Void ChainJukeBox()
@@ -100,7 +103,7 @@ end
 
 Init
 	AppList.AddLast(new TApp("Save",MSave.ToSave))
-	AppList.AddLast(new TApp("Tutor",ChainTutorial))
+	//AppList.AddLast(new TApp("Tutor",ChainTutorial))
 	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
 	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
 	AppList.AddLast(new TApp("GameNIM",ChainGameNIM,"FOUNDAPP_NIM"))

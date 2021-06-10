@@ -1,0 +1,200 @@
+// License Information:
+// src/Tricky Script/Script/Flow/FlowBestiary.neil
+// Version: 21.06.10
+// Copyright (C) 2021 Jeroen Petrus Broks
+// 
+// ===========================
+// This file is part of a project related to the Phantasar Chronicles or another
+// series or saga which is property of Jeroen P. Broks.
+// This means that it may contain references to a story-line plus characters
+// which are property of Jeroen Broks. These references may only be distributed
+// along with an unmodified version of the game.
+// 
+// As soon as you remove or replace ALL references to the storyline or character
+// references, or any termology specifically set up for the Phantasar universe,
+// or any other univers a story of Jeroen P. Broks is set up for,
+// the restrictions of this file are removed and will automatically become
+// zLib licensed (see below).
+// 
+// Please note that doing so counts as a modification and must be marked as such
+// in accordance to the zLib license.
+// ===========================
+// zLib license terms:
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// End License Information
+#use "Script/Use/Anyway"
+#use "Script/Data/General/BestiaryIndex"
+
+#macro __MX Events.MouseX()
+#macro __MY Events.MouseY()
+#macro __ML Events.MouseHitLeft()
+#macro __MR Events.MouseHitRight()
+
+ReadOnly Var Mouse = Image.Obtain("MOUSE")
+ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT")
+ReadOnly Var Big = ImageFont.Obtain("BIGTEXT")
+ReadOnly Var Sys = ImageFont.Obtain("SYSFONT")
+ReadOnly Var ScrollUp = Image.Obtain("UP")
+ReadOnly Var ScrollDown = Image.Obtain("DOWN")
+
+
+ReadOnly Table StatusChanges = { "Block", "Damned", "Death", "Disease", "Paralysis", "Poison",    "Will" }
+ReadOnly Table Elements      = { "Dark",  "Earth",  "Fire",  "Frost",   "Light",     "Lightning", "Water", "Wind" }
+
+Var ShownFoe = nil
+
+Void ListFoe(Foe,int Y)
+	If Foe.Killed<=0
+		__Red
+		Fnt.Text("???",50,Y)
+		if Dev.InDev
+			Fnt.Text(Foe.QTag.." "..Foe.Killed,500,Y) // DEBUG
+		End
+	Else
+		If __MY>Y && __MY<Y+32 && __MX<Screen.W div 2
+			If Foe==ShownFoe
+				__Yellow
+			Else
+				__Cyan
+				If __ML
+					ShownFoe = Foe
+				End
+			End
+		Else
+			If Foe==ShownFoe
+				__Ember
+			Else
+				__SkyBlue
+			End
+		End
+		Fnt.Text(Foe.Name,50,Y)
+	End			
+End
+
+Void MakeDesc()
+	ShownFoe.Desc = Split(ShownFoe.Data.Desc,"\n")
+End
+
+Void ShowFoe()
+	Var SD = ShownFoe.Data
+	Int CX = (Screen.W div 4) * 3
+	__Red
+	Fnt.Text(ShownFoe.Name,CX,100,2,0)
+	__White
+	ShownFoe.Img.Draw(Screen.W div 2,100)
+	If !ShownFoe.Desc
+		MakeDesc()
+	End
+	__Ember
+	Int Y = 150
+	For I,L in Pairs(ShownFoe.Desc)
+		Y = math.max(Y,150+(I*20))
+		Sys.DarkText(L,CX,Y,2,0)
+	End
+	__SkyBlue
+	Y+=45
+	Fnt.DarkText(Sprintf("Defeated: %d",ShownFoe.Killed),CX,Y,2)
+	Int IDX = 1
+	Y+=20
+	Int ElX = Screen.W div 2
+	Repeat		
+		Static Table EleIco = {}
+		Static Table StatIco = {}
+		Y+=25
+		If Elements[IDX]
+			string e = Elements[IDX]
+			__white
+			EleIco[e] = EleIco[e] or Image.Obtain("ELEM_"..(e:upper()))
+			EleIco[e].Draw(ElX,Y)
+			Switch ShownFoe.Data["EleRes_"..e]
+				Case 0
+					__red
+					Fnt.Text("Fatal",ElX+30,Y)
+				Case 1
+					Graphics.Color(200,100,0)
+					Fnt.Text("Ultra-Weak",ElX+30,Y)
+				Case 2
+					Graphics.Color(200,110,0)
+					Fnt.Text("Weak",ElX+30,Y)
+				Case 3
+					Graphics.Color(200,180,0)
+					Fnt.Text("--",ElX+30,Y)
+				Case 4
+					Graphics.Color(200,180,0)
+					fnt.Text("Resistant",ElX+30,Y)
+				Case 5
+					Graphics.Color(100,180,0)
+					fnt.Text("Immune",ElX+30,Y)
+				Case 6
+					Graphics.Color(0,255,0)
+					Fnt.Text("Absorb",ElX+30,Y)
+				Default
+					Fnt.Text("???",ElX+30,Y)
+			End			
+		End
+		If StatusChanges[IDX]
+			__white
+			String s = StatusChanges[IDX]  
+			StatIco[s] = StatIco[s] or Image.Obtain("STATUS_"..(s:upper()))
+			StatIco[s].Draw(CX,Y)
+			__Ember
+			Fnt.Text(SPrintF("%d%%",ShownFoe.Data.StatusResistance[s]),CX+100,Y,1,0)
+		End
+		IDX++
+	LoopWhile StatusChanges[IDX] || Elements[IDX]
+End
+
+Global Void Apollo_Flow()
+	Static Int Scroll=0
+	Int Y=100-Scroll
+	__Red
+	Big.Text("Bestiary",Screen.W div 2, 0,2,0)
+	For Foe in BestEntry.Lijst.Each
+		If Y>100 && Y<Screen.H-140
+			ListFoe(Foe,Y)
+		End
+		Y+=32
+	End
+	If ShownFoe
+		ShowFoe()
+	End
+	__white
+	If Scroll>0
+		__white
+		ScrollUp.Draw(Screen.W div 2,20)
+		If __ML && __MX>Screen.W div 2 && __MY<80 && __MX<(Screen.W div 2)+64
+			Scroll-=30
+		End
+	End
+	If Y>Screen.H-150
+		ScrollDown.Draw(Screen.W div 2,Screen.H-150)
+		If __ML && __MX>Screen.W div 2 && __MY<Screen.H-120 && __MY>Screen.H-150 && __MX<(Screen.W div 2)+64
+			Scroll+=30
+		End
+	End
+	__Red
+	Fnt.Text("X",Screen.W div 2,80)
+	If (__ML && __MX>Screen.W div 2 && __MY>80 && __MY<100 && __MX<(Screen.W div 2)+64) || __MR || Events.KeyHit(27)
+		Flow.Current = "FIELD"
+	End
+	__white
+	Dev.ToConsole()
+	Party.Boxes()
+	Mouse.Draw(__mx, __my)
+End
+
+Init
+	__Black
+End

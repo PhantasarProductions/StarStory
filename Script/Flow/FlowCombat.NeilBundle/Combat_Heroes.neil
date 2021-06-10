@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.06.05
+// Version: 21.06.07
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -655,6 +655,12 @@ group Stage_PlayerInput
 	end
 end
 
+void HurtXenobi()
+	Static Table M = {0.20,0.10,0.05}
+	If RPGChar.Xenobi.Points.HP.Have<RPGChar.Xenobi.Points.HP.Maximum*M[__skill]
+		RPGChar.Xenobi.Points.AP.Have = RPGChar.Xenobi.Points.AP.Maximum
+	End
+end
 
 module 
 	var Fighters
@@ -680,6 +686,9 @@ module
 				H.Gauge = Lua.math.random(900/__skill,9000/__skill)
 				//H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T..".Neil")
 				H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T)
+				If T=="Xenobi"
+					H.HurtResponse = HurtXenobi
+				End
 			end
 		end
 	end
