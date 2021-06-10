@@ -48,7 +48,7 @@ Global Void CSay(String message)
 	End
 	
 Global Void CSayF(String fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		CSay(SPrintF(fmt,Exp&&({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
 	End
 
 Module
@@ -88,7 +88,7 @@ Module
 		End
 	End
 	
-	Void Comm&&CallBack(String _opdracht,Table para)
+	Void CommandCallBack(String _opdracht,Table para)
 		String Opdracht = "CONSOLE_".._opdracht
 		If GlobalExists(opdracht)
 			Lua.Neil.Globals[opdracht](para)
