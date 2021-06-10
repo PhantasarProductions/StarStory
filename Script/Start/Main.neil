@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Start/Main.neil
-// Version: 21.03.14
+// Version: 21.06.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -98,7 +98,7 @@ init
 	LAsset.C("GFX/Combat/PlayerInput/Top.png","COMBAT_PLAYINPUT_TOP",wh_Image)	
 	//LAsset.C("GFX/Field/Encounter.png","FLDFOE",wh_image)
 	//LAsset.C("GFX/Field/Boss.png","FLDBOSS",wh_image)
-	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water"}
+	for elem in each {"Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"}
 		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
 	end
 	for status in each { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
