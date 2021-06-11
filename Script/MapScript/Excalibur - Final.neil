@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.15
+// version: 21.06.11
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.05.15"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.06.11"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -259,7 +259,7 @@ Group MScript
    			RC += "Cyborg Gunner"
    			RC += "Cyborg Gunner"
    			If Caps.Cycle > (3-__skill)
-   				RC += "Cyborg Astrilopup"
+   				RC += "CyberAstrilopup"
    				RC += "Cyborg Ji"
    			End
    		End
@@ -494,7 +494,7 @@ Group MScript
 		__boss005 = true
 		Party.GiveEXP(2500)
 		Map.Kill("SuperCyborg",true)
-		Ach.Award('BOSS_SUPERCYBORG')
+		Ach.Award("BOSS_SUPERCYBORG")
 	End
 	
 	Void GoHome()
