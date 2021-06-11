@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.06.07
+// Version: 21.06.12
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -662,6 +662,23 @@ void HurtXenobi()
 	End
 end
 
+Void HurtJohnson()
+	Var HP = RPGChar.Johnson.Points.HP
+	If HP.Have<=0
+		CSay("Ignore! Johnson has fallen!")
+		Return
+	End
+	Int Verschil = HP.Maximum - HP.Have
+	Static Int MaxBuf = 3000 div __skill
+	Int Buf = math.max(1,Verschil div (__skill * 2000))
+	If RPGChar.Johnson.Stat.BUFF_Agility >=MaxBuf
+		Return
+	End
+	RPGChar.Johnson.Stat.BUFF_Agility += Buf
+	CSayF("Johnson's speed went up with %d => %d => %d",Buf,RPGChar.Johnson.Stat.BUFF_Agility,RPGChar.Johnson.Stat.END_Agility)
+	Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+End
+
 module 
 	var Fighters
 	void Compile()
@@ -686,8 +703,12 @@ module
 				H.Gauge = Lua.math.random(900/__skill,9000/__skill)
 				//H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T..".Neil")
 				H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T)
-				If T=="Xenobi"
-					H.HurtResponse = HurtXenobi
+				Switch T
+					Case "Xenobi"
+						H.HurtResponse = HurtXenobi
+					Case "Johnson"
+						H.HurtResponse = HurtJohnson
+					Default					
 				End
 			end
 		end
