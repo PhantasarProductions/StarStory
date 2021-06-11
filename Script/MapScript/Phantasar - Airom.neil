@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.05.08
+// version: 21.06.11
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/WorldMap"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Airom.neil" "21.05.08"
+#MKL_Version "Star Story - Phantasar - Airom.neil" "21.06.11"
 #MKL_Lic     "Star Story - Phantasar - Airom.neil" "Phantasar Closed License"
 
 group TMS
@@ -75,6 +75,10 @@ group TMS
 		Party.GiveEXP(3500)
 	End
 	
+	Void Bye()
+		WorldMap("Phantasar")
+	End
+	
 	Void Update()
 		Phan_Encounter.Check()
 	End
@@ -101,7 +105,7 @@ group TMS
 				Map.Kill("Stuff",True)
 			End
 		End
-		ZA.TabEnter{"Boss"}
+		ZA.TabEnter{"Boss","Bye"}
 	End
 
 end
