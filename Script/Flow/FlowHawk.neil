@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.27
+// version: 21.06.12
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -133,6 +133,9 @@ group flHawk
 	void GoSpace()
 		int wy=20
 		for w,d in spairs(HawkData)
+			if w=="Black Hole"
+				d.DISABLED = gv.gBool.BlackHoleDwellerDead
+			end
 			if d.DISABLED
 				Graphics.Color(0,105,180)
 			elseif my>wy && my<wy+25
@@ -204,7 +207,7 @@ group flHawk
 	// Method
 	end
 	
-	void Flow()
+	void Flow()		
 		Dev.ToConsole()
 		ScreenBox.Draw()
 		if World==""

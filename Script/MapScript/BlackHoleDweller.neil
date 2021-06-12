@@ -1,0 +1,97 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/MapScript/BlackHoleDweller.neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.06.12
+// End License Information
+
+#use "Script/Use/Anyway"
+
+#MKL_Version "Star Story - BlackHoleDweller.neil" "21.06.12"
+#MKL_Lic     "Star Story - BlackHoleDweller.neil" "Phantasar Closed License"
+
+group MScript
+
+	#region Needless junk to prevent crashing
+	Void Update()
+	End
+
+	Void Draw()
+	End
+	
+	Void Load()
+	End
+	#endregion
+	
+	Void BackToHawk()
+		Map.GoToMap("Hawk","BRIDGE","Scotty")
+	End
+	
+	Void Boss()
+		Map.SetObj("Background","X",Player.X - (Screen.W div 2) )
+		Map.SetObj("Background","Y",Player.Y - (Screen.H div 2) )
+		Map.SetObj("Background","W",Screen.W )
+		Map.SetObj("Background","H",Screen.H )
+		PPop.Pop("BH","West")
+		MapText("PREBOSS")
+		Schedule.Add("PostBoss")
+		StartCombat.Prepare()
+		StartCombat.Foe("SuperBoss/BlackHoleDweller",10000)
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = "*NOCHANGE*"
+		StartCombat.Boss = true
+		StartCombat.Arena = "Black Hole.png"
+		StartCombat.Begin()
+	End
+	
+	Void PostBoss()
+		gv.gBool.BlackHoleDwellerDead = true
+		Map.Kill("Dweller")
+		MapText("POSTBOSS")
+		For C in Each{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
+			If Item.Give("ITM_EQP_LOUSYTSHIRT",C)
+				CSayF("Given to %s",C)
+				BackToHawk()
+				Return
+			End
+			CSayF("%s is overstocked, so onto the next one?",C)
+		End
+		Schedule.Add("MSG:WARNING! All inventories were full! Reward item could not be given!")
+		BackToHawk()
+	End
+	
+	CONSTRUCTOR	
+		ZA.TabEnter{"BOSS"}
+	End
+
+end
