@@ -610,6 +610,8 @@ Group MScript
 			MapText("LAB")
 			PPop.UnPop()
 			Party.GiveEXP(6000 div __skill)
+			// Unlock Black Hole Dweller
+			Hawk.Add("Start","Black Hole","Core","BlackHoleDweller","BLACKHOLEDWELLER")
 		End
 	End
 	#endregion
