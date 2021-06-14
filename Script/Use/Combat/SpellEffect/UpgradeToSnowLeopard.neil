@@ -32,11 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.04.25
+// version: 21.06.14
 // End License Information
 
 bool Ret(Act,Tar)
-	Combat_Foe.AddFoe("Reg/SnowLeopard",Tar.Char.Stat.Level)
+	//Combat_Foe.AddFoe("Reg/SnowLeopard",Tar.Char.Stat.Level)
+	Combat_Foe.AddFoe("Reg/SnowLeopard",Tar.Char.Level)
 	Tar.StatusChange.Gone=true
 	return true
 end
