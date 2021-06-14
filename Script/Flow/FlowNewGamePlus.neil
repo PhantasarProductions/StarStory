@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.27
+// version: 21.06.14
 // End License Information
 #use "Script/Use/Anyway"
 #use "libs/linkedlist"
@@ -94,7 +94,7 @@ Void Start_NewCycle()
 	CSay("All preparations done! Let's 'resume' in the new cycle")
 	Flow.GoToFlow("FIELD")
 	State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
-	State.Call("flHawk.TheGreatReset","nil")
+	State.Call("FLOW_HAWK","flHawk.TheGreatReset","nil")
 End
 
 Void Reject_NewCycle()
