@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.05.23
+// Version: 21.06.13
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -175,6 +175,9 @@ Module
 			AnnouncePortrait = Image.Obtain("PORTRET_"..Executor.Tag)
 		elseif Executor.Name=="ExHuRU"
 			AnnouncePortrait = Image.LoadNew("GFX/Portret/ExHuRU/General.png","PORTRET_ExHuRU")
+			AnnouncePortrait.HotBottomCenter()
+		elseif Executor.Name=="The Goddess"
+			AnnouncePortrait = Image.LoadNew("GFX/Portret/Goddess/General.png","PORTRET_Goddess")
 			AnnouncePortrait.HotBottomCenter()
 		end
 	end
