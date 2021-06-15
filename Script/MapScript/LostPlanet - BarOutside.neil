@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.04.10
+// version: 21.06.14
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.04.10"
+#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.06.14"
 #MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
@@ -106,7 +106,7 @@ group MScript
 	End
 	
 	Void EnterPub()
-		If gv.gbool.BarDone
+		If gv.gbool.IllegalBarDone
 			Player.StopWalking()
 			Player.WalkTo("NoWay")
 			MapText("NO_ENTER")
