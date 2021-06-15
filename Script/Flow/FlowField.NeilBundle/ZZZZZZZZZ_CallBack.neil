@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/ZZZZZZZZZ_CallBack.neil
-// Version: 21.05.22
+// Version: 21.06.15
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -54,12 +54,19 @@ global void DrawScreen(noauto)
 			FldMap.CurLayer.Obj("PLAYER").Visible=!ppop.unpopping
 		end
 	elseif (!noauto) 
-		FldMap.AutoTexPlayer()
+		FldMap.AutoTexPlayer()		
 		if math.abs(GrPlayer.Y-oldy)>60
 			FldMap.CurLayer.RemapDominance(FldMap.Layer)
 			oldx,oldy = GrPlayer.X,GrPlayer.Y
 		end
 	end
+	If GrPlayer.Walking
+		Switch Map.Leader
+			Case "ExHuRU" "Yirl" "Xenobi" "Rolf"
+				Ach.Award("ASMALLSTEPFORMAN")
+			Default
+		End
+	End
 	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
 end
 
@@ -78,6 +85,7 @@ void GStat(string g,resetme)
 	y -= 30
 	__white
 end
+		
 
 global void FullDrawScreen(noauto)
 	// Graphics.Rect(0,0,Screen.W,Screen.H) // debug
