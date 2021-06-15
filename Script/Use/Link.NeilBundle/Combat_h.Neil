@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Combat_h.Neil
-// Version: 21.03.14
+// Version: 21.06.15
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,7 +94,7 @@ group StartCombat
 		int y=0
 		int siz = Screen.W div 50
 		repeat
-			L.AddLast({["X"]=x,["Y"]=y,["Speed"]=math.random(5,100)})
+			L.AddLast({["X"]=x,["Y"]=y,["Speed"]=math.random(10,200)})
 			x+=siz
 			if x>Screen.W
 				x=0
