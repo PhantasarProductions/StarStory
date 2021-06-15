@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.06.05
+// Version: 21.06.15
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -376,6 +376,39 @@ Group CG_Effect
 		return ret
 	end
 	
+	get bool CheckExHuRU
+		CSay("Wendicka attacked, so let's check for ExHuRU!")
+		int Check = ({30,10,2})[__skill]
+		var WendickaHP = RPGChar.Wendicka.Points.HP
+		int WendickaHealth = math.floor( (WendickaHP.Have/WendickaHP.Maximum) * 100)
+		if Check<WendickaHealth
+			CSayF("Wendicka's health is %d%%! And may not be higher than $d$$",WendickaHealth,Check)
+			return false
+		end
+		int w = 0
+		int f = 0
+		for i=1,6
+			if RPGParty[i]=="ExHURU" && i >= 4
+				f = i
+			elseif RPGParty[i]=="Wendicka" && i <= 3
+				w = i
+			end
+		end
+		//Lua.assert(w>0,"No Wendicka on front row???")
+		if w==0
+			CSay("Wendicka oddly enough not on the front row")
+			return false
+		end
+		if f==0
+			CSay("ExHuRU not on backrow, so no go!")
+			return false
+		end
+		RPGParty[f] = "Wendicka" 
+		RPGParty[w] = "ExHuRU"
+		return true
+	end
+		
+	
 	void EffectAll(Act)
 		CSayF("Let's go to effect for '%s' by %s",Act.Act.Name,Act.Executor.Tag)
 		//for tar in Act.EachTarget
@@ -393,6 +426,11 @@ Group CG_Effect
 					if Foxy
 						BoxText.Serial("COMBAT","SPECIAL.FOXY","FLOW_COMBAT")
 						Tar = Combat_Fighter.Fighters[Foxy]
+					end
+				elseif ttag=="Wendicka"					
+					if CheckExHuRU
+						BoxText.Serial("COMBAT","SPECIAL.EXHURU","FLOW_COMBAT")						
+						Tar = "ExHuRU" 
 					end
 				end
 			end
