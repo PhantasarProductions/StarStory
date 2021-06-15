@@ -45,6 +45,7 @@ end
 module
 	
 	void ToSave()
+		SGManagerLoaded()
 		Flow.GoToFlow("SAVEGAME")
 	end
 
