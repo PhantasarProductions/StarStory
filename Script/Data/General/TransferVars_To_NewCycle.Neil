@@ -111,7 +111,6 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABLUSED_YIRL"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINAEARNED4RATE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINARATE"}
-	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINAS"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINASEXCHANGED"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINASPENT4RATE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "CASH"}
