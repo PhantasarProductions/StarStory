@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.05.31
+// Version: 21.06.15
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -229,7 +229,13 @@ class Combat_Foe extends Combat_Fighter
 			_killedcheck=true
 			Killed[self.File]++
 			gv.vInt["COMBATSTAT.KILLS"]++
-			do
+			Static Table KillAchChecks = {1,394,800}
+			For K in Each(KillAchChecks)
+				If gv.vInt["COMBATSTAT.KILLS"]>K
+					Ach.Award(SprintF("KILL%05d",K))
+				End
+			End
+			Do
 				int L1 = math.random(0,Self.Level)
 				int L2 = math.random(0,Party.AvgLevel*__skill) 
 				CSayF("Aurina check Level(%d>%d=%s) Shilders(%d<=0=%s)",L1,L2,Lua.tostring(L1>L2),Shilders,Lua.tostring(Shilders<=0))    
