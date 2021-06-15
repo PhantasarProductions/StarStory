@@ -52,6 +52,7 @@ Bool Sisters(act,tar)
 		pre = "Uni"
 	End
 	BoxText.Serial("COMBAT","SISTERS","FLOW_COMBAT")
+	Ach.Award("ALLABL_WENDICKA")
 	For ch In Each{"Wendicka","Crystal"}
 		For Stat In Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
 			If RPGChar[ch].Stat["BASE_"..stat]>0
