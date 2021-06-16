@@ -52,6 +52,12 @@ Class Planet
 	
 	Static Var Lijst = New LinkedList()
 	
+	Static Void Reset()
+		For P in Lijst.Each
+			P.X = StartX
+		End
+	End
+	
 	Constructor(string N, number S, int SX)
 		Name = N
 		Scale = S
@@ -126,7 +132,7 @@ module
 		Graphics.Scale(1,1)
 		Combat_Draw.DrawFighters()
 		Party.Boxes()
-		If Planet.Mercury.X>Screen.W
+		If Planet.Mercury.X>Screen.W+200
 			Stage = 2
 		End
 	End
@@ -165,6 +171,8 @@ module
 		End
 		Sun = -Screen.W
 		SunAlpha = 0
+		Stage=1
+		Planet.Reset()
 	End
 	
 	Get Delegate Draw
