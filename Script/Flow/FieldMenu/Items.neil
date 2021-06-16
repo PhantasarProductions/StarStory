@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.05.26
+// Version: 21.06.16
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,6 +34,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
+#undef FMItemStackCheck
 
 module
 	readonly var Socket = Image.Obtain("ITEM_SOCKET")
@@ -162,6 +164,11 @@ module
 		if CharTag=="Briggs"
 			return
 		end
+		#if FMItemStackCheck
+		Static Int StackCheck=0
+		StackCheck++
+		CSayF("Start: Item flow: %d",StackCheck)
+		#fi
 		LSituation = situation
 		int pmx = Events.MouseX()
 		int pmy = Events.MouseY()
@@ -259,6 +266,10 @@ module
 		FitText.Dark(Fnt,itn,pmx+20,pmy+20)
 		FitText.Dark(Fnt,itd,pmx+20,pmy+55)
 		FitText.Dark(Fnt,its,pmx+20,pmy+90)
+		#if FMItemStackCheck
+		StackCheck--
+		CSayF("  End: Item flow: %d",StackCheck)
+		#fi
 
 	end
 end
