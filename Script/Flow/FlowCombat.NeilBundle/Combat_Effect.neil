@@ -416,7 +416,7 @@ Group CG_Effect
 		// Oh no you don't
 		for tidx=1,tmax
 			string ttag = Act.Targets_Tag[tidx]
-			if ttag=="Yirl" && math.random(1,__skill*4)==1
+			if ttag=="Yirl" && Act.Executor.Team=="Foe" && math.random(1,__skill*4)==1 
 				Combat_Fighter.Fighters.Yirl.State = "Cast"
 				BoxText.Serial("COMBAT","SPECIAL.YIRL","FLOW_COMBAT")
 				Act.Executor.Hurt("Cancel")
