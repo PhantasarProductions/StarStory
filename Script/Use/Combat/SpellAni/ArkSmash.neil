@@ -54,7 +54,7 @@ Class Planet
 	
 	Static Void Reset()
 		For P in Lijst.Each
-			P.X = StartX
+			P.X = P.StartX
 		End
 	End
 	
