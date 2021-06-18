@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Sparkle.neil
-// Version: 21.03.04
+// Version: 21.06.18
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -68,9 +68,11 @@ module
 		// for tar in each(act.Targets)
 		for ti=1,#act.Targets_Tag
 			plua tar = act.Targets[ti]
-			for i=1,35 
-				Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-				self.Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+			if tar
+				for i=1,35 
+					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
+					self.Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+				end
 			end
 		end
 		__white
