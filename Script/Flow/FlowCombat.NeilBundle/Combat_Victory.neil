@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Victory.neil
-// Version: 21.05.14
+// Version: 21.06.18
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,6 +72,12 @@ module
 			Party.NoDeath()
 			For i=1,__skill^2
 				Party.AutoBuffExpire()
+			End
+			gv.gint.Combat_Victory++
+			For i in Each{17,25,50,100,1000}
+				If gv.gint.Combat_Victory>=i
+					Ach.Award(sPrintF("VICTORY%05d",i))
+				End
 			End
 		end
 	end
