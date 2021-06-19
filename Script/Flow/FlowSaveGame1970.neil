@@ -271,12 +271,15 @@ group FSG1970
 		end
 		PutChar(30,79, 0)
 		PutChar(31,79,24)
+		PutChar('X',79,10)
 		DrawScreen()
 		if Click && pmx==79
 			switch pmy
 				case 0
 					scroll = math.max(0,scroll-1)
 					Cls()
+				case 10
+					Flow.GoToFlow("FIELD")
 				case 24
 					scroll = math.min(maxsg,scroll+1)
 					Cls()
