@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.03.27
+// version: 21.06.19
 // End License Information
 #use "Libs/Dim2"
 #use "Script/Use/Anyway"
@@ -89,7 +89,7 @@ group FSG1970
 		if !P
 			P = new Pos()
 			Scr.SetValue(ax,ay,P)
-			CSayF("PutChar.Create(%02d,%02d,%03d.%02x)",ax,ay,ch,ch)
+			//CSayF("PutChar.Create(%02d,%02d,%03d.%02x)",ax,ay,ch,ch)
 		end
 		P.ch = Ch
 		P.fg = fg
@@ -213,8 +213,12 @@ group FSG1970
 	#endregion
 	
 	#region Get Savegame Info	
-	table GetSlot(int i)
+	table GetSlot(int i,reset)	
 		static table slots = {}		
+		if reset
+			slots[i]=nil
+			return nil
+		end
 		if !slots[i]
 			CSayF("Retrieving slot: %d",i)
 			table h = GetHeader(i)
@@ -253,6 +257,7 @@ group FSG1970
 					Events.Poll()
 					PerformSaveGame(GetSGFileName(i))
 					Flow.GoToFlow("FIELD")
+					GetSlot(i,true) // Resets slot to force a reload!
 					return
 				end
 			else
