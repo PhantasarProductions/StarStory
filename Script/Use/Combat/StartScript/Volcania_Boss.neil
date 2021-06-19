@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.01
+// version: 21.06.18
 // End License Information
 
 Void BliksemWendicka()
@@ -64,6 +64,8 @@ Void KillWendicka()
 		Return
 	End
 	RPGChar.Wendicka.Points.HP.Have = 1 // prevent 'wipe out' event
+	// Count the kill
+	gv.gint.KILLED_SUPERBOSS_FIRESPIDER++
 	// Start
 	BliksemWendicka()
 	MapText("RELEASE_A","FLOW_COMBAT")
