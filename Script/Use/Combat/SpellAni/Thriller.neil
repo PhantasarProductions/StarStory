@@ -117,10 +117,10 @@ module
 	
 	void Draw()
 		for L in Lijk.Lijst.Each
-			if L.Cooldown<=0
+			if L.Countdown<=0
 				L.Img.Draw(L.X,L.Y)
 			else
-				L.Cooldown--
+				L.Countdown--
 			end
 		end
 	end
