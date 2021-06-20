@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellEffect/DispellEverything.neil
-// Version: 21.05.18
+// Version: 21.06.20
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -47,7 +47,8 @@ Bool EchtAllesWordtNiets(Act,Tar)
 	End
 	If Ret
 		Tar.Hurt("Effect Voided")
-	End
+		Combat_Time.CalcHighSpeed()
+	End	
 	Return Ret
 End
 
