@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.12
+// version: 21.06.21
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -112,10 +112,11 @@ group flHawk
 	Void TheGreatReset()
 		CSay("The Great Reset!")
 		HawkData = { ["Physilium"] = { ["ARRIVE"]="ARRIVE_PHYSILLIUM" } }
-	End
-		
+	End	
+			
+	
 	Constructor
-		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
 	end
 	
 	get int mx
@@ -131,6 +132,7 @@ group flHawk
 	end
 	
 	void GoSpace()
+		HawkData.ZZZ = HawkData.ZZZ || {}
 		int wy=20
 		for w,d in spairs(HawkData)
 			if w=="Black Hole"
@@ -140,12 +142,19 @@ group flHawk
 				Graphics.Color(0,105,180)
 			elseif my>wy && my<wy+25
 				__Cyan
+				If w == "ZZZ"
+					__Yellow
+				End
 				if ml
 					// debug
 					// for k,v in spairs(d)
 					//	CSayF("%s %s = %s",Lua.type(v),k,Lua.tostring(v))
 					// end
 					// end debug
+					if w == "ZZZ"
+						Flow.Current="FIELD"
+						Return
+					End
 					if d.ARRIVE && d.ARRIVE!=""
 						CSayF("Schedule: %s",d.ARRIVE)
 						Schedule.Add(d.ARRIVE)
@@ -159,8 +168,15 @@ group flHawk
 				end
 			else
 				__SkyBlue
+				if W == "ZZZ"
+					__Ember
+				end
 			end
-			Font.Text(w,40,wy)
+			If W=="ZZZ"
+				Font.Text("<-- Exit",40,wy)
+			Else
+				Font.Text(w,40,wy)
+			End
 			wy+=30			
 		end
 	end
