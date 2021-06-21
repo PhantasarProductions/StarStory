@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.04.19
+// version: 21.06.21
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Nizozemska - Marlon's Garden.neil" "21.04.19"
+#MKL_Version "Star Story - Nizozemska - Marlon's Garden.neil" "21.06.21"
 #MKL_Lic     "Star Story - Nizozemska - Marlon's Garden.neil" "Phantasar Closed License"
 
 
