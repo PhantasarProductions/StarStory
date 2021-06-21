@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubAchievements.neil
-// Version: 21.06.02
+// Version: 21.06.21
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -88,14 +88,27 @@ group SubAch
 		Int Y = SY-Scroll
 		//CSayF("Rukkie fukkie: (%d,%d)->(%d,%d)",SX,SY,EX,EY)
 		For K,A in sPairs(Data)
+			Bool Show
 			If Y>=SY && Y<=EY-H
+				Switch A.Show
+					Case "Always" 
+						Show = true
+					Case "Achieved"
+						Show = Awarded[K]==true
+					Default
+						Lua.error("Unknown trophy Show Type")
+				End
 				If Awarded[K]
 					__SkyBlue
 				Else
 					Graphics.Color(0,100,180)
 				End
-				CFnt.Text(A.Title,SX+20,Y)
-				DFnt.Text(A.Description,SX+25,Y+22)
+				If Show
+					CFnt.Text(A.Title,SX+20,Y)
+					DFnt.Text(A.Description,SX+25,Y+22)
+				Else
+					CFnt.Text("????",SX+20,Y)
+				End
 				If Y+(H*2)<=EY
 					__Ember
 					Graphics.Line(SX,Y+(H),EX-40,Y+(H))
