@@ -155,6 +155,7 @@ group MScript
 	End
 	
 	Void Diablo_Kapot()
+		Ach.Award("SCENARIO_DIABLO")
 		Map.Kill("NPC_DIABLO",true)
 		Map.Kill("Blokkade") // NOT PERMANENT KILL, so safe! Is to get Sue out safely
 		PPop.Pop("Start","South")
