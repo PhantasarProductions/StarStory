@@ -87,6 +87,7 @@ group MScript
 			CSayF("%s is overstocked, so onto the next one?",C)
 		End
 		Schedule.Add("MSG:WARNING! All inventories were full! Reward item could not be given!")
+		Ach.Award("BOSS_BLACKHOLEDWELLER")
 		BackToHawk()
 	End
 	
