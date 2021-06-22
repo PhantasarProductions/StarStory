@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 21.03.03
+// Version: 21.06.22
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,6 +39,8 @@
 
 #macro GJUser gvstr["GameJolt.User"]
 #macro GJToken gvstr["GameJolt.Token"]
+
+#define allow_gamejolt
 
 const var NGFont = ImageFont.Obtain("BOXTEXT")
 const var Stars = Image.Load("GFX/Intro/Starfield.png")
@@ -150,6 +152,7 @@ void Stage1()
 	end
 end
 
+#if allow_gamejolt
 void Stage2()
 	__red
 	NGFont.Text("Welcome to Star Story!",5,5)
@@ -170,7 +173,7 @@ void Stage2()
 		if Events.MouseHitLeft()
 			NGStage.Stage+=2
 		end
-	end
+	end	
 end
 
 void GameJoltCredentials()
@@ -238,7 +241,7 @@ void GameJoltCredentials()
 	end
 	// NGFont.Text(sprintf("Mouse X=%4d; Y=%4d;   Screen %4dx%4d",Events.MouseX(),Events.MouseY(),Screen.W,Screen.H),3,3)
 end
-
+#fi
 
 void Difficulty()
 	static table skills = { "Noob", "Casual", "No-Life Gamer" }
@@ -319,8 +322,10 @@ init
 	CSay("Let's prepare a new game")
 	CSayF("Game directory is in: %s",Core.PKGDir)
 	NGStage.NewStage(false,nil,Stage1)
+	#if allow_gamejolt
 	NGStage.NewStage(false,nil,Stage2)
 	NGStage.NewStage(true,nil,GameJoltCredentials)
+	#fi
 	NGStage.NewStage(false,nil,Difficulty)
 	NGStage.NewStage(false,nil,Language)
 	NGStage.NewStage(false,nil,BuckleUp)
