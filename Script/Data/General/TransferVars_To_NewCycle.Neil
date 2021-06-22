@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.14
+// version: 21.06.22
 // End License Information
 Table Ret = {}
 
@@ -57,19 +57,23 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_BATTLECRY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KAKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KUUSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_NELJA"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_YKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_BACKSTAB"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_DRAGON_BURN"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_DRAGON_INFERNO"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_MULTISTAB"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_PICKPOCKET"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_STUNSTAB"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_BATTLECRY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_KOLME"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_NELJA"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_YKSI"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_BATTLECRY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KAKSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KUUSI"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_NELJA"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_STOMP"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_YKSI"}
@@ -101,6 +105,7 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_CONFUSION"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_DEATHSHOT"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_FOLLOWME"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_INTIMIDATE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_TRIGGERHAPPY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABLUSED_EXHURU"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABLUSED_FOXY"}
@@ -111,10 +116,12 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "ABLUSED_YIRL"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINAEARNED4RATE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINARATE"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINAS"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINASEXCHANGED"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "AURINASPENT4RATE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "CASH"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "COMBATSTAT.KILLS"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "COMBAT_VICTORY"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "CYCLE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "DARKCAVEEMERALD"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "DARKCAVERUBY"}
@@ -198,6 +205,7 @@ Init
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_REG_ZOMBIE"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_SPECIALBOSS_MCLEEN"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_SUPERBOSS_BLACKHOLEDWELLER"}
+	Ret += {["VTYPE"] = "vint", ["VVAR"] = "KILLED_SUPERBOSS_FIRESPIDER"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "PRISMDIAMONDSGIVENBYFEENALARIA"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "SAVED"}
 	Ret += {["VTYPE"] = "vint", ["VVAR"] = "SHILDERS"}
