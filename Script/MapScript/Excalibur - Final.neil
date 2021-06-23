@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.22
+// version: 21.06.23
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.06.22"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.06.23"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -385,6 +385,7 @@ Group MScript
 			CSay("Updating level stuff for Johnson")
 			Party.GrabLevel("Johnson",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
 			RPGParty[6] = "Johnson"
+			RPGChar.Johnson.Name = "Admiral Johnson"
 			return
 		end
 		// Create raw character record
