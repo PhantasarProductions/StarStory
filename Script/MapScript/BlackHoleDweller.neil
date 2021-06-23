@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.06.13
+// version: 21.06.23
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - BlackHoleDweller.neil" "21.06.13"
+#MKL_Version "Star Story - BlackHoleDweller.neil" "21.06.23"
 #MKL_Lic     "Star Story - BlackHoleDweller.neil" "Phantasar Closed License"
 
 group MScript
