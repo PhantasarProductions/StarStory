@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.06.13
+// Version: 21.06.23
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -205,6 +205,22 @@ Module
 		return s:upper()
 	end
 	
+	Void HeroReward()
+		If Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
+			ablused[Executor.Tag]++
+			gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
+			String ShActTag = right(Act.ActTag,#Act.ActTag-4)
+			If Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
+				Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
+				Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
+			End
+			If Act.Learning
+				Act.Executor.Char.List.ABL.Add = Act.LearningABL
+				Act.Executor.Hurt("Learned: "..Act.Act.Name)
+			End
+		End
+	End
+	
 	void Update()
 		switch MyStage
 			case _Announce
@@ -247,19 +263,7 @@ Module
 				if (Act.Executor.Team=="Hero")
 					Act.Executor.State="IDLE"
 				end
-				if Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
-					ablused[Executor.Tag]++
-					gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
-					string ShActTag = right(Act.ActTag,#Act.ActTag-4)
-					if Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
-						Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
-						Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
-					end
-					if Act.Learning
-						Act.Executor.Char.List.ABL.Add = Act.LearningABL
-						Act.Executor.Hurt("Learned: "..Act.Act.Name)
-					end
-				end
+				HeroReward()
 				AnnouncePortrait = nil
 				Stage.Current = nil		
 			case _AblCharge
@@ -277,6 +281,7 @@ Module
 				if (Act.Executor.Team=="Hero")
 					Act.Executor.State="IDLE"
 				end
+				HeroReward()
 			default
 				Fini()
 		end
