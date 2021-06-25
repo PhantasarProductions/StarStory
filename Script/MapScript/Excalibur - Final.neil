@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.23
+// version: 21.06.25
 // End License Information
 
 #use "Libs/xmath"
@@ -40,7 +40,7 @@
 #use "Script/Use/Map/KickReggie"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.06.23"
+#MKL_Version "Star Story - Excalibur - Final.neil" "21.06.25"
 #MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
 #macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
@@ -600,7 +600,7 @@ Group MScript
 	End
 	
 	Void Show_KRed()
-		Map.ShowByLayer("K_RED")
+		Map.ShowByLabel("K_RED")
 	End
 	#endregion
 	
@@ -648,13 +648,13 @@ Group MScript
 			Spawn.Wipe()
 			Return
 		End
+		Map.Kill("McLeen",True)
 		MapText("MCLEEN2")
 		PPop.UnPop()
 		Party.GiveEXP(6000)
 		Ach.Award("BOSS_MCLEEN")
 		__hawk="MCLEENDEAD"
 		Map.Kill("FightMcLeen",True)
-		Map.Kill("McLeen",True)
 	End
 	#endregion
 	
