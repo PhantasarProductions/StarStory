@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowTerminal.neil
-// Version: 21.06.08
+// Version: 21.06.25
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -76,7 +76,12 @@ Void ChainTutorial()
 End
 
 Void ChainGameShoot()
-	Lua.error("Game Shoot not yet available")
+	//Lua.error("Game Shoot not yet available")
+	Loading()
+	State.LoadNew("FLOW_SHOOTGAME","Script/Flow/FlowShoot.neil")
+	Music.Push()
+	Music.Play("Music/BlockShooter/Overworld.ogg")
+	Flow.Current="SHOOTGAME"
 End
 
 Void ChainBestiary()
