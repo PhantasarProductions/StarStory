@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.21
+// version: 21.06.25
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -155,15 +155,15 @@ group flHawk
 						Flow.Current="FIELD"
 						Return
 					End
-					if d.ARRIVE && d.ARRIVE!=""
+					If d.ARRIVE && d.ARRIVE!=""
 						CSayF("Schedule: %s",d.ARRIVE)
 						Schedule.Add(d.ARRIVE)
 						d.ARRIVE=nil
 						CSay("Back to field for the scheduled actions!")
 						State.GoToFlow("FIELD")
 						CSay("Break off the normal event!")
-						return
-					end
+						Return
+					End
 					World=w
 				end
 			else
