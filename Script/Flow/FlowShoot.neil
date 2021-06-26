@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowShoot.neil
-// Version: 21.06.25
+// Version: 21.06.26
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -38,6 +38,7 @@
 #use "Script/Use/Anyway" 
 
 ReadOnly Var Font = ImageFont.Obtain("BOXTEXT")
+ReadOnly var Mouse = Image.Obtain("MOUSE")
 
 Class Basis
 	Abstract Void Draw()
@@ -63,14 +64,32 @@ Class Basis
 	Static Get Bool ML
 		Return Events.MouseHitLeft()
 	End
+	
+	Static Get Int MY
+		Return Events.MouseY()
+	End
+
+	Static Get Int MX
+		Return Events.MouseX()
+	End
+	
+	Static Int ProjSiz
+	
 End
 
 Class Explain Extends Basis
 	Table Text
 	
+	
 	Constructor
+		Self.ProjSiz = 16
+		For i In Each{32,64,128,256}
+			If i*20<Screen.W-200
+				Self.ProjSiz = i
+			End
+		End
 		Text = {}
-		Text += "A block is stationed on a grid by 64x64 per tile"
+		Text += sPrintF("A block is stationed on a grid by %dx%d per tile",Self.ProjSiz,Self.ProjSiz)
 		Text += "The goal is to guess its x-axis min 1, max 20"
 		Text += "You enter this x-axis and press enter and a"
 		Text += "projecttile will be shot on this same value"
@@ -108,12 +127,105 @@ Class Explain Extends Basis
 
 End
 
+Class Game Extends Basis
+
+	Static Int Shot
+	Static Int Hit
+	Static Int Miss
+	Static Int ProjPos
+	Static Int ShotPos
+	
+	
+	Void Draw()
+		__Ember
+		Graphics.Rect(0,0,Screen.W,Screen.H)
+	End
+	
+	Void Update()
+		Shot = 0
+		Hit = 0
+		Miss = 0
+		Self.GoStage("Enter")
+	End
+	
+	Static Void ShowProjectile()
+		__SkyBlue
+		Graphics.Rect((ProjPos-1)*Self.ProjSiz,0,Self.ProjSiz,Self.ProjSiz)
+	End
+	
+End
+
+Class Enter Extends Basis
+	String Sht
+	Int Hover = 0
+	
+	Void Arrive()
+		Sht = ""
+		Game.ProjPos = Math.random(1,20)
+	End
+	
+	Void Draw()
+		Static String PS = "Postion cannon: "
+		Static Int PSW = Font.TextWidth(PS)
+		Game.ShowProjectile()
+		Hover = 0
+		For i=1,20
+			Int y = i*30
+			__Ember
+			If Self.MY>y && Self.MY<y+30 && Self.MX>Screen.W-150
+				__Yellow
+				Hover=i
+			End
+			Font.Text(sPrintF("%02d",i),Screen.W - 10,y,1,0)
+		End		
+		__SkyBlue
+		Font.Text(PS,5,Screen.H,0,1)
+		__Ember
+		Font.Text(Sht.."_",6+PSW,Screen.H,0,1)
+	End
+	
+	Void Update()
+		For i=0,9
+			If Events.KeyHit(i+48)
+				Bool Allow
+				Switch i
+					Case 0
+						Allow = Sht=="1" || Sht=="2"
+					Default
+						Allow = Sht=="1" || Sht==""
+				End
+				If Allow
+					Sht+=Chr(i+48)
+				End
+			End
+		End
+		If Events.KeyHit(8) 
+			Switch #Sht
+				Case 0
+					// Do Nothing
+				Case 1
+					Sht=""
+				Case 2
+					Sht=Left(Sht,1)
+				Default
+					// Huh?
+			End
+			// Dirty, yet effective!
+		End
+	End
+End
+
 Global Void Apollo_Flow()
 	Basis.Stages[Basis.Stage].Draw()
 	Basis.Stages[Basis.Stage].Update()
+	__White
+	Mouse.Draw(Basis.MX,Basis.MY)
+	Dev.ToConsole()
 End
 
 Init
 	Basis.NewStage("Explain",new Explain())
+	Basis.NewStage("Enter",new Enter())
+	Basis.NewStage("Game",new Game())
 	Basis.GoStage("Explain")
 End
