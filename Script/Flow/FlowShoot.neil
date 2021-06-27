@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowShoot.neil
-// Version: 21.06.26
+// Version: 21.06.27
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -160,13 +160,14 @@ Class Enter Extends Basis
 	Int Hover = 0
 	
 	Void Arrive()
+		Shot++
 		Sht = ""
 		Game.ProjPos = Math.random(1,20)
 	End
 	
 	Void Draw()
-		Static String PS = "Postion cannon: "
-		Static Int PSW = Font.TextWidth(PS)
+		String PS = SprintF("%d> Postion cannon: ",Shot)
+		Int PSW = Font.TextWidth(PS)
 		Game.ShowProjectile()
 		Hover = 0
 		For i=1,20
@@ -210,10 +211,64 @@ Class Enter Extends Basis
 				Default
 					// Huh?
 			End
-			// Dirty, yet effective!
+			// Dirty, yet effective! 
+		End
+		If Events.KeyHit(13) && Sht!=""			
+			Game.ShotPos=Lua.tonumber(Sht)
+			Basis.GoStage("Shoot")
+		End
+		If Basis.ML && Hover>0
+			Game.ShotPos=Hover
+			Basis.GoStage("Shoot")
 		End
 	End
 End
+
+Class Shoot Extends Basis
+	Int PY
+	
+	Get Int PX
+		Return Game.ShotPos * Basis.ProjSiz
+	End
+	
+	Get Int PS
+		Return Basis.ProjSiz
+	End
+	
+	Void Arrive()
+		PY = Screen.H
+	End
+	
+	Delegate Line = Graphics.Line
+	
+	Void Draw()
+		__Ember
+		// Top
+		Line(PX + (PS 2),PY,PX,PY+PS) 
+		Line(PX + (PS 2),PY,PX+PS,PY+PS) 
+		// Left
+		Line(Px,PY+PS,Px,PY+(PS*10))
+		// Right
+		Line(Px+PS,PY+PS,Px,PY+(PS*10))
+		// Bottom
+		Line(PX,PY+(PS*10),PS+PX,PY+(PS*10))
+		// Block
+		Game.ShowProjectile()
+	End
+	
+	Void Update()
+		PY--
+		If PY<=0
+			If Game.ShotPos == Game.ProjPos
+				Basis.GoStage("Hit")
+			Else
+				Basis.GoState("Enter")
+			End
+	End
+		End
+	End
+End
+
 
 Global Void Apollo_Flow()
 	Basis.Stages[Basis.Stage].Draw()
@@ -227,5 +282,6 @@ Init
 	Basis.NewStage("Explain",new Explain())
 	Basis.NewStage("Enter",new Enter())
 	Basis.NewStage("Game",new Game())
+	Basis.NewStage("Shoot",new Shoot())
 	Basis.GoStage("Explain")
 End
