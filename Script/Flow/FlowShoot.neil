@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowShoot.neil
-// Version: 21.06.27
+// Version: 21.06.29
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -160,13 +160,13 @@ Class Enter Extends Basis
 	Int Hover = 0
 	
 	Void Arrive()
-		Shot++
+		Game.Shot++
 		Sht = ""
 		Game.ProjPos = Math.random(1,20)
 	End
 	
 	Void Draw()
-		String PS = SprintF("%d> Postion cannon: ",Shot)
+		String PS = SprintF("%d> Postion cannon: ",Game.Shot)
 		Int PSW = Font.TextWidth(PS)
 		Game.ShowProjectile()
 		Hover = 0
@@ -225,13 +225,13 @@ Class Enter Extends Basis
 End
 
 Class Shoot Extends Basis
-	Int PY
+	Static Int PY
 	
-	Get Int PX
-		Return Game.ShotPos * Basis.ProjSiz
+	Static Get Int PX
+		Return (Game.ShotPos-1) * Basis.ProjSiz
 	End
 	
-	Get Int PS
+	Static Get Int PS
 		Return Basis.ProjSiz
 	End
 	
@@ -244,29 +244,66 @@ Class Shoot Extends Basis
 	Void Draw()
 		__Ember
 		// Top
-		Line(PX + (PS 2),PY,PX,PY+PS) 
-		Line(PX + (PS 2),PY,PX+PS,PY+PS) 
+		Line(PX + (PS div 2),PY,PX,PY+PS) 
+		Line(PX + (PS div 2),PY,PX+PS,PY+PS) 
 		// Left
-		Line(Px,PY+PS,Px,PY+(PS*10))
+		Line(Px,PY+PS,Px,PY+(PS*4))
 		// Right
-		Line(Px+PS,PY+PS,Px,PY+(PS*10))
+		Line(Px+PS,PY+PS,Px+PS,PY+(PS*4))
 		// Bottom
-		Line(PX,PY+(PS*10),PS+PX,PY+(PS*10))
+		Line(PX,PY+(PS*4),PS+PX,PY+(PS*4))
 		// Block
 		Game.ShowProjectile()
 	End
 	
 	Void Update()
-		PY--
+		PY-=2
 		If PY<=0
 			If Game.ShotPos == Game.ProjPos
+				Game.Hit++
 				Basis.GoStage("Hit")
 			Else
-				Basis.GoState("Enter")
+				Game.Miss++
+				Basis.GoStage("Enter")
 			End
+		End		
 	End
+End
+
+Class Hit Extends Basis
+
+	ReadOnly Var Ontploffing = Audio.LoadNew("Audio/Scenario/Explosion.ogg","ONTPLOFFING")
+	Bool Flits
+	int CD
+	
+	Void Arrive()
+		Ontploffing.Play()
+		CD = math.random(5,10)
+	End
+	
+	Get Int B2I		
+		If Flits
+			return 255
+		Else
+			return 0
 		End
 	End
+	
+	Void Draw()
+		Graphics.Color(B2I,0,0)
+		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.Color(255-B2I,0,0)
+		Font.Text("** HIT **",Shoot.PX + (Shoot.PS div 2),Shoot.PS div 2,2,2)
+	End
+	
+	Void Update()
+		Flits = !Flits
+		CD--
+		If CD<=0
+			Basis.GoStage("Enter")
+		End
+	End
+	
 End
 
 
@@ -283,5 +320,6 @@ Init
 	Basis.NewStage("Enter",new Enter())
 	Basis.NewStage("Game",new Game())
 	Basis.NewStage("Shoot",new Shoot())
+	Basis.NewStage("Hit",new Hit())
 	Basis.GoStage("Explain")
 End
