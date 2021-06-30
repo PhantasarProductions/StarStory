@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowShoot.neil
-// Version: 21.06.29
+// Version: 21.06.30
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -161,8 +161,12 @@ Class Enter Extends Basis
 	
 	Void Arrive()
 		Game.Shot++
+		If Game.Shot>10			
+			Basis.GoStage("TheEnd")
+		End
 		Sht = ""
 		Game.ProjPos = Math.random(1,20)
+		CSayF("Position: %0d",Game.ProjPos)
 	End
 	
 	Void Draw()
@@ -306,8 +310,53 @@ Class Hit Extends Basis
 	
 End
 
+Class TheEnd Extends Basis
+	
+	Static ReadOnly Int TimeReset = 2500
+	Static Int Time
+	
+	Void Arrive()
+		Time = TimeReset
+		If Game.Hit==10
+			Ach.Award("ZZ_BLOCKSHOOTER_PERFECT")
+		End
+	End
+	
+	Void Draw()	                       
+		Static Table Rank = {[0]="Beyond awful",[1]="Awful", [2]="Very bad", [3]="Bad", [4]="Clumsy", [5]="Rookie", [6]="Good", [7]="Very good", [8]="Excellent", [9]="Outstanding", [10]="Perfect!"}
+		int h = Screen.H div 5
+		int x = Screen.W div 2
+		int g = math.floor( (Game.Hit / 10) * 255)
+		int b = math.floor( (Time/TimeReset)*255)
+		__ember
+		Font.Text(SPrintF("Blocks hit: %d",Game.Hit)    ,x,h * 1,2,2)
+		Font.Text(SPrintF("Blocks missed: %d",Game.Miss),x,h * 2,2,2)
+		Graphics.Color(255-g,g,0)
+		Font.Text(SPrintF("Ranking: %s",Rank[Game.Hit]),x,h*4,2,2)
+		Graphics.Color(255-b,180,b)
+		Graphics.Rect(0,Screen.H-10,math.floor( (Time/TimeReset) * Screen.W),Screen.H-10)
+	End
+	
+	Void Update()
+		Time--
+		If Time<=0
+			Flow.Current="FIELD"
+			Music.Pop()
+		End
+	End
+
+End
 
 Global Void Apollo_Flow()
+	Graphics.Color(80,80,80)
+	Static Int r=0 
+	If Basis.Stage!="THEEND"
+		If r==0 
+			r = Basis.ProjSiz*20
+		End
+		Graphics.Rect(r,0,Screen.W-r,Screen.H)
+	End
+	__White	
 	Basis.Stages[Basis.Stage].Draw()
 	Basis.Stages[Basis.Stage].Update()
 	__White
@@ -321,5 +370,6 @@ Init
 	Basis.NewStage("Game",new Game())
 	Basis.NewStage("Shoot",new Shoot())
 	Basis.NewStage("Hit",new Hit())
+	Basis.NewStage("TheEnd",new TheEnd())
 	Basis.GoStage("Explain")
 End
