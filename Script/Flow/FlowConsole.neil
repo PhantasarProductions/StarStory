@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowConsole.neil
-// Version: 21.05.14
+// Version: 21.06.30
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -337,6 +337,10 @@ deftable icommandtable
 		gv.gBool["CHEAT.REGEN"]=!gv.gBool["CHEAT.REGEN"]
 		CSayF("Whizzy mode: %s",Lua.tostring(gv.GBool["CHEAT.REGEN"]))
 	End
+	DUMBLEDORE = void()
+		gv.gBool["CHEAT.DUMBLEDORE"]=!gv.gBool["CHEAT.DUMBLEDORE"]
+		CSayF("Dumbledore mode: %s",Lua.tostring(gv.GBool["CHEAT.DUMBLEDORE"]))
+	End
 	ALLCHARS = void()
 		Table AC = RPGChar.All
 		For i,tag in iPairs(AC)
@@ -346,7 +350,7 @@ deftable icommandtable
 			CLine.Write(Tag,r,g,b)
 		End
 		CLine.Write(sprintf("Total characters loaded: %d",#AC),180,255,180)
-	End
+	End	
 end
 
 
