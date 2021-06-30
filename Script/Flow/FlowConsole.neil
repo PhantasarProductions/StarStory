@@ -35,6 +35,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
 
+#pragma debug
+
 #use "script/use/anyway"
 #use "script/use/link"
 
