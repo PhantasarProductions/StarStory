@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Vault.neil
-// Version: 21.03.03
+// Version: 21.07.01
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,8 +37,9 @@
 module
 
 	readonly var fnt = ImageFont.Obtain("BOXTEXT")
+	readonly var Buzz = Audio.Obtain("BUZZ")
 
-	void Flow(ubox)
+	void Flow(ubox,string CharTag)
 		static int ScrollY = 0
 		int y = 0
 		string Hover = ""
@@ -76,6 +77,13 @@ module
 					itmod.citem=Hover
 				end
 			end
+		end
+		if Events.MouseHitRight() && Hover !=""
+			If Item.Give(Hover,CharTag)
+				Vault.Remove(Hover)
+			Else
+				Buzz.Play()
+			End
 		end
 	end
 	

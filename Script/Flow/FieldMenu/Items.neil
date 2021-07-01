@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.06.16
+// Version: 21.07.01
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -237,10 +237,19 @@ module
 						case "SHOP"
 							Invoke(Sell,CharTag,i)
 						case "FIELD"
-							if ch.Stat[sprintf("INVAMNT%d",i)]<=0
+							If ch.Stat[sprintf("INVAMNT%d",i)]<=0
 								Buzz.Play()
 							ElseIf Use("ITM_"..ch.Data[sprintf("INVITEM%d",i)]:upper(),CharTag)
 								ch.Stat[sprintf("INVAMNT%d",i)]--
+							End
+						case "VAULT"
+							If ch.Stat[sprintf("INVAMNT%d",i)]<=0
+								Buzz.Play()
+							ElseIf Vault.Has(ch.Data[sprintf("INVITEM%d",i)]) < Caps.InventoryMaxVaultStack
+								Vault.Store(ch.Data[sprintf("INVITEM%d",i)])
+								ch.Stat[sprintf("INVAMNT%d",i)]--
+							Else
+								Buzz.Play()
 							End
 						default
 							CSayF("Nothing appears to be done in situation %s",situation)
