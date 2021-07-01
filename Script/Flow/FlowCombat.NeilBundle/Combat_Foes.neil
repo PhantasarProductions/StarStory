@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.06.30
+// Version: 21.07.01
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -241,6 +241,18 @@ class Combat_Foe extends Combat_Fighter
 					End
 				Else
 					CSayF("Dumbledore> No valid character on spot %d, so no level up this time!",p)
+				End
+				p = math.random(1,6)
+				If RPGParty[p] && RPGParty[p]!="" && RPGParty[p]!="Briggs"
+					Var Ch = RPGChar[RPGParty[p]]
+					If Ch.Stat.Level<Caps.LevelCap
+						CSayF("Dumbledore> Character %s gets bonus points!",RPGParty[p])
+						Ch.Points.EXP.Have += math.max(0,Caps.LevelCap - Ch.Stat.Level)  
+					Else
+						CSayF("Dumbledore> Character %s was chosen for bonus, but has already reached the level cap! (%d)",RPGParty[p],Caps.LevelCap)
+					End
+				Else
+					CSayF("Dumbledore> No valid character on spot %d, so no bonus this time!",p)
 				End
 			End
 			Static Table KillAchChecks = {1,394,800}
