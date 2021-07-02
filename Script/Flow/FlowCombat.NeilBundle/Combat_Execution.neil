@@ -123,6 +123,7 @@ Module
 		MyStage = _Announce
 		If Act.Executor.HP=0
 			Reject("Dead")
+			Return
 		End
 		if CountTargets<=0
 			Reject("No more valid targets")
