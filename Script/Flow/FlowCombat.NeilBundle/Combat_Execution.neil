@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.06.23
+// Version: 21.07.02
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -121,6 +121,9 @@ Module
 		Stage.Current = self
 		CleanTargets()
 		MyStage = _Announce
+		If Act.Executor.HP=0
+			Reject("Dead")
+		End
 		if CountTargets<=0
 			Reject("No more valid targets")
 			return
