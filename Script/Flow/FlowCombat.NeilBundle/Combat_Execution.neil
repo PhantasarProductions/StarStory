@@ -121,7 +121,7 @@ Module
 		Stage.Current = self
 		CleanTargets()
 		MyStage = _Announce
-		If Act.Executor.HP=0
+		If Act.Executor.HP<=0
 			Reject("Dead")
 			Return
 		End
