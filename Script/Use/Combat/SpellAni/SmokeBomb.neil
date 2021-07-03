@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/SmokeBomb.neil
-// Version: 21.04.25
+// Version: 21.07.03
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -81,12 +81,12 @@ class TSmoke
 	
 	static void DrawAll()
 		self.count++
-		for Smoke,Link in self.List.Each
+		for Smoke,Lnk in self.List.Each
 			CSay("Smoke cycle")
 			Smoke.Draw()
 			if Smoke.alpha<=0
 				CSayF("    UNLINK: TSmoke (%4d,%4d,%2d,%2d)",Smoke.x,Smoke.y,Smoke.dx,Smoke.dy)
-				Link.UnLink()
+				Lnk.UnLink()
 			end
 		end
 		CSay("All smoke drawn")
