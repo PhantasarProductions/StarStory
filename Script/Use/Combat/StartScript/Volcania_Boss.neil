@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.18
+// version: 21.07.03
 // End License Information
 
 Void BliksemWendicka()
@@ -93,8 +93,8 @@ Void KillWendicka()
 		Goddess.Draw(Screen.W div 2,Screen.H div 2) //Image.Draw("GODDESS",Screen.W div 2,Screen.H div 2)                                                        
 		scale=scale+0.005
 		alpha=alpha+alphadir
-		if alpha>=255 
-    		alphadir=-0.1 
+		if alpha>=255 || scale * Goddess.Width > Screen.W+50
+    		alphadir=-0.4 
     	end              
     	Graphics.Scale(1,1)
     	Graphics.SetAlpha(255)
@@ -112,10 +112,13 @@ Void KillWendicka()
 Void HurtMonster()
 	Var M = Combat_Fighter.Fighters.FOE_0.Char
 	While M.Points.HP.Have < M.Points.HP.Maximum
+		If M.Points.HP.Have<Caps.Cycle+__skill && M.Points.HP.Maximum<100
+			M.Points.HP.Maximum++
+		End
 		M.Points.HP.Have++
-		M.Stats.BASE_Strength += 8
+		M.Stats.BASE_Strength += math.random(8,math.max(10,math.min(Caps.Cycle,25)*4))
 		M.Stats.BASE_Agility  += math.random(1,30)
-		M.Stats.BASE_Accuracy += 4
+		M.Stats.BASE_Accuracy += 4+Caps.Cycle
 	End
 	CSay("Monster HP set back to max")
 	CSayF("Agility of monster set to %005d",M.Stats.END_Agility)
