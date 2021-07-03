@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldMonstersOnTheMap.neil
-// Version: 21.05.26
+// Version: 21.07.03
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -94,14 +94,16 @@ class FieldMonster
 	bool FInrange(int r)
 		int dx = math.abs(Actor.X-Player.X)
 		int dy = math.abs(Actor.Y-Player.Y)
-		return dx<=r and dy<=r and (math.sqrt( (dx*dx) + (dy*dy) ) <= r)
+		//return dx<=r and dy<=r and (math.sqrt( (dx*dx) + (dy*dy) ) <= r)
+		return dx<=r and dy<=r and ( (dx*dx) + (dy*dy) ) <= r*r
 	end
 	
 	get bool InChaseRange
 		int dx = math.abs(Actor.X-retX)
 		int dy = math.abs(Actor.Y-retY)
 		// When either the player OR the return point is too far away, return to return point
-		return FInRange(chaseradius) and dx<=chaseradius and dy<=chaseradius and (math.sqrt( (dx*dx) + (dy*dy) ) <= chaseradius)
+		//return FInRange(chaseradius) and dx<=chaseradius and dy<=chaseradius and (math.sqrt( (dx*dx) + (dy*dy) ) <= chaseradius)
+		return FInRange(chaseradius) and dx<=chaseradius and dy<=chaseradius and( (dx*dx) + (dy*dy) ) <= chaseradius*chaseradius
 	end
 	
 	get bool InRange
