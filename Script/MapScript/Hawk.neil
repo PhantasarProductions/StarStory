@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.05.14
+// version: 21.07.03
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.05.14"
+#MKL_Version "Star Story - Hawk.neil" "21.07.03"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -296,6 +296,7 @@ group MScript
 		// I must be 100% sure the Hawk Flow is loaded. 
 		// Seems almost impossible that it isn't, though
 		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
+		State.Call("FLOW_HAWK","flHawk.ForceSpace","nil")
 		State.GoToFlow("HAWK")
 	End
 	

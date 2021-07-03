@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.06.25
+// version: 21.07.03
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -222,6 +222,10 @@ group flHawk
 		end
 	// Method
 	end
+	
+	Void ForceSpace()
+		World=""
+	End
 	
 	void Flow()		
 		Dev.ToConsole()
