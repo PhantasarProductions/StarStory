@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Foes.neil
-// Version: 21.07.01
+// Version: 21.07.03
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -235,7 +235,11 @@ class Combat_Foe extends Combat_Fighter
 					Var Ch = RPGChar[RPGParty[p]]
 					If Ch.Stat.Level<Caps.LevelCap
 						CSayF("Dumbledore> Character %s goes up a level!",RPGParty[p])
-						Ch.Points.EXP.Have = Ch.Points.EXP.Maximum 
+						Ch.Points.EXP.Have = Ch.Points.EXP.Maximum
+						CSayF("Dumbledore> Level cap currently is %d",Caps.LevelCap)
+						Int XL = (Caps.LevelCap - CH.Stat.Level) div 10
+						CSayF("Dumbledore> Let's award %d extra levels on top of that for %s",XL,RPGParty[p])
+						Ch.Stat.Level+=XL
 					Else
 						CSayF("Dumbledore> Character %s was chosen for levelup, but has already reached the level cap! (%d)",RPGParty[p],Caps.LevelCap)
 					End
