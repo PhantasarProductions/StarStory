@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/WhiteApocalypse.neil
-// Version: 21.06.23
+// Version: 21.07.04
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -51,6 +51,7 @@ Module
 		Alpha = (Alpha+1) % 256
 		Graphics.SetAlpha(Alpha)
 		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.SetAlpha(255)
 	End
 	
 	Void Update()
