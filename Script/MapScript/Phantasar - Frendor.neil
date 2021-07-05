@@ -95,7 +95,7 @@ group MScript
 		// Completed Ghosthouse
 		MapText("FEENA_REWARD")
 		Bool give = math.random(0,prismdiamondsgiven)==0
-		String diamant = ({ [true]="ITM_EQP_PHAN_PRISMDIAMOND", [false]="ITEM_PHAN_PRISMDIAMOND"})[give]
+		String diamant = ({ [true]="ITM_EQP_PHAN_PRISMDIAMOND", [false]="ITM_PHAN_PRISMDIAMOND"})[give]
 		If Item.Give(diamant,Map.Leader)
 			Party.GiveEXP(10000)
 			If give
