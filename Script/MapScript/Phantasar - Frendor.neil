@@ -32,14 +32,14 @@
 // 
 // **********************************************
 // 
-// version: 21.06.03
+// version: 21.07.06
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 #use "Script/Use/Map/WorldMap"
 
-#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.06.03"
+#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.07.06"
 #MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
 
 #macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
