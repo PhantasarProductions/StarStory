@@ -56,8 +56,9 @@ end
 module
 	readonly delegate Map = MapText
 	get string lang
-		State.LoadNew("GV","Script/Subs/SubGV.Neil")
-		return ISGET.Str("GV","sgvstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
+		//State.LoadNew("GV","Script/Subs/SubGV.Neil")
+		//return ISGET.Str("GV","gv.gstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
+		return GV.GStr.Lang
 	end
 	
 	void Load(string Tag,string File)

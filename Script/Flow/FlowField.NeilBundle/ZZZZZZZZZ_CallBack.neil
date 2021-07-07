@@ -118,7 +118,7 @@ global void PartyClick(int i,string ch)
 			CSay("Going to Field Menu!")
 			FieldMenu.Go(ch,"FIELD")
 		case 2 3
-			if gvStr.LoadedMap=="Prologue_Yaqirpa" 
+			if gv.str.LoadedMap=="Prologue_Yaqirpa" 
 				CSay("Switching leader NOT allowed in the Yaqirpa during the prologue")
 				Return
 			end

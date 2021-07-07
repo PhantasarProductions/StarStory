@@ -49,13 +49,13 @@
 #macro __cyan Graphics.Color(0,255,255)
 #macro __yellow Graphics.Color(255,255,0)
 
-#macro __skill gvInt.Skill
+#macro __skill gv.gInt.Skill
 
-#macro __lang gvStr.Lang
+#macro __lang gv.gStr.Lang
 
-#macro __aurinas gvInt.Aurinas
+#macro __aurinas gv.gInt.Aurinas
 
-#macro __hawk gvStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that
+#macro __hawk gv.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that
 
 
 const delegate Error = Lua.error

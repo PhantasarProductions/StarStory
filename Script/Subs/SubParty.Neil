@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.03.17
+// Version: 21.07.06
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -230,7 +230,7 @@ group SubParty
 					Fnt.Text(RPGChar[Tag].Points.AP.Have,(x+bw)-10,y+40,1,0)
 				end
 				__white
-				if Tag!="Briggs"
+				if Tag!="Briggs" &&  RPGChar[Tag].Stat.Level<Caps.LevelCap
 					StatBar(x+150,y+90,(bw)-160,3,RPGChar[Tag].Points.EXP.Have,RPGChar[Tag].Points.EXP.Maximum)
 				end
 				Fnt.Text("Lv",x+100,y+70)

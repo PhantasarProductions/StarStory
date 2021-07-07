@@ -289,6 +289,16 @@ VOID ToggleGod()
 	CSayF("God mode: %s",Lua.tostring(gv.GBool["CHEAT.GOD"]))
 end
 
+VOID ShowGV()
+	Plua Tab = GV.DumpTable
+	For i,l in ipairs(Tab)
+		int G = math.floor( (i/#Tab)*255)
+		int R = 255-G
+		CLine.Write(l,R,G,0)
+		Cout("VARS>",l)
+	End
+End
+
 deftable icommandtable
 	FUCK = FoulLanguage
 	SHIT = FoulLanguage

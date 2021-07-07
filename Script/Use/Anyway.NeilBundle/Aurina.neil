@@ -47,32 +47,32 @@ module
 	readonly var G = Lua.Neil.Globals
 	
 	get int Have
-		return G.gvInt.Aurinas
+		return gv.gInt.Aurinas
 	end
 	
 	set int Have
-		if value>G.gvInt.Aurinas && math.random(1,5*__skill)==1
-			g.gvint.AurinaRate++
+		if value>gv.Int.Aurinas && math.random(1,5*__skill)==1
+			gv.int.AurinaRate++
 		end			
-		G.gvInt.Aurinas = value
+		gv.gInt.Aurinas = value
 	end
 	
 	get int Rate
-		switch G.gvInt.Skill
+		switch gv.gInt.Skill
 			case 1
-				g.gvint.AurinaRate = math.max(500,g.gvint.AurinaRate)
+				GV.GInt.AurinaRate = math.max(500,GV.GInt.AurinaRate)
 			case 2
-				g.gvint.AurinaRate = math.max(100,g.gvint.AurinaRate)
+				GV.GInt.AurinaRate = math.max(100,GV.GInt.AurinaRate)
 			case 3
-				g.gvint.AurinaRate = math.max(5,g.gvint.AurinaRate)
+				GV.GInt.AurinaRate = math.max(5,GV.GInt.AurinaRate)
 			default
 				Lua.error("Aurina rate skill fuck up error!")
 		end
-		return g.gvint.AurinaRate
+		return GV.GInt.AurinaRate
 	end
 	
 	set int Rate
-		G.gvInt.AurinaRate = math.min(value,g.caps.maxaurinarate)
+		GV.GInt.AurinaRate = math.min(value,g.caps.maxaurinarate)
 	end
 	
 	get int AurinaCredits
@@ -80,46 +80,46 @@ module
 	end
 	
 	get int Cash
-		return g.gvInt.Cash
+		return GV.GInt.Cash
 	end
 	
 	set int Cash
-		g.gvInt.Cash = math.min(G.Caps.MaxMoney,value)
+		GV.GInt.Cash = math.min(G.Caps.MaxMoney,value)
 	end
 	
 	void Verzilver()
 		// Needed for the boxtext!		
-		g.gvStr.AURINAS           = sprintf("%4d",Have)
-		g.gvStr.AURINARATE        = sprintf("%4d",Rate)
-		g.gvStr.AURINACREDITS     = sprintf("%6d",AurinaCredits)
-		g.gvInt.AURINASEXCHANGED += Have
+		gv.gstring.AURINAS           = sprintf("%4d",Have)
+		gv.gstring.AURINARATE        = sprintf("%4d",Rate)
+		gv.gstring.AURINACREDITS     = sprintf("%6d",AurinaCredits)
+		GV.GInt.AURINASEXCHANGED += Have
 		Cash += AurinaCredits		
 		Have = 0
 		ChaChing()
 	end
 	
 	get int Spent4Rate
-		return g.gvint.AurinaSpent4rate
+		return GV.GInt.AurinaSpent4rate
 	end
 	
 	set int Spent4Rate
 		static int rinc = 100*(10^__skill)
-		g.gvint.AurinaSpent4rate = value
-		while g.gvint.AurinaSpent4rate>rinc
-			g.gvint.AurinaSpent4rate-=rinc
+		GV.GInt.AurinaSpent4rate = value
+		while GV.GInt.AurinaSpent4rate>rinc
+			GV.GInt.AurinaSpent4rate-=rinc
 			Rate ++
 		end
 	end
 	
 	get int Earned4Rate
-		return g.gvint.AurinaEarned4rate
+		return GV.GInt.AurinaEarned4rate
 	end
 
 	set int Earned4Rate
 		static int rinc = 123*(10^__skill)
-		g.gvint.AurinaEarned4rate = value
-		while g.gvint.AurinaEarned4rate>rinc
-			g.gvint.AurinaEarned4rate-=rinc
+		GV.GInt.AurinaEarned4rate = value
+		while GV.GInt.AurinaEarned4rate>rinc
+			GV.GInt.AurinaEarned4rate-=rinc
 			Rate ++
 		end
 	end
@@ -133,7 +133,7 @@ module
 		end
 		cash-=amount
 		Spent4Rate+=amount
-		g.gv.gint.TotalCashSpent+=amount
+		gv.gint.TotalCashSpent+=amount
 		ChaChing()
 		return true
 	end
@@ -151,8 +151,8 @@ module
 		return g.gv.gint.Shilders
 	end
 	set int Shilders
-		g.gv.gbool.Shilder1st=true
-		g.gv.gint.Shilders=value
+		gv.gbool.Shilder1st=true
+		gv.gint.Shilders=value
 	end
 	
 end

@@ -36,7 +36,7 @@
 // End License Information
 
 void MakeHeader()
-	string r = "Map:"..gvStr.MapTitle.."\n"
+	string r = "Map:"..gv.gStr.MapTitle.."\n"
 	r += "Cycle:"..Caps.Cycle.."\n"
 	r += "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
 	r += "Saved:"..gv.vInt.Saved.."\n"
@@ -71,7 +71,8 @@ global void PerformSaveGame(string f)
 	SaveGame.Clear()
 	SaveGame.Assign(f)
 	SaveGame.Data["*PARTY"] = "YES"
-	GV.Save()
+	// GV.Save()
+	SaveGame.Data["GAMEVARS.NEIL"] = GV.Enroll
 	Map.SG()
 	Vault.Save()
 	Ach.Save()

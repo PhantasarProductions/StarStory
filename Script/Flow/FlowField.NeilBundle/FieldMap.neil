@@ -322,11 +322,11 @@ group FldMap
 	end
 	
 	void LoadMapText()
-		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gvStr.LoadedMap)
-			CSay("No mapfile for: "..gvStr.LoadedMap)
+		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gv.Str.LoadedMap)
+			CSay("No mapfile for: "..gv.Str.LoadedMap)
 			return
 		end
-		BoxText.Load("MAPTEXT","Maps/"..gvStr.LoadedMap)
+		BoxText.Load("MAPTEXT","Maps/"..gv.Str.LoadedMap)
 	end
 	
 	void SetAllowQuitSave(bool value)
@@ -360,9 +360,9 @@ group FldMap
 			State.Kill("MAPSCRIPT")
 		end
 		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
-		gvStr.LoadedMap = Map
+		gv.Str.LoadedMap = Map
 		// Only needed so the savegame manager can generate the header more easily!
-		gvStr.MapTitle = KthuraMap.Meta["Title"]
+		gv.Str.MapTitle = KthuraMap.Meta["Title"]
 		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
 		// Map Script
 		if !JCR6.EntryExists(MapScriptFile)
@@ -408,7 +408,7 @@ group FldMap
 	
 	void SetMember(string key, value)
 		if key:upper()=="LAYER"
-			gvStr.MapLayer = value
+			gv.Str.MapLayer = value
 		end
 		self[key] = value
 	end
