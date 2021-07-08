@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Vault.neil
-// Version: 21.07.01
+// Version: 21.07.08
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,20 +34,27 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 module
 
 	readonly var fnt = ImageFont.Obtain("BOXTEXT")
 	readonly var Buzz = Audio.Obtain("BUZZ")
+	
+	ReadOnly Var ButtonUp = Image.Obtain("UP")
+	ReadOnly Var ButtonDown = Image.Obtain("DOWN")
+
 
 	void Flow(ubox,string CharTag)
 		static int ScrollY = 0
-		int y = 0
+		bool AllowUp = ScrollY > 0
+		bool AllowDown = False
+		int y = 0-ScrollY
 		string Hover = ""
 		for i in Vault.Each
 			//print(Lua.type(i),i)
 			y += 25
 			if y>=25 && y<=ubox.h-50
-				if Events.MouseX()>ubox.x && Events.MouseY()>ubox.y+y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<ubox.y+y+25
+				if Events.MouseX()>ubox.x && Events.MouseY()>ubox.y+y && Events.MouseX()<ubox.x+ubox.w-150 && Events.MouseY()<ubox.y+y+25
 					Hover = i
 				end
 				Graphics.Color(0,180,255)
@@ -64,7 +71,18 @@ module
 				Fnt.Text(Item["ITM_"..i].Name,ubox.x+225,ubox.y+y)
 				__white
 			end
+			AllowDown = AllowDown || y>ubox.h-50
 		end
+		int sux = ubox.x+ubox.w-100
+		int sdx = sux
+		int suy = ubox.y+10
+		int sdy = ubox.y + ubox.h - 100
+		If AllowUp
+			ButtonUp.Draw(sux,suy)
+		End
+		If AllowDown
+			ButtonDown.Draw(sdx,sdy)
+		End
 		if Events.MouseHitLeft()
 			if itmod.citem!="" 
 				if Vault.Has(itmod.citem)<Caps.InventoryMaxVaultStack && Events.MouseX()>ubox.x && Events.MouseY()>ubox.y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<ubox.y+ubox.w
@@ -77,6 +95,12 @@ module
 					itmod.citem=Hover
 				end
 			end
+			If AllowUp && Events.MouseX()>sux && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>ubox.y && Events.MouseY()<ubox.y+suy
+				ScrollY-=25
+			End
+			If AllowDown && Events.MouseX()>sdx && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>sdy && Events.MouseY()<ubox.y+ubox.h
+				ScrollY+=25
+			End
 		end
 		if Events.MouseHitRight() && Hover !=""
 			If Item.Give(Hover,CharTag)
