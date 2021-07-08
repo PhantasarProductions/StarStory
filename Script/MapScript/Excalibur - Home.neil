@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.05.23
+// version: 21.07.08
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.05.23"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.07.08"
 #MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
@@ -115,7 +115,11 @@ group MScript
 		//CSayF("Creation script for Crystal NOT yet done")
 		if Caps.Cycle>1 || gv.gbool.ImportedCrystal
 			CSay("Updating level stuff for Crystal")
-			Party.GrabLevel("Crystal",RPGChar.Crystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			Party.GrabLevel("Crystal",RPGChar.UniCrystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			if RPGChar.UniCrystal.Stat.Level!=RPGChar.Crystal.Stat.Level
+				CSay("HEY! Link error on Crystal! Fixing that!")
+				RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+			end
 			return
 		end
 		CSay("Creating character Crystal!")
@@ -134,6 +138,7 @@ group MScript
 				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
 				RPGChar.Crystal.Link_Stat("UniCrystal",substat.."_"..st)
 			end
+			RPGChar.Crystal.Link_Stat("UniCrystal","Level")
 		end
 		// Elemental Resistance
 		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
