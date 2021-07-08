@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Algemeen.neil
-// Version: 21.03.03
+// Version: 21.07.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -72,4 +72,21 @@ group Key
 	readonly int rightshift = Events.KeyByName("Right Shift")
 	readonly int kp_minus = Events.KeyByName("Keypad -")
 	
+end
+
+quickmeta ablused
+	index
+		string k = key:upper()
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		return gv.gInt["ABLUSED_"..k]
+	end
+	newindex
+		string k = key:upper()
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		gv.gInt["ABLUSED_"..k] = value
+	end
 end
