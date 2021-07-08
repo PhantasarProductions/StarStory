@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FieldMenu/Switch.neil
-// Version: 21.03.03
+// Version: 21.07.08
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -63,6 +63,7 @@ module
 		if !gv.vBool.CanSwitch
 			__ember
 			fnt.Text("You cannot switch characters YET!",ubox.x+20,ubox.y+20)
+			Return
 		end
 		__red
 		fnt.Text(sprintf("Switch %s with:",RPGChar[CharTag].Name),ubox.x+20,ubox.y+20)
