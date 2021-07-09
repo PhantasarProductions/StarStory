@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 21.06.06
+// Version: 21.07.09
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -139,8 +139,9 @@ Global Void Apollo_Flow()
 	BigFont.Text(Action.." game",45,10)
 	
 	// Slots
+	
 	For i=scroll,math.min(scroll+slotsonscreen,maxsg)
-		AlDown=AlDown and i<=maxsg
+		AlDown=AlDown and i<maxsg		
 		Table slot = GetSlot(i)
 		Int y = starty+((i-scroll)*(sloth+slotm))
 		__white
