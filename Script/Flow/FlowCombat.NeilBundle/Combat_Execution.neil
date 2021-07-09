@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.07.02
+// Version: 21.07.09
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -175,7 +175,7 @@ Module
 			//&& Act.Act.Icon!=""
 			AnnounceIcon = Act.Act.Icon //= Image.LoadNew(Act.Act.Icon,"ABL_ICON_"..Act.Act.Icon)
 		end
-		if Executor.Team=="Hero"
+		if Executor.Team=="Hero"			
 			AnnouncePortrait = Image.Obtain("PORTRET_"..Executor.Tag)
 		elseif Executor.Name=="ExHuRU"
 			AnnouncePortrait = Image.LoadNew("GFX/Portret/ExHuRU/General.png","PORTRET_ExHuRU")
@@ -197,6 +197,7 @@ Module
 			default
 				Lua.error("Combat.Execution.Draw: Unknown stage ("..MyStage..")")
 		end
+		__White
 		if AnnouncePortrait
 			AnnouncePortrait.Draw(AnnounceX-100,200)
 		end
