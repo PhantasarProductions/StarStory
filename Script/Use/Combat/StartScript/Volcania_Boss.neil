@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.07.03
+// version: 21.07.09
 // End License Information
 
 Void BliksemWendicka()
@@ -111,6 +111,9 @@ Void KillWendicka()
 
 Void HurtMonster()
 	Var M = Combat_Fighter.Fighters.FOE_0.Char
+	If M.Points.HP.Have<=1
+		M.Points.HP.Maximum++
+	End
 	While M.Points.HP.Have < M.Points.HP.Maximum
 		If M.Points.HP.Have<Caps.Cycle+__skill && M.Points.HP.Maximum<100
 			M.Points.HP.Maximum++
