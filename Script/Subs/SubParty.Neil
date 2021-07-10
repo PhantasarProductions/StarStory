@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.07.06
+// Version: 21.07.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -285,13 +285,27 @@ group SubParty
 				Graphics.SetAlpha(255)
 				// Level up
 				if (RPGChar[Tag].Points.EXP.Have>=RPGChar[Tag].Points.EXP.Maximum) && Tag!="Briggs" && RPGChar[Tag].Stat.Level<Caps.LevelCap
-					int nlv = RPGChar[Tag].Stat.Level+1
+					int nlv = math.min(10000,RPGChar[Tag].Stat.Level+1)
 					RPGChar[Tag].Stat.Level = nlv
 					GrabLevel(Tag,nlv)
 					RPGChar[Tag].Points.EXP.Have=0
 					// No "LEVEL UP" mark or music box jingle. This happens in silence now!
 					// The little debug line below will help me to see this happens though.
-					CSayF("%s went level up and is now level %d",Tag,nlv)					
+					CSayF("%s went level up and is now level %d",Tag,nlv)
+					If nlv==10000
+						String atg 
+						Switch Tag
+							Case "UniWendicka"
+								atg = "WENDICKA"
+							Case "UniCrystal"
+								atg = "CRYSTAL"
+							Case "ExHuRU" "Rolf" "Johnson"
+								atg = "EXHURU"
+							Default
+								atg = Tag:upper()
+						End
+						Ach.Award("MAXLVL_"..atg)	
+					End
 				end
 				// Open/Close menu
 				for j=1,3
