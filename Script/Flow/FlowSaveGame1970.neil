@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.06.19
+// version: 21.07.10
 // End License Information
 #use "Libs/Dim2"
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/PSaveGame"
 
-#macro maxsg 1000
+#macro maxsg 999
 
 #macro _LOCATE x,y = 
 #macro _REV fg,bg = 2,127

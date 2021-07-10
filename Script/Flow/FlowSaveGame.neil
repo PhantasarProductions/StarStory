@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 21.07.09
+// Version: 21.07.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -39,7 +39,7 @@
 #use "Script/Use/Misc/Box"
 #use "Script/Use/Misc/PSaveGame"
 
-#macro maxsg 1000
+#macro maxsg 999
 #macro sloth 50
 #macro slotm 5
 
