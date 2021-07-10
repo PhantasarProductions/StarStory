@@ -86,6 +86,7 @@ group MScript
 			Graphics.Flip()
 			Events.Poll()
 		end
+		Ach.Award("SCENARIO_ESCAPEEXCALIBUR")
 		for i=-80,32
 			FPS.WaitMinTicks()
 			Graphics.Cls()
