@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/BoxText.Neil
-// Version: 21.07.08
+// Version: 21.07.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -36,7 +36,7 @@
 // End License Information
 
 #MKL_Lic     "Star Story - BoxText.Neil" "Phantasar zLib License"
-#MKL_Version "Star Story - BoxText.Neil" "21.07.08"
+#MKL_Version "Star Story - BoxText.Neil" "21.07.10"
 
 
 void BTLoad()
@@ -68,6 +68,7 @@ module
 	end
 	
 	void Serial(string AScen, string ATag, string RF="FLOW_FIELD", ANum)
+		Events.Flush()
 		State.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 	end
 end
