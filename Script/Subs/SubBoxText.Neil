@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubBoxText.Neil
-// Version: 21.03.03
+// Version: 21.07.10
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -340,7 +340,7 @@ group FlowBoxText
 			FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if Events.MouseHitLeft() or (TextBox.audioplaying and (!Audio.ChannelPlaying(Textbox.audiochannel)))
+			if TextBox.Current.SL>#TextBox.Current.Lines && ( Events.MouseHitLeft() or (TextBox.audioplaying and (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					return
 				end
