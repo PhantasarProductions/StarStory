@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.07.09
+// version: 21.07.12
 // End License Information
 
 Void BliksemWendicka()
@@ -111,19 +111,24 @@ Void KillWendicka()
 
 Void HurtMonster()
 	Var M = Combat_Fighter.Fighters.FOE_0.Char
+	CSayF("Let's see: %d/%d",M.Points.HP.Have,M.Points.HP.Maximum)
 	If M.Points.HP.Have<=1
-		M.Points.HP.Maximum++
+		//M.Points.HP.Maximum++
+		M.Stats.BASE_HP++
 	End
 	While M.Points.HP.Have < M.Points.HP.Maximum
 		If M.Points.HP.Have<Caps.Cycle+__skill && M.Points.HP.Maximum<100
-			M.Points.HP.Maximum++
+			//M.Points.HP.Maximum++
+			M.Stats.BASE_HP++
 		End
 		M.Points.HP.Have++
 		M.Stats.BASE_Strength += math.random(8,math.max(10,math.min(Caps.Cycle,25)*4))
 		M.Stats.BASE_Agility  += math.random(1,30)
 		M.Stats.BASE_Accuracy += 4+Caps.Cycle
+		// CSayF("Up! %d/%d",M.Points.HP.Have,M.Points.HP.Maximum)
 	End
 	CSay("Monster HP set back to max")
+	CSayF("Strength of monster set to %005d",M.Stats.END_Strength)
 	CSayF("Agility of monster set to %005d",M.Stats.END_Agility)
 	CSayF("Accuracy of monster set to %004d",M.Stats.END_Accuracy)
 	Combat_Time.CalcHighSpeed()
@@ -132,8 +137,10 @@ End
 Void BlaBlaBla()
 	Var Wendicka = Combat_Fighter.Fighters.Wendicka
 	Var Monster = Combat_Fighter.Fighters.FOE_0
+	Monster.Char.Stats.BASE_HP = 5 + Caps.Cycle
+	Monster.Char.Points.HP.Have = Monster.Char.Points.HP.Maximum 
 	Wendicka.HurtResponse=KillWendicka
-	Monster.Char.Points.HP.Minimum = Monster.Char.Points.HP.Maximum
+	//Monster.Char.Points.HP.Minimum = Monster.Char.Points.HP.Maximum
 	Monster.AltX = (Screen.W div 4)
 	Monster.AltY = (Screen.H div 4) * 3
 	Monster.HurtResponse=HurtMonster
