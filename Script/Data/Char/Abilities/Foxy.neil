@@ -32,34 +32,58 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.07.12
 // End License Information
-module
 
-	table Ability 
+#undef ForceCheer
+#undef ForceSmokeBomb
+#undef ForceDragonCut
+
+Module
+
+	Table Ability 
                   
 	
-	string ShowNeed(string chtag)
-		// Don't put on the "???" if Foxy got all spells.
-		if RPGChar.Foxy.List.ABL.Count == 9 
-			return "" 
-		end  
-        return "???" 	
-	end
+	String ShowNeed(String chtag)
+		// Don't put on the "???" If Foxy got all spells.
+		If RPGChar.Foxy.List.ABL.Count == 9 
+			Static Bool Checked
+			If !Checked
+				Ach.Award("ALLABL_FOXY")
+			End
+			Return "" 
+		End  
+        Return "???" 	
+	End
 	
-	get string Learn
-		int Under = ablused.Foxy + RPGChar.Foxy.Stat.Level
-		for abl,rate in pairs(Ability)
-			string ret = "FOXY_"..abl
-			if math.random(0,rate)<Under && (!RPGChar.Foxy.List.ABL.Has(ret))
-				return ret
-			end
-		end
-		return ""
-	end	
+	get String Learn
+		#if ForceCheer
+			If !RPGChar.Foxy.List.ABL.Has("FOXY_CHEER")
+				Return "FOXY_CHEER"
+			End
+		#fi
+		#if ForceSmokeBomb
+			If !RPGChar.Foxy.List.ABL.Has("FOXY_SMOKEBOMB")
+				Return "FOXY_SMOKEBOMB"
+			End
+		#fi
+		#if ForceDragonCut
+			If !RPGChar.Foxy.List.ABL.Has("FOXY_DRAGONCHARGE")
+				Return "FOXY_DRAGONCHARGE"
+			End
+		#fi
+		Int Under = ablused.Foxy + RPGChar.Foxy.Stat.Level
+		For abl,rate In Pairs(Ability)
+			String ret = "FOXY_"..abl
+			If math.random(0,rate)<Under && (!RPGChar.Foxy.List.ABL.Has(ret))
+				Return ret
+			End
+		End
+		Return ""
+	End	
 	
 	CONSTRUCTOR
 		Ability  =  { ["DRAGON_BURN"]= 200, ["DRAGON_INFERNO"] = 8400, ["STUNSTAB"] = 6400, ["BACKSTAB"]= 1600, ["CHEER"]= 25600, ["SMOKEBOMB"]= 4600, ["DRAGON_CHARGE"]= 65535 }
-	end
+	End
 	
-end
+End
