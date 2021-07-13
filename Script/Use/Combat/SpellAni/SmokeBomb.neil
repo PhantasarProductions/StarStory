@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/SmokeBomb.neil
-// Version: 21.07.03
+// Version: 21.07.13
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -69,13 +69,13 @@ class TSmoke
 	void Draw()
 		SetAlpha(self.alpha)
 		self.Smoke.Draw(self.x,self.y)
-		CSayF("Count: %d",self.count)
-		if self.count % 2 == 0 
+		//CSayF("Count: %d",self.count)
+		//if self.count % 2 == 0 
 			CSay("Rolling the animation")
 			self.x += self.dx
 			self.y += self.dy
-		end
-		--self.alpha
+		//end
+		self.alpha-=2
 		SetAlpha(255)
 	end
 	
@@ -98,9 +98,9 @@ module
 	link Smoke = TSmoke.Smoke
 	
 	CONSTRUCTOR
-		self.Smoke = LoadIfNew("GFX/Combat/SpellAni/Smoke Bomb.png","SPELLANI_SmokeBOMB")
+		self.Smoke = Image.LoadNew("GFX/Combat/SpellAni/SmokeBomb/Smoke Bomb.png","SPELLANI_SmokeBOMB")
 		self.Smoke.HotBottomCenter()
-		TSmoke.List = new TLinkedList		
+		TSmoke.List = new TLinkedList()		
 	end
 	
 	void Start(act)
@@ -117,8 +117,7 @@ module
 		// Stage.NoVicCheck = true
 	end
 	
-	void Draw()
-					
+	void Draw()					
 		TSmoke.DrawAll()
 		CSayF("Smoke entries %d -- Empty: %s",TSmoke.List.Count,tostring(TSmoke.List.Count==0))		
 		//Stage.NoVicCheck = TSmoke.List.Count!=0
