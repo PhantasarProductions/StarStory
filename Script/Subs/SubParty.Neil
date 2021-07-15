@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.07.10
+// Version: 21.07.14
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -194,6 +194,23 @@ group SubParty
 		return Portretten[Tag]
 	end
 
+	Void CheckMaxLevel(String Tag,Int nlv)
+		If nlv==10000
+			String atg
+			Switch Tag
+				Case "UniWendicka"
+					atg = "WENDICKA"
+				Case "UniCrystal"
+					atg = "CRYSTAL"
+				Case "ExHuRU" "Rolf" "Johnson"
+					atg = "EXHURU"
+				Default
+					atg = Tag:upper()
+			End
+			CSay("Max level: "..atg)
+			Ach.Award("MAXLVL_"..atg)
+		End	
+	End
 	
 	void Boxes(string char)
 		if scrw!=Screen.W && scrh!=Screen.H
@@ -255,6 +272,7 @@ group SubParty
 					int nlv = RPGChar[Tag].Stat.Level+1
 					RPGChar[Tag].Stat.Level = nlv
 					GrabLevel(Tag,nlv)
+					CheckMaxLevel(Tag,nlv)
 					RPGChar[Tag].Points.EXP.Have=0
 					ScLvUp[i]=1
 					AudioLevelUp.Play()
@@ -292,20 +310,7 @@ group SubParty
 					// No "LEVEL UP" mark or music box jingle. This happens in silence now!
 					// The little debug line below will help me to see this happens though.
 					CSayF("%s went level up and is now level %d",Tag,nlv)
-					If nlv==10000
-						String atg 
-						Switch Tag
-							Case "UniWendicka"
-								atg = "WENDICKA"
-							Case "UniCrystal"
-								atg = "CRYSTAL"
-							Case "ExHuRU" "Rolf" "Johnson"
-								atg = "EXHURU"
-							Default
-								atg = Tag:upper()
-						End
-						Ach.Award("MAXLVL_"..atg)	
-					End
+					CheckMaxLevel(Tag,nlv)
 				end
 				// Open/Close menu
 				for j=1,3
