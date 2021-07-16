@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.07.13
+// version: 21.07.15
 // End License Information
 
 #undef ForceCheer
@@ -68,8 +68,8 @@ Module
 			End
 		#fi
 		#if ForceDragonCut
-			If !RPGChar.Foxy.List.ABL.Has("FOXY_DRAGONCHARGE")
-				Return "FOXY_DRAGONCHARGE"
+			If !RPGChar.Foxy.List.ABL.Has("FOXY_DRAGON_CHARGE")
+				Return "FOXY_DRAGON_CHARGE"
 			End
 		#fi
 		Int Under = ablused.Foxy + RPGChar.Foxy.Stat.Level
