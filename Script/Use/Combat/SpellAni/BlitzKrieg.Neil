@@ -1,0 +1,133 @@
+// License Information:
+// **********************************************
+// 
+// src/Tricky Script/Script/Use/Combat/SpellAni/BlitzKrieg.Neil
+// (c) Jeroen Broks, 2021, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// version: 21.07.17
+// End License Information
+Module
+	Bool Ended = False
+	
+	Int SVal(string v)
+		return Lua.tonumber(v) || 0
+	End
+	
+	Void BlitzKriegDrawClouds(img)
+		int sp
+		Graphics.SetScale(1,1)
+		//Image.ViewPort(0,300,800,300)
+		//Image.Origin(0,300,800,300)
+		int HH = Screen.H div 2
+		For s,i in pairs(img)
+			sp = (sp or 0) + 2
+			If prefixed(s,"Cloud") 
+				//Image.Tile(i,Time.MSecs()/sp,00)
+				i.XTile(0,HH,Screen.W,HH,FPS.Ticks div sp,0)
+			End
+		End
+		//Image.ViewPort(0,0,800,600)
+		//Image.Origin(0,0)
+		//ShowParty()
+		Party.Boxes()
+	End
+	
+	Void Start()
+		Ended = False
+	End
+
+	Void Draw()
+		// Init
+    	Static Bool Loaded = False
+    	Static Table seq = {"CaveMan","Cavalry","Tank"}
+    	Static Table img = {}
+    	Static Table extra = {"SpaceShip","Cloud1","Cloud2","Cloud3"}
+    	Table dat = {}
+    	
+    	// Load
+    	If !Loaded
+    		For s   in each(seq)
+    			img[s]=Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_IMG_"..s)
+    		End
+    		For s   in each(extra)
+    			img[s]=Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_XTR_"..s)
+    		End
+    		For k,v in spairs(img)
+    			CSay(k .. " has image "..sval(v) )
+    			//Image.Hot(v,Image.Width(v)/2,Image.Height(v)) end
+    			v.Hot(v.Width div 2,v.Height)
+    		End
+    		Loaded = True
+    	End
+    	
+    	// Execute ground troups
+    	Repeat
+    		Combat_Draw.DrawScreen()
+    		Graphics.SetScale(0.25,0.25)
+    		For i=1,#seq
+    			// dat[i] = dat[i] or { x = 250 + (i*1200) , y = 500, s = (i/2)+1 }
+    			dat[i] = dat[i] || { ["x"] = 250 + (i*math.floor(Screen.W*1.75)), ["y"] = math.floor(Screen.H * 0.66), ["s"] = math.ceil((((i / 2)+1)/800)*Screen.W) }
+    			//Image.Show(img[seq[i]],dat[i].x,dat[i].y)
+    			img[seq[i]].Draw(dat[i].x,dat[i].y)
+    			dat[i].x = dat[i].x - dat[i].s
+    		End
+    		BlitzKriegDrawClouds(img)
+    		Graphics.Flip()
+    		FPS.WaitMinTicks()
+    		Events.Poll()
+    	Until dat[#seq].x<0
+    	
+    	// Execute SpaceShip
+    	Int x = Screen.W div 2
+    	For y = Screen.H,-20,-4
+    		Combat_Draw.DrawScreen()
+        	Graphics.SetScale(0.25,0.25)
+        	//Image.Show(img.SpaceShip,x,y)
+        	img.SpaceShip.Draw(x,y)
+        	Graphics.SetScale(1,1)
+        	BlitzKriegDrawClouds(img)
+        	Graphics.Flip()
+        	FPS.WaitMinTicks()
+        	Events.Poll()
+        End
+        
+        
+        // Unload
+        // for s in each(img) do Image.Free(s) end // No longer needed
+        
+        // Back to combat
+        Ended = True
+	End
+    
+	Void Update()
+	End
+     
+end
