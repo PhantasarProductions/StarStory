@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.17
+// version: 21.07.17
 // End License Information
 #use "Libs/XMath"
 
@@ -93,8 +93,10 @@ Void InitGoddess()
 		For key,value in pairs(StatTotal)
 			Drone.Char.Stat["BASE_"..key] = value div (18 div __skill)
 		End
+		Drone.Char.Stat.Base_HP = math.max(Drone.Char.Stat.Base_HP,20)
 		Drone.Char.Points.HP.Maximum = 10
-		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum 
+		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum
+		Drone.Char.Points.HP.Have = Drone.Char.Points.HP.Maximum
 		
 	End
 
@@ -122,6 +124,7 @@ Void RetGoddess()
 			End
 			Drone.AltX = math.floor(XMath.Sin(Degs[i])*255)+FGoddess.X
 			Drone.AltY = math.floor(XMath.Cos(Degs[i])*150)+FGoddess.Y-128
+			Drone.Char.Points.HP.Have = Drone.Char.Points.HP.Maximum
 		//End
 	End
 End
