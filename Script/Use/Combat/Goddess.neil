@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.07.17
+// version: 21.07.18
 // End License Information
 #use "Libs/XMath"
 
@@ -96,8 +96,7 @@ Void InitGoddess()
 		Drone.Char.Stat.Base_HP = math.max(Drone.Char.Stat.Base_HP,20)
 		Drone.Char.Points.HP.Maximum = 10
 		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum
-		Drone.Char.Points.HP.Have = Drone.Char.Points.HP.Maximum
-		
+		Drone.Char.Points.HP.Have = Drone.Char.Points.HP.Maximum		
 	End
 
 End
