@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Anyway.NeilBundle/Dev.neil
-// Version: 21.06.10
+// Version: 21.07.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -34,7 +34,9 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-#define Development
+
+
+#undef Development
 
 Global Void CSay(String message)
 		#If Development
@@ -48,7 +50,9 @@ Global Void CSay(String message)
 	End
 	
 Global Void CSayF(String fmt,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+		#If Development
+			CSay(SPrintF(fmt,Expand({a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z})))
+		#Fi
 	End
 
 Module
