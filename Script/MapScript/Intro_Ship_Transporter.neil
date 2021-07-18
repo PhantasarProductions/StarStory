@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
+// version: 21.07.18
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "21.03.03"
+#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "21.07.18"
 #MKL_Lic     "Star Story - Intro_Ship_Transporter.neil" "Phantasar Closed License"
 
 group MScript
@@ -55,14 +55,19 @@ group MScript
 			Map.Spawn("Actor"..ch,"Spot"..ch)
 			Map.ReMap()
 			Map.SetObjField("Actor"..ch,"Texture",Tex)
+			//Map.Spawn("PLAYER","SpotWendicka")
+			Map.HideObj("PLAYER")
 		end
 	end
 	
 	void LovejoyIntro()
+		Map.Spawn("PLAYER","Start")
 		CSay("Starting admiral's log!")
 		BoxText.Load("INTRO","SCENONLY/OPENING/START")
 		BoxText.Serial("INTRO","LOVEJOY_LOG")
-		Map.Layer = "START"
+		//Map.Kill("PLAYER")
+		//Map.Layer = "START"
+		Map.GoToLayer("START","SpotWendicka")
 		StartActors()
 		BoxText.Serial("INTRO","SCEN_A")		
 		// Wendicka forward
@@ -82,8 +87,13 @@ group MScript
 		for ch in each {"Wendicka","Crystal","Briggs" }
 			Map.ActorMoveTo("Actor"..ch, "TransSpot"..ch)
 		end
-		Schedule.WaitForMovingActors("Transport")
-		// Schedule.Add("Transport")
+		//Schedule.WaitForMovingActors("Transport")
+		for i=1,100
+			Map.DrawScreen()
+			Events.Poll()
+			Graphics.Flip()
+		End
+		Schedule.Add("Transport")
 	end
 	
 	void Transport()
@@ -93,7 +103,8 @@ group MScript
 			Beam.Add("Actor"..ch,true,true)
 		end
 		Beam.Run()
-		Map.Load("Prologue_Yaqirpa")
+		//Map.Load("Prologue_Yaqirpa")
+		Map.GoToMap("Prologue_Yaqirpa","YAQIRPA","Start")
 		Schedule.Add("GoToStart")
 	end
 

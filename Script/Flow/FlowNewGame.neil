@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowNewGame.neil
-// Version: 21.06.22
+// Version: 21.07.18
 // Copyright (C) 2020, 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -37,10 +37,10 @@
 
 #use "Script/Use/Anyway"
 
-#macro GJUser gvstr["GameJolt.User"]
-#macro GJToken gvstr["GameJolt.Token"]
+#macro GJUser gv.str["GameJolt.User"]
+#macro GJToken gv.str["GameJolt.Token"]
 
-#define allow_gamejolt
+#undef allow_gamejolt
 
 const var NGFont = ImageFont.Obtain("BOXTEXT")
 const var Stars = Image.Load("GFX/Intro/Starfield.png")
@@ -184,7 +184,7 @@ void GameJoltCredentials()
 	static table Cursor = { [true]="_", [false]=" " }
 	static string GJError = ""
 	GJLogo.HotBottomCenter()
-	gvBool.GameJolt = true
+	gv.gbool.GameJolt = true
 	GJLogo.Draw(Screen.W/2,25)
 	for i=1,#GJFields
 		__ember
@@ -234,7 +234,7 @@ void GameJoltCredentials()
 			__ember
 			NGFont.Text("Ignore",Screen.W-5,Screen.H-100,1,0)
 			if Events.MouseX()>Screen.W-100 and Events.MouseY()>Screen.H-100 and Events.MouseY()<Screen.H-50 and Events.MouseHitLeft()
-				gvbool.GJIGNORE = true
+				gv.gbool.GJIGNORE = true
 				NGStage.Stage++
 			end
 		end
@@ -256,7 +256,7 @@ void Difficulty()
 		int ypos = 200+(i*30)
 		if Events.MouseY()>ypos and Events.MouseY()<ypos+30
 			if Events.MouseHitLeft()
-				gvInt.Skill = i
+				gv.gint.Skill = i
 				NGStage.Stage++
 			end
 			Graphics.Rect(0,ypos,Screen.W,30)
@@ -279,7 +279,7 @@ void Language()
 		__skyblue
 		if Events.MouseY()>y and Events.MouseY()<y+30
 			if Events.MouseHitLeft()
-				gvStr.Lang = v
+				gv.str.Lang = v
 				NGStage.Stage++
 			end
 			Graphics.Rect(0,y,Screen.W,30)
@@ -297,17 +297,18 @@ void BuckleUp()
 	NGFont.Text("Now buckle up for this exciting space adventure",5,40)
 	NGFont.Text("Click anywhere on the screen!",5,230)
 	if Events.MouseHitLeft()
-		gvInt.Cycle = 1
+		Loading()
+		gv.gint.Cycle = 1
 		Party.NewChar("UniWendicka",1,"Wendicka")
 		Party.NewChar("UniCrystal",1,"Crystal")
 		Party.NewChar("Briggs",20)
 		RPGParty.Max = 6
 		RPGParty[1] = "UniWendicka"
 		RPGParty[2] = "UniCrystal"
-		RPGParty[3] = "Briggs"
+		RPGParty[3] = "Briggs"		
 		Flow.Load("FIELD","Script/Load/LoadField.neil")
 		Map.LoadMap("Intro_Ship_Transporter")
-		Map.Layer="INTRO"
+		Map.Layer="INTRO"		
 		Map.Schedule("LovejoyIntro")
 		var O = Kthura.Map("GAMEMAP").Layer("INTRO").Obj("Stars")
 		O.W = Screen.W
@@ -329,7 +330,7 @@ init
 	NGStage.NewStage(false,nil,Difficulty)
 	NGStage.NewStage(false,nil,Language)
 	NGStage.NewStage(false,nil,BuckleUp)
-	gvStr.Start = OS.date()
+	gv.str.Start = OS.date()
 end
 
 global void Apollo_Flow()
