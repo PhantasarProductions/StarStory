@@ -68,10 +68,12 @@ module
 		// for tar in each(act.Targets)
 		for ti=1,#act.Targets_Tag
 			plua tar = act.Targets[ti]
-			for i=1,35 
-				Image.Rotation = math.random(1,360)
-				Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
-				self.Glitter.XDraw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+			if tar
+				for i=1,35 
+					Image.Rotation = math.random(1,360)
+					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
+					self.Glitter.XDraw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+				end
 			end
 			Image.Rotation = 0
 		end
