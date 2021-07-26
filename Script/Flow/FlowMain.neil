@@ -46,6 +46,8 @@
 
 #macro TimeOutNext false
 
+#macro __BUGS "https://github.com/PhantasarProductions/StarStory/issues"
+
 // These lines are from the original BlitzMax code, and used as a kind of helper for me
 // Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
 // Field IntroText:TImage = LoadAnimImage(P,PixmapWidth(P),1,0,PixmapHeight(P))	
@@ -251,7 +253,8 @@ void DoMenu()
 end
 
 void Bugs()
-	OS.Execute("OpenURL BUGS")
+	//OS.Execute("OpenURL BUGS")
+	OpenURL(__BUGS)
 end
 
 void NewGame()
