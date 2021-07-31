@@ -40,8 +40,7 @@
 
 
 void BTLoad()
-	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")
-	
+	State.LoadNew("BOXTEXT","Script/Subs/SubBoxText.Neil")	
 end
 
 global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)

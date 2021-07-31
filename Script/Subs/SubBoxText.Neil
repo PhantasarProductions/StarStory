@@ -156,11 +156,11 @@ class TextBox
 		Portret(PicDir,PicSpc)
 		
 		//Color(255,180,0)
-		__red
+		__Red
 		//DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
 		LFont.Text(Header,__BoxText_MinX,boxy+10)
 		
-		__skyblue
+		__SkyBlue
 		for i,l in ipairs(self.Lines)
 			int p
 			if i<self.SL
