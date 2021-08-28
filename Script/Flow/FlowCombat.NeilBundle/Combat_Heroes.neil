@@ -380,7 +380,7 @@ group Stage_SelectTarget
 			Stage.Current = nil
 			if Act.ActTag=="ACT_SHOOT" || Act.ActTag=="ACT_ATTACK"
 				if (!Lua.Neil.Globals.Stage_PlayerInput.CheckLearn()) 
-					if (Act.Executor.Tag=="Wendicka" || Act.Executor.Tag=="UniWendicka") && (!Act.Targets[1].Boss) && (math.random(0,Act.Targets[1].HP*__skill)<math.random(0,RPGChar.Wendicka.Points.HP.Have))
+					if (Act.Executor.Tag=="Wendicka" || Act.Executor.Tag=="UniWendicka") && (!Act.Targets[1].Boss) && (math.random(0,Act.Targets[1].HP*__skill)<math.random(0,RPGChar.UniWendicka.Points.HP.Have))
 						// HAH! Take that I'll kill ya!
 						BoxText.Serial("COMBAT","Special."..Act.Executor.Tag,"FLOW_COMBAT")
 						var oa = Act

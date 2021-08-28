@@ -117,6 +117,7 @@ Void Cancel()
 			Flow.Current="FIELD"
 		Case "Load"
 			Flow.Current="MAINMENU"
+			Action="Save"
 		Default
 			Lua.error( "I do not know how to cancel action: "..Action)
 			// Should never happen, but just in Case
