@@ -148,6 +148,13 @@ global void Apollo_Flow()
 		GrSchedule.DoScheduled()
 		// Click to move char
 	end
+	if gv.gint.WipeGoCD>0
+		gv.gint.WipeGoCD--
+		if gv.gint.WipeGoCD==0
+			Spawn.Go()
+		end
+		Return
+	end
 	FieldMonster.CheckAll()		
 	FullDrawScreen()
 	Graphics.Color(255,255,255)

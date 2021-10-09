@@ -216,12 +216,14 @@ Global Void Apollo_Flow()
 	// Cancel by Escape key or right mouse button
 	If Events.KeyHit(27) || Events.MouseHitRight()
 		Cancel()
+		Return
 	End
 	// Cancel by Icon
 	__Red	
 	BigFont.Text("X",Screen.W-100,160)
 	If Events.MouseHitLeft() and mx>Screen.W-100 and my>160 and my<200
 		Cancel()
+		Return
 	End
 	// Party
 	__white

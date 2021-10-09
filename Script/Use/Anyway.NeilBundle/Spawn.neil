@@ -117,7 +117,8 @@ module
 			FPS.Sleep(6000)
 		end
 		//Go()
-		Schedule.Stop("SPAWN.GO")
+		//Schedule.Stop("SPAWN.GO")
+		gv.gint.WipeGoCD=4
 		//Schedule.Add("SPAWN.GO")
 	end
 end
