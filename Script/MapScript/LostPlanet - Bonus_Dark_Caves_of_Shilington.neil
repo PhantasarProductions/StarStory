@@ -73,7 +73,7 @@ group MScript
 	void Boss()
 		switch __skill
 			case 1
-				StartCombat.Foe("Boss/SuperSyss",math.ceil(RPGChar.Wendicka.Stat.Level*.75))
+				StartCombat.Foe("Boss/SuperSyss",math.ceil(RPGChar.Wendicka.Stat.Level*0.75))
 			case 2
 				StartCombat.Foe("Reg/Syss",Math.random(2,RPGChar.Wendicka.Stat.Level))
 				StartCombat.Foe("Boss/SuperSyss",math.ceil(RPGChar.Wendicka.Stat.Level*1.25))
