@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Effect.neil
-// Version: 21.06.16
+// Version: 21.10.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -74,13 +74,13 @@ Group CG_Effect
 		For st In Each(CureStat)
 			Switch st
 				Case "DeathOne"
-					If Tar.StatusChange.Fallen
+					If Tar.StatusChange.Fallen && Act.Act.CureDeathOne
 						Tar.StatusChange.Fallen=False
 						Tar.Hurt("Revive",0,255,0)
 						ret = True
 					End
-				Case "DeathFull"
-					If Tar.StatusChange.Fallen
+				Case "DeathFull" 
+					If Tar.StatusChange.Fallen && Act.Act.CureDeathFull
 						Tar.StatusChange.Fallen=False
 						Tar.HP = Tar.MaxHP
 						Tar.Hurt("Resurrection",0,255,0)
