@@ -1,6 +1,6 @@
 // License Information:
 // src/Tricky Script/Script/Use/Combat/SpellAni/Frost.neil
-// Version: 21.03.11
+// Version: 21.10.11
 // Copyright (C) 2021 Jeroen Petrus Broks
 // 
 // ===========================
@@ -75,8 +75,7 @@ module
 				end
 			end
 		end
-		__white
-		
+		__white		
 		_Ended = self.Cycles>=self.MaxCycles
 	end
 	
