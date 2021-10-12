@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.10.11
+// version: 21.10.12
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Nizozemska - Dark Graveyard.neil" "21.10.11"
+#MKL_Version "Star Story - Nizozemska - Dark Graveyard.neil" "21.10.12"
 #MKL_Lic     "Star Story - Nizozemska - Dark Graveyard.neil" "Phantasar Closed License"
 
 group MScript
@@ -47,7 +47,7 @@ group MScript
 	End
 	
 void Boss()
-		Int BossLevel = math.min(10000,200 * Caps.Cycle)
+		Int BossLevel = math.min(10000,(100 * __skill) * Caps.Cycle)
 		StartCombat.Foe("Boss/Cultist Leader",BossLevel)
 	end
 		
