@@ -32,12 +32,12 @@
 // 
 // **********************************************
 // 
-// version: 21.07.08
+// version: 21.10.12
 // End License Information
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.07.08"
+#MKL_Version "Star Story - Excalibur - Home.neil" "21.10.12"
 #MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
 #macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
@@ -393,8 +393,8 @@ group MScript
 				Schedule.Add("Start")
 			case "Final"
 				//Lua.error("Exit during final mission not yet scripted!")
-				Schedule.Add("LeaveTrans")
 				Map.GoToMap("Excalibur - Final","#005","Start")
+				Schedule.Add("LeaveTrans")
 			default
 				MapText("DONTLEAVE")
 		end
