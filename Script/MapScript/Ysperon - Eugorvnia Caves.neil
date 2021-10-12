@@ -56,7 +56,7 @@ group MScript
 	end
 	
 	Void Boss()
-		Int lv=math.ceil( Map.Level * ({.75,1,1.25})[__skill] )
+		Int lv=math.ceil( Map.Level * ({0.75,1,1.25})[__skill] )
 		StartCombat.Foe("Reg/Spider",lv div 2)
 		StartCombat.Foe("Boss/DeathMyrQueen",lv)
 		If __skill==3
