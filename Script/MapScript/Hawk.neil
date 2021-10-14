@@ -32,13 +32,13 @@
 // 
 // **********************************************
 // 
-// version: 21.10.12
+// version: 21.10.13
 // End License Information
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.10.12"
+#MKL_Version "Star Story - Hawk.neil" "21.10.13"
 #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
 #macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
@@ -180,10 +180,11 @@ group MScript
 		// And reloaded all anew when you come back, this will therefore trigger
 		// each time you get at the hawk. This prevents endless checking Foxy until she gives in
 		// But will make you need to come back multiple times.
-		static int W = math.random(1,RPGChar.Wendicka.Stat.Level)
+		static int W = math.random(3-__skill,RPGChar.Wendicka.Stat.Level)
 		//static int M = math.random(1,Caps.LevelCap * (__skill^__skill))
-		static int M = math.random(1,250 * __skill)
+		static int M = math.random(__skill,250 * __skill)
 		CSayF("Foxy check %d/%d",W,M)
+		PrintF("Foxy check %d/%d",W,M)
 		Talk("Foxy")
 		Hawk_Kick_Reggie(1,"NAVULPINA")
 		// Pickpocket

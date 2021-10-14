@@ -54,6 +54,7 @@ Var Buzz = Audio.Obtain("BUZZ")
 Var ButtonUp = Image.Obtain("UP")
 Var ButtonDown = Image.Obtain("DOWN")
 
+
 ReadOnly Int slotsonscreen = math.floor((Endy-starty)/(sloth+slotm))
 Int scroll = 0
 Table slots
@@ -83,9 +84,12 @@ Init
 	s = SaveGame.LoadIndieString("Star Story - Scroll")
 	CSayF("Getting scroll: %s",lua.tostring(s))
 	scroll = lua.tonumber(s or "0") or 0
+	
+	
 End
 
 Void SaveScroll()
+	CSay("Saving scroll data")
 	SaveGame.SaveIndieString("Star Story - Scroll",tostring(scroll))
 End
 
@@ -112,12 +116,15 @@ Global Void SetActionLoad()
 End
 
 Void Cancel()
+	SaveScroll()
 	Switch Action
 		Case "Save"
 			Flow.Current="FIELD"
+			return
 		Case "Load"
 			Flow.Current="MAINMENU"
 			Action="Save"
+			return
 		Default
 			Lua.error( "I do not know how to cancel action: "..Action)
 			// Should never happen, but just in Case
