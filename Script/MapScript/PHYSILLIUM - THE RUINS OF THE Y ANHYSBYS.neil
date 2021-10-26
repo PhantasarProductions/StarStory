@@ -32,7 +32,7 @@
 // 
 // **********************************************
 // 
-// version: 21.05.31
+// version: 21.10.25
 // End License Information
 
 #use "Script/Use/Anyway"
@@ -41,7 +41,7 @@
 
 #macro __Rejoined gv.gBool.Wendicka_Back_Y_Anhysbys
 
-#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.05.31"
+#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.10.25"
 #MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
 
 #macro __memprefix "MEMORY_TABLE_ANHYSBYS_"
@@ -69,6 +69,7 @@ group MScript
 	
 	void HideTwo()
 		Map.HideByLabel("SecretTwo")
+		Map.ShowObj("PLAYER")
 	end
 	
 	void EnterSecretTwo()
@@ -196,6 +197,9 @@ group MScript
 			Map.SetObj("EDL","X",480-ENDX)
 			Map.SetObj("EDR","X",512+ENDX)
 		end
+		If Map.Layer!="#001"
+			Map.ShowObj("PLAYER")
+		End
 	end
 		
 
