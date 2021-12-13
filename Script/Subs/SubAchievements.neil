@@ -52,6 +52,7 @@ group SubAch
 		End
 		Awarded[a] = True
 		Schedule.Add("MSG:You earned the achievement: "..Data[a].Title)
+		Medals.Award(a)
 	End
 	
 	void Save()
@@ -78,6 +79,7 @@ group SubAch
 		for k in each(LA)
 			Awarded[k:upper()]=true
 		end
+		self.Synchronize()
 	end
 	
 	Void List(Int SX,Int SY,Int EX, Int EY)
@@ -145,4 +147,21 @@ group SubAch
 			ButtonDown.Draw(EX-65,EY-35)
 		End
 	End
+	
+	Void Synchronize()
+		CSay("Synchronizing achievements with medal")
+		For K,A in sPairs(Data)
+			if (Awarded[K])
+				CSayF("=> '%s'",K)
+				Medals.Award(K)
+			End
+		End
+		CSay("Syncronizing complete")
+	End
+	
+	Constructor
+		Medals.Game = "StarStory"
+		Medals.Storage = "zlib"
+	End
+	
 End
