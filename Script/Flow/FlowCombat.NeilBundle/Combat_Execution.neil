@@ -1,7 +1,7 @@
 // License Information:
 // src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Execution.neil
-// Version: 21.07.09
-// Copyright (C) 2021 Jeroen Petrus Broks
+// Version: 22.03.25
+// Copyright (C) 2021, 2022 Jeroen Petrus Broks
 // 
 // ===========================
 // This file is part of a project related to the Phantasar Chronicles or another
@@ -191,8 +191,9 @@ Module
 			case _Announce _AblEffect _AblCharge
 				// Do Nothing at all.
 			case _Stance
-				// TODO: Bring hero in specific pose, or make the enemy "flicker" with it's "negative" counterpart
+				// Handled elsewhere
 			case _SpellAni
+				__White
 				Act.SpellAni.Draw()
 			default
 				Lua.error("Combat.Execution.Draw: Unknown stage ("..MyStage..")")
