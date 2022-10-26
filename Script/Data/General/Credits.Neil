@@ -323,7 +323,7 @@ Init
 	Line.Y = Screen.H +  1290
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "BMCGOWAN"
+	Line.Txt = "April"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -344,14 +344,14 @@ Init
 	Line.Y = Screen.H +  1380
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Benboncan"
+	Line.Txt = "BMCGOWAN"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  1410
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -365,14 +365,14 @@ Init
 	Line.Y = Screen.H +  1470
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Brian Boyko"
+	Line.Txt = "Benboncan"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  1500
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -386,14 +386,14 @@ Init
 	Line.Y = Screen.H +  1560
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Courney Novits"
+	Line.Txt = "Brian Boyko"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  1590
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Font"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -407,14 +407,14 @@ Init
 	Line.Y = Screen.H +  1650
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Cynix"
+	Line.Txt = "Courney Novits"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  1680
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Font"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -428,7 +428,7 @@ Init
 	Line.Y = Screen.H +  1740
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Dedicated teacher"
+	Line.Txt = "Cynix"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -449,7 +449,7 @@ Init
 	Line.Y = Screen.H +  1830
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Deluge"
+	Line.Txt = "Dedicated teacher"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -470,7 +470,7 @@ Init
 	Line.Y = Screen.H +  1920
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Deneson83"
+	Line.Txt = "Deluge"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -491,7 +491,7 @@ Init
 	Line.Y = Screen.H +  2010
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Emily Esposito"
+	Line.Txt = "Deneson83"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -512,14 +512,14 @@ Init
 	Line.Y = Screen.H +  2100
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Eric Matyas"
+	Line.Txt = "Emily Esposito"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  2130
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -533,7 +533,7 @@ Init
 	Line.Y = Screen.H +  2190
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Fake Music Generator"
+	Line.Txt = "Eric Matyas"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -554,7 +554,7 @@ Init
 	Line.Y = Screen.H +  2280
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Frankes"
+	Line.Txt = "Event Horizon Telescope"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -575,14 +575,14 @@ Init
 	Line.Y = Screen.H +  2370
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "FreeSFX.co.uk"
+	Line.Txt = "Fake Music Generator"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  2400
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -596,7 +596,7 @@ Init
 	Line.Y = Screen.H +  2460
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "GDJ"
+	Line.Txt = "Frankes"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -617,63 +617,63 @@ Init
 	Line.Y = Screen.H +  2550
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "GR-Sites"
+	Line.Txt = "FreeSFX.co.uk"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  2580
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
 	Line.Y = Screen.H +  2610
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
-	Line.R = 255
-	Line.G = 180
-	Line.B =   0
-	Line.Y = Screen.H +  2640
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = ""
 	Line.R =   0
 	Line.G =   0
 	Line.B =   0
-	Line.Y = Screen.H +  2670
+	Line.Y = Screen.H +  2640
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Holly"
+	Line.Txt = "GDJ"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
-	Line.Y = Screen.H +  2700
+	Line.Y = Screen.H +  2670
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
-	Line.Y = Screen.H +  2730
+	Line.Y = Screen.H +  2700
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = ""
 	Line.R =   0
 	Line.G =   0
 	Line.B =   0
-	Line.Y = Screen.H +  2760
+	Line.Y = Screen.H +  2730
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "J.W.H. Broeders"
+	Line.Txt = "GR-Sites"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
+	Line.Y = Screen.H +  2760
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
 	Line.Y = Screen.H +  2790
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -687,7 +687,7 @@ Init
 	Line.Y = Screen.H +  2850
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Jonata"
+	Line.Txt = "Holly"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -708,14 +708,14 @@ Init
 	Line.Y = Screen.H +  2940
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "K4r573n"
+	Line.Txt = "J.W.H. Broeders"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  2970
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -729,7 +729,7 @@ Init
 	Line.Y = Screen.H +  3030
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Kelly"
+	Line.Txt = "J4p4n"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -750,14 +750,14 @@ Init
 	Line.Y = Screen.H +  3120
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Kevin McLeod"
+	Line.Txt = "Jonata"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3150
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -771,7 +771,7 @@ Init
 	Line.Y = Screen.H +  3210
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Kipp"
+	Line.Txt = "K4r573n"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -792,14 +792,14 @@ Init
 	Line.Y = Screen.H +  3300
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Knight of Fire"
+	Line.Txt = "Kelly"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3330
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -813,14 +813,14 @@ Init
 	Line.Y = Screen.H +  3390
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Kristel Kerstens"
+	Line.Txt = "Kevin McLeod"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3420
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Foxy's voice saying 'yes' on pickpockets!"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -834,7 +834,7 @@ Init
 	Line.Y = Screen.H +  3480
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Lazur URH"
+	Line.Txt = "Kipp"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -855,14 +855,14 @@ Init
 	Line.Y = Screen.H +  3570
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Linda James"
+	Line.Txt = "Knight of Fire"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3600
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -876,14 +876,14 @@ Init
 	Line.Y = Screen.H +  3660
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Linvala"
+	Line.Txt = "Kristel Kerstens"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3690
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Foxy's voice saying 'yes' on pickpockets!"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -897,7 +897,7 @@ Init
 	Line.Y = Screen.H +  3750
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Majkel"
+	Line.Txt = "Lazur URH"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -918,14 +918,14 @@ Init
 	Line.Y = Screen.H +  3840
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Man of Steel"
+	Line.Txt = "Lee Rosevere"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3870
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -939,14 +939,14 @@ Init
 	Line.Y = Screen.H +  3930
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Matt McFarland"
+	Line.Txt = "Linda James"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  3960
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -960,7 +960,7 @@ Init
 	Line.Y = Screen.H +  4020
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Megan"
+	Line.Txt = "Linvala"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -981,7 +981,7 @@ Init
 	Line.Y = Screen.H +  4110
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Merlin2525"
+	Line.Txt = "Majkel"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1002,7 +1002,7 @@ Init
 	Line.Y = Screen.H +  4200
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Michael Frank"
+	Line.Txt = "Man of Steel"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1023,14 +1023,14 @@ Init
 	Line.Y = Screen.H +  4290
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Mike Koenig"
+	Line.Txt = "Matt McFarland"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  4320
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1044,7 +1044,7 @@ Init
 	Line.Y = Screen.H +  4380
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Mioni"
+	Line.Txt = "Megan"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1065,7 +1065,7 @@ Init
 	Line.Y = Screen.H +  4470
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Mohammed Ibrahim"
+	Line.Txt = "Merlin2525"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1086,7 +1086,7 @@ Init
 	Line.Y = Screen.H +  4560
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "NASA"
+	Line.Txt = "Michael Frank"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1107,14 +1107,14 @@ Init
 	Line.Y = Screen.H +  4650
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Pablo Impallari"
+	Line.Txt = "Mike Koenig"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  4680
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Font"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1128,14 +1128,14 @@ Init
 	Line.Y = Screen.H +  4740
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "PacDV"
+	Line.Txt = "Mioni"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  4770
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1149,7 +1149,7 @@ Init
 	Line.Y = Screen.H +  4830
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Palimsest"
+	Line.Txt = "Mohammed Ibrahim"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1170,7 +1170,7 @@ Init
 	Line.Y = Screen.H +  4920
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Random Artists from the Open Clip Art Library (OCAL)"
+	Line.Txt = "NASA"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1191,14 +1191,14 @@ Init
 	Line.Y = Screen.H +  5010
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Rockit Maxx"
+	Line.Txt = "Pablo Impallari"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5040
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Font"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1212,14 +1212,14 @@ Init
 	Line.Y = Screen.H +  5100
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Ruark Brumbaugh"
+	Line.Txt = "PacDV"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5130
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Font"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1233,14 +1233,14 @@ Init
 	Line.Y = Screen.H +  5190
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "SJ Mellia"
+	Line.Txt = "Palimsest"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5220
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1254,14 +1254,14 @@ Init
 	Line.Y = Screen.H +  5280
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sergey Cheremisinov"
+	Line.Txt = "Random Artists from the Open Clip Art Library (OCAL)"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5310
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1275,14 +1275,14 @@ Init
 	Line.Y = Screen.H +  5370
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Skurian25"
+	Line.Txt = "Rockit Maxx"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5400
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1296,14 +1296,14 @@ Init
 	Line.Y = Screen.H +  5460
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "SoundsCrate"
+	Line.Txt = "Ruark Brumbaugh"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5490
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Font"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1317,7 +1317,7 @@ Init
 	Line.Y = Screen.H +  5550
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Spiedkiks"
+	Line.Txt = "SJ Mellia"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1338,14 +1338,14 @@ Init
 	Line.Y = Screen.H +  5640
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "TheSkull"
+	Line.Txt = "Sergey Cheremisinov"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5670
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1359,14 +1359,14 @@ Init
 	Line.Y = Screen.H +  5730
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Thobias Benjamin Koehler"
+	Line.Txt = "Skurian25"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5760
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Font"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1380,14 +1380,14 @@ Init
 	Line.Y = Screen.H +  5820
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Varazuvi(TM)"
+	Line.Txt = "Snifty"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5850
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1401,14 +1401,14 @@ Init
 	Line.Y = Screen.H +  5910
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Vickie"
+	Line.Txt = "SoundsCrate"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  5940
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1422,14 +1422,14 @@ Init
 	Line.Y = Screen.H +  6000
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "WallpaperAll.com"
+	Line.Txt = "Spiedkiks"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  6030
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1443,14 +1443,14 @@ Init
 	Line.Y = Screen.H +  6090
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Weirdomusic"
+	Line.Txt = "TheSkull"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  6120
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1464,14 +1464,14 @@ Init
 	Line.Y = Screen.H +  6180
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Wicky77 & Wout"
+	Line.Txt = "Thobias Benjamin Koehler"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  6210
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Font"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1485,126 +1485,126 @@ Init
 	Line.Y = Screen.H +  6270
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Widzy"
+	Line.Txt = "Varazuvi(TM)"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  6300
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Music"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
 	Line.Y = Screen.H +  6330
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Sound Effects"
-	Line.R = 255
-	Line.G = 180
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
 	Line.B =   0
 	Line.Y = Screen.H +  6360
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
+	Line.Txt = "Vickie"
 	Line.R =   0
-	Line.G =   0
-	Line.B =   0
+	Line.G = 180
+	Line.B = 255
 	Line.Y = Screen.H +  6390
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "WoodCutter"
-	Line.R =   0
-	Line.G = 180
-	Line.B = 255
-	Line.Y = Screen.H +  6420
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Font"
-	Line.R = 255
-	Line.G = 180
-	Line.B =   0
-	Line.Y = Screen.H +  6450
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
-	Line.R =   0
-	Line.G =   0
-	Line.B =   0
-	Line.Y = Screen.H +  6480
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "YADOT"
-	Line.R =   0
-	Line.G = 180
-	Line.B = 255
-	Line.Y = Screen.H +  6510
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = "Graphics"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
-	Line.Y = Screen.H +  6540
+	Line.Y = Screen.H +  6420
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = ""
 	Line.R =   0
 	Line.G =   0
 	Line.B =   0
-	Line.Y = Screen.H +  6570
+	Line.Y = Screen.H +  6450
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Your Marginally Talented Photographer Girlfriend"
+	Line.Txt = "WallpaperAll.com"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
-	Line.Y = Screen.H +  6600
+	Line.Y = Screen.H +  6480
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
+	Line.Y = Screen.H +  6510
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  6540
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Weirdomusic"
+	Line.R =   0
+	Line.G = 180
+	Line.B = 255
+	Line.Y = Screen.H +  6570
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
-	Line.Y = Screen.H +  6630
+	Line.Y = Screen.H +  6600
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = ""
 	Line.R =   0
 	Line.G =   0
 	Line.B =   0
-	Line.Y = Screen.H +  6660
+	Line.Y = Screen.H +  6630
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "barnheartowl"
+	Line.Txt = "Wicky77 & Wout"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
+	Line.Y = Screen.H +  6660
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Music"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
 	Line.Y = Screen.H +  6690
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
-	Line.R = 255
-	Line.G = 180
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
 	Line.B =   0
 	Line.Y = Screen.H +  6720
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
-	Line.R =   0
-	Line.G =   0
-	Line.B =   0
-	Line.Y = Screen.H +  6750
-	Line = New CreditLine()
-	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "burnurb"
+	Line.Txt = "Widzy"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
+	Line.Y = Screen.H +  6750
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Music"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
 	Line.Y = Screen.H +  6780
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Sound Effects"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1618,14 +1618,14 @@ Init
 	Line.Y = Screen.H +  6840
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "eady"
+	Line.Txt = "WoodCutter"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  6870
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Font"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1639,7 +1639,7 @@ Init
 	Line.Y = Screen.H +  6930
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "finao123"
+	Line.Txt = "YADOT"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1660,14 +1660,14 @@ Init
 	Line.Y = Screen.H +  7020
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "foofurple"
+	Line.Txt = "Your Marginally Talented Photographer Girlfriend"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  7050
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Graphics"
+	Line.Txt = "Music"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -1681,7 +1681,7 @@ Init
 	Line.Y = Screen.H +  7110
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "glitch"
+	Line.Txt = "barnheartowl"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1702,7 +1702,7 @@ Init
 	Line.Y = Screen.H +  7200
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "hatalar205"
+	Line.Txt = "bedpenner"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1723,7 +1723,7 @@ Init
 	Line.Y = Screen.H +  7290
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "jpd2010"
+	Line.Txt = "burnurb"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1744,7 +1744,7 @@ Init
 	Line.Y = Screen.H +  7380
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "jphandrigan"
+	Line.Txt = "eady"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1765,7 +1765,7 @@ Init
 	Line.Y = Screen.H +  7470
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "kg"
+	Line.Txt = "finao123"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1786,7 +1786,7 @@ Init
 	Line.Y = Screen.H +  7560
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "pitr"
+	Line.Txt = "foofurple"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1807,7 +1807,7 @@ Init
 	Line.Y = Screen.H +  7650
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "qubodub"
+	Line.Txt = "glitch"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1828,7 +1828,7 @@ Init
 	Line.Y = Screen.H +  7740
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "tzunghaor"
+	Line.Txt = "hatalar205"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1849,7 +1849,7 @@ Init
 	Line.Y = Screen.H +  7830
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "warszawianka"
+	Line.Txt = "jpd2010"
 	Line.R =   0
 	Line.G = 180
 	Line.B = 255
@@ -1870,16 +1870,16 @@ Init
 	Line.Y = Screen.H +  7920
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
+	Line.Txt = "jphandrigan"
 	Line.R =   0
-	Line.G =   0
-	Line.B =   0
+	Line.G = 180
+	Line.B = 255
 	Line.Y = Screen.H +  7950
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
-	Line.R =   0
-	Line.G =   0
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
 	Line.B =   0
 	Line.Y = Screen.H +  7980
 	Line = New CreditLine()
@@ -1891,17 +1891,17 @@ Init
 	Line.Y = Screen.H +  8010
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Copyright 2015, 2021"
-	Line.R = 255
-	Line.G = 255
+	Line.Txt = "kg"
+	Line.R =   0
+	Line.G = 180
 	Line.B = 255
 	Line.Y = Screen.H +  8040
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Jeroen P. Broks"
+	Line.Txt = "Graphics"
 	Line.R = 255
-	Line.G = 255
-	Line.B = 255
+	Line.G = 180
+	Line.B =   0
 	Line.Y = Screen.H +  8070
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
@@ -1912,18 +1912,144 @@ Init
 	Line.Y = Screen.H +  8100
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = ""
+	Line.Txt = "pitr"
 	Line.R =   0
-	Line.G =   0
-	Line.B =   0
+	Line.G = 180
+	Line.B = 255
 	Line.Y = Screen.H +  8130
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
+	Line.Y = Screen.H +  8160
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
 	Line.Txt = ""
 	Line.R =   0
 	Line.G =   0
 	Line.B =   0
-	Line.Y = Screen.H +  8160
+	Line.Y = Screen.H +  8190
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "qubodub"
+	Line.R =   0
+	Line.G = 180
+	Line.B = 255
+	Line.Y = Screen.H +  8220
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
+	Line.Y = Screen.H +  8250
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8280
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "tzunghaor"
+	Line.R =   0
+	Line.G = 180
+	Line.B = 255
+	Line.Y = Screen.H +  8310
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
+	Line.Y = Screen.H +  8340
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8370
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "warszawianka"
+	Line.R =   0
+	Line.G = 180
+	Line.B = 255
+	Line.Y = Screen.H +  8400
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Graphics"
+	Line.R = 255
+	Line.G = 180
+	Line.B =   0
+	Line.Y = Screen.H +  8430
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8460
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8490
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8520
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8550
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Copyright 2015, 2021"
+	Line.R = 255
+	Line.G = 255
+	Line.B = 255
+	Line.Y = Screen.H +  8580
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = "Jeroen P. Broks"
+	Line.R = 255
+	Line.G = 255
+	Line.B = 255
+	Line.Y = Screen.H +  8610
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8640
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8670
+	Line = New CreditLine()
+	CreditLine.Lijst.AddLast(Line)
+	Line.Txt = ""
+	Line.R =   0
+	Line.G =   0
+	Line.B =   0
+	Line.Y = Screen.H +  8700
 End
 
 Return CreditLine.Lijst
