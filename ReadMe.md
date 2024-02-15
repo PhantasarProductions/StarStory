@@ -1,4 +1,4 @@
-Game currently in open Alpha! >> https://phantasar-productions.itch.io/star-story
+Download here: https://phantasar-productions.itch.io/star-story
 
 ![image](https://user-images.githubusercontent.com/11202073/103112021-b3a30500-4652-11eb-9877-a7e82cb8a672.png)
 
