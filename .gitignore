@@ -9,3 +9,7 @@ Script/Use/Misc/#Resistance.neil#
 # Archive of the old scripts. 
 # I may need those for referrence, but in the repository they're useless.
 Archive
+
+
+# No Scyndi compiled bundles
+*.stb
