@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Start/Main.scyndi
 // 
-// 	  Version: 24.11.16 I
+// 	  Version: 24.11.16 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -44,7 +44,12 @@
 
 Script
 
-#use "Libs/SCI/Sys" 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio" 
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics" 
+
+#use "Script/Use/Convert/Flow" 
 
 Const Int wh_Image = 1
 Const Int wh_Font = 2
@@ -79,7 +84,7 @@ end
 
 // Testing if the file is actually compiled correctly at all and running
 init
-	FPS.MinTicks=25;
+	//FPS.MinTicks=25; // Not Needed in SCI. And 26 is the default setting, anyway.
 	Print("Wendicka Lovejoy says 'Hello'")
 	Print("Scyndi's Creative Interpreter is running in "..Sys.Platform)
 	
@@ -138,12 +143,12 @@ init
 		Graphics.Cls()
 		Graphics.Color(255,255,255)
 		if Loading
-			Loading.Draw((Screen.W/2)-(Loading.Width/2),(Screen.H/2)-(Loading.Height/2))
+			Loading.Draw((Graphics.W div 2)-(Loading.Width div 2),(Graphics.H div 2)-(Loading.Height div 2))
 		end
 		Graphics.Color(65,65,65)
-		Graphics.Rect(0,Screen.H-50,Screen.W,50)
+		Graphics.Rect(0,Graphics.H-50,Graphics.W,50)
 		Graphics.Color(0,180,255)
-		Graphics.Rect(0,Screen.H-50,math.floor( (i/m) * Screen.W ),50)
+		Graphics.Rect(0,Graphics.H-50,math.floor( (i/m) * Graphics.W ),50)
 		Graphics.Color(255,255,255)
 		Graphics.Flip()
 		Events.Poll()
@@ -152,12 +157,13 @@ init
 			// wh_Image
 			case 1
 				cout("image ",LA.File," to ",LA.Tag)
-				var I =  Image.Load(LA.File,LA.Tag)
-				Loading = Loading or I
+				var I =  LoadImage(LA.File,LA.Tag)
+				Loading = Loading || I
 			// wh_Font
 			case 2
 				cout("font ",LA.File," to ",LA.Tag)
-				ImageFont.Load(LA.File,LA.Tag).Fixed = LA.data==true
+				LinkFont(LA.File,LA.Tag)
+				//.Fixed = LA.data==true
 			// wh_Audio
 			case 3
 				cout("audio ",LA.File," to ",LA.Tag)
@@ -166,7 +172,7 @@ init
 				print("ERROR!")
 				lua.error("Unknown loader switch ("..LA.what..")")
 		end
-		print();
+		print()
 	end
 
 
