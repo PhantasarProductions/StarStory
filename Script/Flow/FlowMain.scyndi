@@ -1,52 +1,62 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowMain.neil
-// Version: 21.10.09
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 24.11.17 I
+// 	
+// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Script
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/PSaveGame"
 
-#macro IntroTextWidth 640
-#macro IntroTextHeight 1140
+Const Int IntroTextWidth = 640
+Const Int IntroTextHeight = 1140
 
-#macro QuickQuit true
-#macro LogoCD 500
+Const Bool QuickQuit = true
+Const int LogoCD = 500
 
-#macro TimeOutNext false
+Const Bool TimeOutNext = false
 
-#macro __BUGS "https://github.com/PhantasarProductions/StarStory/issues"
+Const String __BUGS = "https://github.com/PhantasarProductions/StarStory/issues"
 
 // These lines are from the original BlitzMax code, and used as a kind of helper for me
 // Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
@@ -56,13 +66,13 @@
 //	Field Phantasar:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/PhantasarProductions.png"))
 
 bool ShowMenu = False
-var Stars = Image.Load("GFX/Intro/Starfield.png","STARFIELD")
-var Phantasar = Image.Load("GFX/Intro/PhantasarProductions.png")
-var StarStory = Image.Load("GFX/Intro/StarStory.png")
+var Stars = LoadImage("GFX/Intro/Starfield.png","STARFIELD")
+var Phantasar = LoadImage("GFX/Intro/PhantasarProductions.png")
+var StarStory = LoadImage("GFX/Intro/StarStory.png")
 //var ScrollText = Image.LoadAnim("GFX/Intro/Introtext.png",IntroTextWidth,1,IntroTextHeight)
-var ScrollText = Image.Load("GFX/Intro/IntroText.jpbf")
-var Mouse = Image.Obtain("MOUSE")
-var MenuFont = ImageFont.Obtain("BOXTEXT")
+var ScrollText = LoadImage("GFX/Intro/IntroText.jpbf")
+var Mouse = ObtainImage("MOUSE")
+var MenuFont = ObtainFont("BOXTEXT")
 
 
 
@@ -102,10 +112,10 @@ class Stage
 			end
 		end
 		AtStage++
-		if AtStage>#Stages
+		if AtStage>Len(Stages)
 			AtStage=1
 		end
-		print("Going to state:",AtStage.."/"..(#Stages))
+		print("Going to state:",AtStage.."/"..(Len(Stages)))
 		if Stages[AtStage].Start
 			print("Start callback: ",AtStage)
 			Stages[AtStage].Start()
@@ -168,7 +178,7 @@ class FadeScroll
 			//print(ak,IntroTextHeight)
 			//cout("= ",ak,"> y",f.y,"; frame",f.frame,"; color",f.color,"; scale",f.scale,"\n")
 		end
-		print("Created",#line,"lines")
+		print("Created",Len(line),"lines")
 	end
 	
 	static void Flow()
@@ -235,7 +245,7 @@ void DoMenu()
 	Graphics.Rect(0,Screen.H-32,Screen.W,5)
 	Graphics.Color(0,0,0)
 	Graphics.Rect(0,Screen.H-28,Screen.W,28)
-	static int iw = math.floor(Screen.W/(#Menu+1))
+	static int iw = math.floor(Screen.W/(Len(Menu)+1))
 	static int iwh = iw/2
 	for idx,item in ipairs(Menu)
 		Graphics.Color(0,180,255)
@@ -311,12 +321,13 @@ init
 	print("Dev:",Dev.indev)
 end
 
-global void Apollo_Dispose()
-	Print("Main menu flow will now be disposed!")
-end
+// No equivalent in SCI and not even gonna put it in either
+//global void Apollo_Dispose()
+//	Print("Main menu flow will now be disposed!")
+//end
 
 
-global void Apollo_Flow()
+global void MainFlow()
 	static bool StartDestroyed
 	if not StartDestroyed
 		Flow.Kill("APOLLO_MAIN")
