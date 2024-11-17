@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Start/Main.scyndi
 // 
-// 	  Version: 24.11.16 II
+// 	  Version: 24.11.17
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -116,10 +116,10 @@ init
 	//LAsset.C("GFX/Field/Encounter.png","FLDFOE",wh_image)
 	//LAsset.C("GFX/Field/Boss.png","FLDBOSS",wh_image)
 	for elem in each(NewArray("Dark", "Earth", "Fire", "Frost", "Light", "Lightning", "Water", "Wind"))
-		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(elem:upper()),wh_image)
+		LAsset.C("GFX/Elements/"..elem..".png","ELEM_"..(upper(elem)),wh_image)
 	end
 	for status in each(NewArray( "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" ))
-		LAsset.C("GFX/StatusChanges/"..status..".png","STATUS_"..(status:upper()),wh_image)
+		LAsset.C("GFX/StatusChanges/"..status..".png","STATUS_"..(upper(status)),wh_image)
 	end
 	LAsset.C("GFX/StatusBar/ItemSocket.png","ITEM_SOCKET",wh_image)
 	LAsset.C("GFX/StatusScreen/Trash.png","TRASH",wh_image)
@@ -150,23 +150,23 @@ init
 		Graphics.Color(0,180,255)
 		Graphics.Rect(0,Graphics.H-50,math.floor( (i/m) * Graphics.W ),50)
 		Graphics.Color(255,255,255)
-		Graphics.Flip()
+		Flip()
 		Events.Poll()
 		printf("%5d/%5d: Loading ",i,m)
 		switch LA.what
 			// wh_Image
 			case 1
-				cout("image ",LA.File," to ",LA.Tag)
+				cout("image ",LA.File," to ",LA.Tag," ")
 				var I =  LoadImage(LA.File,LA.Tag)
 				Loading = Loading || I
 			// wh_Font
 			case 2
-				cout("font ",LA.File," to ",LA.Tag)
+				cout("font ",LA.File," to ",LA.Tag," ")
 				LinkFont(LA.File,LA.Tag)
 				//.Fixed = LA.data==true
 			// wh_Audio
 			case 3
-				cout("audio ",LA.File," to ",LA.Tag)
+				cout("audio ",LA.File," to ",LA.Tag," ")
 				Audio.Load(LA.File,LA.Tag)
 			default
 				print("ERROR!")
@@ -177,6 +177,6 @@ init
 
 
 	// Chaining to main menu
-	Flow.Load("MAINMENU","Script/Flow/FlowMain.neil")
+	Flow.Load("MAINMENU","Script/Flow/FlowMain.lbc")
 	Flow.Current="MAINMENU"		
 end
