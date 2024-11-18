@@ -45,6 +45,8 @@
 
 Script
 
+#use "Libs/Music"
+
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
@@ -325,7 +327,7 @@ init
 	Stage.NewStage(ShowLogo)
 	Stage.NewStage(ShowLogo)
 	Music.Play("Music/Introduction/Introduction.ogg")
-	print("Dev:",Dev.indev)
+	//print("Dev:",Dev.indev)
 end
 
 // No equivalent in SCI and not even gonna put it in either
@@ -340,7 +342,7 @@ global void MainFlow()
 		Flow.Kill("APOLLO_MAIN")
 		StartDestroyed = true
 	end
-	Dev.ToConsole()
+	//Dev.ToConsole()
 	// print("Start Flow!")
 	int mx = Events.MouseX()
 	int my = Events.MouseY()
