@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.11.18 II
+// 	  Version: 24.11.18 III
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -111,14 +111,14 @@ const delegate Error = Lua.error
 
 class Key
 	// list is not complete. I will add more if I need them!
-	static readonly int up = Events.KeyName("Up")
-	static readonly int down = Events.KeyName("Down")
-	static readonly int pageup = Events.KeyName("PageUp")
-	static readonly int pagedown = Events.KeyName("PageDown")
-	static readonly int backspace = Events.KeyName("Backspace")
-	static readonly int leftshift = Events.KeyName("Left Shift")
-	static readonly int rightshift = Events.KeyName("Right Shift")
-	static readonly int kp_minus = Events.KeyName("Keypad -")	
+	static readonly int up = Events.KeyFromName("Up")
+	static readonly int down = Events.KeyFromName("Down")
+	static readonly int pageup = Events.KeyFromName("PageUp")
+	static readonly int pagedown = Events.KeyFromName("PageDown")
+	static readonly int backspace = Events.KeyFromName("Backspace")
+	static readonly int leftshift = Events.KeyFromName("Left Shift")
+	static readonly int rightshift = Events.KeyFromName("Right Shift")
+	static readonly int kp_minus = Events.KeyFromName("Keypad -")	
 end
 
 quickmeta ablused
