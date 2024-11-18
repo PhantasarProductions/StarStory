@@ -419,7 +419,7 @@ Global Table MapScript
 	//	Lua.setmetatable(Meta,{["__index"]=MetaIndex})
 	//end
 	
-end
+#endregion
 
 //number PlayerDistance(a,b)
 //	int ox
