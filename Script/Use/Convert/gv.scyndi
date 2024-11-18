@@ -34,7 +34,7 @@ QuickMeta gInt
 	end
 end
 
-QuickMeta vStr
+QuickMeta gStr
 	Index
 		return gstr[key]
 	end
@@ -44,4 +44,4 @@ QuickMeta vStr
 End
 
 ReadOnly Var vInt = gint
-ReadOnly Var gStr = vStr
+ReadOnly Var vStr = gStr
