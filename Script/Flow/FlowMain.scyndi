@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 24.11.18 I
+// 	  Version: 24.11.18 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -117,7 +117,7 @@ class Stage
 			print("Timeout CD:",TimeOut)
 			if Timeout==0
 				print("TimeOut reached! byebye!")
-				Lua.Neil.Globals.Flow.Quit(255)
+				Flow.Quit(255)
 			end
 		end
 		AtStage++
@@ -306,6 +306,7 @@ end
 
 
 init
+	Menu = {}
 	Menu += new MenuItem("New Game",NewGame)
 	//Menu += new MenuItem("Continue",ContinueGame,SaveGame.Recognized("QUIT"))
 	Menu += new MenuItem("Load Game",LoadGame)
