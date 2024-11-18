@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.11.18 I
+// 	  Version: 24.11.18 II
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -89,14 +89,14 @@ Module
 extern __skill "Scyndi.class.gint.Skill"
 
 
-extern __black Scyndi.Globals.SetColor(0,0,0)
-extern __white Scyndi.Globals.SetColor(255,255,255)
-extern __red Scyndi.Globals.SetColor(255,0,0)
-extern __ember Scyndi.Globals.SetColor(255,180,0)
-extern __skyblue Scyndi.Globals.SetColor(0,180,255)
-extern __green Scyndi.Globals.SetColor(0,255,0)
-extern __cyan Scyndi.Globals.SetColor(0,255,255)
-extern __yellow Scyndi.Globals.SetColor(255,255,0)
+extern __black "Scyndi.Globals.SetColor(0,0,0)"
+extern __white "Scyndi.Globals.SetColor(255,255,255)"
+extern __red "Scyndi.Globals.SetColor(255,0,0)"
+extern __ember "Scyndi.Globals.SetColor(255,180,0)"
+extern __skyblue "Scyndi.Globals.SetColor(0,180,255)"
+extern __green "Scyndi.Globals.SetColor(0,255,0)"
+extern __cyan "Scyndi.Globals.SetColor(0,255,255)"
+extern __yellow "Scyndi.Globals.SetColor(255,255,0)"
 
 //#macro __skill gv.gInt.Skill
 #macro __lang gv.gStr.Lang
