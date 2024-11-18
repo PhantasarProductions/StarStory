@@ -28,6 +28,7 @@ Module
 ReadOnly Delegate Load = Sys.LoadFlow
 ReadOnly Delegate LoadFlow = Sys.LoadFlow
 ReadOnly Delegate LoadNewFlow = Sys.LoadNewFlow	
+ReadOnly Delegate Quit = Sys.Exit
 	
 Set String Current
 	Sys.GoToFlow(Value)
