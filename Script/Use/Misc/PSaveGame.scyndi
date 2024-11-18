@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 24.11.18 II
+// 	  Version: 24.11.18 III
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,8 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -110,13 +112,14 @@ void Process(int p)
 	Graphics.Cls()
 	Loading()
 	Graphics.Color(100,100,100)
-	Graphics.Rect(0,Screen.H-10,Screen.W,10)
+	Graphics.Rect(0,Graphics.H-10,Graphics.W,10)
 	Graphics.Color(255,math.ceil( (p/max)*180 ), 0)
-	Graphics.Rect(0,Screen.H-10,math.ceil( (p/max)*Screen.W),10)
+	Graphics.Rect(0,Graphics.H-10,math.ceil( (p/max)*Graphics.W),10)
 	Graphics.Flip()
 	Events.Poll()
 end
 
+plua tfnt
 global bool PerformLoadGame(string f)
 	Lua.error("Loading game not yet implemented")
 	//static var tfnt
