@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.11.18 III
+// 	  Version: 24.11.18 IV
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -86,7 +86,7 @@ Module
 #use "Libs/SCI/Events"
 #use "Script/Use/Convert/gv"
 //Global Get Int __Skill; Return gint.Skill; End
-extern __skill "Scyndi.class.gint.Skill"
+extern __skill "Scyndi.Globals.gint.Skill"
 
 
 extern __black "Scyndi.Globals.SetColor(0,0,0)"
