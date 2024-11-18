@@ -111,14 +111,14 @@ const delegate Error = Lua.error
 
 class Key
 	// list is not complete. I will add more if I need them!
-	static readonly int up = Events.KeyByName("Up")
-	static readonly int down = Events.KeyByName("Down")
-	static readonly int pageup = Events.KeyByName("PageUp")
-	static readonly int pagedown = Events.KeyByName("PageDown")
-	static readonly int backspace = Events.KeyByName("Backspace")
-	static readonly int leftshift = Events.KeyByName("Left Shift")
-	static readonly int rightshift = Events.KeyByName("Right Shift")
-	static readonly int kp_minus = Events.KeyByName("Keypad -")	
+	static readonly int up = Events.KeyName("Up")
+	static readonly int down = Events.KeyName("Down")
+	static readonly int pageup = Events.KeyName("PageUp")
+	static readonly int pagedown = Events.KeyName("PageDown")
+	static readonly int backspace = Events.KeyName("Backspace")
+	static readonly int leftshift = Events.KeyName("Left Shift")
+	static readonly int rightshift = Events.KeyName("Right Shift")
+	static readonly int kp_minus = Events.KeyName("Keypad -")	
 end
 
 quickmeta ablused
