@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/gv.scyndi
 // 	InterVar Catch-Up
-// 	version: 24.11.18 I
+// 	version: 24.11.18 II
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -25,23 +25,23 @@ Module
 
 #use "Libs/SCI/InterVar"
 
-QuickMeta gInt
-	Index
-		return gint[key]
-	end
-	NewIndex
-		gint[key]=value
-	end
-end
+//QuickMeta gvInt
+//	Index
+//		return InterVar.gint[key]
+//	end
+//	NewIndex
+//		InterVar.gint[key]=value
+//	end
+//end
 
-QuickMeta gStr
-	Index
-		return gstr[key]
-	end
-	NewIndex
-		gstr[key]=value
-	end
-End
+//QuickMeta gStr
+//	Index
+//		return InterVar.gstr[key]
+//	end
+//	NewIndex
+//		InterVar.gstr[key]=value
+//	end
+//End
 
-ReadOnly Var vInt = gint
-ReadOnly Var vStr = gStr
+ReadOnly Var vInt = InterVar.gint
+ReadOnly Var vStr = InterVar.gStr
