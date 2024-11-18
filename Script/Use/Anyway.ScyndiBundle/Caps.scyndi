@@ -1,0 +1,160 @@
+// License:
+// 	  src/Script/Script/Use/Anyway.ScyndiBundle/Caps.scyndi
+// 
+// 	  Version: 24.11.18 II
+// 	
+// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Script/Use/Anyway.ScyndiBundle/Algemeen"
+#use "Script/Use/Convert/gv"
+
+	readonly int InventorySockets
+	readonly int InventorySocketRow
+	readonly int InventoryMaxStack
+	readonly int InventoryMaxVaultStack
+	
+	readonly int NeedExp
+	
+	get int MaxCash
+		// Now "cash" is a big word, when speaking of digital money (this is the year 3000 after all)
+		// But hey, you get the picture.. I think?
+		switch __skill
+			case 1
+				return 2000000000
+			case 2
+				return  500000000
+			case 3
+				return  100000000
+			default
+				// Cheater!
+				return          1
+		end
+	end
+	get int MaxMoney
+		return MaxCash
+	end
+	
+	get int MaxAurinaRate
+		switch __skill
+			case 1
+				return 20000
+			case 2
+				return  5000
+			case 3
+				return  1000
+			default
+				// Cheater!
+				return     1
+		end
+	end
+
+	
+	get int Cycle
+		return math.max(1,gv.gint.GameCycle)
+	end
+	
+	set int Cycle
+		gv.gint.GameCycle = math.max(1,value)
+	end
+	
+	int LvCycle(int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+		plua work;work = { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z }
+		// Please note, work is defined lua style, so this array starts with 1!
+		return math.min(10000,work[math.max(1,math.min(Cycle,Lua.Len(work)))])
+	end
+	
+	get int LevelMargin
+		switch __skill
+			case 1
+				return 10000
+			case 2
+				return 10
+			case 3
+				return 5
+			default
+				return 0
+		end
+	end
+	
+	get int LevelCap
+		static var LC
+		switch __skill
+			case 1
+				LC = LC || { 250, 500, 1000, 5000, 10000 } //, -- Easy Mode
+			case 2
+				LC = LC || { 200, 400, 750,  4500, 7500, 10000} //, -- Medium Mode
+			case 3
+				LC = LC || { 150, 300, 500,  3000, 5000, 6000, 10000} //-- Hard Mode
+			default
+				Lua.error("Cap skill error!")
+		end
+		return LC[math.min(Cycle,Lua.len(LC))]
+	end
+
+	//CONSTRUCTOR()
+	Init
+		// case 0 is to prevent bugs during the main menu, new game and load game setups
+		switch __skill
+			case 1 0
+				InventorySockets = 100         //-- Max sockets
+				InventorySocketRow = 10        //-- Max number of sockets per row
+				InventoryMaxStack = 25         //-- Max number of items that may be stacked on a socket
+				InventoryMaxVaultStack = 500   //-- Max number of items that may be stacked on a vault socket (where each (unique) item just has one socket)
+				NeedExp = 1750                 //-- How much experience points does it take to gain a level?
+			case 2
+				InventorySockets = 50
+				InventorySocketRow = 10
+				InventoryMaxStack = 10
+				InventoryMaxVaultStack = 250
+				NeedExp = 5000
+			case 3
+				InventorySockets = 25
+				InventorySocketRow = 5
+				InventoryMaxStack = 1
+				InventoryMaxVaultStack = 100
+				NeedEXP = 10000
+			default
+				Lua.error("Unknown skill setting while defining caps")
+		end
+	end
+
+//end
