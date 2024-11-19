@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/Flow.scyndi
 // 	Flow (Lazy quicklink)
-// 	version: 24.11.18
+// 	version: 24.11.19
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -30,10 +30,15 @@ ReadOnly Delegate LoadFlow = Sys.LoadFlow
 ReadOnly Delegate LoadNewFlow = Sys.LoadNewFlow	
 ReadOnly Delegate Quit = Sys.Exit
 	
+Void Kill(string flw)
+	Sys.KilLState("FLOW_"..flw)
+End
+	
 Set String Current
 	Sys.GoToFlow(Value)
 End
 
 Class State
 	ReadOnly Delegate PlanToKill=Sys.PlanToKillState
+	ReadOnly Delegate Kill=Sys.KillState
 End
