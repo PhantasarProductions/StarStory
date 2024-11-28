@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 24.11.19 IX
+// 	  Version: 24.11.20
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -292,7 +292,7 @@ end
 
 void NewGame()
 	Loading()
-	Flow.Load("NEWGAME","Script/Flow/FlowNewGame.neil")
+	Flow.Load("NEWGAME","Script/Flow/FlowNewGame.lbc")
 	Flow.Current="NEWGAME"
 	Sys.PlanToKillState("FLOW_MAINMENU")
 end
