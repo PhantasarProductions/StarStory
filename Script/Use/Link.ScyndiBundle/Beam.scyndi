@@ -1,0 +1,61 @@
+// License:
+// 	src/Script/Script/Use/Link.ScyndiBundle/Beam.scyndi
+// 	Beam
+// 	version: 24.12.17 II
+// 
+// 	Copyright (C) 2020, 2021, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
+
+module
+
+#use "Libs/SCI/Sys"
+
+	void MCall(string func,a,b,c,d,e,f,g,h)
+		string pr
+		for i,p in ipairs {a,b,c,d,e,f,g,h}
+			if i>1 
+				pr += ", "
+			end
+			switch lua.type(p)
+				case "string"
+					pr += "\""..p.."\""
+				case "number" "boolean"
+					pr += tostring(p)
+				default
+					lua.error("Illegal MCall type "..lua.type(p))
+			end
+		end
+		State.Call("FLOW_FIELD",func,pr)
+	end
+
+
+	void Add(string Actor,bool Despawn,bool asc)
+		MCall("ClBeam.Add",Actor,Despawn,Asc)
+	end
+	
+	void Run()
+		MCall("ClBeam.Run","nil")
+	end
+	
+	void Quick(string Actor,Despawn,asc)
+		Add(Actor,Despawn==true,asc==true)
+		Run()
+	end
+	
+// end
