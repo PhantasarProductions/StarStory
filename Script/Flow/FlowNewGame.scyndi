@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 24.11.20 XVI
+// 	  Version: 24.12.17
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -246,7 +246,7 @@ void BuckleUp()
 		RPGParty[1] = "UniWendicka"
 		RPGParty[2] = "UniCrystal"
 		RPGParty[3] = "Briggs"	
-		//Flow.Load("FIELD","Script/Load/LoadField.neil")
+		Flow.Load("FIELD","Script/Load/LoadField.lbc")
 		//Map.LoadMap("Intro_Ship_Transporter")
 		//Map.Layer="INTRO"		
 		//Map.Schedule("LovejoyIntro")
