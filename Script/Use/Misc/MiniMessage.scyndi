@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/MiniMessage.scyndi
 // 
-// 	  Version: 24.12.17 V
+// 	  Version: 24.12.17 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -120,5 +120,6 @@ class TMM
 	end
 end
 
+Get Delegate NewMsg;return TMM.NewMsg; End
 
-return TMM
+//return TMM
