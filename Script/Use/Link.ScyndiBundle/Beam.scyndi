@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Link.ScyndiBundle/Beam.scyndi
 // 	Beam
-// 	version: 24.12.17 II
+// 	version: 24.12.18
 // 
 // 	Copyright (C) 2020, 2021, 2024 Jeroen P. Broks
 // 
@@ -25,6 +25,8 @@
 module
 
 #use "Libs/SCI/Sys"
+
+#use "Script/Use/Convert/Flow"
 
 	void MCall(string func,a,b,c,d,e,f,g,h)
 		string pr
