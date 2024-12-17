@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/MiniMessage.scyndi
 // 
-// 	  Version: 24.12.17 II
+// 	  Version: 24.12.17 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -50,7 +50,7 @@ Module
 
 #use "libs/LinkedList"
 
-#use "Script/Use/Screen"
+#use "Script/Use/Convert/Screen"
 
 
 class TMM
@@ -88,7 +88,7 @@ class TMM
 	end
 	
 	static void NewMsg(string amsg, int ar=255, int ag=255, int ab=255)
-		var voider = new TMM(amsg,ar,ag,ab)
+		plua voider;voider = new TMM(amsg,ar,ag,ab)
 	end
 	
 	static bool Draw()
@@ -96,7 +96,7 @@ class TMM
 		// bool Over = OverPos()
 		bool Ovr1 = false
 		int sy = (Screen.h-120) - ((Lijst.Count-1)*30)
-		int gy = sy		
+		int gy;gy = sy		
 		for o,l in Lijst.Each
 			ret = true
 			if o.pos>0
