@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 24.12.18 II
+// 	  Version: 24.12.18 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -44,7 +44,9 @@
 
 Module 
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
 
@@ -97,7 +99,7 @@ Class ClBeam
 	End
 	
 	Static Void Run()
-		FPS.WaitMinTicks()
+		Sys.WaitMinTicks()
 		Sound.Play()
 		While Lijst.Count>0
 			For ob,lnk in Lijst.Each
@@ -116,7 +118,7 @@ Class ClBeam
 					ob.Update()
 				End
 			End
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			DS(True)
 			Graphics.Flip()
