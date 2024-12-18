@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/CallBack.scyndi
 // 
-// 	  Version: 24.12.18 II
+// 	  Version: 24.12.18 III
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -44,7 +44,10 @@
 
 Module
 
-const var Mouse = Image.Obtain("MOUSE")
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+const var Mouse = ObtainImage("MOUSE")
 
 global void DrawScreen(noauto)
 	static int oldx
