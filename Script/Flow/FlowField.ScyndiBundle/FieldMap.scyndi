@@ -41,7 +41,10 @@
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
+
 module
+
+#use "Libs/SCI/Audio"
 
 #use "libs/xmath"
 
@@ -608,4 +611,4 @@ init
 	Clickable.Map = FldMap
 end
 
-return FldMap
+//return FldMap
