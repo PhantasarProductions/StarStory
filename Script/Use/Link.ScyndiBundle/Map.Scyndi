@@ -40,7 +40,6 @@
 // 	  2. Altered source versions must be plainly marked as such, and must not be
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
-// End License
 // License Information:
 // src/Tricky Script/Script/Use/Link.NeilBundle/Map.Neil
 // Version: 21.05.21
@@ -77,6 +76,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+// End License
+
 
 Module
 #use "Libs/SCI/Sys"
