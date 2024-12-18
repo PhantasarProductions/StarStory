@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.18 III
+// 	  Version: 24.12.18 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -287,12 +287,12 @@ group FldMap
 			table ketting = Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
-				switch #thisitem
+				switch len(thisitem)
 					case 1
-						ret += thisitem[1]
+						ret += thisitem[0]
 					case 2
-						for j=1,(lua.tonumber(thisitem[2]) or 1)
-							ret += thisitem[1]
+						for j=1,(lua.tonumber(thisitem[1]) or 1)
+							ret += thisitem[0]
 						end
 					default
 						lua.error("Foe chain syntax error")
@@ -307,7 +307,7 @@ group FldMap
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng = KthuraMap.Meta[rngt]
 		table trng = Split(rng,"-")
-		int ret = math.max(1,lua.tonumber(trng[1]) or 1)
+		int ret = math.max(1,lua.tonumber(trng[0]) or 1)
 		// print("Minlevel: "..ret)
 		return ret
 	end
@@ -316,7 +316,7 @@ group FldMap
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng = KthuraMap.Meta[rngt]
 		table trng = Split(rng,"-")
-		return math.min(20000,lua.tonumber(trng[2]) or minlevel)
+		return math.min(20000,lua.tonumber(trng[1]) or minlevel)
 	end
 
 	
@@ -550,9 +550,9 @@ group FldMap
 		ArriveFunc = nil
 	end
 	
-	CONSTRUCTOR
-		CSay("FieldMap loaded!")
-	end
+//	CONSTRUCTOR
+//		CSay("FieldMap loaded!")
+//	end
 
 end
 
