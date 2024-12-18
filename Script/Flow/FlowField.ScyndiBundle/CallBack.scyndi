@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/CallBack.scyndi
 // 
-// 	  Version: 24.12.18 III
+// 	  Version: 24.12.18 VI
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,10 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+
+#use "Libs/Flow/FieldFlow.scyndibundle/FieldMap"
 
 const var Mouse = ObtainImage("MOUSE")
 
@@ -82,7 +85,7 @@ global void DrawScreen(noauto)
 end
 
 void GStat(string g,resetme)
-	static var fnt = ImageFont.Obtain("SYSFONT")
+	static var fnt = ObtainFont("SYSFONT")
 	static int y
 	static int b = 0
 	if resetme
