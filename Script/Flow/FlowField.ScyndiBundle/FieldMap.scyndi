@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.18 II
+// 	  Version: 24.12.18 III
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -265,12 +265,12 @@ group FldMap
 			table ketting = Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
-				switch #thisitem
+				switch len(thisitem)
 					case 1
-						ret += thisitem[1]
+						ret += thisitem[0]
 					case 2
-						for j=1,(lua.tonumber(thisitem[2]) or 1)
-							ret += thisitem[1]
+						for j=1,(lua.tonumber(thisitem[1]) or 1)
+							ret += thisitem[0]
 						end
 					default
 						lua.error("Item chain syntax error in map meta field: "..i)
