@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.19 IV
+// 	  Version: 24.12.19 VIII
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -44,10 +44,14 @@
 
 module
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
 
 #use "libs/xmath"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
 
 //#MKL_Version "Star Story - FieldMap.neil" "21.07.08"
 //#MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
@@ -320,7 +324,7 @@ group FldMap
 		table ret
 		//for i = 1 , math.min(gv.vint.Cycle,5)
 			string l = KthuraMap.Meta.Foes
-			table ketting = Split(l,";")
+			table ketting;ketting = Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
 				switch len(thisitem)
@@ -341,17 +345,17 @@ group FldMap
 	
 	get int minLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
-		string rng = KthuraMap.Meta[rngt]
-		table trng = Split(rng,"-")
-		int ret = math.max(1,lua.tonumber(trng[0]) or 1)
+		string rng := KthuraMap.Meta[rngt]
+		table trng := Split(rng,"-")
+		int ret := math.max(1,lua.tonumber(trng[0]) or 1)
 		// print("Minlevel: "..ret)
 		return ret
 	end
 
 	get int maxLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
-		string rng = KthuraMap.Meta[rngt]
-		table trng = Split(rng,"-")
+		string rng := KthuraMap.Meta[rngt]
+		table trng := Split(rng,"-")
 		return math.min(20000,lua.tonumber(trng[1]) or minlevel)
 	end
 
@@ -535,8 +539,8 @@ group FldMap
 	end
 	
 	void WalkClick(int mx,int my)
-		int x = mx + ScrollX
-		int y = my + ScrollY
+		int x := mx + ScrollX
+		int y := my + ScrollY
 		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
 		if !CurLayer.HasTag("PLAYER")
 			CSay("But there is no player available now, so the request will be ignored!")
