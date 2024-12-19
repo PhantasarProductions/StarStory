@@ -28,4 +28,18 @@ Module
 plua _stat = Statistician.CreateNew("STAR_STORY")
 
 Global ReadOnly Var RPGParty = _Stat.Party
-Global ReadOnly Var RPGChar = _Stat.Char
+
+Module
+
+#use "Libs/SCI/Statistician"
+
+QuickMeta RPGChar
+	index
+		Lua.error("RPGChar Index Not Yet Implemented")
+	End
+	
+	newindex
+		Lua.error("RPGChar New Index Not Yet Implemented")
+	End	
+End
+
