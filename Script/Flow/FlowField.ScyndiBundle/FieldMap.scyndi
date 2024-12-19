@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.19 II
+// 	  Version: 24.12.19 IV
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -298,7 +298,7 @@ group FldMap
 		table ret;ret = {}
 		for i = 1 , math.min(Caps.Cycle,5)
 			string l = KthuraMap.Meta[sprintf("PT %2d Items",i)]
-			table ketting = Split(l,";")
+			table ketting;ketting = Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
 				switch len(thisitem)
