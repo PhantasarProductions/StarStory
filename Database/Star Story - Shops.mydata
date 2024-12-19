@@ -1,7 +1,7 @@
 # License:
 # 	  src/Script/Database/Star Story - Shops.mydata
 # 
-# 	  Version: 24.11.16
+# 	  Version: 24.12.19
 # 	
 # 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 # 	
@@ -43,7 +43,8 @@
 # End License
 [system]
 #OutputLuaRec     = ../LAURA II/Design/Star Story/JCR/Tricky Script/Script/JINC/Shops/
-OutputNeilRec    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/Shops
+#OutputNeilRec    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/Shops
+OutputGINIERec    = src/Assets/Tricky Story/src/Tricky Story/Data/Shops
 License          = If stripped from any reference to the story line and its characters, this file becomes zLib
 AutoOutput       = YES
 #RemoveNonExistentFields = YES

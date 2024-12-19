@@ -2,7 +2,7 @@
 # **********************************************
 # 
 # src/Script/Database/Star Story - Items, ARMS and Abilities.mydata
-# (c) Jeroen Broks, 2024, All Rights Reserved.
+# (c) Jeroen Broks, 2020, 2021, 2024, All Rights Reserved.
 # 
 # This file contains material that is related
 # to a storyline that is which is strictly
@@ -34,7 +34,7 @@
 # **********************************************
 # 
 # 
-# version: 24.11.16
+# version: 24.12.19
 # 
 # End License
 # This file was created in order to set up the spell database for 
@@ -60,7 +60,8 @@
 #OutputPythonBase = ../Aziella's Babling Bubbles/JCR/PythonStuff/Achievements.py
 License          = If stripped from any reference to the story line and its characters, this file becomes zLib
 AutoOutput       = YES
-OutputNeilRec    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/IAA
+#OutputNeilRec    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/IAA
+OutPutGINIERec     = src/Assets/Tricky Story/src/Tricky Story/Data/IAA
 #RemoveNonExistentFields = YES
 
 # Last field was a planned update, which I had due to temporary compiler issues move to a python script. 
@@ -210,19 +211,19 @@ bool CureDeathFull
 bool CureDamned
 bool CureZombie
 
--- This part was removed. Innefficient and I didn't even understand it myself anymore
--- [PAGE: Script]
--- info If the "<Effect/Ani>ScriptFile" field contains "@COMBAT@" the game will execute the function from the combat script itself, otherwise it loads a script file
--- string EffectScriptFile
--- info The default path for scripts is: Script/Ability/Effect
--- bool -- EffectScriptDefaultPath
--- string -- EffectScriptFunction 
--- st rike
--- string AniScriptFile
--- info The default path for animation scripts is: Script/Ability/Ani
--- bool -- AniScriptDefaultPath
--- info If set to true, the system will just use the effect script. Only meant for pretty unique abilities/items/ARMS
--- bool -- AniIsEffectScript
+#-- This part was removed. Innefficient and I didn't even understand it myself anymore
+#-- [PAGE: Script]
+#-- info If the "<Effect/Ani>ScriptFile" field contains "@COMBAT@" the game will execute the function from the combat script itself, otherwise it loads a script file
+#-- string EffectScriptFile
+#-- info The default path for scripts is: Script/Ability/Effect
+#-- bool -- EffectScriptDefaultPath
+#-- string -- EffectScriptFunction 
+#-- st rike
+#-- string AniScriptFile
+#-- info The default path for animation scripts is: Script/Ability/Ani
+#-- bool -- AniScriptDefaultPath
+#-- info If set to true, the system will just use the effect script. Only meant for pretty unique abilities/items/ARMS
+#-- bool -- AniIsEffectScript
 
 [PAGE: Eq: Elements]
 info These take effect in EQUIP items only, by simply putting them in a character's inventory.

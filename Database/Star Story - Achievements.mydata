@@ -1,7 +1,7 @@
 # License:
 # 	  src/Script/Database/Star Story - Achievements.mydata
 # 
-# 	  Version: 24.11.16
+# 	  Version: 24.12.19
 # 	
 # 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 # 	
@@ -66,7 +66,8 @@
 License          = If stripped from any reference to the story line and its characters, this file becomes zLib
 #AutoOutput       = YES
 #RemoveNonExistentFields = YES
-OutputNeilBase    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/General/Achievements.neil
+#OutputNeilBase    = E:/Projects/Applications/Apollo/Games/Star Story/src/Tricky Script/Script/Data/General/Achievements.neil
+OutputGINIEBase   = src/Assets/Tricky Story/src/Tricky Story/Data/General/Achievements.ini
 
 
 [PAGE: General]
