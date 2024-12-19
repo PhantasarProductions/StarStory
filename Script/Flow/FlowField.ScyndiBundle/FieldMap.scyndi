@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.19 VIII
+// 	  Version: 24.12.19 IX
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -52,6 +52,7 @@ module
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 
 //#MKL_Version "Star Story - FieldMap.neil" "21.07.08"
 //#MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
