@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.18 V
+// 	  Version: 24.12.19 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 module
 
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Kthura"
 
 #use "libs/xmath"
 
@@ -68,23 +69,22 @@ class Clickable
 	readonly string ltag
 	
 	static void TakeTreasure(string Tag)
-		CSayF("%s should pick up item named %s",Map.Leader,Tag)
-		// TODO: Actual Code
-		var O = Map.CurLayer.Obj(tag)
-		number Afstand = xmath.Pythagoras(O.X,O.Y,Player.X,Player.Y)
+		CSayF("%s should pick up item named %s",Map.Leader,Tag)		
+		var O;O = Kthura.Obj[tag] //Map.CurLayer.Obj(tag)
+		number Afstand;Afstand = xmath.Pythagoras(O.X,O.Y,Player.X,Player.Y)
 		if Afstand>64
 			CSayF("Treasure rejected! With %03.02f pixels distance, player is too far away",Afstand)
 			return
 		end
-		string Name = RPGChar[Map.Leader].Name
-		bool Ok = Item.Give(O.GetData("ITEM_S"),Map.Leader)
+		string Name;Name = RPGChar[Map.Leader].Name
+		bool Ok;Ok = Item.Give(O.Data["ITEM_S"],Map.Leader)
 		if Ok
 			TMM.NewMsg(sprintf("%s picks up '%s'",Name,Item[O.GetData("ITEM_F")].Name),0,180,255)
 			Map.Kill(Tag)
 		else
 			Buzz.Play()
-			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.GetData("ITEM_S"),O.GetData("ITEM_F"),O.Tag)
-			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.GetData("ITEM_F")].Name),255,0,0)
+			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.Data["ITEM_S"],O.Data["ITEM_F"],O.Tag)
+			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data["ITEM_F"]].Name),255,0,0)
 		end
 	end
 
@@ -94,7 +94,8 @@ class Clickable
 	end
 	
 	get var CObj
-		return CLay.Obj(otag)
+		//return CLay.Obj(otag)
+		return Kthura.Obj[otag]
 	end
 	
 	CONSTRUCTOR(string ot,string lt,int wx, int wy,delegate af,string ap)
@@ -120,9 +121,9 @@ class Clickable
 	end
 	
 	static void Create(string ot,string lt,a,b,c,d)
-		static delegate t = Lua.type
-		static delegate e = Lua.error
-		static delegate ts = Lua.tostring
+		delegate t = Lua.type
+		delegate e = Lua.error
+		delegate ts = Lua.tostring
 		if t(a) == "number" && t(b) == "number" 
 			if t(c)=="string"
 				List.AddLast(new Clickable(ot,lt,a,b,MapScript[c],d or ""))
@@ -132,25 +133,54 @@ class Clickable
 				e("Create("..a..","..b..",<Invalid function reference>,"..tostring(d)..") Syntax error")
 			end
 		elseif t(a) == "string"
-			var o = Map.CurLayer.Obj(a)
+			//var o = Map.CurLayer.Obj(a)
+			plua o;o = Kthura.Obj[a]
 			Create(ot,lt,o.x,o.y,b,c)
 		else
 			e(sprintf("Clickable::Create(%s,%s,%s,%s,%s,%s): Illegal function call!",ot,lt,ts(a),ts(b),ts(c),ts(d)))
 		end
 	end
 	
+	// This old Spot routine is no longer valid
 	static var Spot(var L,string tag)
-			var o = L.Obj(tag)
-		if L.HasTag(tag.."_SPOT")
-			var o = Map.CurLayer.Obj(tag.."_SPOT")
-			return {o.x,o.y}
-		else
-			return {o.x,o.y+32}
-		end
+		lua.error("Clickable.Spot(<ref>,\""..tag.."\") is no longer valid! Needs to be converted to LSpot!")
+		//var o;o = L.Obj(tag)
+		//if L.HasTag(tag.."_SPOT")
+		//	var o = Map.CurLayer.Obj(tag.."_SPOT")
+		//	return {o.x,o.y}
+		//else
+		//	return {o.x,o.y+32}
+		//end
 	end
 	
+	static var LSpot(string P1,P2)
+		string OldLay
+		string Lay
+		string Tag
+		if P2
+			OldLay=Kthura.CurrentLayer
+			Lay=P1
+			Tag=P2
+			Kthura.GoToLayer(Lay)
+		else
+			Tag=P1
+		end
+		plua ret
+		plua o;o=Kthura.Obj[Tag]
+		if HasObj(tag.."_SPOT")
+			plua s;s = Kthura.Obj[tag.."_SPOT"]
+			ret={s.x,s.y}
+		else
+			ret={o.x,o.y}
+		end
+		if P2
+			Kthura.GoToLayer(OldLay)
+		end
+		return ret
+	End
+	
 	static void ObtainARM(string T)
-		table d = Split(T," ")
+		table d;d = Split(T," ")
 		BoxText.Load("CRYSTAL","GENERAL/ARMS")
 		Map.Leader="Crystal"
 		gv.gString.ARMOBTAINED = Item["ARM_"..d[3]].Name
@@ -163,36 +193,38 @@ class Clickable
 	static void Automate()
 		static int M_id = -1
 		List.Clear()
+		var OldLayer = Kthura.CurrentLayer
 		for L in each(Map.KthuraMap.Layers)
-			var Lay = Map.KthuraMap.Layer(L)
+			//var Lay = Map.KthuraMap.Layer(L)			
+			Kthura.GotoLayer(L)
 			table rItems = Map.LRItems
 			for T in each(LAY.TagListArray)
 				if prefixed(T,"NPC_MT_")
-					var fuck = Spot(Lay,T)
+					var fuck; fuck = LSpot(L,T) //= Spot(Lay,T)
 					Create(T,L,fuck[1],fuck[2],MapText,T)
 					CSayF("NPC: %s (MAPTEXT)",T)
 				elseif prefixed(T,"NPC_")
-					var fuck = Spot(Lay,T)
+					var fuck; fuck = LSpot(L,T) // = Spot(Lay,T)
 					Create(T,L,fuck[1],fuck[2],MapScript[T],"nil") //,sprintf("\"%s\"",T))
 					CSayF("NPC: %s",T)
 				elseif prefixed(T,"Trans.Pad")
-					string Spot = Right(T,len(T)-10)
-					var TO = Lay.Obj(T)
-					var TS = Lay.Obj("Trans.Spot."..Spot)
+					string Spot;Spot = Right(T,len(T)-10)
+					var TO;TO = Kthura.Obj[T]
+					var TS;TS = Kthura.Obj["Trans.Spot."..Spot]
 					Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
 					if !CTrans.Activated[spot]
 						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
 					end
 					CSayF("Transporter Pad: %s",Spot)
 				elseif prefixed(T,"ARMCHST")
-					table d = Split(T," ")
+					table d;d = Split(T," ")
 					CSayF("ARMS Chest #%s > %s",d[2],d[3])
 					if RPGChar.Crystal.List.ARM.Has(d[3])
 						CSay("Crystal already has this ARM, so let's remove it!")
 						//Map.Kill(T)
 						Lay.Kill(T)
 					else
-						var TS = Lay.Obj(T)
+						var TS;TS = Lay.Obj(T)
 						Create(T,L,TS.X,TS.Y+32,ObtainARM,T)
 					end
 				elseif Prefixed(T,"Item ")
@@ -201,17 +233,17 @@ class Clickable
 						//CSay("- SKIPPED!")
 					else
 						M_id++
-						string ctag = sprintf("RANDOM_TREASURE_%08x",M_id)
+						string ctag;ctag = sprintf("RANDOM_TREASURE_%08x",M_id)
 						//CSayF("- Tagged: %s",ctag)
-						var O = Lay.NewObject("Obstacle",ctag)
-						var S = Lay.Obj(T)
+						var O; O = Kthura.NewObject("Obstacle",ctag)
+						var S; S = Kthura.Obj[T]
 						Map.KthuraMap.Remap()
 						string shTag;shTag = rItems[math.random(0,len(rItems)-1]
-						string itTag = "ITM_"..shtag
+						string itTag;itTag = "ITM_"..shtag
 						//O.Data["ITEM_F"] = itTag
 						//O.Data["ITEM_S"] = shTag
-						O.SetData("ITEM_F",itTag)
-						O.SetData("ITEM_S",shTag)
+						O.ITEM_F = itTag
+						O.ITEM_S = shTag
 						o.Texture = Item[itTag].IconFile
 						O.X = S.X
 						O.Y = S.Y
@@ -226,6 +258,7 @@ class Clickable
 				end
 			end
 		end
+		Kthura.GoToLayer(OldLayer)
 	end
 	
 	static bool All(int x, int y)
