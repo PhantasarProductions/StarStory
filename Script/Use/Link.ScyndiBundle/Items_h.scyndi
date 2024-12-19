@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 24.12.19
+// 	  Version: 24.12.19 VIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -41,18 +41,28 @@
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
+
 Module
 
-table TrueItem
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Graphics"
+
+table TrueItem={}
 
 void LdItems()
-	State.LoadNew("SUB_ITEMS","Script/Subs/SubItems.neil")
+	Sys.LoadNewState("SUB_ITEMS","Script/Subs/SubItems.neil")
 end
 
 Global Void JwlRecalc(string char)
 	LdItems()
-	State.Call("SUB_ITEMS","JewelRecalc",sprintf("\"%s\"",char))
+	Sys.Call("SUB_ITEMS","JewelRecalc",sprintf("\"%s\"",char))
 End
+
+
+void __item_nindex(s,string k,v)
+	lua.error( "Item data base is read-only, so I cannot assign " .. tostring(v) .. " to " .. k) // .." in " .. it )
+end
 
 void MkTrueItem(string it)
 	it = it:upper()
@@ -61,54 +71,64 @@ void MkTrueItem(string it)
 	end
 	LdItems()
 	table m
-	m.__index = var(s,string k)
-		k = k:upper()
+	//m.__index = var(s,string k)
+	locextern rec "s._rec"
+	ddef __item_index	
+		args:=newArray(infinity)
+		s:=args[0]		
+		string k := Upper(args[2]) //= k:upper()		
 		switch k
 			case "ICON" "ICONFILE"
-				string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\"ICON\"))")
+				//string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\"ICON\"))")				
+				string f:= s._gin.value(s._rec,"ICON")
 				if k=="ICONFILE"
 					return f
 				end
-				var ret = Image.LoadNew(f,"ITEM__"..it)
+				ret := LoadNewImage(f,"ITEM__"..it)
 				ret.HotBottomCenter()
 				return ret
 			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING" "ITM_SELLPRICE" "ITM_BUYPRICE" "ITM_SHILDERPRICE" "APRECOVER"
-				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				return s._gin.intvalue(rec,k)
 			case "ARM_HIT_PROCENT" "GRANTEXP"
 				// Just a block, as the previous one got too big...
 				// Figures.
-				return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				return s._gin.intvalue(rec,k)
 			case "INDISCRIMINATE" "ITM_SELLABLE" "DODGABLE" "USECOMBAT" "USEFIELD"
-				return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				//return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+				return s._gin.boolvalue(rec,k)
 			case ".HASMEMBER"
-				bool Check(m)
-					return ISGET.Bool("SUB_ITEMS","ItemMemberCheck(\""..it.."\",\"".. m.."\")")
-				End
-				Return Check
+				//bool Check(m)
+				//	return ISGET.Bool("SUB_ITEMS","ItemMemberCheck(\""..it.."\",\"".. m.."\")")
+				//End
+				//Return Check
+				Lua.error("IAA database does not yet have the .HASMEMBER check in order!")
 			default
 				if prefixed(k,"CAUSE") || prefixed(k,"CURE") || prefixed(k,"PERMABUFF")
-					return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+					//return ISGET.Bool("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+					Return s._gin.boolvalue(rec,k)
 				end
 				if Prefixed(k,"BUFF_")
-					return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+					//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
+					Return s._gin.intvalue(rec,k)
 				end
-				return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")			
+				//return ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\""..k.."\"))")
+				return s._gin.value(rec,k)
 		end
-	end
-	
-	void nindex(s,string k,v)
-		lua.error( "Item data base is read-only, so I cannot assign " .. tostring(v) .. " to " .. k .." in " .. it )
-	end
-	m.__newindex = nindex
-	TrueItem[it] = lua.setmetatable({},m)
+	end	
+	m.__newindex = __item_nindex
+	m.__index    = __item_index
+	TrueItem[it] = lua.setmetatable({["_gin"]=GINIE.LoadNew("Data/IAA/"..Tag,"IAA__".._Tag),["_rec"]="Rec:"..Tag},m)
 end
 
 bool GiveItem(string it,string ch,allowvault)
-	plua ret = ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
-	if (!ret) && allowvault
-		Lua.Neil.Globals.Vault.Store(it)
-	end
-	return ret
+	Lua.error("Give item needs a slight overhaul!")
+	//plua ret = ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
+	//if (!ret) && allowvault
+	//	Lua.Neil.Globals.Vault.Store(it)
+	//end
+	//return ret
 end
 
 quickmeta Item
@@ -130,44 +150,52 @@ end
 group Vault
 	void Store(string TItem,int amm=1)
 		LdItems()
-		State.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,amm))
+		Sys.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,amm))
 	end
 	void Remove(string TItem,int amm=1)
 		LdItems()
-		State.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,0-amm))
+		Sys.Call("SUB_ITEMS","StoreVault",sprintf("\"%s\",%d",TItem,0-amm))
 	end
 	int Has(string key)
 		LdItems()
-		return ISGET.Int("SUB_ITEMS",sprintf("GetVault(\"%s\")",key))
+		//return ISGET.Int("SUB_ITEMS",sprintf("GetVault(\"%s\")",key))
+		Lua.error("Vault.Has() will be taken care of later!")
 	end
 	get table Contents
 		LdItems()
-		string c = ISGet.String("SUB_ITEMS","VaultContents()") 
+		Lua.error("Vault.Contents will be taken care of later!")
+		//string c = ISGet.String("SUB_ITEMS","VaultContents()") 
 		//print("Contents received:",c)
-		return Split(c,";")
+		//return Split(c,";")
+		
 	end
 	get delegate Each
-		int i=0
-		table c = Contents		
-		var Ret()
+		int i:=-1
+		table c := Contents		
+		//var Ret()
+		ddef Ret
 			i++
-			if i>#c 
+			if i>=len(c) 
 				return nil
 			end
 			return c[i]
 		end
 		return Ret
 	end
-	get string Script
+	
+	// Used to be called "Script", but since Script is a keyword now.
+	get string VaultScript
 		LdItems()
-		return ISGet.String("SUB_ITEMS","VaultScript()") 
+		Lua.error("VaultScript will be taken care of later!"
+		//return ISGet.String("SUB_ITEMS","VaultScript()") 
 	end
 	void Save()
 		LdItems()
-		SaveGame.Data["Vault.neil"] = Script
+		Lua.error("Saving Vault.neil will be taken care of later")
+		//SaveGame.Data["Vault.neil"] = VaultScript
 	end
 	void Reset()
 		LdItems()
-		State.Call("SUB_ITEMS","VaultReset","nil")
+		Sys.Call("SUB_ITEMS","VaultReset","nil")
 	end
 end
