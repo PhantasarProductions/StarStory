@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.19 IX
+// 	  Version: 24.12.20 IV
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -52,7 +52,9 @@ module
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/use/Misc/MiniMessage"
 #use "Script/Use/Convert/RPG2Stat"
+#use "Script/use/Convert/ViesBah"
 
 //#MKL_Version "Star Story - FieldMap.neil" "21.07.08"
 //#MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
@@ -140,14 +142,14 @@ class Clickable
 		elseif t(a) == "string"
 			//var o = Map.CurLayer.Obj(a)
 			plua o;o = Kthura.Obj[a]
-			Create(ot,lt,o.x,o.y,b,c)
+			self.Create(ot,lt,o.x,o.y,b,c)
 		else
 			e(sprintf("Clickable::Create(%s,%s,%s,%s,%s,%s): Illegal function call!",ot,lt,ts(a),ts(b),ts(c),ts(d)))
 		end
 	end
 	
 	// This old Spot routine is no longer valid
-	static var Spot(var L,string tag)
+	static var Spot(L,string tag)
 		lua.error("Clickable.Spot(<ref>,\""..tag.."\") is no longer valid! Needs to be converted to LSpot!")
 		//var o;o = L.Obj(tag)
 		//if L.HasTag(tag.."_SPOT")
@@ -172,7 +174,7 @@ class Clickable
 		end
 		plua ret
 		plua o;o=Kthura.Obj[Tag]
-		if HasObj(tag.."_SPOT")
+		if Kthura.HasObj(tag.."_SPOT")
 			plua s;s = Kthura.Obj[tag.."_SPOT"]
 			ret={s.x,s.y}
 		else
