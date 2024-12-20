@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 24.12.19 VIII
+// 	  Version: 24.12.20 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -119,7 +119,7 @@ void MkTrueItem(string it)
 	end	
 	m.__newindex = __item_nindex
 	m.__index    = __item_index
-	TrueItem[it] = lua.setmetatable({["_gin"]=GINIE.LoadNew("Data/IAA/"..Tag,"IAA__".._Tag),["_rec"]="Rec:"..Tag},m)
+	TrueItem[it] = lua.setmetatable({["_gin"]=GINIE.LoadNew("Data/IAA/"..it,"IAA__"..it),["_rec"]="Rec:"..it},m)
 end
 
 bool GiveItem(string it,string ch,allowvault)
@@ -186,7 +186,7 @@ group Vault
 	// Used to be called "Script", but since Script is a keyword now.
 	get string VaultScript
 		LdItems()
-		Lua.error("VaultScript will be taken care of later!"
+		Lua.error("VaultScript will be taken care of later!")
 		//return ISGet.String("SUB_ITEMS","VaultScript()") 
 	end
 	void Save()
