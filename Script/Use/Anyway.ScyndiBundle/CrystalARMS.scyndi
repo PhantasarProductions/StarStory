@@ -34,9 +34,12 @@
 // **********************************************
 // 
 // 
-// version: 24.12.21 I
+// version: 24.12.21 II
 // 
 // End License
+
+#use "Script/Use/Link"
+#use "Script/Use/Convert/RPG2Stat"
 
 module
 	void NewARM(string name)

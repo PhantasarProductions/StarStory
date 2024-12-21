@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.21 I
+// 	  Version: 24.12.21 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -208,7 +208,7 @@ class Clickable
 			//var Lay = Map.KthuraMap.Layer(L)			
 			Kthura.GotoLayer(L)
 			table rItems = Map.LRItems
-			for T in each(LAY.TagListArray)
+			for T in each(Kthura.TagList)
 				if prefixed(T,"NPC_MT_")
 					var fuck; fuck = LSpot(L,T) //= Spot(Lay,T)
 					Create(T,L,fuck[1],fuck[2],MapText,T)
