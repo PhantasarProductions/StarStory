@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 24.12.21 III
+// 	  Version: 24.12.21 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Convert/ViesBah"
@@ -59,7 +60,7 @@ void BTLoad()
 end
 
 global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
-	locextern AScen "\"MAPTEXT\""
+	locextern AScen "'MAPTEXT'"
 	Sys.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
 end
 
