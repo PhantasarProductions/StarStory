@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.11.18 IV
+// 	  Version: 24.12.21
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -99,11 +99,11 @@ extern __cyan "Scyndi.Globals.SetColor(0,255,255)"
 extern __yellow "Scyndi.Globals.SetColor(255,255,0)"
 
 //#macro __skill gv.gInt.Skill
-#macro __lang gv.gStr.Lang
+extern __lang "Scyndi.Globals.gStr.Lang"
 
-#macro __aurinas gv.gInt.Aurinas
+extern __aurinas "Scyndi.Globals.gInt.Aurinas"
 
-#macro __hawk gv.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that
+extern __hawk "Scyndi.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that"
 
 
 const delegate Error = Lua.error
