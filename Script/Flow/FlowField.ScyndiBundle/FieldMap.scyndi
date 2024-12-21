@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.21
+// 	  Version: 24.12.21 I
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 
 #use "libs/xmath"
 
@@ -190,7 +191,7 @@ class Clickable
 		table d;d = Split(T," ")
 		BoxText.Load("CRYSTAL","GENERAL/ARMS")
 		Map.Leader="Crystal"
-		gv.gString.ARMOBTAINED = Item["ARM_"..d[3]].Name
+		gStr.ARMOBTAINED = Item["ARM_"..d[3]].Name
 		BoxText.Serial("CRYSTAL","CRYSTAL")
 		CrystalARMS.NewARM(d[3])
 		RPGChar.Crystal.Points.EXP.Have += 1000
