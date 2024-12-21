@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.21 II
+// 	  Version: 24.12.21 XI
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
@@ -56,6 +57,7 @@ module
 #use "Script/use/Misc/MiniMessage"
 #use "Script/Use/Convert/RPG2Stat"
 #use "Script/use/Convert/ViesBah"
+#use "Script/use/Convert/Flow"
 
 //#MKL_Version "Star Story - FieldMap.neil" "21.07.08"
 //#MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
@@ -203,25 +205,25 @@ class Clickable
 		LocExtern M_id "MyStupidStaticVariable_f8e97e9f4033cadaea4fb94d6b2238d6"
 		M_id = M_id || -1 // static locals are not taken so well, so at least I won't have any trouble this way 
 		List.Clear()
-		var OldLayer = Kthura.CurrentLayer
+		var OldLayer = Kthura.CurrentLayer		
 		for L in each(Map.KthuraMap.Layers)
 			//var Lay = Map.KthuraMap.Layer(L)			
 			Kthura.GotoLayer(L)
 			table rItems = Map.LRItems
 			for T in each(Kthura.TagList)
 				if prefixed(T,"NPC_MT_")
-					var fuck; fuck = LSpot(L,T) //= Spot(Lay,T)
-					Create(T,L,fuck[1],fuck[2],MapText,T)
+					var fuck := Self.LSpot(L,T) //= Spot(Lay,T)
+					Self.Create(T,L,fuck[1],fuck[2],MapText,T)
 					CSayF("NPC: %s (MAPTEXT)",T)
 				elseif prefixed(T,"NPC_")
-					var fuck; fuck = LSpot(L,T) // = Spot(Lay,T)
-					Create(T,L,fuck[1],fuck[2],MapScript[T],"nil") //,sprintf("\"%s\"",T))
+					var fuck := Self.LSpot(L,T) // = Spot(Lay,T)
+					Self.Create(T,L,fuck[1],fuck[2],MapScript[T],"nil") //,sprintf("\"%s\"",T))
 					CSayF("NPC: %s",T)
 				elseif prefixed(T,"Trans.Pad")
 					string Spot;Spot = Right(T,len(T)-10)
 					var TO;TO = Kthura.Obj[T]
 					var TS;TS = Kthura.Obj["Trans.Spot."..Spot]
-					Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
+					Self.Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
 					if !CTrans.Activated[spot]
 						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
 					end
@@ -232,10 +234,10 @@ class Clickable
 					if RPGChar.Crystal.List.ARM.Has(d[3])
 						CSay("Crystal already has this ARM, so let's remove it!")
 						//Map.Kill(T)
-						Lay.Kill(T)
+						Kthura.Kill(T)
 					else
-						var TS;TS = Lay.Obj(T)
-						Create(T,L,TS.X,TS.Y+32,ObtainARM,T)
+						TS := Kthura.Obj[T]
+						Self.Create(T,L,TS.X,TS.Y+32,Self.ObtainARM,T)
 					end
 				elseif Prefixed(T,"Item ")
 					//CSayF("Item: %s",T)
@@ -263,7 +265,7 @@ class Clickable
 						O.Labels = S.Labels
 						Map.KthuraMap.Remap()
 						CSayF("F: %s; S: %s;  OTag: %s",O.Data["ITEM_F"],O.Data["ITEM_S"],O.Tag)
-						Create(ctag,L,O.X,O.Y,TakeTreasure,ctag)
+						Self.Create(ctag,L,O.X,O.Y,Self.TakeTreasure,ctag)
 					end
 				end
 			end
@@ -370,17 +372,17 @@ group FldMap
 		if Jaren70
 			lua.Error("Antique version of savegame manager not yet present")
 		else
-			State.LoadNew("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.neil")
+			Sys.LoadNewState("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.lbc")
 			Flow.Current="SAVEGAME"
 		end		
 	end
 	
 	void LoadMapText()
-		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gv.Str.LoadedMap)
-			CSay("No mapfile for: "..gv.Str.LoadedMap)
+		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gStr.LoadedMap)
+			CSay("No mapfile for: "..gStr.LoadedMap)
 			return
 		end
-		BoxText.Load("MAPTEXT","Maps/"..gv.Str.LoadedMap)
+		BoxText.Load("MAPTEXT","Maps/"..gStr.LoadedMap)
 	end
 	
 	void SetAllowQuitSave(bool value)
