@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.20 IV
+// 	  Version: 24.12.21
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -198,7 +198,9 @@ class Clickable
 	end	
 	
 	static void Automate()
-		static int M_id = -1
+		//static int M_id = -1
+		LocExtern M_id "MyStupidStaticVariable_f8e97e9f4033cadaea4fb94d6b2238d6"
+		M_id = M_id || -1 // static locals are not taken so well, so at least I won't have any trouble this way 
 		List.Clear()
 		var OldLayer = Kthura.CurrentLayer
 		for L in each(Map.KthuraMap.Layers)
