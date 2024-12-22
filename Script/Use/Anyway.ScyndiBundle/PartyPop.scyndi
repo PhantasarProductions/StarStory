@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/PartyPop.scyndi
 // 
-// 	  Version: 24.12.22 II
+// 	  Version: 24.12.22 V
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+#use "Script/Use/Link.ScyndiBundle/Map"
 #use "Script/Use/Convert/RPG2Stat"
 
 locExtern mb  "Scyndi.Globals.gbool"
@@ -144,7 +145,7 @@ group PPop
 	
 	void UnPopWait()
 		repeat
-			UnPopCheck()
+			Self.UnPopCheck()
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
