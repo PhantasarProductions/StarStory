@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/PartyPop.scyndi
 // 
-// 	  Version: 24.12.22
+// 	  Version: 24.12.22 II
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+#use "Script/Use/Convert/RPG2Stat"
 
 locExtern mb  "Scyndi.Globals.gbool"
 
@@ -77,8 +78,8 @@ group PPop
 		Unpopping=false
 		for i=1,6
 			if RPGParty[i] && RPGParty[i]!=""
-				string pch="PartyPopped_"..RPGParty[i]
-				string popto=apref.."_"..RPGParty[i]
+				string pch:="PartyPopped_"..RPGParty[i]
+				string popto:=apref.."_"..RPGParty[i]
 				//Map.ObjSet("PLAYER","Visible",false)
 				Kthura.Object.PLAYER.Visible=false
 				if instant
