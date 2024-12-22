@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.21 XI
+// 	  Version: 24.12.22 I
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -51,6 +51,7 @@ module
 #use "Libs/SCI/InterVar"
 
 #use "libs/xmath"
+#use "Libs/Music"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -330,7 +331,7 @@ group FldMap
 	
 	get table Foes
 		table ret
-		//for i = 1 , math.min(gv.vint.Cycle,5)
+		//for i = 1 , math.min(gint.Cycle,5)
 			string l = KthuraMap.Meta.Foes
 			table ketting;ketting = Split(l,";")
 			for it in each (ketting)
@@ -416,9 +417,9 @@ group FldMap
 			State.Kill("MAPSCRIPT")
 		end
 		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
-		gv.Str.LoadedMap = Map
+		gStr.LoadedMap = Map
 		// Only needed so the savegame manager can generate the header more easily!
-		gv.Str.MapTitle = KthuraMap.Meta["Title"]
+		gStr.MapTitle = KthuraMap.Meta["Title"]
 		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
 		// Map Script
 		if !JCR6.EntryExists(MapScriptFile)
@@ -464,7 +465,7 @@ group FldMap
 	
 	void SetMember(string key, value)
 		if key:upper()=="LAYER"
-			gv.Str.MapLayer = value
+			gStr.MapLayer = value
 		end
 		self[key] = value
 	end
@@ -512,15 +513,15 @@ group FldMap
 	End
 	
 	Get String Leader
-		if gv.vStr.Leader==""
+		if gStr.Leader==""
 			CSay("Leader not set! Autosetting to character #1!")
-			gv.vStr.Leader = RPGParty[1]
+			gStr.Leader = RPGParty[1]
 		end
-		return gv.vStr.Leader
+		return gStr.Leader
 	end
 	
 	set string Leader
-		gv.vStr.Leader = value
+		gStr.Leader = value
 	end
 	
 	void SetLeader(string v)
@@ -641,9 +642,9 @@ global void LGMap()
 	LGFix = true
 	CSayF("Parsing Kills")
 	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
-	CSayF("Loading map: %s",gv.vstring["LOADEDMAP"])
-	FldMap.LoadMap(gv.vstring["LOADEDMAP"])
-	CSayF("Let's go to layer: %s",gv.vstring["MAPLAYER"])
+	CSayF("Loading map: %s",gstring["LOADEDMAP"])
+	FldMap.LoadMap(gstring["LOADEDMAP"])
+	CSayF("Let's go to layer: %s",gstring["MAPLAYER"])
 	//FldMap.CurLayer.Spawn("PLAYER",0,0)
 	NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
 	LGFix = true
