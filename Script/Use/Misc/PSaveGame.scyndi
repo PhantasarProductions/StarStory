@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 24.11.18 III
+// 	  Version: 24.12.23 I
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/SGJCR" 
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 
@@ -55,7 +56,7 @@ Module
 #use "Script/Use/Convert/RPG2Stat"
 
 // Dummy
-plua SaveGame={} 
+Global plua SaveGame 
 
 void MakeHeader()
 	string r = "Map:"..gv.gStr.MapTitle.."\n"
@@ -90,9 +91,10 @@ global void PerformSaveGame(string f)
 	Lua.error("Saving game not yet implemented")
 	GV.vInt.Saved++
 	GV.vInt.Cycle = math.max(1,GV.vInt.Cycle)
-	//CSayF("Saving: %s",f)
-	//SaveGame.Clear()
-	//SaveGame.Assign(f)
+	CSayF("Saving: %s",f)
+	SaveGame = SGJCR.Create("STAR STORY SAVEGAME" )
+	SaveGame.Clear()
+	SaveGame.Assign(f)
 	//SaveGame.Data["*PARTY"] = "YES"
 	// GV.Save()
 	//SaveGame.Data["GAMEVARS.NEIL"] = GV.Enroll
@@ -103,8 +105,8 @@ global void PerformSaveGame(string f)
 	//if f=="QUIT"
 	//	SaveGame.Data["KILL ME"]="KILL ME"
 	//end
-	//MakeHeader()
-	//SaveGame.Save()	
+	MakeHeader()
+	SaveGame.Save()	
 end
 
 void Process(int p)
@@ -126,6 +128,7 @@ global bool PerformLoadGame(string f)
 	Process(1)
 	CSay("Clearing SaveGame buffer")
 	Process(2)
+	SaveGame = SGJCR.Create("STAR STORY LOAD GAME")
 	SaveGame.Clear()
 	Process(3)
 	SaveGame.Assign(f)
