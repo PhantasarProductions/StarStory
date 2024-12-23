@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.12.23
+// 	  Version: 24.12.23 I
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -102,6 +102,13 @@ quickmeta ablused
 	end
 end
 
+Global Plua LuaDoString(String s)
+	plua f
+	plua e
+	f,e=Lua.Load(s)
+	Lua.assert("LoadLoadString Error: "..e.."\n"..s)
+	return f()
+End
 
 Init
 	printf("Testing! (Skill=%d)\n",__skill)
