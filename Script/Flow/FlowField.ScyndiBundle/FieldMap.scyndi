@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.23
+// 	  Version: 24.12.23 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -52,10 +52,12 @@ module
 
 #use "libs/xmath"
 #use "Libs/Music"
+#use "Libs/Serialize"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/use/Misc/MiniMessage"
+#use "Script/use/Misc/PSaveGame"
 #use "Script/Use/Convert/RPG2Stat"
 #use "Script/use/Convert/ViesBah"
 #use "Script/use/Convert/Flow"
@@ -623,7 +625,7 @@ quickmeta GrPlayer
 end
 
 global void SGMap()
-	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize("ret",FLDMAP.Kills).."\n\nreturn ret"
+	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize.Lua("ret",FLDMAP.Kills).."\n\nreturn ret"
 	string r = "// Mapstuff\nInit\n"
 	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
 	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
