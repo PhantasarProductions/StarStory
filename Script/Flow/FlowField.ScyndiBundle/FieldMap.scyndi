@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.23 V
+// 	  Version: 24.12.23 VI
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -253,7 +253,7 @@ class Clickable
 						var O; O = Kthura.NewObject("Obstacle",ctag)
 						var S; S = Kthura.Obj[T]
 						Map.KthuraMap.Remap()
-						string shTag;shTag = rItems[math.random(0,len(rItems)-1]
+						string shTag;shTag = rItems[math.random(0,len(rItems)-1)]
 						string itTag;itTag = "ITM_"..shtag
 						//O.Data["ITEM_F"] = itTag
 						//O.Data["ITEM_S"] = shTag
