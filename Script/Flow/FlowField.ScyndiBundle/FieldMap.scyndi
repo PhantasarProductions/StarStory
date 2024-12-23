@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.23 II
+// 	  Version: 24.12.23 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -636,6 +636,7 @@ global void SGMap()
 	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
 	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
 	r += "end"
+	Lua.error("Saving Map.Neil - Not yet replaced")
 	SaveGame.Data["Map.neil"] = r
 end
 
@@ -648,14 +649,14 @@ global void LGMap()
 	FldMap.LoadMap(gstring["LOADEDMAP"])
 	CSayF("Let's go to layer: %s",gstring["MAPLAYER"])
 	//FldMap.CurLayer.Spawn("PLAYER",0,0)
-	NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
+	Lua.error("Map.Neil - Not yet replaced") //NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
 	LGFix = true
 	FldMap.AutoTexPlayer()
 end
 
 init
 	print("FieldMap Init Executed!")
-	print(GlobalDump())
+	//print(GlobalDump())
 	Clickable.Map = FldMap
 end
 
