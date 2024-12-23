@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.22 I
+// 	  Version: 24.12.23
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -448,7 +448,7 @@ group FldMap
 			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
 			Music.Play(KthuraMap.Meta["Music"])
 		end
-		LoadMapText()
+		Self.LoadMapText()
 		Clickable.Automate()
 		ScanFoes()
 		Kthura.AutoReMap(true)
@@ -634,7 +634,7 @@ global void SGMap()
 	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
 	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
 	r += "end"
-	SaveGameData["Map.neil"] = r
+	SaveGame.Data["Map.neil"] = r
 end
 
 
