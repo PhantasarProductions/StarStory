@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/CallBack.scyndi
 // 
-// 	  Version: 24.12.23 IV
+// 	  Version: 24.12.28
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -47,11 +47,15 @@ Module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Flow/FlowField.scyndibundle/FieldMap"
+#use "Script/Flow/FlowField.scyndibundle/FieldSchedule"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/use/Misc/MiniMessage"
 
 const var Mouse = ObtainImage("MOUSE")
 
@@ -116,7 +120,7 @@ global void FullDrawScreen(noauto)
 		if Prefixed(FldMap.Layer,"#")
 			GStat("Area: "..FldMap.Layer)
 		end
-		if gv.gbool.Shilder1st
+		if gbool.Shilder1st
 			GStat(sprintf("Shilders: %d",Aurina.Shilders))
 		end
 		GStat(sprintf("Credits: %d",Aurina.Cash))
@@ -135,7 +139,7 @@ global void PartyClick(int i,string ch)
 			CSay("Going to Field Menu!")
 			FieldMenu.Go(ch,"FIELD")
 		case 2 3
-			if gv.str.LoadedMap=="Prologue_Yaqirpa" 
+			if gstr.LoadedMap=="Prologue_Yaqirpa" 
 				CSay("Switching leader NOT allowed in the Yaqirpa during the prologue")
 				Return
 			end
@@ -149,7 +153,7 @@ global void Apollo_Flow()
 	static int ABX 
 	int mx = events.mousex()
 	int my = events.mousey()
-	Dev.ToConsole()
+	//Dev.ToConsole()
 	ABX = (ABX + 1) % 200
 	if ABX == 0
 		Party.AutoBuffExpire()

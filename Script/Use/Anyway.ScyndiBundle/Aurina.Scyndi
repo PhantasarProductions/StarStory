@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Anyway.NeilBundle/Aurina.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Anyway.ScyndiBundle/Aurina.Scyndi
+// (c) Jeroen Broks, 2021, 2024, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,47 +33,57 @@
 // 
 // **********************************************
 // 
-// version: 21.07.08
-// End License Information
-
+// 
+// version: 24.12.24 V
+// 
+// End License
 
 
 module
 
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway.ScyndiBundle/Algemeen"
+
+
+
+plua ChaChingSound
+
 	void ChaChing()
-		static var ChaChingSound = Audio.LoadNew("Audio/Shopping/ChaChing.ogg","CHACHING")
+		ChaChingSound = ChaChingSound || Audio.LoadNew("Audio/Shopping/ChaChing.ogg","CHACHING")
 		ChaChingSound.Play()
 	end
 
 	readonly var G = Lua.Neil.Globals
 	
 	get int Have
-		return gv.gInt.Aurinas
+		return gInt.Aurinas
 	end
 	
 	set int Have
-		if value>gv.Int.Aurinas && math.random(1,5*__skill)==1
-			gv.int.AurinaRate++
+		if value>gInt.Aurinas && math.random(1,5*__skill)==1
+			gint.AurinaRate++
 		end			
-		gv.gInt.Aurinas = value
+		gInt.Aurinas = value
 	end
 	
 	get int Rate
-		switch gv.gInt.Skill
+		switch gInt.Skill
 			case 1
-				GV.GInt.AurinaRate = math.max(500,GV.GInt.AurinaRate)
+				GInt.AurinaRate = math.max(500,GInt.AurinaRate)
 			case 2
-				GV.GInt.AurinaRate = math.max(100,GV.GInt.AurinaRate)
+				GInt.AurinaRate = math.max(100,GInt.AurinaRate)
 			case 3
-				GV.GInt.AurinaRate = math.max(5,GV.GInt.AurinaRate)
+				GInt.AurinaRate = math.max(5,GInt.AurinaRate)
 			default
 				Lua.error("Aurina rate skill fuck up error!")
 		end
-		return GV.GInt.AurinaRate
+		return GInt.AurinaRate
 	end
 	
 	set int Rate
-		GV.GInt.AurinaRate = math.min(value,g.caps.maxaurinarate)
+		GInt.AurinaRate = math.min(value,g.caps.maxaurinarate)
 	end
 	
 	get int AurinaCredits
@@ -80,46 +91,50 @@ module
 	end
 	
 	get int Cash
-		return GV.GInt.Cash
+		return GInt.Cash
 	end
 	
 	set int Cash
-		GV.GInt.Cash = math.min(G.Caps.MaxMoney,value)
+		GInt.Cash = math.min(G.Caps.MaxMoney,value)
 	end
 	
 	void Verzilver()
 		// Needed for the boxtext!		
-		gv.gstring.AURINAS           = sprintf("%4d",Have)
-		gv.gstring.AURINARATE        = sprintf("%4d",Rate)
-		gv.gstring.AURINACREDITS     = sprintf("%6d",AurinaCredits)
-		GV.GInt.AURINASEXCHANGED += Have
+		gstring.AURINAS           = sprintf("%4d",Have)
+		gstring.AURINARATE        = sprintf("%4d",Rate)
+		gstring.AURINACREDITS     = sprintf("%6d",AurinaCredits)
+		GInt.AURINASEXCHANGED += Have
 		Cash += AurinaCredits		
 		Have = 0
 		ChaChing()
 	end
 	
 	get int Spent4Rate
-		return GV.GInt.AurinaSpent4rate
+		return GInt.AurinaSpent4rate
 	end
 	
 	set int Spent4Rate
-		static int rinc = 100*(10^__skill)
-		GV.GInt.AurinaSpent4rate = value
-		while GV.GInt.AurinaSpent4rate>rinc
-			GV.GInt.AurinaSpent4rate-=rinc
+		LocExtern rinc "Aurina_Static_Local_Rinc_Spent4Rate"
+		//static int 
+		rinc = rinc || 100*(10^__skill)
+		GInt.AurinaSpent4rate = value
+		while GInt.AurinaSpent4rate>rinc
+			GInt.AurinaSpent4rate-=rinc
 			Rate ++
 		end
 	end
 	
 	get int Earned4Rate
-		return GV.GInt.AurinaEarned4rate
+		return GInt.AurinaEarned4rate
 	end
 
 	set int Earned4Rate
-		static int rinc = 123*(10^__skill)
-		GV.GInt.AurinaEarned4rate = value
-		while GV.GInt.AurinaEarned4rate>rinc
-			GV.GInt.AurinaEarned4rate-=rinc
+		//static int rinc = 123*(10^__skill)
+		LocExtern rinc "Aurina_Static_Local_Rinc_Earned4Rate"
+		rinc = rinc || 123*(10^__skill)
+		GInt.AurinaEarned4rate = value
+		while GInt.AurinaEarned4rate>rinc
+			GInt.AurinaEarned4rate-=rinc
 			Rate ++
 		end
 	end
@@ -133,7 +148,7 @@ module
 		end
 		cash-=amount
 		Spent4Rate+=amount
-		gv.gint.TotalCashSpent+=amount
+		gint.TotalCashSpent+=amount
 		ChaChing()
 		return true
 	end
@@ -148,11 +163,11 @@ module
 	end
 	
 	get int Shilders	
-		return g.gv.gint.Shilders
+		return g.gint.Shilders
 	end
 	set int Shilders
-		gv.gbool.Shilder1st=true
-		gv.gint.Shilders=value
+		gbool.Shilder1st=true
+		gint.Shilders=value
 	end
 	
-end
+//end
