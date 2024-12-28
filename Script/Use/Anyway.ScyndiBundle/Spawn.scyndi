@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 24.12.28 V
+// 	  Version: 24.12.28 IX
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -43,10 +43,12 @@
 // End License
 
 //#macro _LNG Lua.Neil.Globals
+#use "Libs/Music"
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 #use "Script/Use/Convert/RPG2Stat"
-#use "Script/Link/Anyway.scyndibundle/Algemeen"
+#use "Script/Use/Anyway.scyndibundle/Algemeen"
 module
 
 	// This extern saves me having to #use all kinds of libraries that would eventually be loaded anyawy
