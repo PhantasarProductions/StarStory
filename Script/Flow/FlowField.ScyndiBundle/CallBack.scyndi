@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/CallBack.scyndi
 // 
-// 	  Version: 24.12.28
+// 	  Version: 24.12.28 II
 // 	
 // 	  Copyright (C) 2024 Jeroen Petrus Broks
 // 	
@@ -51,6 +51,7 @@ Module
 
 #use "Script/Flow/FlowField.scyndibundle/FieldMap"
 #use "Script/Flow/FlowField.scyndibundle/FieldSchedule"
+#use "Script/Flow/FlowField.scyndibundle/FieldMonstersOnTheMap"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -169,9 +170,9 @@ global void Apollo_Flow()
 		GrSchedule.DoScheduled()
 		// Click to move char
 	end
-	If gv.gint.WipeGoCD>0
-		gv.gint.WipeGoCD--
-		If gv.gint.WipeGoCD==0
+	If gint.WipeGoCD>0
+		gint.WipeGoCD--
+		If gint.WipeGoCD==0
 			Spawn.Go()
 		End
 		Return
