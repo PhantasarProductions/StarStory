@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/LoadField.scyndi
 // 
-// 	  Version: 24.12.19
+// 	  Version: 24.12.29
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -53,6 +53,7 @@ Script
 #use "Script/Use/Convert/RPG2Stat"
 
 #use "Script/Flow/FlowField"
+#use "Script/Load/CallBack_Field"
 
 init
 	ClBeam.DS = FullDrawScreen
