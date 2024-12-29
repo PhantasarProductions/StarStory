@@ -1,42 +1,47 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowField.NeilBundle/FieldZoneAction.neil
-// Version: 21.03.15
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 24.12.29 V
+// 	
+// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
-// This is a translation from NIL to Neil
-// Loads of stuff Neil doesn't need but doesn't hurt either, may still
-// remain here (like the keyword "self").
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
 
 //var ZAXPand(t, i)
 //	i = i or 1
@@ -44,6 +49,13 @@
 //		return t[i], ZAXPand(t, i + 1)
 //	end
 //end
+
+Module
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
 
 bool KettingInitDone
 
@@ -59,9 +71,9 @@ class ZoneAction
 	static void RoomChange(int inc,string exitpoint)
 		string cLay
 		var nLay
-		cLay = Map.Layer
+		cLay := Map.Layer
 		assert(prefixed(cLay,"#"),"Next/Prev only works for rooms prefixed with a #")
-		assert(#cLay==4,"Invalid Next/Prev length!")
+		assert(len(cLay)==4,"Invalid Next/Prev length!")
 		nLay = tonumber(right(cLay,3))
 		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
 		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
@@ -86,7 +98,7 @@ class ZoneAction
 		//	self.AltNext.NextRoom()
 		//	return
 		//end
-		RoomChange( 1,"Start")
+		Self.RoomChange( 1,"Start")
 	end
 	
 	static void PrevRoom()
@@ -94,7 +106,7 @@ class ZoneAction
 		//	self.AltNext.PrevRoom()
 		//	return
 		//end
-		RoomChange(-1,"Einde")
+		Self.RoomChange(-1,"Einde")
 	end
 	
 	static void Reset()
@@ -126,8 +138,7 @@ class ZoneAction
 	end
 	
 	static void Create(string Event,string Zone,AAct,param)
-		var vd
-		vd = new ZoneAction(Event,Zone,AAct,param)
+		var vd := new ZoneAction(Event,Zone,AAct,param)
 	end
 	
 	string ActMap
