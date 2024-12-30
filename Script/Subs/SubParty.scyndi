@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.30 XXXI
+// 	  Version: 24.12.30 XXXV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -125,7 +125,7 @@ group SubParty
 		RPGChar[tag].Points.HP.Have = RPGChar[tag].Points.HP.Maximum
 	end
 
-	void NewChar(string Tag,int level,string Name)
+	void NewChar(string Tag,int level=1,string Name="")
 		// Todo: Make sure all this is skipped if the character already exists!
 		if (Name=="") 
 			Name=Tag
@@ -294,7 +294,7 @@ group SubParty
 					int nlv := RPGChar[Tag].Stat.Level+1
 					RPGChar[Tag].Stat.Level = nlv
 					Self.GrabLevel(Tag,nlv)
-					CheckMaxLevel(Tag,nlv)
+					Self.CheckMaxLevel(Tag,nlv)
 					RPGChar[Tag].Points.EXP.Have=0
 					ScLvUp[i]=1
 					AudioLevelUp.Play()
@@ -308,7 +308,7 @@ group SubParty
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
 				int x   := bx+((bw/4)*(i-3))				
-				var img := GetSmallPortrait(tag)
+				var img := Self.GetSmallPortrait(tag)
 				// Mini border
 				__ember
 				Graphics.Line(x-2,y+2,x-2,y+40)
@@ -327,12 +327,12 @@ group SubParty
 				if (RPGChar[Tag].Points.EXP.Have>=RPGChar[Tag].Points.EXP.Maximum) && Tag!="Briggs" && RPGChar[Tag].Stat.Level<Caps.LevelCap
 					int nlv := math.min(10000,RPGChar[Tag].Stat.Level+1)
 					RPGChar[Tag].Stat.Level = nlv
-					GrabLevel(Tag,nlv)
+					Self.GrabLevel(Tag,nlv)
 					RPGChar[Tag].Points.EXP.Have=0
 					// No "LEVEL UP" mark or music box jingle. This happens in silence now!
 					// The little debug line below will help me to see this happens though.
 					CSayF("%s went level up and is now level %d",Tag,nlv)
-					CheckMaxLevel(Tag,nlv)
+					Self.CheckMaxLevel(Tag,nlv)
 				end
 				// Open/Close menu
 				for j=1,3
