@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.30 VI
+// 	  Version: 24.12.30 IX
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@ Script
 
 #use "Script/Use/Anyway"
 #use "script/use/misc/classbox"
+#use "Script/Use/Convert/RPG2Stat"
 #use "libs/xmath"
 
 #macro lvupend 315
@@ -196,7 +197,7 @@ group SubParty
 	end
 	
 	var GetSmallPortrait(string sTag)
-		string Tag = "MINI__"..sTag
+		string Tag := "MINI__"..sTag
 		if not Portretten[Tag]			
 			string File
 			File = "GFX/Combat/GaugeIcons/"..sTag..".png"
