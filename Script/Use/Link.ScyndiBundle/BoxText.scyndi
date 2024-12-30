@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 24.12.21 V
+// 	  Version: 24.12.30
 // 	
 // 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
 // 	
@@ -68,7 +68,8 @@ global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
 	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
 end
 
-	readonly delegate Map = MapText
+	//readonly delegate Map = MapText
+	get delegate Map;Return MapText;End
 	get string lang
 		//State.LoadNew("GV","Script/Subs/SubGV.Neil")
 		//return ISGET.Str("GV","gv.gstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
