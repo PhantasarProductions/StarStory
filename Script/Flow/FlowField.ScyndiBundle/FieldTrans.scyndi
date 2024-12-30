@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 24.12.30 VII
+// 	  Version: 24.12.30 XIV
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -52,6 +52,7 @@ Module
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/Use/Misc/MiniMessage"
 #use "Script/Use/Misc/PSaveGame"
 
 locextern Schedule "Scyndi.Class.Schedule"
@@ -129,7 +130,7 @@ group Trans
 									return
 								case 2
 									Self.Recover()
-									Save()
+									Self.Save()
 									return
 								case 3
 									return
@@ -145,7 +146,7 @@ group Trans
 			end
 			Pnt.Draw(MX,MY)
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 		Forever
 	end
 	
@@ -160,8 +161,8 @@ group Trans
 	
 	void Go(string spot)	
 		CSayF("Go for transpad: %s",spot)
-		int px := Map.ObjInt(tspot(spot),"X")
-		int py := Map.Objint(tpad(spot),"Y")
+		int px := Map.ObjInt(self.tspot(spot),"X")
+		int py := Map.Objint(self.tpad(spot),"Y")
 		int dx := math.abs(px-Player.X)
 		int dy := math.abs(py-Player.Y)
 		int dist := math.floor( math.sqrt ( (dx*dx)+(dy*dy) ) )
@@ -173,7 +174,7 @@ group Trans
 		Activated[spot]=true
 		CSay("= Spot activated")
 		CSay("= Specific action")
-		Self["Pad"..ttype(spot)]()
+		Self["Pad"..self.ttype(spot)]()
 	end
 	
 	void Activate(string spot)
@@ -191,9 +192,9 @@ void ANewIndex(s,string key,bool value)
 	gBool[sprintf("TRANS.ACTIVATED.%s",key)] = value			
 	if !old
 		//Map.SetObj(tpad(key),"Texture","GFX/Textures/Teleporter Pad/"..ttype(key)..".png")
-		Kthura.Obj[key].Texture = "GFX/Textures/Teleporter Pad/"..ttype(key)..".png"
-		if ttype(key):upper()=="GENERAL"
-			Trans.Hawk.Add(key,tworld(key),tname(key),Map.LoadedMap,Map.Layer)
+		Kthura.Obj[key].Texture = "GFX/Textures/Teleporter Pad/"..Trans.ttype(key)..".png"
+		if Trans.ttype(key):upper()=="GENERAL"
+			Trans.Hawk.Add(key,trans.tworld(key),Trans.tname(key),Map.LoadedMap,Map.Layer)
 			CSay("Added to location list in Hawk")
 		end
 	end
