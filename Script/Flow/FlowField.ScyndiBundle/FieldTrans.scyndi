@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 24.12.30 XIV
+// 	  Version: 24.12.30 XVI
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -75,7 +75,7 @@ group Trans
 	
 	string tname(string spot)
 		//return Map.GetObjData(tspot(spot),"LOCATION")
-		return Kthura.Obj[self.tspot(spot])].Data.LOCATION
+		return Kthura.Obj[self.tspot(spot)].Data.LOCATION
 	end
 
 	string tworld(string spot)
