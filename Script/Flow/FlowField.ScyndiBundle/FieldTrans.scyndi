@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 24.12.30 IV
+// 	  Version: 24.12.30 VII
 // 	
 // 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -51,6 +51,7 @@ Module
 #use "Libs/SCI/Intervar"
 
 #use "Script/Use/Link"
+#use "Script/Use/Anyway"
 #use "Script/Use/Misc/PSaveGame"
 
 locextern Schedule "Scyndi.Class.Schedule"
@@ -124,10 +125,10 @@ group Trans
 						if Events.MouseHitLeft()
 							Switch i
 								case 1
-									Scotty()
+									Self.Scotty()
 									return
 								case 2
-									Recover()
+									Self.Recover()
 									Save()
 									return
 								case 3
@@ -149,12 +150,12 @@ group Trans
 	end
 	
 	void PadRecover()
-		Recover()
+		Self.Recover()
 		TMM.NewMsg("Party is completely recovered",180,255,0)
 	end
 	
 	get delegate PadReturnOnly
-		return Scotty
+		return Self.Scotty
 	end
 	
 	void Go(string spot)	
