@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 24.12.24 V
+// version: 24.12.30
 // 
 // End License
 
@@ -55,7 +55,7 @@ plua ChaChingSound
 		ChaChingSound.Play()
 	end
 
-	readonly var G = Lua.Neil.Globals
+	readonly var G = Lua.Scyndi.Globals
 	
 	get int Have
 		return gInt.Aurinas
