@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.30 IX
+// 	  Version: 24.12.30 X
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -237,10 +237,10 @@ group SubParty
 		for i=1,3
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
-				int x= (i-1)*bw
-				int y = Screen.H-100
+				int x := (i-1)*bw
+				int y := Graphics.H-100
 				if char==tag
-					plua alf = math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
+					plua alf = math.abs(math.floor(xmath.sin(Sys.Ticks/50)*255))
 					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
 					Graphics.SetAlpha(alf)
 				end
