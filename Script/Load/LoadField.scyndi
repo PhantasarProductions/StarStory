@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/LoadField.scyndi
 // 
-// 	  Version: 24.12.29 I
+// 	  Version: 24.12.30
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ Script
 
 #use "libs/LinkedList"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/MiniMessage"
 #use "Script/Use/Convert/Flow"
