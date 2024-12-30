@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.30 X
+// 	  Version: 24.12.30 XIV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -246,7 +246,7 @@ group SubParty
 				end
 				GetPortret(tag).Draw(x,Screen.h)
 				Graphics.SetAlpha(255)
-				int g = math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
+				int g := math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
 				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Graphics.Color((255-g),g,0)
 				StatBar(x+150,y+30,(bw)-160,3,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
@@ -282,7 +282,7 @@ group SubParty
 					Image.Rotate = 0
 					ScLvUp[i] = math.min(1000,ScLvUp[i]+2)%1000
 				elseif (RPGChar[Tag].Points.EXP.Have>=RPGChar[Tag].Points.EXP.Maximum) && Tag!="Briggs" && RPGChar[Tag].Stat.Level<Caps.LevelCap
-					int nlv = RPGChar[Tag].Stat.Level+1
+					int nlv := RPGChar[Tag].Stat.Level+1
 					RPGChar[Tag].Stat.Level = nlv
 					GrabLevel(Tag,nlv)
 					CheckMaxLevel(Tag,nlv)
@@ -293,13 +293,13 @@ group SubParty
 			end
 		end
 		// Backrow
-		int bx= 3*bw
-		int y = Screen.H-70
+		int bx := 3*bw
+		int y  := Graphics.H-70
 		for i=4,6		
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
-				int x = bx+((bw/4)*(i-3))				
-				var img = GetSmallPortrait(tag)
+				int x   := bx+((bw/4)*(i-3))				
+				var img := GetSmallPortrait(tag)
 				// Mini border
 				__ember
 				Graphics.Line(x-2,y+2,x-2,y+40)
@@ -308,7 +308,7 @@ group SubParty
 				// Mini face
 				__white
 				if char==tag
-					plua alf = math.abs(math.floor(xmath.sin(FPS.Ticks/50)*255))
+					plua alf = math.abs(math.floor(xmath.sin(Sys.Ticks/50)*255))
 					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
 					Graphics.SetAlpha(alf)
 				end				
