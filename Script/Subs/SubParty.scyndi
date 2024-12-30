@@ -1,59 +1,71 @@
-// License Information:
-// src/Tricky Script/Script/Subs/SubParty.Neil
-// Version: 21.07.14
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 24.12.30 VI
+// 	
+// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
-#use "script/use/misc/box"
+#use "script/use/misc/classbox"
 #use "libs/xmath"
 
 #macro lvupend 315
 
 group SubParty
 
-	readonly table StatSubs = {"BASE","POWERUP","UPGRADE","BUFF","END"}
-	readonly table Stats = {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }	
-	readonly var Fnt = ImageFont.Obtain("BOXTEXT")
-	readonly var LevelUp = Image.Obtain("LEVEL_UP")
+	readonly table StatSubs = NewArray("BASE","POWERUP","UPGRADE","BUFF","END")
+	readonly table Stats = NewArray("AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" )	
+	readonly var Fnt = ObtainFont("BOXTEXT")
+	readonly var LevelUp = ObtainImage("LEVEL_UP")
 	readonly var AudioLevelUp = Audio.Obtain("AUDIO_LEVELUP")
 	table ScLvUp = {0,0,0}
 	int scrw = -1
 	int scrh = -1
 	
 	get int bw
-		return Screen.w Div 4
+		return Graphics.w Div 4
 	end
 	
 	get delegate ToNumber
@@ -67,32 +79,32 @@ group SubParty
 	void MakeBoxes()
 		Box.Clear()		
 		for i=0,3
-			var t = new Box(i*bw,screen.H-100,bw,100,true)
+			var t := new Box(i*bw,screen.H-100,bw,100,true)
 			cout("Box created: (",t.x,",",t.y,")\t",t.w,"x",t.h,"\n")
 		end
 	end
 
 	
 	void GrabLevel(string tag,int level)
-		string n = tag
+		string n := tag
 		if tag == "UniWendicka"
 			n = "Wendicka"
 		end
-		string dat = JCR6.LoadString(sprintf("Data/LvStats/%s/%d",n,math.floor(level/100)))
-		table tdat = Split(dat,"\n")
+		string dat := JCR6.LoadString(sprintf("Data/LvStats/%s/%d",n,math.floor(level/100)))
+		table tdat := Split(dat,"\n")
 		int lvl = -100
 		for line in each(tdat)
 			if line!="" 
-				table ins = split(line," ")
+				table ins := split(line," ")
 				switch ins[1]
 					case "REM"
 						// DO NOTHING!
 					case "LEVEL"
-						lvl = lua.tonumber(ins[2])
+						lvl = lua.tonumber(ins[1])
 					default
 						if prefixed(ins[1],"STAT.") 
 							if lvl==level
-								string st = right(ins[1],#ins[1]-5)
+								string st := right(ins[0],len(ins[0])-5)
 								RPGChar[Tag].Stat["BASE_"..st] = tonumber(ins[2])
 								print("\t= "..st.." for "..tag.." is "..ins[2])
 							end
@@ -134,7 +146,7 @@ group SubParty
 			for sb in Each(StatSubs)
 				RPGChar[Tag].Stat[sb.."_"..st] = 0
 			end
-			string formscript = "SUM:"..Tag
+			string formscript := "SUM:"..Tag
 			for sb in Each(StatSubs)
 				if sb!="END" 
 					formscript += "."..sb.."_"..st
@@ -325,9 +337,13 @@ group SubParty
 		end
 	end
 	
-	CONSTRUCTOR	
-		LevelUp.HotCenter()		
-	end
+	//CONSTRUCTOR	
+	//	LevelUp.HotCenter()		
+	//end
 
 
 end
+
+Init
+	SubParty.LevelUp.HotCenter()
+End
