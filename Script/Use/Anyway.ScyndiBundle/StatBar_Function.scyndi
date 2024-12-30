@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/StatBar_Function.scyndi
 // 
-// 	  Version: 24.12.30 I
+// 	  Version: 24.12.30 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -43,7 +43,7 @@
 // End License
 Module 
 
-#use "Libs/Graphics"
+#use "Libs/SCI/Graphics"
 
 Global void StatBar(int x, int y, int w, int h, int deel, int geheel)
 	int bar := math.floor( (deel/geheel) * w )
