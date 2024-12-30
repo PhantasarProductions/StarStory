@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.30 XIV
+// 	  Version: 24.12.30 XXV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -44,12 +44,16 @@
 Script
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "script/use/misc/classbox"
 #use "Script/Use/Convert/RPG2Stat"
+#use "Script/Use/Convert/ViesBah"
+
 #use "libs/xmath"
 
 #macro lvupend 315
@@ -80,7 +84,7 @@ group SubParty
 	void MakeBoxes()
 		Box.Clear()		
 		for i=0,3
-			var t := new Box(i*bw,screen.H-100,bw,100,true)
+			var t := new Box(i*bw,Graphics.H-100,bw,100,true)
 			cout("Box created: (",t.x,",",t.y,")\t",t.w,"x",t.h,"\n")
 		end
 	end
@@ -173,7 +177,7 @@ group SubParty
 		RPGChar[Tag].Points.AMMO.MaxCopy = "AMMO"
 		RPGChar[Tag].Points.EXP.Max = Caps.NeedEXP
 		print("= Grabbing level: "..level)
-		GrabLevel(Tag,level)
+		Self.GrabLevel(Tag,level)
 		print("= NEXT comes later!")
 	end
 	
@@ -190,7 +194,7 @@ group SubParty
 				default
 					File = "GFX/PORTRET/"..Tag.."/General.png"
 			end
-			Portretten[Tag] = Image.LoadNew(File,"PORTRET_"..Tag)
+			Portretten[Tag] = LoadNewImage(File,"PORTRET_"..Tag)
 			Portretten[Tag].Hot(5,Portretten[Tag].Height)
 		end
 		return Portretten[Tag]
@@ -201,7 +205,7 @@ group SubParty
 		if not Portretten[Tag]			
 			string File
 			File = "GFX/Combat/GaugeIcons/"..sTag..".png"
-			Portretten[Tag] = Image.LoadNew(File,"GAUGEICON_HERO_"..sTag)
+			Portretten[Tag] = LoadNewImage(File,"GAUGEICON_HERO_"..sTag)
 			//Portretten[Tag].Hot(5,Portretten[Tag].Height)
 		end
 		return Portretten[Tag]
@@ -226,10 +230,10 @@ group SubParty
 	End
 	
 	void Boxes(string char)
-		if scrw!=Screen.W && scrh!=Screen.H
-			MakeBoxes()
-			scrw = Screen.W 
-			scrh = Screen.H
+		if scrw!=Graphics.W && scrh!=Graphics.H
+			Self.MakeBoxes()
+			scrw = Graphics.W 
+			scrh = Graphics.H
 		end
 		Graphics.SetAlpha(255)
 		Box.DrawAll()
@@ -244,7 +248,7 @@ group SubParty
 					//CSayF("Alpha: %03d / Tricks: %05d",alf,FPS.Ticks)
 					Graphics.SetAlpha(alf)
 				end
-				GetPortret(tag).Draw(x,Screen.h)
+				GetPortret(tag).Draw(x,Graphics.h)
 				Graphics.SetAlpha(255)
 				int g := math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
 				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
@@ -316,7 +320,7 @@ group SubParty
 				Graphics.SetAlpha(255)
 				// Level up
 				if (RPGChar[Tag].Points.EXP.Have>=RPGChar[Tag].Points.EXP.Maximum) && Tag!="Briggs" && RPGChar[Tag].Stat.Level<Caps.LevelCap
-					int nlv = math.min(10000,RPGChar[Tag].Stat.Level+1)
+					int nlv := math.min(10000,RPGChar[Tag].Stat.Level+1)
 					RPGChar[Tag].Stat.Level = nlv
 					GrabLevel(Tag,nlv)
 					RPGChar[Tag].Points.EXP.Have=0
