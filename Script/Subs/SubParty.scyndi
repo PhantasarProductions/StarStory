@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.31 I
+// 	  Version: 24.12.31 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -98,23 +98,24 @@ group SubParty
 		if tag == "UniWendicka"
 			n = "Wendicka"
 		end
-		string dat := JCR6.LoadString(sprintf("Data/LvStats/%s/%d",n,math.floor(level/100)))
+		string dat := JCR6.GetString(sprintf("Data/LvStats/%s/%d",n,math.floor(level/100)))
 		table tdat := Split(dat,"\n")
 		int lvl = -100
 		for line in each(tdat)
 			if line!="" 
+				CSayF("Line: %s",line) // DEBUG ONLY!
 				table ins := split(line," ")
-				switch ins[1]
+				switch ins[0]
 					case "REM"
 						// DO NOTHING!
 					case "LEVEL"
-						lvl = lua.tonumber(ins[1])
+						lvl = lua.tonumber(ins[0])
 					default
-						if prefixed(ins[1],"STAT.") 
+						if prefixed(ins[0],"STAT.") 
 							if lvl==level
 								string st := right(ins[0],len(ins[0])-5)
-								RPGChar[Tag].Stat["BASE_"..st] = tonumber(ins[2])
-								print("\t= "..st.." for "..tag.." is "..ins[2])
+								print("\t= "..st.." for "..tag.." is "..ins[1])
+								RPGChar[Tag].Stat["BASE_"..st] = tonumber(ins[1])								
 							end
 						else
 							error("Unknown instruction! >> "..line)
@@ -180,7 +181,7 @@ group SubParty
 		RPGChar[Tag].Points.AMMO.MaxCopy = "AMMO"
 		RPGChar[Tag].Points.EXP.Max = Caps.NeedEXP
 		print("= Grabbing level: "..level)
-		Self.GrabLevel(Tag,level)
+		Lua.Scyndi.Class.SubParty.GrabLevel(Tag,level)
 		print("= NEXT comes later!")
 	end
 	
