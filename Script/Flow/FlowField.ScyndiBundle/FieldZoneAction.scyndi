@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
 // 
-// 	  Version: 24.12.29 VIII
+// 	  Version: 24.12.31 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -101,7 +101,7 @@ class ZoneAction
 		//	self.AltNext.NextRoom()
 		//	return
 		//end
-		Self.RoomChange( 1,"Start")
+		ZoneAction.RoomChange( 1,"Start")
 	end
 	
 	static void PrevRoom()
@@ -109,16 +109,17 @@ class ZoneAction
 		//	self.AltNext.PrevRoom()
 		//	return
 		//end
-		Self.RoomChange(-1,"Einde")
+		ZoneAction.RoomChange(-1,"Einde")
 	end
 	
 	static void Reset()
-		self.AltNext = nil;
-		self.List = self.List or {}
-		self.List.Enter = self.List.Enter or new TLinkedList()
-		self.List.Leave = self.List.Leave or new TLinkedList()
-		self.List.Cycle = self.List.Cycle or new TLinkedList()
-		for k,v in pairs(self.List) 
+		locextern _self "Scyndi.Class.ZoneAction"
+		_self.AltNext = nil;
+		_self.List = _self.List or {}
+		_self.List.Enter = _self.List.Enter or new TLinkedList()
+		_self.List.Leave = _self.List.Leave or new TLinkedList()
+		_self.List.Cycle = _self.List.Cycle or new TLinkedList()
+		for k,v in pairs(_self.List) 
 			v.Clear()
 		end
 		
@@ -132,8 +133,9 @@ class ZoneAction
 	end
 	
 	static void RejectReject()
+		locextern self "Scyndi.Class.ZoneAction"
 		for RR,RL in self.List.Enter.Each
-			if prefixed(RR.ActZone:upper(),"REJECT")
+			if prefixed(Upper(RR.ActZone),"REJECT")
 				CSayF("Removed %s in ZA Reject Zone",RR.ActZone)
 				RL.UnLink()
 			end
@@ -160,12 +162,13 @@ class ZoneAction
 	static table CheckDels
 	
 	static void InitCheckDels()
-		if self.CheckDels.Enter 
+		locextern _self "Scyndi.Class.ZoneAction"
+		if _self.CheckDels.Enter 
 			return
 		end
-		self.CheckDels.Enter = { ["Was"] = false, ["Wordt"] = true  }
-		self.CheckDels.Leave = { ["Was"] = true,  ["Wordt"] = false }
-		self.CheckDels.Cycle = { ["Was"] = true,  ["Wordt"] = true  }
+		_self.CheckDels.Enter = { ["Was"] = false, ["Wordt"] = true  }
+		_self.CheckDels.Leave = { ["Was"] = true,  ["Wordt"] = false }
+		_self.CheckDels.Cycle = { ["Was"] = true,  ["Wordt"] = true  }
 	end
 	
 	static bool CheckAll()
