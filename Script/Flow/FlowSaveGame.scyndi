@@ -1,58 +1,75 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowSaveGame.neil
-// Version: 21.10.25
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowSaveGame.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 24.12.31 XIII
+// 	
+// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
-#use "Script/Use/Misc/Box"
+#use "Script/Use/Link"
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Misc/ClassBox"
 #use "Script/Use/Misc/PSaveGame"
+
 
 #macro maxsg 999
 #macro sloth 50
 #macro slotm 5
 
 #macro starty 100
-#macro Endy Screen.H-228
+#macro Endy Graphics.H-228
 
-Var Mouse = Image.Obtain("MOUSE")
-Var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,False)
-Var BigFont = ImageFont.Obtain("BIGTEXT")
-Var SysFont = ImageFont.Obtain("SYSFONT")
+Var Mouse = ObtainImage("MOUSE")
+Var ScreenBox = new Box(0,0,Graphics.W,Graphics.H-128,False)
+Var BigFont = ObtainFont("BIGTEXT")
+Var SysFont = ObtainFont("SYSFONT")
 Var Buzz = Audio.Obtain("BUZZ")
-Var ButtonUp = Image.Obtain("UP")
-Var ButtonDown = Image.Obtain("DOWN")
+Var ButtonUp = ObtainImage("UP")
+Var ButtonDown = ObtainImage("DOWN")
 
 
 ReadOnly Int slotsonscreen = math.floor((Endy-starty)/(sloth+slotm))
@@ -83,7 +100,7 @@ Init
 	Var s
 	s = SaveGame.LoadIndieString("Star Story - Scroll")
 	CSayF("Getting scroll: %s",lua.tostring(s))
-	scroll = lua.tonumber(s or "0") or 0
+	scroll = lua.tonumber(s || "0") || 0
 	
 	
 End
@@ -96,8 +113,8 @@ End
 
 Table GetSlot(Int i)
 	If !slots[i]
-		Table h = GetHeader(i)
-		Table nr
+		Table h  := GetHeader(i)
+		Table nr := {}
 		nr.have = h.Map!=nil
 		nr.header = h
 		slots[i] = nr
@@ -132,11 +149,11 @@ Void Cancel()
 End
 
 Global Void Apollo_Flow()
-	Dev.ToConsole()
+	//Dev.ToConsole()
 	// Mouse coordiniates
-	Int mx = Events.MouseX()
-	Int my = Events.MouseY()
-	Bool AlUp = scroll>0
+	Int mx = Events.MouseX
+	Int my = Events.MouseY
+	Bool AlUp := scroll>0
 	Bool AlDown = true
 	
 	// ScreenBox
@@ -149,19 +166,19 @@ Global Void Apollo_Flow()
 	// Slots
 	
 	For i=scroll,math.min(scroll+slotsonscreen,maxsg)
-		AlDown=AlDown and i<maxsg		
-		Table slot = GetSlot(i)
-		Int y = starty+((i-scroll)*(sloth+slotm))
+		AlDown=AlDown && i<maxsg		
+		Table slot := GetSlot(i)
+		Int y := starty+((i-scroll)*(sloth+slotm))
 		__white
 		If slot.have
-			Int iconi = (i%#SaveIconsF)+1
-			SaveIcons[iconi] = SaveIcons[iconi] || Image.Load(SaveIconsF[iconi])
+			Int iconi := (i%len(SaveIconsF)) //+1
+			SaveIcons[iconi] = SaveIcons[iconi] || LoadImage(SaveIconsF[iconi])
 			SaveIcons[iconi].Stretch(10,y,sloth,math.floor( SaveIcons[iconi].Width * ( sloth / SaveIcons[iconi].Height) ))
 		End
 		__skyblue
-		If mx>100 and my>=y and my<=y+sloth and mx<Screen.W-100
+		If mx>100 && my>=y && my<=y+sloth && mx<Graphics.W-100
 			Graphics.Color(0,200,255)
-			If Events.MouseHitLeft()
+			If Events.MouseHitLeft
 				SaveScroll()
 				switch Action
 					Case "Save"
@@ -191,8 +208,8 @@ Global Void Apollo_Flow()
 			// TODO: Data			
 			BigFont.Text(slot.header.Map,100,y)
 			SysFont.Text(slot.header.Protagonist.." lv "..slot.header.ProtaLevel,100,y+40)
-			SysFont.Text(slot.header.Difficulty.." mode",Screen.W/2,y+40,2)
-			SysFont.Text("Cycle: "..slot.header.Cycle.."; Saved: "..slot.header.Saved,Screen.W-100,y+40,1)
+			SysFont.Text(slot.header.Difficulty.." mode",Graphics.W/2,y+40,2)
+			SysFont.Text("Cycle: "..slot.header.Cycle.."; Saved: "..slot.header.Saved,Graphics.W-100,y+40,1)
 		Else
 			BigFont.Text("== Empty slot ==",100,y)
 		End
@@ -200,8 +217,8 @@ Global Void Apollo_Flow()
 	__white
 	Static Bool clk = false
 	If AlDown
-		ButtonDown.Draw(Screen.W-100,Screen.H-228)
-		If (!clk) && Events.MouseHitLeft() and mx>Screen.W-100 and my>Screen.H-228 and my<Screen.H-128
+		ButtonDown.Draw(Graphics.W-100,Graphics.H-228)
+		If (!clk) && Events.MouseHitLeft() && mx>Graphics.W-100 && my>Graphics.H-228 && my<Graphics.H-128
 			Scroll++
 			CSayF("Scrolled down to: %04d",Scroll)
 			clk=true
@@ -210,8 +227,8 @@ Global Void Apollo_Flow()
 		End
 	End
 	If AlUp
-		ButtonUp.Draw(Screen.W-100,100)
-		If (!clk) and Events.MouseHitLeft() and mx>Screen.W-100 and my>100 and my<128
+		ButtonUp.Draw(Graphics.W-100,100)
+		If (!clk) && Events.MouseHitLeft() && mx>Graphics.W-100 && my>100 && my<128
 			Scroll = math.max(0,Scroll-1)
 			CSayF("Scrolled up to: %04d",Scroll)
 			clk=true
@@ -227,8 +244,8 @@ Global Void Apollo_Flow()
 	End
 	// Cancel by Icon
 	__Red	
-	BigFont.Text("X",Screen.W-100,160)
-	If Events.MouseHitLeft() and mx>Screen.W-100 and my>160 and my<200
+	BigFont.Text("X",Graphics.W-100,160)
+	If Events.MouseHitLeft() && mx>Graphics.W-100 && my>160 && my<200
 		Cancel()
 		Return
 	End
