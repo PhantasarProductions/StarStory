@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 24.12.31
+// 	version: 24.12.31 III
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -23,14 +23,55 @@
 // End License
 Module
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Statistician"
 
 plua _stat = Statistician.CreateNew("STAR_STORY")
+plua _char
 
 Global ReadOnly Var RPGParty = _Stat.Party
 	
 Void __RC_Create(String Tag,String Name="")
-	_stat.NewChar(Tag,Ternary(Name=="",Tag,Name))
+	_Name:=Ternary(Name=="",Tag,Name)
+	CSayF("Creating character %s -> %s",Tag,_Name)
+	_stat.NewChar(Tag,_Name)
+End
+
+plua CharMeta(String Key)
+	ddef NoNewIndex
+		Lua.error("Cannot overwrite characters")
+	end
+	ddef ChIndex
+		args:=NewArray(Infinity)
+		this:=args[0]
+		key:=Upper(args[1])
+		switch Key
+			Case "NAME" "DATA" "POINTS"
+				return this._chdata[Key]
+			Case "STAT"
+				Lua.error("Stat viewing and manipulation not YET supported")
+			default
+				Lua.error("Unknown stat data key: "..Key)
+		End		
+	end	
+	mettable:={}
+	mettable.__newindex=NoNewIndex
+	mettable.__index=ChIndex
+	ret:={}
+	ret._chkey=Key
+	ret._chdata=_stat.Char[Key]
+	return SetMetaTable(ret,mettable)
+End
+
+QuickMeta RPGChar__GetChar
+	newindex
+		Lua.error("RPG Character records are read-only")
+	end
+	index
+		_char = _char || {}
+		_char[Key] = _Char[Key] || CharMeta(Key)
+		return _char[Key]
+	end
 End
 
 QuickMeta RPGChar
@@ -41,6 +82,12 @@ QuickMeta RPGChar
 				return _stat.Party[key-1]
 			case "string"
 				Switch Upper(Key)
+					case "ALL"
+						Lua.error("No support for ALL in RPGChar yet")
+					case "KILL"
+						Lua.error("No support for KILL in RPGChar yet")
+					case "HAS"
+						Lua.error("No support for HAS in RPGChar yet")
 					case "CREATE"
 						return __RC_Create
 				End
