@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.31
+// 	  Version: 24.12.31 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -133,7 +133,7 @@ group SubParty
 		print("Creating character:",Tag,Name)
 		RPGChar.Create(Tag,Name)
 		// Shoot?
-		print("= Can this character shoot?")
+		CSay("= Can this character shoot?")
 		RPGChar[Tag].Data.CanShoot = Lua.tostring(prefixed(tag,"Uni") or tag=="Briggs" or tag=="Yirl")
 		if tag=="Briggs"
 			print("= Briggs is a guest")
