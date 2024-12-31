@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 24.12.19 I
+// 	version: 24.12.31
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -28,10 +28,24 @@ Module
 plua _stat = Statistician.CreateNew("STAR_STORY")
 
 Global ReadOnly Var RPGParty = _Stat.Party
+	
+Void __RC_Create(String Tag,String Name="")
+	_stat.NewChar(Tag,Ternary(Name=="",Tag,Name))
+End
 
 QuickMeta RPGChar
 	index
-		Lua.error("RPGChar Index Not Yet Implemented")
+		//Lua.error("RPGChar Index Not Yet Implemented ("..key..")")
+		Switch Type(Key)
+			case "number"
+				return _stat.Party[key-1]
+			case "string"
+				Switch Upper(Key)
+					case "CREATE"
+						return __RC_Create
+				End
+			default lua.error("I cannot deal with "..type(Key).." to index for RPGChar")
+		End
 	End
 	
 	newindex
