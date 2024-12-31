@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 24.12.31 XI
+// 	version: 24.12.31 XXVII
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -24,8 +24,11 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Statistician"
 
+plua _modifiers = { "POWERUP", "UPGRADE", "BUFF" }
+plua _links = { ["Wendicka"]="UniWendicka", ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
 plua _stat = Statistician.CreateNew("STAR_STORY")
 plua _char
 
@@ -42,11 +45,34 @@ Int CharStat(data,String Key)
 End
 
 Void CharStatSet(data,String Key,Int Value)
-	If Prefixed(Key,"INVAMNT")
-		data.parent._chdata.Stat[Key]=Value
+	c:=Data.parent._chkey
+	d:=data.parent._chdata
+	sk:=XSplit(Key,"_")
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level"
+		d.Stat[Key]=Value
 		Return
-	end
-	Lua.error("No stat function yet, so I cannot set to stat "..key.." yet for "..data.parent._chkey)
+	end	
+	if Len(sk)==2
+		Switch sk[0]
+			Case "END"
+				//Lua.error("END stats are readonly so "..key.." cannot be defined for "..Data.parent._chkey)
+				CSay("END stats are readonly so "..key.." cannot be defined for "..Data.parent._chkey.." \t Request ignored!")
+				Return
+			Case "BASE"
+				d.Stat[sk[1]]=Value
+				return
+			Case "POWERUP" "UPGRADE" "BUFF"
+				d.XStat[sk[1]].Buff[sk[0]]=Value
+				if _links[c]
+					Lua.Scyndi.Globals.RPGChar[_links[c]].Stat[Key]=value
+					//XStat[sk[1]].Buff[sk[0]]=Value
+				end
+				return
+			
+		End
+	End
+	printf("sk#%d\n",len(sk))
+	Lua.error("I cannot set to stat "..key.." yet for "..data.parent._chkey)
 End
 
 plua CharMeta(String Key)
@@ -63,6 +89,9 @@ plua CharMeta(String Key)
 			Case "STAT"
 				//Lua.error("Stat viewing and manipulation not YET supported")
 				return this._chstat
+			Case "STATSCRIPT"
+				CSayF("STATSCRIPT has become irrelevant! Skipping!")
+				return {}
 			default
 				Lua.error("Unknown stat data key: "..Key)
 		End		
