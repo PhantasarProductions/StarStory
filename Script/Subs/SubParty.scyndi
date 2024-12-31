@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.31 VI
+// 	  Version: 24.12.31 XI
 // 	
 // 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Script
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
@@ -99,17 +100,17 @@ group SubParty
 			n = "Wendicka"
 		end
 		string dat := JCR6.GetString(sprintf("Data/LvStats/%s/%d",n,math.floor(level/100)))
-		table tdat := Split(dat,"\n")
+		table tdat := XSplit(dat,"\n")
 		int lvl = -100
 		for line in each(tdat)
 			if line!="" 
-				CSayF("Line: %s",line) // DEBUG ONLY!
-				table ins := split(line," ")
+				// CSayF("%d:%d - Line: %s",lvl,level,line) // DEBUG ONLY!
+				table ins := xsplit(line," ")
 				switch ins[0]
 					case "REM"
 						// DO NOTHING!
 					case "LEVEL"
-						lvl = lua.tonumber(ins[0])
+						lvl = lua.tonumber(ins[1])
 					default
 						if prefixed(ins[0],"STAT.") 
 							if lvl==level
@@ -234,6 +235,7 @@ group SubParty
 	End
 	
 	void Boxes(string char)
+		locextern self "Scyndi.Class.SubParty"
 		if scrw!=Graphics.W && scrh!=Graphics.H
 			Self.MakeBoxes()
 			scrw = Graphics.W 
