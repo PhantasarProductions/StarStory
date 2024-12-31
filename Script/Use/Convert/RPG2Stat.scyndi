@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 24.12.31 III
+// 	version: 24.12.31 XI
 // 
 // 	Copyright (C) 2024 Jeroen P. Brok
 // 
@@ -37,6 +37,18 @@ Void __RC_Create(String Tag,String Name="")
 	_stat.NewChar(Tag,_Name)
 End
 
+Int CharStat(data,String Key)
+	Lua.error("No stat function yet, so I cannot get to stat "..key.." yet for "..data.parent._chkey)
+End
+
+Void CharStatSet(data,String Key,Int Value)
+	If Prefixed(Key,"INVAMNT")
+		data.parent._chdata.Stat[Key]=Value
+		Return
+	end
+	Lua.error("No stat function yet, so I cannot set to stat "..key.." yet for "..data.parent._chkey)
+End
+
 plua CharMeta(String Key)
 	ddef NoNewIndex
 		Lua.error("Cannot overwrite characters")
@@ -49,7 +61,8 @@ plua CharMeta(String Key)
 			Case "NAME" "DATA" "POINTS"
 				return this._chdata[Key]
 			Case "STAT"
-				Lua.error("Stat viewing and manipulation not YET supported")
+				//Lua.error("Stat viewing and manipulation not YET supported")
+				return this._chstat
 			default
 				Lua.error("Unknown stat data key: "..Key)
 		End		
@@ -60,6 +73,8 @@ plua CharMeta(String Key)
 	ret:={}
 	ret._chkey=Key
 	ret._chdata=_stat.Char[Key]
+	ret._chstat=SetMetaTable({["parent"]=ret},{["__index"]=CharStat,["__newindex"]=CharStatSet})
+	CSayF("Setting up chracter distraction record for: %s",Key)
 	return SetMetaTable(ret,mettable)
 End
 
@@ -90,6 +105,8 @@ QuickMeta RPGChar
 						Lua.error("No support for HAS in RPGChar yet")
 					case "CREATE"
 						return __RC_Create
+					default
+						return RPGChar__GetChar[Key]
 				End
 			default lua.error("I cannot deal with "..type(Key).." to index for RPGChar")
 		End
