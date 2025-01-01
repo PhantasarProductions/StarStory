@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XX
+// 	  Version: 25.01.01 XXV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -238,21 +238,21 @@ class TextBox
 		//end
 		sb_data = new TextBox( { ["Header"] = gSub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 1, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
 		TextBox.Current = sb_data
-		width=Screen.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
+		width=Graphics.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
 		//local ak,txt,cline,spline
 		//local aw,word
 		//local continue
-		if rec.PicRef then
+		if rec.PicRef 
 			// TODO: Proper Image loading
 			//width = width - Image.Width(rec.PicRef)   
 		end
-		if rec.AltTxtFont and rec.AltTxtFont!="" then
+		if rec.AltTxtFont && rec.AltTxtFont!="" 
 			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
-			CurrentFont = ImageFont.Load(rec.AltTxtFont)  
+			CurrentFont = LinkFont(rec.AltTxtFont)  
 			//error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
 		else
 			//CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
-			CurrentFont = ImageFont.Obtain("BOXTEXT")
+			CurrentFont = ObtainFont("BOXTEXT")
 		end   
 		sb_data.Font = CurrentFont
 		CSay("= Textwrapping!")
@@ -261,10 +261,10 @@ class TextBox
 			table spline
 			cline = ""
 			//spline = split(Var.S(txt)," ")
-			spline = split(gv.SUB(txt)," ")
+			spline = split(gSUB(txt)," ")
 			for aw,word in ipairs(spline)
 				if CurrentFont.TextWidth(cline..word)>width
-					mtable.insert(sb_data.Lines,cline)
+					sb_data.Lines+=cline //mtable.insert(sb_data.Lines,cline)
 					cline = ""
 				end
 				cline = cline .. word .. " "   
