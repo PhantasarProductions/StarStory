@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XXV
+// 	  Version: 25.01.01 XXVIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/JCR6"
+#use "Libs/SCI/Audio"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
@@ -270,7 +271,7 @@ class TextBox
 				cline = cline .. word .. " "   
 			end
 			if cline!="" 
-				mtable.insert(sb_data.Lines,cline) 
+				ltable.insert(sb_data.Lines,cline) 
 			end    
 		end
 		CSay("= Config portrait!")
@@ -281,7 +282,7 @@ class TextBox
 		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
 		//-- Voice acting, if available
 		CSay("= The Voice of the Universe")
-		if sb_data.Voice and sb_data.Voice!="" and JCR6.EntryExists(sb_data.Voice) 		
+		if sb_data.Voice && sb_data.Voice!="" && JCR6.EntryExists(sb_data.Voice) 		
 			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
 			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
 			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
