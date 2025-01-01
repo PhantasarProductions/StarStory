@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XV
+// 	  Version: 25.01.01 XVI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -162,12 +162,12 @@ class TextBox
 	void Show()
 		var LFont := ObtainFont("BOXTEXT")
 		
-		self.txtbox.Draw()
+		_self.txtbox.Draw()
 		
 		__white
 		// Dyrt: BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
 		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
-		Portret(PicDir,PicSpc)
+		_self.Portret(PicDir,PicSpc)
 		
 		//Color(255,180,0)
 		__Red
