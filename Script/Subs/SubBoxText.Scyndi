@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XXXIII
+// 	  Version: 25.01.01 XXXVI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -54,7 +54,7 @@ Script
 
 #use "Script/Use/Anyway"
 #use "script/use/misc/classbox"
-#use "Script/Use/Convert/State"
+#use "Script/Use/Convert/Flow"
 #use "libs/Scenario_star"
 
 
@@ -368,10 +368,10 @@ group FlowBoxText
 	end
 	
 	void Serial(string AScen, string ATag, RF, ANum)
-		InitBTFlow(AScen,ATag,RF,ANum)
+		Self.InitBTFlow(AScen,ATag,RF,ANum)
 		CSay(tostring(Textbox.audioplaying))
 		CSay("Let's do it!")
-		Run()
+		Self.Run()
 	end
 	
 end
