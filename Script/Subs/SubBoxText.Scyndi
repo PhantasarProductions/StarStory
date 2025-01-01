@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XVI
+// 	  Version: 25.01.01 XIX
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -162,12 +162,12 @@ class TextBox
 	void Show()
 		var LFont := ObtainFont("BOXTEXT")
 		
-		_self.txtbox.Draw()
+		self.txtbox.Draw()
 		
 		__white
 		// Dyrt: BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
 		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
-		_self.Portret(PicDir,PicSpc)
+		self.Portret(PicDir,PicSpc)
 		
 		//Color(255,180,0)
 		__Red
@@ -216,18 +216,18 @@ class TextBox
 		//-- end  
 		CSayF("Generate('%s', '%s', %4d, '%s') -- START!",file, tag, idx, boxback)
 		f = TextBox.btdata[file]
-		if not f then 
+		if !f 
 			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' has not yet been loaded!") 
 		end
 		tag = tag:upper()
 		t = f[tag]
-		if ! t then 
+		if ! t  
 			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
 		end
 		rec = t[idx]
-		if ! rec then 
+		if ! rec  
 			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..len(t)..")") 
 		end
