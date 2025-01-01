@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XXVIII
+// 	  Version: 25.01.01 XXXIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -47,12 +47,14 @@ Script
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Anyway"
 #use "script/use/misc/classbox"
+#use "Script/Use/Convert/State"
 #use "libs/Scenario_star"
 
 
@@ -277,9 +279,9 @@ class TextBox
 		CSay("= Config portrait!")
 		sb_data.width=width    
 		sb_data.PicRef=rec.PicRef
-		//-- if tonumber(LC('screen.margin.top')   )~=0 then origin[2] = 25; totalwidth=totalheight-25 end
-		// if tonumber(LC('screen.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
-		// if tonumber(LC('screen.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
+		//-- if tonumber(LC('Graphics.margin.top')   )~=0 then origin[2] = 25; totalwidth=totalheight-25 end
+		// if tonumber(LC('Graphics.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
+		// if tonumber(LC('Graphics.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
 		//-- Voice acting, if available
 		CSay("= The Voice of the Universe")
 		if sb_data.Voice && sb_data.Voice!="" && JCR6.EntryExists(sb_data.Voice) 		
@@ -305,7 +307,7 @@ class TextBox
 			CSayF("Lines: %d, FontSize: __BoxTextFontSize",len(sb_data.Lines))
 			// print(Serialize("sb_data.lines",sb_data.Lines))
 			CSayF("Creating a box that is %d pixels high",h)
-			sb_data.txtbox = new Box(0,Screen.Height-h,Screen.Width,h)
+			sb_data.txtbox = new Box(0,Graphics.Height-h,Graphics.Width,h)
 			CSayF("So far so good!")
 		end
 		CSay("= That should do it!")
@@ -331,9 +333,9 @@ group FlowBoxText
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
 		self.ReturnFlow = RF // or CurrentFlow()
-		self.Num = ANum or 1
+		self.Num = ANum || 1
 		self.Scen = AScen
-		self.Tag = ATag:upper()
+		self.Tag = Upper(ATag)
 		// GoToFlow("BOXTEXT")
 		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
 	end
@@ -353,7 +355,7 @@ group FlowBoxText
 		repeat
 			Graphics.Cls()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
 			if TextBox.Current.SL>len(TextBox.Current.Lines) && ( Events.MouseHitLeft() || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
