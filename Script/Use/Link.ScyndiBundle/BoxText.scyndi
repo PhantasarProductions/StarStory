@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 24.12.30
+// 	  Version: 25.01.01
 // 	
-// 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -56,7 +56,7 @@ module
 
 
 void BTLoad()
-	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.Neil")	
+	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.lbc")	
 end
 
 global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
