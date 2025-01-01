@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 24.12.18
+// 	  Version: 25.01.01 II
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -63,8 +63,9 @@ Global Table MapScript
 	//set string Leader
 	//	State.Call("FLOW_FIELD","FldMap.SetLeader","\""..value.."\"")
 	//end
-	//
+	
 	//Void Call(string func,para)
+	Void Call(String func,infinity)
 	//	string p 
 	//	switch type(para)
 	//		case "nil"
@@ -84,9 +85,11 @@ Global Table MapScript
 	//			Lua.error("Untransferrable type: "..type(para))
 	//	end
 	//	State.Call("FLOW_FIELD",func,p)
-	//end
+		Sys.Call("FLOW_FIELD",func,infinity)
+	end
 	
 	//Void MCall(string func,a,b,c,d,e,f,g,h)
+	Void MCall(string func,infinity)
 	//	string pr
 	//	for i,p in ipairs {a,b,c,d,e,f,g,h}
 	//		if i>1 
@@ -102,7 +105,8 @@ Global Table MapScript
 	//		end
 	//	end
 	//	State.Call("FLOW_FIELD",func,pr)
-	//end
+	Sys.Call("FLOW_FIELD",func,infinity)
+	end
 	
 	//Void ActorMoveTo(string actor,a,b)
 	//	MCall("FldMap.ActorMoveTo",Actor,a,b)
@@ -142,13 +146,14 @@ Global Table MapScript
 	//	Spawn("PLAYER",spot)
 	//end
 
-	//Void LoadMap(string Map)
-	//	if ApolloState.Name=="MAPSCRIPT"
-	//		MCall("GrSchedule.Add","LOAD:"..Map)
-	//	else
-	//		Call("FieldMap.LoadMap",Map)
-	//	end
-	//end
+	Void LoadMap(string Map)
+		if Lua.Scyndi.Debug.StateName=="MAPSCRIPT"
+			MCall("GrSchedule.Add","LOAD:"..Map)
+		else
+			//Call("FieldMap.LoadMap",Map)
+			Call("FldMap.LoadMap",Map)
+		end
+	end
 	
 	//Void Load(string Map)
 	//	LoadMap(Map)
