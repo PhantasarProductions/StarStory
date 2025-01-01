@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 25.01.01 I
+// 	  Version: 25.01.01 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -80,7 +80,8 @@ end
 	void Load(string Tag,string File)
 		BTLoad()
 		//State.Call("BOXTEXT","Scenario.Load",sprintf("\"%s\",\"%s\"",File,tag))
-		Sys.Call("BOXTEXT","Scenario.LoadData",sprintf("\"%s\",\"%s\", false",Trim("Scenario/"..lang.."/"..File),Trim(Tag)))
+		//Sys.Call("BOXTEXT","Scenario.LoadData",sprintf("\"%s\",\"%s\", false",Trim("Scenario/"..lang.."/"..File),Trim(Tag)))
+		Sys.Call("BOXTEXT","Scenario.LoadData",Trim("Scenario/"..lang.."/"..File),Trim(Tag))
 	end
 	
 	void Serial(string AScen, string ATag, string RF="FLOW_FIELD", ANum)
