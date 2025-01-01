@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 24.12.24
+// 	  Version: 25.01.01 II
 // 	
-// 	  Copyright (C) 2020-2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -399,9 +399,9 @@ group FldMap
 		PPop.Popped=false
 		PPop.Unpopping=false
 		Loading()
-		LoadedMap = Map:upper()
+		LoadedMap = Upper(Map) //Map:upper()
 		CSayF("Loading Kthura Map: %s",Map)
-		KthuraMap = Kthura.Load("Kthura/"..Map)
+		KthuraMap = Kthura.Load("KTHURA_MAIN_MAP","Kthura/"..Map )
 		CSay("Resetting zone actions!")
 		Lua.Neil.Globals.ZoneAction.Reset()
 		CSay("Sorting out kills")
