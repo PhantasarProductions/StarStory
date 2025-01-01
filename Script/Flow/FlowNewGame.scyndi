@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 24.12.19
+// 	  Version: 25.01.01 I
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -250,6 +250,7 @@ void BuckleUp()
 		RPGParty[3] = "Briggs"	
 		Flow.Load("FIELD","Script/Load/LoadField.lbc")
 		//Map.LoadMap("Intro_Ship_Transporter")
+		Map.LoadMap("Intro - Ship Transporter")
 		//Map.Layer="INTRO"		
 		//Map.Schedule("LovejoyIntro")
 		//var O = Kthura.Map("GAMEMAP").Layer("INTRO").Obj("Stars")
