@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldSchedule.scyndi
 // 
-// 	  Version: 24.12.28 VII
+// 	  Version: 25.01.02
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -54,7 +54,7 @@ Module
 
 group GrSchedule
 
-	readonly var Scheduled = new LinkedList("string")
+	readonly var Scheduled = new TLinkedList("string")
 	bool WaitingForMovingActors = false
 	string WhenMovingActorsStop = ""
 	bool StopRequest = False
