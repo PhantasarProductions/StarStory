@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.02 IV
+// 	  Version: 25.01.02 VI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -128,10 +128,11 @@ Global Table MapScript
 		Kthura.CurrentLayer=value
 	end
 		
-	//Void Spawn(string actor,string spot)
+	Void Spawn(string actor,string spot)
 	//	CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
 	//	Call("FldMap.CurLayer.Spawn",{"\""..actor.."\"","\""..spot.."\""})
-	//end
+		Kthura.Spawn(actor,spot)
+	end
 	
 	//Void SpawnXY(string actor,int x,int y)
 	//	CSayF("Spawning actor '%s' on coordinates (%4d,%dd)",actor,x,y)
@@ -163,9 +164,9 @@ Global Table MapScript
 	//	LoadMap(Map)
 	//end
 	
-	Void DoScript(string script,string para="nil")
+	Void DoScript(string $script,string para="nil")
 	//	CSayF("Executing MapScript: %s(%s)",Script,para)
-		Sys.Call("MAPSCRIPT","MScript."..script,para)
+		Sys.Call("MAPSCRIPT","MScript."..$script,para)
 	end
 	
 	Void Schedule(string func)
