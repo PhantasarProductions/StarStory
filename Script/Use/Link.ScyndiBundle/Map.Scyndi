@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.01 II
+// 	  Version: 25.01.02 II
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,7 @@
 
 Module
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 
 Global Table MapScript
 
@@ -115,14 +116,17 @@ Global Table MapScript
 	//Void MoveTo(a,b)
 	//	MCall("FldMap.ActorMoveTo","PLAYER",a,b)
 	//end
-	
-	//set string Layer
-	//	Print("= Going to Layer: "..value)
-	//	Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
-	//end
-	//get string Layer
+
+	get string Layer
 	//	return ISGET.String("FLOW_FIELD","FldMap.Layer")
-	//end
+		return Kthura.CurrentLayer
+	end
+
+	set string Layer
+		CSay("= Going to Layer: "..value)
+	//	Call("FldMap.SetMember",{"\"Layer\"","\""..value.."\""})
+		Kthura.CurrentLayer=value
+	end
 		
 	//Void Spawn(string actor,string spot)
 	//	CSayF("Spawning actor '%s' on spot '%s'",actor,spot)
@@ -164,10 +168,11 @@ Global Table MapScript
 	//	State.Call("MAPSCRIPT","MScript."..script,para)
 	//end
 	
-	//Void Schedule(string func)
-	//	CSayF("Scheduled: %s",func)
+	Void Schedule(string func)
+		CSayF("Scheduled: %s",func)
 	//	State.Call("FLOW_FIELD","GrSchedule.Schedule","\""..func.."\"")
-	//end
+		Sys.Call("FLOW_FIELD","GrSchedule.Schedule",func)
+	end
 	
 	//Void ReMap()
 	//	Call("FldMap.KthuraMap.ReMap","nil")
