@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.02 III
+// 	  Version: 25.01.02 VI
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@ Module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
@@ -81,7 +82,8 @@ global void DrawScreen(noauto)
 	elseif (!noauto) 
 		FldMap.AutoTexPlayer()		
 		if math.abs(GrPlayer.Y-oldy)>60
-			FldMap.CurLayer.RemapDominance(FldMap.Layer)
+			//FldMap.CurLayer.RemapDominance(FldMap.Layer)
+			Kthura.RemapDominance()
 			oldx,oldy = GrPlayer.X,GrPlayer.Y
 		end
 	end
