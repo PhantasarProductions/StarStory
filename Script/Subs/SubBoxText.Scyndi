@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.02
+// 	  Version: 25.01.02 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -266,7 +266,7 @@ class TextBox
 			//spline = split(Var.S(txt)," ")
 			spline = split(gSUB(txt)," ")
 			for aw,word in ipairs(spline)
-				if CurrentFont.TextWidth(cline..word)>width
+				if CurrentFont.Width(cline..word)>width
 					ltable.insert(sb_data.Lines,cline)
 					cline = ""
 				end
