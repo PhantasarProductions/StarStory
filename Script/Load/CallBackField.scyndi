@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 24.12.29
+// 	  Version: 25.01.02 I
 // 	
-// 	  Copyright (C) 2020,2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -151,10 +151,10 @@ global void PartyClick(int i,string ch)
 	end
 end
 
-global void Apollo_Flow()
+global void MainFlow()
 	static int ABX 
-	int mx = events.mousex()
-	int my = events.mousey()
+	int mx = events.mousex
+	int my = events.mousey
 	//Dev.ToConsole()
 	ABX = (ABX + 1) % 200
 	if ABX == 0
