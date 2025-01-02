@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.02 I
+// version: 25.01.02 IV
 // 
 // End License
 
@@ -42,6 +42,8 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -78,7 +80,7 @@ group MScript
 		//Map.Kill("PLAYER")
 		//Map.Layer = "START"
 		Map.GoToLayer("START","SpotWendicka")
-		StartActors()
+		MScript.StartActors()
 		BoxText.Serial("INTRO","SCEN_A")		
 		// Wendicka forward
 		Map.ActorMoveTo("ActorWendicka","FwdWendicka")
