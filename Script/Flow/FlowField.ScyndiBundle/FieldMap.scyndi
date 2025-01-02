@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 X
+// 	  Version: 25.01.02 XII
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -314,8 +314,8 @@ group FldMap
 	get table LRitems
 		table ret:= {}
 		for i = 1 , math.min(Caps.Cycle,5)
-			string l = KthuraMap.Meta[sprintf("PT %2d Items",i)]
-			table ketting;ketting = Split(l,";")
+			string l := Kthura.Meta[sprintf("PT %2d Items",i)]
+			table ketting := Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
 				switch len(thisitem)
@@ -460,7 +460,7 @@ group FldMap
 		FldMap.LoadMapText()
 		Clickable.Automate()
 		ScanFoes()
-		Kthura.AutoReMap(true)
+		Kthura.AutoReMap=true
 	end
 	
 	int Level()
