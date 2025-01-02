@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.02 VI
+// 	  Version: 25.01.02 VII
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -94,7 +94,8 @@ global void DrawScreen(noauto)
 			Default
 		End
 	End
-	FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	//FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	Kthura.Draw(FldMap.ScrollX,FldMap.ScrollY)
 end
 
 void GStat(string g,resetme)
