@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Caps.scyndi
 // 
-// 	  Version: 24.11.18 II
+// 	  Version: 25.01.02
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -44,6 +44,7 @@
 
 Module
 
+#use "LIBS/SCI/INTERVAR"
 #use "Script/Use/Anyway.ScyndiBundle/Algemeen"
 #use "Script/Use/Convert/gv"
 
@@ -89,11 +90,11 @@ Module
 
 	
 	get int Cycle
-		return math.max(1,gv.gint.GameCycle)
+		return math.max(1,gint.GameCycle)
 	end
 	
 	set int Cycle
-		gv.gint.GameCycle = math.max(1,value)
+		gint.GameCycle = math.max(1,value)
 	end
 	
 	int LvCycle(int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
