@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.02 I
+// 	  Version: 25.01.02 II
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -162,7 +162,7 @@ global void MainFlow()
 	End
 	if GrSchedule.WaitingForMovingActors
 		//CSay("Waiting for moving actors")
-		GrSchedule.WaitingForMovingActors = FldMap.CurLayer.AnythingMoving
+		GrSchedule.WaitingForMovingActors = Kthura.AnythingMoving //FldMap.CurLayer.AnythingMoving
 		if (!GrSchedule.WaitingForMovingActors) && (GrSchedule.WhenMovingActorsStop!="")
 			MapScript[GrSchedule.WhenMovingActorsStop]()
 		end
