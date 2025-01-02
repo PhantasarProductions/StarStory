@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Misc/MiniMessage.scyndi
 // 
-// 	  Version: 24.12.17 VI
+// 	  Version: 25.01.02
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -55,7 +55,7 @@ Module
 
 class TMM
 	
-	readonly static var Lijst = new LinkedList()
+	readonly static var Lijst = new TLinkedList()
 	readonly static var Font = ObtainFont("SYSFONT")
 	static bool OverPos()
 		for o in Lijst.Each
