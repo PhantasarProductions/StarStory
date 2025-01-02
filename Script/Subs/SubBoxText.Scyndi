@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.03 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -124,7 +124,7 @@ class TextBox
 	end
 
 	get int boxheight
-		me.txtbox.h
+		return me.txtbox.h 
 	end
 	
 	get int boxy
