@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 25.01.02 III
+// 	  Version: 25.01.02 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -258,8 +258,8 @@ void BuckleUp()
 		O:=Kthura.Obj["Stars"]
 		O.W = Graphics.W
 		O.H = Graphics.H		
-		//Flow.Current="Field"
-		Lua.error("Sorry folks! This part is not yet done!")
+		Flow.Current="Field"
+		//Lua.error("Sorry folks! This part is not yet done!")
 	end
 end
 
