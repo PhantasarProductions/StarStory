@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 V
+// 	  Version: 25.01.02 IX
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -210,7 +210,8 @@ class Clickable
 		M_id = M_id || -1 // static locals are not taken so well, so at least I won't have any trouble this way 
 		List.Clear()
 		var OldLayer = Kthura.CurrentLayer		
-		for L in each(Map.KthuraMap.Layers)
+		//for L in each(Map.KthuraMap.Layers)
+		for L in Kthura.Layers.Each
 			//var Lay = Map.KthuraMap.Layer(L)			
 			Kthura.GotoLayer(L)
 			table rItems = Map.LRItems
@@ -442,21 +443,21 @@ group FldMap
 		//	CSayF("%s = %s",k,KthuraMap.Meta[k])
 		//end
 		// Music (must always be after the mapscript is loaded, in case of scripted music)
-		if prefixed(KthuraMap.Meta["Music"],"*")
-			switch KthuraMap.Meta["Music"]:upper()
+		if prefixed(Kthura.Meta["Music"],"*")
+			switch Kthura.Meta["Music"]:upper()
 				case "*MAPSCRIPT" "*MAP" "*SCRIPT"
 					MapScript.MapMusic()
 				default
 					Lua.error("Unknown alternate music instruction!")
 			end
-		elseif KthuraMap.Meta["Music"]==""
+		elseif Kthura.Meta["Music"]==""
 			CSay("Silence for music")
 			Music.Play("Music/Sys/Silence.ogg")
 		else
 			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
-			Music.Play(KthuraMap.Meta["Music"])
+			Music.Play(Kthura.Meta["Music"])
 		end
-		Self.LoadMapText()
+		FldMap.LoadMapText()
 		Clickable.Automate()
 		ScanFoes()
 		Kthura.AutoReMap(true)
