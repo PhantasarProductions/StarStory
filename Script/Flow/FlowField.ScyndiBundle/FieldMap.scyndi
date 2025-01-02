@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 XV
+// 	  Version: 25.01.02 XVI
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -623,12 +623,13 @@ bool LGFIX=false
 quickmeta GrPlayer
 	index
 		//return FldMap.CurLayer.Obj("PLAYER")[key]
-		return Kthra.Obj.Player[Key]
+		return Kthura.Obj.Player[Key]
 	end
 	
 	newindex
 		if LGFIX && (!FldMap.CurLayer.HasTag("PLAYER"))
-			FldMap.CurLayer.Spawn("PLAYER",0,0)
+			//FldMap.CurLayer.Spawn("PLAYER",0,0)
+			Kthura.Spawn(Player,0,0)
 			CSay("PLAYER was non-existent, but I had permission to spawn a new player, just for the occasion!")
 		end
 		//FldMap.CurLayer.Obj("PLAYER")[key] = value
