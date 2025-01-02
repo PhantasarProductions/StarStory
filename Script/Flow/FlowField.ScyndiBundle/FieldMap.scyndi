@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 XII
+// 	  Version: 25.01.02 XIV
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -254,7 +254,8 @@ class Clickable
 						//CSayF("- Tagged: %s",ctag)
 						var O; O = Kthura.NewObject("Obstacle",ctag)
 						var S; S = Kthura.Obj[T]
-						Map.KthuraMap.Remap()
+						//Map.KthuraMap.Remap()
+						Kthura.Remap()
 						string shTag;shTag = rItems[math.random(0,len(rItems)-1)]
 						string itTag;itTag = "ITM_"..shtag
 						//O.Data["ITEM_F"] = itTag
@@ -268,7 +269,8 @@ class Clickable
 						O.Visible = true
 						O.Alpha255 = 255
 						O.Labels = S.Labels
-						Map.KthuraMap.Remap()
+						//Map.KthuraMap.Remap()
+						Kthura.Remap()
 						CSayF("F: %s; S: %s;  OTag: %s",O.Data["ITEM_F"],O.Data["ITEM_S"],O.Tag)
 						Self.Create(ctag,L,O.X,O.Y,Self.TakeTreasure,ctag)
 					end
@@ -336,7 +338,7 @@ group FldMap
 	get table Foes
 		table ret
 		//for i = 1 , math.min(gint.Cycle,5)
-			string l = KthuraMap.Meta.Foes
+			string l = Kthura.Meta.Foes
 			table ketting;ketting = Split(l,";")
 			for it in each (ketting)
 				table thisitem = Split(it,",")
@@ -358,7 +360,7 @@ group FldMap
 	
 	get int minLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
-		string rng := KthuraMap.Meta[rngt]
+		string rng := Kthura.Meta[rngt]
 		table trng := Split(rng,"-")
 		int ret := math.max(1,lua.tonumber(trng[0]) or 1)
 		// print("Minlevel: "..ret)
@@ -367,7 +369,7 @@ group FldMap
 
 	get int maxLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
-		string rng := KthuraMap.Meta[rngt]
+		string rng := Kthura.Meta[rngt]
 		table trng := Split(rng,"-")
 		return math.min(20000,lua.tonumber(trng[1]) or minlevel)
 	end
@@ -465,11 +467,11 @@ group FldMap
 	
 	int Level()
 		int c = math.min(10,Caps.Cycle)
-		return Lua.tonumber(KthuraMap.Meta[sprintf("PT %2d Level",c)]||1)
+		return Lua.tonumber(Kthura.Meta[sprintf("PT %2d Level",c)]||1)
 	end
 		
 	void ReMap()
-		KthuraMap.ReMap()
+		Kthura.ReMap()
 	end
 	
 	void SetMember(string key, value)
@@ -480,7 +482,9 @@ group FldMap
 	end
 	
 	get var CurLayer
-		return KthuraMap.Layer(Layer)
+		Print("\x07\x1b[91mWARNING! \x1b[96mCur Layer request done, but this is no longer supported!")
+		return nil
+		//return KthuraMap.Layer(Layer)
 	end
 	
 	get var CurrentLayer
@@ -538,10 +542,10 @@ group FldMap
 	end
 	
 	void AutoTexPlayer()
-		if !CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
 			return
 		end
-		var PL=CurLayer.Obj("PLAYER")
+		var PL=Kthura.Obj.Player //=CurLayer.Obj("PLAYER")
 		if PL.Wind==""
 			PL.Wind="North"
 		end
