@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.02 II
+// 	  Version: 25.01.02 III
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -71,10 +71,12 @@ global void DrawScreen(noauto)
 	end
 	//print("Party Pop",PPop.Popped,PPop.Unpopping)
 	if PPop.Popped
-		FldMap.CurLayer.Obj("PLAYER").Visible=false
+		//FldMap.CurLayer.Obj("PLAYER").Visible=false
+		Kthura.Obj.Player.Visible=false
 		if PPop.Unpopping
 			PPop.UnPopCheck()
-			FldMap.CurLayer.Obj("PLAYER").Visible=!ppop.unpopping
+			//FldMap.CurLayer.Obj("PLAYER").Visible=!ppop.unpopping
+			Kthura.Obj.Player.Visible=!ppop.unpopping
 		end
 	elseif (!noauto) 
 		FldMap.AutoTexPlayer()		
