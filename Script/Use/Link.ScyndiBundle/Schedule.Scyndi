@@ -34,28 +34,34 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
+
 module
 
-	void MCall(string func,a,b,c,d,e,f,g,h)
-		string pr
-		for i,p in ipairs {a,b,c,d,e,f,g,h}
-			if i>1 
-				pr += ", "
-			end
-			switch lua.type(p)
-				case "string"
-					pr += "\""..p.."\""
-				case "number" "boolean"
-					pr += tostring(p)
-				default
-					lua.error("Illegal MCall type "..lua.type(p))
-			end
-		end
-		if pr=="" 
-			pr = "nil"
-		end
-		State.Call("FLOW_FIELD",func,pr)
-	end
+#use "Libs/SCI/Sys"
+
+	//void MCall(string func,a,b,c,d,e,f,g,h)
+	//	string pr
+	//	for i,p in ipairs {a,b,c,d,e,f,g,h}
+	//		if i>1 
+	//			pr += ", "
+	//		end
+	//		switch lua.type(p)
+	//			case "string"
+	//				pr += "\""..p.."\""
+	//			case "number" "boolean"
+	//				pr += tostring(p)
+	//			default
+	//				lua.error("Illegal MCall type "..lua.type(p))
+	//		end
+	//	end
+	//	if pr=="" 
+	//		pr = "nil"
+	//	end
+	//	State.Call("FLOW_FIELD",func,pr)
+	//end
+	Void MCall(String func,infinity)
+		Sys.Call("FLOW_FIELD",infinity)
+	End
 
 	void WaitForMovingActors(string After = "")
 		MCall("GrSchedule.WaitForMovingActors",After)
