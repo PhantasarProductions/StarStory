@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.01 II
+// 	  Version: 25.01.02 IV
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -401,33 +401,38 @@ group FldMap
 		Loading()
 		LoadedMap = Upper(Map) //Map:upper()
 		CSayF("Loading Kthura Map: %s",Map)
-		KthuraMap = Kthura.Load("KTHURA_MAIN_MAP","Kthura/"..Map )
+		//Kthura.Load("KTHURA_MAIN_MAP","Kthura/"..Map )
+		//Kthura.Pick("KTHURA_MAIN_MAP")
+		Kthura.GoToMap("KTHURA_MAIN_MAP","Kthura/"..Map)
 		CSay("Resetting zone actions!")
-		Lua.Neil.Globals.ZoneAction.Reset()
+		Lua.Scyndi.Class.ZoneAction.Reset()
 		CSay("Sorting out kills")
 		if Kills[LoadedMap]
 			CSay("Remapping for kills")
-			KthuraMap.Remap()		
+			Kthura.Remap()		
 			for moord in each(Kills[LoadedMap])
 				CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
-				KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
+				//KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
+				Kthura.PickLayer(moord.Layer)
+				Kthura.Kill(moord.Tag)
 			end			
 		end
 		CSay("Remapping again")
-		KthuraMap.Remap()
-		Layer = KthuraMap.Layers[1]
+		Kthura.Remap()
+		//Layer = KthuraMap.Layers[1]
+		Kthura.PickLayer(Kthura.Layers[0])
 		if State.Has("MAPSCRIPT")
 			State.Kill("MAPSCRIPT")
 		end
-		CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
+		//CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
 		gStr.LoadedMap = Map
 		// Only needed so the savegame manager can generate the header more easily!
-		gStr.MapTitle = KthuraMap.Meta["Title"]
-		string MapScriptFile = "Script/MapScript/"..Map..".Neil"
+		gStr.MapTitle = Kthura.Meta["Title"]
+		string MapScriptFile := "Script/MapScript/"..Map..".lbc"
 		// Map Script
 		if !JCR6.EntryExists(MapScriptFile)
 			CSay("WARNING! No file named: "..Mapscriptfile..", so resorting to the basis 'None' script in stead!")
-			MapScriptFile = "Script/MapScript/None.Neil"
+			MapScriptFile = "Script/MapScript/None.lbc"
 		end
 		CSayF("Loading MapScript: %s",MapScriptFile)
 		State.Load("MAPSCRIPT",MapScriptFile)
