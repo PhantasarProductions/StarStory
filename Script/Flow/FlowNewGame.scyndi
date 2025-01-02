@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 25.01.01 I
+// 	  Version: 25.01.02 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics" 
 #use "Libs/SCI/InterVar"
 
@@ -251,11 +252,12 @@ void BuckleUp()
 		Flow.Load("FIELD","Script/Load/LoadField.lbc")
 		//Map.LoadMap("Intro_Ship_Transporter")
 		Map.LoadMap("Intro - Ship Transporter")
-		//Map.Layer="INTRO"		
-		//Map.Schedule("LovejoyIntro")
+		Map.Layer="INTRO"	
+		Map.Schedule("LovejoyIntro")
 		//var O = Kthura.Map("GAMEMAP").Layer("INTRO").Obj("Stars")
-		//O.W = Screen.W
-		//O.H = Screen.H		
+		O:=Kthura.Obj["Stars"]
+		O.W = Graphics.W
+		O.H = Graphics.H		
 		//Flow.Current="Field"
 		Lua.error("Sorry folks! This part is not yet done!")
 	end
