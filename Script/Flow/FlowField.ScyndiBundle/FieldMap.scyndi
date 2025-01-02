@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 IV
+// 	  Version: 25.01.02 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -417,10 +417,10 @@ group FldMap
 				Kthura.Kill(moord.Tag)
 			end			
 		end
-		CSay("Remapping again")
-		Kthura.Remap()
+		CSay("Remapping again")		
 		//Layer = KthuraMap.Layers[1]
 		Kthura.PickLayer(Kthura.Layers[0])
+		Kthura.Remap()
 		if State.Has("MAPSCRIPT")
 			State.Kill("MAPSCRIPT")
 		end
