@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldSchedule.scyndi
 // 
-// 	  Version: 25.01.02 I
+// 	  Version: 25.01.02 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -124,7 +124,7 @@ group GrSchedule
 				break
 			elseif s==":IGNOREME:"
 			else 
-				Map.Script(s,"nil")
+				Map.DoScript(s,"nil")
 			end
 		end
 		StopRequest = False
