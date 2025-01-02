@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldSchedule.scyndi
 // 
-// 	  Version: 25.01.02
+// 	  Version: 25.01.02 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -79,7 +79,7 @@ group GrSchedule
 			return
 		end
 		CSayF("Preparing to get through %d scheduling requests!",Scheduled.Count)
-		var t = new LinkedList("string")	
+		var t = new TLinkedList("string")	
 		for s in Scheduled.Each
 			t.addLast(s)
 		end
