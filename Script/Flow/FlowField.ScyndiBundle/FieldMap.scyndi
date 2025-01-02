@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.02 IX
+// 	  Version: 25.01.02 X
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -312,7 +312,7 @@ group FldMap
 	// This property is only meant for the auto clickable generator
 	// Generating random items
 	get table LRitems
-		table ret;ret = {}
+		table ret:= {}
 		for i = 1 , math.min(Caps.Cycle,5)
 			string l = KthuraMap.Meta[sprintf("PT %2d Items",i)]
 			table ketting;ketting = Split(l,";")
