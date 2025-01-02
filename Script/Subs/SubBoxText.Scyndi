@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.01 XXXVII
+// 	  Version: 25.01.02
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -224,7 +224,7 @@ class TextBox
 			//CSay(Serialize("btdata",btdata))
 			error("Boxtext file '"..file.."' has not yet been loaded!") 
 		end
-		tag = tag:upper()
+		tag = Upper(tag)
 		t = f[tag]
 		if ! t  
 			//CSay(Serialize("btdata",btdata))
