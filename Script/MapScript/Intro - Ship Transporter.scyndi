@@ -34,12 +34,16 @@
 // **********************************************
 // 
 // 
-// version: 25.01.02
+// version: 25.01.02 I
 // 
 // End License
 
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 //#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "21.07.18"
@@ -59,7 +63,8 @@ group MScript
 			Tex+=".jpbf"
 			Map.Spawn("Actor"..ch,"Spot"..ch)
 			Map.ReMap()
-			Map.SetObjField("Actor"..ch,"Texture",Tex)
+			//Map.SetObjField("Actor"..ch,"Texture",Tex)
+			Kthura.Obj["Actor"..ch].Texture=Tex
 			//Map.Spawn("PLAYER","SpotWendicka")
 			Map.HideObj("PLAYER")
 		end
@@ -122,7 +127,7 @@ group MScript
 	void Load()
 	end
 
-	CONSTRUCTOR
-	end
+	//CONSTRUCTOR
+	//end
 
 end
