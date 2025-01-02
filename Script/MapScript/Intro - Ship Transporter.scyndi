@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Intro_Ship_Transporter.neil
-// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Intro - Ship Transporter.scyndi
+// (c) Jeroen Broks, 2020, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,17 @@
 // 
 // **********************************************
 // 
-// version: 21.07.18
-// End License Information
+// 
+// version: 25.01.02
+// 
+// End License
+
+Script
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "21.07.18"
-#MKL_Lic     "Star Story - Intro_Ship_Transporter.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Intro_Ship_Transporter.neil" "21.07.18"
+//#MKL_Lic     "Star Story - Intro_Ship_Transporter.neil" "Phantasar Closed License"
 
 group MScript
 
