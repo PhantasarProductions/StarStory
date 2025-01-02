@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.03 I
+// 	  Version: 25.01.03 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -128,7 +128,7 @@ class TextBox
 	end
 	
 	get int boxy
-		return me.Height - self.boxheight
+		return Graphics.H - me.boxheight
 	end
 	
 	CONSTRUCTOR(initcrap)
@@ -360,12 +360,12 @@ group FlowBoxText
 			//FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if TextBox.Current.SL>len(TextBox.Current.Lines) && ( Events.MouseHitLeft() || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
+			if TextBox.Current.SL>len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					return
 				end
 			end
-			Graphics.Flip()
+			Flip()
 		forever
 	end
 	
