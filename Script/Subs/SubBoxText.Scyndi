@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.02 I
+// 	  Version: 25.01.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -95,6 +95,7 @@ class TextBox
 	readonly static delegate Error = Lua.error
 
 	// real class
+	readonly var me
 	string Header
 	string PicDir
 	string PicSpc
@@ -123,14 +124,15 @@ class TextBox
 	end
 
 	get int boxheight
-		return self.txtbox.h
+		me.txtbox.h
 	end
 	
 	get int boxy
-		return Graphics.Height - self.boxheight
+		return me.Height - self.boxheight
 	end
 	
 	CONSTRUCTOR(initcrap)
+		Me = self
 		CSay("Creating textbox!")
 		for k,v in pairs(initcrap)
 			CSayF("%s %s = %s",type(v),k,tostring(v))
