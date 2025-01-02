@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.02 II
+// 	  Version: 25.01.02 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -163,10 +163,10 @@ Global Table MapScript
 	//	LoadMap(Map)
 	//end
 	
-	//Void Script(string script,string para="nil")
+	Void DoScript(string script,string para="nil")
 	//	CSayF("Executing MapScript: %s(%s)",Script,para)
-	//	State.Call("MAPSCRIPT","MScript."..script,para)
-	//end
+		Sys.Call("MAPSCRIPT","MScript."..script,para)
+	end
 	
 	Void Schedule(string func)
 		CSayF("Scheduled: %s",func)
