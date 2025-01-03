@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 VI
+// 	  Version: 25.01.03 VII
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -168,7 +168,7 @@ Global Table MapScript
 	//end
 	
 	Void DoScript(string $script,string para="nil")
-	//	CSayF("Executing MapScript: %s(%s)",Script,para)
+		CSayF("Executing MapScript: %s(%s)",Script,para)
 		Sys.Call("MAPSCRIPT","MScript."..$script,para)
 	end
 	
