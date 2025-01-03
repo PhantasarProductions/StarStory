@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 VIII
+// 	  Version: 25.01.03 XI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -163,9 +163,9 @@ Global Table MapScript
 		end
 	end
 	
-	//Void Load(string Map)
-	//	LoadMap(Map)
-	//end
+	Void Load(string Map)
+		LoadMap(Map)
+	End
 	
 	Void DoScript(string $script,string para="nil")
 		CSayF("Executing MapScript: %s(%s)",$Script,para)
@@ -346,12 +346,13 @@ Global Table MapScript
 		SpawnPlayer(SpawnPoint)
 	end
 	
-	//Void GoToMap(string aMap,string aLayer,string SpawnPoint)
+	Void GoToMap(string aMap,string aLayer,string SpawnPoint)
 	//	static var SA = Lua.Neil.Globals.Schedule.Add
-	//	Self.LoadMap(aMap)
-	//	SA("LAYER:"..aLayer)
-	//	SA("SPAWN:"..SpawnPoint)
-	//end
+		locExtern SA "Scyndi.Class.Schedule.Add"
+		Map.LoadMap(aMap)
+		SA("LAYER:"..aLayer)
+		SA("SPAWN:"..SpawnPoint)
+	end
 	
 	//Void SkipFrames(int f)
 	//	for fidx=1,f
