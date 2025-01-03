@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 III
+// 	  Version: 25.01.03 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -272,13 +272,15 @@ Global Table MapScript
 	//	ObjSet(tag,"Visible",true)
 	//end
 
-	//Void HideObj(string tag)
+	Void HideObj(string tag)
+		Kthura.Obj[tag].Visible=false
 	//	ObjSet(tag,"Visible",false)
-	//end
+	end
 
-	//Void ShowObj(string tag)
+	Void ShowObj(string tag)
+		Kthura.Obj[tag].Visible=true
 	//	ObjSet(tag,"Visible",true)
-	//end
+	end
 
 	//Void ObjWalkTo(string tag,a,b)
 	//	MCall("FldMap.ObjWalkTo",tag,a,b)
