@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.02 IV
+// version: 25.01.03
 // 
 // End License
 
@@ -55,7 +55,7 @@ group MScript
 
 	void StartActors()
 		// Set actors
-		for ch in each {"Wendicka","Crystal","Briggs" }
+		for _,ch in pairs {"Wendicka","Crystal","Briggs" }
 			string Tex = "GFX/Actors/Uniform/"..ch.."."
 			if ch=="Briggs"
 				Tex += "South"
