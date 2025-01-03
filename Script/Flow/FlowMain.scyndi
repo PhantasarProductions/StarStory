@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 24.11.20
+// 	  Version: 25.01.03
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -323,7 +323,8 @@ init
 	Menu = {}
 	Menu += new MenuItem("New Game",NewGame)
 	//Menu += new MenuItem("Continue",ContinueGame,SaveGame.Recognized("QUIT"))
-	Menu += new MenuItem("Load Game",LoadGame)
+	//Menu += new MenuItem("Load Game",LoadGame)
+	Menu += new MenuItem("Load",LoadGame)
 	Menu += new MenuItem("JukeBox",StartJukeBox)
 	Menu += new MenuItem("Bugs",BUGS)
 	Menu += new MenuItem("Exit",FLOW.QUIT)
