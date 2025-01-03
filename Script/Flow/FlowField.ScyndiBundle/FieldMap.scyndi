@@ -500,7 +500,8 @@ group FldMap
 	end
 	
 	void ActorMoveTo(string Tag,a,b)
-		CurLayer.Obj(tag).MoveTo(a,b)
+		//CurLayer.Obj(tag).MoveTo(a,b)
+		Kthura.Obj[Tag].MoveTo(a,b)
 	end
 	
 	void SetAutoScroll(bool value)
@@ -512,7 +513,7 @@ group FldMap
 			Kills[LoadedMap] = Kills[LoadedMap] or {}
 			Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
 		end
-		CurLayer.Kill(ObjTag)
+		Kthura.Kill(ObjTag)
 	end
 	
 	void PostKill(ObjTag)
