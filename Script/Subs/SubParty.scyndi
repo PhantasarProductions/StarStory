@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.03 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -177,9 +177,11 @@ group SubParty
 		// TODO: Script "END" stat!
 		// Basis Points
 		Print("= Setting the basic points")
-		RPGChar[Tag].Points.HP.MaxCopy = "END_HP"
-		RPGChar[Tag].Points.AP.MaxCopy = "END_AP"
-		RPGChar[Tag].Points.AMMO.MaxCopy = "AMMO"
+		//RPGChar[Tag].Points.HP.MaxCopy = "END_HP"
+		//RPGChar[Tag].Points.AP.MaxCopy = "END_AP"
+		RPGChar[Tag].Points.HP.MaxCopy = "HP"
+		RPGChar[Tag].Points.AP.MaxCopy = "AP"
+		RPGChar[Tag].Points.AMMO.MaxCopy = "AMMO"		
 		RPGChar[Tag].Points.EXP.Max = Caps.NeedEXP
 		print("= Grabbing level: "..level)
 		Lua.Scyndi.Class.SubParty.GrabLevel(Tag,level)
@@ -244,10 +246,10 @@ group SubParty
 		SetAlpha(255)
 		Box.DrawAll()
 		// Front row
-		for i=1,3
+		for i=0,2 //for i=1,3		
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
-				int x := (i-1)*bw
+				int x:=i*bw //int x := (i-1)*bw
 				int y := Graphics.H-100
 				if char==tag
 					plua alf = math.abs(math.floor(xmath.sin(Sys.Ticks/50)*255))
@@ -256,6 +258,7 @@ group SubParty
 				end
 				self.GetPortret(tag).Draw(x,Graphics.h)
 				Graphics.SetAlpha(255)
+				Lua.assert(RPGChar[Tag].Points.HP.Maximum>0,sprintf("%d>%s's Hitpoints have a max of 0!",i,Tag)) 
 				int g := math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
 				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Graphics.Color((255-g),g,0)
@@ -307,10 +310,12 @@ group SubParty
 		// Backrow
 		int bx := 3*bw
 		int y  := Graphics.H-70
-		for i=4,6		
+		//for i=4,6
+		for i=3,5
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
-				int x   := bx+((bw/4)*(i-3))				
+				//int x   := bx+((bw/4)*(i-3))
+				int x   := bx+((bw/4)*i)
 				var img := Self.GetSmallPortrait(tag)
 				// Mini border
 				__ember
