@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 24.12.31
+// 	  Version: 25.01.03
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -50,7 +50,7 @@ Class FieldMonster
 		print("ScanFoes will be dealt with later")
 	End
 
-	Void CheckAll()
+	Static Void CheckAll()
 		// TODO: The actual checking comes later!
 		//       For now this routine simply had to exist
 	End
