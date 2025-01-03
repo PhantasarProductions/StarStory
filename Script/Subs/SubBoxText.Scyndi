@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.03 XIX
+// 	  Version: 25.01.03 XXII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -168,7 +168,7 @@ class TextBox
 		elseif (!JCR6.EntryExists(file))
 			Portraits[tag] = "Nope!"
 		else
-			Portraits[tag] = Portraits[tag] || LoadImage(file)
+			Portraits[tag] = Portraits[tag] || LoadImage(file,"PORTRET_TAG::"..tag.."::"..file)
 			Portraits[tag].Draw(0,Graphics.H-Portraits[tag].Height)
 		end
 	end
@@ -208,7 +208,8 @@ class TextBox
 			//CSayF("Debug: SL=%d; i=%d; SP=%d; p=%d",Self.SL,i,Self.SP,p) // Debug only!
 			if p>0
 				//DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
-				self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+				//self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*25))
+				self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*__BoxTextFontSize))
 			end
 		end
 	end
@@ -316,7 +317,7 @@ class TextBox
 		
 		do
 			CSay("Calculating box size")
-			int h := math.max(150,( lualen(sb_data.Lines)*(__BoxTextFontSize+2))+50)
+			int h := math.max(150,( (lualen(sb_data.Lines)+1)*(__BoxTextFontSize+2))+50)
 			CSayF("Lines: %d, FontSize: __BoxTextFontSize",lualen(sb_data.Lines))
 			// print(Serialize("sb_data.lines",sb_data.Lines))
 			CSayF("Creating a box that is %d pixels high",h)
