@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 24.12.31 XI
+// 	  Version: 25.01.03
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -241,7 +241,7 @@ group SubParty
 			scrw = Graphics.W 
 			scrh = Graphics.H
 		end
-		Graphics.SetAlpha(255)
+		SetAlpha(255)
 		Box.DrawAll()
 		// Front row
 		for i=1,3
