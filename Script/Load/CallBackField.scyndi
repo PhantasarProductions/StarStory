@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.02 VII
+// 	  Version: 25.01.03 I
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -123,7 +123,7 @@ global void FullDrawScreen(noauto)
 	if !TMM.Draw()
 		// General statistics
 		GStat(sprintf("Star Story - %s mode - Cycle: %d",sk[__skill],Caps.Cycle),true) // Always first!
-		GStat(FldMap.KthuraMap.Meta.Title)
+		GStat(Kthura.Meta.Title)
 		if Prefixed(FldMap.Layer,"#")
 			GStat("Area: "..FldMap.Layer)
 		end
