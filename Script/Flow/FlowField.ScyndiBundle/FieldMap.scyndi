@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.03 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -595,10 +595,12 @@ group FldMap
 	end
 	
 	bool Walking()
-		if !CurLayer.HasTag("PLAYER")
+		//if !CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
 			return false
 		end		
-		bool ret = CurLayer.Obj("PLAYER").Walking
+		//bool ret = CurLayer.Obj("PLAYER").Walking
+		bool ret:=Kthura.Obj.Player.Walking
 		if (!ret) && ArriveFunc
 			ArriveFUNC(ArriveParam)
 			ArriveFunc = nil
