@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Caps.scyndi
 // 
-// 	  Version: 25.01.02
+// 	  Version: 25.01.03 II
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -100,7 +100,8 @@ Module
 	int LvCycle(int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
 		plua work;work = { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z }
 		// Please note, work is defined lua style, so this array starts with 1!
-		return math.min(10000,work[math.max(1,math.min(Cycle,Lua.Len(work)))])
+		locextern LuaLenWork "#Work"
+		return math.min(10000,work[math.max(1,math.min(Cycle,LuaLenWork))])
 	end
 	
 	get int LevelMargin
@@ -117,7 +118,8 @@ Module
 	end
 	
 	get int LevelCap
-		static var LC
+		//static var LC
+		locextern LC "CAPS_STATIC_LC_LEVELCAP"
 		switch __skill
 			case 1
 				LC = LC || { 250, 500, 1000, 5000, 10000 } //, -- Easy Mode
@@ -128,7 +130,8 @@ Module
 			default
 				Lua.error("Cap skill error!")
 		end
-		return LC[math.min(Cycle,Lua.len(LC))]
+		locextern LC_Len "#CAPS_STATIC_LC_LEVELCAP"
+		return LC[math.min(Cycle,LC_Len)]
 	end
 
 	//CONSTRUCTOR()
