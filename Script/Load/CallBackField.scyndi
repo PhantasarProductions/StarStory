@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.03 I
+// 	  Version: 25.01.03 II
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -188,7 +188,7 @@ global void MainFlow()
 	Graphics.Color(255,255,255)
 	Sys.Call("MAPSCRIPT","MScript.Draw","nil")
 	ZoneAction.CheckAll()
-	if Events.MouseHitLeft()
+	if Events.MouseHitLeft
 		if my<Graphics.H-128
 			FldMap.WalkClick(mx,my)
 		end
