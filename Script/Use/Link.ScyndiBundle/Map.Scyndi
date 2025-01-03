@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.02 VI
+// 	  Version: 25.01.03 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -147,9 +147,9 @@ Global Table MapScript
 	//	Call("FldMap.SetObjField",{"\""..obj.."\"","\""..field.."\"",v})
 	//end
 	
-	//Void SpawnPlayer(string spot)
-	//	Spawn("PLAYER",spot)
-	//end
+	Void SpawnPlayer(string spot)
+		Kthura.Spawn("PLAYER",spot)
+	end
 
 	Void LoadMap(string Map)
 		if Lua.Scyndi.Debug.StateName=="MAPSCRIPT"
@@ -187,9 +187,9 @@ Global Table MapScript
 	//	return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
 	//end
 	
-	//Void Kill(string ObjTag,perma)
-	//	MCall("FLDMap.Kill",ObjTag,perma==true)
-	//end
+	Void Kill(string ObjTag,perma)
+		MCall("FLDMap.Kill",ObjTag,perma==true)
+	end
 	
 	//Void KillReset()
 	//	Call("FldMap.KillReset","nil")
@@ -332,13 +332,13 @@ Global Table MapScript
 	//	return ISGET.Bool("FLOW_FIELD",sprintf("FLDMap.Blocked(%d,%d)",x,y))
 	//end
 	
-	//Void GoToLayer(string aLayer,string SpawnPoint)		 
-	//	if HasTag("PLAYER")
-	//		Self.Kill("PLAYER")
-	//	end
-	//	Layer=aLayer
-	//	SpawnPlayer(SpawnPoint)
-	//end
+	Void GoToLayer(string aLayer,string SpawnPoint)		 
+		if Kthura.HasObj("PLAYER")
+			Kill("PLAYER")
+		end
+		Kthura.CurrentLayer=aLayer
+		SpawnPlayer(SpawnPoint)
+	end
 	
 	//Void GoToMap(string aMap,string aLayer,string SpawnPoint)
 	//	static var SA = Lua.Neil.Globals.Schedule.Add
