@@ -1,9 +1,9 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 24.12.31 XXVII
+// 	version: 25.01.03
 // 
-// 	Copyright (C) 2024 Jeroen P. Brok
+// 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -41,7 +41,13 @@ Void __RC_Create(String Tag,String Name="")
 End
 
 Int CharStat(data,String Key)
-	Lua.error("No stat function yet, so I cannot get to stat "..key.." yet for "..data.parent._chkey)
+	c:=Data.parent._chkey
+	d:=data.parent._chdata
+	sk:=XSplit(Key,"_")
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level"
+		Return d.Stat[Key]
+	end	
+	Lua.error("No full stat function yet, so I cannot get to stat "..key.." yet for "..data.parent._chkey)
 End
 
 Void CharStatSet(data,String Key,Int Value)
