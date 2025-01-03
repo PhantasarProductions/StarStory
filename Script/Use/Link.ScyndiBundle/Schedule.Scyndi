@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.02
+// version: 25.01.03
 // 
 // End License
 
@@ -64,7 +64,7 @@ module
 	//	State.Call("FLOW_FIELD",func,pr)
 	//end
 	Void MCall(String func,infinity)
-		Sys.Call("FLOW_FIELD",infinity)
+		Sys.Call("FLOW_FIELD",func,infinity)
 	End
 
 	void WaitForMovingActors(string After = "")
