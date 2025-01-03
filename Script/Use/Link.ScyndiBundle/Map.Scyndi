@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 I
+// 	  Version: 25.01.03 III
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -109,9 +109,10 @@ Global Table MapScript
 	Sys.Call("FLOW_FIELD",func,infinity)
 	end
 	
-	//Void ActorMoveTo(string actor,a,b)
+	Void ActorMoveTo(string actor,a,b)
+		Kthura.Obj[actor].MoveTo(a,b)
 	//	MCall("FldMap.ActorMoveTo",Actor,a,b)
-	//end
+	End
 	
 	//Void MoveTo(a,b)
 	//	MCall("FldMap.ActorMoveTo","PLAYER",a,b)
@@ -178,6 +179,7 @@ Global Table MapScript
 	//Void ReMap()
 	//	Call("FldMap.KthuraMap.ReMap","nil")
 	//end
+	Const Delegate ReMap = Kthura.Remap
 	
 	//set bool AutoScroll
 	//	Call("FldMap.SetAutoScroll",value)
