@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.03 V
+// 	  Version: 25.01.03 XVIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -63,6 +63,14 @@ Script
 #macro __BoxText_MinX 200
 
 
+Int LuaLen(a)
+	int ret=0
+	for i,_ in pairs(a)
+		ret = math.max(i,ret)
+	end
+	return ret
+End
+
 table LoadedPortret
 void InitScenario()
 
@@ -101,7 +109,7 @@ class TextBox
 	string PicSpc
 	string PicRef	
 	table Lines
-	int SL
+	int SL = 0
 	int SP
 	string AltTxtFont
 	string Voice
@@ -181,7 +189,9 @@ class TextBox
 		LFont.Text(Header,__BoxText_MinX,boxy+10)
 		
 		__SkyBlue
-		for i,l in ipairs(self.Lines)
+		//CSayF("Showing %d lines",len(Self.Lines))
+		//for i,l in pairs(self.lines); CSayF("%03d> %s",i,l); End
+		for i,l in pairs(self.Lines)
 			int p
 			if i<self.SL
 				p = len(l)
@@ -195,6 +205,7 @@ class TextBox
 			else
 				p=0
 			end
+			//CSayF("Debug: SL=%d; i=%d; SP=%d; p=%d",Self.SL,i,Self.SP,p) // Debug only!
 			if p>0
 				//DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
 				self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
@@ -266,7 +277,7 @@ class TextBox
 			table spline
 			cline = ""
 			//spline = split(Var.S(txt)," ")
-			spline = split(gSUB(txt)," ")
+			spline = xsplit(gSUB(txt)," ")
 			for aw,word in ipairs(spline)
 				if CurrentFont.Width(cline..word)>width
 					ltable.insert(sb_data.Lines,cline)
@@ -305,8 +316,8 @@ class TextBox
 		
 		do
 			CSay("Calculating box size")
-			int h := math.max(150,( len(sb_data.Lines)*(__BoxTextFontSize+2))+50)
-			CSayF("Lines: %d, FontSize: __BoxTextFontSize",len(sb_data.Lines))
+			int h := math.max(150,( lualen(sb_data.Lines)*(__BoxTextFontSize+2))+50)
+			CSayF("Lines: %d, FontSize: __BoxTextFontSize",lualen(sb_data.Lines))
 			// print(Serialize("sb_data.lines",sb_data.Lines))
 			CSayF("Creating a box that is %d pixels high",h)
 			sb_data.txtbox = new Box(0,Graphics.Height-h,Graphics.Width,h)
@@ -335,7 +346,8 @@ group FlowBoxText
 	
 	void InitBTFlow(string AScen, string ATag, RF, ANum)
 		self.ReturnFlow = RF // or CurrentFlow()
-		self.Num = ANum || 1
+		//self.Num = ANum || 1
+		self.Num = ANum || 0
 		self.Scen = AScen
 		self.Tag = Upper(ATag)
 		// GoToFlow("BOXTEXT")
@@ -344,7 +356,7 @@ group FlowBoxText
 	
 	bool Next()
 		self.Num++
-		if self.Num>len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
+		if self.Num>=len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
 			// GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
 			return false
 		else
@@ -360,7 +372,10 @@ group FlowBoxText
 			//FPS.WaitMinTicks()
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
-			if TextBox.Current.SL>len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
+//#if DEBUG
+			if Events.KeyHit(27); Sys.Exit(500); Return; End
+//#fi
+			if TextBox.Current.SL>=len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
 					return
 				end
