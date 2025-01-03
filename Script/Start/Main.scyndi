@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Start/Main.scyndi
 // 
-// 	  Version: 24.11.19
+// 	  Version: 25.01.03
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -94,7 +94,8 @@ init
 
 	// Configure loading assets
 	LAsset.C("GFX/Loading/Graphic.png","LOADING",wh_Image) // Must always be first
-	LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
+	//LAsset.C("Fonts/Robotica.18.jfbf","BOXTEXT",wh_Font)
+	LAsset.C("Fonts/Ryanna.jfbf","BOXTEXT",wh_Font)
 	LAsset.C("Fonts/Robotica.35.jfbf","BIGTEXT",wh_Font)
 	LAsset.C("Fonts/SysFont.jfbf","SYSFONT",wh_Font,true)
 	LAsset.C("GFX/Cursor/Default.png","MOUSE",wh_Image)
