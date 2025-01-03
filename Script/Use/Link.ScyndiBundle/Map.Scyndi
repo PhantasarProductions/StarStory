@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 IV
+// 	  Version: 25.01.03 VI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -140,13 +140,15 @@ Global Table MapScript
 	//	MCall("FldMap.CurLayer.Spawn",actor,x,y)
 	//end
 	
-	//Void SetObjField(string obj,string field,value)
+	Void SetObjField(string obj,string field,value)
 	//	plua v = lua.tostring(value)
 	//	if lua.type(value)=="string"
 	//		v = "\""..value.."\""
 	//	end
 	//	Call("FldMap.SetObjField",{"\""..obj.."\"","\""..field.."\"",v})
-	//end
+		Kthura.Obj[obj][field] = value
+		// I merely kept this function in order to avoid code rot in MapScripts and such. 
+	end
 	
 	Void SpawnPlayer(string spot)
 		Kthura.Spawn("PLAYER",spot)
@@ -302,9 +304,9 @@ Global Table MapScript
 	//end
 				
 	
-	//Void DrawScreen()
-	//	MCall("DrawScreen","nil")
-	//end
+	Void DrawScreen()
+		MCall("DrawScreen",nil)
+	End
 	
 	//Get Int CamX
 	//	Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollX")
