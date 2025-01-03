@@ -59,7 +59,7 @@ Script
 
 
 #macro __BoxTextTotalWidthMargin 225
-#macro __BoxTextFontSize 25
+#macro __BoxTextFontSize 30
 #macro __BoxText_MinX 200
 
 
