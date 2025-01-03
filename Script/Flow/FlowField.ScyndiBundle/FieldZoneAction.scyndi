@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
 // 
-// 	  Version: 24.12.31 III
+// 	  Version: 25.01.03 IV
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -53,6 +53,7 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -172,7 +173,8 @@ class ZoneAction
 	end
 	
 	static bool CheckAll()
-		if !FldMap.CurLayer.HasTag("PLAYER")
+		//if !FldMap.CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
 			return false
 		end
 		bool ret = false
@@ -182,6 +184,8 @@ class ZoneAction
 					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FLDMap.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
 					return false
 					//lnk.UnLink()
+				elif !Kthura.HasObj(Zone.ActZone)
+					//continue
 				else
 					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
 					Zone.WordtInZone = GrPlayer.IsInZone(Zone.ActZone)
