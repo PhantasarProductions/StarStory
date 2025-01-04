@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 25.01.04 I
+// 	  Version: 25.01.04 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -70,7 +70,9 @@ Class ClBeam
 	ReadOnly String   Texture
 	ReadOnly Bool  IsActor
 	Get Var Act		
-		return Kthura.Obj[Actor]		
+		Lua.assert(Actor!="","Actor tag not present for current beamout")
+		ret:=Kthura.Obj[Actor]
+		return ret
 	End
 	
 	Void Update()
@@ -78,10 +80,12 @@ Class ClBeam
 	End
 	
 	Static void Add(String   ActTag,Bool  DespawnAfter,Bool  AscEnding)
+		CSayF("ClBeam.Add(\"%s\",%s,%s)",ActTag,DespawnAfter,ASCEnding)
 		Lijst.AddLast(new ClBeam(ActTag,DespawnAfter,AscEnding))
 	End
 	
 	CONSTRUCTOR(String   Tag,Bool  Des,Bool  asc)
+		CSayF("New ClBeam(\"%s\",%s,%s)",Tag,Des,ASC)
 		Actor       = Tag
 		Despawn     = Des
 		Texture     = Act.Texture
