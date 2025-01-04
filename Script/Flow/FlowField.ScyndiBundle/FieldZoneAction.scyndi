@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
 // 
-// 	  Version: 25.01.03 IV
+// 	  Version: 25.01.04
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -152,9 +152,10 @@ class ZoneAction
 	string ActZone
 	table ActParams
 	var Act
+	readonly var Me
 	
 	get string ActType
-		return type(self.Act)
+		return type(Me.Act)
 	end
 	
 	bool WasInZone = false
@@ -197,7 +198,7 @@ class ZoneAction
 							case "string"
 								MapScript[Zone.Act](ZAXPand(Zone.ActParams))
 								ret=true
-								default
+							default
 								error("No action setup yet for ActType: "..Zone.ActType)
 						end
 					end
@@ -210,6 +211,7 @@ class ZoneAction
 	
 	//CONSTRUCTOR(string Event,string Zone,AAct,infinity)
 	CONSTRUCTOR(string Event,string Zone,AAct,param)
+		me = self
 		self.InitCheckDels()
 		self.ActMap = FldMap.LoadedMap
 		self.ActEvent = Event
