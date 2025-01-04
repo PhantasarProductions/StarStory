@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.04 XVI
+// 	  Version: 25.01.04 XXVIII
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -111,6 +111,7 @@ class Clickable
 	
 	get var CObj
 		//return CLay.Obj(otag)
+		CSayF("Getting object %s",otag)
 		return Kthura.Obj[otag]
 	end
 	
@@ -118,23 +119,26 @@ class Clickable
 		sid++
 		id = sid
 		walkx=wx
-		walky=wy
+		walky=Ternary(Prefixed(ot,"NPC_"),wy+40,wy)
 		func = af
 		param = ap
 		otag = ot
 		ltag = lt
 		CSayF("Clickable created %s::%s",ltag,otag)
+		CSayF("func: %s",func)
 	end
 	
 	bool Clicked(int x, int y)
-		CSayF("Check clickable %s::%s (%d,%d); Layer Check: %s=>%s",ltag,otag,x,y,Map.Layer,Map.Layer==ltag)
+		//CSayF("Check clickable %s::%s (%d,%d); Layer Check: %s=>%s",ltag,otag,x,y,Map.Layer,Map.Layer==ltag)
 		if Map.Layer!=ltag
 			return false
 		end
 		if !Kthura.HasObj(otag)
 			return false
 		end
-		return CObj.PixInObj(x,y)
+		//return CObj.PixInObj(x,y)
+		//return Kthura.Obj[otag].InObj(x,y)
+		return Kthura.InObj(otag,x,y)
 	end
 	
 	static void Create(string ot,string lt,a,b,c,d)
@@ -229,7 +233,7 @@ class Clickable
 					CSayF("NPC: %s (MAPTEXT)",T)
 				elseif prefixed(T,"NPC_")
 					var fuck := Self.LSpot(L,T) // = Spot(Lay,T)
-					Self.Create(T,L,fuck[1],fuck[2],MapScript[T],"nil") //,sprintf("\"%s\"",T))
+					Self.Create(T,L,fuck[1],fuck[2],T,"nil") //,sprintf("\"%s\"",T))
 					CSayF("NPC: %s",T)
 				elseif prefixed(T,"Trans.Pad")
 					string Spot;Spot = Right(T,len(T)-10)
@@ -291,9 +295,11 @@ class Clickable
 		for CLK in List.Each
 			if Clk.Clicked(x, y)
 				//Map.WalkTo(CLK.walkx,CLK.Walky)
-				Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				//Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				Kthura.Obj.Player.WalkTo(ClK.WalkX,CLK.WalkY)
 				Map.ArriveFunc=CLK.func 
 				Map.ArriveParam=Clk.param
+				CSayF("Activated clickable: %s(%04d,%04d) - Trying to walk to (%04d,%04d)",Clk.Otag,Kthura.Obj[Clk.OTag].X,Kthura.Obj[Clk.OTag].Y,ClK.WalkX,CLK.WalkY)
 				return true
 			end
 		end
