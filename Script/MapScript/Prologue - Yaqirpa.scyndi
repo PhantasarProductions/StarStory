@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.04 XX
+// version: 25.01.04 XXI
 // 
 // End License
 Script
@@ -251,7 +251,7 @@ group MScript
 		// CSayF("Follower %s (%4d,%4d) walking: %s -- Should walk: %s (%s)",act,X2,Y2,tostring(Map.ObjBool(act,"Walking")),tostring(shouldwalk),lua.type(shouldwalk))
 		// CSayF("ShouldWalk = %s, because distance>96 = %s and walking = %s",tostring(ShouldWalk),tostring(distance>96),tostring(walking))
 		if ShouldWalk
-			switch Map.ObjStr(Tag1,"Wind"):upper()
+			switch Upper(Map.ObjStr(Tag1,"Wind"))
 				case "NORTH"
 					Map.ObjWalkTo(act,X1,Y1+64)
 				case "SOUTH"
