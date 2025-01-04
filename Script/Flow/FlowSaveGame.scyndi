@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 24.12.31 XIII
+// 	  Version: 25.01.04
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -47,6 +47,7 @@ Module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/SGFile"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
@@ -98,16 +99,16 @@ Init
 	SaveIconsF += "GFX/Portret/Kota/General.png"
 	SaveIconsF += "GFX/Portret/Goddess/General.png"
 	Var s
-	s = SaveGame.LoadIndieString("Star Story - Scroll")
+	//s = SaveGame.LoadIndieString("Star Story - Scroll")
+	s = Ternary(SGFile.FileExists("Star Story - Scroll"),SFFile.LoadString("Star Story - Scroll"),"0")
 	CSayF("Getting scroll: %s",lua.tostring(s))
 	scroll = lua.tonumber(s || "0") || 0
-	
-	
 End
 
 Void SaveScroll()
 	CSay("Saving scroll data")
-	SaveGame.SaveIndieString("Star Story - Scroll",tostring(scroll))
+	//SaveGame.SaveIndieString("Star Story - Scroll",tostring(scroll))
+	SGFile.SaveString("Star Story - Scroll",tostring(scroll))
 End
 
 
@@ -148,7 +149,7 @@ Void Cancel()
 	End
 End
 
-Global Void Apollo_Flow()
+Global Void MainFlow()
 	//Dev.ToConsole()
 	// Mouse coordiniates
 	Int mx = Events.MouseX
@@ -218,7 +219,7 @@ Global Void Apollo_Flow()
 	Static Bool clk = false
 	If AlDown
 		ButtonDown.Draw(Graphics.W-100,Graphics.H-228)
-		If (!clk) && Events.MouseHitLeft() && mx>Graphics.W-100 && my>Graphics.H-228 && my<Graphics.H-128
+		If (!clk) && Events.MouseHitLeft && mx>Graphics.W-100 && my>Graphics.H-228 && my<Graphics.H-128
 			Scroll++
 			CSayF("Scrolled down to: %04d",Scroll)
 			clk=true
