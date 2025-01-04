@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.03
+// 	version: 25.01.04 I
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -133,7 +133,13 @@ QuickMeta RPGChar
 			case "string"
 				Switch Upper(Key)
 					case "ALL"
-						Lua.error("No support for ALL in RPGChar yet")
+						//Lua.error("No support for ALL in RPGChar yet")
+						ret:={}
+						for i=0,5
+							if _stat.Party[i]!=""
+								ret+=_stat.Party[i]
+							end
+						end
 					case "KILL"
 						Lua.error("No support for KILL in RPGChar yet")
 					case "HAS"
