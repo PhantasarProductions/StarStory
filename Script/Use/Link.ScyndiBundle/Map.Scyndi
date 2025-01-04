@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.04 V
+// 	  Version: 25.01.04 XV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -55,7 +55,7 @@ QuickMeta MapScript
 	End
 	Index
 		ddef ret			
-			Sys.Call("MAPSCRIPT",key,infinity)
+			Sys.Call("MAPSCRIPT","MScript."..key,infinity)
 		end
 		return ret
 	End
@@ -150,10 +150,11 @@ End
 		Kthura.Spawn(actor,spot)
 	end
 	
-	//Void SpawnXY(string actor,int x,int y)
+	Void SpawnXY(string actor,int x,int y)
 	//	CSayF("Spawning actor '%s' on coordinates (%4d,%dd)",actor,x,y)
 	//	MCall("FldMap.CurLayer.Spawn",actor,x,y)
-	//end
+		Kthura.Spawn(actor,x,y)
+	end
 	
 	Void SetObjField(string obj,string field,value)
 	//	plua v = lua.tostring(value)
@@ -237,50 +238,61 @@ End
 	Void Niets()
 	end
 	
-	//Void HideButLabel(string label)
+	Void HideButLabel(string label)
+		Kthura.HideButLabel(label)
 	//	Mcall("FldMap.CurLayer.HideButLabel",label)
-	//end
-	//Void ShowButLabel(string label)
+	end
+	Void ShowButLabel(string label)
+		Kthura.ShowButLabel(label)
 	//	Mcall("FldMap.CurLayer.ShowButLabel",label)
-	//end
-	//Void HideByLabel(string label)
+	end
+	Void HideByLabel(string label)
 	//	Mcall("FldMap.CurLayer.HideByLabel",label)
-	//end
-	//Void ShowByLabel(string label)
+		Kthura.HideByLabel(label)
+	end
+	Void ShowByLabel(string label)
+		Kthura.ShowByLabel(label)
 	//	Mcall("FldMap.CurLayer.ShowByLabel",label)
-	//end
+	end
 	
-	//Void ShowPlayer()
+	Void ShowPlayer()
+		Kthura.Obj.Player.Visible = true
 	//	Call("FldMap.ShowPlayer","nil")
-	//end
+	End
 	
 	//get int Level
 	//	return ISGET.Int("FLOW_FIELD","FLDMap.Level()")
 	//end
 	
-	//bool HasTag(string tag)
+	bool HasTag(string tag)
+		return Kthura.HasObj(tag)
 	//	return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.HasTag(\""..tag.."\")")
-	//end
+	end
 	
-	//int ObjInt(string tag,string value)
+	int ObjInt(string tag,string value)
+		return Lua.tonumber(Kthura.Obj[Tag][value]) || 0
 	//	return ISGET.Int("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
-	//end
+	end
 	
-	//string ObjStr(string tag,string value)
+	string ObjStr(string tag,string value)
+		return Lua.tostring(Kthura.Obj[Tag][value])
 	//	return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
-	//end
+	end
 
-	///bool ObjBool(string tag,string value)
+	bool ObjBool(string tag,string value)
+		ret:=Kthura.Obj[Tag][value]
+		return ret!="" && ret!=0 && ret!=nil && ret!=false
 	//	return ISGET.Bool("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\")[\""..value.."\"]")
-	//end
+	end
 	
 	//bool Visible(string tag)
 	//	return ISGET.Bool("FLOW_FIELD","FLDMap.XVisObj(\""..tag.."\")")
 	//end
 	
-	//Void ObjSet(string tag,string vartag,value)
+	Void ObjSet(string tag,string vartag,value)
 	//	MCall("FldMap.ObjSet",tag,vartag,value)
-	//end
+		Kthura.Obj[tag][vartag]=value
+	end
 	//Void SetObj(string tag,string vartag,value)
 	//	MCall("FldMap.ObjSet",tag,vartag,value)
 	//end
@@ -345,9 +357,10 @@ End
 	//	MCall("Trans.Activate",spot)
 	//end
 
-	//get string LoadedMap
+	get string LoadedMap
 	//	return ISGET.String("FLOW_FIELD","FldMap.LoadedMap")
-	//end
+		Return Kthura.CurrentMap
+	end
 	
 	//Void PlayerStopWalking()
 	//	Cout("Stop walking!\b")
@@ -459,33 +472,41 @@ End
 //end
 		
 
+#macro __PLAYER Kthura.Obj.Player
 quickmeta Player
 	index
-		Lua.error("Player.index: Not yet properly setup! Come back later!")
-//		switch key:upper()
-//			case "WIND"
+		//Lua.error("Player.index: Not yet properly setup! Come back later!")
+		switch Upper(Key)
+			case "WIND"
+				return __PLAYER.Wind
 //				return Link_Map.ObjStr("PLAYER","Wind")
-//			case "WALKTO"
+			case "WALKTO"
 //				Void W(a,b)
 //					Link_Map.ObjWalkTo("PLAYER",a,b)
 //				end
 //				return W
-//			case "RELOCATE" "RELOC"
+				return __PLAYER.WalkTo
+			case "RELOCATE" "RELOC"
+				lua.error("Player."..key.." not yet properly set up")
 //				Void RL(a,b)
 //					Player.StopWalking()
 //					Link_Map.ObjRelocate("PLAYER",a,b)
 //				end
 //				return RL
-//			case "STOPWALKING"
+			case "STOPWALKING"
 //				Cout("Player must stop walking! ("..Lua.type(Link_Map.PlayerStopWalking).."/"..Lua.tostring(Link_Map.PlayerStopWalking)..")\n")
 //				return Link_Map.PlayerStopWalking
-//			case "DISTANCE"
+				return Player.StopWalking
+			case "DISTANCE"
+				lua.error("Player.Distance will have to wait")
 //				return PlayerDistance
-//			case "INRANGE"
+			case "INRANGE"
+				lua.error("Player.InRage is still on the way")
 //				return PlayerInRange
-//			default
+			default
+				return __PLAYER[key]
 //				return Link_Map.ObjInt("PLAYER",key)
-//		end
+		end
 	end
 	newindex
 		Lua.error("Player.newindex: Not yet properly setup! Come back later!")
