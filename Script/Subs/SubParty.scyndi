@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.03 III
+// 	  Version: 25.01.04 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -69,7 +69,7 @@ group SubParty
 	readonly var Fnt = ObtainFont("BOXTEXT")
 	readonly var LevelUp = ObtainImage("LEVEL_UP")
 	readonly var AudioLevelUp = Audio.Obtain("AUDIO_LEVELUP")
-	table ScLvUp = {0,0,0}
+	table ScLvUp = NewArray(0,0,0)
 	int scrw = -1
 	int scrh = -1
 	
@@ -345,7 +345,7 @@ group SubParty
 				// Open/Close menu
 				for j=1,3
 					if Events.MouseHit(j)
-						if Events.MouseX()>x and Events.MouseY()>y and Events.MouseX()<x+40 and Events.MouseY()<y+40
+						if Events.MouseX>x && Events.MouseY>y && Events.MouseX<x+40 && Events.MouseY<y+40
 							CSayF("CallBack(%s)::%s(%s)   <<MINI>>",Flow.Current,"Party.CallBack",lua.tostring(j),Tag)
 							State.Call(Flow.Current,"Party.CallBack",""..j..",\""..Tag.."\"")
 						end
