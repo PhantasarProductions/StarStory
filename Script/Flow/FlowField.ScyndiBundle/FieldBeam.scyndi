@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 25.01.04 VI
+// 	  Version: 25.01.04 VII
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -125,7 +125,8 @@ Class ClBeam
 			End
 			Sys.WaitMinTicks()
 			Graphics.Cls()
-			DS(True)
+			//DS(True)
+			Lua.Scyndi.Globals.DrawScreen(True)
 			Graphics.Flip()
 		End
 	End
