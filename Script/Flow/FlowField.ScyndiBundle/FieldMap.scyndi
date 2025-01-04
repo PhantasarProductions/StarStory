@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.04 X
+// 	  Version: 25.01.04 XI
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -592,14 +592,13 @@ group FldMap
 		int x := mx + ScrollX
 		int y := my + ScrollY
 		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
-		if !CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
 			CSay("But there is no player available now, so the request will be ignored!")
 			return
 		end
-		// Check for clickables
-		// TODO! Clickables
+		// Check for clickables		
 		if !Clickable.All(x,y)
-			CurLayer.Obj("PLAYER").WalkTo(x,y)
+			Kthura.Obj.PLAYER.WalkTo(x,y)
 			ArriveFunc = nil
 			ArriveParam = ""
 		end
