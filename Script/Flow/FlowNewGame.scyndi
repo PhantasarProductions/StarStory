@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 25.01.02 IV
+// 	  Version: 25.01.04
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -246,9 +246,9 @@ void BuckleUp()
 		Party.NewChar("UniCrystal",1,"Crystal")
 		Party.NewChar("Briggs",20)
 		RPGParty.Max = 6
-		RPGParty[1] = "UniWendicka"
-		RPGParty[2] = "UniCrystal"
-		RPGParty[3] = "Briggs"	
+		RPGParty[0] = "UniWendicka"
+		RPGParty[1] = "UniCrystal"
+		RPGParty[2] = "Briggs"	
 		Flow.Load("FIELD","Script/Load/LoadField.lbc")
 		//Map.LoadMap("Intro_Ship_Transporter")
 		Map.LoadMap("Intro - Ship Transporter")
