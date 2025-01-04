@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.04 I
+// 	  Version: 25.01.04 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -280,7 +280,7 @@ group SubParty
 				Fnt.Text(RPGChar[Tag].Stat.Level,(x+bw)-10,y+70,1,0)
 				for j=1,3
 					if Events.MouseHit(j)
-						if Events.MouseX()>x and Events.MouseY()>y and Events.MouseX()<x+bw
+						if Events.MouseX>x and Events.MouseY>y and Events.MouseX()<x+bw
 							CSayF("CallBack(%s)::%s(%s)",Flow.Current,"Party.CallBack",lua.tostring(j),Tag)
 							State.Call(Flow.Current,"Party.CallBack",""..j..",\""..Tag.."\"")
 						end
