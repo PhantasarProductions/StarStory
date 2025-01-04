@@ -1,0 +1,81 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Link.ScyndiBundle/ZA.scyndi
+// (c) Jeroen Broks, 2020-'21, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.04 II
+// 
+// End License
+
+module
+	
+#use "Libs/SCI/Sys"
+
+	void Event(string event,string zone,string mapscript,param)
+		string p
+		switch Lua.type(param)
+			case "string"
+				p = "\""..param.."\""
+			case "number" "boolean"
+				p = Lua.tostring(param)
+			case "nil"
+				p = "nil"
+			default
+				Lua.error("Type "..Lua.type(param).." not (yet) supported as ZA event parameter!")
+		end
+		//State.Call("FLOW_FIELD","ZoneAction.Create","\""..event.."\",\""..zone.."\",\""..mapscript.."\","..p)
+		Sys.Call("FLOW_FIELD","ZoneAction.Create",event,zone,mapscript,param)
+	end
+	
+	void Enter(string zone,string mapscript,param)
+		Event("Enter",zone,mapscript,param)
+	end
+	
+	void Leave(string zone,string mapscript,param)
+		Event("Leave",zone,mapscript,param)
+	end
+	
+	void TabEnter(stuff)
+		for z in each(stuff)
+			Enter(z,z)
+		end
+	end
+
+	void TabLeave(stuff)
+		for z in each(stuff)
+			Leave(z,"Leave_"..z)
+		end
+	end
+
+//end
