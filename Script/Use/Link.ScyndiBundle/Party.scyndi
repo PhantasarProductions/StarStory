@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 24.12.31
+// 	  Version: 25.01.04
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -169,7 +169,8 @@ bool BxsL = false
 	end
 	
 	Void AutoBuffExpire()
-		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+		locExtern Stats "AutoBuffExpire_Static_Stats"
+		Stats = Stats || NewArray("Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP")
 		For ch in Each(RPGChar.All)
 			Bool Foe = prefixed(ch,"FOE_")			
 			For Stat in Each(Stats)
@@ -177,7 +178,7 @@ bool BxsL = false
 				If RPGChar[ch].Points.HP.Have == 0
 					__AUTOSTAT = 0
 				End
-				Switch Lua.Neil.Globals.gv.gint.skill
+				Switch Lua.Scyndi.Globals.gint.skill
 					Case 1
 						If __AUTOSTAT>0 && Foe
 							__AUTOSTAT = math.max(0,__AUTOSTAT-5)
