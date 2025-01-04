@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.04 XVIII
+// 	  Version: 25.01.04 XIX
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -56,6 +56,7 @@ QuickMeta MapScript
 		Lua.error("MapScript = READ ONLY!")
 	End
 	Index
+		CSayF("MapScript.%s called",Key)
 		ddef ret			
 			Sys.Call("MAPSCRIPT","MScript."..key,infinity)
 		end
