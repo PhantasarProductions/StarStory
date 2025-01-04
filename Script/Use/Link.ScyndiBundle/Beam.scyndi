@@ -1,9 +1,9 @@
 // License:
 // 	src/Script/Script/Use/Link.ScyndiBundle/Beam.scyndi
 // 	Beam
-// 	version: 24.12.18 I
+// 	version: 25.01.04
 // 
-// 	Copyright (C) 2020, 2021, 2024 Jeroen P. Broks
+// 	Copyright (C) 2020, 2021, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -28,23 +28,26 @@ module
 
 #use "Script/Use/Convert/Flow"
 
-	void MCall(string func,a,b,c,d,e,f,g,h)
-		string pr
-		for i,p in ipairs {a,b,c,d,e,f,g,h}
-			if i>1 
-				pr += ", "
-			end
-			switch lua.type(p)
-				case "string"
-					pr += "\""..p.."\""
-				case "number" "boolean"
-					pr += tostring(p)
-				default
-					lua.error("Illegal MCall type "..lua.type(p))
-			end
-		end
-		State.Call("FLOW_FIELD",func,pr)
-	end
+	//void MCall(string func,a,b,c,d,e,f,g,h)
+	//	string pr
+	//	for i,p in ipairs {a,b,c,d,e,f,g,h}
+	//		if i>1 
+	//			pr += ", "
+	//		end
+	//		switch lua.type(p)
+	//			case "string"
+	//				pr += "\""..p.."\""
+	//			case "number" "boolean"
+	//				pr += tostring(p)
+	//			default
+	//				lua.error("Illegal MCall type "..lua.type(p))
+	//		end
+	//	end
+	//	State.Call("FLOW_FIELD",func,pr)
+	//end
+	Void MCall(string func,infinity)
+		Sys.Call("FLOW_FIELD",func,infinity)
+	ENd
 
 
 	void Add(string Actor, Despawn, asc)
