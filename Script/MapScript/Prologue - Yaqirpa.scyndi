@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.04
+// version: 25.01.04 XX
 // 
 // End License
 Script
@@ -45,10 +45,13 @@ Script
 //#MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 #use "Script/MapScript/Yaqirpa_Warp"
 
 extern Sleutel "Scyndi.Globals.gBool.Prologue_Yaqirpa_Sleutel"
@@ -56,7 +59,7 @@ extern Sleutel "Scyndi.Globals.gBool.Prologue_Yaqirpa_Sleutel"
 group MScript
 	readonly delegate NPC_SAVE1 = MSave.ToSave
 	readonly delegate NPC_SAVE2 = MSave.ToSave
-	readonly delegate FTL = {"PLAYER","FCrystal","FBriggs"}
+	readonly table FTL = {"PLAYER","FCrystal","FBriggs"}
 	readonly var YW = Yaqirpa_Warp
 	
 	//get bool Sleutel
@@ -105,7 +108,7 @@ group MScript
 			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
 			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
 		Else
-			Int L = RPGChar.Briggs.Stat.Level
+			Int L := RPGChar.Briggs.Stat.Level
 			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
 			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
 		End
@@ -118,27 +121,27 @@ group MScript
 	void Enter_Kantoor()
 		Map.HideButLabel("Kantoor")
 		Map.ShowPlayer()				
-		if !gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+		if !gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
 			Player.StopWalking()
 			MapText("EAVESDROP_ASTRILOPUP_01")
 			Schedule.Add("After_KantoorAstrilo")
-			FightAstro()
+			MScript.FightAstro()
 		end
 	end
 	
 	void Astrilopups_Top()
-		if !gv.gBool.Prologue_Yaqirpa_Astrilotop
+		if !gBool.Prologue_Yaqirpa_Astrilotop
 			Player.StopWalking()
 			MapText("ASTRILOATTACK")
 			Schedule.Add("After_TopAstrilo")
-			FightAstro()
+			MScript.FightAstro()
 		end
 	end
 	
 	void After_TopAstrilo()
 		Map.Kill("Astro3",true)
 		Map.Kill("Astro4",true)
-		gv.gBool.Prologue_Yaqirpa_Astrilotop=true
+		gBool.Prologue_Yaqirpa_Astrilotop=true
 	end
 	
 	
@@ -146,7 +149,7 @@ group MScript
 		Map.Kill("Astro1",true)
 		Map.Kill("Astro2",true)
 		MapText("EAVESDROP_ASTRILOPUP_02")
-		gv.gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1=true
+		gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1=true
 	end
 	
 	void PostBoss()
@@ -157,21 +160,21 @@ group MScript
 		Map.ObjShow("DeadCrystal")
 		RPGParty[2] = ""
 		MapText("POSTBOSS_WENDICKARAGE")
-		var explosion = Image.Load("GFX/Scenario/Explosion.png")
+		var explosion = LoadNewImage("GFX/Scenario/Explosion.png","Yaqirpa_Explosion")
 		var sex = Audio.Load("Audio/Scenario/Explosion.ogg")
 		Graphics.Cls()
 		sex.Play()
 		for i=0,255
 			__white
-			explosion.Stretch(0,0,Screen.W,Screen.H)
+			explosion.Stretch(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(i)
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
 			if i==0
-				FPS.Sleep(2000)
+				Sys.Sleep(2000)
 			else
-				FPS.Sleep(1)
+				Sys.Sleep(1)
 			end
 		end
 		CSay("Time to go to sickbay")
@@ -204,14 +207,14 @@ group MScript
 		RPGParty[3]=""
 		RPGChar.Kill("Briggs")
 		Schedule.Add("PostBoss")
-		#if mother_boss
+#if mother_boss
 			StartCombat.Prepare()
 			StartCombat.Foe("Boss/BrainDroid",Caps.LvCycle(__skill+9,200,500,750,1000,2500,5000,2500*__skill,3000*__skill,4000*__skill,10000))
 			StartCombat.Tune = StartCombat.RandomBossTune
 			StartCombat.Boss = true
 			StartCombat.Arena = "Yaqirpa.png"	
 			StartCombat.Begin()		
-		#fi
+#fi
 	end
 	
 	void TutEnemy()
@@ -228,22 +231,22 @@ group MScript
 			Map.SpawnXY(act,Map.ObjInt(FTL[i-1],"X"),Map.ObjInt(FTL[i-1],"Y"))
 			CSayF("Spawned %s on %s",act,FTL[i-1])		
 		end
-		Map.ObjSet(act,"Texture",sprintf("GFX/Actors/Uniform/%s.%s.jpbf",right(act,#act-1),Map.ObjStr(act,"Wind")))
+		Map.ObjSet(act,"Texture",sprintf("GFX/Actors/Uniform/%s.%s.jpbf",right(act,len(act)-1),Map.ObjStr(act,"Wind")))
 		Map.ObjSet(act,"Visible",true)
 		Map.ObjSet(act,"Impassible",false)
 		//if Map.ObjBool(act,"Walking")
 		//	return
 		//end
-		string Tag1 = FTL[i-1]
-		int X1 = Map.ObjInt(Tag1,"X")
-		int Y1 = Map.ObjInt(Tag1,"Y")
-		int X2 = Map.ObjInt(act, "X")
-		int Y2 = Map.ObjInt(act, "Y")
-		int hsiz = math.abs(X1-X2)
-		int vsiz = math.abs(Y1-Y2)
-		int distance = math.floor(math.sqrt( (hsiz*hsiz) + (vsiz*vsiz) ))
-		bool walking = Map.ObjBool(act,"Walking")
-		bool ShouldWalk = (distance>96) && (!walking)
+		string Tag1 := FTL[i-1]
+		int X1 := Map.ObjInt(Tag1,"X")
+		int Y1 := Map.ObjInt(Tag1,"Y")
+		int X2 := Map.ObjInt(act, "X")
+		int Y2 := Map.ObjInt(act, "Y")
+		int hsiz := math.abs(X1-X2)
+		int vsiz := math.abs(Y1-Y2)
+		int distance := math.floor(math.sqrt( (hsiz*hsiz) + (vsiz*vsiz) ))
+		bool walking := Map.ObjBool(act,"Walking")
+		bool ShouldWalk := (distance>96) && (!walking)
 		// CSayF("Leader %s (%4d,%4d) %s -- Followed by: %s, distance: %4d!",Tag1,X1,Y1,Map.ObjStr(Tag1,"Wind"),act,distance)
 		// CSayF("Follower %s (%4d,%4d) walking: %s -- Should walk: %s (%s)",act,X2,Y2,tostring(Map.ObjBool(act,"Walking")),tostring(shouldwalk),lua.type(shouldwalk))
 		// CSayF("ShouldWalk = %s, because distance>96 = %s and walking = %s",tostring(ShouldWalk),tostring(distance>96),tostring(walking))
@@ -264,14 +267,16 @@ group MScript
 	end
 
 	void Update()
-		Follow(2,"FCrystal")
-		Follow(3,"FBriggs")
+		MScript.Follow(2,"FCrystal")
+		MScript.Follow(3,"FBriggs")
 	end
 
 	void Draw()
-		static var ikey = Image.Load("GFX/Textures/Things/Key.png")
+		//static var ikey = LoadnewImage("GFX/Textures/Things/Key.png","YAQIRPA_KEY")
+		locextern iKey "Draw_Static_Yaqirpa_Key"
+		ikey = ikey || LoadnewImage("GFX/Textures/Things/Key.png","YAQIRPA_KEY")
 		if Sleutel
-			ikey.Draw(Screen.W-200,50)
+			ikey.Draw(Graphics.W-200,50)
 		end
 	end
 	
@@ -294,7 +299,7 @@ group MScript
 		Map.AutoScroll = true
 		// No transporter pads in the prologue
 		// (I can do this safely as the place you get back to is aliased, to prevent conflicts as the prologue differs too much in setup from the rest of the game).
-		for NoTrans in each {"","Top"}
+		for NoTrans in each(NewArray("","Top"))
 			CSayF("Removing transpad: %s",NoTrans)
 			Map.Kill(sprintf("Trans.Pad.Yaqirpa%s",NoTrans))
 		end
@@ -303,7 +308,12 @@ group MScript
 end
 
 init
+	locextern pc "pcall"
+	plua s
+	plua e
 	CSay("Yaqirpa Init")
-	MScript._Constructor()
-	MScript.SetZA()
+	s,e = pc(MScript._Constructor)
+	Lua.assert(s,"Error dealing with constructor for the Yaqirpa Prologue: "..tostring(e))
+	s,e = pc(MScript.SetZA)
+	lua.assert(s,"Error with SetZA for the Yaqirpa Prologue: "..tostring(e))
 end
