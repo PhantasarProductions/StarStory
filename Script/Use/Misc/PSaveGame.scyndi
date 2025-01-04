@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 24.12.23 I
+// 	  Version: 25.01.04 II
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -47,8 +47,11 @@ Module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/SGJCR" 
+#use "Libs/SCI/SGFile"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -59,7 +62,7 @@ Module
 Global plua SaveGame 
 
 void MakeHeader()
-	string r = "Map:"..gv.gStr.MapTitle.."\n"
+	string r = "Map:"..gStr.MapTitle.."\n"
 	r = r .. "Cycle:"..Caps.Cycle.."\n"
 	r = r .. "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
 	r = r .. "Saved:"..gv.vInt.Saved.."\n"
@@ -191,20 +194,26 @@ end
 
 global table GetHeader(int i)
 	table ret
-	Lua.error("Get Header Not Yet Implemented")
-#if IGNOREALLTHIS
-	string h;h = SaveGame.GetHeader(GetSGFileName(i))
+	//Lua.error("Get Header Not Yet Implemented")
+//#if IGNOREALLTHIS
+	//string h;h = SaveGame.GetHeader(GetSGFileName(i))
+	string FName:=GetSGFileName(i)
+	if (!SGFile.FileExists(FName)); return nil; end
+	SG := SGJCR.Create("GET_HEADER")
+	SG.Assign(GetSGFileName(i))
+	SG.Load()
+	string h:=SG.Data.Header
 	cout("<SaveGame Header ",i,">\n",h,"\n</SaveGame Header>\n")
-	table lines;lines = Split(h,"\n")
+	table lines;lines = XSplit(h,"\n")
 	for _,line in ipairs(lines)
 		cout("Parse> ",line,"\n")
-		table chopped;chopped = Split(line,":")
-		print(Serialize("chopped",chopped),len(chopped))
+		table chopped;chopped = XSplit(line,":")
+		//print(Serialize("chopped",chopped),len(chopped))
 		if len(chopped)==2
-			ret[chopped[1]] = chopped[2]
+			ret[chopped[0]] = chopped[0]
 		end
 	end
-	print(Serialize("SG"..i,ret))
-#fi	
+	//print(Serialize("SG"..i,ret))
+//#fi	
 	return ret
 end
