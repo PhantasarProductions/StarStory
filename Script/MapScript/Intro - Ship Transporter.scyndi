@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.04
+// version: 25.01.04 V
 // 
 // End License
 
@@ -96,11 +96,12 @@ group MScript
 		BoxText.Serial("INTRO","SCEN_E")
 		// To transporter for mission Yaqirpa
 		Map.SetObjField("ActorBriggs","Texture","GFX/Actors/Uniform/Briggs.North.jpbf")
-		for ch in each {"Wendicka","Crystal","Briggs" }
+		for _,ch in pairs {"Wendicka","Crystal","Briggs" }
 			Map.ActorMoveTo("Actor"..ch, "TransSpot"..ch)
 		end
 		//Schedule.WaitForMovingActors("Transport")
 		for i=1,100
+			Cls()
 			Map.DrawScreen()
 			Events.Poll()
 			Graphics.Flip()
@@ -109,9 +110,10 @@ group MScript
 	end
 	
 	void Transport()
-		for ch in each {"Wendicka","Crystal","Briggs" }
+		for _,ch in pairs {"Wendicka","Crystal","Briggs" }
 			CSayF("Turning %s to the south",ch)
-			Map.SetObjField("Actor"..ch,"Texture","GFX/Actors/Uniform/"..ch..".South.jpbf")
+			//Map.SetObjField("Actor"..ch,"Texture","GFX/Actors/Uniform/"..ch..".South.jpbf")
+			Kthura.obj["Actor"..ch].Texture="GFX/Actors/Uniform/"..ch..".South.jpbf"
 			Beam.Add("Actor"..ch,true,true)
 		end
 		Beam.Run()
