@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.04 XXVIII
+// 	  Version: 25.01.04 XXX
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -115,7 +115,7 @@ class Clickable
 		return Kthura.Obj[otag]
 	end
 	
-	CONSTRUCTOR(string ot,string lt,int wx, int wy,delegate af,string ap)
+	CONSTRUCTOR(string ot,string lt,int wx, int wy, af,string ap)
 		sid++
 		id = sid
 		walkx=wx
