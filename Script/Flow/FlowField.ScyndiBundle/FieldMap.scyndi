@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.04 IX
+// 	  Version: 25.01.04 X
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -555,7 +555,8 @@ group FldMap
 	Get String Leader
 		if gStr.Leader==""
 			CSay("Leader not set! Autosetting to character #1!")
-			gStr.Leader = RPGParty[1]
+			gStr.Leader = RPGParty[0]
+			CSayF("Leader is now %s",gstr.Leader)
 		end
 		return gStr.Leader
 	end
