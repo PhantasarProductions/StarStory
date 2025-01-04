@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.04 II
+// 	  Version: 25.01.04 V
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ Module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/SGJCR" 
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/SGFile"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/SString"
@@ -69,7 +70,7 @@ void MakeHeader()
 	table protagonists
 	string protagonist
 	string protaname
-	for i=1,6
+	for i=0,5
 		string ch = RPGParty[i]
 		if ch && ch!=""
 			protagonists[ch]=true
@@ -87,17 +88,23 @@ void MakeHeader()
 	end
 	r +="Protagonist:"..protaname.."\n"
 	r +="ProtaLevel:"..RPGChar[protagonist].Stat.Level.."\n"
-	SaveGame.Data.Head = r
+	SaveGame.Text.Head = r
 end
 
 global void PerformSaveGame(string f)
-	Lua.error("Saving game not yet implemented")
+	//Lua.error("Saving game not yet implemented")
 	GV.vInt.Saved++
 	GV.vInt.Cycle = math.max(1,GV.vInt.Cycle)
 	CSayF("Saving: %s",f)
 	SaveGame = SGJCR.Create("STAR STORY SAVEGAME" )
 	SaveGame.Clear()
 	SaveGame.Assign(f)
+	CSay("Unparsing Variables")
+    Savegame.Text["Variables.ini"]=gsource
+    CSay("Unparsing playerdata")
+    SaveGame.Text["Player.ini"]=sprintf("[map]\nMap=%s\nLayer=%s\n[player]\nx=%d\ny=%d",Kthura.LastLoadedMap,Kthura.CurrentLayer,Player.X,Player.Y)
+    CSay("Registering party data")
+    SaveGame.SetStat("STAR_STORY","Star Story")
 	//SaveGame.Data["*PARTY"] = "YES"
 	// GV.Save()
 	//SaveGame.Data["GAMEVARS.NEIL"] = GV.Enroll
@@ -105,11 +112,15 @@ global void PerformSaveGame(string f)
 	//Vault.Save()
 	//Ach.Save()
 	//Hawk.Save()
-	//if f=="QUIT"
-	//	SaveGame.Data["KILL ME"]="KILL ME"
-	//end
+	if f=="QUIT"
+		CSay("Kill tag")
+		SaveGame.Data["KILL ME"]="KILL ME"
+	end
+	CSay("Writing header")
 	MakeHeader()
-	SaveGame.Save()	
+    CSay("Saving")
+	SaveGame.Save()
+	CSay("The game has been saved")
 end
 
 void Process(int p)
@@ -202,7 +213,7 @@ global table GetHeader(int i)
 	SG := SGJCR.Create("GET_HEADER")
 	SG.Assign(GetSGFileName(i))
 	SG.Load()
-	string h:=SG.Data.Header
+	string h:=SG.Text.Header
 	cout("<SaveGame Header ",i,">\n",h,"\n</SaveGame Header>\n")
 	table lines;lines = XSplit(h,"\n")
 	for _,line in ipairs(lines)
