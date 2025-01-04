@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Yaqirpa_Warp.neil
-// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Yaqirpa_Warp.scyndi
+// (c) Jeroen Broks, 2020-'21, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,15 @@
 // 
 // **********************************************
 // 
-// version: 21.05.23
-// End License Information
+// 
+// version: 25.01.04 IV
+// 
+// End License
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 module
 	
@@ -126,9 +134,10 @@ module
 		Map.HideButLabel("Tower5")
 		Map.ShowPlayer()
 		WendickaWhine(5)
-		if Prologue && gv.gBool.Prologue_Yaquirpa_BeenAtTop && (!Done.Prologue_Yaqirpa_WendickaBreektDeVierdeMuur)
+		if Prologue && gBool.Prologue_Yaquirpa_BeenAtTop && (!Done.Prologue_Yaqirpa_WendickaBreektDeVierdeMuur)
 			MapText("4EMUURSTART")
-			switch Core.FullPlatform:upper()
+			//switch Core.FullPlatform:upper()
+			switch Upper(Sys.Platform)
 				case "WINDOWS" "WIN32" "WIN64"
 					MapText("4EMUURWINDOWS")
 				case "MAC" "APPLE" "MACOSX" "MACOS"
@@ -194,4 +203,4 @@ module
 		ZA.Enter("EnterBoss","YW.ShowBoss")
 	end
 
-end
+//end
