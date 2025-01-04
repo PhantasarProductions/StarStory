@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.03 II
+// 	  Version: 25.01.04 IX
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -104,7 +104,9 @@ class Clickable
 
 	
 	get var CLay
-		return Map.KthuraMap.Layer(ltag)
+		Lua.error("CLay is no longer functional!")
+		return nil
+		//return Map.KthuraMap.Layer(ltag)
 	end
 	
 	get var CObj
@@ -144,6 +146,8 @@ class Clickable
 			elseif t(c)=="function"
 				List.AddLast(new Clickable(ot,lt,a,b,c,d or ""))
 			else
+				CSayF("Create(\"%s\",\"%s\",%s,%s,%s,%s)",ot,lt,a,b,c,d)
+				CSay(t(c).." was not expected here.")
 				e("Create("..a..","..b..",<Invalid function reference>,"..tostring(d)..") Syntax error")
 			end
 		elseif t(a) == "string"
@@ -296,13 +300,35 @@ class Clickable
 end
 
 // module
+
+QuickMeta VoidKthuraMap
+	Index
+		printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+		lua.error("KthuraMap is no longer in use! So it also no longer has an element called "..key.." and therefore I cannot read it!")
+		return nil
+	end
+	NewIndex
+		printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+		lua.error(sprintf("KthuraMap is no longer in use! So it also no longer has an element called %s and therefore I cannot write %s to it!",key,value))
+	end
+end
+	
 group FldMap
 
-	var KthuraMap
+	get var KthuraMap
+		return VoidKthuraMap
+	end
+	//Get Var KthuraMap
+	//	printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+	//	lua.error("KthuraMap is no longer in use!"); 
+	//	return nil; 
+	//End
 	int ScrollX
 	int ScrollY
 	string Layer
-	bool AutoScroll = false
+	//bool AutoScroll = false
+	get bool AutoScroll; return gbool.FieldMap_AutoScroll; end
+	set bool AutoScroll; gbool.FieldMap_AutoScroll=value; end
 	table kills
 	string LoadedMap
 	delegate ArriveFunc = nil
@@ -456,7 +482,7 @@ group FldMap
 			CSay("Silence for music")
 			Music.Play("Music/Sys/Silence.ogg")
 		else
-			CSayF("= Loading Map Music: %s",KthuraMap.Meta["Music"])
+			CSayF("= Loading Map Music: %s",Kthura.Meta["Music"])
 			Music.Play(Kthura.Meta["Music"])
 		end
 		FldMap.LoadMapText()
