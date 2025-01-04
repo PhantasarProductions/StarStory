@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 25.01.04
+// 	  Version: 25.01.04 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -53,7 +53,7 @@ module
 #use "Script/use/Convert/RPG2Stat"
 
 //#macro __AUTOSTAT RPGChar[ch].Stat["BUFF_"..Stat]
-extern __AUTOSTAT "Lua.Scyndi.Globals.RPGChar[ch].Stat['BUFF_'..Stat]"
+extern __AUTOSTAT "Scyndi.Globals.RPGChar[ch].Stat['BUFF_'..Stat]"
 
 
 void LoadPartySub()
@@ -171,9 +171,11 @@ bool BxsL = false
 	Void AutoBuffExpire()
 		locExtern Stats "AutoBuffExpire_Static_Stats"
 		Stats = Stats || NewArray("Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP")
-		For ch in Each(RPGChar.All)
-			Bool Foe = prefixed(ch,"FOE_")			
-			For Stat in Each(Stats)
+		For chf in Each(RPGChar.All)
+			ch:=chf
+			Bool Foe := prefixed(ch,"FOE_")			
+			For iStat in Each(Stats)
+				Stat:=iStat
 				//RPGChar[ch].Stat["BUFF_"..Stat]
 				If RPGChar[ch].Points.HP.Have == 0
 					__AUTOSTAT = 0
