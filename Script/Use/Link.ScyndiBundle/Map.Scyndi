@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.04 XV
+// 	  Version: 25.01.04 XVIII
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,8 @@ Module
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Convert/RPG2Stat"
+
 //Global Table MapScript
 QuickMeta MapScript
 	NewIndex
@@ -70,9 +72,15 @@ End
 		return Lua.Scyndi.Globals.CSayF
 	End
 	
-	//get string Leader
+	get string Leader
+		if gStr.Leader==""
+			CSay("Leader not set! Autosetting to character #1!")
+			gStr.Leader = RPGParty[0]
+			CSayF("Leader is now %s",gstr.Leader)
+		end
+		return gStr.Leader
 	//	return ISGET.STRING("FLOW_FIELD","FLDMAP.LEADER")
-	//end
+	end
 	
 	//set string Leader
 	//	State.Call("FLOW_FIELD","FldMap.SetLeader","\""..value.."\"")
@@ -316,9 +324,10 @@ End
 	//	ObjSet(tag,"Visible",true)
 	end
 
-	//Void ObjWalkTo(string tag,a,b)
+	Void ObjWalkTo(string tag,a,b)
+		Kthura.Obj[tag].WalkTo(a,b)
 	//	MCall("FldMap.ObjWalkTo",tag,a,b)
-	//end
+	end
 
 	//Void ObjRelocate(string tag,a,b)		
 	//	switch Lua.type(a)
