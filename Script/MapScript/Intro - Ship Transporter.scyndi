@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.03
+// version: 25.01.04
 // 
 // End License
 
@@ -116,7 +116,7 @@ group MScript
 		end
 		Beam.Run()
 		//Map.Load("Prologue_Yaqirpa")
-		Map.GoToMap("Prologue_Yaqirpa","YAQIRPA","Start")
+		Map.GoToMap("Prologue - Yaqirpa","YAQIRPA","Start")
 		Schedule.Add("GoToStart")
 	end
 
