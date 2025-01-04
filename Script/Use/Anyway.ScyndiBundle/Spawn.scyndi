@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 24.12.28 IX
+// 	  Version: 25.01.04
 // 	
-// 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -53,7 +53,7 @@ module
 
 	// This extern saves me having to #use all kinds of libraries that would eventually be loaded anyawy
 	// It's a dirty way of Scyndi usage, which I only recommend to people who KNOW what they are doing.
-	locextern _LNG "Scyndi.Class"
+	locextern _LNG "Scyndi.AllIdentifiers"
 	
 	
 	get int X
