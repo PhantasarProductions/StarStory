@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.04 II
+// 	version: 25.01.04 IV
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -47,6 +47,19 @@ Int CharStat(data,String Key)
 	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level"
 		Return d.Stat[Key]
 	end	
+	if Len(sk)==2
+		Switch sk[0]
+			Case "BASE"
+				Return d.BStat[sk[1]]
+			Case "END"
+				Return d.Stat[sk[1]]
+			Case "POWERUP" "UPGRADE" "BUFF"
+				if _links[c]
+					d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]]
+				end
+				return d.XStat[sk[1]].Buff[sk[0]]
+		End
+	end		
 	Lua.error("No full stat function yet, so I cannot get to stat "..key.." yet for "..data.parent._chkey)
 End
 
