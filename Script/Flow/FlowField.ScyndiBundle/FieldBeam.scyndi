@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 24.12.18 VII
+// 	  Version: 25.01.04
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -68,9 +68,8 @@ Class ClBeam
 	ReadOnly Bool  NIMT0
 	ReadOnly String   Texture
 	ReadOnly Bool  IsActor
-	Get Var Act
-		Return MP.CurLayer.Obj(Actor)
-		//Layer(LY).Obj(Actor)
+	Get Var Act		
+		return Kthura.Obj[Actor]		
 	End
 	
 	Void Update()
@@ -111,7 +110,8 @@ Class ClBeam
 					// ob.Act.Texture = ob.Texture
 					lnk.Unlink()
 					If ob.Despawn
-						MP.CurLayer.Kill(ob.Actor)
+						//MP.CurLayer.Kill(ob.Actor)
+						Kthura.Kill(ob.Actor)
 						MP.Remap()
 					End
 				Else
