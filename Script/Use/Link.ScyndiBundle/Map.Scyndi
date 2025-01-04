@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.03 XI
+// 	  Version: 25.01.04 V
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -46,8 +46,21 @@
 Module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 
-Global Table MapScript
+//Global Table MapScript
+QuickMeta MapScript
+	NewIndex
+		Lua.error("MapScript = READ ONLY!")
+	End
+	Index
+		ddef ret			
+			Sys.Call("MAPSCRIPT",key,infinity)
+		end
+		return ret
+	End
+End
+
 
 #region "Module itself"
 //Group Link_Map
@@ -86,6 +99,7 @@ Global Table MapScript
 	//			Lua.error("Untransferrable type: "..type(para))
 	//	end
 	//	State.Call("FLOW_FIELD",func,p)
+		//print("Map.Call",func,infinity)
 		Sys.Call("FLOW_FIELD",func,infinity)
 	end
 	
@@ -106,7 +120,8 @@ Global Table MapScript
 	//		end
 	//	end
 	//	State.Call("FLOW_FIELD",func,pr)
-	Sys.Call("FLOW_FIELD",func,infinity)
+		//print("Map.MCall",func,infinity)
+		Sys.Call("FLOW_FIELD",func,infinity)
 	end
 	
 	Void ActorMoveTo(string actor,a,b)
@@ -182,14 +197,19 @@ Global Table MapScript
 	//	Call("FldMap.KthuraMap.ReMap","nil")
 	//end
 	Const Delegate ReMap = Kthura.Remap
+
+	get bool AutoScroll
+		return gbool.FieldMap_AutoScroll
+		//	return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
+	end
+
 	
-	//set bool AutoScroll
+	set bool AutoScroll
+		gbool.FieldMap_AutoScroll=value
+	end
 	//	Call("FldMap.SetAutoScroll",value)
 	//end
 	
-	//get bool AutoScroll
-	//	return ISGET.Bool("FLOW_FIELD","FldMap.AutoScroll")
-	//end
 	
 	Void Kill(string ObjTag,perma)
 		MCall("FLDMap.Kill",ObjTag,perma==true)
@@ -378,9 +398,10 @@ Global Table MapScript
 	//	return ISGET.BOOL("FLOW_FIELD","FldMap.AllowQuitSave")
 	//end
 	
-	//set bool AllowQuitSave
+	set bool AllowQuitSave
+		CSayF("I am sorry, but Allow Quit Save is not active now so you can set it to value %s all you want, but I don't care!",value)
 	//	MCall("FldMap.SetAllowQuitSave",value)
-	//end
+	end
 	
 	//CONSTRUCTOR	
 	//	table m
