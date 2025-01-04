@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 25.01.04
+// 	  Version: 25.01.04 I
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -77,7 +77,7 @@ module
 		gint.SPAWN_Y = _LNG.Player.Y
 		gstr.SPAWN_MAP = _LNG.Map.LoadedMap
 		gstr.SPAWN_LAY = _LNG.Map.Layer
-		printf("Spawn Reset to %s.%s => (%d,%d)",Map,Layer,X,Y)
+		CSayF("Spawn Reset to %s.%s => (%d,%d)",Map,Layer,X,Y)
 	end
 	
 	void Go()		
