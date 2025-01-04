@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 25.01.04
+// 	  Version: 25.01.04 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -100,7 +100,7 @@ Init
 	SaveIconsF += "GFX/Portret/Goddess/General.png"
 	Var s
 	//s = SaveGame.LoadIndieString("Star Story - Scroll")
-	s = Ternary(SGFile.FileExists("Star Story - Scroll"),SFFile.LoadString("Star Story - Scroll"),"0")
+	s = (SGFile.FileExists("Star Story - Scroll") && SGFile.LoadString("Star Story - Scroll")) || "0"
 	CSayF("Getting scroll: %s",lua.tostring(s))
 	scroll = lua.tonumber(s || "0") || 0
 End
@@ -116,7 +116,7 @@ Table GetSlot(Int i)
 	If !slots[i]
 		Table h  := GetHeader(i)
 		Table nr := {}
-		nr.have = h.Map!=nil
+		nr.have = h && h.Map!=nil
 		nr.header = h
 		slots[i] = nr
 		//print(Serialize("SaveGameSlots",slots))
@@ -229,7 +229,7 @@ Global Void MainFlow()
 	End
 	If AlUp
 		ButtonUp.Draw(Graphics.W-100,100)
-		If (!clk) && Events.MouseHitLeft() && mx>Graphics.W-100 && my>100 && my<128
+		If (!clk) && Events.MouseHitLeft && mx>Graphics.W-100 && my>100 && my<128
 			Scroll = math.max(0,Scroll-1)
 			CSayF("Scrolled up to: %04d",Scroll)
 			clk=true
@@ -239,14 +239,14 @@ Global Void MainFlow()
 	End
 	
 	// Cancel by Escape key or right mouse button
-	If Events.KeyHit(27) || Events.MouseHitRight()
+	If Events.KeyHit(27) || Events.MouseHitRight
 		Cancel()
 		Return
 	End
 	// Cancel by Icon
 	__Red	
 	BigFont.Text("X",Graphics.W-100,160)
-	If Events.MouseHitLeft() && mx>Graphics.W-100 && my>160 && my<200
+	If Events.MouseHitLeft && mx>Graphics.W-100 && my>160 && my<200
 		Cancel()
 		Return
 	End
