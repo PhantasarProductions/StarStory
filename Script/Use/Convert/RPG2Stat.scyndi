@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.04 I
+// 	version: 25.01.04 II
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -140,6 +140,7 @@ QuickMeta RPGChar
 								ret+=_stat.Party[i]
 							end
 						end
+						return ret
 					case "KILL"
 						Lua.error("No support for KILL in RPGChar yet")
 					case "HAS"
