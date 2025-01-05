@@ -258,4 +258,5 @@ Global Void MainFlow()
 	// Mouse Pointer: Must be very last
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)
+	QuitRequest()
 End

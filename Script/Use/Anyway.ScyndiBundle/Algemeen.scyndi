@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 24.12.23 I
+// 	  Version: 25.01.05 II
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -47,6 +47,7 @@ Module
 //#use "Script/Use/Link"
 //#use "libs/Music"
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
 #use "Script/Use/Convert/gv"
 //Global Get Int __Skill; Return gint.Skill; End
@@ -109,6 +110,17 @@ Global Plua LuaDoString(String s)
 	Lua.assert("LoadLoadString Error: "..e.."\n"..s)
 	return f()
 End
+
+
+Global Void QuitRequest()
+	locextern QRR "QuitRequest_SillyRemarks"
+	QRR = QRR || NewArray("Are you going back to where everyone has gone before?","Are you really falling to the dark side?","Don't go or a meteor will smash onto your computer!", "Space heroes click 'no'.'\nEarth chickens click 'yes'", "So you ain't part of the next generation?", "So you wanna live short without being prosper?", "This is not the feature you're looking for?", "You don't want to quit!\nSearch your feelings you know that to be true!", "So word processors, databases and spreadsheets are more exciting than space exploration?", "Wearing a red shirt, ain't cha?")	
+	if Events.AppTerminate()
+		if Events.Yes(sprintf("%s\n\nPlease note that all unsave game data will be lost when you quit now.\n\nAre you sure you want to quit?",QRR[math.random(0,len(QRR)-1)]))
+			Sys.Exit(0)
+		end
+	end
+end	
 
 Init
 	printf("Testing! (Skill=%d)\n",__skill)
