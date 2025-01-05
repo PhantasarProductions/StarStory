@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/FieldMenu.scyndi
 // 
-// 	  Version: 24.12.26 I
+// 	  Version: 25.01.05 I
 // 	
-// 	  Copyright (C) 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -46,21 +46,23 @@ module
 #use "Libs/SCI/Sys" 
 
 void FML()
-	Sys.LoadNewState("FLOW_FIELDMENU","Script/Flow/FlowFieldMenu.neil")
+	Sys.LoadNewState("FLOW_FIELDMENU","Script/Flow/FlowFieldMenu.lbc")
 end
 
 //group FMenu
 
 	void Go(string char,string situation)
 		FML()
-		Sys.Call("FLOW_FIELDMENU","SetFM","\""..char.."\",\""..situation.."\"")
+		//Sys.Call("FLOW_FIELDMENU","SetFM","\""..char.."\",\""..situation.."\"")
+		Sys.Call("FLOW_FIELDMENU","SetFM",char,situation)
 		Sys.GoToFlow("FIELDMENU")
 	end
 	
 	void Shop(string store)
 		FML()
-		Sys.Call("FLOW_FIELDMENU","LoadShop","\""..store.."\"")
-		Go(Lua.Neil.Globals.Map.Leader,"SHOP")
+		//Sys.Call("FLOW_FIELDMENU","LoadShop","\""..store.."\"")
+		Sys.Call("FLOW_FIELDMENU","LoadShop",store)
+		Go(Lua.Scyndi.Class.Map.Leader,"SHOP")
 	end
 		
 
