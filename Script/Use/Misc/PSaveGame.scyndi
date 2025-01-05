@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 VI
+// 	  Version: 25.01.05 VII
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -166,7 +166,7 @@ global bool PerformLoadGame(string f)
 		//Flow.Load("FIELD","Script/Load/LoadField.neil")
 		sgmap:=GINIE.Create("MAP_LOAD")
 		sgmap.Clear()
-		sgmap.Pase(SaveGame.Text["PLAYER.INI"])
+		sgmap.Parse(SaveGame.Text["PLAYER.INI"])
 		Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
 		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
 		
