@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.05
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -76,6 +76,11 @@ end
 		//return ISGET.Str("GV","gv.gstring["..chr(34).."LANG"..chr(34).."] or "..chr(34)..chr(34))
 		return GStr.Lang
 	end
+	
+	void SyncLang()
+		BTLoad()
+		Sys.Call("BOXTEXT","Scenario.SetLang",GStr.Lang)
+	End
 	
 	void Load(string Tag,string File)
 		BTLoad()
