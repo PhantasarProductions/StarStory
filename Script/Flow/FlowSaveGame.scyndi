@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowSaveGame.scyndi
 // 
-// 	  Version: 25.01.04 VI
+// 	  Version: 25.01.05 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -173,7 +173,7 @@ Global Void MainFlow()
 		__white
 		If slot.have
 			Int iconi := (i%len(SaveIconsF)) //+1
-			SaveIcons[iconi] = SaveIcons[iconi] || LoadImage(SaveIconsF[iconi])
+			SaveIcons[iconi] = SaveIcons[iconi] || LoadImage(SaveIconsF[iconi],sprintf("SAVEICON_%03d",iconi))
 			SaveIcons[iconi].Stretch(10,y,sloth,math.floor( SaveIcons[iconi].Width * ( sloth / SaveIcons[iconi].Height) ))
 		End
 		__skyblue

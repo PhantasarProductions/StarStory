@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 I
+// 	  Version: 25.01.05 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -217,15 +217,15 @@ global table GetHeader(int i)
 	SG := SGJCR.Create("GET_HEADER")
 	SG.Assign(GetSGFileName(i))
 	SG.Load()
-	string h:=SG.Text.Header
-	cout("<SaveGame Header ",i,">\n",h,"\n</SaveGame Header>\n")
+	string h:=SG.Text.Head
+	cout("<SaveGame Header id=",i," file=\"",GetSGFileName(i),"\">\n",h,"\n</SaveGame Header>\n")
 	table lines;lines = XSplit(h,"\n")
 	for _,line in ipairs(lines)
 		cout("Parse> ",line,"\n")
 		table chopped;chopped = XSplit(line,":")
 		//print(Serialize("chopped",chopped),len(chopped))
 		if len(chopped)==2
-			ret[chopped[0]] = chopped[0]
+			ret[chopped[0]] = chopped[1]
 		end
 	end
 	//print(Serialize("SG"..i,ret))
