@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 IV
+// 	  Version: 25.01.05 V
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -159,12 +159,22 @@ global bool PerformLoadGame(string f)
 		Process(5)
 		CSayF("Parsing Game Vars")
 		//NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
+		gsource = SaveGame.Text["Variables.ini"]		
 		// Map
 		Process(6)
 		//CSay("Loading Field Flow")
 		//Flow.Load("FIELD","Script/Load/LoadField.neil")
+		sgmap:=GINIE.Create("MAP_LOAD")
+		sgmap.Clear()
+		sgmap.Pase(SaveGame.Text["PLAYER.INI"])
+		Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
+		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
+		
 		CSay("Parsing Permakills")
 		Process(7)
+		sgkills:=GINIE.CreateNew("MAP_KILLS")
+		sgkills.Clear()
+		sgkills.Parse(SaveGame.Text["MapPermaKills"])
 		//State.Call("FLOW_FIELD","LGMap","nil")	
 		Process(8)
 		//if SaveGame.HasData("VAULT.NEIL")
