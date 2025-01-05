@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 VII
+// 	  Version: 25.01.05 XI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -143,6 +143,7 @@ plua tfnt
 global bool PerformLoadGame(string f)
 	//Lua.error("Loading game not yet implemented")
 	//static var tfnt
+	Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
 	Process(1)
 	CSay("Clearing SaveGame buffer")
 	Process(2)
@@ -166,15 +167,17 @@ global bool PerformLoadGame(string f)
 		//Flow.Load("FIELD","Script/Load/LoadField.neil")
 		sgmap:=GINIE.Create("MAP_LOAD")
 		sgmap.Clear()
-		sgmap.Parse(SaveGame.Text["PLAYER.INI"])
-		Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
+		sgmap.Source=SaveGame.Text["PLAYER.INI"]
+		//Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
+		Map.LoadMap(sgmap.Value("Map","Map"))
+		Kthura.CurrentLayer = sgmap.Value("Map","Layer")
 		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
 		
 		CSay("Parsing Permakills")
 		Process(7)
 		sgkills:=GINIE.CreateNew("MAP_KILLS")
 		sgkills.Clear()
-		sgkills.Parse(SaveGame.Text["MapPermaKills"])
+		sgkills.Source=SaveGame.Text["MapPermaKills"]
 		//State.Call("FLOW_FIELD","LGMap","nil")	
 		Process(8)
 		//if SaveGame.HasData("VAULT.NEIL")
