@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Status.scyndi
 // 
-// 	  Version: 25.01.05 X
+// 	  Version: 25.01.05 XI
 // 	
 // 	  Copyright (C) 2020-'21, 2025 Jeroen Petrus Broks
 // 	
@@ -131,7 +131,7 @@ module
 			int iy := (i*30)+200
 			int ix := (bw/2)+20
 			__white
-			EleIco[e] = EleIco[e] or ObtainImage("ELEM_"..(e:upper()))
+			EleIco[e] = EleIco[e] or ObtainImage("ELEM_"..(upper(e)))
 			EleIco[e].Draw(ix,iy)
 			switch CharRes[CharTag][e]
 				case 0
