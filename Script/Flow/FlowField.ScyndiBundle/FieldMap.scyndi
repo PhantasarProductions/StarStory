@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.05 II
+// 	  Version: 25.01.05 IV
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -341,7 +341,7 @@ group FldMap
 	//bool AutoScroll = false
 	get bool AutoScroll; return gbool.FieldMap_AutoScroll; end
 	set bool AutoScroll; gbool.FieldMap_AutoScroll=value; end
-	table kills
+	Var kills
 	string LoadedMap
 	delegate ArriveFunc = nil
 	string ArriveParam = ""
@@ -449,14 +449,15 @@ group FldMap
 		Lua.Scyndi.Class.ZoneAction.Reset()
 		CSay("Sorting out kills")
 		//if Kills[LoadedMap]
-			CSay("Remapping for kills")
-			Kthura.Remap()		
+			//CSay("Remapping for kills")
+			//Kthura.Remap()		
 			//for moord in each(Kills[LoadedMap])
 			//	CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
 			//	//KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
 			//	Kthura.PickLayer(moord.Layer)
 			//	Kthura.Kill(moord.Tag)
 			//end
+			CSay("Handling PermaKills")
 			for moordlayer in each(kills.lists(LoadedMap))
 				for moordobject in each(kills.list(LoadedMap,moordlayer))
 					Kthura.PickLayer(moordLayer)
@@ -669,6 +670,9 @@ group FldMap
 //	end
 
 end
+Init
+	FldMap.ResetKills()
+End
 
 
 bool LGFIX=false
