@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.05 XVII
+// 	  Version: 25.01.05 XIX
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,7 @@
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 
 #use "Libs/FitText"
@@ -91,6 +92,11 @@ init
 	Situations.PHANSHOP  = {{ ["RIGHT"] = { ["ID"]="PHANTASARMERCHANT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 end
 
+var QUse(string u)
+	Lua.Scyndi.Use(u)
+	return Lua.Scyndi.Class[stripdir(u)]
+End
+
 global void PartyClick(int i,string ch)
 	if i==1
 		if Prefixed(FMSituation,"COMBAT_")
@@ -135,7 +141,7 @@ end
 
 global void LoadShop(string shp)
 	print("NOTE! Is 1 the correct index or should it be 0?")
-	Situations.SHOP[1].RIGHT.MOD = Situations.SHOP[1].RIGHT.MOD || Lua.Scyndi.Use("Script/Flow/FieldMenu/Shop")
+	Situations.SHOP[1].RIGHT.MOD = Situations.SHOP[1].RIGHT.MOD || QUse("Script/Flow/FieldMenu/Shop")
 	Situations.SHOP[1].RIGHT.MOD.LoadStore(shp)
 end
 
@@ -170,7 +176,7 @@ global void MainFlow()
 		if SitActive[FMSituation]==i
 			static table kanten={"LEFT","RIGHT"}
 			for ik,kant in pairs(kanten)
-				ico[kant].MOD = ico[kant].MOD || Lua.Scyndi.Use("Script/Flow/FieldMenu/".. ico[kant].ID )
+				ico[kant].MOD = ico[kant].MOD || QUse("Script/Flow/FieldMenu/".. ico[kant].ID )
 				ico[kant].MOD.Flow(boxes[kant],FMChar,FMSituation)
 				if ico[kant].ID=="ITEMS"
 					itmod = itmod || ico[kant].MOD
