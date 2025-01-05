@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 V
+// 	  Version: 25.01.05 VI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -141,7 +141,7 @@ end
 
 plua tfnt
 global bool PerformLoadGame(string f)
-	Lua.error("Loading game not yet implemented")
+	//Lua.error("Loading game not yet implemented")
 	//static var tfnt
 	Process(1)
 	CSay("Clearing SaveGame buffer")
