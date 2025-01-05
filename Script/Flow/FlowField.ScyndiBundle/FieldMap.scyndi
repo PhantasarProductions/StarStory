@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.05
+// 	  Version: 25.01.05 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@ module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
@@ -689,37 +690,37 @@ quickmeta GrPlayer
 
 end
 
-#if IGNORE_ALL_THIS
-global void SGMap()
-	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize.Lua("ret",FLDMAP.Kills).."\n\nreturn ret"
-	string r = "// Mapstuff\nInit\n"
-	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
-	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
-	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
-	r += "\tFldMap.Layer = \""..FldMap.Layer.."\"\n"
-	r += "\tFldMap.CurLayer.Spawn(\"PLAYER\",0,0)\n"
-	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
-	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
-	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
-	r += "end"
-	Lua.error("Saving Map.Neil - Not yet replaced")
-	SaveGame.Data["Map.neil"] = r
-end
 
+//global void SGMap()
+//	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize.Lua("ret",FLDMAP.Kills).."\n\nreturn ret"
+//	string r = "// Mapstuff\nInit\n"
+//	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
+//	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
+//	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
+//	r += "\tFldMap.Layer = \""..FldMap.Layer.."\"\n"
+//	r += "\tFldMap.CurLayer.Spawn(\"PLAYER\",0,0)\n"
+//	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
+//	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
+//	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
+//	r += "end"
+//	Lua.error("Saving Map.Neil - Not yet replaced")
+//	SaveGame.Data["Map.neil"] = r
+//end
+//
+//
+//global void LGMap()
+//	LGFix = true
+//	CSayF("Parsing Kills")
+//	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
+//	CSayF("Loading map: %s",gstring["LOADEDMAP"])
+//	FldMap.LoadMap(gstring["LOADEDMAP"])
+//	CSayF("Let's go to layer: %s",gstring["MAPLAYER"])
+//	//FldMap.CurLayer.Spawn("PLAYER",0,0)
+//	Lua.error("Map.Neil - Not yet replaced") //NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
+//	LGFix = true
+//	FldMap.AutoTexPlayer()
+//end
 
-global void LGMap()
-	LGFix = true
-	CSayF("Parsing Kills")
-	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
-	CSayF("Loading map: %s",gstring["LOADEDMAP"])
-	FldMap.LoadMap(gstring["LOADEDMAP"])
-	CSayF("Let's go to layer: %s",gstring["MAPLAYER"])
-	//FldMap.CurLayer.Spawn("PLAYER",0,0)
-	Lua.error("Map.Neil - Not yet replaced") //NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
-	LGFix = true
-	FldMap.AutoTexPlayer()
-end
-#fi
 
 init
 	print("FieldMap Init Executed!")
