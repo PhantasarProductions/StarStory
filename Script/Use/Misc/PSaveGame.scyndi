@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 XI
+// 	  Version: 25.01.05 XX
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -143,7 +143,7 @@ plua tfnt
 global bool PerformLoadGame(string f)
 	//Lua.error("Loading game not yet implemented")
 	//static var tfnt
-	Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
+	// Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
 	Process(1)
 	CSay("Clearing SaveGame buffer")
 	Process(2)
@@ -151,25 +151,31 @@ global bool PerformLoadGame(string f)
 	SaveGame.Clear()
 	Process(3)
 	SaveGame.Assign(f)
-	CSayF("Loading: %s",f)
+	CSayF("Loading Saved Game: %s",f)
 	//try
 		// Load in general
 		Process(4)
+		SaveGame.SetStat("STAR_STORY","Star Story")
 		SaveGame.Load()
 		// Game Vars (must be first, as some data I need later is in there!
+		CSay("Loading Statistician Data")
+		//SaveGame.SetStat("STAR_STORY","Star Story")
 		Process(5)
-		CSayF("Parsing Game Vars")
+		CSay("Parsing Game Vars")
 		//NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
-		gsource = SaveGame.Text["Variables.ini"]		
+		print(SaveGame.Text["Variables.ini"]) // DEBUG ONLY!
+		gsource = SaveGame.Text["Variables.ini"]
+		BoxText.SyncLang()
 		// Map
 		Process(6)
 		//CSay("Loading Field Flow")
-		//Flow.Load("FIELD","Script/Load/LoadField.neil")
+		//Flow.Load("FIELD","Script/Load/LoadField.neil")		
+		Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
 		sgmap:=GINIE.Create("MAP_LOAD")
 		sgmap.Clear()
 		sgmap.Source=SaveGame.Text["PLAYER.INI"]
 		//Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
-		Map.LoadMap(sgmap.Value("Map","Map"))
+		Map.LoadMap(StripDir(sgmap.Value("Map","Map")))
 		Kthura.CurrentLayer = sgmap.Value("Map","Layer")
 		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
 		
@@ -189,7 +195,7 @@ global bool PerformLoadGame(string f)
 		Process(9)
 		//Ach.Load()
 		Process(10)
-		//Hawk.Load()
+		//Hawk.Load()		
 	//catch e
 	if false
 		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }
@@ -208,7 +214,7 @@ global bool PerformLoadGame(string f)
 		return false
 	end
 	// Lua.error("Loading game not yet implemented. Working on it!")
-	if SaveGame.HasData("KILL ME")
+	if SaveGame.HasText("KILL ME")
 		SaveGame.Mutilate()
 	end
 	
