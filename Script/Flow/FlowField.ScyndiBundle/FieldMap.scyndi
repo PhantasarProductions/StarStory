@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.04 XXX
+// 	  Version: 25.01.05
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -447,16 +447,22 @@ group FldMap
 		CSay("Resetting zone actions!")
 		Lua.Scyndi.Class.ZoneAction.Reset()
 		CSay("Sorting out kills")
-		if Kills[LoadedMap]
+		//if Kills[LoadedMap]
 			CSay("Remapping for kills")
 			Kthura.Remap()		
-			for moord in each(Kills[LoadedMap])
-				CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
-				//KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
-				Kthura.PickLayer(moord.Layer)
-				Kthura.Kill(moord.Tag)
-			end			
-		end
+			//for moord in each(Kills[LoadedMap])
+			//	CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
+			//	//KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
+			//	Kthura.PickLayer(moord.Layer)
+			//	Kthura.Kill(moord.Tag)
+			//end
+			for moordlayer in each(kills.lists(LoadedMap))
+				for moordobject in each(kills.list(LoadedMap,moordlayer))
+					Kthura.PickLayer(moordLayer)
+					Kthura.Kill(moordObject)
+				end
+			end		
+		//end
 		CSay("Remapping again")		
 		//Layer = KthuraMap.Layers[1]
 		Kthura.PickLayer(Kthura.Layers[0])
@@ -546,21 +552,26 @@ group FldMap
 	end
 	
 	void Kill(string ObjTag,bool perma)
+		// "perma" means "permanent"
 		if perma
-			Kills[LoadedMap] = Kills[LoadedMap] or {}
-			Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+			//Kills[LoadedMap] = Kills[LoadedMap] or {}
+			//Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+			Kills.Add(LoadedMap,Layer,ObjTag,true,true)
 		end
 		Kthura.Kill(ObjTag)
 	end
 	
 	void PostKill(ObjTag)
-		Kills[LoadedMap] = Kills[LoadedMap] or {}
-		Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+		//Kills[LoadedMap] = Kills[LoadedMap] or {}
+		//Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+		Kills.Add(LoadedMap,Layer,ObjTag,true,true)
 	end
 	
 	Void KillReset()
 		CSay("Resetting kills")
-		Kills = {}
+		//Kills = {}
+		Kills = GINIE.Create("MAP_KILLS")
+		Kills.Clear()
 	End
 	
 	Get String Leader
@@ -678,6 +689,7 @@ quickmeta GrPlayer
 
 end
 
+#if IGNORE_ALL_THIS
 global void SGMap()
 	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize.Lua("ret",FLDMAP.Kills).."\n\nreturn ret"
 	string r = "// Mapstuff\nInit\n"
@@ -707,6 +719,7 @@ global void LGMap()
 	LGFix = true
 	FldMap.AutoTexPlayer()
 end
+#fi
 
 init
 	print("FieldMap Init Executed!")
