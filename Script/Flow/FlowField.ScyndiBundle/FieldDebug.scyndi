@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldDebug.scyndi
 // 
-// 	  Version: 25.01.04 II
+// 	  Version: 25.01.05 I
 // 	
 // 	  Copyright (C) 2023, 2025 Jeroen Petrus Broks
 // 	
@@ -51,8 +51,9 @@ Module
 Global Void FLD_DEBUG_SAVE()
 	print("Savegame Flow activated. Go back to the game, please!")
 	//SG.Save()
-	//Sys.EndConsole()
-	print("\x1b[91mSave game not yet implemented!\x1b[0m")
+	//print("\x1b[91mSave game not yet implemented!\x1b[0m")
+	MSave.ToSave()
+	Sys.EndConsole()
 End
 
 Global Void FLD_DEBUG_MYPOS()
