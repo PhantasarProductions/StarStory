@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.05 IV
+// 	  Version: 25.01.05 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -671,7 +671,7 @@ group FldMap
 
 end
 Init
-	FldMap.ResetKills()
+	FldMap.KillReset()
 End
 
 
