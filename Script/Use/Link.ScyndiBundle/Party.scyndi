@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 25.01.04 IV
+// 	  Version: 25.01.05
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -98,7 +98,7 @@ bool BxsL = false
 	void Boxes(char)
 		if !BxsL
 			// This approach is most of all to avoid speed issues
-			State.LoadNew("PARTY","Script/Subs/SubParty.Neil")
+			State.LoadNew("PARTY","Script/Subs/SubParty.lbc")
 		end
 		State.Call("PARTY","SubParty.Boxes","\""..(char or "Nobody").."\"")
 	end
@@ -138,7 +138,7 @@ bool BxsL = false
 			case 2 3
 				RPGChar[ch].Points.AP.Have = 0
 			default
-				Lua.error("Unknown skill setting! "..Lua.tostring(Lua.Neil.Globals.gv.gint.Skill))
+				Lua.error("Unknown skill setting! "..Lua.tostring(Lua.Scyndi.Globals.gint.Skill))
 		end
 		if ch=="Crystal"
 			ReloadARMS()
