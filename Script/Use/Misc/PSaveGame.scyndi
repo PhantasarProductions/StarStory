@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.04 V
+// 	  Version: 25.01.05 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -47,6 +47,7 @@ Module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/SGJCR" 
+#use "Libs/SCI/GINIE"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/SGFile"
 #use "Libs/SCI/Events"
@@ -103,6 +104,9 @@ global void PerformSaveGame(string f)
     Savegame.Text["Variables.ini"]=gsource
     CSay("Unparsing playerdata")
     SaveGame.Text["Player.ini"]=sprintf("[map]\nMap=%s\nLayer=%s\n[player]\nx=%d\ny=%d",Kthura.LastLoadedMap,Kthura.CurrentLayer,Player.X,Player.Y)
+    CSay("Unparsing permanent map kills")
+    sgkills:=GINIE.CreateNew("MAP_KILLS")
+    SaveGame.Text["MapPermaKills.ini"]="# Map Permanent Object Kills\n\n"..sgkills.source
     CSay("Registering party data")
     SaveGame.SetStat("STAR_STORY","Star Story")
 	//SaveGame.Data["*PARTY"] = "YES"
