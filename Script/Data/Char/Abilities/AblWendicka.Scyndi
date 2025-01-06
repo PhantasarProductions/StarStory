@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.07 I
+// version: 25.01.07 II
 // 
 // End License
 
@@ -77,9 +77,9 @@ module
 			return "Make Wendicka learn a new ability by attacking any enemy"
 		end
 		if need<2
-			return "Wendicka needs to perform 1 more ability before she will learn a new one"
+			return "Wendicka needs to perform 1 more ability\nbefore she will learn a new one"
 		end
-		return sprintf("Wendicka needs to perform %d more abilities before she will learn a new one",need)
+		return sprintf("Wendicka needs to perform %d more abilities\nbefore she will learn a new one",need)
 	end
 	
 	get string Learn
