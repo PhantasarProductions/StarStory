@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.06 XIX
+// 	  Version: 25.01.06 XXV
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -187,7 +187,14 @@ end
 		string ht
 		//for list abl
 		//end
-		for atag in RPGChar[CharTag].List.ABL.Each
+		//CSay("For Start")
+		CharDat:=RPGPureChar[CharTag]
+		NumAbl:=CharDat.ListSize("ABL")
+		//for atag in RPGChar[CharTag].List.ABL.Each
+		//print("For",CharDat,NumAbl) // DEBUG
+		for iabl=0,NumAbl-1
+			atag:=CharDat.List.Abl[iabl]
+			//CSayF("For <- %s",atag)
 			string CT := CharTag
 			string ActivatePWUP = ""
 			bool Hover := Events.MouseX>ubox.x && Events.MouseX<ubox.x+ubox.h && Events.MouseY>y && Events.MouseY<y+35
@@ -250,7 +257,7 @@ end
 	
 	//CONSTRUCTOR
 	Init
-		LocExtern NeilUse "Scyndi.Class.Globals.QUse"
+		LocExtern NeilUse "Scyndi.Globals.QUse"
 		table modsmeta
 		//modsmeta.__index = table/s,string k/
 		ddef mm
