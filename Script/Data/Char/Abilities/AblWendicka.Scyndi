@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.06 VI
+// version: 25.01.07 I
 // 
 // End License
 
@@ -89,7 +89,7 @@ module
 		LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
 		//for ABL in Wendicka.List.LEARN.Each
 		for ABL in Wendicka.ListEach("LEARN")
-			if !Wendicka.ListHase("ABL",ABL)
+			if !Wendicka.ListHas("ABL",ABL)
 				return ABL
 			end
 		end
@@ -114,7 +114,7 @@ module
 		//	RPGChar.UniWendicka.List.ABL.Add = "WENDICKA_SHOCK"
 		if !RPGPureChar.UniWendicka.ListHas("ABL","WENDICKA_SHOCK")
 			RPGPureChar.UniWendicka.ListAdd("ABL","WENDICKA_SHOCK")
-			CSay("Wendicka's \"Shock\" ability hadded to her list!")
+			CSay("Wendicka's \"Shock\" ability has been added to her list!")
 		end
 	end
 	
