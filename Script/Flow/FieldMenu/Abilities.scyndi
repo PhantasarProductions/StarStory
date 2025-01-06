@@ -1,0 +1,275 @@
+// License:
+// 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
+// 
+// 	  Version: 25.01.06 XIX
+// 	
+// 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+Module
+
+#use "Libs/FitText"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
+
+class Crystal_ARMS
+
+	static readonly var sfont = ObtainFont("SYSFONT")
+	static readonly var afont = ObtainFont("BOXTEXT")
+
+	
+	static table LST
+	string Tag
+	
+	get var Crystal
+		return RPGChar.Crystal
+	end
+	
+	get int Ammo
+		return Crystal.Points["ARM.AMMO."..Tag].Have
+	end
+	get Int MaxAmmo
+		return Crystal.Points["ARM.AMMO."..Tag].Maximum
+	end
+	get Int Hit
+		return Crystal.Stat["ARM.HIT."..Tag]
+	end
+	get string HitProcent
+		return sprintf("%03d%%",Hit)
+	end
+	get int Weight
+		Return Crystal.Stat["ARM.WEIGHT."..Tag]
+	end
+	get int XPower
+		Return Crystal.Stat["ARM.XPOWER."..Tag]
+	end
+	get string Name
+		return Item["ARM_"..Tag].Name
+	end
+	get var ARM
+		return Item["ARM_"..Tag]
+	end
+	
+	Constructor(string atag)
+		Tag = aTag:upper()
+		CSayF("ARM reference '%s' created",atag) 
+	end
+
+	static void Flow(uBox,string CharTag,string situation)
+		locExtern ClickARM "Scyndi.Globals.ClickARM"
+		int vak := (ubox.w div 7)
+		int xnm := (vak*1) + ubox.x
+		int xam := (vak*3) + ubox.x
+		int xpw := (vak*4) + ubox.x
+		int xht := (vak*5) + ubox.x
+		int xwg := (vak*6) + ubox.x
+		int yhd := ubox.y+10
+		string ht
+		__red
+		sfont.text("Ammo",xam,yhd)
+		sfont.text("Extra Power",xpw,yhd)
+		sfont.text("Accuracy",xht,yhd)
+		sfont.text("Weight",xwg,yhd)
+		int y := yhd + 30
+		for AT in RPGChar.Crystal.List.ARM.Each
+			LST[AT] = LST[AT] || new Crystal_ARMS(AT)
+			var A = LST[AT]
+			Bool Hover := Events.MouseX>ubox.x && Events.MouseX<ubox.x+ubox.w && Events.MouseY>=y && Events.MouseY<y+25 
+			__skyblue
+			if Hover
+				ht = A.ARM.Description
+				Graphics.Color(0,255,255)
+				if Events.MouseHitLeft() 
+					if Prefixed(situation,"COMBAT_")
+						State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
+					elseif situation=="UPGRADE"
+						ClickARM(at)
+					end
+				end
+			end
+			//print(Lua.type(a.Name),"Name = "..Lua.tostring(a.Name))
+			afont.Text(A.Name,xnm,y)
+			__ember
+			if A.Ammo==0
+				__red
+			end
+			sfont.text(sprintf("%3d/%3d",A.Ammo,A.MaxAmmo),xam,y)
+			__ember
+			sfont.text(Lua.tostring(A.xpower),xpw,y)
+			sfont.text(A.HitProcent,xht,y)
+			sfont.text(Lua.tostring(0-A.weight),xwg,y)
+			y+=25
+		end
+		__white
+		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
+	end
+end
+
+table ablmods
+
+
+table ABL_PowerUpColors
+
+init 
+	Crystal_ARMS.LST = {}
+	DefTable ABL_PowerUpColors 
+		INSTANT  = {255,255,  0}
+		CANCEL   = {255,180,  0}
+		DBLSPEED = {  0,180,255}
+		DBLPOWER = {255,  0,  0}
+		APCUT    = {180,255,  0} 
+	end
+end
+
+
+                    
+
+//module
+	
+	readonly var sfont = ObtainFont("SYSFONT")
+	readonly var afont = ObtainFont("BOXTEXT")
+	readonly table mods
+	readonly table PUI
+	
+	void Flow(uBox,string CharTag,string situation)
+		if CharTag=="UniCrystal" || CharTag=="Briggs"
+			return
+		end
+		if CharTag=="Crystal"
+			Crystal_ARMS.Flow(ubox,CharTag,situation)
+			return
+		end
+		int y := ubox.y + 20
+		int x := ubox.x + 40
+		string ht
+		//for list abl
+		//end
+		for atag in RPGChar[CharTag].List.ABL.Each
+			string CT := CharTag
+			string ActivatePWUP = ""
+			bool Hover := Events.MouseX>ubox.x && Events.MouseX<ubox.x+ubox.h && Events.MouseY>y && Events.MouseY<y+35
+			if CT=="UniWendicka"
+				CT="Wendicka"
+			end
+			var abl := Item["ABL_"..atag]
+			__skyblue
+			if Hover
+				Graphics.Color(0,255,255)
+				ht = abl.Description
+			end
+			afont.Text(abl.Name,x,y)
+			int APCost := abl.ABL_AP
+			__ember
+			if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT") 
+				Graphics.Color(180,255,0)
+				APCost = math.ceil(APCost/2) 
+			end
+			if APCost > RPGChar[CharTag].Points["AP"].Have 
+				__red
+			end
+			afont.Text(lua.tostring(APCost),ubox.x+ubox.w-10,y,1)
+			Graphics.Scale(0.75,0.75)
+			static table haspu = {}
+			haspu[CharTag] = haspu[CharTag] || {}			
+			int pux := (ubox.w div 2)+ubox.x
+			int groundvalue := gInt["ABL.USED."..upper(CT).."."..Upper(atag) ] + RPGChar[CT].Stat.Level
+			for pu,puc in spairs(ABL_PowerUpColors)
+				if abl["ABL_"..pu]>0
+					Graphics.Color(puc[1],puc[2],puc[3])
+					PUI.Socket = PUI.Socket || LoadImage("GFX/STATUSBAR/ABILITYPOWERUP/Socket.png","ABL_POWERUP_SOCKET")
+					PUI[pu] = PUI[pu] || LoadImage("GFX/STATUSBAR/ABILITYPOWERUP/"..pu..".png","ABL_POWERUP__"..pu)
+					PUI.Socket.Draw(pux,y)
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pu)
+						PUI[pu].Draw(pux,y)
+						haspu[CharTag][pu]=true
+					elseif math.random(0,abl["ABL_"..pu])<groundvalue && ActivatePWUP==""
+						ActivatePWUP = pu
+					end
+				end
+				pux += 25
+			end
+			Graphics.Scale(1,1)
+			if Hover && Events.MouseHitLeft() 
+				if Prefixed(situation,"COMBAT_")
+					int APCost := abl.ABL_AP
+					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
+						APCost = APCost Div 2
+					end
+					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
+				end
+			end
+			y += 35
+		end
+		__white
+		sfont.Text(mods[CharTag].ShowNeed(CharTag),x,y)
+		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
+	end
+	
+	//CONSTRUCTOR
+	Init
+		LocExtern NeilUse "Scyndi.Class.Globals.QUse"
+		table modsmeta
+		//modsmeta.__index = table/s,string k/
+		ddef mm
+			plua s
+			string k
+			s,k = Infinity
+			k = Upper(k)
+			if k=="UNIWENDICKA"
+				k = "WENDICKA"
+			end
+			ablmods[k] = ablmods[k] || NeilUse("Script/Data/Char/Abilities/Abl"..k)
+			return ablmods[k]
+		end
+		ddef mmno
+			Lua.error("No way! Ability lists are read only!")
+		end
+		modsmeta.__index = mm
+		modsmeta.__newindex = mmno
+		setmetatable(mods,modsmeta)
+	end
+	
+//end
