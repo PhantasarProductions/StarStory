@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.06 XXV
+// 	  Version: 25.01.06 XXVI
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -144,7 +144,7 @@ class Crystal_ARMS
 			y+=25
 		end
 		__white
-		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
+		FitText.Dark(sfont,ht,Events.MouseX,Events.MouseY+30)
 	end
 end
 
@@ -252,7 +252,7 @@ end
 		end
 		__white
 		sfont.Text(mods[CharTag].ShowNeed(CharTag),x,y)
-		FitText.Dark(sfont,ht,Events.MouseX(),Events.MouseY()+30)
+		FitText.Dark(sfont,ht,Events.MouseX,Events.MouseY+30)
 	end
 	
 	//CONSTRUCTOR
