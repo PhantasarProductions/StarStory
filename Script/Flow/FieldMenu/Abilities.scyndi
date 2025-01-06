@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.07 I
+// 	  Version: 25.01.07 III
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -41,6 +41,7 @@
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
+
 Module
 
 #use "Libs/FitText"
@@ -230,7 +231,8 @@ end
 					PUI.Socket = PUI.Socket || LoadImage("GFX/STATUSBAR/ABILITYPOWERUP/Socket.png","ABL_POWERUP_SOCKET")
 					PUI[pu] = PUI[pu] || LoadImage("GFX/STATUSBAR/ABILITYPOWERUP/"..pu..".png","ABL_POWERUP__"..pu)
 					PUI.Socket.Draw(pux,y)
-					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pu)
+					//if RPGChar[CharTag].List.ABL_POWERUP.Has(atag.."."..pu)
+					if RPGPureChar[CharTag].ListHas("ABL_POWERUP",atag.."."..pu)
 						PUI[pu].Draw(pux,y)
 						haspu[CharTag][pu]=true
 					elseif math.random(0,abl["ABL_"..pu])<groundvalue && ActivatePWUP==""
@@ -240,7 +242,7 @@ end
 				pux += 25
 			end
 			Graphics.Scale(1,1)
-			if Hover && Events.MouseHitLeft() 
+			if Hover && Events.MouseHitLeft 
 				if Prefixed(situation,"COMBAT_")
 					int APCost := abl.ABL_AP
 					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
