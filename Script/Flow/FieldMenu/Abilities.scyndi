@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.06 XXVI
+// 	  Version: 25.01.07 I
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -210,7 +210,8 @@ end
 			afont.Text(abl.Name,x,y)
 			int APCost := abl.ABL_AP
 			__ember
-			if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT") 
+			//if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
+			if RPGPureChar[CharTag].ListHas("ABL_POWERUP",atag..".APCUT")
 				Graphics.Color(180,255,0)
 				APCost = math.ceil(APCost/2) 
 			end
@@ -222,7 +223,7 @@ end
 			static table haspu = {}
 			haspu[CharTag] = haspu[CharTag] || {}			
 			int pux := (ubox.w div 2)+ubox.x
-			int groundvalue := gInt["ABL.USED."..upper(CT).."."..Upper(atag) ] + RPGChar[CT].Stat.Level
+			int groundvalue := gInt["ABL.USED."..upper(CT).."."..Upper(atag) ] + RPGChar[CharTag].Stat.Level
 			for pu,puc in spairs(ABL_PowerUpColors)
 				if abl["ABL_"..pu]>0
 					Graphics.Color(puc[1],puc[2],puc[3])
