@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.06 I
+// 	version: 25.01.06 XIX
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -96,7 +96,64 @@ Void CharStatSet(data,String Key,Int Value)
 	Lua.error("I cannot set to stat "..key.." yet for "..data.parent._chkey)
 End
 
-plua CharMeta(String Key)
+plua ChList(s,k)
+	ddef idx
+		plua slf
+		plua i
+		//print("List Index ",infinity)
+		slf,i = infinity
+		switch Type(i)
+			Case "number"
+				return slf.__parent.__chdata.list[slf.__key][i]
+			Case "string"
+				switch Upper(i)
+					case "EACH"
+						int i=0
+						ddef r
+							ci:=i
+							i++
+							if ci>=slf.__parent.__chdata.ListSize(slf.__key)
+								return nil,nil
+							else
+								return slf.__parent._chdata.list[slf.__key][ci],ci
+							end
+						end
+						return r
+					case "SIZE" "LEN" "LENGTH" 
+						return slf.__parent.__chdata.ListSize(slf.__key)
+					default
+						Lua.error("RPG list does not recognize method/property: "..i)
+				end
+			Default
+				lua.error("RPG list has not methods, indexes or properties of type: "..type(i))
+		end
+	end	
+	ddef newidx
+		plua slf
+		int i
+		string v
+		print("List New Index ",infinity)
+		slf,i,v = infinity
+		slf.__parent.__chdata.list[slf.__key][i] = v 
+	end
+	table ret
+	table met
+	DefTable ret
+		__key = k
+		__parent = s
+	end
+	DefTable met
+		__index = idx
+		__newindex = newidx
+	end
+	return SetMetaTable(ret,met)
+end
+
+
+
+plua CharMeta(String ChKey)
+	ret:={}
+	mettable:={}
 	ddef NoNewIndex
 		Lua.error("Cannot overwrite characters")
 	end
@@ -107,6 +164,27 @@ plua CharMeta(String Key)
 		switch Key
 			Case "NAME" "DATA" "POINTS"
 				return this._chdata[Key]
+			Case "LIST"
+				//CSayF("Char %s -> List %s",this._chkey,key)
+				//this._chlist[key] = this._chlist[key] || ChList(ret,Key)
+				//return this._chlist				
+				if !ret._chlist[Key]
+					ddef NoWay
+						Lua.error("List is a read-only")
+					End
+					plua r
+					plua m
+					DefTable m
+						__newindex = NoWay
+						__index    = ChList
+					End
+					DefTable r
+						__parent = ret
+						__key    = Key
+					end
+					ret._chlist[Key] = SetMetaTable(r,m)
+				end
+				return ret._chlist[Key]
 			Case "STAT"
 				//Lua.error("Stat viewing and manipulation not YET supported")
 				return this._chstat
@@ -117,14 +195,14 @@ plua CharMeta(String Key)
 				Lua.error("Unknown stat data key: "..Key)
 		End		
 	end	
-	mettable:={}
 	mettable.__newindex=NoNewIndex
 	mettable.__index=ChIndex
-	ret:={}
-	ret._chkey=Key
-	ret._chdata=_stat.Char[Key]
+	ret._chkey=ChKey
+	ret._chdata=_stat.Char[ChKey]
 	ret._chstat=SetMetaTable({["parent"]=ret},{["__index"]=CharStat,["__newindex"]=CharStatSet})
-	CSayF("Setting up chracter distraction record for: %s",Key)
+	ret._chlist={}
+
+	CSayF("Setting up chracter distraction record for: %s",ChKey)
 	return SetMetaTable(ret,mettable)
 End
 
@@ -174,3 +252,13 @@ QuickMeta RPGChar
 	End	
 End
 
+QuickMeta RPGPureChar
+	index
+		//print("PureChar",key)
+		r:= _stat.Char[Key]
+		return r
+	end
+	newindex
+		lua.error(sprintf("RPGPurChar does not allow edits, so why do you want to assign %s to %s?",Value,key))
+	end
+end
