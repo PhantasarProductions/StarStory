@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.05 XIX
+// 	  Version: 25.01.06
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -93,8 +93,13 @@ init
 end
 
 var QUse(string u)
-	Lua.Scyndi.Use(u)
-	return Lua.Scyndi.Class[stripdir(u)]
+	Switch Upper(u)
+	Case "ITEMS"
+		return QUse("Items_FieldMenu")
+	Default
+		Lua.Scyndi.Use(u)
+		return Lua.Scyndi.Class[stripdir(u)]
+	End
 End
 
 global void PartyClick(int i,string ch)

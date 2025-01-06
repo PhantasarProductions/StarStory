@@ -1,47 +1,60 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FieldMenu/Items.neil
-// Version: 21.07.01
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 25.01.06
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
 
 #undef FMItemStackCheck
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#Use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
 
 module
-	readonly var Socket = Image.Obtain("ITEM_SOCKET")
-	readonly var Fnt = ImageFont.Obtain("SYSFONT")
-	readonly var Trash = Image.Obtain("TRASH")
-	readonly var IUse = Image.Obtain("USE")
+	readonly var Socket = ObtainImage("ITEM_SOCKET")
+	readonly var Fnt = ObtainFont("SYSFONT")
+	readonly var Trash = ObtainImage("TRASH")
+	readonly var IUse = ObtainImage("USE")
 	readonly var Buzz = Audio.Obtain("BUZZ")
 	string cItem
 	string rcItem
@@ -164,11 +177,12 @@ module
 		if CharTag=="Briggs"
 			return
 		end
-		#if FMItemStackCheck
-		Static Int StackCheck=0
+#if FMItemStackCheck
+		//Static Int StackCheck=0
+		locextern StackCheck "FMItemStackCheck_Debug"
 		StackCheck++
 		CSayF("Start: Item flow: %d",StackCheck)
-		#fi
+#fi
 		LSituation = situation
 		int pmx = Events.MouseX()
 		int pmy = Events.MouseY()
@@ -204,7 +218,7 @@ module
 					//FitText.Text(Fnt,Lua.tostring(it.Description),pmx+20,pmy+55)
 					itn = it.Name
 					itd = it.Description
-					if situation:upper()=="SHOP"
+					if upper(situation)=="SHOP"
 						if it.ITM_Sellable && it.ITM_SellPrice>0
 							its = sprintf("Sell price: %d credits",it.ITM_SellPrice)
 						else
@@ -213,7 +227,7 @@ module
 					end
 				end
 				if ml
-					switch situation:upper()
+					switch upper(situation)
 						case "FIELD" "VAULT" "COMBAT_ITEMS" "SHOP" "PHANSHOP"
 							CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
 							if cItem=="" and itamt==0
@@ -233,7 +247,7 @@ module
 							lua.error("Situation unknown: "..situation)
 					end
 				elseif mr
-					switch situation:upper()
+					switch upper(situation)
 						case "SHOP"
 							Invoke(Sell,CharTag,i)
 						case "FIELD"
@@ -257,14 +271,14 @@ module
 				end
 			end
 		end
-		if situation:upper()=="FIELD" || situation:upper()=="VAULT" || situation:upper()=="SHOP" || situation:upper()=="PHANSHOP" 
+		if upper(situation)=="FIELD" || upper(situation)=="VAULT" || upper(situation)=="SHOP" || upper(situation)=="PHANSHOP" 
 			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
 			if ml && Mx>ubox.w-Trash.Width && my<ubox.h && my>ubox.h-Trash.Height && cItem!=""
 				CSayF("Trashing: %s",cItem)
 				cItem=""
 			end
 		end
-		if situation:upper()=="FIELD"
+		if upper(situation)=="FIELD"
 			iUse.Draw(ubox.x+ubox.w-math.floor(Trash.Width*2.5),ubox.y+ubox.h-iUse.Height)
 			if ml && cItem!="" && my<ubox.h && my>ubox.h-Trash.Height && Mx<ubox.w-Trash.Width && ubox.x+ubox.w-math.floor(Trash.Width*2.5)
 				if Use("ITM_"..cItem,CharTag)
@@ -275,10 +289,10 @@ module
 		FitText.Dark(Fnt,itn,pmx+20,pmy+20)
 		FitText.Dark(Fnt,itd,pmx+20,pmy+55)
 		FitText.Dark(Fnt,its,pmx+20,pmy+90)
-		#if FMItemStackCheck
+#if FMItemStackCheck
 		StackCheck--
 		CSayF("  End: Item flow: %d",StackCheck)
-		#fi
+#fi
 
 	end
-end
+//end
