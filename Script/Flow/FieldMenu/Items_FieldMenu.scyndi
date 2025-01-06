@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
 // 
-// 	  Version: 25.01.06
+// 	  Version: 25.01.06 VIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -43,12 +43,20 @@
 // End License
 
 #undef FMItemStackCheck
+
+#use "Libs/FitText"
+
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
 #Use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/use/Convert/Flow"
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
 
 module
 	readonly var Socket = ObtainImage("ITEM_SOCKET")
@@ -63,8 +71,8 @@ module
 	delegate Sell
 	
 	Bool Use(string tItem,string cht)
-		Var  ch   = RPGChar[cht]
-		Var  UItm = Item[tItem]
+		Var  ch   := RPGChar[cht]
+		Var  UItm := Item[tItem]
 		Bool Ret  = False
 		// Not usable? Then don't even check for what's to come!
 		if !UItm.UseField
@@ -112,7 +120,7 @@ module
 		// Permabuffs
 		Static Table pbm = {["HP"]=100,["AP"]=5}
 		Static Table pbms = {5,3,1}
-		For stat in Each {"Strength","Defense","Agility","Will","Resistance","Accuracy","Evasion","HP","AP"}
+		For _,stat in pairs {"Strength","Defense","Agility","Will","Resistance","Accuracy","Evasion","HP","AP"}
 			If Uitm["PermaBuff_"..stat] && ch.Stat["BASE_"..stat]>0
 				ch.Stat["POWERUP_"..stat] += math.ceil( (pbm[stat] or 1) * pbms[__skill] ) 
 				Ret = true
@@ -127,9 +135,9 @@ module
 	End
 	
 	Void GetIt(int slot,string cht)
-		var ch  = RPGChar[cht]
-		string ittag = ch.Data[sprintf("INVITEM%d",slot)]:upper()
-		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
+		var ch  := RPGChar[cht]
+		string ittag := ch.Data[sprintf("INVITEM%d",slot)]:upper()
+		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
 		if itamt == 0
 			return
 		end
@@ -151,9 +159,9 @@ module
 	end
 	
 	bool PlaceIt(int slot,string cht,string item)
-		var ch  = RPGChar[cht]
-		string ittag = ch.Data[sprintf("INVITEM%d",slot)]:upper()
-		int itamt    = ch.Stat[sprintf("INVAMNT%d",slot)]
+		var ch  := RPGChar[cht]
+		string ittag := ch.Data[sprintf("INVITEM%d",slot)]:upper()
+		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
 		CSayF("PlaceIt(%d,'%s','%s'): ittag='%s'; itmt=%3d;",slot,cht,item,ittag,itamt)
 		item = item:upper()
 		if itamt>=Caps.InventoryMaxStack
@@ -184,24 +192,24 @@ module
 		CSayF("Start: Item flow: %d",StackCheck)
 #fi
 		LSituation = situation
-		int pmx = Events.MouseX()
-		int pmy = Events.MouseY()
-		int mx  = pmx - ubox.x
-		int my  = pmy - ubox.y
-		bool ml = Events.MouseHitLeft()
-		bool mr = Events.MouseHitRight()
-		var ch  = RPGChar[CharTag]
+		int pmx := Events.MouseX
+		int pmy := Events.MouseY
+		int mx  := pmx - ubox.x
+		int my  := pmy - ubox.y
+		bool ml := Events.MouseHitLeft
+		bool mr := Events.MouseHitRight
+		var ch  := RPGChar[CharTag]
 		var it
 		string itn = ""
 		string itd = ""
 		string its = ""
 		__White
 		for i=1,Caps.InventorySockets
-			int ci = i-1
-			int cy = math.floor(ci/Caps.InventorySocketRow) + 2
-			int cx = (ci % Caps.InventorySocketRow) + 2
-			string ittag = ch.Data[sprintf("INVITEM%d",i)]
-			int itamt    = ch.Stat[sprintf("INVAMNT%d",i)]
+			int ci := i-1
+			int cy := math.floor(ci/Caps.InventorySocketRow) + 2
+			int cx := (ci % Caps.InventorySocketRow) + 2
+			string ittag := ch.Data[sprintf("INVITEM%d",i)]
+			int itamt    := ch.Stat[sprintf("INVAMNT%d",i)]
 			Socket.Draw(uBox.x+(cx*35),ubox.y+(cy*35))
 			// CSayF("Check: %s; %02d > %s:%d",CharTag,i,ittag,itamt) // debug only
 			it = nil
