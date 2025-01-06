@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.01.06
+// 	  Version: 25.01.06 XI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -43,17 +43,59 @@
 // End License
 Script
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/GINIE"
 
 #use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 //#use "Script/Data/IAA/MyData_ClassFile_IAA"
 
 #undef JewelRecalcDebug
 
-table ItemData
+plua G_ItemClass = GINIE.Load("Data/IAA/MyData_ClassFile_IAA.ini","CLASS_IAA")
+
+table ItemDataG
+table ItemDataMeta
 table InVault = {}
 
-plua G_ItemClass = GINIE.Load("Data/IAA/MyData_ClassFile_IAA.ini","CLASS_IAA")
+QuickMeta ItemData
+	NewIndex
+		CSay("Item data set for: "..key)
+		ItemDataG[upper(Key)]=value
+		
+		r:={["__KEY"]=Upper(key)}
+		m:=nil
+		
+		ddef m_Index
+			plua s
+			string k
+			s,k = infinity
+			IDG:=ItemDataG[s.__Key]
+			Switch G_ItemClass.Value("CLASS",k)
+				case "Int" "Integer"
+					return IDG.IntValue("REC:"..s.__KEY,k)
+				case "String"
+					return IDG.Value("REC:"..s.__KEY,k)
+				case "Boolean" "Bool"
+					return Upper(IDG.Value("REC:"..s.__KEY,k))=="TRUE"
+				default
+					Lua.error("No valid type for IAA field "..k.." in IAA record: "..s.__KEY)
+			End
+		End
+		ddef m_NewIndex
+			Lua.error("IAA fields are read-only!")
+		end
+		defTable m
+			__Index    = m_Index
+			__NewIndex = m_NewIndex
+		End
+		ItemDataMeta[Upper(Key)] = SetMetaTable(r,m)
+	End
+	Index
+		Key = Upper(Key)
+		return ItemDataMeta[Key]
+	End
+End
 
 global void StoreVault(string it,int amount)
 	it = upper(it)
@@ -110,82 +152,84 @@ end
 
 global var ItemBaseGet(string it,string key)
 	it = upper(it)
-	ItemData[it] = ItemData[it] || NeilUse("Script/Data/IAA/"..it)
+	ItemData[it] = ItemData[it] || GINIE.Load("Data/IAA/"..it..".ini","ITEM: "..it)
 	return ItemData[it][key]
 end
 
 Global Void JewelRecalc(string char)
 
-	Static Table Elements = {"Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
-	Static Table Statusses = {"Block","Damned","Death","Disease","Paralysis","Poison","Will"}
-	Var C = RPGChar[char]
-	Var D = C.Data
-	Var S = C.Stat
+	Table Elements = {"Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
+	Table Statusses = {"Block","Damned","Death","Disease","Paralysis","Poison","Will"}
+	Var C := RPGChar[char]
+	Var D := C.Data
+	Var S := C.Stat
 	// reset
-	For Elem in Each(Elements)
+	For _,Elem in pairs(Elements)
 		S["ER_MODIFIER_"..Elem] = 0
 	End
-	For Stat in Each(Statusses)
+	For _,Stat in pairs(Statusses)
 		S[sprintf("SR_EQBF_%s",Stat)] = 0
 	End
 	For i=1,Caps.InventorySockets
-		String atag = sprintf("INVAMNT%d",i)
-		String dtag = sprintf("INVITEM%d",i)
-		String ishr = D[dtag]:upper()
-		string itag = "ITM_"..ishr
+		String atag := sprintf("INVAMNT%d",i)
+		String dtag := sprintf("INVITEM%d",i)
+		String ishr := Upper(D[dtag])
+		string itag := "ITM_"..ishr
 		If ishr!=""
-			ItemData[itag] = ItemData[itag] || NeilUse("Script/Data/IAA/"..itag)
-			Var ItData = ItemData[itag]
+			//ItemData[itag] = ItemData[itag] || NeilUse("Script/Data/IAA/"..itag)
+			ItemData[itag] = ItemData[itag] || GINIE.Load("Data/IAA/"..itag..".ini","ITEM: "..itag)
+			Var ItData := ItemData[itag]
 			For j=1,S[atag]
-				For Elem in Each(Elements)
+				For _,Elem in pairs(Elements)
 					If Elem=="Dark" && ItData["ITM_EQP_ERes_UP"..Elem] 
 						S["ER_MODIFIER_"..Elem]++
-						#if JewelRecalcDebug
+#if JewelRecalcDebug
 						CSay("DARK up: "..ishr)
-						#fi
+#fi
 					ElseIf ItData["ITM_EQP_ERes_Up"..Elem]
 						S["ER_MODIFIER_"..Elem]++
-						#if JewelRecalcDebug
+#if JewelRecalcDebug
 						CSay(Elem.." up: "..ishr)
-						#fi
+#fi
 					ElseIf ItData["ITM_EQP_ERes_Down"..Elem]
 						S["ER_MODIFIER_"..Elem]--
-						#if JewelRecalcDebug
+#if JewelRecalcDebug
 						CSay(Elem.." Down: "..ishr)
-						#fi
+#fi
 					End
 				End
-				For Stat in Each(Statusses)
-					String ItDTag  = sprintf("ITM_EQP_SRes_%s",Stat)
-					Int    ItValue = ItData[ItDTag] || 0
+				For _,Stat in pairs(Statusses)
+					String ItDTag  := sprintf("ITM_EQP_SRes_%s",Stat)
+					Int    ItValue := ItData[ItDTag] || 0
 					S[sprintf("SR_EQBF_%s",Stat)] += ItValue
 				End
 			End
 		End
 	End
 	// Stat corrections
-	For Elem in Each(Elements)
+	For _,Elem in pairs(Elements)
 		S["ER_MODIFIER_"..Elem] = math.min(6,math.max(-6,S["ER_MODIFIER_"..Elem]))
 	End
 End
 
 global bool S_GiveItem(string it,string char)
-	var C = RPGChar[char]
-	var D = C.Data
-	var S = C.Stat
+	var C := RPGChar[char]
+	var D := C.Data
+	var S := C.Stat
 	if char=="Briggs"
 		return false
 	end
-	it = it:upper()
+	it = upper(it)
 	if prefixed(it,"ITM_")
-		it = right(it,#it-4)
+		it = right(it,len(it)-4)
 	end
 	
-	int FirstEmptyInvSocket()
+	//int FirstEmptyInvSocket()
+	ddef FirstEmptyInvSocket
 		int i=0
 		repeat
 			i++
-			string stag = sprintf("INVAMNT%d",i)
+			string stag := sprintf("INVAMNT%d",i)
 			if s[stag]<=0
 				return i
 			end
