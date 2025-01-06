@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 25.01.06
+// 	  Version: 25.01.06 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -51,7 +51,7 @@ Module
 table TrueItem={}
 
 void LdItems()
-	Sys.LoadNewState("SUB_ITEMS","Script/Subs/SubItems.neil")
+	Sys.LoadNewState("SUB_ITEMS","Script/Subs/SubItems.lbc")
 end
 
 Global Void JwlRecalc(string char)
@@ -76,7 +76,7 @@ void MkTrueItem(string it)
 	ddef __item_index	
 		args:=newArray(infinity)
 		s:=args[0]		
-		string k := Upper(args[2]) //= k:upper()		
+		string k := Upper(args[1]) //= k:upper()		
 		switch k
 			case "ICON" "ICONFILE"
 				//string f = ISGET.String("SUB_ITEMS","lua.tostring(ItemBaseGet(\""..it.."\",\"ICON\"))")				
@@ -119,7 +119,7 @@ void MkTrueItem(string it)
 	end	
 	m.__newindex = __item_nindex
 	m.__index    = __item_index
-	TrueItem[it] = lua.setmetatable({["_gin"]=GINIE.LoadNew("Data/IAA/"..it,"IAA__"..it),["_rec"]="Rec:"..it},m)
+	TrueItem[it] = lua.setmetatable({["_gin"]=GINIE.LoadNew("Data/IAA/"..it..".ini","IAA__"..it),["_rec"]="Rec:"..it},m)
 end
 
 bool GiveItem(string it,string ch,allowvault)
