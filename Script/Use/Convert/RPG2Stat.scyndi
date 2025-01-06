@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.04 IV
+// 	version: 25.01.06 I
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -28,7 +28,9 @@ Module
 #use "Libs/SCI/Statistician"
 
 plua _modifiers = { "POWERUP", "UPGRADE", "BUFF" }
-plua _links = { ["Wendicka"]="UniWendicka", ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
+//plua _links = { ["Wendicka"]="UniWendicka", ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
+//For Wendicka ALL data has to be linked with her Uniform version anyway, so that would be easy, right?
+plua _links = { ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
 plua _stat = Statistician.CreateNew("STAR_STORY")
 plua _char
 
@@ -44,7 +46,7 @@ Int CharStat(data,String Key)
 	c:=Data.parent._chkey
 	d:=data.parent._chdata
 	sk:=XSplit(Key,"_")
-	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level"
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level" || Prefixed(Key,"ER_") || Prefixed(Key,"SR_")
 		Return d.Stat[Key]
 	end	
 	if Len(sk)==2
@@ -67,7 +69,7 @@ Void CharStatSet(data,String Key,Int Value)
 	c:=Data.parent._chkey
 	d:=data.parent._chdata
 	sk:=XSplit(Key,"_")
-	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level"
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level" || Prefixed(Key,"ER_") || Prefixed(Key,"SR_")
 		d.Stat[Key]=Value
 		Return
 	end	
