@@ -43,21 +43,25 @@
 // End License
 Script
 
+#use "Libs/SCI/GINIE"
+
 #use "Script/Use/Anyway"
-#use "Script/Data/IAA/MyData_ClassFile_IAA"
+//#use "Script/Data/IAA/MyData_ClassFile_IAA"
 
 #undef JewelRecalcDebug
 
 table ItemData
 table InVault = {}
 
+plua G_ItemClass = GINIE.Load("Data/IAA/MyData_ClassFile_IAA.ini","CLASS_IAA")
+
 global void StoreVault(string it,int amount)
-	it = it:upper()
+	it = upper(it)
 	Invault[it] = math.min(Caps.InventoryMaxVaultStack,(Invault[it] || 0) + amount)
 end
 
 global int GetVault(string it)
-	it = it:upper()
+	it = upper(it)
 	return InVault[it] || 0
 end
 
@@ -67,21 +71,36 @@ global string VaultContents()
 		if ret!=""
 			ret += ";"
 		end
-		ret += k:upper()
+		ret += upper(k)
 	end
 	//print("Returning: ",ret)
 	return ret
 end
 
 // Meant for savegames only
-global string VaultScript()
-	string ret = "Init\n\n\tVault.Reset()\n\n"
+//global string VaultScript()
+//	string ret = "Init\n\n\tVault.Reset()\n\n"
+//	for k,v in spairs(InVault)
+//		ret += sprintf("\tVault.Store(\"%s\",%d)\n",k,v)
+//	end
+//	ret += "\n\nend"
+//	return ret
+//end
+Global Void VaultToGinie()
+	gr:=GINIE.Create("VAULT_GINIE_FOR_SAVEGAMES")
+	gr.Clear()
 	for k,v in spairs(InVault)
-		ret += sprintf("\tVault.Store(\"%s\",%d)\n",k,v)
+		gr.Value("Vault",k,v)
 	end
-	ret += "\n\nend"
-	return ret
 end
+
+Global Void GinieToVault()
+	gr:=GINIE.Obtain("VAULT_GINIE_FROM_SAVEGAMES")
+	InVault={}
+	for k in gr.Values("Vault")
+		InVault[k] = gr.IntValue("Vault",k)
+	end
+End
 
 global void VaultReset()
 	Invault = {}
@@ -90,7 +109,7 @@ end
 
 
 global var ItemBaseGet(string it,string key)
-	it = it:upper()
+	it = upper(it)
 	ItemData[it] = ItemData[it] || NeilUse("Script/Data/IAA/"..it)
 	return ItemData[it][key]
 end
