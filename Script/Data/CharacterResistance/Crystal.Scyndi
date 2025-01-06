@@ -34,11 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 25.01.06 I
+// version: 25.01.06 III
 // 
 // End License
 
 Module
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 init
 	//if RPGChar.Has("Crystal")
