@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 25.01.05 II
+// 	  Version: 25.01.06 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -384,4 +384,6 @@ global void MainFlow()
 	// Must be very last
 	Graphics.Color(255,255,255)
 	Mouse.Draw(mx,my)
+	SetColor(80,80,80)
+	MenuFont.Text(sprintf("Star Story - Version %d.%02d",_versionmaj,_versionmin),Graphics.W-2,2,1,0)
 end
