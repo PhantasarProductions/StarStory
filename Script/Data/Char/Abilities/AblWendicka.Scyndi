@@ -1,9 +1,8 @@
-
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/Char/Abilities/Wendicka.neil
-// (c) Jeroen Broks, 2020, 2021, All Rights Reserved.
+// src/Script/Script/Data/Char/Abilities/AblWendicka.Scyndi
+// (c) Jeroen Broks, 2020, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -25,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -33,26 +33,36 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
-// End License Information
+// 
+// version: 25.01.06
+// 
+// End License
+
 module
+
+#use "Script/Use/Anyway"
 
 	table spells
 	
 	string ShowNeed(string chtag)
 		// parameter seems odd, but don't forget about the link between ExHuRU, Johnson and Rolf, and Wendicka has a similar link, although in her case it may not matter that much, but for safety reasons, yeah, there goes!!
+		Wen:=RPGPureChar.UniWendicka
 		int m = 3000
 		// Learn from allies
-		if RPGChar[chtag].List.LEARN.Count>0
-			for ABL in RPGChar[chtag].List.LEARN.Each
-				if !RPGChar[chtag].List.ABL.Has(ABL)
+		//if RPGChar[chtag].List.LEARN.Count>0
+		if Wen.ListCount("LEARN")>0
+			//for ABL in RPGChar[chtag].List.LEARN.Each
+			for ABL in Wen.ListEach("LEARN")
+				//if !RPGChar[chtag].List.ABL.Has(ABL)
+				if !Wen.ListHas("ABL",ABL)
 					return "Attack any enemy and Wendicka will learn something new!"
 				end
 			end
 		end
 		// Learn from spell usage
 		for i,abl in pairs(spells)
-			if not (RPGChar[chtag].List.LEARN.Has("WENDICKA_"..abl) || RPGChar[chtag].List.ABL.Has("WENDICKA_"..abl))
+			//if not (RPGChar[chtag].List.LEARN.Has("WENDICKA_"..abl) || RPGChar[chtag].List.ABL.Has("WENDICKA_"..abl))
+			if !(Wen.ListHas("LEARN","WENDICKA_"..abl) || Wen.ListHas("ABL","WENDICKA_"..abl))
 				m = math.min(m,i)
 			end
 		end
@@ -72,14 +82,17 @@ module
 	get string Learn
 		// UniWendicka and not not normal Wendicka. The former is always in the memory, the latter only after the prologue 
 		// So this will always avoid crashes, and the two characters address the same memory locations, anyway.
-		static var Wendicka = RPGChar.UniWendicka
-		for ABL in Wendicka.List.LEARN.Each
-			if !Wendicka.List.ABL.Has(ABL)
+		//static var Wendicka = RPGChar.UniWendicka
+		LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
+		//for ABL in Wendicka.List.LEARN.Each
+		for ABL in Wendicka.ListEach("LEARN")
+			if !Wendicka.ListHase("ABL",ABL)
 				return ABL
 			end
 		end
 		for i,abl in pairs(spells)
-			if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
+			//if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
+			if (!
 				if i<=ablused.Wendicka
 					return "WENDICKA_"..Abl
 				end
@@ -88,15 +101,17 @@ module
 		return ""
 	end
 	
-	CONSTRUCTOR
+	Init
 		spells[15] = "JOLT"
 		spells[30] = "SHOCKTHERAPY"
 		spells[90] = "MJOLNIR"
 		spells[200] = "ELECTRICCHARGE"
 		// "UniWendicka" is a safety measure. The uniform version starts the game and is therefore ALWAYS loaded.
-		if !RPGChar.UniWendicka.List.ABL.Has("WENDICKA_SHOCK")
-			RPGChar.UniWendicka.List.ABL.Add = "WENDICKA_SHOCK"
+		//if !RPGChar.UniWendicka.List.ABL.Has("WENDICKA_SHOCK")
+		//	RPGChar.UniWendicka.List.ABL.Add = "WENDICKA_SHOCK"
+		if RPGPureChar.UniWendicka.ListHas("ABL","WENDICKA_SHOCK")
+			RPGPureChar.UniWendicka.ListAdd("ABL","WENDICKA_SHOCK")
 		end
 	end
 	
-end
+//end
