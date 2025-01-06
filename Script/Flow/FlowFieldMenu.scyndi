@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.06 II
+// 	  Version: 25.01.06 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -92,7 +92,7 @@ init
 	Situations.PHANSHOP  = {{ ["RIGHT"] = { ["ID"]="PHANTASARMERCHANT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 end
 
-var QUse(string u)
+Global var QUse(string u)
 	CSayF("QUse(\"%s\")",u)
 	Switch Upper(u)
 	Case "SCRIPT/FLOW/FIELDMENU/ITEMS"
@@ -112,7 +112,7 @@ global void PartyClick(int i,string ch)
 		else 
 			if FMChar == ch
 				if itmod && itmod.citem!=""
-					if itmod.rcitem:upper()=="SHOP"
+					if upper(itmod.rcitem)=="SHOP"
 						CSay("Item from a shop cannot be returned! Put item somewhere before moving on!")
 						return
 					end
@@ -158,7 +158,7 @@ global void MainFlow()
 	//Dev.ToConsole()
 	
 	// Boxes
-	for b in each(Boxes)
+	for _,b in pairs(Boxes)
 		b.Draw()
 	end
 	
@@ -174,7 +174,7 @@ global void MainFlow()
 			__black
 		end
 		ico.ICON = ico.ICON || ObtainImage("ICO_"..ico.ICONFILE)
-		if Events.MouseHitLeft && my<topbox.h and mx>((i+1)*iw)-25 and mx<(i*iw)+25
+		if Events.MouseHitLeft && my<topbox.h and mx>((i+1)*iw)-25 and mx<((i+1)*iw)+25
 			//Graphics.Rect(0,(i*iw)-15,Topbox.h,30) // debug only!
 			SitActive[FMSituation]=i
 		end
