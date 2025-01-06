@@ -1,9 +1,9 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 24.12.20 III
+// 	  Version: 25.01.06
 // 	
-// 	  Copyright (C) 2020, 2021, 2024 Jeroen Petrus Broks
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
 // 	  ===========================
 // 	  This file is part of a project related to the Phantasar Chronicles or another
@@ -65,7 +65,7 @@ void __item_nindex(s,string k,v)
 end
 
 void MkTrueItem(string it)
-	it = it:upper()
+	it = upper(it)
 	if TrueItem[it]
 		return
 	end
@@ -138,11 +138,11 @@ quickmeta Item
 	end
 	
 	index
-		if Key:upper()=="GIVE" || Key:upper()=="GIVEITEM"
+		if Upper(key)=="GIVE" || Upper(key)=="GIVEITEM"
 			return GiveItem
 		end
 		MkTrueItem(key)
-		return TrueItem[key:upper()]
+		return TrueItem[Upper(key)]
 	end
 
 end
