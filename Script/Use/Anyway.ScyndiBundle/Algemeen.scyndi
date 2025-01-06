@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 25.01.05 II
+// 	  Version: 25.01.06 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -43,6 +43,9 @@
 // End License
 
 Module
+
+extern _versionmaj "3"
+extern _versionmin "0"
 
 //#use "Script/Use/Link"
 //#use "libs/Music"
