@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.06 XIX
+// 	version: 25.01.07 II
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -202,7 +202,8 @@ plua CharMeta(String ChKey)
 	ret._chstat=SetMetaTable({["parent"]=ret},{["__index"]=CharStat,["__newindex"]=CharStatSet})
 	ret._chlist={}
 
-	CSayF("Setting up chracter distraction record for: %s",ChKey)
+	CSayF("Setting up character distraction record for: %s",ChKey)
+	//printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback()) // debug
 	return SetMetaTable(ret,mettable)
 End
 
