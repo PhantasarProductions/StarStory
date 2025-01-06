@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.06
+// version: 25.01.06 I
 // 
 // End License
 
@@ -92,7 +92,7 @@ module
 		end
 		for i,abl in pairs(spells)
 			//if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
-			if (!
+			if !(Wendicka.ListHas("LEAN","WENDICKA_"..abl) || Wendicka.ListHas("ABL","WENDICKA_"..abl))
 				if i<=ablused.Wendicka
 					return "WENDICKA_"..Abl
 				end
