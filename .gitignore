@@ -13,3 +13,7 @@ Archive
 
 # No Scyndi compiled bundles
 *.stb
+
+
+# No backup crap
+*~
