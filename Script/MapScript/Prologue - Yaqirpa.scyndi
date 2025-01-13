@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.04 XXI
+// version: 25.01.13 I
 // 
 // End License
 Script
@@ -95,10 +95,13 @@ group MScript
 	end
 	
 	void Enter_Save()
-		Map.HideButLabel("save")
-		Map.ShowPlayer()
+		CSay("Enter Save Zone - Entrance Yaqirpa")
+		Map.HideButLabel("save") CSay("Hidden everything not in the \"save\" zone")
+		Map.ShowPlayer() CSay("Player should be shown!")
 		if !Done.Prologue_Yaqirpa_Explained_About_Diary_At_The_Start_By_Briggs
 			MapText("EXPLAIN_SAVE")
+		else
+			CSay("Clearly the tutorial already took place, so no need to repeat that one, eh?")
 		end
 	end
 	
