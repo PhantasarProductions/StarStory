@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 25.01.06 V
+// 	  Version: 25.01.10
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -123,12 +123,18 @@ void MkTrueItem(string it)
 end
 
 bool GiveItem(string it,string ch,allowvault)
-	Lua.error("Give item needs a slight overhaul!")
+	//Lua.error("Give item needs a slight overhaul!")
 	//plua ret = ISGET.Bool("SUB_ITEMS",sprintf("S_GiveItem(\"%s\",\"%s\")",it,ch))
 	//if (!ret) && allowvault
 	//	Lua.Neil.Globals.Vault.Store(it)
 	//end
 	//return ret
+	ldItems();
+	ret := Sys.Call("SUB_ITEMS","S_GiveItem",it,ch)
+	if (!ret) && allowvault
+		Lua.Scyndi.Class.Vault.Store(it)
+	end	
+	return ret
 end
 
 quickmeta Item
