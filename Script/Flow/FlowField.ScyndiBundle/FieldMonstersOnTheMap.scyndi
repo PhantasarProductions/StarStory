@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.13
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -41,13 +41,212 @@
 // 	     misrepresented as being the original software.
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
+
 Module
 
-Class FieldMonster
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Statistician"
 
-	Static Void SCANFOES(infinity)
-		print(infinity)
-		print("ScanFoes will be dealt with later")
+#use "Script/Use/Anyway"
+
+#macro EncTex "GFX/Field/Encounter.png"
+
+#macro mInactive 0
+#macro mChasing 1
+#macro mReturning 2
+
+Plua LevelGINIE
+
+Class FieldMonsterColor
+	Static Table LDiff = {}
+	Static Int DiffIdx(Int I)
+		I=math.min(math.max(-10,I),10)
+		Return (I div 5)*5
+	End
+	Static Var GetColor(Int I) 
+		Return Self.LDiff[Self.DiffIdx(I)]
+	End
+	Static Var SetColor(O,DL)
+		D:=FieldMonsterColor.GetColor(DL)
+		O.R=D.R
+		O.G=D.G
+		O.B=D.B
+	End
+	ReadOnly Byte R
+	ReadOnly Byte G
+	ReadOnly Byte B		
+	Constructor(Byte _R,Byte _G,Byte _B)
+		R=_R
+		G=_G
+		B=_B
+	End
+End
+Init
+	FieldMonsterColor.LDiff[-10] = New FieldMonsterColor(180,255,0)
+	FieldMonsterColor.LDiff[-5] = New FieldMonsterColor(0,255,0)
+	FieldMonsterColor.LDiff[0] = FieldMonsterColor.LDiff[-5]
+	FieldMonsterColor.LDiff[5] =  New FieldMonsterColor(255,180,0)
+	FieldMonsterColor.LDiff[10] =  New FieldMonsterColor(255,0,0)
+End
+
+Class FoeData
+	ReadOnly String Foe
+	ReadOnly Int Level
+	Constructor(String F,Int L)
+		Foe = F
+		Level = L
+	End
+End
+
+Class FieldMonster
+	Static Table AllMonsters
+	Static Get Var Monsters
+		AllMonsters[Kthura.CurrentLayer] = AllMonsters[Kthura.CurrentLayer] || {}
+		Return AllMonsters[Kthura.CurrentLayer]
+	End	
+	
+	ReadOnly Var Me
+
+	ReadOnly Var Obj
+	ReadOnly Int StartX
+	ReadOnly Int StartY
+	ReadOnly Int Dominance = 20
+	ReadOnly String Spot
+	ReadOnly String ID
+	ReadOnly String Labels
+	ReadOnly Var Foe1
+	ReadOnly Var Foe2
+	ReadOnly Var Foe3
+	ReadOnly Var Foe4
+	ReadOnly Var Foe5
+	ReadOnly Var Foe6
+	ReadOnly Var Foe7
+	ReadOnly Var Foe8
+	ReadOnly Var Foe9
+		
+	Set Int MinSkill; End // Dirty way to get a value ignored
+	ReadOnly Bool Chase
+	Int Status = mInactive
+		
+	Get Int X
+		Return Ternary(Status==mInactive,StartX,Obj.X)
+	End
+	
+	Get Int Y
+		Return Ternary(Status==mInactive,StartY,Obj.Y)
+	End
+		
+	Constructor(full,inidat,int avg)
+		Me = Self
+		printf("New FieldMonster(<%s>,%s,%d)\n",Lua.type(full),lua.type(inidat),avg)
+		for k,v in pairs(inidat)
+			CSayF("%9s Foe.%s = %s",type(v),k,v)
+			Self[k] = v
+		end
+		Kthura.Spawn(ID,StartX,StartY)
+		Obj = Kthura.Obj[ID]
+		Obj.Texture = EncTex
+		Obj.Labels  = Labels
+		Obj.Visible = True
+		Obj.Dominance = Dominance
+		CSayF("Enemy actor spawned at (%d,%d)",Obj.X,Obj.Y)
+		Int FoeNum
+		Repeat
+			FoeNum=math.random(1,9)
+		Until math.random(0,FoeNum)<=__Skill^2
+		CSayF("Enemy actor will init a battle with %d foe(s)",FoeNum)
+		Int TotLevel = 0
+		for i = 1,FoeNum
+			//print(i,Type(self.minlevel),self.minlevel,Type(self.maxlevel),self.maxlevel)
+			Lv:=math.random(self.minlevel,self.maxlevel)
+			CSayF("Foe #%d, level: %d",i,lv)
+			TotLevel+=Lv
+			NF:=full.Foes[math.random(0,len(full.Foes)-1)]
+			Self[sprintf("Foe%d",FoeNum)] = new FoeData(NF,Lv)
+		End
+		Int AvgLevel:=TotLevel div TotLevel
+		FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
+	End
+	
+	Static Get Int PartyAverage
+		CSay("Getting party data")
+		_p:=Statistician.CreateNew("STAR_STORY")
+		CSay("Calculating")
+		int num=0
+		int tot=0
+		For i=0,5
+			CSayF("%d> %s",i,_p.party[i])
+			_c:=_p.party[i]
+			cout("Char: ",_c)
+			If _c!=""
+				cout("\t ->")
+				num++
+				printf("\x1b[0m %d: ",num);
+				tot+=_p.Char[_c].Stat.Level
+				printf("--> %d\n",tot)
+			End
+		End		
+		return math.max(1,tot div num)
+	End
+	
+	Static Get String LVPTT
+		// Level PlayTrough Tag
+		return sprintf("PlayThrough_%02d",Caps.Cycle)
+	End
+	
+	Static Get Int MapLevel
+		Return LevelGINIE.IntValue(FieldMonster.LVPTT,"Map")
+	End
+	Static Get Int MinLevel
+		int ret := LevelGINIE.IntValue(FieldMonster.LVPTT,"Mini")
+		return ret
+	End
+	Static Get Int MaxLevel
+		int Ret := LevelGINIE.IntValue(FieldMonster.LVPTT,"Maxi")
+		return ret
+	End
+	
+	
+
+	Static Void SCANFOES()
+		locExtern Load "load"
+		CSay("Calculating party averate level")
+		int avg = PartyAverage
+		plua fulldata
+		CSay("Scanning for foes")
+		AllMonsters = {}
+		LevelGINIE = GINIE.Load(Kthura.LastLoadedMap.."/Levels.ini","Levels::"..Kthura.LastLoadedMap)
+		do		
+			enfile:=Kthura.LastLoadedMap.."/enemies.lua"
+			fulldatastring:=JCR6.GetString(enfile)
+			plua fulldatafunc
+			plua err
+			fulldatafunc,err=Load(fulldatastring)
+			assert(fulldatafunc,"Error compiling enemy data for: "..Kthura.LastLoadedMap.."\n\n"..tostring(err))
+			fulldata = fulldatafunc()
+		end
+		OLay:=Kthura.CurrentLayer
+		For lay,laylist in pairs(fulldata.Layers)
+			For _,fdata in pairs(laylist)
+				If __skill>=fdata.MinSkill
+					Monsters[len(monsters)] = new FieldMonster(fulldata,fdata,avg)
+				End
+			End
+		End
+	End
+	
+	Static Void Kill(Int i)
+		r:=Monsters[i]
+		if (!r)
+			printf("\x07\x1b[93mWARNING\x1b[0mTried to kill non-existent enemy record #%03d!\n",i)
+			return
+		end
+		Kthura.kill(r.ID)
+		Monsters[i] = nil
+		CSayF("Enemy #%03d has been removed from the map!",i)
 	End
 
 	Static Void CheckAll()
