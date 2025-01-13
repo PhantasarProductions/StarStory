@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.01.06 XI
+// 	  Version: 25.01.10
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -255,7 +255,7 @@ global bool S_GiveItem(string it,string char)
 			stag = sprintf("INVAMNT%d",i)
 			ok = true
 		else
-			ok = it == D[dtag]:upper() && S[stag]<Caps.InventoryMaxStack
+			ok = it == upper(D[dtag]) && S[stag]<Caps.InventoryMaxStack
 		end
 	until ok
 	S[stag]++
