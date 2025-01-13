@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Start/Main.scyndi
 // 
-// 	  Version: 25.01.03
+// 	  Version: 25.01.13
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -143,9 +143,10 @@ init
 		Events.Poll()
 		Graphics.Cls()
 		Graphics.Color(255,255,255)
-		if Loading
+		if Loading!=nil
 			Loading.Draw((Graphics.W div 2)-(Loading.Width div 2),(Graphics.H div 2)-(Loading.Height div 2))
 		end
+		
 		Graphics.Color(65,65,65)
 		Graphics.Rect(0,Graphics.H-50,Graphics.W,50)
 		Graphics.Color(0,180,255)
@@ -153,13 +154,15 @@ init
 		Graphics.Color(255,255,255)
 		Flip()
 		Events.Poll()
-		printf("%5d/%5d: Loading ",i,m)
+		printf("%5d/%5d: Loading ",i+1,m)
 		switch LA.what
 			// wh_Image
 			case 1
 				cout("image ",LA.File," to ",LA.Tag," ")
 				var I =  LoadImage(LA.File,LA.Tag)
+				print("Loaded!")
 				Loading = Loading || I
+				//print("-----")
 			// wh_Font
 			case 2
 				cout("font ",LA.File," to ",LA.Tag," ")
@@ -172,7 +175,7 @@ init
 			default
 				print("ERROR!")
 				lua.error("Unknown loader switch ("..LA.what..")")
-		end
+		end		
 		print()
 	end
 
