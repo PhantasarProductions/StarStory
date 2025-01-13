@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/MiniMessage.scyndi
 // 
-// 	  Version: 25.01.02
+// 	  Version: 25.01.10 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -71,7 +71,7 @@ class TMM
 	readonly int G
 	readonly int B
 	int pos
-	int cd = 5000
+	int cd = 2500
 	int y = Screen.H - 120
 	
 	get int x
@@ -83,7 +83,7 @@ class TMM
 		G = ag
 		B = ab
 		Msg = aMsg
-		pos = 40 + Font.TextWidth(Msg)
+		pos = 40 + Font.Width(Msg)
 		Lijst.AddLast(self)
 	end
 	
@@ -95,14 +95,15 @@ class TMM
 		bool ret = false
 		// bool Over = OverPos()
 		bool Ovr1 = false
-		int sy = (Screen.h-120) - ((Lijst.Count-1)*30)
+		int sy = (Graphics.h-120) - ((Lijst.Count-1)*30)
 		int gy;gy = sy		
 		for o,l in Lijst.Each
 			ret = true
 			if o.pos>0
 				if !Ovr1
 					Ovr1=true
-					o.pos--
+					//o.pos--
+					o.pos -= math.max(1,o.pos div 10)
 				end
 			elseif o.y>gy
 				o.y--
@@ -114,7 +115,7 @@ class TMM
 				l.Unlink()
 			end
 			Graphics.Color(o.R,o.G,O.b)
-			Font.Text(o.msg,o.x,o.y,1,0)
+			Font.Dark(o.msg,o.x,o.y,1,0)
 		end
 		return ret
 	end
