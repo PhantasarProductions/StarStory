@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.05
+// 	  Version: 25.01.11
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -133,6 +133,7 @@ global void FullDrawScreen(noauto)
 		GStat(sprintf("Credits: %d",Aurina.Cash))
 		GStat(sprintf("Aurinas: %d",__aurinas))
 	end
+	FieldWelcome.ShowWelcome()
 end
 
 
