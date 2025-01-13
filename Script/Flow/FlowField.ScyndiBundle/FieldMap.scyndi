@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.05 V
+// 	  Version: 25.01.13
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@ module
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/InterVar"
 
 #use "libs/xmath"
@@ -94,7 +95,7 @@ class Clickable
 		string Name;Name = RPGChar[Map.Leader].Name
 		bool Ok;Ok = Item.Give(O.Data["ITEM_S"],Map.Leader)
 		if Ok
-			TMM.NewMsg(sprintf("%s picks up '%s'",Name,Item[O.GetData("ITEM_F")].Name),0,180,255)
+			TMM.NewMsg(sprintf("%s picks up '%s'",Name,Item[O.Data["ITEM_F"]].Name),0,180,255)
 			Map.Kill(Tag)
 		else
 			Buzz.Play()
@@ -204,7 +205,7 @@ class Clickable
 	End
 	
 	static void ObtainARM(string T)
-		table d;d = Split(T," ")
+		table d;d = XSplit(T," ")
 		BoxText.Load("CRYSTAL","GENERAL/ARMS")
 		Map.Leader="Crystal"
 		gStr.ARMOBTAINED = Item["ARM_"..d[3]].Name
@@ -225,9 +226,9 @@ class Clickable
 			//var Lay = Map.KthuraMap.Layer(L)			
 			Kthura.GotoLayer(L)
 			table rItems = Map.LRItems
-			//CSayF("Clickable scan: %s",L)
+			//CSayF("Clickable scan layer: %s",L)
 			for T in each(Kthura.TagList)
-				//CSayF("Clickable scan: %s.%s",L,T)
+				CSayF("Clickable scan: %s.%s",L,T)
 				if prefixed(T,"NPC_MT_")
 					var fuck := Self.LSpot(L,T) //= Spot(Lay,T)
 					Self.Create(T,L,fuck[1],fuck[2],MapText,T)
@@ -246,7 +247,7 @@ class Clickable
 					end
 					CSayF("Transporter Pad: %s",Spot)
 				elseif prefixed(T,"ARMCHST")
-					table d;d = Split(T," ")
+					table d;d = XSplit(T," ")
 					CSayF("ARMS Chest #%s > %s",d[2],d[3])
 					if RPGChar.Crystal.List.ARM.Has(d[3])
 						CSay("Crystal already has this ARM, so let's remove it!")
@@ -256,14 +257,14 @@ class Clickable
 						TS := Kthura.Obj[T]
 						Self.Create(T,L,TS.X,TS.Y+32,Self.ObtainARM,T)
 					end
-				elseif Prefixed(T,"Item ")
-					//CSayF("Item: %s",T)
+				elseif Prefixed(Upper(T),"ITEM ") 
+					CSayF("Item: %s",T)
 					if math.random(1,(__skill+1)^2)!=1
 						//CSay("- SKIPPED!")
 					else
 						M_id++
 						string ctag;ctag = sprintf("RANDOM_TREASURE_%08x",M_id)
-						//CSayF("- Tagged: %s",ctag)
+						CSayF("- Tagged: %s",ctag)
 						var O; O = Kthura.NewObject("Obstacle",ctag)
 						var S; S = Kthura.Obj[T]
 						//Map.KthuraMap.Remap()
@@ -272,8 +273,8 @@ class Clickable
 						string itTag;itTag = "ITM_"..shtag
 						//O.Data["ITEM_F"] = itTag
 						//O.Data["ITEM_S"] = shTag
-						O.ITEM_F = itTag
-						O.ITEM_S = shTag
+						O.Data.ITEM_F = itTag
+						O.Data.ITEM_S = shTag
 						o.Texture = Item[itTag].IconFile
 						O.X = S.X
 						O.Y = S.Y
@@ -290,6 +291,7 @@ class Clickable
 			end
 		end
 		Kthura.GoToLayer(OldLayer)
+		CSay("Clickable automation Completed")
 	end
 	
 	static bool All(int x, int y)
@@ -355,9 +357,9 @@ group FldMap
 		table ret:= {}
 		for i = 1 , math.min(Caps.Cycle,5)
 			string l := Kthura.Meta[sprintf("PT %2d Items",i)]
-			table ketting := Split(l,";")
+			table ketting := XSplit(l,";")
 			for it in each (ketting)
-				table thisitem = Split(it,",")
+				table thisitem = XSplit(it,",")
 				switch len(thisitem)
 					case 1
 						ret += thisitem[0]
@@ -508,6 +510,10 @@ group FldMap
 		Clickable.Automate()
 		ScanFoes()
 		Kthura.AutoReMap=true
+		WF:="Kthura/"..Map.."/Welcome.png"
+		if JCR6.EntryExists(WF) && (!Done["WELCOME_TO_KTHURAMAP_"..Map])
+			Lua.Scyndi.Class.FieldWelcome.AddWelcome(WF)
+		End
 	end
 	
 	int Level()
