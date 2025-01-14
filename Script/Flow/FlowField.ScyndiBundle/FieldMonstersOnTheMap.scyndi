@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.13
+// 	  Version: 25.01.14 XV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -50,6 +50,7 @@ Module
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/Statistician"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 #macro EncTex "GFX/Field/Encounter.png"
@@ -74,22 +75,27 @@ Class FieldMonsterColor
 		O.R=D.R
 		O.G=D.G
 		O.B=D.B
+		return D
 	End
 	ReadOnly Byte R
 	ReadOnly Byte G
-	ReadOnly Byte B		
-	Constructor(Byte _R,Byte _G,Byte _B)
+	ReadOnly Byte B
+	ReadOnly Int MaxActivateRange
+	ReadOnly Int MaxChaseRange
+	Constructor(int A,Byte _R,Byte _G,Byte _B)
+		MaxActivateRange = math.floor(5.3*A*__skill)
+		MaxChaseRange    = math.floor(104.8*A*__skill)
 		R=_R
 		G=_G
 		B=_B
 	End
 End
 Init
-	FieldMonsterColor.LDiff[-10] = New FieldMonsterColor(180,255,0)
-	FieldMonsterColor.LDiff[-5] = New FieldMonsterColor(0,255,0)
+	FieldMonsterColor.LDiff[-10] = New FieldMonsterColor(5,0,255,0)
+	FieldMonsterColor.LDiff[-5] = New FieldMonsterColor(15,180,255,0)
 	FieldMonsterColor.LDiff[0] = FieldMonsterColor.LDiff[-5]
-	FieldMonsterColor.LDiff[5] =  New FieldMonsterColor(255,180,0)
-	FieldMonsterColor.LDiff[10] =  New FieldMonsterColor(255,0,0)
+	FieldMonsterColor.LDiff[5] =  New FieldMonsterColor(30,255,180,0)
+	FieldMonsterColor.LDiff[10] =  New FieldMonsterColor(60,255,0,0)
 End
 
 Class FoeData
@@ -127,6 +133,10 @@ Class FieldMonster
 	ReadOnly Var Foe8
 	ReadOnly Var Foe9
 		
+	ReadOnly Int MaxActivateRange
+	ReadOnly Int MaxChaseRange
+
+		
 	Set Int MinSkill; End // Dirty way to get a value ignored
 	ReadOnly Bool Chase
 	Int Status = mInactive
@@ -137,6 +147,24 @@ Class FieldMonster
 	
 	Get Int Y
 		Return Ternary(Status==mInactive,StartY,Obj.Y)
+	End
+	
+	Bool InRange(Int CX,Int CY,Int Range)
+		// This setup is done in order to make the range checking faster.
+		// Empowering and square rooting, are both pretty slow in Lua, and
+		// should therefore be avoided whenever possible, hence the earlier 
+		// check. Most items will be outside this square anyway, and do 
+		// therefore not require Pythagoras anyway, as outside of the square 
+		// will always be outside the range. Only when closer in Pythagoras 
+		// will do the precission.
+		locextern abs "math.abs"
+		If abs(CX-X)>Range || abs(CY-Y)>Range
+			// CSayF("X: %d-%d=%d    Y:%d-%d=%d     Range:%d",CX,X,abs(CX-X),CY,Y,abs(CY-Y),Range)
+			Return False
+		End
+		Int Z1 := CX-X
+		Int Z2 := CY-Y
+		Return Range>=math.sqrt( (Z1*Z1) + (Z2*Z2) )
 	End
 		
 	Constructor(full,inidat,int avg)
@@ -167,8 +195,10 @@ Class FieldMonster
 			NF:=full.Foes[math.random(0,len(full.Foes)-1)]
 			Self[sprintf("Foe%d",FoeNum)] = new FoeData(NF,Lv)
 		End
-		Int AvgLevel:=TotLevel div TotLevel
-		FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
+		Int AvgLevel:=TotLevel div FoeNum
+		FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
+		MaxActivateRange, MaxChaseRange = FMC.MaxActivateRange, FMC.MaxChaseRange
+		CSayF("Max Activate Range: %d;  Max Chase Range: %d",MaxActivateRange, MaxChaseRange)
 	End
 	
 	Static Get Int PartyAverage
@@ -250,8 +280,55 @@ Class FieldMonster
 	End
 
 	Static Void CheckAll()
-		// TODO: The actual checking comes later!
-		//       For now this routine simply had to exist
+		int px
+		int py
+		px,py=Player.X,Player.Y
+		for mi,md in pairs(Monsters)
+			switch md.Status
+				case mInactive
+					if md.Obj.Visible && md.InRange(px,py,md.MaxActivateRange)
+						md.Status = mChasing
+					end
+				case mChasing
+					if (!md.Obj.Visible) || (!md.InRange(md.StartX,md.Starty,md.MaxChaseRange))
+						md.Obj.StopWalking()
+						md.Status = mReturning
+					elif (!md.Obj.Walking)
+						md.Obj.WalkTo(px,py)
+					end
+				case mReturning
+					if md.InRange(md.StartX,md.StartY,40)
+						md.Obj.StopWalking()
+						md.Obj.MoveTo(md.StartX,md.StartY)
+						md.Status=mInactive
+					elif (!md.Obj.Walking)
+						md.Obj.WalkTo(md.StartX,md.StartY)
+					end
+				default
+					// Should NEVER be possible, but hey, coding has done crazier things!
+					CSayF("Hey! Rogue status(%d) for foe #%d! Resetting!",md.Status,mi)
+					md.Obj.StopWalking()
+					md.Obj.MoveTo(md.StartX,md.StartY)
+					md.Status=mInactive
+			End
+			// TODO: Activate combat
+		End
+	End
+	
+	Static Void Debug()
+		int px
+		int py
+		px,py=Player.X,Player.Y
+		for mi,md in spairs(Monsters)
+			printf("\x1b[91m%9d: ",mi)
+			printf("\x1b[92m(%04d,%04d) ",md.X,md.Y)
+			printf("\x1b[93m(%04d,%04d) ",md.StartX,md.StartY)
+			printf("\x1b[94mStatus: %d ",md.Status)
+			printf("\x1b[95mAct Range: %9.2f (%5s) ",math.sqrt( ((md.X-px)^2) + ( (md.Y-py)^2) ),md.InRange(px,py,md.MaxActivateRange))
+			printf("\x1b[96mCha Range: %9.2f (%5s) ",math.sqrt( ((md.X-md.StartX)^2) + ((md.Y-md.StartY)^2) ),md.InRange(md.StartX,md.StartY,md.MaxChaseRange))
+			printf("\x1b[97m  %04d:%04d",md.MaxActivateRange,md.MaxChaseRange)
+			printf("\n")
+		end
 	End
 	
 End
