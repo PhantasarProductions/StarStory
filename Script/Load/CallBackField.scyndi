@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/CallBackField.scyndi
 // 
-// 	  Version: 25.01.11
+// 	  Version: 25.01.14
 // 	
 // 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -184,8 +184,8 @@ global void MainFlow()
 		End
 		Return
 	End
-	FieldMonster.CheckAll()		
 	FullDrawScreen()
+	FieldMonster.CheckAll()		
 	Graphics.Color(255,255,255)
 	Sys.Call("MAPSCRIPT","MScript.Draw","nil")
 	ZoneAction.CheckAll()
