@@ -281,8 +281,20 @@ Class FieldMonster
 		CSayF("Enemy #%03d has been removed from the map!",i)
 	End
 	
-	Static Void Fight()
-		CSay("\007 Fighting not yet implemented")
+	Static Void Fight(F)
+		//CSay("\007 Fighting not yet implemented")
+		
+		StartCombat.Prepare()
+		For i=1,9
+			F:=F[sprintf("Foe%d",i)]
+			If F.Foe!=""
+				StartCombat.Foe(F.Foe,F.Level)
+			End
+		End
+		StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Boss = false
+		StartCombat.Arena = Kthura.Data.Arena
+		StartCombat.Begin()
 	End
 
 	Static Void CheckAll()
