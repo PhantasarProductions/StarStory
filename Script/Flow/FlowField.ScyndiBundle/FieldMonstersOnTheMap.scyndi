@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.14 XV
+// 	  Version: 25.01.14 XXIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module
 #use "Libs/SCI/JCR6"
 #use "Libs/SCI/GINIE"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/Statistician"
 
 #use "Script/Use/Link"
@@ -114,6 +115,8 @@ Class FieldMonster
 		Return AllMonsters[Kthura.CurrentLayer]
 	End	
 	
+	ReadOnly Static Var Peace = ObtainImage("PEACE")
+	
 	ReadOnly Var Me
 
 	ReadOnly Var Obj
@@ -135,7 +138,6 @@ Class FieldMonster
 		
 	ReadOnly Int MaxActivateRange
 	ReadOnly Int MaxChaseRange
-
 		
 	Set Int MinSkill; End // Dirty way to get a value ignored
 	ReadOnly Bool Chase
@@ -278,15 +280,21 @@ Class FieldMonster
 		Monsters[i] = nil
 		CSayF("Enemy #%03d has been removed from the map!",i)
 	End
+	
+	Static Void Fight()
+		CSay("\007 Fighting not yet implemented")
+	End
 
 	Static Void CheckAll()
 		int px
 		int py
+		locExtern NoEncCD "___Static_Local_SoMustBeInvisible_CheckAll__NocEncCD"
+		NoEncCD = math.max(0,(NoEncCD || 5)-1)
 		px,py=Player.X,Player.Y
 		for mi,md in pairs(Monsters)
 			switch md.Status
 				case mInactive
-					if md.Obj.Visible && md.InRange(px,py,md.MaxActivateRange)
+					if NoEncCD<=0 && md.Obj.Visible && md.InRange(px,py,md.MaxActivateRange) 
 						md.Status = mChasing
 					end
 				case mChasing
@@ -310,8 +318,34 @@ Class FieldMonster
 					md.Obj.StopWalking()
 					md.Obj.MoveTo(md.StartX,md.StartY)
 					md.Status=mInactive
+			End			
+			If NoEncCD<=0 && md.InRange(px,py,36)
+				FieldMonster.Fight(md)
+				//Monsters[mi] = nil
+				FieldMonster.Kill(mi)
+				FieldMonster.DeactivateAll()
+				NoEncCD = 100 div __skill
+				return
+				// Safety pre-caution. Loops with nilling members is quite dangerous.
+				// Since it doesn't really matter if awaiting things are still 
+				// relevant as they are reset anyway, this should be quite safe.
 			End
-			// TODO: Activate combat
+			If NoEncCD>0
+				__white
+				SetAlpha( 255 div ( (os.time()%2)+1 ) )
+				Peace.Stretch(Graphics.W - 45,0,45,45)
+				SetAlpha( 255 )
+			End
+		End
+	End
+	
+	Static Void DeactivateAll()
+		For mi,md In pairs(Monsters)
+			If md.Status!=mReturning
+				md.Obj.StopWalking()
+				md.Obj.WalkTo(md.StartX,md.StartY)
+				md.Status=mReturning
+			End
 		End
 	End
 	
