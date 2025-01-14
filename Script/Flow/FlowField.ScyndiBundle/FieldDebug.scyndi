@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldDebug.scyndi
 // 
-// 	  Version: 25.01.05 I
+// 	  Version: 25.01.14
 // 	
 // 	  Copyright (C) 2023, 2025 Jeroen Petrus Broks
 // 	
@@ -60,7 +60,12 @@ Global Void FLD_DEBUG_MYPOS()
 	printf("Player is located on (%d,%d)\n",Player.X,Player.Y)
 end
 
+Global Void FLD_DEBUG_FOES()
+	Lua.Scyndi.Class.FieldMonster.Debug()
+End
+
 Init
 	Sys.ConsoleLocal("SAVE","FLD_DEBUG_SAVE")
 	Sys.ConsoleLocal("MYPOS","FLD_DEBUG_MYPOS")
+	Sys.ConsoleLocal("FOES","FLD_DEBUG_FOES")
 End
