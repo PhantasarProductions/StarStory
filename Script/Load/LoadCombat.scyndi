@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/LoadCombat.scyndi
 // 
-// 	  Version: 25.01.14
+// 	  Version: 25.01.14 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@ Script
 
 global bool FlawLessVictory = true
 
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Anyway"
