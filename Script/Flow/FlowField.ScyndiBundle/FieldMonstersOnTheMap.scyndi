@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.14 XXIII
+// 	  Version: 25.01.14 XXV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -283,7 +283,7 @@ Class FieldMonster
 	
 	Static Void Fight(F)
 		//CSay("\007 Fighting not yet implemented")
-		
+		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",F.X,F.Y,Player.X,Player.Y)
 		StartCombat.Prepare()
 		For i=1,9
 			F:=F[sprintf("Foe%d",i)]
@@ -331,7 +331,7 @@ Class FieldMonster
 					md.Obj.MoveTo(md.StartX,md.StartY)
 					md.Status=mInactive
 			End			
-			If NoEncCD<=0 && md.InRange(px,py,36)
+			If NoEncCD<=0 && md.InRange(px,py,36) && md.Obj.Visible
 				FieldMonster.Fight(md)
 				//Monsters[mi] = nil
 				FieldMonster.Kill(mi)
