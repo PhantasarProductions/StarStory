@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Combat_h.Scyndi
 // 
-// 	  Version: 25.01.04 IX
+// 	  Version: 25.01.14 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -88,7 +88,7 @@ group StartCombat
 		int g
 		int b
 		int t
-		Lua.Scyndi.Class.Player.StopWalking()
+		Lua.Scyndi.Globals.Player.StopWalking()
 		
 		// Step 1: Fade-out
 		repeat
@@ -111,7 +111,7 @@ group StartCombat
 		end
 		
 		// Step 2: Prepare break-down
-		var L = New LinkedList()
+		var L = New TLinkedList()
 		int x=0
 		int y=0
 		int siz = Graphics.W div 50
@@ -144,7 +144,7 @@ group StartCombat
 		until L.Count<=0
 		
 		// Begin the combat preparations itself
-		State.LoadFlow("COMBAT","Script/Load/LoadCombat.neil")
+		State.LoadFlow("COMBAT","Script/Load/LoadCombat.lbc")
 	end
 	
 	void Begin()
