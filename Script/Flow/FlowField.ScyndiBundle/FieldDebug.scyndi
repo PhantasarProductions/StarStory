@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldDebug.scyndi
 // 
-// 	  Version: 25.01.14
+// 	  Version: 25.01.14 I
 // 	
 // 	  Copyright (C) 2023, 2025 Jeroen Petrus Broks
 // 	
@@ -64,8 +64,13 @@ Global Void FLD_DEBUG_FOES()
 	Lua.Scyndi.Class.FieldMonster.Debug()
 End
 
+Global Void FLD_DEBUG_VREDE()
+	Lua.Scyndi.Class.FieldMonster.DeactivateAll()
+End
+
 Init
 	Sys.ConsoleLocal("SAVE","FLD_DEBUG_SAVE")
 	Sys.ConsoleLocal("MYPOS","FLD_DEBUG_MYPOS")
 	Sys.ConsoleLocal("FOES","FLD_DEBUG_FOES")
+	Sys.ConsoleLocal("VREDE","FLD_DEBUG_VREDE")
 End
