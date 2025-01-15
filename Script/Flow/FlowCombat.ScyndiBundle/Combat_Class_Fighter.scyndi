@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.14 III
+// 	  Version: 25.01.15 X
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -45,8 +45,13 @@
 
 Module
 
+#use "Libs/SCI/Sys"
 #use "libs/LinkedList"
+#use "libs/SCI/Graphics"
+#use "libs/SCI/InterVar"
 #use "Script/Use/Misc/Resistance"
+#use "Script/use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
 
 class Combat_Hurt
 	int CD=125
@@ -61,7 +66,7 @@ class Combat_Hurt
 		return 125-CD
 	end
 	
-	void Draw(bool NCD=false)
+	void Draw(NCD)
 		//static var
 		locExtern font "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d"
 		font = font || ObtainFont("BoxText")
@@ -158,7 +163,7 @@ class Combat_Fighter
 		int g
 		int b
 			r,g,b = 255,255,255
-		string report := HurtBig(round(hp))
+		string report := self.HurtBig(round(hp))
 		int dodmg  := round(hp)
 		//local chtarget = FighterTag(tg,ti)
 		bool jack := gbool["CHEAT.JACK"]
@@ -207,7 +212,7 @@ class Combat_Fighter
     	case 1                  
               //   [1] = function() -- super weakness
                        dodmg = dodmg * 4
-                       report = HurtBig(dodmg)
+                       report = self.HurtBig(dodmg)
                        r,g,b = 255,0,0
                        //for status in iStatusChange(chtarget) do
                        //    if StatusAltUltraWeak[status] then dodmg,report,r,g,b = StatusAltUltraWeak[status](chtarget,dodmg,element) end
@@ -216,7 +221,7 @@ class Combat_Fighter
     	case 2                       
               //   [2] = function() -- regular weakness
                        dodmg = round(dodmg * 1.75)       
-                       report = HurtBig(dodmg)
+                       report = self.HurtBig(dodmg)
                        r,g,b = 255,80,0
                        //for status in iStatusChange(chtarget) do
                        //    if StatusAltWeak[status] then dodmg,report,r,g,b = StatusAltWeak[status](chtarget,dodmg,element) end
@@ -226,7 +231,7 @@ class Combat_Fighter
               //   [4] = function() -- half
                        dodmg = math.max(1,round(dodmg/2))
                        // if dodmg<1 then dodmg=1 end
-                       report = HurtBig(dodmg)
+                       report = self.HurtBig(dodmg)
                        r,g,b = 255,180,0
                        //for status in iStatusChange(chtarget) do
                        //    if StatusAltHalved[status] then dodmg,report,r,g,b = StatusAltHalved[status](chtarget,dodmg,element) end
@@ -248,7 +253,7 @@ class Combat_Fighter
                           return
                        end
                        dodmg = math.abs(dodmg)*(-1)
-                       report = HurtBig(math.abs(dodmg))
+                       report = self.HurtBig(math.abs(dodmg))
                        r,g,b = 0,255,0
                        //for status in iStatusChange(chtarget) do
                        //    if StatusAltHealing[status] then dodmg,report,r,g,b = StatusAltHealing[status](chtarget,dodmg,element) end
@@ -290,7 +295,7 @@ class Combat_Fighter
 	end
 
 	void Heal(int hp)
-		Pain (  hp , "Healing")
+		Self.Pain (  hp , "Healing")
 	end	
 	
 	get table Char
@@ -350,24 +355,47 @@ class Combat_Fighter
 	table Stats = nil
 	table Buffs = nil
 	void InitStats()
-		int StatIndex(s,string key)
+		//int StatIndex(s,string key)
+		ddef StatIndex
+			plua s
+			string key
+			s,key = infinity
 			return Char.Stat["END_"..key]
 		end
-		void StatNewIndex(s,string key,int v)
-			Lua.error(sprintf("You cannot assing value %d to Combat_Fighter.%s.Stat.%s because it's read-only!",v,self.Tag,key))
+		//void StatNewIndex(s,string key,int v)
+		ddef StatNewIndex
+			plua s
+			string key
+			int v
+			s,key,v = infinity
+			Lua.error(sprintf("You cannot assign value %d to Combat_Fighter.%s.Stat.%s because it's read-only!",v,self.Tag,key))
 		end
-		int BuffIndex(s,string key)
+		//int BuffIndex(s,string key)
+		ddef BuffIndex
+			plua s
+			string key
+			s,key = infinity
 			return Char.Stat["BUFF_"..key]
 		end
-		void BuffNewIndex(s,string ket, int v)
+		//void BuffNewIndex(s,string ket, int v)
+		ddef BuffNewIndex
+			plua s
+			string key
+			int v
+			s,key,v = infinity
 			Char.Stat["BUFF_"..key]=v
 		end
 		Stats = setmetatable({},{["__index"]=StatIndex,["__newindex"]=StatNewIndex})
 		Buffs = setmetatable({},{["__index"]=BuffIndex,["__newindex"]=BuffNewIndex})
 		CSayF("Metatables set for stats and buffs at character '%s'",self.Tag)
 		_statchange = {}
-		void sc_set(s,string key,bool value)
-			key = key:upper()
+		//void sc_set(s,string key,bool value)
+		ddef sc_set
+			plua s
+			string key
+			bool value
+			s,key,value = infinity
+			key = upper(key)
 			switch key
 				case "DESTRUCTION"
 					if value
@@ -391,8 +419,12 @@ class Combat_Fighter
 					_statchange[key] = value
 			end			
 		end
-		bool sc_get(s,string key)
-			key = key:upper()
+		//bool sc_get(s,string key)
+		ddef sc_get
+			plua s
+			string key
+			s,key = infinity
+			key = upper(key)
 			switch key
 				case "DEATH" "FALLEN" "DEAD"
 					return self.HP==0
@@ -400,7 +432,9 @@ class Combat_Fighter
 					return _statchange[key]==true
 			end
 		end
-		delegate sc_keys(s)
+		//delegate sc_keys(s)
+		ddef sc_keys
+			s:=infinity
 			table k
 			int i = 0
 			if self.HP==0
@@ -413,7 +447,8 @@ class Combat_Fighter
 					end
 				end
 			end
-			var ret()
+			//var ret()
+			ddef ret
 				i++
 				return k[i]
 			end
