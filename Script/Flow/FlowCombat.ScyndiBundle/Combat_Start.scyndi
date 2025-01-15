@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Start.scyndi
 // 
-// 	  Version: 25.01.15
+// 	  Version: 25.01.15 VIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,18 @@
 
 Module
 
+#use "Libs/Music"
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
+
+locExtern _self "Scyndi.Class.Combat_Start"
+locExtern Combat_Foe "Scyndi.Class.Combat_Foe"
+
+plua NeilUse(string abc)
+	Lua.Scyndi.Use(abc)
+	return Lua.Scyndi.Class[StripAll(abc)]
+End
+
 class Start_Enemy
 	readonly string Enemy
 	readonly int Level
@@ -67,8 +79,8 @@ end
 	
 	void AddFoe(string Enem,int Level)
 		Enemies += new Start_Enemy(Enem,Level)
-		if #Enemies>9
-			CSayF("WARNING! Enemy number is exceeding expectations! %d!",#Enemies)
+		if Len(Enemies)>9
+			CSayF("WARNING! Enemy number is exceeding expectations! %d!",Len(Enemies))
 		end
 	end
 	
@@ -85,7 +97,7 @@ end
 	
 	void SetValue(string key,value)
 		CSayF("Combat_Start.%s = %s (%s)",key, lua.tostring(value),type(value))
-		self[key] = value
+		_self[key] = value
 		// Dirty code!
 	end
 	
@@ -101,8 +113,8 @@ end
 			end
 		end
 		if StartScript!=""
-			var SSM = NeilUse("Script/Use/Combat/StartScript/"..StartScript)
+			var SSM := NeilUse("Script/Use/Combat/StartScript/CombatStart_"..StartScript)
 			SSM()
 		end
 	end
-end
+//end
