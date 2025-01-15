@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/LoadCombat.scyndi
 // 
-// 	  Version: 25.01.15 III
+// 	  Version: 25.01.15 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -96,24 +96,23 @@ end
 
 
 init
-	locExtern csc "Scyndi.Class"
 	Print("A few needed things before we start!")
 	// Linkups
-	scs.Combat_Draw.Start = Combat_Start
-	scs.Combat_Draw.Time = Combat_Time
-	scs.Combat_Draw.Fighter = Combat_Fighter
-	scs.Combat_Heroes.Fighters = Combat_Fighter
-	scs.Combat_Foe.Fighter = Combat_Fighter
-	scs.Combat_Time.FClass = Combat_Fighter	
-	scs.Combat_Stage_IDLE.STime = Combat_Time
-	scs.Combat_Time.Execution = Combat_Execution
-	scs.Combat_Victory.Start = Combat_Start
-	scs.Combat_Stage_IDLE.VictoryCheck = VictoryCheck
-	scs.Class_Action.Fighters = Combat_Fighter.Fighters
-	scs.Stage_PlayerInput.Fighters = Combat_Fighter
-	scs.Stage_SelectTarget.Fighters = Combat_Fighter.Fighters
-	scs.Stage_PlayerInput.Fighter = Combat_Fighter
-	scs.Stage.IDLE = Combat_Stage_IDLE
+	Combat_Draw.Start = Combat_Start
+	Combat_Draw.Time = Combat_Time
+	Combat_Draw.Fighter = Combat_Fighter
+	Combat_Heroes.Fighters = Combat_Fighter
+	Combat_Foe.Fighter = Combat_Fighter
+	Combat_Time.FClass = Combat_Fighter	
+	Combat_Stage_IDLE.STime = Combat_Time
+	Combat_Time.Execution = Combat_Execution
+	Combat_Victory.Start = Combat_Start
+	Combat_Stage_IDLE.VictoryCheck = VictoryCheck
+	Class_Action.Fighters = Combat_Fighter.Fighters
+	Stage_PlayerInput.Fighters = Combat_Fighter
+	Stage_SelectTarget.Fighters = Combat_Fighter.Fighters
+	Stage_PlayerInput.Fighter = Combat_Fighter
+	Stage.IDLE = Combat_Stage_IDLE
 	// Init
 	Combat_Heroes.Compile()
 	for i=__skill,2
