@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Draw.scyndi
 // 
-// 	  Version: 25.01.15 IV
+// 	  Version: 25.01.15 VIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,15 @@
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+
 module
+
+	locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
+
 	const var Mouse = ObtainImage("MOUSE")
 	delegate Error = Lua.error
 	var Arena
