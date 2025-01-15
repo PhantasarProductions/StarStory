@@ -1,45 +1,76 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowCombat.NeilBundle/Combat_Heroes.neil
-// Version: 21.10.09
-// Copyright (C) 2020, 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 25.01.15 XLII
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
+
+
+// In stead of re-using it, just dirty-link it!
+// Only use this method yourself when you KNOW what you are doing!
+locExtern Stage "Scyndi.Class.Stage"
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+locExtern FMenu "Scyndi.Class.FieldMenu"
+
 class Combat_Hero extends Combat_Fighter
 
-	readonly static int midx = math.floor(Screen.W/2)
-	readonly static int midx4 = math.floor((Screen.W/2)/4)
-	readonly static int midy = math.floor((Screen.H-120)/2)
-	readonly static int midy4 = math.floor(((Screen.H-120)/2)/4)
+	readonly static int midx = math.floor(Graphics.W/2)
+	readonly static int midx4 = math.floor((Graphics.W/2)/4)
+	readonly static int midy = math.floor((Graphics.H-120)/2)
+	readonly static int midy4 = math.floor(((Graphics.H-120)/2)/4)
 	
 	string Tag
 	string GITag
@@ -47,15 +78,12 @@ class Combat_Hero extends Combat_Fighter
 	table InputItems
 	
 	void TIcon(int x,int y)
-		GIIMG = GIIMG || Image.LoadNew(sPrintF("GFX/Combat/GaugeIcons/%s.png",Tag),GITag)
+		GIIMG = GIIMG || LoadNewImage(sPrintF("GFX/Combat/GaugeIcons/%s.png",Tag),GITag)
 		GIIMG.Draw(x,y)
 	end
 	
 	string _State = "Idle"
 	
-	set string State
-		_State = value
-	end
 	
 	get string State
 		if RPGChar[Tag].Points.HP.Have == 0
@@ -65,10 +93,16 @@ class Combat_Hero extends Combat_Fighter
 		end
 	end
 	
+	set string State
+		_State = value
+	end
+	
 	bool Pose(Act)
 		const int resettime = 62
-		static int time = 62
-		string mypose = Act.Act.ABL_Pose
+		//static int time = 62
+		locExtern time "__STATIC_COMBAT_81b6763a1aaf052b50adc6e9985e7ebc_CHero_Pose"
+		time = time || 62
+		string mypose := Act.Act.ABL_Pose
 		if prefixed(Act.ActTag,"ITM_") 
 			mypose = "Cast"
 		elseif prefixed(Act.ActTag,"ARM_")
@@ -177,7 +211,7 @@ class Combat_Hero extends Combat_Fighter
 		string S = State:upper()
 		if !Images[S]
 			CSay("Getting combat sprite for "..Tag.." in state "..State)
-			var ret = Image.Loadnew("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
+			var ret := LoadnewImage("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
 			ret.HotBottomCenter()
 			Images[S] = ret
 		end
@@ -194,7 +228,7 @@ class Combat_Hero extends Combat_Fighter
 				totaal += hro.Level
 			end
 		end
-		int ret = math.floor(totaal / aantal) 
+		int ret := math.floor(totaal / aantal) 
 		// CSayF("Totaal: %d, Aantal: %d, Average: %d",totaal, aantal, ret) // debug
 		return ret
 	end
@@ -215,7 +249,7 @@ class Combat_Hero extends Combat_Fighter
 				if RPGParty[i] && RPGParty[i]!=""
 					RPGChar[RPGParty[i]].Points.AP.Have+=inc
 					if RPGParty[i]=="Crystal"
-						number deler = inc/(__skill*50)
+						number deler := inc/(__skill*50)
 						RPGChar.Crystal.Points.HP.Have += math.ceil(deler*RPGChar.Crystal.Points.HP.Have)						
 					end
 				end
@@ -241,7 +275,7 @@ end
 group Stage_SelectTarget
 	var Act
 	var PInp
-	readonly var amFont
+	var amFont
 	//readonly table targets
 	var Fighters
 	
@@ -268,18 +302,20 @@ group Stage_SelectTarget
 	end
 	
 	void Draw()
-		static var fnt = ImageFont.Obtain("BOXTEXT")
-		static var sys = ImageFont.Obtain("SYSFONT")
+		locExtern fnt "FNT_23682639816498164"
+		locExtern sys "FNT_53682639816498164"
+		fnt = ObtainFont("BOXTEXT")
+		sys = ObtainFont("SYSFONT")
 		Graphics.Color(255,180,0)
 		AmFont.Text(sprintf("%s: %s: Please select your target",Act.Executor.Name,Act.Act.Name),30,10)
 		graphics.Color(255,0,0)
 		AMFont.Text("X",5,10) // TODO: Click to cancel
 		int al = Combat_Hero.AvgLevel
 		for ttag in each(Act.Targets_Tag)
-			plua tdat = Fighters[ttag]
+			plua tdat := Fighters[ttag]
 			__white
 			tdat.TIcon(tdat.x-25,tdat.y-50)
-			int verschil = tdat.Level - al
+			int verschil := tdat.Level - al
 			if tdat.Team=="Hero"
 				__white
 			elseif verschil<-10
@@ -314,13 +350,14 @@ group Stage_SelectTarget
 					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
 					fnt.Text("?",tdat.x+127,tdat.y-12,2,2)
 				else
-					int b = math.floor( (tdat.HP/tdat.MaxHP) * 255 )
+					int b := math.floor( (tdat.HP/tdat.MaxHP) * 255 )
 					Graphics.Color(255-b,b,0)
 					Graphics.Rect(tdat.x,tdat.y-25,b,25)
 				end
 				__white
 				If tdat.NextAct && tdat.gauge>10000
-					For i=1,#tdat.NextAct.Targets_Tag
+					//For i=1,#tdat.NextAct.Targets_Tag
+					for i,_ in pairs(tdat.NextAct.Targets_Tag)
 						tdat.NextAct.Targets[i].TIcon(tdat.x+((i-1)*20),tdat.Y+25)
 					End
 					Sys.DarkText(tdat.NextAct.Act.Name,tdat.x,tdat.Y+5)
@@ -330,12 +367,12 @@ group Stage_SelectTarget
 	end
 	
 	Void Update()
-		ClearTargets()
+		Stage_SelectTarget.ClearTargets()
 		int AllCount=0
 		for ftag,fdat in pairs(Fighters)
 			if fdat.Available and fdat.Targetable_Hero
 				// debug
-				// static var fnt = ImageFont.Obtain("BOXTEXT")
+				// static var fnt = ObtainFont("BOXTEXT")
 				// fnt.Text(sprintf("Tag: %s, (%d,%d)=>%dx%d Hover: %s ",fdat.Tag,fdat.X,fdat.Y,fdat.W,fdat.H,tostring(fdat.TargetHover)),fdat.x,fdat.y,2,2)				
 				// end debug
 				
@@ -373,9 +410,9 @@ group Stage_SelectTarget
 				end
 			end
 		end
-		if Events.MouseHitRight() || (Events.MouseHitLeft() && Events.MouseX()<50 && Events.MouseY()<25)
+		if Events.MouseHitRight || (Events.MouseHitLeft && Events.MouseX<50 && Events.MouseY<25)
 			PInp.ComeToMe(Act.Executor.Tag)
-		ElseIf Events.MouseHitLeft() && #Targets_Tag>0
+		ElseIf Events.MouseHitLeft && len(Targets_Tag)>0
 			Act.Executor.Gauge = 10001
 			Stage.Current = nil
 			if Act.ActTag=="ACT_SHOOT" || Act.ActTag=="ACT_ATTACK"
@@ -403,29 +440,37 @@ group Stage_SelectTarget
 		
 	end
 	
-	Constructor
-		amFont = ImageFont.Obtain("BOXTEXT")		
-	end
+	//Constructor
+	//	amFont = ObtainFont("BOXTEXT")		
+	//end
+end
+Init
+	Stage_SelectTarget.amfont = ObtainFont("BOXTEXT")
+End
+
+plua NeilUse(string a)
+	Lua.Scyndi.Use(a)
+	return Lua.Scyndi.Class[StripAll(a)]
 end
 
 
 group Stage_PlayerInput
 	var Fighter
 	var Fighters
-	ReadOnly var Top
-	ReadOnly Var Bottom
-	ReadOnly Var Item
-	ReadOnly Var Sides
+	 var Top
+	 Var Bottom
+	 Var Item
+	 Var Sides
 	string Tag
-	readonly var Signal
-	readonly var ItFont
-	readonly var AmFont
+	 var Signal
+	 var ItFont
+	 var AmFont
 	int Height
 	int PartyPos
 	string Hover
 	
 	get var PWidth
-		return Screen.W/4
+		return Graphics.W/4
 	end
 	
 	get var Hero
@@ -449,13 +494,13 @@ group Stage_PlayerInput
 		if Tag=="Crystal" || Tag=="UniCrystal" || Tag=="Briggs"
 			return false
 		end
-		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/"..Tag)
+		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/Abl"..Tag)
 		string NewABL=ABL[Tag].Learn
 		if NewABL==""
 			return false
 		end
 		var oa = Hero.NextAct
-		var a = new Class_Action(Tag,"ABL_"..NewABL)
+		var a := new Class_Action(Tag,"ABL_"..NewABL)
 		Hero.NextAct = a
 		a.Learning = true
 		a.LearningABL = NewABL
@@ -531,7 +576,7 @@ group Stage_PlayerInput
 		FMenu.Go(Tag,"COMBAT_ABILITIES")
 	end
 	get var DoARMS
-		return DoAbility
+		return Stage_PlayerInput.DoAbility
 	end
 	Void DoSwitch()
 		FMenu.Go(Tag,"COMBAT_SWITCH")
@@ -554,8 +599,12 @@ group Stage_PlayerInput
 	
 	Void ReturnAbility(string AblTag,int APCost,string ActivatePowerUp)
 		var a
-		Bool PwUp(string atag,string PU)
-			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..(PU:upper()))
+		//Bool PwUp(string atag,string PU)
+		ddef PwUp
+			String atag
+			String PU
+			atag,PU = infinity
+			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..(Upper(PU)))
 		end
 		a = new Class_Action(Tag,"ABL_"..AblTag)
 		a.BurnAP = APCost
@@ -597,7 +646,7 @@ group Stage_PlayerInput
 		if !NoSignal
 			Signal.Play()
 		end
-		Height = #Hero.InputItems * 52
+		Height = len(Hero.InputItems) * 52
 		PartyPos = 0
 		for i=1,3
 			if RPGParty[i]==ToTag
@@ -608,8 +657,8 @@ group Stage_PlayerInput
 	End
 	
 	Void Draw()
-		int by = Screen.H-228
-		int sy = by - Height
+		int by := Graphics.H-228
+		int sy := by - Height
 		__white
 		Bottom.Draw(MPos,by)
 		Sides.Stretch(MPos,sy,200,Height)
@@ -617,7 +666,7 @@ group Stage_PlayerInput
 		Hover = ""
 		for i,cmd in ipairs(Hero.InputItems)
 			__white
-			int iy = sy+((i-1)*52)
+			int iy := sy+((i-1)*52)
 			Item.Draw(MPos+12,iy)
 			Graphics.Color(0,180,255)
 			if (cmd=="Reload" && Hero.Ammo==Hero.AmmoMax) || (cmd=="Shoot" && Hero.Ammo==0)
@@ -644,15 +693,19 @@ group Stage_PlayerInput
 		end
 	End
 	
-	Constructor
-		itFont = ImageFont.Obtain("BIGTEXT")
-		amFont = ImageFont.Obtain("BOXTEXT")
-		Signal = Audio.Obtain("SIGNAL")
-		For PI In Each {"TOP","BOTTOM","ITEM","SIDES"}
-			self[PI]=Image.Obtain("COMBAT_PLAYINPUT_"..PI)
+end
+Init
+	//Constructor
+		Stage_PlayerInput.itFont = ObtainFont("BIGTEXT")
+		Stage_PlayerInput.amFont = ObtainFont("BOXTEXT")
+		Stage_PlayerInput.Signal = Audio.Obtain("SIGNAL")
+		For PI In Each (NewArray("TOP","BOTTOM","ITEM","SIDES"))
+			Stage_PlayerInput = ObtainImage("COMBAT_PLAYINPUT_"..PI)
+			// self[PI]=ObtainImage("COMBAT_PLAYINPUT_"..PI)
 		End
-		Stage_SelectTarget.PInp = self
-	end
+		//Stage_SelectTarget.PInp = self
+		Stage_SelectTarget.PInp = Stage_PlayerInput
+	//end
 end
 
 void HurtXenobi()
@@ -662,15 +715,17 @@ void HurtXenobi()
 	End
 end
 
+
+Int MaxBuf = 3000 div __skill
 Void HurtJohnson()
 	Var HP = RPGChar.Johnson.Points.HP
 	If HP.Have<=0
 		CSay("Ignore! Johnson has fallen!")
 		Return
 	End
-	Int Verschil = HP.Maximum - HP.Have
-	Static Int MaxBuf = 3000 div __skill
-	Int Buf = math.max(1,Verschil div (__skill * 2000))
+	Int Verschil := HP.Maximum - HP.Have
+	//Static Int MaxBuf = 3000 div __skill
+	Int Buf := math.max(1,Verschil div (__skill * 2000))
 	If RPGChar.Johnson.Stat.BUFF_Agility >=MaxBuf
 		Return
 	End
@@ -679,7 +734,7 @@ Void HurtJohnson()
 	Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
 End
 
-module 
+//module 
 	var Fighters
 	void Compile()
 		CSay("Setting up hero party")
@@ -713,4 +768,4 @@ module
 			end
 		end
 	end
-end
+//end
