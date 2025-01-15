@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.15 III
+// version: 25.01.15 VII
 // 
 // End License
 
@@ -45,8 +45,11 @@ module
 #use "Script/Use/Link"
 #use "Libs/SCI/Graphics"
 #use "Script/Use/Anyway"
+#use "Libs/SCI/Intervar"
 #use "Script/Use/Convert/Flow"
 #use "Script/Use/Convert/RPG2Stat"
+
+locExtern Combat_Hero "Scyndi.Class.Combat_Hero"
 
 	readonly var Banner = LoadNewImage("GFX/Combat/YouWin.png","COMBAT_YOU_WIN")
 	int Frame=1000
@@ -86,9 +89,9 @@ module
 			For i=1,__skill^2
 				Party.AutoBuffExpire()
 			End
-			gv.gint.Combat_Victory++
+			gint.Combat_Victory++
 			For i in Each{17,25,50,100,1000}
-				If gv.gint.Combat_Victory>=i
+				If gint.Combat_Victory>=i
 					Ach.Award(sPrintF("VICTORY%05d",i))
 				End
 			End
