@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.16 IX
+// 	  Version: 25.01.16 XX
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -45,8 +45,12 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
 
+#use "Script/Use/Anyway"
 #use "Script/Use/Misc/Resistance"
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
 
 Global Var CG_Effect
 
@@ -210,7 +214,7 @@ Global Var CG_Effect
 				Tar.char.Points.AP.Have += Act.Act.APRecover
 				Tar.Hurt(Lua.tostring(Act.Act.APRecover),0,180,255)
 			case "Percent"
-				int h = math.max(1,math.floor(Tar.Char.Points.AP.Maximum * (Act.Act.APRecover/100)))
+				int h := math.max(1,math.floor(Tar.Char.Points.AP.Maximum * (Act.Act.APRecover/100)))
 				Tar.Hurt(Lua.tostring(h),0,180,255)
 				Tar.char.Points.AP.Have += h
 			default
@@ -220,10 +224,17 @@ Global Var CG_Effect
 	end
 			
 	
-	bool Script(Act,Tar)
+	Var GetEffect(FN)
+		Lua.Scyndi.Use("Script/Use/Combat/SpellEffect/EFFECT_"..FN)
+		rmod:=Lua.Scyndi.Class["EFFECT_"..FN)
+		return rmod.DoEffect;
+	end
+	
+	bool $Script(Act,Tar)
 		// TODO: Script
 		if Act.Act.ScriptEffect_Reference && Act.Act.ScriptEffect_Reference!=""
-			delegate E = NeilUse("Script/Use/Combat/SpellEffect/"..Act.Act.ScriptEffect_Reference)
+			//delegate E = NeilUse("Script/Use/Combat/SpellEffect/"..Act.Act.ScriptEffect_Reference)
+			E:=GetEffect(Act.Act.ScriptEffect_Reference)
 			bool success
 			bool ret
 			success,ret = Invoke(E,Act,Tar) 
@@ -262,8 +273,8 @@ Global Var CG_Effect
 		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
 		Bool Ret = False
 		For Stat In Each(Stats)
-			Int buff = Act.Act["BUFF_"..Stat]
-			Int value = math.floor(Tar.Char.Stats["BASE_"..Stat] * (buff/100))
+			Int buff := Act.Act["BUFF_"..Stat]
+			Int value := math.floor(Tar.Char.Stats["BASE_"..Stat] * (buff/100))
 			If buff<0
 				Tar.Char.Stats["BUFF_"..Stat] = math.min(Tar.Char.Stats["BUFF_"..Stat],value)
 				Ret = True
@@ -282,7 +293,7 @@ Global Var CG_Effect
 	
 	Bool ExtraEXP(Act,Tar)
 		// Extra EXP absolute or by percent
-		Var abl = Act.Act
+		Var abl := Act.Act
 		Bool Effect = False
 		If abl.GrantEXP && abl.GrantEXP>0 && Tar.Team=="Hero"
 			Switch abl.GrantEXPType
@@ -290,9 +301,9 @@ Global Var CG_Effect
 					Tar.Char.Points.EXP.Have += abl.GrantEXP*2
 					effect=true
 				Case "Percent"
-					pLua hpt = Tar.Char.Points.EXP
-					pLua hpm = hpt.Maximum
-					Plua points = (hpm div 100)
+					pLua hpt := Tar.Char.Points.EXP
+					pLua hpm := hpt.Maximum
+					Plua points := (hpm div 100)
 					//RPGChar.Points(cht,"EXP").Inc(abl.GrantEXP)
 					Tar.Char.Points.EXP.Have += points*2
 					effect=true
@@ -377,7 +388,7 @@ Global Var CG_Effect
 			return nil
 		end
 		int f=0
-		string ret = RPGParty[rep]
+		string ret := RPGParty[rep]
 		for i=1,3
 			if RPGParty[i]=="Foxy"
 				f=i
@@ -392,8 +403,8 @@ Global Var CG_Effect
 	get bool CheckExHuRU
 		CSay("Wendicka attacked, so let's check for ExHuRU!")
 		int Check = ({30,10,2})[__skill]
-		var WendickaHP = RPGChar.Wendicka.Points.HP
-		int WendickaHealth = math.floor( (WendickaHP.Have/WendickaHP.Maximum) * 100)
+		var WendickaHP := RPGChar.Wendicka.Points.HP
+		int WendickaHealth := math.floor( (WendickaHP.Have/WendickaHP.Maximum) * 100)
 		if Check<WendickaHealth
 			CSayF("Wendicka's health is %d%%! And may not be higher than $d$$",WendickaHealth,Check)
 			return false
@@ -428,7 +439,7 @@ Global Var CG_Effect
 		int tmax := Len(Act.Targets_Tag)
 		// Oh no you don't
 		for tidx=1,tmax
-			string ttag = Act.Targets_Tag[tidx]
+			string ttag := Act.Targets_Tag[tidx]
 			if ttag=="Yirl" && Act.Executor.Team=="Foe" && math.random(1,__skill*4)==1 
 				Combat_Fighter.Fighters.Yirl.State = "Cast"
 				BoxText.Serial("COMBAT","SPECIAL.YIRL","FLOW_COMBAT")
@@ -437,15 +448,15 @@ Global Var CG_Effect
 			end
 		end
 		for tidx=1,tmax
-			string ttag = Act.Targets_Tag[tidx]
-			var Tar = Act.Targets[tidx]
+			string ttag := Act.Targets_Tag[tidx]
+			var Tar := Act.Targets[tidx]
 			if Act.Executor.Team=="Foe"
 				if ttag=="Wendicka" && ExHuRU
 					Tar = Combat_Fighter.Fighters.ExHuRU
 					BoxText.Serial("COMBAT","SPECIAL.EXHURU","FLOW_COMBAT")
 				end
 				if ttag=="Foxy"
-					var Foxy=CheckFoxy
+					var Foxy:=CheckFoxy
 					if Foxy
 						BoxText.Serial("COMBAT","SPECIAL.FOXY","FLOW_COMBAT")
 						Tar = Combat_Fighter.Fighters[Foxy]
