@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.15 XLII
+// 	  Version: 25.01.16
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -416,7 +416,7 @@ group Stage_SelectTarget
 			Act.Executor.Gauge = 10001
 			Stage.Current = nil
 			if Act.ActTag=="ACT_SHOOT" || Act.ActTag=="ACT_ATTACK"
-				if (!Lua.Neil.Globals.Stage_PlayerInput.CheckLearn()) 
+				if (!Lua.Scyndi.Class.Stage_PlayerInput.CheckLearn()) 
 					if (Act.Executor.Tag=="Wendicka" || Act.Executor.Tag=="UniWendicka") && (!Act.Targets[1].Boss) && (math.random(0,Act.Targets[1].HP*__skill)<math.random(0,RPGChar.UniWendicka.Points.HP.Have))
 						// HAH! Take that I'll kill ya!
 						BoxText.Serial("COMBAT","Special."..Act.Executor.Tag,"FLOW_COMBAT")
