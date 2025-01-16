@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.16 XVI
+// 	  Version: 25.01.16 XIX
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -48,6 +48,7 @@ Module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -61,6 +62,7 @@ Module
 
 LocExtern Stage "Scyndi.Class.Stage"
 LocExtern Zelf "Scyndi.Class.Combat_Execution"
+LocExtern CG_Effect "Scyndi.Class.CG_Effect"
 
 	var Act
 	int MyStage = _Announce
@@ -234,7 +236,7 @@ LocExtern Zelf "Scyndi.Class.Combat_Execution"
 	Void HeroReward()
 		If Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
 			ablused[Executor.Tag]++
-			gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
+			gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
 			String ShActTag := right(Act.ActTag,len(Act.ActTag)-4)
 			If Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
 				Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
