@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.16 XI
+// 	  Version: 25.01.16 XIII
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@ Module
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 #macro _Announce 0
@@ -58,6 +59,7 @@ Module
 #macro _AblCharge 4
 
 LocExtern Stage "Scyndi.Class.Stage"
+LocExtern Zelf "Scyndi.Class.Combat_Execution"
 
 	var Act
 	int MyStage = _Announce
@@ -135,7 +137,7 @@ LocExtern Stage "Scyndi.Class.Stage"
 	void ComeToMe(SetAct)
 		Party.AutoBuffExpire()
 		Act = SetAct
-		Stage.Current = self
+		Stage.Current = zelf
 		CleanTargets()
 		MyStage = _Announce
 		If Act.Executor.HP<=0
