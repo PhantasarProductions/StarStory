@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.16 III
+// 	  Version: 25.01.16 VI
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,8 @@
 
 Module
 
+#use "Libs/SCI/Sys"
+
 #use "Script/Use/Misc/Resistance"
 
 Global Var CG_Effect
@@ -66,10 +68,10 @@ Global Var CG_Effect
 			// local hit = rand(0,acc) -- acc + rand(1,math.ceil(acc*.75))
 			//local ddg = rand(1,eva) -- eva - rand(1,math.ceil(eva*.25))
 			// return ddg>hit
-			int acc = Act.Executor.Stats.Accuracy
-			int eva = Tar.Stats.Evasion
-			int hit = math.random(0,acc)
-			int ddg = math.random(0,eva)
+			int acc := Act.Executor.Stats.Accuracy
+			int eva := Tar.Stats.Evasion
+			int hit := math.random(0,acc)
+			int ddg := math.random(0,eva)
 			// Original game did "true" if the attack was sucessfully dodged... But here I require "true" when the attack succesfully hit!
 			CSayF("Attack on %s by %s - Accuracy roll %d/%d -- Evasion roll %d/%d",Tar.Tag,Act.Executor.Tag,hit,acc,ddg,eva)
 			return (ddg<=hit)
@@ -132,9 +134,9 @@ Global Var CG_Effect
 		// if totaldamage<1 then totaldamage=1 end
 		// if Fighters[tg][ti].Act=='GRD' and Fighters[tg][ti].Gauge>10000 then totaldamage = round( totaldamage * .75 ) end
 		// Hurt(tg,ti,totaldamage,element)
-		var Exe = Act.Executor
-		var Data = Act.Act
-		var dataAttackPower = AltAttack || data.AttackPower
+		var Exe := Act.Executor
+		var Data := Act.Act
+		var dataAttackPower := AltAttack || data.AttackPower
 		if Lua.type(dataAttackPower)!="number"
 			CSayF("WARNING! DATA CORRUPTION! Attack power should be a number but is a %s containing value '%s'",Lua.type(data.AttackPower),Lua.tostring(data.AttackPower))
 		end
@@ -142,12 +144,12 @@ Global Var CG_Effect
 			return false
 		end
 		// TODO: Interception of attacks when Foxy's "Oops Sorry" is triggered, or when ExHuRU's "Protection Protocol" is triggered
-		string element = data.attackelement
+		string element := data.attackelement
 		if !element or element==""
 			element = "Non-Elemental"
 		end
 		//int modifier = math.max(data.mod or 1,1)
-		int modifier = math.max( (DataAttackPower || 1) / 100,1)
+		int modifier := math.max( (DataAttackPower || 1) / 100,1)
 		int apu = 0
 		if Act.XPower
 			modifier += 4-__skill
@@ -463,7 +465,7 @@ Global Var CG_Effect
 		end
 	end
 
-End
+//End
 
 //Return CG_Effect
 Init
