@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.16 XXXVII
+// 	  Version: 25.01.16 XL
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -398,7 +398,9 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	get var AI
-		return NeilUse("Script/Use/Combat/AI/"..AIName)
+		//return NeilUse("Script/Use/Combat/AI/"..AIName)
+		Lua.Scyndi.Use("Script/Use/Combat/AI/AI_"..AIName)
+		return Lua.Scyndi.Class["AI_"..AIName]
 	end
 	
 	readonly table AI_Actions
@@ -555,7 +557,7 @@ class Combat_Foe extends Combat_Fighter
 				CSayF("Scripting stat %s for %s with script '%s' (%d=>%d)",ckey,tag,formscript,C.Stat["BASE_"..ckey],C.Stat["END_"..ckey])
 			end
 		end
-		for element in each {"Dark","DarkHealing","Earth","Fire","Frost","Healing","Light","Lightning","Water","Wind" }
+		for element in each(NewArray("Dark","DarkHealing","Earth","Fire","Frost","Healing","Light","Lightning","Water","Wind" ))
 			C.Stat["ER_"..element] = RawData["EleRes_"..element]
 		end
 		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
