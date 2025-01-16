@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
 // 
-// 	  Version: 25.01.15 VIII
+// 	  Version: 25.01.16 VIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -49,10 +49,15 @@ Module
 #use "libs/sci/intervar"
 
 #use "script/use/link"
+#use "script/use/anyway"
+#use "script/use/convert/viesbah"
 
 
+locExtern _self "Scyndi.Class.Combat_Time"
 LocExtern Stage "Scyndi.Class.Stage"
 LocExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+locExtern Stage_PlayerInput "Scyndi.Class.Stage_PlayerInput"
+locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
 
 group ShowTagPointer
 
@@ -169,7 +174,7 @@ end
 							fv.Hurt("Cancel")
 							fv.Gauge=0						
 						elseif isIDLE
-							self.Execution.ComeTome(fv.NextAct)
+							_self.Execution.ComeTome(fv.NextAct)
 						end
 					elseif fv.Gauge>10000
 						if not fv.NextAct
@@ -177,7 +182,7 @@ end
 							fv.Hurt("Cancel")
 							fv.Gauge=0
 							Party.AutoBuffExpire()
-							self.CalcHighSpeed()
+							_self.CalcHighSpeed()
 						else
 							fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
 						end
@@ -215,7 +220,7 @@ end
 		for fi,fv in pairs(FClass.Fighters)
 			if fv.Available
 				string fk = fv.Team
-				if fv.Gauge<=10000 then
+				if fv.Gauge<=10000 
 					g=180
 					b=(fv.Gauge/10000)*255
 					r=255-b
@@ -231,7 +236,7 @@ end
 					Lua.error(sprintf("No Y data for combat team '%s",fk))
 				end
 				if fv.Gauge>=0
-					self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
+					_self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
 					//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
 					//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
 					__white 
