@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Load/LoadCombat.scyndi
 // 
-// 	  Version: 25.01.15 IV
+// 	  Version: 25.01.16
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -112,7 +112,7 @@ init
 	Stage_PlayerInput.Fighters = Combat_Fighter
 	Stage_SelectTarget.Fighters = Combat_Fighter.Fighters
 	Stage_PlayerInput.Fighter = Combat_Fighter
-	Stage.IDLE = Combat_Stage_IDLE
+	Stage.IDLE = Combat_Stage_IDLE	
 	// Init
 	Combat_Heroes.Compile()
 	for i=__skill,2
