@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/ALG_Stage.scyndi
 // 
-// 	  Version: 25.01.14 I
+// 	  Version: 25.01.15 I
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,8 @@
 
 
 Module
+
+
 
 Group Stage
 	var Current
