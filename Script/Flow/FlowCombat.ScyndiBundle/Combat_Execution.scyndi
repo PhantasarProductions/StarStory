@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.16 X
+// 	  Version: 25.01.16 XI
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -114,7 +114,8 @@ LocExtern Stage "Scyndi.Class.Stage"
 		for i,tag in pairs(Act.Targets_Tag)
 			var tar = Act.Targets[i]
 			if (!tar)
-				Dev.CWrite(sprintf("DA FUCK! Target '%s' on index %04d is nil?",tag,i),255,0,0)			
+				//Dev.CWrite(sprintf("DA FUCK! Target '%s' on index %04d is nil?",tag,i),255,0,0)
+				CSayF("DA FUCK! Target '%s' on index %04d is nil?",tag,i)
 			elseif tar.Available && ( (Executor.Team=="Hero" && tar.Targetable_Hero) || (Executor.Team=="Foe" && tar.Targetable_Foe))
 				Targets += tar
 			end
