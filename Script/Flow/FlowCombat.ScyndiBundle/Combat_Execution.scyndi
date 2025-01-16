@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.16 II
+// 	  Version: 25.01.16 X
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,11 @@
 
 Module
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 #macro _Announce 0
 #macro _Stance 1
@@ -52,6 +57,7 @@ Module
 #macro _AblEffect 3
 #macro _AblCharge 4
 
+LocExtern Stage "Scyndi.Class.Stage"
 
 	var Act
 	int MyStage = _Announce
@@ -62,7 +68,7 @@ Module
 	int AnnounceX
 	var AnnounceIcon
 	var AnnouncePortrait
-	readonly var AnnounceFont = ImageFont.Obtain("BIGTEXT") 
+	readonly var AnnounceFont = ObtainFont("BIGTEXT") 
 	
 	get var Executor
 		return Act.Executor
@@ -225,7 +231,7 @@ Module
 		If Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
 			ablused[Executor.Tag]++
 			gv.gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
-			String ShActTag = right(Act.ActTag,#Act.ActTag-4)
+			String ShActTag := right(Act.ActTag,len(Act.ActTag)-4)
 			If Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
 				Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
 				Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
@@ -283,8 +289,8 @@ Module
 				AnnouncePortrait = nil
 				Stage.Current = nil		
 			case _AblCharge
-				Var Exe = Act.Executor
-				Var CAc = New Class_Action(Exe.Tag,Act.Act.UserNextMove)
+				Var Exe := Act.Executor
+				Var CAc := New Class_Action(Exe.Tag,Act.Act.UserNextMove)
 				Exe.ChargedAct = CAc
 				For i,tag in iPairs(Act.Targets_Tag)
 					Cac.Targets_Tag[i] = tag
