@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.16 VI
+// 	  Version: 25.01.16 IX
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -158,11 +158,11 @@ Global Var CG_Effect
 			apu = RPGChar.Crystal.Stat["ARM.XPOWER."..Replace(Act.ActTag,"ARM_","")]
 			CSayF("Added %d ARM XPower!",apu)
 		end
-		int atk = (Exe.Stats[data.attackstat]+apu) * modifier
-		int def = Tar.Stats[data.defensestat]
-		int damage = atk + rand(0,round(atk*0.75))
-		int defense = def + rand(0,round(def*0.25))
-		int totaldamage = math.max(1,damage-defense)
+		int atk := (Exe.Stats[data.attackstat]+apu) * modifier
+		int def := Tar.Stats[data.defensestat]
+		int damage := atk + rand(0,round(atk*0.75))
+		int defense := def + rand(0,round(def*0.25))
+		int totaldamage := math.max(1,damage-defense)
 		CSayF("Attack(%d,%d); Roll(%d,%d); Total(%d)",atk,def,damage,defense,totaldamage)
 		//if Tar.Guarding 
 		//	totaldamage = round( totaldamage * .75 )
@@ -193,7 +193,7 @@ Global Var CG_Effect
 			case "Absolute"
 				Tar.Heal(Act.Act.Healing)
 			case "Percent"
-				int h = math.max(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
+				int h := math.max(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
 				Tar.Heal(h)
 			default
 				Lua.error("I do not know how to act on healing type: "..Act.Act.HealingType)
