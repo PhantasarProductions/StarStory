@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.16 V
+// 	  Version: 25.01.16 XXXVII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -43,14 +43,27 @@
 // End License
 module
 
+#use "LIBS/SCI/SYS"
+#use "LIBS/SCI/EVENTS"
+#use "LIBS/SCI/SSTRING"
+#use "LIBS/SCI/GRAPHICS"
+#use "LIBS/SCI/INTERVAR"
+
 #use "libs/xmath"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
 
 class Combat_Foe extends Combat_Fighter
 
-	readonly static int midx = math.floor(Screen.W/2)
-	readonly static int midx4 = math.floor((Screen.W/2)/4)
-	readonly static int midy = math.floor((Screen.H-120)/2)
-	readonly static int midy4 = math.floor(((Screen.H-120)/2)/4)
+	readonly static int midx = math.floor(Graphics.W/2)
+	readonly static int midx4 = math.floor((Graphics.W/2)/4)
+	readonly static int midy = math.floor((Graphics.H-120)/2)
+	readonly static int midy4 = math.floor(((Graphics.H-120)/2)/4)
+		
+	readonly var Zelf
 	
 	readonly string File
 	readonly int Idx
@@ -132,7 +145,7 @@ class Combat_Foe extends Combat_Fighter
 		
 		if !_Img
 			CSayF("Loading '%s' to image tag 'COMBAT_%s'",ImgFile,Tag)
-			_Img = Image.Load(ImgFile,"COMBAT_"..Tag)
+			_Img = LoadImage(ImgFile,"COMBAT_"..Tag)
 			_Img.HotBottomCenter()
 		end
 		return _Img
@@ -141,7 +154,7 @@ class Combat_Foe extends Combat_Fighter
 	get var NegImg		
 		if !_NegImg
 			//_NegImg = Image.Negative(Img)
-			_NegImg = Image.Load(Replace(ImgFile:upper(),".PNG",".NEGATIVE.PNG"),"COMBAT_"..Tag.."_NEG")
+			_NegImg = LoadImage(Replace(upper(ImgFile),".PNG",".NEGATIVE.PNG"),"COMBAT_"..Tag.."_NEG")
 			_NegImg.HotBottomCenter()
 		end
 		return _NegImg
@@ -155,8 +168,8 @@ class Combat_Foe extends Combat_Fighter
 		if AltX>0
 			return AltX
 		end
-		int m=2-(idx%3)
-		int p=math.floor(idx/3)+1
+		int m:=2-(Zelf.idx%3)
+		int p:=math.floor(Zelf.idx/3)+1
 				
 		return (midy4*p)+((midy4/4)*m)
 	end
@@ -164,7 +177,7 @@ class Combat_Foe extends Combat_Fighter
 		if AltY>0
 			return AltY
 		end
-		return ((idx%3)*Midy4)+midy
+		return ((Zelf.idx%3)*Midy4)+midy
 	end
 
 	get bool TargetHover
@@ -172,8 +185,8 @@ class Combat_Foe extends Combat_Fighter
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW = Img.W div 2
-		bool ret = events.MouseY()<Y && events.MouseY()>Y-(Img.H) && Events.MouseX()>X-HW && Events.MouseX()<X+HW
+		int HW := Img.W div 2
+		bool ret := events.MouseY<Y && events.MouseY>Y-(Img.H) && Events.MouseX>X-HW && Events.MouseX<X+HW
 		//CSayF("%s: Mouse(%d,%d) within (%d,%d) and (%d,%d) => %s",Tag,Events.MouseX(),Events.MouseY(),X-HW,Y-img.H,X+HW,Y,tostring(ret))
 		return ret
 	end
@@ -220,8 +233,9 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	void CheckKilled()
-		static int maxfactor = 350
-		static int ngpcount = math.min(gv.gint.GameCycle,1)
+		//static int maxfactor = 350
+		int ngpcount = math.min(gint.GameCycle,1)
+		locExtern maxfactor "350"
 		if self.HP>0
 			return
 		end
@@ -237,16 +251,16 @@ class Combat_Foe extends Combat_Fighter
 			CSay("Enemy killed!")
 			_killedcheck=true
 			Killed[self.File]++
-			gv.vInt["COMBATSTAT.KILLS"]++
-			If gv.gBool["CHEAT.DUMBLEDORE"]
+			gInt["COMBATSTAT.KILLS"]++
+			If gBool["CHEAT.DUMBLEDORE"]
 				Int p = math.random(1,6)
 				If RPGParty[p] && RPGParty[p]!="" && RPGParty[p]!="Briggs"
-					Var Ch = RPGChar[RPGParty[p]]
+					Var Ch := RPGChar[RPGParty[p]]
 					If Ch.Stat.Level<Caps.LevelCap
 						CSayF("Dumbledore> Character %s goes up a level!",RPGParty[p])
 						Ch.Points.EXP.Have = Ch.Points.EXP.Maximum
 						CSayF("Dumbledore> Level cap currently is %d",Caps.LevelCap)
-						Int XL = (Caps.LevelCap - CH.Stat.Level) div 10
+						Int XL := (Caps.LevelCap - CH.Stat.Level) div 10
 						CSayF("Dumbledore> Let's award %d extra levels on top of that for %s",XL,RPGParty[p])
 						Ch.Stat.Level+=XL
 					Else
@@ -257,7 +271,7 @@ class Combat_Foe extends Combat_Fighter
 				End
 				p = math.random(1,6)
 				If RPGParty[p] && RPGParty[p]!="" && RPGParty[p]!="Briggs"
-					Var Ch = RPGChar[RPGParty[p]]
+					Var Ch := RPGChar[RPGParty[p]]
 					If Ch.Stat.Level<Caps.LevelCap
 						CSayF("Dumbledore> Character %s gets bonus points!",RPGParty[p])
 						Ch.Points.EXP.Have += math.max(0,Caps.LevelCap - Ch.Stat.Level)  
@@ -270,7 +284,7 @@ class Combat_Foe extends Combat_Fighter
 			End
 			Static Table KillAchChecks = {1,394,800}
 			For K in Each(KillAchChecks)
-				If gv.vInt["COMBATSTAT.KILLS"]>K
+				If gInt["COMBATSTAT.KILLS"]>K
 					Ach.Award(SprintF("KILL%05d",K))
 				End
 			End
@@ -289,27 +303,27 @@ class Combat_Foe extends Combat_Fighter
 					int itn := math.random(0,len(RawData.ItemDrop))
 					plua itd := RawData.ItemDrop[itn]
 					if itd && itd.LVL<=Self.Level && RPGParty[pm]!="" && Item.Give(itd.ITM,RPGParty[pm],itd.VLT)
-						var Vinder = self.Fighters[RPGParty[pm]]
+						var Vinder := self.Fighters[RPGParty[pm]]
 						Vinder.Hurt("Picks up "..Item[itd.ITM].Name.." dropped by enemy",180,255,0)
 					end
 				end				
 			end
 			if ExHuRU_UpFront
 				CSay("ExHuRU or linked character upfront, so count the kill!")
-				gv.gInt.ERJ_Kills++
+				gInt.ERJ_Kills++
 			end
 			scale = scale * 1.25
 			// TODO: Kill count for ExHuRU, Rolf and Johnson
 			// Experience
 			for i=1,6
 				if RPGParty[i] && RPGParty[i]!=""
-					readonly string herotag = RPGParty[i]
-					readonly var hero = self.Fighters[herotag]
-					readonly var enemy = self
+					readonly string herotag := RPGParty[i]
+					readonly var hero := self.Fighters[herotag]
+					readonly var enemy := self
 					// local herolevel = RPGStat.Stat(herotag,"Level")
-					int gainexp = math.floor((enemy.level/hero.level)*maxfactor)
-					bool allowexpbonus = math.random(1,10000)>(hero.level/2)*__skill
-					int bonus = math.random(1,math.max(1,math.ceil(ngpcount/(2*__skill))))
+					int gainexp := math.floor((enemy.level/hero.level)*maxfactor)
+					bool allowexpbonus := math.random(1,10000)>(hero.level/2)*__skill
+					int bonus := math.random(1,math.max(1,math.ceil(ngpcount/(2*__skill))))
 					//if bonus<1 then bonus = 1 end
 					//if bonus>100 then bonus=100 end
 					bonus = math.max(1,math.min(100,bonus))
@@ -349,9 +363,9 @@ class Combat_Foe extends Combat_Fighter
 				end
  			// end for --> through party
 			end
-		Lua.Neil.Globals.Combat_Hero.AllUpAP()
+		Lua.Scyndi.Class.Combat_Hero.AllUpAP()
 		// End if --> killed check
-		Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+		Lua.Scyndi.Class.Combat_Time.CalcHighSpeed()
 		end
 		
 	// End function
@@ -361,9 +375,9 @@ class Combat_Foe extends Combat_Fighter
 	void Draw()
 		// Circle = Placeholder for debugging
 		// Graphics.Circle(X,Y,32)
-		CheckKilled()
+		Self.CheckKilled()
 		Graphics.Scale(scale,scale)
-		if Negger && ( (FPS.Ticks div 250) % 2) == 1
+		if Negger && ( (Sys.Ticks div 250) % 2) == 1
 			NegImg.Draw(X,Y)
 		else
 			Img.Draw(X,Y)
@@ -373,7 +387,9 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	void TIcon(int x,int y)
-		static var fnt = ImageFont.Obtain("SYSFONT")
+		//static var fnt = ImageFont.Obtain("SYSFONT")
+		locExtern fnt "Combat_Foes_Fnt_Static_Local_633790ddaef4576422fe7f09842b5b68"
+		fnt = fnt || ObtainFont("SYSFONT")
 		fnt.DarkText(TagLetter .. ".",x,y)
 	end
 	
@@ -425,7 +441,7 @@ class Combat_Foe extends Combat_Fighter
 				Lua.assert(i>0,"No targetable for foe to do AF-move!")
 				int TimeOut=10000
 				int n 			
-				int MI = MaxIdx
+				int MI := MaxIdx
 				repeat
 					n = math.random(0,MI)
 					TimeOut--
@@ -455,23 +471,25 @@ class Combat_Foe extends Combat_Fighter
 				end
 				Lua.assert(len(A.Targets_Tag)>0,"No targetable for foe to do AA-move!")
 			case "EV"
-				for i=1,6
+				for i=0,6
 					A.Targets_Tag[i] = nil
 				end				
 				for t,f in pairs(self.Fighters)
 					if f.Targetable_Foe
-						A.Targets_Tag[#A.Targets_Tag+1] = t
-						A.Targets_Tag[#A.Targets_Tag+1]=nil
+						A.Targets_Tag[len(A.Targets_Tag)] = t
+						A.Targets_Tag[len(A.Targets_Tag)] = nil
 					end
 				end
-				Lua.assert(#A.Targets>0,"No targetable for foe to do EV-move! WTF is going on here?")
+				Lua.assert(len(A.Targets)>0,"No targetable for foe to do EV-move! WTF is going on here?")
 			default 
 				Lua.error(self.Tag..".SetTarget(): Unknown Target Type: "..A.Act.Target)
 		end
 	end
 	
 	Constructor(string F,int Lvl)
-		static int cnt
+		//static int cnt
+		LocExtern cnt "Combat_Foe_Constructor_Static_int_5b1116439495785eb4046d26b31af2d1"
+		Zelf = Self
 		File = F
 		idx = cnt
 		cnt++
@@ -484,8 +502,8 @@ class Combat_Foe extends Combat_Fighter
 		var C = self.Char
 		//C.Name = RawData.Name
 		int ldif
-		int lvmin = RawData.Stat.LevelRange[1]
-		int lvmax = RawData.Stat.LevelRange[2]
+		int lvmin := RawData.Stat.LevelRange[1]
+		int lvmax := RawData.Stat.LevelRange[2]
 		self.Gauge = Lua.math.random(200*__skill,3210/__skill)		
 		
 		// Code below is merely copied from the original Lua code
@@ -494,13 +512,13 @@ class Combat_Foe extends Combat_Fighter
 		self.InitStats()
 		for ckey,cvalue in spairs(RawData.Stat) 
 			if cvalue!="LevelRange"
-				int sint = math.abs(cvalue[2]-cvalue[1])
-				int rng = math.abs(lvmax - lvmin)
-				number sinc = sint / rng
+				int sint := math.abs(cvalue[2]-cvalue[1])
+				int rng  := math.abs(lvmax - lvmin)
+				number sinc := sint / rng
 				//--CSay("Compiling stat: "..ckey)
 				if self.Level<lvmin 
 					ldif = lvmin - self.Level
-					int tstat = xmath.round(cvalue[1]-(sinc*ldif))
+					int tstat := xmath.round(cvalue[1]-(sinc*ldif))
 					if tstat<5 
 						tstat = 5 
 					end
@@ -508,7 +526,7 @@ class Combat_Foe extends Combat_Fighter
 					CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
 				else   
 					ldif = self.Level - lvmin
-					int val = xmath.round(cvalue[1]+(sinc*ldif)) 
+					int val := xmath.round(cvalue[1]+(sinc*ldif)) 
 					////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
 					if val!=math.floor(val)
 						CSay("WARNING! Non-integer value: "..val)
@@ -521,7 +539,7 @@ class Combat_Foe extends Combat_Fighter
 					C.Stat["BASE_"..ckey]=val
 					CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])       
 				end       
-				string formscript = "SUM:"..self.Tag
+				string formscript := "SUM:"..self.Tag
 				for i1,v1 in ipairs( { "BASE_", "POWERUP_", "BUFF_", "END_"}) 
 					//RPGChar.DefStat(Foe.Tag,v1..ckey,0)
 					//--CSay("Added Stat: "..v1..ckey)
@@ -552,7 +570,7 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	static void AddFoe(string F,int lvl)
-		var Foe = new Combat_Foe(F,lvl)
+		var Foe := new Combat_Foe(F,lvl)
 		CSayF("Added foe '%s' level %d on index %d",Foe.File,Foe.Level,Foe.Idx)
 	end
 end
