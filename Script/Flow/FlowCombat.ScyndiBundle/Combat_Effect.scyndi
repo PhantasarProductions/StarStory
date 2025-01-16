@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.16 XX
+// 	  Version: 25.01.16 XXVII
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -47,10 +47,15 @@ Module
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/SString"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Resistance"
 #use "Script/Use/Convert/ViesBah"
 #use "Script/Use/Convert/RPG2Stat"
+
+locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+LocExtern Class_Action "Scyndi.Class.Class_Action"
 
 Global Var CG_Effect
 
@@ -226,11 +231,11 @@ Global Var CG_Effect
 	
 	Var GetEffect(FN)
 		Lua.Scyndi.Use("Script/Use/Combat/SpellEffect/EFFECT_"..FN)
-		rmod:=Lua.Scyndi.Class["EFFECT_"..FN)
+		rmod:=Lua.Scyndi.Class["EFFECT_"..FN]
 		return rmod.DoEffect;
 	end
 	
-	bool $Script(Act,Tar)
+	bool __Script(Act,Tar)
 		// TODO: Script
 		if Act.Act.ScriptEffect_Reference && Act.Act.ScriptEffect_Reference!=""
 			//delegate E = NeilUse("Script/Use/Combat/SpellEffect/"..Act.Act.ScriptEffect_Reference)
@@ -329,7 +334,7 @@ Global Var CG_Effect
 			Hit = Attack(Act,Tar) || Hit
 			//Hit = CureOnAttack(Act,Tar) || Hit
 			Hit = Buff(Act,Tar) || Hit
-			Hit = Script(Act,Tar) || Hit
+			Hit = __Script(Act,Tar) || Hit
 			Hit = Cause(Act,Tar) || Hit			
 		end
 		if Hit
