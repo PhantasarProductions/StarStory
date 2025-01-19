@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.19 III
+// 	  Version: 25.01.19 VII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -98,10 +98,10 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	get bool Targetable_Hero
-		return Available and self.HP>0
+		return Available && self.HP>0
 	end
 	get bool Targetable_Foe
-		return Targetable_Hero and self.HP>0
+		return Targetable_Hero && self.HP>0
 		// On the moment this code was written a bug in Neil requires me to use "self" when using identifiers from the base class when extending classes
 	end
 
@@ -218,7 +218,9 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	get int Shilders
-		return self.RawData.Shilders
+		int ret
+		ret = self.RawData.Shilders
+		return ret 
 	end
 	
 	bool _killedcheck = false
@@ -497,20 +499,24 @@ class Combat_Foe extends Combat_Fighter
 		idx = cnt
 		cnt++
 		//RawData = Lua.Neil.Use("Script/Data/Foe/"..F)
-		RFoeFile:=Replace(F," ","_")
-		Lua.Scyndi.Use("Script/Data/Foe/RAWFOE__"..RFoeFile)
-		RawData = Lua.Scyndi.Class(RFoeFile)
+		RFoePath:=ExtractDir(F)
+		RFoeFile:=StripAll(Replace(F," ","_"))
+		Lua.Scyndi.Use("Script/Data/Foe/"..Ternary(RFoePath!="",RFoePath,"Reg").."/RAWFOE__"..RFoeFile)
+		RawData = Lua.Scyndi.Class["RAWFOE__"..StripAll(RFoeFile)]
 		Level = Lvl
 		Fighter.Fighters[Tag] = self
 		// Compile Foe into workable data during combat
 		CSayF("Compiling Foe %d: %s (%s) to tag %s",idx,RawData.Name,F,Tag)
 		RPGChar.Create(Tag,RawData.Name)
+		CSayF("Setting base data for Foe %d",idx) 
 		var C = self.Char
 		//C.Name = RawData.Name
 		int ldif
 		int lvmin := RawData.Stat.LevelRange[1]
 		int lvmax := RawData.Stat.LevelRange[2]
-		self.Gauge = Lua.math.random(200*__skill,3210/__skill)		
+				
+		self.Gauge = Lua.math.random(200*__skill,3210/__skill)
+		CSayF("Foe %d placed at spot %d on time gauge",idx,Gauge)
 		
 		// Code below is merely copied from the original Lua code
 		// The field foe was replaced by self, although Neil doesn't need it
