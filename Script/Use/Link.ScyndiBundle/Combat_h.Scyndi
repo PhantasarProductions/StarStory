@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Combat_h.Scyndi
 // 
-// 	  Version: 25.01.19
+// 	  Version: 25.01.19 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -156,7 +156,7 @@ group StartCombat
 	void Foe(a,b,c)
 		// This is YUCK! YUCK! YUCK! 
 		// But due to the Lua underground supporting overload functions is hard to downright impossible
-		// And this this is only a linkup function, this can serve as the overload... well, sort off.
+		// And this is only a linkup function, this can serve as the overload... well, sort off.
 		switch lua.type(a)
 			case "string"
 				MCall("Combat_Start.AddFoe",a,b)
