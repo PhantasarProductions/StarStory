@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.16 XL
+// 	  Version: 25.01.19 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -495,7 +495,10 @@ class Combat_Foe extends Combat_Fighter
 		File = F
 		idx = cnt
 		cnt++
-		RawData = Lua.Neil.Use("Script/Data/Foe/"..F)
+		//RawData = Lua.Neil.Use("Script/Data/Foe/"..F)
+		RFoeFile:=Replace(F," ","_")
+		Lua.Scyndi.Use("Script/Data/Foe/RAWFOE_"..RFoeFile)
+		RawData = Lua.Scyndi.Class(RFoeFile)
 		Level = Lvl
 		Fighter.Fighters[Tag] = self
 		// Compile Foe into workable data during combat
