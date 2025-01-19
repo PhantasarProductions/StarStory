@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_ChangeStatus.scyndi
 // 
-// 	  Version: 25.01.15 XII
+// 	  Version: 25.01.18 VI
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -70,7 +70,7 @@ Class Combat_StatusChanges
 	Bool CureOnAttack
 	
 	Static Var GetSt(String n)
-		Return lijst[n:upper()]
+		Return lijst[upper(n)]
 	End
 	
 	// Only to be used For cause. Otherwise a slowdown can and may be expected!
@@ -88,19 +88,19 @@ Class Combat_StatusChanges
 		Return Ret
 	End
 	
-	Static Void Create(String name,instance,String resistance="")
-		Lijst[name:upper()] = instance
-		instance.resist = name
-		instance.name = name
-		If  resistance!=""
-			instance.resist=resistance		
-		End
+	Static Void Create(String _name,instance,String resistance="")
+		Lijst[Upper(_name)] = instance
+		instance.resist = ternary(resistance=="",_name,resistance)
+		instance.name = _name
+		//If  resistance!=""
+		//	instance.resist=resistance		
+		//End
 		CSayF("Created Status %s - Resisted by %s",instance.name,instance.resist)
 	End
 	
 End
 
-Class CSC_Death ExtEnds Combat_StatusChanges
+Class CSC_Death Extends Combat_StatusChanges
 
 	Void Draw(tar)
 		// Must be present, but both enemies as heroes have their own handing 
@@ -109,7 +109,7 @@ Class CSC_Death ExtEnds Combat_StatusChanges
 	
 End
 
-Class CSC_Paralysis ExtEnds Combat_StatusChanges
+Class CSC_Paralysis Extends Combat_StatusChanges
 	Var img = LoadNewImage("GFX/Combat/StatusAni/Paralysis/Paralysis.png","COMBAT_STATUSCHANGE_PARALYSIS")
 	Void Draw(tar)
 		Static Int x
@@ -138,7 +138,7 @@ Class CSC_Paralysis ExtEnds Combat_StatusChanges
 	End
 End
 
-Class CSC_Sleep ExtEnds Combat_StatusChanges
+Class CSC_Sleep Extends Combat_StatusChanges
 	Var fnt = ObtainFont("BIGTEXT")
 	Void Draw(tar)
 		Int T = Sys.Ticks
@@ -168,7 +168,7 @@ Class CSC_Sleep ExtEnds Combat_StatusChanges
 End
 
 
-Class CSC_Disease ExtEnds Combat_StatusChanges
+Class CSC_Disease Extends Combat_StatusChanges
 	Var icon = LoadNewImage("GFX/StatusChanges/Disease.png","COMBAT_STATUSCHANGES_DISEASE")
 	Void Draw(tar)
 		icon.hotcenter()
@@ -179,7 +179,7 @@ Class CSC_Disease ExtEnds Combat_StatusChanges
 	End
 End
 
-Class CSC_Poison ExtEnds Combat_StatusChanges
+Class CSC_Poison Extends Combat_StatusChanges
 	Var icon
 	Void Draw(tar)
 		Int d		
@@ -223,7 +223,7 @@ Class CSC_Poison ExtEnds Combat_StatusChanges
 End
 
 
-Class CSC_Guard ExtEnds Combat_StatusChanges
+Class CSC_Guard Extends Combat_StatusChanges
 	Void Draw()
 		// No visual effects! But as this is an abstract I had to override
 	End
@@ -253,9 +253,12 @@ Class CSC_Guard ExtEnds Combat_StatusChanges
 End
 
 Init
+	CSay "Creating status changes"
+
 	// These ones merely need to exist to make causing effects easier
 	Var death = new CSC_Death()
-	For d in Each{"FALLEN","KO","KOED","DEAD","DEATH"}
+	For d in each( NewArray("FALLEN","KO","KOED","DEAD","DEATH") )
+		CSayF("Death: %s",d)
 		Combat_StatusChanges.Create(d,death,"Death")
 	End
 	
@@ -263,6 +266,7 @@ Init
 	// Combat_StatusChanges.Create("Destruction",new CSC_Death(),"Death")
 	
 	// And now the real stuff
+	CSay "And now for the \"real\" stuff"
 	Combat_StatusChanges.Create("Paralysis",new CSC_Paralysis())
 	Combat_StatusChanges.Create("Sleep",new CSC_Sleep(),"Will")
 	Combat_StatusChanges.Create("Poison",new CSC_Poison())
