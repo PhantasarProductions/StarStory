@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.19 IV
+// 	  Version: 25.01.19 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -294,7 +294,7 @@ Class FieldMonster
 					StartCombat.Foe(F.Foe,F.Level)
 				End
 			Else
-				CSay("No foe on spot #%d!",i)
+				CSayF("No foe on spot #%d!",i)
 			End
 		End
 		StartCombat.Tune = StartCombat.RandomTune
