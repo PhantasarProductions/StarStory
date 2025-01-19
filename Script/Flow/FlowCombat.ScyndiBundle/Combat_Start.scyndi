@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Start.scyndi
 // 
-// 	  Version: 25.01.15 VIII
+// 	  Version: 25.01.19
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -64,6 +64,7 @@ class Start_Enemy
 	CONSTRUCTOR(STRING E,INT L)
 		Enemy = E
 		Level = L
+		CSayF("Start.Foe(\"%s\",%d)",Enemy,Level)
 	end
 end
 
