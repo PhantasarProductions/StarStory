@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.14 XXV
+// 	  Version: 25.01.19 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -195,7 +195,7 @@ Class FieldMonster
 			CSayF("Foe #%d, level: %d",i,lv)
 			TotLevel+=Lv
 			NF:=full.Foes[math.random(0,len(full.Foes)-1)]
-			Self[sprintf("Foe%d",FoeNum)] = new FoeData(NF,Lv)
+			Self[sprintf("Foe%d",i)] = new FoeData(NF,Lv)
 		End
 		Int AvgLevel:=TotLevel div FoeNum
 		FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
@@ -281,14 +281,20 @@ Class FieldMonster
 		CSayF("Enemy #%03d has been removed from the map!",i)
 	End
 	
-	Static Void Fight(F)
+	Static Void Fight(FF)
 		//CSay("\007 Fighting not yet implemented")
-		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",F.X,F.Y,Player.X,Player.Y)
+		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",FF.X,FF.Y,Player.X,Player.Y)
 		StartCombat.Prepare()
+		//For i=1,9; CSayF("Foe Data: %d -> %s",i,FF[sprintf("Foe%d",i)]); end 
 		For i=1,9
-			F:=F[sprintf("Foe%d",i)]
-			If F.Foe!=""
-				StartCombat.Foe(F.Foe,F.Level)
+			F:=FF[sprintf("Foe%d",i)]
+			if F
+				CSayF("FF.Foe%d -> %s",i,F)
+				If F.Foe!=""
+					StartCombat.Foe(F.Foe,F.Level)
+				End
+			Else
+				CSay("No foe on spot #%d!",i)
 			End
 		End
 		StartCombat.Tune = StartCombat.RandomTune
