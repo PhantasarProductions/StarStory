@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.15 X
+// 	  Version: 25.01.18 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -91,23 +91,26 @@ class Combat_Fighter
 	// string Tag // All same pointer?
 	
 	// Override these!
-	get int X
-		Lua.error("Hey! You can't access Combat_Fighter.X like that!")
-		return 0
-	end 
-	get int Y
-		Lua.error("Hey! You can't access Combat_Fighter.T like that!")
-		return 0
-	end 
-	get bool Available
-		return false
-	end
-	get string Team
-		return "Unknown"
-	end
-	get bool Guarding
-		return false
-	end
+	//get int X
+	//	Lua.error("Hey! You can't access Combat_Fighter.X like that!")
+	//	return 0
+	//end 
+	//get int Y
+	//	Lua.error("Hey! You can't access Combat_Fighter.T like that!")
+	//	return 0
+	//end 
+	//get bool Available
+	//	return false
+	//end
+	
+	// Conflicts as properties cannot (yet) be overridden
+	// And Team should always be present anyway!
+	//get string Team
+	//	return "Unknown"
+	//end
+	//get bool Guarding
+	//	return false
+	//end
 	
 	abstract void Draw()
 	abstract void TIcon(int x,int y)
@@ -144,7 +147,9 @@ class Combat_Fighter
 	end
 	
 	void Hurt(string txt,int r=255,int g=255,int b=255)
-		HurtLijst.AddLast(new Combat_Hurt(txt,X,Y-10,r,g,b))
+		// Due to a void issue, I had to use Self.
+		// I guess I could bypass this due to this being a script, but this *is* disgusting.
+		HurtLijst.AddLast(new Combat_Hurt(txt,Self.X,Self.Y-10,r,g,b))
 	end
 	
 	string HurtBig(int hp)
@@ -299,7 +304,8 @@ class Combat_Fighter
 	end	
 	
 	get table Char
-		return RPGChar[self.Tag]
+		locExtern this "self"
+		return RPGChar[this.Tag]
 	end
 	
 	get int HP

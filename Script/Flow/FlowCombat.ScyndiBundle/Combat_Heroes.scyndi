@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.16
+// 	  Version: 25.01.18 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -71,6 +71,8 @@ class Combat_Hero extends Combat_Fighter
 	readonly static int midx4 = math.floor((Graphics.W/2)/4)
 	readonly static int midy = math.floor((Graphics.H-120)/2)
 	readonly static int midy4 = math.floor(((Graphics.H-120)/2)/4)
+		
+	ReadOnly Var Me 
 	
 	string Tag
 	string GITag
@@ -86,7 +88,7 @@ class Combat_Hero extends Combat_Fighter
 	
 	
 	get string State
-		if RPGChar[Tag].Points.HP.Have == 0
+		if RPGChar[Me.Tag].Points.HP.Have == 0
 			return "Dead"
 		else
 			return _State
@@ -133,8 +135,9 @@ class Combat_Hero extends Combat_Fighter
 
 
 	get int PartyIndex
-		for i=1,6
-			if RPGParty[i]==self.Tag
+		//for i=1,6
+		for i=0,5
+			if RPGParty[i]==Me.Tag
 				return i
 			end
 		end
@@ -142,7 +145,7 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	get bool Available
-		if self.StatusChange.Gone
+		if Me.StatusChange.Gone
 			return false
 		end
 		return PartyIndex>0 and PartyIndex<=3
@@ -210,8 +213,8 @@ class Combat_Hero extends Combat_Fighter
 	get var GetImage
 		string S = State:upper()
 		if !Images[S]
-			CSay("Getting combat sprite for "..Tag.." in state "..State)
-			var ret := LoadnewImage("GFX/Combat/Fighters/Hero/"..self.Tag.."."..State..".png","CombatHero_"..self.Tag.."_"..State)
+			CSay("Getting combat sprite for "..Me.Tag.." in state "..State)
+			var ret := LoadnewImage("GFX/Combat/Fighters/Hero/"..Me.Tag.."."..State..".png","CombatHero_"..Me.Tag.."_"..State)
 			ret.HotBottomCenter()
 			Images[S] = ret
 		end
@@ -266,6 +269,7 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	CONSTRUCTOR
+		Me = Self
 		Images = {}
 		self.HurtLijst = New LinkedList()
 	end
@@ -700,7 +704,7 @@ Init
 		Stage_PlayerInput.amFont = ObtainFont("BOXTEXT")
 		Stage_PlayerInput.Signal = Audio.Obtain("SIGNAL")
 		For PI In Each (NewArray("TOP","BOTTOM","ITEM","SIDES"))
-			Stage_PlayerInput = ObtainImage("COMBAT_PLAYINPUT_"..PI)
+			Stage_PlayerInput[PI] = ObtainImage("COMBAT_PLAYINPUT_"..PI)
 			// self[PI]=ObtainImage("COMBAT_PLAYINPUT_"..PI)
 		End
 		//Stage_SelectTarget.PInp = self
@@ -738,14 +742,15 @@ End
 	var Fighters
 	void Compile()
 		CSay("Setting up hero party")
-		for i=1,6
+		//for i=1,6
+		for i=0,5
 			if RPGParty[i] and RPGParty[i]!=""
 				string T = RPGParty[i]
 				CSayF("Adding hero: %s",T)
 				var H = new Combat_Hero() 
-				H.Tag = T
-				H.GITag = sPrintF("GAUGEICON_HERO_%s",T)
-				Fighters.Add(H)
+				H.Tag = T; CSayF("= Tagged: %s",T)
+				H.GITag = sPrintF("GAUGEICON_HERO_%s",T); CSayF("= Gauge Icon Tag: %s",H.GITag)
+				Fighters.Add(H) CSayF("= Added to Fighter register!")
 				CSayF("= Party index: %d",H.PartyIndex)
 				CSayF("= Available:   %s",tostring(H.Available))
 				CSayF("= Tag:         %s",H.Tag)
