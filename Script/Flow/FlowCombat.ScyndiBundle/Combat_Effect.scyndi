@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.16 XXVII
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -443,7 +443,7 @@ Global Var CG_Effect
 		//for tar in Act.EachTarget
 		int tmax := Len(Act.Targets_Tag)
 		// Oh no you don't
-		for tidx=1,tmax
+		for tidx=0,tmax-1
 			string ttag := Act.Targets_Tag[tidx]
 			if ttag=="Yirl" && Act.Executor.Team=="Foe" && math.random(1,__skill*4)==1 
 				Combat_Fighter.Fighters.Yirl.State = "Cast"
@@ -452,7 +452,7 @@ Global Var CG_Effect
 				Return
 			end
 		end
-		for tidx=1,tmax
+		for tidx=0,tmax-1
 			string ttag := Act.Targets_Tag[tidx]
 			var Tar := Act.Targets[tidx]
 			if Act.Executor.Team=="Foe"
