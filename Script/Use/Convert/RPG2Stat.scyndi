@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.07 II
+// 	version: 25.01.20 I
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -34,7 +34,21 @@ plua _links = { ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" 
 plua _stat = Statistician.CreateNew("STAR_STORY")
 plua _char
 
-Global ReadOnly Var RPGParty = _Stat.Party
+//Global ReadOnly Var RPGParty = _Stat.Party
+QuickMeta RPGParty
+	newindex
+		error("Fuck it! Read only on RPGParty")
+	end
+	
+	index
+		assert(Lua.type(key)=="number","Number expected for input")
+		if key<0 || key>5
+			CSay(Lua.debug.traceback())
+			error("Invalid party index")
+		end
+		return _Stat.Party[key]
+	end
+end
 	
 Void __RC_Create(String Tag,String Name="")
 	_Name:=Ternary(Name=="",Tag,Name)
