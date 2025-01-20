@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.20 II
+// 	version: 25.01.20 III
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -232,6 +232,11 @@ QuickMeta RPGChar__GetChar
 	end
 End
 
+plua __KillCh(String Tag)
+	CSayF("Kill character: %s",Tag)
+	_stat.KillChar(Tag)
+End
+
 QuickMeta RPGChar
 	index
 		//Lua.error("RPGChar Index Not Yet Implemented ("..key..")")
@@ -250,7 +255,8 @@ QuickMeta RPGChar
 						end
 						return ret
 					case "KILL"
-						Lua.error("No support for KILL in RPGChar yet")
+						return __KillCh	
+						//Lua.error("No support for KILL in RPGChar yet")
 					case "HAS"
 						Lua.error("No support for HAS in RPGChar yet")
 					case "CREATE"
