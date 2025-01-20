@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 IX
+// 	  Version: 25.01.20 X
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -149,7 +149,7 @@ class Combat_Hero extends Combat_Fighter
 		if Me.StatusChange.Gone
 			return false
 		end
-		return PartyIndex>0 and PartyIndex<=3
+		return PartyIndex>=0 and PartyIndex<3
 	end
 	get bool Targetable_Hero
 		return Available
