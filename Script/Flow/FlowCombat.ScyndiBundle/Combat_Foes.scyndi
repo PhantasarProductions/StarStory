@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.20 VII
+// 	  Version: 25.01.20 IX
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -344,7 +344,7 @@ class Combat_Foe extends Combat_Fighter
 					end
 					//if RPGStat.Points(herotag,"HP").Have==0 then
 					if hero.HP==0
-						//({
+						//({ 
 						switch __skill
 							case 0
 								//function() end,
@@ -575,8 +575,10 @@ class Combat_Foe extends Combat_Fighter
 		for element in each(NewArray("Dark","DarkHealing","Earth","Fire","Frost","Healing","Light","Lightning","Water","Wind" ))
 			C.Stat["ER_"..element] = RawData["EleRes_"..element]
 		end
-		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
+		//C.Points.HP.MaxCopy="HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
+		C.Points.HP.Maximum=C.Stat.END_HP
 		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum
+		CSayF("Foe %d now has %d/%d Hit Points",idx,C.Points.HP.Have,C.Points.HP.Maximum)
 		self.HurtLijst = New TLinkedList()
 		AI_Actions = {}
 		for A in Each(RawData.Acts)
