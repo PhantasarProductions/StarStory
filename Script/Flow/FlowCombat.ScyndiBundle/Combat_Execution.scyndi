@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.16 XXI
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -192,7 +192,7 @@ LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
 		end
 		AnnounceCD = 123
 		AnnounceText = Act.Act.Name
-		AnnounceX = (Graphics.W div 2) - (AnnounceFont.TextWidth(AnnounceText) div 2)
+		AnnounceX = (Graphics.W div 2) - (AnnounceFont.Width(AnnounceText) div 2)
 		if Act.Act.Icon 
 			//&& Act.Act.Icon!=""
 			AnnounceIcon = Act.Act.Icon //= Image.LoadNew(Act.Act.Icon,"ABL_ICON_"..Act.Act.Icon)
