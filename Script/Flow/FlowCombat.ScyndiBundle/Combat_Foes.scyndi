@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.20 XI
+// 	  Version: 25.01.20 XIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -185,14 +185,14 @@ class Combat_Foe extends Combat_Fighter
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW := Img.W div 2
-		bool ret := events.MouseY<Y && events.MouseY>Y-(Img.H) && Events.MouseX>X-HW && Events.MouseX<X+HW
+		int HW := Img.Width div 2
+		bool ret := events.MouseY<Y && events.MouseY>Y-(Img.Height) && Events.MouseX>X-HW && Events.MouseX<X+HW
 		//CSayF("%s: Mouse(%d,%d) within (%d,%d) and (%d,%d) => %s",Tag,Events.MouseX(),Events.MouseY(),X-HW,Y-img.H,X+HW,Y,tostring(ret))
 		return ret
 	end
 	
 	get int W
-		return Img.W
+		return Img.Width
 	end
 	
 	get Int Width
@@ -200,11 +200,11 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	Get Int H
-		return Img.H
+		return Img.Height
 	end
 	
 	Get Int Height
-		return Img.H
+		return Img.Height
 	end
 	
 	static var Fighter
