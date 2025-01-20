@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 IV
+// 	  Version: 25.01.20 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -200,7 +200,7 @@ class Combat_Hero extends Combat_Fighter
 			return false
 		end
 		int HW = _self.GetImage.W 
-		return events.MouseY()<Y && events.MouseY()>Y-(Images.IDLE.H*2) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
+		return events.MouseY<Y && events.MouseY>Y-(Images.IDLE.H*2) && Events.MouseX>X-HW && Events.MouseX<X+HW 
 	end
 	
 	get int Level
@@ -492,15 +492,16 @@ group Stage_PlayerInput
 	end
 	
 	get var MPos
-		return ((PartyPos-1)*PWidth)+math.floor(PWidth/2)-100
+		//return ((PartyPos-1)*PWidth)+math.floor(PWidth/2)-100
+		return (PartyPos*PWidth)+math.floor(PWidth/2)-100
 	end
 	
 	get int MX
-		return events.mousex()
+		return events.mousex
 	end
 	
 	get int MY
-		return events.mousey()
+		return events.mousey
 	end
 	
 	table ABL = {}
@@ -680,7 +681,8 @@ group Stage_PlayerInput
 		Hover = ""
 		for i,cmd in ipairs(Hero.InputItems)
 			__white
-			int iy := sy+((i-1)*52)
+			//int iy := sy+((i-1)*52)
+			int iy := sy+(i*52)
 			Item.Draw(MPos+12,iy)
 			Graphics.Color(0,180,255)
 			if (cmd=="Reload" && Hero.Ammo==Hero.AmmoMax) || (cmd=="Shoot" && Hero.Ammo==0)
@@ -702,7 +704,7 @@ group Stage_PlayerInput
 	End
 	
 	Void Update()
-		if Events.MouseHitLeft() and Hover!=""
+		if Events.MouseHitLeft && Hover!=""
 			self["Do"..Hover]()
 		end
 	End
