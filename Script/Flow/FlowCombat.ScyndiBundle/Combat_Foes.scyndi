@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.20 IX
+// 	  Version: 25.01.20 X
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -553,6 +553,7 @@ class Combat_Foe extends Combat_Fighter
 							val = 0
 						end
 					end
+					CSayF("Stat.%s; Foe Level: %d; WLv<%d,%d>;  sinc:%f(%d-%d=%d)  -> val:%d",ckey,self.Level,lvmin,lvmax,sinc,cvalue[MaxVal],cvalue[MinVal],cvalue[MaxVal]-cvalue[MinVal],val)
 					C.Stat["BASE_"..ckey]=val
 					CSay("Setting BASE_"..ckey.." (pos) => "..C.Stat["BASE_"..ckey])       
 				end       
