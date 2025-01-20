@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 VI
+// 	  Version: 25.01.20 IX
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -691,13 +691,15 @@ group Stage_PlayerInput
 				Hover = cmd
 				Graphics.Color(0,255,255)
 			end
-			itFont.Text(cmd,mPos+100,sy+((i-1)*52)+26,2,2)
+			itFont.Text(cmd,mPos+100,sy+(i*52)+26,2,2)
 			if cmd=="Shoot"
 				__black
 				amFont.Text(sprintf("%d/%d",Hero.Ammo,Hero.AmmoMax),mpos+100,by+20,2,0)
 				if Hero.Char.Points.Ammo.Maximum==0
 					Hero.Char.Points.Ammo.Maximum=6
+					Hero.Char.Stat.Ammo = 6
 					Hero.Ammo=6
+					CSayF("Ammo max correction to 6 for %s  (%d/%d)",Hero.Tag,Hero.Char.Points.Ammo.Have,Hero.Char.Points.Ammo.Maximum)
 				end
 			end
 		end	
