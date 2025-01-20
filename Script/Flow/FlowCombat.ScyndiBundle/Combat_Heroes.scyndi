@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 XIV
+// 	  Version: 25.01.20 XV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -354,9 +354,9 @@ group Stage_SelectTarget
 				Lv += sprintf("%04d",tdat.level)
 			end
 			//lv += tostring(verschil)
-			fnt.DarkText(Lv,tdat.x,tdat.y-50)
+			Sys.DarkText(Lv,tdat.x,tdat.y-50)
 			__white
-			fnt.DarkText(tdat.Name,tdat.x+125,tdat.y-50)
+			Sys.DarkText(tdat.Name,tdat.x+125,tdat.y-50)
 			if __skill!=3 || tdat.Team=="Hero"
 				__black
 				Graphics.Rect(tdat.x-1,tdat.y-26,257,27)
