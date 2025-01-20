@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.19
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -212,7 +212,7 @@ class Combat_Hero extends Combat_Fighter
 	
 	
 	get var GetImage
-		string S = State:upper()
+		string S = Upper(State)
 		if !Images[S]
 			CSay("Getting combat sprite for "..Me.Tag.." in state "..State)
 			var ret := LoadnewImage("GFX/Combat/Fighters/Hero/"..Me.Tag.."."..State..".png","CombatHero_"..Me.Tag.."_"..State)
