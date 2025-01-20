@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Draw.scyndi
 // 
-// 	  Version: 25.01.15 VIII
+// 	  Version: 25.01.20 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -67,7 +67,7 @@ module
 			error("Scripted arena's not yet supported!")
 			return nil;
 		end
-		if !suffixed(Start.Arena:upper(),".PNG")
+		if !suffixed(Upper(Start.Arena),".PNG")
 			Start.Arena += ".png"
 		end
 		return LoadImage("GFX/Combat/Arena/"..Start.Arena,"ARENA")
@@ -94,8 +94,8 @@ module
 		Invoke(Goddess)
 		__white
 		// Mouse coordinates
-		int mx = events.mousex()
-		int my = events.mousey()
+		int mx = events.mousex
+		int my = events.mousey
 		// Arena
 		DrawArena()
 		// Time Gauge
