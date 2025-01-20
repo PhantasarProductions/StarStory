@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 25.01.05
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -85,8 +85,8 @@ bool BxsL = false
 	
 	get Int AvgLevel
 		int tl
-		int nc
-		for i=1,6
+		int nc		
+		for i=0,5
 			if RPGParty[i] && RPGParty[i]!=""
 				nc++
 				tl+=RPGChar[RPGParty[i]].Stat.Level
@@ -124,7 +124,7 @@ bool BxsL = false
 	
 	void Recover(string ch="")
 		if ch==""
-			for i=1,6
+			for i=0,5
 				if RPGParty[i] && RPGParty[i]!=""
 					Recover(RPGParty[i])
 				end
@@ -150,7 +150,7 @@ bool BxsL = false
 	
 	void GiveEXP(int experience,string ch="")
 		if ch==""
-			for i=1,6
+			for i=0,5
 				if RPGParty[i] && RPGParty[i]!=""
 					GiveEXP(experience,RPGParty[i])
 				end
@@ -161,7 +161,7 @@ bool BxsL = false
 	end
 	
 	Void NoDeath()
-		for i=1,6
+		for i=0,5
 			if RPGParty[i] && RPGParty[i]!=""
 				RPGChar[RPGParty[i]].Points.HP.Have = math.max(1,RPGChar[RPGParty[i]].Points.HP.Have)
 			end
