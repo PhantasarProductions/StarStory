@@ -61,6 +61,7 @@ class Combat_Hurt
 	readonly int r
 	readonly int g
 	readonly int b
+	readonly bool Big
 		
 	get int ymod
 		return 125-CD
@@ -68,22 +69,25 @@ class Combat_Hurt
 	
 	void Draw(NCD)
 		//static var
-		locExtern font "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d"
-		font = font || ObtainFont("BoxText")
+		locExtern bfont "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d_b"
+		locExtern sfont "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d_s"
+		bfont = bfont || ObtainFont("BoxText")
+		sfont = sfont || ObtainFont("SysFont")
 		Graphics.Color(r,g,b)
-		font.DarkText(txt,x,y-ymod,2,2)
+		Ternary(Big,bfont,sfont).DarkText(txt,x,y-ymod,2,2)
 		if ! NCD
 			CD = math.max(0,CD-1)
 		end
 	end
 	
-	Constructor(string atxt,int ax,int ay,int ar,int ag,int ab)
+	Constructor(string atxt,int ax,int ay,int ar,int ag,int ab,aBig)
 		txt = atxt
 		x   = ax
 		y   = ay
 		r   = ar
 		g   = ag
 		b   = ab
+		big = aBig!=nil && aBig!=false
 	end
 end
 
@@ -292,7 +296,7 @@ class Combat_Fighter
 			self.UpAP()
 		end
 		//CharReport(tg,ti,report,{r,g,b})
-		self.Hurt(Report,r,g,b)
+		self.Hurt(Report,r,g,b,true)
 		//if RPGChar.Points(chtarget,"HP").Have==0 then RPGChar.ClearList(chtarget,"STATUSCHANGE") end -- Remove all statuschanges when you die.
 		if (!noapgain) && (self.Team=="Hero")
 			self.UpAP()
