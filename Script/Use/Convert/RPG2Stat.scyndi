@@ -185,7 +185,7 @@ plua CharMeta(String ChKey)
 					ret._chlist[Key] = SetMetaTable(r,m)
 				end
 				return ret._chlist[Key]
-			Case "STAT"
+			Case "STAT" "STATS"
 				//Lua.error("Stat viewing and manipulation not YET supported")
 				return this._chstat
 			Case "STATSCRIPT"
