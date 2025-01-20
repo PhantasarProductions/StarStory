@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
 // 
-// 	  Version: 25.01.20
+// 	  Version: 25.01.20 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -62,7 +62,13 @@ locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
 group ShowTagPointer
 
 	void Hero(f,int x,int y)
+		//LocExtern WenHot "Wendicka_Hot_On_Time_Gauge_Not_Yet_Set"
+		if (f.Tag=="UniWendicka" || f.Tag=="Wendicka") && (!f.GIIMG)
+			f.GIIMG = LoadNewImage("GFX/Combat/GaugeIcons/Wendicka.png","FUCKYOU_WENDICKA_SHOULD_APPEAR_ON_THE_TIME_GUAGE_ANYWAY")
+			f.GIIMG.Hot(11,5)
+		end
 		f.GIIMG = f.GIIMG || LoadNewImage(sPrintF("GFX/Combat/GaugeIcons/%s.png",f.Tag),f.GITag)
+		
 		f.GIIMG.Draw(x-10,y-40)
 	end
 	
