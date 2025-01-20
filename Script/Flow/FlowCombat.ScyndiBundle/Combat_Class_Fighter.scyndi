@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.18 III
+// 	  Version: 25.01.20 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -87,6 +87,8 @@ class Combat_Hurt
 	end
 end
 
+
+plua Secret_Fighters_List = {}
 class Combat_Fighter
 	// string Tag // All same pointer?
 	
@@ -318,20 +320,23 @@ class Combat_Fighter
 		return Char.Points.HP.Maximum
 	end
 	get int AP
-		if Self.Team=="Hero"
+		locExtern _Self "self"
+		if _Self.Team=="Hero"
 			return Char.Points.AP.Have
 		end
 		return 0
 	end
 	set int AP
-		if self.Team=="Hero"
+		locExtern _Self "self"
+		if _self.Team=="Hero"
 			Char.Points.AP.Have = value
 		else
 			CSayF("Hey! '%s' is not a hero so the AP value cannot be changed! So what to do with value %d?",Self.Tag,value)
 		end
 	end
 	get int APMax
-		if Self.Team=="Hero"
+		locExtern _Self "self"
+		if _Self.Team=="Hero"
 			return Char.Points.AP.Maximum
 		end
 		return 0
@@ -466,13 +471,18 @@ class Combat_Fighter
 	var NextAct = nil
 	var ChargedAct = nil
 	
-	static readonly table Fighters
+	//static readonly table Fighters
+	Static Get Var Fighters
+		Return Secret_Fighters_List
+	End
+	
 	static void Add(obj)
 		Fighters[obj.Tag] = obj
 	end
 	
 	get bool TeamDefeated
-		return Lua.Neil.Globals.Defeated[self.Team]
+		locExtern me "self"
+		return Lua.Scyndi.Globals.Defeated[me.Team]
 	end
 	
 end
@@ -481,7 +491,7 @@ QuickMeta Defeated
 	index
 		bool ret = true
 		for k,v in pairs(Combat_Fighter.Fighters)
-			if v.Team:upper()==key:upper()
+			if Upper(v.Team)==Upper(key)
 				ret = ret && ((!v.Available) || v.HP<=0)
 			end
 		end
