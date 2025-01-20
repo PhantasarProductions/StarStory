@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 XV
+// 	  Version: 25.01.21
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -155,7 +155,7 @@ class Combat_Hero extends Combat_Fighter
 		return Available
 	end
 	get bool Targetable_Foe
-		return Targetable_Hero and self.HP>0
+		return Targetable_Hero and Me.HP>0
 		// On the moment this code was written a bug in Neil requires me to use "self" when using identifiers from the base class when extending classes
 	end
 	
