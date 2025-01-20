@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.20
+// 	  Version: 25.01.20 VII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -124,7 +124,7 @@ class Combat_Foe extends Combat_Fighter
 
 	
 	get string ImgFile
-		if not RawData
+		if ! Zelf.RawData
 			Lua.error("No raw data so I cannot retrieve the image file for foe: "..Tag)
 		end
 		// Cultist texture change
@@ -219,7 +219,7 @@ class Combat_Foe extends Combat_Fighter
 	
 	get int Shilders
 		int ret
-		ret = self.RawData.Shilders
+		ret = RawData.Shilders
 		return ret 
 	end
 	
@@ -301,7 +301,7 @@ class Combat_Foe extends Combat_Fighter
 					aurina.shilders+=Shilders
 					self.Hurt(sprintf("Dropped %d shilders",Shilders),255, 180, 0)
 				elseif math.random(1,(__skill*__skill)+1) && len(RawData.ItemDrop)>0
-					int pm = math.random(1,3)
+					int pm = math.random(0,2) //= math.random(1,3)
 					int itn := math.random(0,len(RawData.ItemDrop))
 					plua itd := RawData.ItemDrop[itn]
 					if itd && itd.LVL<=Self.Level && RPGParty[pm]!="" && Item.Give(itd.ITM,RPGParty[pm],itd.VLT)
@@ -317,11 +317,12 @@ class Combat_Foe extends Combat_Fighter
 			scale = scale * 1.25
 			// TODO: Kill count for ExHuRU, Rolf and Johnson
 			// Experience
-			for i=1,6
+			for i=0,5
 				if RPGParty[i] && RPGParty[i]!=""
-					readonly string herotag := RPGParty[i]
-					readonly var hero := self.Fighters[herotag]
-					readonly var enemy := self
+					//for k,_ in pairs(self.Fighters); CSay(k); end // debug!
+					string herotag := RPGParty[i]
+					var hero := self.Fighters[herotag]; assert(hero,sprintf("Foe.CheckKilled: No hero on %s",herotag))
+					var enemy := self
 					// local herolevel = RPGStat.Stat(herotag,"Level")
 					int gainexp := math.floor((enemy.level/hero.level)*maxfactor)
 					bool allowexpbonus := math.random(1,10000)>(hero.level/2)*__skill
@@ -576,7 +577,7 @@ class Combat_Foe extends Combat_Fighter
 		end
 		C.Points.HP.MaxCopy="END_HP" //RPGStat.Points(Foe.Tag,"HP",1).MaxCopy = "END_HP"
 		C.Points.HP.Have=C.Points.HP.Maximum //RPGStat.Points(Foe.Tag,"HP").Have = RPGStat.Points(Foe.Tag,"HP").Maximum
-		self.HurtLijst = New LinkedList()
+		self.HurtLijst = New TLinkedList()
 		AI_Actions = {}
 		for A in Each(RawData.Acts)
 			if lvl>=RawData.ActMinLevel[A]
