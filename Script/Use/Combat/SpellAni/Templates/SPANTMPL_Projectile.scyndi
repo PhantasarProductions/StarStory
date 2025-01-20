@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/Templates/SPANTMPL_Projectile.scyndi
 // 
-// 	  Version: 25.01.20 VI
+// 	  Version: 25.01.20 VIII
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -74,11 +74,11 @@ module
 	//void Start(string Image,Exe,Tar,aTurn,aHC)
 	void Start(string Image,Act,aTurn,aHC)
 		// Original parameters
-		const var Exe := Act.Executor
-		const var Tar := Act.Targets[0]				
+		var Exe := Act.Executor
+		var Tar := Act.Targets[0]				
 		Turn = aTurn!=false && aTurn!=nil;
 		HotCenter = aHC!=false && aHC!=nil;
-		PrjImage = Lua.Scyndi.Globals.LoadNewImage(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Image:upper(),"/","_"),tostring(Turn),tostring(HotCenter)))
+		PrjImage = Lua.Scyndi.Globals.LoadNewImage(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Upper(Image),"/","_"),tostring(Turn),tostring(HotCenter)))
 		ex = Exe.X
 		ey = Exe.Y - (Exe.Height div 2)
 		tx = Tar.X
