@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
 // 
-// 	  Version: 25.01.16 VIII
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -105,6 +105,7 @@ end
 		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
 		// Something I need to address later, but which is not my primary concern
 		gaugex = Graphics.W - (Gauge.Width+20)
+		PointHero.Hot(10,45) // Hot file keeps on getting ignored		
 	end
 	
 	void CalcHighSpeed()
