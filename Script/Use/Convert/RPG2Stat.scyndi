@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.20 III
+// 	version: 25.01.20 IV
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -202,6 +202,8 @@ plua CharMeta(String ChKey)
 			Case "STAT" "STATS"
 				//Lua.error("Stat viewing and manipulation not YET supported")
 				return this._chstat
+			case "HAVESTAT" "STATEXISTS"
+				return this._chdata.HaveStat
 			Case "STATSCRIPT"
 				CSayF("STATSCRIPT has become irrelevant! Skipping!")
 				return {}
