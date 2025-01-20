@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20 X
+// 	  Version: 25.01.20 XIII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -175,22 +175,22 @@ class Combat_Hero extends Combat_Fighter
 	readonly table Images
 	get int H
 		locExtern _self "self"
-		return _self.GetImage.H * 2
+		return _self.GetImage.Height * 2
 	end
 	
 	Get int Height
 		locExtern _self "self"
-		return _self.GetImage.H * 2
+		return _self.GetImage.Height * 2
 	end
 	
 	get int W
 		locExtern _self "self"
-		return _self.GetImage.W * 2
+		return _self.GetImage.Width * 2
 	end
 	
 	get int Width
 		locExtern _self "self"
-		return _self.GetImage.W * 2
+		return _self.GetImage.Width * 2
 	end
 
 	get bool TargetHover
@@ -199,8 +199,8 @@ class Combat_Hero extends Combat_Fighter
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW = _self.GetImage.W 
-		return events.MouseY<Y && events.MouseY>Y-(Images.IDLE.H*2) && Events.MouseX>X-HW && Events.MouseX<X+HW 
+		int HW = _self.GetImage.Width
+		return events.MouseY<Y && events.MouseY>Y-(Images.IDLE.Height*2) && Events.MouseX>X-HW && Events.MouseX<X+HW 
 	end
 	
 	get int Level
@@ -318,8 +318,8 @@ group Stage_SelectTarget
 	void Draw()
 		locExtern fnt "FNT_23682639816498164"
 		locExtern sys "FNT_53682639816498164"
-		fnt = ObtainFont("BOXTEXT")
-		sys = ObtainFont("SYSFONT")
+		fnt = fnt || ObtainFont("BOXTEXT")
+		sys = sys || ObtainFont("SYSFONT")
 		Graphics.Color(255,180,0)
 		AmFont.Text(sprintf("%s: %s: Please select your target",Act.Executor.Name,Act.Act.Name),30,10)
 		graphics.Color(255,0,0)
@@ -382,7 +382,7 @@ group Stage_SelectTarget
 	
 	Void Update()
 		Stage_SelectTarget.ClearTargets()
-		int AllCount=0
+		int AllCount:=-1
 		for ftag,fdat in pairs(Fighters)
 			if fdat.Available and fdat.Targetable_Hero
 				// debug
@@ -411,13 +411,13 @@ group Stage_SelectTarget
 					case "1F"
 						//CSayF("%s: Team: %s; Hover: %s",fdat.Tag,fdat.Team,tostring(fdat.TargetHover))
 						if (fdat.Team=="Foe" || Act.Act.InDiscriminate) && fdat.TargetHover
-							Targets_Tag[1] = ftag
-							Targets_Tag[2] = nil
+							Targets_Tag[0] = ftag
+							Targets_Tag[1] = nil
 						end
 					case "1A"
 						if (fdat.Team=="Hero" || Act.Act.InDiscriminate) && fdat.TargetHover
-							Targets_Tag[1] = ftag
-							Targets_Tag[2] = nil
+							Targets_Tag[0] = ftag
+							Targets_Tag[1] = nil
 						end
 					default
 						Lua.error("Unknown targeting type: "..Act.Target)					
