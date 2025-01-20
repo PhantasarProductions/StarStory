@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.20
+// 	  Version: 25.01.20 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -174,40 +174,48 @@ class Combat_Hero extends Combat_Fighter
 	
 	readonly table Images
 	get int H
-		return self.GetImage.H * 2
+		locExtern _self "self"
+		return _self.GetImage.H * 2
 	end
 	
 	Get int Height
-		return self.GetImage.H * 2
+		locExtern _self "self"
+		return _self.GetImage.H * 2
 	end
 	
 	get int W
-		return self.GetImage.W * 2
+		locExtern _self "self"
+		return _self.GetImage.W * 2
 	end
 	
 	get int Width
-		return self.GetImage.W * 2
+		locExtern _self "self"
+		return _self.GetImage.W * 2
 	end
 
 	get bool TargetHover
-		if not self.GetImage
+		locExtern _self "self"
+		if !_self.GetImage
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW = self.GetImage.W 
+		int HW = _self.GetImage.W 
 		return events.MouseY()<Y && events.MouseY()>Y-(Images.IDLE.H*2) && Events.MouseX()>X-HW && Events.MouseX()<X+HW 
 	end
 	
 	get int Level
-		return self.Char.Stat.Level
+		locExtern _self "self"
+		return _self.Char.Stat.Level
 	end
 	
 	get int Experience
-		return self.Char.Points.EXP.Have
+		locExtern _self "self"
+		return _self.Char.Points.EXP.Have
 	end
 	
 	set int Experience
-		self.Char.Points.EXP.Have = value
+		locExtern _self "self"
+		_self.Char.Points.EXP.Have = value
 	end
 	
 	
@@ -249,7 +257,8 @@ class Combat_Hero extends Combat_Fighter
 		int inc=math.min(12 div __skill,1+math.floor(self.Char.Stats.Level/(25*__skill)))		
 		self.AP+=inc
 		if PartyIndex<3
-			for i=4,6
+			//for i=4,6
+			for i=3,5
 				if RPGParty[i] && RPGParty[i]!=""
 					RPGChar[RPGParty[i]].Points.AP.Have+=inc
 					if RPGParty[i]=="Crystal"
@@ -272,7 +281,7 @@ class Combat_Hero extends Combat_Fighter
 	CONSTRUCTOR
 		Me = Self
 		Images = {}
-		self.HurtLijst = New LinkedList()
+		self.HurtLijst = New TLinkedList()
 	end
 
 end
