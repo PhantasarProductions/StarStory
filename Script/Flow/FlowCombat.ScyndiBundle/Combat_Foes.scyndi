@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.19 VII
+// 	  Version: 25.01.20
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -88,10 +88,10 @@ class Combat_Foe extends Combat_Fighter
 	end
 	get bool Available
 		// TODO: Automatically turn unavailable if an enemy is either dead or removed from battle
-		if self.HP<=0 && self.scale<=0
+		if Zelf.HP<=0 && Zelf.scale<=0
 			return false
 		end
-		if self.StatusChange.Gone
+		if Zelf.StatusChange.Gone
 			return false
 		end
 		return true
@@ -130,7 +130,7 @@ class Combat_Foe extends Combat_Fighter
 		// Cultist texture change
 		LocExtern Sex "Cultist_Sex_Static_Table"
 		Sex = Sex || NewArray("Male","Female")
-		switch RawData.ImageFile:upper()
+		switch Upper(RawData.ImageFile)
 			case "*CULTIST"
 				return "GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[math.random(0,len(Sex))]..".png"
 			case "*CULTISTLEADER"
@@ -242,7 +242,7 @@ class Combat_Foe extends Combat_Fighter
 			return
 		end
 		scale-=0.01
-		if self.Name:upper()=="FLIRMOUSE KING"
+		if Upper(self.Name)=="FLIRMOUSE KING"
 			for t,d in pairs(self.Fighters)
 				if d.Team=="Foe"
 					d.Char.Points.HP.Have = 0
@@ -493,6 +493,10 @@ class Combat_Foe extends Combat_Fighter
 	Constructor(string F,int Lvl)
 		//static int cnt
 		LocExtern cnt "Combat_Foe_Constructor_Static_int_5b1116439495785eb4046d26b31af2d1"
+		// Used to easily switch on where Scyndi tries to put the start of the array.
+		LocExtern MinVal "0"
+		LocExtern MaxVal "1"
+		
 		cnt = cnt || 0
 		Zelf = Self
 		File = F
@@ -512,8 +516,8 @@ class Combat_Foe extends Combat_Fighter
 		var C = self.Char
 		//C.Name = RawData.Name
 		int ldif
-		int lvmin := RawData.Stat.LevelRange[1]
-		int lvmax := RawData.Stat.LevelRange[2]
+		int lvmin := RawData.Stat.LevelRange[MinVal]
+		int lvmax := RawData.Stat.LevelRange[MaxVal]
 				
 		self.Gauge = Lua.math.random(200*__skill,3210/__skill)
 		CSayF("Foe %d placed at spot %d on time gauge",idx,self.Gauge)
@@ -524,13 +528,13 @@ class Combat_Foe extends Combat_Fighter
 		self.InitStats()
 		for ckey,cvalue in spairs(RawData.Stat) 
 			if cvalue!="LevelRange"
-				int sint := math.abs(cvalue[2]-cvalue[1])
+				int sint := math.abs(cvalue[MaxVal]-cvalue[MinVal])
 				int rng  := math.abs(lvmax - lvmin)
 				number sinc := sint / rng
 				//--CSay("Compiling stat: "..ckey)
 				if self.Level<lvmin 
 					ldif = lvmin - self.Level
-					int tstat := xmath.round(cvalue[1]-(sinc*ldif))
+					int tstat := xmath.round(cvalue[MinVal]-(sinc*ldif))
 					if tstat<5 
 						tstat = 5 
 					end
@@ -538,7 +542,7 @@ class Combat_Foe extends Combat_Fighter
 					CSay("Setting BASE_"..ckey.." (neg) => "..C.Stat["BASE_"..ckey])
 				else   
 					ldif = self.Level - lvmin
-					int val := xmath.round(cvalue[1]+(sinc*ldif)) 
+					int val := xmath.round(cvalue[MinVal]+(sinc*ldif)) 
 					////RPGStats.DefStat(Foe.Tag,"BASE_"..ckey,round(cvalue[1]+(sinc*ldif)))
 					if val!=math.floor(val)
 						CSay("WARNING! Non-integer value: "..val)
