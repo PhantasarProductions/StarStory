@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.07 II
+// version: 25.01.21 I
 // 
 // End License
 
@@ -116,6 +116,7 @@ module
 			RPGPureChar.UniWendicka.ListAdd("ABL","WENDICKA_SHOCK")
 			CSay("Wendicka's \"Shock\" ability has been added to her list!")
 		end
+		// RPGPureChar.UniWendicka.ListUnique("ABL") // Debug only! I had a broken list, this will allow it to fix itself.
 	end
 	
 //end
