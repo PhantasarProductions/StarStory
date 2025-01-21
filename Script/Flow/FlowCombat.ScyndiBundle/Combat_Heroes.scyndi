@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.21 V
+// 	  Version: 25.01.21 VI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -164,11 +164,11 @@ class Combat_Hero extends Combat_Fighter
 	end
 	
 	get int X
-		return midx + (midx4*PartyIndex)
+		return midx + (midx4*(PartyIndex+1))
 	end
 	
 	get int Y
-		return midy + (midy4*PartyIndex)
+		return midy + (midy4*(PartyIndex+1))
 	end
 	
 	
