@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.21
+// 	  Version: 25.01.21 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -168,14 +168,14 @@ class Combat_Fighter
 		end
 	end
 
-	void Pain(int hp,string element,noapgain)
+	void Pain(int _hp,string element,noapgain)
 		//function Hurt(tg,ti,hp,element)
 		int r
 		int g
 		int b
 			r,g,b = 255,255,255
-		string report := self.HurtBig(round(hp))
-		int dodmg  := round(hp)
+		string report := self.HurtBig(round(_hp))
+		int dodmg  := round(_hp)
 		//local chtarget = FighterTag(tg,ti)
 		bool jack := gbool["CHEAT.JACK"]
 		bool god  := gbool["CHEAT.GOD"]
@@ -192,7 +192,7 @@ class Combat_Fighter
 		if RPGChar[self.Tag].StatExists("ER_"..element)
     		elementalresistance = RPGChar[self.Tag].Stat["ER_"..element]
     	else
-    		CSayF("%s> Note! ER_%s is non-existent, so filling in default value",self.Tag,element)
+    		CSayF("%s> Note! ER_%s is non-existent, so filling in default value: %d",self.Tag,element,elementalresistance)
     	end
     	if self.Team=="Hero"
     		elementalresistance = CharRes[self.Tag][element]
