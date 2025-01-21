@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.20 IV
+// 	version: 25.01.21
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -136,7 +136,11 @@ plua ChList(s,k)
 					case "SIZE" "LEN" "LENGTH" 
 						return slf.__parent.__chdata.ListSize(slf.__key)
 					default
-						Lua.error("RPG list does not recognize method/property: "..i)
+						ddef hv
+							return slf.__parent._chdata.ListHas(slf.__key,infinity)
+						end
+						return hv
+						//Lua.error("RPG list does not recognize method/property: "..i)
 				end
 			Default
 				lua.error("RPG list has not methods, indexes or properties of type: "..type(i))
