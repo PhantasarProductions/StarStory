@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.21 I
+// 	  Version: 25.01.21 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -152,19 +152,19 @@ class Combat_Fighter
 		end
 	end
 	
-	void Hurt(string txt,int r=255,int g=255,int b=255)
+	void Hurt(string txt,int r=255,int g=255,int b=255,abig)
 		// Due to a void issue, I had to use Self.
 		// I guess I could bypass this due to this being a script, but this *is* disgusting.
-		HurtLijst.AddLast(new Combat_Hurt(txt,Self.X,Self.Y-10,r,g,b))
+		HurtLijst.AddLast(new Combat_Hurt(txt,Self.X,Self.Y-10,r,g,b,abig))
 	end
 	
-	string HurtBig(int hp)
-		if hp>15000000
-			return sprintf("%dM",round(hp/1000000))
+	string HurtBig(int _hp)
+		if _hp>15000000
+			return sprintf("%dM",round(_hp/1000000))
 		elseif hp>25000
-			return sprintf("%dK",round(hp/1000))
+			return sprintf("%dK",round(_hp/1000))
 		else
-			return sprintf("%d",hp)
+			return sprintf("%d",_hp)
 		end
 	end
 
