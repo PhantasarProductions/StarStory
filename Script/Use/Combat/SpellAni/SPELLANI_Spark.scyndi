@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Spark.scyndi
 // 
-// 	  Version: 25.01.21
+// 	  Version: 25.01.21 IX
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -42,6 +42,11 @@
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
 
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
 
 module 
 
@@ -53,40 +58,40 @@ module
 	var Act
 
 	void _CONSTRUCTOR()
-		self.Glitter = Image.LoadNew("GFX/Combat/SpellAni/Thunder/Spark.png","SPELLANI_SPARK")
-		self.MyAudio = Audio.LoadNew("Audio/SpellAni/Spark.ogg","SPELLANI_SPARK_AUDIO")
+		Glitter = LoadNewImage("GFX/Combat/SpellAni/Thunder/Spark.png","SPELLANI_SPARK")
+		MyAudio = Audio.LoadNew("Audio/SpellAni/Spark.ogg","SPELLANI_SPARK_AUDIO")
 	end	
 
 	bool _Ended = false
 
 	void Start(aact)
-		self.Cycles = 0
-		self.MyAudio.Play()
-		self.Act = aact
+		Cycles = 0
+		MyAudio.Play()
+		Act = aact
 		_Ended = False
 	end
 	
 	void Draw()
 		// Count on it!
-		self.Cycles ++
+		Cycles ++
 		
 		// Draw it all!
 		// for tar in each(act.Targets)
-		for ti=1,#act.Targets_Tag
+		for ti=0,Len(act.Targets_Tag)-1
 			plua tar = act.Targets[ti]
 			if tar
 				for i=1,35 
 					//Image.Rotation = math.random(1,360)
 					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
 					//self.Glitter.XDraw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
-					self.Glitter.DrawR(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H),math.random(1,360))
+					Glitter.DrawR(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H),math.random(1,360))
 				end
 			end
-			Image.Rotation = 0
+			//Image.Rotation = 0
 		end
 		__white
 		
-		_Ended = self.Cycles>=self.MaxCycles
+		_Ended = Cycles>=MaxCycles
 	end
 	
 	void Update()
