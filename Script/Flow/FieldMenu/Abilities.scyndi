@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.21
+// 	  Version: 25.01.21 III
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -257,13 +257,19 @@ end
 				pux += 25
 			end
 			Graphics.Scale(1,1)
-			if Hover && Events.MouseHitLeft 
+			if Hover && Events.MouseHitLeft 				
 				if Prefixed(situation,"COMBAT_")
+					CSayF("Player chose ability: %s!",atag)
 					int APCost := abl.ABL_AP
-					if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
+					CSayF("Base AP cost would be %d. Is there a powerup to cut it?",APCost)
+					//if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
+					if RPGPureChar[CharTag].ListHas("ABL_POWERUP",atag..".APCUT")
 						APCost = APCost Div 2
+						CSay("There, so let's half it!")
 					end
-					State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
+					//State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",sprintf("\"%s\",%d,\"%s\"",atag,APCost,ActivatePWUP))
+					CSay("Back to battle flow")
+					Sys.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnAbility",atag,APCost,ActivatePWUP)
 				end
 			end
 			y += 35

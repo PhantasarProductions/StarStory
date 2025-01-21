@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.21 IV
+// 	  Version: 25.01.21 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -619,7 +619,8 @@ group Stage_PlayerInput
 			String atag
 			String PU
 			atag,PU = infinity
-			return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..(Upper(PU)))
+			//return a.Executor.Char.List.ABL_POWERUP.Has(atag.."."..(Upper(PU)))
+			return RPGPureChar[a.Executor.Tag].ListHas("ABL_POWERUP",atag.."."..Upper(PU))
 		end
 		a = new Class_Action(Tag,"ABL_"..AblTag)
 		a.BurnAP = APCost
