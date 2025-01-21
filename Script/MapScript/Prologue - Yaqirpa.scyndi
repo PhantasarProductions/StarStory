@@ -34,11 +34,12 @@
 // **********************************************
 // 
 // 
-// version: 25.01.13 I
+// version: 25.01.22
 // 
 // End License
 Script
 
+// Must be defined! Undeffing only for debugging postboss stuff.
 #define mother_boss
 
 //#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.07.18"
@@ -207,7 +208,8 @@ group MScript
 		Map.ShowPlayer()
 		Map.ObjShow("FCrystal")
 		MapText("BOSS_COMMENCE")
-		RPGParty[3]=""
+		//RPGParty[3]=""
+		RPGParty[2]=""
 		RPGChar.Kill("Briggs")
 		Schedule.Add("PostBoss")
 #if mother_boss
