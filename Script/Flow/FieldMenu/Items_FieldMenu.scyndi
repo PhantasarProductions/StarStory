@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
 // 
-// 	  Version: 25.01.06 VIII
+// 	  Version: 25.01.21 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -135,8 +135,9 @@ module
 	End
 	
 	Void GetIt(int slot,string cht)
+		CSayF("Retrieving item #%d, from character %s",slot,cht)
 		var ch  := RPGChar[cht]
-		string ittag := ch.Data[sprintf("INVITEM%d",slot)]:upper()
+		string ittag := Upper(ch.Data[sprintf("INVITEM%d",slot)])
 		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
 		if itamt == 0
 			return
@@ -151,19 +152,21 @@ module
 			End
 			return
 		end
+		CSay("= Not in combat, so let's just 'drag 'n drop'")
 		ch.Stat[sprintf("INVAMNT%d",slot)]--
 		citem=ittag
 		rcitem = cht
 		rsitem=slot
 		JwlRecalc(cht)
+		CSay("= Getting item done!")
 	end
 	
 	bool PlaceIt(int slot,string cht,string item)
 		var ch  := RPGChar[cht]
-		string ittag := ch.Data[sprintf("INVITEM%d",slot)]:upper()
+		string ittag := Upper(ch.Data[sprintf("INVITEM%d",slot)])
 		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
 		CSayF("PlaceIt(%d,'%s','%s'): ittag='%s'; itmt=%3d;",slot,cht,item,ittag,itamt)
-		item = item:upper()
+		item = Upper(item)
 		if itamt>=Caps.InventoryMaxStack
 			return false
 		end
@@ -177,7 +180,7 @@ module
 		if citem==item
 			citem=""
 		end
-		JwlRecalc(cht)
+		JwlRecalc(cht)		
 		return true
 	end
 	
@@ -261,7 +264,7 @@ module
 						case "FIELD"
 							If ch.Stat[sprintf("INVAMNT%d",i)]<=0
 								Buzz.Play()
-							ElseIf Use("ITM_"..ch.Data[sprintf("INVITEM%d",i)]:upper(),CharTag)
+							ElseIf Use(Upper("ITM_"..ch.Data[sprintf("INVITEM%d",i)]),CharTag)
 								ch.Stat[sprintf("INVAMNT%d",i)]--
 							End
 						case "VAULT"
