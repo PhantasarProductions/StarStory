@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.01.10
+// 	  Version: 25.01.21 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -157,19 +157,21 @@ global var ItemBaseGet(string it,string key)
 end
 
 Global Void JewelRecalc(string char)
-
+	CSayF("Recalculating statistics based on jewel carried for: %s",char) 
 	Table Elements = {"Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
 	Table Statusses = {"Block","Damned","Death","Disease","Paralysis","Poison","Will"}
 	Var C := RPGChar[char]
 	Var D := C.Data
 	Var S := C.Stat
 	// reset
+	CSay("= Reset!")
 	For _,Elem in pairs(Elements)
 		S["ER_MODIFIER_"..Elem] = 0
 	End
 	For _,Stat in pairs(Statusses)
 		S[sprintf("SR_EQBF_%s",Stat)] = 0
 	End
+	CSay("= Checking inventory sockets!")
 	For i=1,Caps.InventorySockets
 		String atag := sprintf("INVAMNT%d",i)
 		String dtag := sprintf("INVITEM%d",i)
