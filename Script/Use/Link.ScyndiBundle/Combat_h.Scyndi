@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Combat_h.Scyndi
 // 
-// 	  Version: 25.01.19 I
+// 	  Version: 25.01.22
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -196,7 +196,7 @@ group StartCombat
 	get string RandomBossTune
 		//static table tunes = JCR6.GetDir("Music/Combat/Boss")
 		locextern tunes "RandomBossTune_Static_Tunes"
-		tunes = tunes || JCR6.GetDir("Music/Combat/Boss")
+		tunes = tunes || JCR6.Dir("Music/Combat/Boss")
 		if len(tunes)==0
 			Print("Random tune requested, but none available!")
 			return 0
