@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Caps.scyndi
 // 
-// 	  Version: 25.01.03 II
+// 	  Version: 25.01.22
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -97,10 +97,12 @@ Module
 		gint.GameCycle = math.max(1,value)
 	end
 	
-	int LvCycle(int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
-		plua work;work = { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z }
+	//int LvCycle(int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z)
+	//	plua work;work = { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z }
+	int LvCycle(Infinity)
+		work:={Infinity}
 		// Please note, work is defined lua style, so this array starts with 1!
-		locextern LuaLenWork "#Work"
+		locextern LuaLenWork "#work"
 		return math.min(10000,work[math.max(1,math.min(Cycle,LuaLenWork))])
 	end
 	
