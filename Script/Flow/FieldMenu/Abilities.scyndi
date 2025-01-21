@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.19
+// 	  Version: 25.01.21
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -176,15 +176,30 @@ end
 	readonly table PUI
 	
 	void Flow(uBox,string CharTag,string situation)
-		if CharTag=="UniCrystal" || CharTag=="Briggs"
-			return
-		end
-		if CharTag=="Crystal"
-			Crystal_ARMS.Flow(ubox,CharTag,situation)
-			return
-		end
+		//if CharTag=="UniCrystal" || CharTag=="Briggs"
+		//	return
+		//end
+		//if CharTag=="Crystal"
+		//	Crystal_ARMS.Flow(ubox,CharTag,situation)
+		//	return
+		//end
+				
 		int y := ubox.y + 20
 		int x := ubox.x + 40
+		Switch CharTag
+			Case "UniCrystal"
+				SetColor(255,180,0)
+				afont.Text("???",x,y)
+				return
+			Case "Briggs"
+				SetColor(255,0,0)
+				afont.Text("Briggs does NOT\nhave any special\nabilities!",x,y)
+				return
+			case "Crystal"
+				Crystal_ARMS.Flow(ubox,CharTag,situation)
+				return
+			default
+		end
 		string ht
 		//for list abl
 		//end
