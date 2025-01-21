@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.05
+// 	  Version: 25.01.22
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -324,6 +324,10 @@ End
 		Kthura.Obj[tag].Visible=true
 	//	ObjSet(tag,"Visible",true)
 	end
+	
+	Get Delegate ObjHide; Return Map.HideObj; End
+	Get Delegate ObjShow; Return Map.ShowObj; End
+	
 
 	Void ObjWalkTo(string tag,a,b)
 		Kthura.Obj[tag].WalkTo(a,b)
