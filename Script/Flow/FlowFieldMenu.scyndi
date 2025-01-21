@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.06 IV
+// 	  Version: 25.01.21
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -80,7 +80,7 @@ init
 	Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ACHIEVEMENTS" } , ["ICONFILE"] = "ACHIEVEMENTS" }
 	//Situations_Field += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="QUIT" } ,         ["ICONFILE"] = "QUIT" }
 	Situations.FIELD = Situations_Field
-	Situations.COMBAT_ABILITIES = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } }
+	Situations.COMBAT_ABILITIES = NewArray( { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } )
 	Situations.COMBAT_ARMS = Situations.COMBAT_ABILITY 
 	Situations.COMBAT_ITEMS = { { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
 	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
