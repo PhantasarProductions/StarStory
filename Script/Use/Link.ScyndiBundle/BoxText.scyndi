@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 25.01.05
+// 	  Version: 25.01.21
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -59,13 +59,13 @@ void BTLoad()
 	Sys.LoadNewState("BOXTEXT","Script/Subs/SubBoxText.lbc")	
 end
 
-global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=1)
+global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
 	locextern AScen "'MAPTEXT'"
 	//Sys.Call("BOXTEXT","FlowBoxText.Serial",sprintf("\"%s\", \"%s\", \"%s\", %d",AScen,ATag,RF,ANum or 1))
-	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 1)
+	Sys.Call("BOXTEXT","FlowBoxText.Serial",AScen,ATag,RF,ANum || 0)
 end
 
-global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=1)
+global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=0)
 	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
 end
 
