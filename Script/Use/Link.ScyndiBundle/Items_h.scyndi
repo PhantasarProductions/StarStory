@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 25.01.21
+// 	  Version: 25.01.21 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -58,7 +58,8 @@ end
 
 Global Void JwlRecalc(string char)
 	LdItems()
-	Sys.Call("SUB_ITEMS","JewelRecalc",sprintf("\"%s\"",char))
+	//Sys.Call("SUB_ITEMS","JewelRecalc",sprintf("\"%s\"",char))
+	Sys.Call("SUB_ITEMS","JewelRecalc",char)
 End
 
 
