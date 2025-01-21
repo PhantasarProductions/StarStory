@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.21
+// 	version: 25.01.22
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -37,7 +37,13 @@ plua _char
 //Global ReadOnly Var RPGParty = _Stat.Party
 QuickMeta RPGParty
 	newindex
-		error("Fuck it! Read only on RPGParty")
+		//error("Fuck it! Read only on RPGParty")
+		assert(Lua.type(key)=="number","Number expected for index to change")
+		if key<0 || key>5
+			CSay(Lua.debug.traceback())
+			error("Invalid party index")
+		end
+		_Stat.Party[key] = Value
 	end
 	
 	index
