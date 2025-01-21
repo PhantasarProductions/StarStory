@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.05 XX
+// 	  Version: 25.01.22 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -175,17 +175,20 @@ global bool PerformLoadGame(string f)
 		sgmap.Clear()
 		sgmap.Source=SaveGame.Text["PLAYER.INI"]
 		//Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
-		Map.LoadMap(StripDir(sgmap.Value("Map","Map")))
-		Kthura.CurrentLayer = sgmap.Value("Map","Layer")
-		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
 		
 		CSay("Parsing Permakills")
 		Process(7)
 		sgkills:=GINIE.CreateNew("MAP_KILLS")
 		sgkills.Clear()
-		sgkills.Source=SaveGame.Text["MapPermaKills"]
-		//State.Call("FLOW_FIELD","LGMap","nil")	
+		sgkills.Source=SaveGame.Text["MapPermaKills.ini"]
 		Process(8)
+
+		
+		Map.LoadMap(StripDir(sgmap.Value("Map","Map")))
+		Kthura.CurrentLayer = sgmap.Value("Map","Layer")
+		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
+		
+		//State.Call("FLOW_FIELD","LGMap","nil")	
 		//if SaveGame.HasData("VAULT.NEIL")
 		//	CSay("Loading vault data")
 		//	NeilDoString(SaveGame.Data["VAULT.NEIL"],"SG:Vault.Neil")
