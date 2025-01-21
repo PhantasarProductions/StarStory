@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.20
+// 	  Version: 25.01.21
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -229,9 +229,9 @@ LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
 		AnnounceFont.DarkText(AnnounceText,AnnounceX,200,0,1)
 	end
 	
-	string upper(string s)
-		return s:upper()
-	end
+	//string upper(string s)
+	//	return s:upper()
+	//end
 	
 	Void HeroReward()
 		If Act.Executor.Team=="Hero" && Prefixed(Act.ActTag,"ABL_")
