@@ -103,6 +103,7 @@ Void ShowWelcome()
 		default
 			Lua.error(sprintf("Unknown Welcome Stage: %d",_First.Stage))
 	End
+	SetColor(255,255,255)
 	SetAlpha(_First.Alpha)
 	_First.Picture.Draw(Graphics.W div 2, Graphics.H div 2)
 	SetAlpha(255)
