@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 II
+// version: 25.01.22 III
 // 
 // End License
 Script
@@ -163,7 +163,7 @@ group MScript
 		Map.ObjHide("FCrystal")
 		Map.ObjHide("FBriggs")
 		Map.ObjShow("DeadCrystal")
-		RPGParty[2] = ""
+		RPGParty[1] = ""
 		MapText("POSTBOSS_WENDICKARAGE")
 		var explosion = LoadNewImage("GFX/Scenario/Explosion.png","Yaqirpa_Explosion")
 		var sex = Audio.Load("Audio/Scenario/Explosion.ogg")
