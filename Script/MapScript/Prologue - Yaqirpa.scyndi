@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22
+// version: 25.01.22 II
 // 
 // End License
 Script
@@ -47,6 +47,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
@@ -175,6 +176,7 @@ group MScript
 			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
+			Events.Poll()
 			if i==0
 				Sys.Sleep(2000)
 			else
