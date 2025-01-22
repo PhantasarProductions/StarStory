@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 25.01.21 I
+// 	  Version: 25.01.22
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -93,7 +93,7 @@ void MkTrueItem(string it)
 			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING" "ITM_SELLPRICE" "ITM_BUYPRICE" "ITM_SHILDERPRICE" "APRECOVER"
 				//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 				return s._gin.intvalue(rec,k)
-			case "ARM_HIT_PROCENT" "GRANTEXP"
+			case "ARM_HIT_PROCENT" "ARM_WEIGHT" "ARM_XPOWER" "GRANTEXP"
 				// Just a block, as the previous one got too big...
 				// Figures.
 				//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")

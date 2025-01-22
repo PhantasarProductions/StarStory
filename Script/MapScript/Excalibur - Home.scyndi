@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXIX
+// version: 25.01.22 XXXII
 // 
 // End License
 
@@ -144,16 +144,18 @@ group MScript
 			if RPGChar.UniCrystal.Stat.Level!=RPGChar.Crystal.Stat.Level
 				CSay("HEY! Link error on Crystal! Fixing that!")
 				//RPGChar.Crystal.Link_Stat("UniCrystal","Level")
-				RPGPureChar.UniCrystal.LinkStat("Level")
+				RPGPureChar.UniCrystal.LinkStat("Level","Crystal")
 			end
 			return
 		end
 		CSay("Creating character Crystal!")
 		Party.NewChar("Crystal",RPGChar.UniCrystal.Stat.Level,"Crystal")
-		RPGPureCharUniCrystal.LinkStat("Level")
+		CSay("Level Link for Crystal")
+		RPGPureChar.UniCrystal.LinkStat("Level","Crystal")
 		CSay("Crystal's ARMS")
 		MScript.Crystal_StartARMS()
 		// Inventory sockets
+		CSay("Crystal's inventory must be linked to her uniform self")
 		for i=1,Caps.InventorySockets
 			//RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
 			//RPGChar.Crystal.Link_Stat("UniCrystal","INVAMNT"..i)

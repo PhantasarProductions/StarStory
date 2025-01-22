@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.20
+// 	  Version: 25.01.22 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -132,11 +132,11 @@ group SubParty
 		if (Name=="") 
 			Name=Tag
 		end
-		print("Creating character:",Tag,Name)
+		CSayF("Creating character: T=%s, N=%s",Tag,Name)
 		RPGChar.Create(Tag,Name)
 		// Shoot?
 		CSay("= Can this character shoot?")
-		RPGChar[Tag].Data.CanShoot = Lua.tostring(prefixed(tag,"Uni") or tag=="Briggs" or tag=="Yirl")
+		RPGChar[Tag].Data.CanShoot = Lua.tostring(prefixed(tag,"Uni") or tag=="Briggs" or tag=="Yirl" || tag=="Johnson")
 		if tag=="Briggs"
 			print("= Briggs is a guest")
 			RPGChar.Briggs.Data.Guest = "true"
@@ -145,38 +145,41 @@ group SubParty
 			RPGChar[Tag].Data.Guest = "false"
 		end
 		// Inventory slots
-		print("= Setting up inventory")
+		CSay("= Setting up inventory")
 		for i=1,Caps.InventorySockets
 			RPGChar[Tag].Data[sprintf("INVITEM%d",i)]=""
 			RPGChar[Tag].Stat[sprintf("INVAMNT%d",i)]=0
 		end
 		// Statistics
-		Print("= Setting the basic stat values")
+		CSay("= Setting the basic stat values")
 		for st in Each(Stats)
 			for sb in Each(StatSubs)
 				RPGChar[Tag].Stat[sb.."_"..st] = 0
 			end
-			string formscript := "SUM:"..Tag
-			for sb in Each(StatSubs)
-				if sb!="END" 
-					formscript += "."..sb.."_"..st
-				end
-				RPGChar[Tag].StatScript["END_"..st] = formscript
-			end
+			//string formscript := "SUM:"..Tag
+			//for sb in Each(StatSubs)
+			//	if sb!="END" 
+			//		formscript += "."..sb.."_"..st
+			//	end
+			//	RPGChar[Tag].StatScript["END_"..st] = formscript
+			//end
 		end
 		RPGChar[Tag].Stat.AMMO = 0
 		RPGChar[Tag].Stat.Level = level
 		// A few basic lists
-		table lists = { "ABL","LEARN","ABL_POWERUP","STATUSCHANGE" }
+		CSay("= Basic Lists")
+		table lists = NewArray( "ABL","LEARN","ABL_POWERUP","STATUSCHANGE" )
 		if Tag=="Crystal"
-			lists += "ARMS"
+			CSay("= Adding ARMS, since this is Crystal!")
+			lists += "ARMS"			
 		end
-		for lst in Each(lists)
-			CSayF("= List checkup %s, should have no members: %d!",lst,RPGChar[Tag].List[lst].len)
+		//for lst in Each(lists)
+		for _,lst in Pairs(lists)
+			CSayF("= List checkup %s, should have no members: %d!",lst,RPGPureChar[Tag].ListSize(lst))
 		end
 		// TODO: Script "END" stat!
 		// Basis Points
-		Print("= Setting the basic points")
+		CSay("= Setting the basic points")
 		//RPGChar[Tag].Points.HP.MaxCopy = "END_HP"
 		//RPGChar[Tag].Points.AP.MaxCopy = "END_AP"
 		RPGChar[Tag].Points.HP.MaxCopy = "HP"
