@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.22
+// 	  Version: 25.01.22 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -524,7 +524,8 @@ quickmeta Player
 		end
 	end
 	newindex
-		Lua.error("Player.newindex: Not yet properly setup! Come back later!")
+		__Player[key] = value
+		//Lua.error("Player.newindex: Not yet properly setup! Come back later!")
 //		Link_Map.ObjSet("PLAYER",key,value)
 	end
 end
