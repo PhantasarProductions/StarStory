@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.13
+// 	  Version: 25.01.22
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -493,7 +493,7 @@ group FldMap
 		//end
 		// Music (must always be after the mapscript is loaded, in case of scripted music)
 		if prefixed(Kthura.Meta["Music"],"*")
-			switch Kthura.Meta["Music"]:upper()
+			switch Upper(Kthura.Meta["Music"])
 				case "*MAPSCRIPT" "*MAP" "*SCRIPT"
 					MapScript.MapMusic()
 				default
