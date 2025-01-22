@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Home.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Home.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,18 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.10.12
-// End License Information
+// 
+// version: 25.01.22 XV
+// 
+// End License
+
 
 Script
 
 #use "Libs/Music"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
-#use "Script/Use/Libs"
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 //#MKL_Version "Star Story - Excalibur - Home.neil" "21.10.12"
 //#MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
@@ -51,11 +59,14 @@ Script
 #macro Situation gstring.Situatie_In_Het_Huis_Van_Wendicka
 #macro CrystalHome gbool.CrystalCameHomeAtTheStartOfTheGame
 
+
+table Kamer = {}
 quickmeta GaNaarKamer
 	index
-		static table Kamer = {}
+		//static table Kamer = {}
 		if !Kamer[key]
-			Kamer[key] = void()
+			//Kamer[key] = void()
+			ddef _Kamer
 				CSayF("Entering room: %s; Situation: %s;   Crystal Home: %s",Key,Situation,lua.tostring(CrystalHome))
 				Map.HideButLabel(Key)
 				Map.ShowObj("PLAYER")
@@ -71,6 +82,7 @@ quickmeta GaNaarKamer
 					Lua.Scyndi.Class.MScript.ExD()
 				end
 			end
+			Kamer[key]=_Kamer
 		end
 		return Kamer[key]
 	end
@@ -104,7 +116,7 @@ group MScript
 	
 	// Create Wendicka in her general game form (if the character did not yet exist in this form
 	void CreateWendicka()
-		if Caps.Cycle>1 || gv.gbool.ImportedWendicka
+		if Caps.Cycle>1 || gbool.ImportedWendicka
 			//CSay("Record for Wendicka is already there, so no need to create that anew!")
 			CSay("Just using record from older records")
 			return
@@ -112,6 +124,7 @@ group MScript
 		CSay("Creating Character: Wendicka")
 		RPGChar.Create("Wendicka")
 		CSay("Linking all data with Uniformed version of Wendicka")
+		Lua.error("Linking stats not yet properly set up")
 		RPGChar.Wendicka.Link_Stat("UniWendicka","*")
 		RPGChar.Wendicka.Link_Data("UniWendicka","*")
 		RPGChar.Wendicka.Link_List("UniWendicka","*")
@@ -121,7 +134,7 @@ group MScript
 	
 	void CreateCrystal()
 		//CSayF("Creation script for Crystal NOT yet done")
-		if Caps.Cycle>1 || gv.gbool.ImportedCrystal
+		if Caps.Cycle>1 || gbool.ImportedCrystal
 			CSay("Updating level stuff for Crystal")
 			Party.GrabLevel("Crystal",RPGChar.UniCrystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
 			if RPGChar.UniCrystal.Stat.Level!=RPGChar.Crystal.Stat.Level
@@ -200,8 +213,8 @@ group MScript
 	End
 	
 	void NPC_Crystal_Asleep()
-		CreateWendicka()
-		CreateCrystal()
+		MScript.CreateWendicka()
+		MScript.CreateCrystal()
 		Player.WalkTo("SPOT_Crystal_Asleep")
 		MapText("FOUNDCRYSTAL_FOUNDHER")
 		for a = 0,255,0.1
@@ -210,7 +223,7 @@ group MScript
 			Map.DrawScreen()
 			__black
 			Graphics.SetAlpha(math.floor(a))
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
 		end
@@ -221,20 +234,20 @@ group MScript
 			Map.DrawScreen()
 			__black
 			Graphics.SetAlpha(math.floor(a))
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
 		end
 		MapText("FOUNDCRYSTAL_SECURITY")
 		Map.Kill("NPC_Crystal_Asleep",true)
 		MapText("FOUNDCRYSTAL_AWAKE")
-		var oyl = Image.Load("GFX/Intro/1 year later.png")
+		var oyl = LoadImage("GFX/Intro/1 year later.png","SCEN_ONCE_ONE_YEAR_LATER")
 		oyl.HotCenter()
 		Graphics.Cls()
 		__White
-		oyl.Draw(Screen.W/2,Screen.H/2)
+		oyl.Draw(Graphics.W/2,Graphics.H/2)
 		Graphics.Flip()
-		FPS.Sleep(3000)
+		Sys.Sleep(3000)
 		RPGParty[1] = "Wendicka"
 		Map.Leader="Wendicka"
 		Map.Kill("NPC_MT_CrystalUniform",true)
@@ -245,44 +258,44 @@ group MScript
 	end
 	
 	void NPC_Scyndi()
-		FMenu.Go(Map.Leader,"VAULT")
+		FieldMenu.Go(Map.Leader,"VAULT")
 	end
 	
 	get int ExD1x
-		return gv.gint.WendickaHome_EXD1_x
+		return gint.WendickaHome_EXD1_x
 	end
 	get int ExD2x
-		return gv.gint.WendickaHome_EXD2_x
+		return gint.WendickaHome_EXD2_x
 	end
 	get int ExD1y
-		return gv.gint.WendickaHome_EXD1_y
+		return gint.WendickaHome_EXD1_y
 	end
 	get int ExD2y
-		return gv.gint.WendickaHome_EXD2_y
+		return gint.WendickaHome_EXD2_y
 	end
 	get int ExD1rot
-		return gv.gint.WendickaHome_EXD1_rotation
+		return gint.WendickaHome_EXD1_rotation
 	end
 	get int ExD2rot
-		return gv.gint.WendickaHome_EXD2_rotation
+		return gint.WendickaHome_EXD2_rotation
 	end
 	set int ExD1x
-		gv.gint.WendickaHome_EXD1_x = math.floor(math.max(180,value))
+		gint.WendickaHome_EXD1_x = math.floor(math.max(180,value))
 	end
 	set int ExD2x
-		gv.gint.WendickaHome_EXD2_x = math.floor(math.max(180,value))
+		gint.WendickaHome_EXD2_x = math.floor(math.max(180,value))
 	end
 	set int ExD1y
-		gv.gint.WendickaHome_EXD1_y = math.floor(math.max(100,value))
+		gint.WendickaHome_EXD1_y = math.floor(math.max(100,value))
 	end
 	set int ExD2y
-		gv.gint.WendickaHome_EXD2_y = math.floor(math.max(100,value))
+		gint.WendickaHome_EXD2_y = math.floor(math.max(100,value))
 	end
 	set int ExD1rot
-		gv.gint.WendickaHome_EXD1_rotation = value % 360
+		gint.WendickaHome_EXD1_rotation = value % 360
 	end
 	set int ExD2rot
-		gv.gint.WendickaHome_EXD2_rotation = value % 360
+		gint.WendickaHome_EXD2_rotation = value % 360
 	end
 	
 	void ExD()
@@ -324,14 +337,14 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			graphics.Flip()
-			FPS.Sleep(500)
+			Sys.Sleep(500)
 			Events.Poll()
 			Graphics.Color(255,0,0)
 			Graphics.SetAlpha(100)
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
-			FPS.Sleep(500)
+			Sys.Sleep(500)
 			Events.Poll()
 			if i==5
 				Music.Play("Music/scenario/panic stations.ogg")
@@ -417,7 +430,7 @@ group MScript
 	void Load()
 	end
 
-	CONSTRUCTOR
+	void _CONSTRUCTOR()
 		Party.Recover()
 		GNK = GaNaarKamer
 		for K in each {"Crystal","Woonkamer","Keuken","Wendicka","Badkamer"}
@@ -428,3 +441,5 @@ group MScript
 	end
 
 end
+
+Init; MScript._CONSTRUCTOR(); End
