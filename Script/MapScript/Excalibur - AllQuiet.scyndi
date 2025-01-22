@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/MapScript/Excalibur - AllQuiet.scyndi
 // 
-// 	  Version: 25.01.22 VI
+// 	  Version: 25.01.22 IX
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,8 @@
 
 
 Script
+
+#use "Libs/Music"
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/InterVar"
@@ -158,7 +160,7 @@ group MScript
 	end
 	
 	void Crystal_Panic()
-		if !gv.gBool.Done_Johnson_Scolds_Wendicka_For_Killing_Crystal
+		if !gBool.Done_Johnson_Scolds_Wendicka_For_Killing_Crystal
 			return
 		end
 		MapText("CRYSTAL_PANIC")
@@ -201,5 +203,5 @@ group MScript
 end
 
 Init
-	_Init()
+	MScript._Init()
 End
