@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXXIII
+// version: 25.01.22 XXXVIII
 // 
 // End License
 
@@ -176,8 +176,8 @@ group MScript
 		// Elemental Resistance
 		for el in each( NewArray( "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" ) )
 			CSayF("Linking elemental resistance: %s",el)
-			if !RPGChar.UniCrystal.HasStat("ER_"..el)
-				CSay("= Original base was non-existent. Creating!")
+			//if !RPGChar.UniCrystal.HasStat("ER_"..el)
+				//CSay("= Original base was non-existent. Creating!")
 				switch el
 					case "Healing"
 						RPGChar.UniCrystal.Stat["ER_"..el] = 6
@@ -186,11 +186,11 @@ group MScript
 					default
 						RPGChar.UniCrystal.Stat["ER_"..el] = 3
 				end
-			end
-			if !RPGChar.UniCrystal.HasStat("ER_MODIFIER_"..el)
-				CSay("= Original modifier was non-existent. Creating!")
-				RPGChar.UniCrystal.Stat["ER_MODIFIER_"..el] = 0
-			end
+			//end
+			//if !RPGChar.UniCrystal.HasStat("ER_MODIFIER_"..el)
+			//	CSay("= Original modifier was non-existent. Creating!")
+			//	RPGChar.UniCrystal.Stat["ER_MODIFIER_"..el] = 0
+			//end
 			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_"..el)
 			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_MODIFIER_"..el)
 			RPGPureChar.UniCrystal.LinkStat("ER_"..el,"Crystal")
@@ -200,7 +200,7 @@ group MScript
 		for sr in each (NewArray( "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" ) )
 			CSayF("Linking Status Change Resistance: %s",sr)
 			for subsr in each(NewArray("BASE","BUFF","EQBF" ))
-				RPGPureStat.UniCrystal.LinkStat("SR_"..subsr.."_"..sr,"Crystal")
+				RPGPureChar.UniCrystal.LinkStat("SR_"..subsr.."_"..sr,"Crystal")
 				// TRUE should NOT be linked!
 				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
 				//RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)				
@@ -209,7 +209,7 @@ group MScript
 		// Experience Points
 		CSay("Linking Experience")
 		//RPGChar.Crystal.Link_Points("UniCrystal","EXP")
-		RPGPureStat.UniCrystal.LinkPoints("EXP","Crystal")
+		RPGPureChar.UniCrystal.LinkPoints("EXP","Crystal")
 		CSay("Cyborg Crystal Created")
 		//Lua.error("Crystal creation needs more workout!")
 	end
@@ -234,7 +234,8 @@ group MScript
 		MScript.CreateCrystal()
 		Player.WalkTo("SPOT_Crystal_Asleep")
 		MapText("FOUNDCRYSTAL_FOUNDHER")
-		for a = 0,255,0.1
+		for a = 0,255,0.3
+			Events.Poll()
 			__white
 			Graphics.Cls()
 			Map.DrawScreen()
@@ -245,7 +246,8 @@ group MScript
 			Graphics.Flip()
 		end
 		Map.ShowByLabel("CrystalFound")
-		for a = 255,0,-0.1
+		for a = 255,0,-0.4
+			Events.Poll()
 			__white
 			Graphics.Cls()
 			Map.DrawScreen()
@@ -265,7 +267,8 @@ group MScript
 		oyl.Draw(Graphics.W/2,Graphics.H/2)
 		Graphics.Flip()
 		Sys.Sleep(3000)
-		RPGParty[1] = "Wendicka"
+		RPGParty[0] = "Wendicka"
+		RPGParty[1] = ""
 		Map.Leader="Wendicka"
 		Map.Kill("NPC_MT_CrystalUniform",true)
 		Map.Kill("Crystal_Awake",true)

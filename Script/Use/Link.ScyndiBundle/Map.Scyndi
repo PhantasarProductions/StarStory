@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.22 V
+// 	  Version: 25.01.22 VI
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -83,9 +83,10 @@ End
 	//	return ISGET.STRING("FLOW_FIELD","FLDMAP.LEADER")
 	end
 	
-	//set string Leader
+	set string Leader
+		gStr.Leader = value
 	//	State.Call("FLOW_FIELD","FldMap.SetLeader","\""..value.."\"")
-	//end
+	end
 	
 	//Void Call(string func,para)
 	Void Call(String func,infinity)
