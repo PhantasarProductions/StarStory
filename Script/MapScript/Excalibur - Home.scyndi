@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXI
+// version: 25.01.22 XXIII
 // 
 // End License
 
@@ -124,8 +124,9 @@ group MScript
 		CSay("Creating Character: Wendicka")
 		RPGChar.Create("Wendicka")
 		CSay("Linking all data with Uniformed version of Wendicka")
-		Lua.error("Linking stats not yet properly set up")
-		RPGChar.Wendicka.Link_Stat("UniWendicka","*")
+		//RPGChar.Wendicka.Link_Stat("UniWendicka","*")
+		RPGPureChar.UniWendicka.LinkStat("*","Wendicka")
+		Lua.error("Linking data not yet properly set up")
 		RPGChar.Wendicka.Link_Data("UniWendicka","*")
 		RPGChar.Wendicka.Link_List("UniWendicka","*")
 		RPGChar.Wendicka.Link_Points("UniWendicka","*")
