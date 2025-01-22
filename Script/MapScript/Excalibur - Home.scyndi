@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXIII
+// version: 25.01.22 XXIV
 // 
 // End License
 
@@ -125,15 +125,17 @@ group MScript
 		RPGChar.Create("Wendicka")
 		CSay("Linking all data with Uniformed version of Wendicka")
 		//RPGChar.Wendicka.Link_Stat("UniWendicka","*")
+		//RPGChar.Wendicka.Link_Data("UniWendicka","*")
 		RPGPureChar.UniWendicka.LinkStat("*","Wendicka")
-		Lua.error("Linking data not yet properly set up")
-		RPGChar.Wendicka.Link_Data("UniWendicka","*")
+		RPGPureChar.UniWendicka.LinkData("*","Wendicka")
+		Lua.error("Linking lists not yet properly set up")
 		RPGChar.Wendicka.Link_List("UniWendicka","*")
 		RPGChar.Wendicka.Link_Points("UniWendicka","*")
 		CSayF("All should be clear now. Wendicka has level: %04d",RPGChar.Wendicka.Stat.Level)
 	end
 	
 	void CreateCrystal()
+		Lua.error("Crystal creation needs more workout!")
 		//CSayF("Creation script for Crystal NOT yet done")
 		if Caps.Cycle>1 || gbool.ImportedCrystal
 			CSay("Updating level stuff for Crystal")
