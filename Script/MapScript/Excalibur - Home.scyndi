@@ -35,13 +35,21 @@
 // version: 21.10.12
 // End License Information
 
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Libs"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Home.neil" "21.10.12"
-#MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Excalibur - Home.neil" "21.10.12"
+//#MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
 
-#macro Situation gv.gstring.Situatie_In_Het_Huis_Van_Wendicka
-#macro CrystalHome gv.gbool.CrystalCameHomeAtTheStartOfTheGame
+#macro Situation gstring.Situatie_In_Het_Huis_Van_Wendicka
+#macro CrystalHome gbool.CrystalCameHomeAtTheStartOfTheGame
 
 quickmeta GaNaarKamer
 	index
@@ -60,7 +68,7 @@ quickmeta GaNaarKamer
 					Map.ShowObj("NPC_Crystal")
 				end
 				if Key=="Woonkamer" && Situation=="Under_Attack"
-					Lua.Neil.Globals.MScript.ExD()
+					Lua.Scyndi.Class.MScript.ExD()
 				end
 			end
 		end
