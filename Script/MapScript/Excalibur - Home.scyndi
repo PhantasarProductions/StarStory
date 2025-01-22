@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXVII
+// version: 25.01.22 XXIX
 // 
 // End License
 
@@ -137,36 +137,42 @@ group MScript
 	end
 	
 	void CreateCrystal()
-		Lua.error("Crystal creation needs more workout!")
 		//CSayF("Creation script for Crystal NOT yet done")
 		if Caps.Cycle>1 || gbool.ImportedCrystal
 			CSay("Updating level stuff for Crystal")
 			Party.GrabLevel("Crystal",RPGChar.UniCrystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
 			if RPGChar.UniCrystal.Stat.Level!=RPGChar.Crystal.Stat.Level
 				CSay("HEY! Link error on Crystal! Fixing that!")
-				RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+				//RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+				RPGPureChar.UniCrystal.LinkStat("Level")
 			end
 			return
 		end
 		CSay("Creating character Crystal!")
 		Party.NewChar("Crystal",RPGChar.UniCrystal.Stat.Level,"Crystal")
-		self.Crystal_StartARMS()
+		RPGPureCharUniCrystal.LinkStat("Level")
+		CSay("Crystal's ARMS")
+		MScript.Crystal_StartARMS()
 		// Inventory sockets
 		for i=1,Caps.InventorySockets
-			RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
-			RPGChar.Crystal.Link_Stat("UniCrystal","INVAMNT"..i)
+			//RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
+			//RPGChar.Crystal.Link_Stat("UniCrystal","INVAMNT"..i)
+			RPGPureChar.UniCrystal.LinkData("INVITEM"..i,"Crystal")
+			RPGPureChar.UniCrystal.LinkStat("INVAMNT"..i,"Crystal")
 			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
 		end
+
 		// Statistics
-		for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
-			CSayF("Linking stat: %s",st)
-			for substat in each { "BUFF","POWERUP","UPGRADE" }
-				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
-				RPGChar.Crystal.Link_Stat("UniCrystal",substat.."_"..st)
-			end
-			RPGChar.Crystal.Link_Stat("UniCrystal","Level")
-		end
+		//for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+		//	CSayF("Linking stat: %s",st)
+		//	for substat in each { "BUFF","POWERUP","UPGRADE" }
+		//		CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+		//		RPGChar.Crystal.Link_Stat("UniCrystal",substat.."_"..st)
+		//	end
+		//	RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+		//end
 		// Elemental Resistance
+		Lua.error("Crystal creation needs more workout!")
 		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
 			CSayF("Linking elemental resistance: %s",el)
 			if !RPGChar.UniCrystal.HasStat("ER_"..el)
