@@ -1,0 +1,94 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_Sparkle.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.22 III
+// 
+// End License
+
+module 
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+	bool DrawOvertake
+	var Glitter
+	var MyAudio
+	readonly int MaxCycles = 20
+	int Cycles
+	var Act
+	
+	Init
+		Glitter = LoadImage("GFX/Combat/SpellAni/Glitter/Base.png","SPELLANI_Glitter")
+		MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+	end	
+
+	void Start(aact)
+		Cycles = 0
+		MyAudio.Play()
+		Act = aact
+	end
+	
+	bool _Ended = false
+	void Draw()
+		// Count on it!
+		Cycles ++
+		
+		// Draw it all!
+		// for tar in each(act.Targets)
+		for ti=0,len(act.Targets_Tag)-1
+			plua tar = act.Targets[ti]
+			if tar
+				for i=1,35 
+					Graphics.Color(math.random(0,255),math.random(0,255),math.random(0,255))
+					Glitter.Draw(tar.X+(math.random(0,tar.W*2)-tar.W),tar.Y-math.random(0,tar.H))
+				end
+			end
+		end
+		__white
+		
+		_Ended = Cycles>=MaxCycles
+	end
+	
+	void Update()
+	end
+	
+	get bool Ended
+		return _Ended
+	end
+	
+//end
