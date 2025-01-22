@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXIV
+// version: 25.01.22 XXVII
 // 
 // End License
 
@@ -126,11 +126,13 @@ group MScript
 		CSay("Linking all data with Uniformed version of Wendicka")
 		//RPGChar.Wendicka.Link_Stat("UniWendicka","*")
 		//RPGChar.Wendicka.Link_Data("UniWendicka","*")
-		RPGPureChar.UniWendicka.LinkStat("*","Wendicka")
+		//RPGChar.Wendicka.Link_List("UniWendicka","*") 
+		//RPGChar.Wendicka.Link_Points("UniWendicka","*")
+		RPGPureChar.UniWendicka.LinkStat("*","Wendicka"); CSayF("Wendicka lv. %d->%d",RPGChar.UniWendicka.Stat.Level,RPGChar.Wendicka.Stat.Level)
 		RPGPureChar.UniWendicka.LinkData("*","Wendicka")
-		Lua.error("Linking lists not yet properly set up")
-		RPGChar.Wendicka.Link_List("UniWendicka","*")
-		RPGChar.Wendicka.Link_Points("UniWendicka","*")
+		RPGPureChar.UniWendicka.LinkList("*","Wendicka")
+		RPGPureChar.UniWendicka.LinkPoints("*","Wendicka")
+		//Lua.error("Linking points not yet properly set up")
 		CSayF("All should be clear now. Wendicka has level: %04d",RPGChar.Wendicka.Stat.Level)
 	end
 	
