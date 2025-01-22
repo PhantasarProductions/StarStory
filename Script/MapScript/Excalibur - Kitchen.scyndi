@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 I
+// version: 25.01.22 III
 // 
 // End License
 
@@ -42,7 +42,9 @@
 Script
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -64,7 +66,8 @@ group MScript
 	void Cook()
 		// Prepare
 		Map.SpawnPlayer("Wendicka")
-		Map.SetObj("PLAYER","Dominance",5)
+//		Map.SetObj("PLAYER","Dominance",5)
+		Kthura.Obj.PLAYER.Visible=false
 		Map.Remap()
 		// Scenario #1
 		Map.ShowButLabel("Keuken")
@@ -77,6 +80,7 @@ group MScript
 			Events.Poll()
 			// L416 R448
 			Graphics.Cls()
+			Kthura.Obj.PLAYER.Visible=i>5
 			Map.SetObj("Deur_Links" ,"X",416-i)
 			Map.SetObj("Deur_Rechts","X",448+i)
 			Map.DrawScreen()
