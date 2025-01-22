@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.22 I
+// 	  Version: 25.01.22 V
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -452,38 +452,44 @@ End
 	
 #endregion
 
-//number PlayerDistance(a,b)
-//	int ox
-//	int oy
+number PlayerDistance(a,b)
+	locExtern _P "Scyndi.Globals.Player"
+	int ox
+	int oy
 //	int px = Link_Map.ObjInt("PLAYER","X")
 //	int py = Link_Map.ObjInt("PLAYER","Y")
-//	switch Lua.type(a)
-//		case "string"
+	int px := _P.X
+	int py := _P.Y
+	switch Lua.type(a)
+		case "string"
 //			ox = Link_Map.ObjInt(a,"X")
 //			oy = Link_Map.ObjInt(a,"Y")
-//		case "number"
-//			ox = a
-//			oy = Lua.tonumber(b) or 0
-//		default
-//			Lua.error("PlayerDistance("..tostring(a)..","..tostring(b).."): Illegal function call")
-//	end
-//	int dx = math.abs(px-ox)
-//	int dy = math.abs(py-oy)
-//	int hyp2 = (dx*dx)+(dy*dy)
-//	return math.sqrt(hyp2)
-//end
-//bool PlayerInRange(a,b,c)
-//	switch Lua.type(a)..":"..Lua.type(b)..":"..Lua.type(c)
-//		case "string:number:nil"
-//			return b>=PlayerDistance(a,b)
-//		case "number:number:number"
-//			return b>=PlayerDistance(a,b,c)
-//		default
-//			Lua.error("WTF do you want from InRange?")			
-//	end
-//	// Safety measure
-//	return false
-//end
+			ox = Kthura.Obj[a].X
+			oy = Kthura.Obj[a].Y
+		case "number"
+			ox = a
+			oy = Lua.tonumber(b) || 0
+		default
+			Lua.error("PlayerDistance("..tostring(a)..","..tostring(b).."): Illegal function call")
+	end
+	int dx := math.abs(px-ox)
+	int dy := math.abs(py-oy)
+	int hyp2 := (dx*dx)+(dy*dy)
+	return math.sqrt(hyp2)
+end
+
+bool PlayerInRange(a,b,c)
+	switch Lua.type(a)..":"..Lua.type(b)..":"..Lua.type(c)
+		case "string:number:nil"
+			return b>=PlayerDistance(a,b)
+		case "number:number:number"
+			return b>=PlayerDistance(a,b,c)
+		default
+			Lua.error("WTF do you want from InRange?")			
+	end
+	// Safety measure
+	return false
+end
 		
 
 #macro __PLAYER Kthura.Obj.Player
@@ -513,11 +519,11 @@ quickmeta Player
 				//return Player.StopWalking
 				return Kthura.Obj.Player.StopWalking
 			case "DISTANCE"
-				lua.error("Player.Distance will have to wait")
-//				return PlayerDistance
+				//lua.error("Player.Distance will have to wait")
+				return PlayerDistance
 			case "INRANGE"
-				lua.error("Player.InRage is still on the way")
-//				return PlayerInRange
+				//lua.error("Player.InRage is still on the way")
+				return PlayerInRange
 			default
 				return __PLAYER[key]
 //				return Link_Map.ObjInt("PLAYER",key)
