@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 25.01.22 II
+// 	  Version: 25.01.22 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -46,6 +46,7 @@ Module
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 
@@ -79,6 +80,7 @@ Class ClBeam
 		//Act.AnimFrame = Frame
 		f:=math.max(0,math.min(99))
 		Act.Texture=sprintf("GFX/Actors/Teleport/Teleport.jpbf/%08x.png",Frame)
+		Events.Poll()
 	End
 	
 	Static void Add(String   ActTag,Bool  DespawnAfter,Bool  AscEnding)
