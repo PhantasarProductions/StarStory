@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.22 VI
+// 	  Version: 25.01.22 VII
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -303,9 +303,12 @@ End
 	//	MCall("FldMap.ObjSet",tag,vartag,value)
 		Kthura.Obj[tag][vartag]=value
 	end
-	//Void SetObj(string tag,string vartag,value)
+	
+	
+	Void SetObj(string tag,string vartag,value)
+		Kthura.Obj[tag][vartag]=value
 	//	MCall("FldMap.ObjSet",tag,vartag,value)
-	//end
+	end
 
 	
 	//Void ObjHide(string tag)
