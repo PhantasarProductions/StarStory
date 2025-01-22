@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXXII
+// version: 25.01.22 XXXIII
 // 
 // End License
 
@@ -174,8 +174,7 @@ group MScript
 		//	RPGChar.Crystal.Link_Stat("UniCrystal","Level")
 		//end
 		// Elemental Resistance
-		Lua.error("Crystal creation needs more workout!")
-		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
+		for el in each( NewArray( "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" ) )
 			CSayF("Linking elemental resistance: %s",el)
 			if !RPGChar.UniCrystal.HasStat("ER_"..el)
 				CSay("= Original base was non-existent. Creating!")
@@ -192,22 +191,27 @@ group MScript
 				CSay("= Original modifier was non-existent. Creating!")
 				RPGChar.UniCrystal.Stat["ER_MODIFIER_"..el] = 0
 			end
-			RPGChar.Crystal.Link_Stat("UniCrystal","ER_"..el)
-			RPGChar.Crystal.Link_Stat("UniCrystal","ER_MODIFIER_"..el)
+			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_"..el)
+			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_MODIFIER_"..el)
+			RPGPureChar.UniCrystal.LinkStat("ER_"..el,"Crystal")
+			RPGPureChar.UniCrystal.LinkStat("ER_MODIFIER"..el,"Crystal")
 		end
 		// Status Resistance
-		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+		for sr in each (NewArray( "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" ) )
 			CSayF("Linking Status Change Resistance: %s",sr)
-			for subsr in each {"BASE","BUFF","EQBF" }
+			for subsr in each(NewArray("BASE","BUFF","EQBF" ))
+				RPGPureStat.UniCrystal.LinkStat("SR_"..subsr.."_"..sr,"Crystal")
 				// TRUE should NOT be linked!
 				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
-				RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)
+				//RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)				
 			end
 		end
 		// Experience Points
 		CSay("Linking Experience")
-		RPGChar.Crystal.Link_Points("UniCrystal","EXP")
+		//RPGChar.Crystal.Link_Points("UniCrystal","EXP")
+		RPGPureStat.UniCrystal.LinkPoints("EXP","Crystal")
 		CSay("Cyborg Crystal Created")
+		//Lua.error("Crystal creation needs more workout!")
 	end
 
 	void Binnenkomst()
