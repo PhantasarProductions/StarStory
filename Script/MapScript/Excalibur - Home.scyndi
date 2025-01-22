@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XV
+// version: 25.01.22 XXI
 // 
 // End License
 
@@ -208,7 +208,7 @@ group MScript
 	Void NPC_Brabant()
 		CSayF("Distance to flag: %1.5f",Player.Distance("NPC_Brabant"))
 		If Player.InRange("NPC_Brabant",170)
-			MapText("BRABANT."..(Map.Leader:upper()))
+			MapText("BRABANT."..Upper(Map.Leader))
 		End
 	End
 	
@@ -382,7 +382,7 @@ group MScript
 				self["ExD"..i.."X"] += d.X
 				self["ExD"..i.."Y"] += d.Y
 				self["ExD"..i.."rot"] += d.R
-				ExD()
+				MScript.ExD()
 				Graphics.Cls()
 				Map.DrawScreen()
 				Graphics.Flip()
@@ -396,15 +396,15 @@ group MScript
 		MapText("EXHURU_CRYSTAL")
 		Map.SetObj("Android","Texture","GFX/Actors/Player/ExHuRU.South.jpbf")
 		MapText("EXHURU_COMEWITHME")
-		Crystal_StartARMS() // I forgot this in the original getup, and since this should be ingored later anyway (also due to the New Game+ and all) it's not real danger
-		Create_ExHuRU()
+		MScript.Crystal_StartARMS() // I forgot this in the original getup, and since this should be ingored later anyway (also due to the New Game+ and all) it's not real danger
+		MScript.Create_ExHuRU()
 		Map.Kill("NPC_Crystal",true)
 		Map.Kill("Android")
 		RPGParty[2] = "Crystal"
 		RPGParty[3] = "ExHuRU"
 		Situation = "Under_Attack"
-		MapMusic()
-		gv.gbool.Excalibur_Ellende_Begonnen = true
+		MScript.MapMusic()
+		gbool.Excalibur_Ellende_Begonnen = true
 	end
 	
 	void Vertrek()
@@ -433,7 +433,7 @@ group MScript
 	void _CONSTRUCTOR()
 		Party.Recover()
 		GNK = GaNaarKamer
-		for K in each {"Crystal","Woonkamer","Keuken","Wendicka","Badkamer"}
+		for _,K in pairs {"Crystal","Woonkamer","Keuken","Wendicka","Badkamer"}
 			ZA.Enter("Kamer_"..K,"GNK."..K)
 		end
 		ZA.Enter("Exit","Vertrek")
