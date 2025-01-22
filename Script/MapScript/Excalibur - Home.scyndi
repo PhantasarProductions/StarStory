@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XXXVIII
+// version: 25.01.22 XLV
 // 
 // End License
 
@@ -122,7 +122,7 @@ group MScript
 			return
 		end
 		CSay("Creating Character: Wendicka")
-		RPGChar.Create("Wendicka")
+		Party.NewChar("Wendicka",RPGChar.UniWendicka.Stat.Level,"Wendicka")
 		CSay("Linking all data with Uniformed version of Wendicka")
 		//RPGChar.Wendicka.Link_Stat("UniWendicka","*")
 		//RPGChar.Wendicka.Link_Data("UniWendicka","*")
@@ -134,6 +134,7 @@ group MScript
 		RPGPureChar.UniWendicka.LinkPoints("*","Wendicka")
 		//Lua.error("Linking points not yet properly set up")
 		CSayF("All should be clear now. Wendicka has level: %04d",RPGChar.Wendicka.Stat.Level)
+		CSayF("Wendicka HP: %d -> %d/%d",RPGChar.Wendicka.Stat.END_HP,RPGPureChar.Wendicka.Points.HP.Have,RPGPureChar.Wendicka.Points.HP.Maximum) 
 	end
 	
 	void CreateCrystal()
@@ -234,7 +235,7 @@ group MScript
 		MScript.CreateCrystal()
 		Player.WalkTo("SPOT_Crystal_Asleep")
 		MapText("FOUNDCRYSTAL_FOUNDHER")
-		for a = 0,255,0.3
+		for a = 0,255,0.4
 			Events.Poll()
 			__white
 			Graphics.Cls()
@@ -246,7 +247,7 @@ group MScript
 			Graphics.Flip()
 		end
 		Map.ShowByLabel("CrystalFound")
-		for a = 255,0,-0.4
+		for a = 255,0,-0.5
 			Events.Poll()
 			__white
 			Graphics.Cls()
