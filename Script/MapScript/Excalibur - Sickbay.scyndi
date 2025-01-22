@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Sickbay.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Sickbay.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,23 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
-// End License Information
+// 
+// version: 25.01.22 IV
+// 
+// End License
+
+
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
 #use "Script/Use/Anyway"
+#use "Script/Use/Link"
+
+extern Screen "Lua.Scyndi.Class.Graphics"
+
 group MScript
 
 	void Draw()
@@ -45,10 +60,8 @@ group MScript
 		CSay("Welcome in sickbay")
 	end
 	
-	
-	
 	void SickBay()
-		var Doctor = Image.Load("GFX/Portret/Doctor/General.png")
+		var Doctor = LoadImage("GFX/Portret/Doctor/General.png")
 		Graphics.Cls()		
 		for i=255,0,-1
 			Doctor.Stretch(0,0,Screen.W,Screen.H)
@@ -57,7 +70,7 @@ group MScript
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
 			if i==255 || i==0
-				FPS.Sleep(2000)
+				Sys.Sleep(2000)
 			end
 		end	
 		Map.SpawnPlayer("Start")
