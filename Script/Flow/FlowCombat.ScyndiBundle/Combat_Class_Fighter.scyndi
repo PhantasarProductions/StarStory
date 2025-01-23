@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -313,6 +313,11 @@ class Combat_Fighter
 		locExtern this "self"
 		return RPGChar[this.Tag]
 	end
+	
+	get table PureChar
+		locExtern this "self"
+		return RPGPureChar[this.Tag]
+	End
 	
 	get int HP
 		return Char.Points.HP.Have
