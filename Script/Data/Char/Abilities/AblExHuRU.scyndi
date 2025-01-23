@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23 XII
+// version: 25.01.23 XIII
 // 
 // End License
 
@@ -80,7 +80,7 @@ module
 		Lua.Scyndi.Class.AblExHuRU.SyncExHuRU()
 		for i,abl in pairs(abilities)
 			//if !ExHuRU.List.ABL.Has("EXHURU_"..abl)
-			if RPGPureChar.ExHuRU.ListHas("ABL","EXHURU_"..abl) 
+			if !RPGPureChar.ExHuRU.ListHas("ABL","EXHURU_"..abl) 
 				if i<=Kills
 					return "EXHURU_"..Abl
 				end
