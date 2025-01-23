@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 II
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -238,12 +238,15 @@ LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
 			ablused[Executor.Tag]++
 			gInt["ABL.USED."..upper(Act.Executor.Tag).."."..upper(Act.ActTag) ]++
 			String ShActTag := right(Act.ActTag,len(Act.ActTag)-4)
-			If Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
+			//If Act.ActivatePowerUp!="" && (!Act.Executor.Char.List.ABL_POWERUP.Has(ShActTag.."."..Act.ActivatePowerUp))
+			If Act.ActivatePowerUp!="" && (!Act.Executor.PureChar.ListHas("ABL_POWERUP",ShActTag.."."..Act.ActivatePowerUp) )
 				Act.Executor.Hurt("Activated Powerup: "..Act.ActivatePowerUp)
-				Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
+				//Act.Executor.Char.List.ABL_POWERUP.Add = ShActTag.."."..Act.ActivatePowerUp
+				Act.Executor.PureChar.ListAdd("ABL_POWERUP",ShActTag.."."..Act.ActivatePowerUp)
 			End
 			If Act.Learning
-				Act.Executor.Char.List.ABL.Add = Act.LearningABL
+				//Act.Executor.Char.List.ABL.Add = Act.LearningABL
+				Act.Executor.PureChar.AddList("ABL",Act.LearningABL)
 				Act.Executor.Hurt("Learned: "..Act.Act.Name)
 			End
 		End
