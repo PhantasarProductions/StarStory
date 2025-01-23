@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Vault_Menu.scyndi
 // 
-// 	  Version: 25.01.23 VI
+// 	  Version: 25.01.23 VII
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -70,7 +70,9 @@ locExtern itmod "Scyndi.Globals.itmod"
 		bool AllowDown = False
 		int y = 0-ScrollY
 		string Hover = ""
+		bool Anything = false
 		for i in Vault.Each
+			Anything=true
 			//print(Lua.type(i),i)
 			y += 25
 			if y>=25 && y<=ubox.h-50
@@ -92,6 +94,10 @@ locExtern itmod "Scyndi.Globals.itmod"
 				__white
 			end
 			AllowDown = AllowDown || y>ubox.h-50
+		end
+		if !Anything
+			SetColor(255,0,0)
+			fnt.Text("The vault is still empty",ubox.x+10,ubox.y+20)
 		end
 		int sux := ubox.x+ubox.w-100
 		int sdx := sux
