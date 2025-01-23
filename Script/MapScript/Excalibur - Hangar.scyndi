@@ -34,12 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 II
+// version: 25.01.24 VI
 // 
 // End License
 
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
@@ -71,7 +73,7 @@ group MScript
 		end
 		MapText("ESCAPE")
 		// Fly away
-		for k in each NewArray( "PLAYER","Cyborg","Android" )
+		for k in each (NewArray( "PLAYER","Cyborg","Android" ))
 			Map.ObjWalkTo(k,"ShipSpot")
 		end
 		for i=32,-80,-1
@@ -132,9 +134,10 @@ group MScript
 		Map.Load("LostPlanet - GrassJungle")
 		Schedule.Add("Arrival")
 	end
-	
-	CONSTRUCTOR
-		ZA.Enter("Event","Event")
-	end
-
 end
+
+Init
+	ZA.Enter("Event","Event")
+end
+
+
