@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.22 XLV
+// version: 25.01.23 I
 // 
 // End License
 
@@ -102,7 +102,7 @@ group MScript
 			case "All_Fine"
 				Music.Play("Music/Excalibur/Blip Stream.ogg")
 			case "Crystal_Crisis"
-				if RPGParty[1]=="Wendicka"
+				if RPGParty[0]=="Wendicka"
 					CSay("Welcome home Wendicka. Crystal will be home soon")
 					Situation="All_Fine"
 					return
@@ -421,8 +421,8 @@ group MScript
 		MScript.Create_ExHuRU()
 		Map.Kill("NPC_Crystal",true)
 		Map.Kill("Android")
-		RPGParty[2] = "Crystal"
-		RPGParty[3] = "ExHuRU"
+		RPGParty[1] = "Crystal"
+		RPGParty[2] = "ExHuRU"
 		Situation = "Under_Attack"
 		MScript.MapMusic()
 		gbool.Excalibur_Ellende_Begonnen = true
