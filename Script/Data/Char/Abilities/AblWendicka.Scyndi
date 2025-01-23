@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.01.23 IV
 // 
 // End License
 
@@ -95,7 +95,7 @@ module
 		end
 		for i,abl in pairs(spells)
 			//if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
-			if !(Wendicka.ListHas("LEAN","WENDICKA_"..abl) || Wendicka.ListHas("ABL","WENDICKA_"..abl))
+			if !(Wendicka.ListHas("LEARN","WENDICKA_"..abl) || Wendicka.ListHas("ABL","WENDICKA_"..abl))
 				if i<=ablused.Wendicka
 					return "WENDICKA_"..Abl
 				end
@@ -117,6 +117,26 @@ module
 			CSay("Wendicka's \"Shock\" ability has been added to her list!")
 		end
 		// RPGPureChar.UniWendicka.ListUnique("ABL") // Debug only! I had a broken list, this will allow it to fix itself.
+		If RPGChar.Has("Wendicka")
+			CSay("Linking Wendicka's ability list")
+			RPGPureChar.UniWendicka.LinkList("ABL","Wendicka")
+			For achk in RPGPureChar.UniWendicka.ListEach("ABL")
+				CSayF("Uniform Wendicka has %s!",achk)
+				if !RPGPureChar.Wendicka.ListHas("ABL",achk)
+					CSayF("= Hey! Wendicka doesn't have that one in casual form? Let's add it, then!")
+					RPGPureChar.Wendicka.ListAdd("ABL",achk)
+				end
+			End
+			For achk in RPGPureChar.Wendicka.ListEach("ABL")
+				CSayF("Wendicka has %s!",achk)
+				if !RPGPureChar.UniWendicka.ListHas("ABL",achk)
+					CSayF("= Hey! Uniform Wendicka doesn't have that one in casual form? Let's add it, then!")
+					RPGPureChar.UniWendicka.ListAdd("ABL",achk)
+				end
+			End
+		Else
+			CSay("Wendicka apparently not there yet, so nothing to link")
+		End
 	end
 	
 //end
