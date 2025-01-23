@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.23 VIII
+// 	version: 25.01.23 IX
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -196,6 +196,8 @@ plua CharMeta(String ChKey)
 			Case "NAME" "DATA" "POINTS"
 				return this._chdata[Key]
 			Case "LIST"
+				print("\x1b[92m"..Lua.debug.traceback().."\x1b[0m\n\n");
+				lua.error("List doesn't work this way. Go for PURECHAR."..chkey..".List or similar functions in stead!")
 				//CSayF("Char %s -> List %s",this._chkey,key)
 				//this._chlist[key] = this._chlist[key] || ChList(ret,Key)
 				//return this._chlist				

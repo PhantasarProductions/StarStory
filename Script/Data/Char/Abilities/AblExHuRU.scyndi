@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/Char/Abilities/ExHuRU.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Data/Char/Abilities/AblExHuRU.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,19 +33,29 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
-// End License Information
+// 
+// version: 25.01.23 XII
+// 
+// End License
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+
+#use "Script/use/convert/rpg2stat"
+
 module
 
 	table Abilities
 	get Int Kills
-		return gv.gInt.ERJ_Kills
+		return gInt.ERJ_Kills
 	end
 	
 	string ShowNeed(string chtag)
 		int need = 40000
 		for i,a in pairs(Abilities)
-			if !RPGChar[chtag].List.ABL.Has("EXHURU_"..a)
+			//if !RPGChar[chtag].List.ABL.Has("EXHURU_"..a)
+			if !RPGPureChar[chtag].ListHas("ABL","EXHURU_"..a)
 				need = math.min(need,i-kills)
 			end
 		end
@@ -65,9 +76,11 @@ module
 		// It all points to the same memory addresses, so anything I do to
 		// ExHuRU will affect the others, and ExHuRU is the first to join, so
 		// Always in the memory along with the others.
-		static var ExHuRU = RPGChar.ExHuRU
+		//static var ExHuRU = RPGChar.ExHuRU
+		Lua.Scyndi.Class.AblExHuRU.SyncExHuRU()
 		for i,abl in pairs(abilities)
-			if !ExHuRU.List.ABL.Has("EXHURU_"..abl)
+			//if !ExHuRU.List.ABL.Has("EXHURU_"..abl)
+			if RPGPureChar.ExHuRU.ListHas("ABL","EXHURU_"..abl) 
 				if i<=Kills
 					return "EXHURU_"..Abl
 				end
@@ -76,8 +89,28 @@ module
 		return ""
 	end
 
+	void ExRoAsSync(string src,string tgt)
+		CSayF("Synchronizing %s to %s",src,tgt)
+		if !RPGChar.Has(src); CSayF("= Oops! Source %s isn't there, so I gotta get outta here",src); return; end
+		if !RPGChar.Has(tgt); CSayF("= Oops! Target %s isn't there, so I gotta leave",tgt); return; end
+		for achk in RPGPureChar[src].ListEach("ABL")
+			if !RPGPureChar[tgt].ListHas("ABL",achk)
+				CSayF("= Adding: %s to %s",achk,tgt)
+				RPGPureChar[tgt].ListAdd("ABL",achk)
+			end
+		end
+	end
 	
-	CONSTRUCTOR
+	Void SyncExHuRU()
+		ExRoAsSync("ExHuRU","Rolf")
+		ExRoAsSync("ExHuRU","Johnson")
+		ExRoAsSync("Rolf","ExHuRU")
+		ExRoAsSync("Rolf","Johnson")
+		ExRoAsSync("Johnson","ExHuRU")
+		ExRoAsSync("Johnson","ExHuRU")
+	End
+	
+	Init
 		 Abilities[  30] = "YKSI"
          Abilities[  60] = "KAKSI"
          Abilities[ 120] = "BATTLECRY"
@@ -86,6 +119,7 @@ module
          Abilities[ 960] = "NELJA"
          Abilities[1920] = "KUUSI"
          Abilities[3840] = "CONCENTRATE"
+         SyncExHuRU()
 	end
 	
-end
+//end
