@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Vault_Menu.scyndi
 // 
-// 	  Version: 25.01.23 III
+// 	  Version: 25.01.23 VI
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -53,6 +53,8 @@ module
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
+locExtern itmod "Scyndi.Globals.itmod"
+
 	readonly var fnt = ObtainFont("BOXTEXT")
 	readonly var Buzz = Audio.Obtain("BUZZ")
 	
@@ -61,8 +63,10 @@ module
 
 
 	void Flow(ubox,string CharTag)
-		static int ScrollY = 0
-		bool AllowUp = ScrollY > 0
+		//static int ScrollY = 0
+		locextern ScrollY "Static_FieldMenu_VaultMenu_Flow_ScrollY"
+		ScrollY = ScrollY || 0
+		bool AllowUp := ScrollY > 0
 		bool AllowDown = False
 		int y = 0-ScrollY
 		string Hover = ""
@@ -89,10 +93,10 @@ module
 			end
 			AllowDown = AllowDown || y>ubox.h-50
 		end
-		int sux = ubox.x+ubox.w-100
-		int sdx = sux
-		int suy = ubox.y+10
-		int sdy = ubox.y + ubox.h - 100
+		int sux := ubox.x+ubox.w-100
+		int sdx := sux
+		int suy := ubox.y+10
+		int sdy := ubox.y + ubox.h - 100
 		If AllowUp
 			ButtonUp.Draw(sux,suy)
 		End
