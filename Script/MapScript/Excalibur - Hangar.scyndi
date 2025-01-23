@@ -34,10 +34,11 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 I
+// version: 25.01.24 II
 // 
 // End License
 
+Script
 
 #use "Libs/SCI/Graphics"
 
