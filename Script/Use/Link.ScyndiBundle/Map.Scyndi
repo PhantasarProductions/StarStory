@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.23 I
+// 	  Version: 25.01.23 II
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -364,7 +364,7 @@ End
 	End
 	
 	Get Int CamY
-		Return Sys.Call("FLOW_FIELD","FLDMap.ScrollY")		
+		Return Sys.Call("FLOW_FIELD","FLDMap.GetScrollY")		
 	//	Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollY")
 	End
 	
