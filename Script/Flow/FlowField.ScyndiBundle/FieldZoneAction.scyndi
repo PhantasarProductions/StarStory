@@ -1,0 +1,247 @@
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
+// 
+// 	  Version: 25.01.04
+// 	
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+//var ZAXPand(t, i)
+//	i = i or 1
+//	if t[i] ~= nil then
+//		return t[i], ZAXPand(t, i + 1)
+//	end
+//end
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Flow/FlowField.ScyndiBundle/FieldMap"
+
+bool KettingInitDone
+
+class ZoneAction
+
+	static table List
+	static readonly delegate assert = Lua.assert
+	static readonly delegate error = Lua.error
+	static readonly delegate tonumber = Lua.tonumber
+	static readonly delegate ZAXPand = Expand
+
+
+	static void RoomChange(int inc,string exitpoint)
+		string cLay
+		var nLay
+		cLay := Map.Layer
+		assert(prefixed(cLay,"#"),"Next/Prev only works for rooms prefixed with a #")
+		assert(len(cLay)==4,"Invalid Next/Prev length!")
+		nLay = tonumber(right(cLay,3))
+		assert(nLay,"Numberic parsing error for Next/Prev ("..cLay..")")
+		//FlowField.Map.Kthura.Layer = sprintf("#%03d",nLay + inc)
+		if Map.HasTag("PLAYER")
+			Map.Kill("PLAYER")
+		end
+		Map.Layer = sprintf("#%03d",nLay + inc)
+		Map.SpawnPlayer(exitpoint)
+	end
+	
+	static var AltNext
+	
+	static void LoadAltNext(string anf)
+		//self.AltNext = NIL.Use('Script/Use/Specific/FieldModules/ZoneAction/'..anf)
+		//self.AltNext.Init() // Required as some setting may have to be reloaded, after all!
+		error("AltNext not yet present!")
+		// Temporary crashout. I can get this back when i need this!
+	end
+	
+	static void NextRoom()
+		//if self.AltNext and (self.AltNext[".hasmember"]("NextRoom"))
+		//	self.AltNext.NextRoom()
+		//	return
+		//end
+		ZoneAction.RoomChange( 1,"Start")
+	end
+	
+	static void PrevRoom()
+		//if self.AltNext and (self.AltNext[".hasmember"]("PrevRoom"))
+		//	self.AltNext.PrevRoom()
+		//	return
+		//end
+		ZoneAction.RoomChange(-1,"Einde")
+	end
+	
+	static void Reset()
+		locextern _self "Scyndi.Class.ZoneAction"
+		_self.AltNext = nil;
+		_self.List = _self.List or {}
+		_self.List.Enter = _self.List.Enter or new TLinkedList()
+		_self.List.Leave = _self.List.Leave or new TLinkedList()
+		_self.List.Cycle = _self.List.Cycle or new TLinkedList()
+		for k,v in pairs(_self.List) 
+			v.Clear()
+		end
+		
+		var vd
+		vd = new ZoneAction("Enter","Next",ZoneAction.NextRoom)
+		vd = new ZoneAction("Enter","Prev",ZoneAction.PrevRoom)
+		//vd = new ZoneAction("Enter","Delisto",WorldMap.Delisto)
+		//vd = new ZoneAction("Enter","Aeria",WorldMap.Aeria)
+		//vd = new ZoneAction("Enter","Dyrt",WorldMap.Dyrt)
+		//vd = new ZoneAction("Enter","CatIsland",WorldMap["Cat-Island"])
+	end
+	
+	static void RejectReject()
+		locextern self "Scyndi.Class.ZoneAction"
+		for RR,RL in self.List.Enter.Each
+			if prefixed(Upper(RR.ActZone),"REJECT")
+				CSayF("Removed %s in ZA Reject Zone",RR.ActZone)
+				RL.UnLink()
+			end
+		end
+	end
+	
+	static void Create(string Event,string Zone,AAct,param)
+		var vd := new ZoneAction(Event,Zone,AAct,param)
+	end
+	
+	string ActMap
+	string ActEvent
+	string ActZone
+	table ActParams
+	var Act
+	readonly var Me
+	
+	get string ActType
+		return type(Me.Act)
+	end
+	
+	bool WasInZone = false
+	bool WordtInZone = false
+	
+	static table CheckDels
+	
+	static void InitCheckDels()
+		locextern _self "Scyndi.Class.ZoneAction"
+		if _self.CheckDels.Enter 
+			return
+		end
+		_self.CheckDels.Enter = { ["Was"] = false, ["Wordt"] = true  }
+		_self.CheckDels.Leave = { ["Was"] = true,  ["Wordt"] = false }
+		_self.CheckDels.Cycle = { ["Was"] = true,  ["Wordt"] = true  }
+	end
+	
+	static bool CheckAll()
+		//if !FldMap.CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
+			return false
+		end
+		bool ret = false
+		for Event,ZoneList in pairs(self.List)
+			for Zone,lnk in ZoneList.Each
+				if Zone.ActMap!=FLDMap.LoadedMap && Zone.ActMap!=""
+					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FLDMap.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
+					return false
+					//lnk.UnLink()
+				elif !Kthura.HasObj(Zone.ActZone)
+					//continue
+				else
+					//Zone.WordtInZone = FlowField.Map.Kthura.Actor.Player.IsInZone(Zone.ActZone)
+					Zone.WordtInZone = GrPlayer.IsInZone(Zone.ActZone)
+					if Zone.WordtInZone == self.CheckDels[Event].Wordt and Zone.WasInZone == self.CheckDels[Event].Was
+						switch Zone.ActType
+							case "function" "delegate"
+								Zone.Act(ZAXPand(Zone.ActParams))
+								ret=true
+							case "string"
+								MapScript[Zone.Act](ZAXPand(Zone.ActParams))
+								ret=true
+							default
+								error("No action setup yet for ActType: "..Zone.ActType)
+						end
+					end
+				end
+				Zone.WasInZone = Zone.WordtInZone
+			end
+		end
+		return ret
+	end
+	
+	//CONSTRUCTOR(string Event,string Zone,AAct,infinity)
+	CONSTRUCTOR(string Event,string Zone,AAct,param)
+		me = self
+		self.InitCheckDels()
+		self.ActMap = FldMap.LoadedMap
+		self.ActEvent = Event
+		self.ActZone = Zone
+		self.Act = AAct
+		//if Zone=="Next" || Zone=="Prev"
+		//	self.ActZone = ""
+		//end
+		
+		//self.ActParams = { infinity }
+		self.ActParams = { param }
+		self.List[Event].AddLast(self)
+		CSayF("%s:%s event created in zone %s",FldMap.LoadedMap.."*"..Self.ActMap,Event,Zone)
+
+		//if not KettingInitDone
+		//	KettingKaart.ZA_Enter = void(string Zone,Action,infinity)
+		//		new ZoneAction("Enter",Zone,Action,infinity)
+		//	end
+		//	KettingKaart.GoToLayer = Map.GoToLayer
+		//	KettingInitDone = true
+		//end
+
+	end
+	
+	DESTRUCTOR
+		CSayF("%s:%s event disposed in zone %s",FLDMap.LoadedMap,ActEvent,ActZone)
+	end
+	
+end
+
+init
+	ZoneAction.Reset()
+end

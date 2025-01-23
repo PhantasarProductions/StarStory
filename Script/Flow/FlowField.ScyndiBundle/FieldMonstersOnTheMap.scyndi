@@ -1,0 +1,387 @@
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
+// 
+// 	  Version: 25.01.19 V
+// 	
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Statistician"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#macro EncTex "GFX/Field/Encounter.png"
+
+#macro mInactive 0
+#macro mChasing 1
+#macro mReturning 2
+
+Plua LevelGINIE
+
+Class FieldMonsterColor
+	Static Table LDiff = {}
+	Static Int DiffIdx(Int I)
+		I=math.min(math.max(-10,I),10)
+		Return (I div 5)*5
+	End
+	Static Var GetColor(Int I) 
+		Return Self.LDiff[Self.DiffIdx(I)]
+	End
+	Static Var SetColor(O,DL)
+		D:=FieldMonsterColor.GetColor(DL)
+		O.R=D.R
+		O.G=D.G
+		O.B=D.B
+		return D
+	End
+	ReadOnly Byte R
+	ReadOnly Byte G
+	ReadOnly Byte B
+	ReadOnly Int MaxActivateRange
+	ReadOnly Int MaxChaseRange
+	Constructor(int A,Byte _R,Byte _G,Byte _B)
+		MaxActivateRange = math.floor(5.3*A*__skill)
+		MaxChaseRange    = math.floor(104.8*A*__skill)
+		R=_R
+		G=_G
+		B=_B
+	End
+End
+Init
+	FieldMonsterColor.LDiff[-10] = New FieldMonsterColor(5,0,255,0)
+	FieldMonsterColor.LDiff[-5] = New FieldMonsterColor(15,180,255,0)
+	FieldMonsterColor.LDiff[0] = FieldMonsterColor.LDiff[-5]
+	FieldMonsterColor.LDiff[5] =  New FieldMonsterColor(30,255,180,0)
+	FieldMonsterColor.LDiff[10] =  New FieldMonsterColor(60,255,0,0)
+End
+
+Class FoeData
+	ReadOnly String Foe
+	ReadOnly Int Level
+	Constructor(String F,Int L)
+		Foe = F
+		Level = L
+	End
+End
+
+Class FieldMonster
+	Static Table AllMonsters
+	Static Get Var Monsters
+		AllMonsters[Kthura.CurrentLayer] = AllMonsters[Kthura.CurrentLayer] || {}
+		Return AllMonsters[Kthura.CurrentLayer]
+	End	
+	
+	ReadOnly Static Var Peace = ObtainImage("PEACE")
+	
+	ReadOnly Var Me
+
+	ReadOnly Var Obj
+	ReadOnly Int StartX
+	ReadOnly Int StartY
+	ReadOnly Int Dominance = 20
+	ReadOnly String Spot
+	ReadOnly String ID
+	ReadOnly String Labels
+	ReadOnly Var Foe1
+	ReadOnly Var Foe2
+	ReadOnly Var Foe3
+	ReadOnly Var Foe4
+	ReadOnly Var Foe5
+	ReadOnly Var Foe6
+	ReadOnly Var Foe7
+	ReadOnly Var Foe8
+	ReadOnly Var Foe9
+		
+	ReadOnly Int MaxActivateRange
+	ReadOnly Int MaxChaseRange
+		
+	Set Int MinSkill; End // Dirty way to get a value ignored
+	ReadOnly Bool Chase
+	Int Status = mInactive
+		
+	Get Int X
+		Return Ternary(Status==mInactive,StartX,Obj.X)
+	End
+	
+	Get Int Y
+		Return Ternary(Status==mInactive,StartY,Obj.Y)
+	End
+	
+	Bool InRange(Int CX,Int CY,Int Range)
+		// This setup is done in order to make the range checking faster.
+		// Empowering and square rooting, are both pretty slow in Lua, and
+		// should therefore be avoided whenever possible, hence the earlier 
+		// check. Most items will be outside this square anyway, and do 
+		// therefore not require Pythagoras anyway, as outside of the square 
+		// will always be outside the range. Only when closer in Pythagoras 
+		// will do the precission.
+		locextern abs "math.abs"
+		If abs(CX-X)>Range || abs(CY-Y)>Range
+			// CSayF("X: %d-%d=%d    Y:%d-%d=%d     Range:%d",CX,X,abs(CX-X),CY,Y,abs(CY-Y),Range)
+			Return False
+		End
+		Int Z1 := CX-X
+		Int Z2 := CY-Y
+		Return Range>=math.sqrt( (Z1*Z1) + (Z2*Z2) )
+	End
+		
+	Constructor(full,inidat,int avg)
+		Me = Self
+		printf("New FieldMonster(<%s>,%s,%d)\n",Lua.type(full),lua.type(inidat),avg)
+		for k,v in pairs(inidat)
+			CSayF("%9s Foe.%s = %s",type(v),k,v)
+			Self[k] = v
+		end
+		Kthura.Spawn(ID,StartX,StartY)
+		Obj = Kthura.Obj[ID]
+		Obj.Texture = EncTex
+		Obj.Labels  = Labels
+		Obj.Visible = True
+		Obj.Dominance = Dominance
+		CSayF("Enemy actor spawned at (%d,%d)",Obj.X,Obj.Y)
+		Int FoeNum
+		Repeat
+			FoeNum=math.random(1,9)
+		Until math.random(0,FoeNum)<=__Skill^2
+		CSayF("Enemy actor will init a battle with %d foe(s)",FoeNum)
+		Int TotLevel = 0
+		for i = 1,FoeNum
+			//print(i,Type(self.minlevel),self.minlevel,Type(self.maxlevel),self.maxlevel)
+			Lv:=math.random(self.minlevel,self.maxlevel)
+			CSayF("Foe #%d, level: %d",i,lv)
+			TotLevel+=Lv
+			NF:=full.Foes[math.random(0,len(full.Foes)-1)]
+			Self[sprintf("Foe%d",i)] = new FoeData(NF,Lv)
+		End
+		Int AvgLevel:=TotLevel div FoeNum
+		FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
+		MaxActivateRange, MaxChaseRange = FMC.MaxActivateRange, FMC.MaxChaseRange
+		CSayF("Max Activate Range: %d;  Max Chase Range: %d",MaxActivateRange, MaxChaseRange)
+	End
+	
+	Static Get Int PartyAverage
+		CSay("Getting party data")
+		_p:=Statistician.CreateNew("STAR_STORY")
+		CSay("Calculating")
+		int num=0
+		int tot=0
+		For i=0,5
+			CSayF("%d> %s",i,_p.party[i])
+			_c:=_p.party[i]
+			cout("Char: ",_c)
+			If _c!=""
+				cout("\t ->")
+				num++
+				printf("\x1b[0m %d: ",num);
+				tot+=_p.Char[_c].Stat.Level
+				printf("--> %d\n",tot)
+			End
+		End		
+		return math.max(1,tot div num)
+	End
+	
+	Static Get String LVPTT
+		// Level PlayTrough Tag
+		return sprintf("PlayThrough_%02d",Caps.Cycle)
+	End
+	
+	Static Get Int MapLevel
+		Return LevelGINIE.IntValue(FieldMonster.LVPTT,"Map")
+	End
+	Static Get Int MinLevel
+		int ret := LevelGINIE.IntValue(FieldMonster.LVPTT,"Mini")
+		return ret
+	End
+	Static Get Int MaxLevel
+		int Ret := LevelGINIE.IntValue(FieldMonster.LVPTT,"Maxi")
+		return ret
+	End
+	
+	
+
+	Static Void SCANFOES()
+		locExtern Load "load"
+		CSay("Calculating party averate level")
+		int avg = PartyAverage
+		plua fulldata
+		CSay("Scanning for foes")
+		AllMonsters = {}
+		LevelGINIE = GINIE.Load(Kthura.LastLoadedMap.."/Levels.ini","Levels::"..Kthura.LastLoadedMap)
+		do		
+			enfile:=Kthura.LastLoadedMap.."/enemies.lua"
+			fulldatastring:=JCR6.GetString(enfile)
+			plua fulldatafunc
+			plua err
+			fulldatafunc,err=Load(fulldatastring)
+			assert(fulldatafunc,"Error compiling enemy data for: "..Kthura.LastLoadedMap.."\n\n"..tostring(err))
+			fulldata = fulldatafunc()
+		end
+		OLay:=Kthura.CurrentLayer
+		For lay,laylist in pairs(fulldata.Layers)
+			For _,fdata in pairs(laylist)
+				If __skill>=fdata.MinSkill
+					Monsters[len(monsters)] = new FieldMonster(fulldata,fdata,avg)
+				End
+			End
+		End
+	End
+	
+	Static Void Kill(Int i)
+		r:=Monsters[i]
+		if (!r)
+			printf("\x07\x1b[93mWARNING\x1b[0mTried to kill non-existent enemy record #%03d!\n",i)
+			return
+		end
+		Kthura.kill(r.ID)
+		Monsters[i] = nil
+		CSayF("Enemy #%03d has been removed from the map!",i)
+	End
+	
+	Static Void Fight(FF)
+		//CSay("\007 Fighting not yet implemented")
+		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",FF.X,FF.Y,Player.X,Player.Y)
+		StartCombat.Prepare()
+		//For i=1,9; CSayF("Foe Data: %d -> %s",i,FF[sprintf("Foe%d",i)]); end 
+		For i=1,9
+			F:=FF[sprintf("Foe%d",i)]
+			if F
+				CSayF("FF.Foe%d -> %s",i,F)
+				If F.Foe!=""
+					StartCombat.Foe(F.Foe,F.Level)
+				End
+			Else
+				CSayF("No foe on spot #%d!",i)
+			End
+		End
+		StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Boss = false
+		StartCombat.Arena = Kthura.Data.Arena
+		StartCombat.Begin()
+	End
+
+	Static Void CheckAll()
+		int px
+		int py
+		locExtern NoEncCD "___Static_Local_SoMustBeInvisible_CheckAll__NocEncCD"
+		NoEncCD = math.max(0,(NoEncCD || 5)-1)
+		px,py=Player.X,Player.Y
+		for mi,md in pairs(Monsters)
+			switch md.Status
+				case mInactive
+					if NoEncCD<=0 && md.Obj.Visible && md.InRange(px,py,md.MaxActivateRange) 
+						md.Status = mChasing
+					end
+				case mChasing
+					if (!md.Obj.Visible) || (!md.InRange(md.StartX,md.Starty,md.MaxChaseRange))
+						md.Obj.StopWalking()
+						md.Status = mReturning
+					elif (!md.Obj.Walking)
+						md.Obj.WalkTo(px,py)
+					end
+				case mReturning
+					if md.InRange(md.StartX,md.StartY,40)
+						md.Obj.StopWalking()
+						md.Obj.MoveTo(md.StartX,md.StartY)
+						md.Status=mInactive
+					elif (!md.Obj.Walking)
+						md.Obj.WalkTo(md.StartX,md.StartY)
+					end
+				default
+					// Should NEVER be possible, but hey, coding has done crazier things!
+					CSayF("Hey! Rogue status(%d) for foe #%d! Resetting!",md.Status,mi)
+					md.Obj.StopWalking()
+					md.Obj.MoveTo(md.StartX,md.StartY)
+					md.Status=mInactive
+			End			
+			If NoEncCD<=0 && md.InRange(px,py,36) && md.Obj.Visible
+				FieldMonster.Fight(md)
+				//Monsters[mi] = nil
+				FieldMonster.Kill(mi)
+				FieldMonster.DeactivateAll()
+				NoEncCD = 100 div __skill
+				return
+				// Safety pre-caution. Loops with nilling members is quite dangerous.
+				// Since it doesn't really matter if awaiting things are still 
+				// relevant as they are reset anyway, this should be quite safe.
+			End
+			If NoEncCD>0
+				__white
+				SetAlpha( 255 div ( (os.time()%2)+1 ) )
+				Peace.Stretch(Graphics.W - 45,0,45,45)
+				SetAlpha( 255 )
+			End
+		End
+	End
+	
+	Static Void DeactivateAll()
+		For mi,md In pairs(Monsters)
+			If md.Status!=mReturning
+				md.Obj.StopWalking()
+				md.Obj.WalkTo(md.StartX,md.StartY)
+				md.Status=mReturning
+			End
+		End
+	End
+	
+	Static Void Debug()
+		int px
+		int py
+		px,py=Player.X,Player.Y
+		for mi,md in spairs(Monsters)
+			printf("\x1b[91m%9d: ",mi)
+			printf("\x1b[92m(%04d,%04d) ",md.X,md.Y)
+			printf("\x1b[93m(%04d,%04d) ",md.StartX,md.StartY)
+			printf("\x1b[94mStatus: %d ",md.Status)
+			printf("\x1b[95mAct Range: %9.2f (%5s) ",math.sqrt( ((md.X-px)^2) + ( (md.Y-py)^2) ),md.InRange(px,py,md.MaxActivateRange))
+			printf("\x1b[96mCha Range: %9.2f (%5s) ",math.sqrt( ((md.X-md.StartX)^2) + ((md.Y-md.StartY)^2) ),md.InRange(md.StartX,md.StartY,md.MaxChaseRange))
+			printf("\x1b[97m  %04d:%04d",md.MaxActivateRange,md.MaxChaseRange)
+			printf("\n")
+		end
+	End
+	
+End
+	

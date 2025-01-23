@@ -1,0 +1,280 @@
+// License:
+// 	  src/Script/Script/Subs/SubItems.scyndi
+// 
+// 	  Version: 25.01.21 II
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/GINIE"
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+//#use "Script/Data/IAA/MyData_ClassFile_IAA"
+
+#undef JewelRecalcDebug
+
+plua G_ItemClass = GINIE.Load("Data/IAA/MyData_ClassFile_IAA.ini","CLASS_IAA")
+
+table ItemDataG
+table ItemDataMeta
+table InVault = {}
+
+QuickMeta ItemData
+	NewIndex
+		CSay("Item data set for: "..key)
+		ItemDataG[upper(Key)]=value
+		
+		r:={["__KEY"]=Upper(key)}
+		m:=nil
+		
+		ddef m_Index
+			plua s
+			string k
+			s,k = infinity
+			IDG:=ItemDataG[s.__Key]
+			Switch G_ItemClass.Value("CLASS",k)
+				case "Int" "Integer"
+					return IDG.IntValue("REC:"..s.__KEY,k)
+				case "String"
+					return IDG.Value("REC:"..s.__KEY,k)
+				case "Boolean" "Bool"
+					return Upper(IDG.Value("REC:"..s.__KEY,k))=="TRUE"
+				default
+					Lua.error("No valid type for IAA field "..k.." in IAA record: "..s.__KEY)
+			End
+		End
+		ddef m_NewIndex
+			Lua.error("IAA fields are read-only!")
+		end
+		defTable m
+			__Index    = m_Index
+			__NewIndex = m_NewIndex
+		End
+		ItemDataMeta[Upper(Key)] = SetMetaTable(r,m)
+	End
+	Index
+		Key = Upper(Key)
+		return ItemDataMeta[Key]
+	End
+End
+
+global void StoreVault(string it,int amount)
+	it = upper(it)
+	Invault[it] = math.min(Caps.InventoryMaxVaultStack,(Invault[it] || 0) + amount)
+end
+
+global int GetVault(string it)
+	it = upper(it)
+	return InVault[it] || 0
+end
+
+global string VaultContents()
+	string ret = ""
+	for k,_ in spairs(InVault)
+		if ret!=""
+			ret += ";"
+		end
+		ret += upper(k)
+	end
+	//print("Returning: ",ret)
+	return ret
+end
+
+// Meant for savegames only
+//global string VaultScript()
+//	string ret = "Init\n\n\tVault.Reset()\n\n"
+//	for k,v in spairs(InVault)
+//		ret += sprintf("\tVault.Store(\"%s\",%d)\n",k,v)
+//	end
+//	ret += "\n\nend"
+//	return ret
+//end
+Global Void VaultToGinie()
+	gr:=GINIE.Create("VAULT_GINIE_FOR_SAVEGAMES")
+	gr.Clear()
+	for k,v in spairs(InVault)
+		gr.Value("Vault",k,v)
+	end
+end
+
+Global Void GinieToVault()
+	gr:=GINIE.Obtain("VAULT_GINIE_FROM_SAVEGAMES")
+	InVault={}
+	for k in gr.Values("Vault")
+		InVault[k] = gr.IntValue("Vault",k)
+	end
+End
+
+global void VaultReset()
+	Invault = {}
+end
+
+
+
+global var ItemBaseGet(string it,string key)
+	it = upper(it)
+	ItemData[it] = ItemData[it] || GINIE.Load("Data/IAA/"..it..".ini","ITEM: "..it)
+	return ItemData[it][key]
+end
+
+Global Void JewelRecalc(string char)
+	CSayF("Recalculating statistics based on jewel carried for: %s",char) 
+	Table Elements = {"Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
+	Table Statusses = {"Block","Damned","Death","Disease","Paralysis","Poison","Will"}
+	Var C := RPGChar[char]
+	Var D := C.Data
+	Var S := C.Stat
+	// reset
+	CSay("= Reset!")
+	For _,Elem in pairs(Elements)
+		S["ER_MODIFIER_"..Elem] = 0
+	End
+	For _,Stat in pairs(Statusses)
+		S[sprintf("SR_EQBF_%s",Stat)] = 0
+	End
+	CSay("= Checking inventory sockets!")
+	For i=1,Caps.InventorySockets
+		String atag := sprintf("INVAMNT%d",i)
+		String dtag := sprintf("INVITEM%d",i)
+		String ishr := Upper(D[dtag])
+		string itag := "ITM_"..ishr
+		If ishr!=""
+			//ItemData[itag] = ItemData[itag] || NeilUse("Script/Data/IAA/"..itag)
+			ItemData[itag] = ItemData[itag] || GINIE.Load("Data/IAA/"..itag..".ini","ITEM: "..itag)
+			Var ItData := ItemData[itag]
+			For j=1,S[atag]
+				For _,Elem in pairs(Elements)
+					If Elem=="Dark" && ItData["ITM_EQP_ERes_UP"..Elem] 
+						S["ER_MODIFIER_"..Elem]++
+#if JewelRecalcDebug
+						CSay("DARK up: "..ishr)
+#fi
+					ElseIf ItData["ITM_EQP_ERes_Up"..Elem]
+						S["ER_MODIFIER_"..Elem]++
+#if JewelRecalcDebug
+						CSay(Elem.." up: "..ishr)
+#fi
+					ElseIf ItData["ITM_EQP_ERes_Down"..Elem]
+						S["ER_MODIFIER_"..Elem]--
+#if JewelRecalcDebug
+						CSay(Elem.." Down: "..ishr)
+#fi
+					End
+				End
+				For _,Stat in pairs(Statusses)
+					String ItDTag  := sprintf("ITM_EQP_SRes_%s",Stat)
+					Int    ItValue := ItData[ItDTag] || 0
+					S[sprintf("SR_EQBF_%s",Stat)] += ItValue
+				End
+			End
+		End
+	End
+	// Stat corrections
+	For _,Elem in pairs(Elements)
+		S["ER_MODIFIER_"..Elem] = math.min(6,math.max(-6,S["ER_MODIFIER_"..Elem]))
+	End
+End
+
+global bool S_GiveItem(string it,string char)
+	var C := RPGChar[char]
+	var D := C.Data
+	var S := C.Stat
+	if char=="Briggs"
+		return false
+	end
+	it = upper(it)
+	if prefixed(it,"ITM_")
+		it = right(it,len(it)-4)
+	end
+	
+	//int FirstEmptyInvSocket()
+	ddef FirstEmptyInvSocket
+		int i=0
+		repeat
+			i++
+			string stag := sprintf("INVAMNT%d",i)
+			if s[stag]<=0
+				return i
+			end
+		until i>Caps.InventorySockets 
+		return -1
+	end
+
+	bool ok = false
+	int i=0
+	string dtag
+	string stag
+	//it = it:upper()
+	repeat
+		i++
+		dtag = sprintf("INVITEM%d",i)
+		stag = sprintf("INVAMNT%d",i)
+		if i>Caps.InventorySockets 
+			i = FirstEmptyInvSocket()
+			if i<0
+				return false
+			end
+			dtag = sprintf("INVITEM%d",i)
+			stag = sprintf("INVAMNT%d",i)
+			ok = true
+		else
+			ok = it == upper(D[dtag]) && S[stag]<Caps.InventoryMaxStack
+		end
+	until ok
+	S[stag]++
+	D[dtag]=it
+	CSayF("Item %s assigned to [%s/%s] - Amount is now: %2d",it,stag,dtag,S[stag])
+	JewelRecalc(char)
+	return ok
+end
+
+Global Bool ItemMemberCheck(string it,string m)
+	pLua a
+	pLua b
+	a,b = ItemBaseGet(it,".hasmember")(m)
+	return a!=nil
+End
+
+init
+	Lua.ItemBaseGet = ItemBaseGet
+	Lua.S_GiveItem = S_GiveItem
+end

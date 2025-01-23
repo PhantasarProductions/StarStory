@@ -1,0 +1,741 @@
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
+// 
+// 	  Version: 25.01.22
+// 	
+// 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+
+#use "libs/xmath"
+#use "Libs/Music"
+#use "Libs/Serialize"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/use/Misc/MiniMessage"
+#use "Script/use/Misc/PSaveGame"
+#use "Script/use/Misc/MiniMessage"
+#use "Script/Use/Convert/RPG2Stat"
+#use "Script/use/Convert/ViesBah"
+#use "Script/use/Convert/Flow"
+
+//#MKL_Version "Star Story - FieldMap.neil" "21.07.08"
+//#MKL_Lic     "Star Story - FieldMap.neil" "Phantasar zLib License"
+
+
+class Clickable
+	static var CTrans
+	static readonly var List = new TLinkedList()
+	static readonly var Buzz = Audio.Obtain("BUZZ")
+	static int sid = 0
+	static var Map	
+	
+	readonly delegate func
+	readonly string param
+	readonly int walkx
+	readonly int walky
+	readonly int id
+	readonly string otag
+	readonly string ltag
+	
+	static void TakeTreasure(string Tag)
+		CSayF("%s should pick up item named %s",Map.Leader,Tag)		
+		var O;O = Kthura.Obj[tag] //Map.CurLayer.Obj(tag)
+		number Afstand;Afstand = xmath.Pythagoras(O.X,O.Y,Player.X,Player.Y)
+		if Afstand>64
+			CSayF("Treasure rejected! With %03.02f pixels distance, player is too far away",Afstand)
+			return
+		end
+		string Name;Name = RPGChar[Map.Leader].Name
+		bool Ok;Ok = Item.Give(O.Data["ITEM_S"],Map.Leader)
+		if Ok
+			TMM.NewMsg(sprintf("%s picks up '%s'",Name,Item[O.Data["ITEM_F"]].Name),0,180,255)
+			Map.Kill(Tag)
+		else
+			Buzz.Play()
+			CSayF("%s is overstocked: %s > %s (%s)",Map.Leader,O.Data["ITEM_S"],O.Data["ITEM_F"],O.Tag)
+			TMM.NewMsg(sprintf("%s is overstocked and cannot pick up '%s'",Name,Item[O.Data["ITEM_F"]].Name),255,0,0)
+		end
+	end
+
+	
+	get var CLay
+		Lua.error("CLay is no longer functional!")
+		return nil
+		//return Map.KthuraMap.Layer(ltag)
+	end
+	
+	get var CObj
+		//return CLay.Obj(otag)
+		CSayF("Getting object %s",otag)
+		return Kthura.Obj[otag]
+	end
+	
+	CONSTRUCTOR(string ot,string lt,int wx, int wy, af,string ap)
+		sid++
+		id = sid
+		walkx=wx
+		walky=Ternary(Prefixed(ot,"NPC_"),wy+40,wy)
+		func = af
+		param = ap
+		otag = ot
+		ltag = lt
+		CSayF("Clickable created %s::%s",ltag,otag)
+		CSayF("func: %s",func)
+	end
+	
+	bool Clicked(int x, int y)
+		//CSayF("Check clickable %s::%s (%d,%d); Layer Check: %s=>%s",ltag,otag,x,y,Map.Layer,Map.Layer==ltag)
+		if Map.Layer!=ltag
+			return false
+		end
+		if !Kthura.HasObj(otag)
+			return false
+		end
+		//return CObj.PixInObj(x,y)
+		//return Kthura.Obj[otag].InObj(x,y)
+		return Kthura.InObj(otag,x,y)
+	end
+	
+	static void Create(string ot,string lt,a,b,c,d)
+		delegate t = Lua.type
+		delegate e = Lua.error
+		delegate ts = Lua.tostring
+		if t(a) == "number" && t(b) == "number" 
+			if t(c)=="string"
+				List.AddLast(new Clickable(ot,lt,a,b,MapScript[c],d or ""))
+			elseif t(c)=="function"
+				List.AddLast(new Clickable(ot,lt,a,b,c,d or ""))
+			else
+				CSayF("Create(\"%s\",\"%s\",%s,%s,%s,%s)",ot,lt,a,b,c,d)
+				CSay(t(c).." was not expected here.")
+				e("Create("..a..","..b..",<Invalid function reference>,"..tostring(d)..") Syntax error")
+			end
+		elseif t(a) == "string"
+			//var o = Map.CurLayer.Obj(a)
+			plua o;o = Kthura.Obj[a]
+			self.Create(ot,lt,o.x,o.y,b,c)
+		else
+			e(sprintf("Clickable::Create(%s,%s,%s,%s,%s,%s): Illegal function call!",ot,lt,ts(a),ts(b),ts(c),ts(d)))
+		end
+	end
+	
+	// This old Spot routine is no longer valid
+	static var Spot(L,string tag)
+		lua.error("Clickable.Spot(<ref>,\""..tag.."\") is no longer valid! Needs to be converted to LSpot!")
+		//var o;o = L.Obj(tag)
+		//if L.HasTag(tag.."_SPOT")
+		//	var o = Map.CurLayer.Obj(tag.."_SPOT")
+		//	return {o.x,o.y}
+		//else
+		//	return {o.x,o.y+32}
+		//end
+	end
+	
+	static var LSpot(string P1,P2)
+		string OldLay
+		string Lay
+		string Tag
+		if P2
+			OldLay=Kthura.CurrentLayer
+			Lay=P1
+			Tag=P2
+			Kthura.GoToLayer(Lay)
+		else
+			Tag=P1
+		end
+		plua ret
+		plua o;o=Kthura.Obj[Tag]
+		if Kthura.HasObj(tag.."_SPOT")
+			plua s;s = Kthura.Obj[tag.."_SPOT"]
+			ret={s.x,s.y}
+		else
+			ret={o.x,o.y}
+		end
+		if P2
+			Kthura.GoToLayer(OldLay)
+		end
+		return ret
+	End
+	
+	static void ObtainARM(string T)
+		table d;d = XSplit(T," ")
+		BoxText.Load("CRYSTAL","GENERAL/ARMS")
+		Map.Leader="Crystal"
+		gStr.ARMOBTAINED = Item["ARM_"..d[3]].Name
+		BoxText.Serial("CRYSTAL","CRYSTAL")
+		CrystalARMS.NewARM(d[3])
+		RPGChar.Crystal.Points.EXP.Have += 1000
+		Map.Kill(T)
+	end	
+	
+	static void Automate()
+		//static int M_id = -1
+		LocExtern M_id "MyStupidStaticVariable_f8e97e9f4033cadaea4fb94d6b2238d6"
+		M_id = M_id || -1 // static locals are not taken so well, so at least I won't have any trouble this way 
+		List.Clear()
+		var OldLayer = Kthura.CurrentLayer		
+		//for L in each(Map.KthuraMap.Layers)
+		for L in Kthura.Layers.Each
+			//var Lay = Map.KthuraMap.Layer(L)			
+			Kthura.GotoLayer(L)
+			table rItems = Map.LRItems
+			//CSayF("Clickable scan layer: %s",L)
+			for T in each(Kthura.TagList)
+				CSayF("Clickable scan: %s.%s",L,T)
+				if prefixed(T,"NPC_MT_")
+					var fuck := Self.LSpot(L,T) //= Spot(Lay,T)
+					Self.Create(T,L,fuck[1],fuck[2],MapText,T)
+					CSayF("NPC: %s (MAPTEXT)",T)
+				elseif prefixed(T,"NPC_")
+					var fuck := Self.LSpot(L,T) // = Spot(Lay,T)
+					Self.Create(T,L,fuck[1],fuck[2],T,"nil") //,sprintf("\"%s\"",T))
+					CSayF("NPC: %s",T)
+				elseif prefixed(T,"Trans.Pad")
+					string Spot;Spot = Right(T,len(T)-10)
+					var TO;TO = Kthura.Obj[T]
+					var TS;TS = Kthura.Obj["Trans.Spot."..Spot]
+					Self.Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
+					if !CTrans.Activated[spot]
+						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
+					end
+					CSayF("Transporter Pad: %s",Spot)
+				elseif prefixed(T,"ARMCHST")
+					table d;d = XSplit(T," ")
+					CSayF("ARMS Chest #%s > %s",d[2],d[3])
+					if RPGChar.Crystal.List.ARM.Has(d[3])
+						CSay("Crystal already has this ARM, so let's remove it!")
+						//Map.Kill(T)
+						Kthura.Kill(T)
+					else
+						TS := Kthura.Obj[T]
+						Self.Create(T,L,TS.X,TS.Y+32,Self.ObtainARM,T)
+					end
+				elseif Prefixed(Upper(T),"ITEM ") 
+					CSayF("Item: %s",T)
+					if math.random(1,(__skill+1)^2)!=1
+						//CSay("- SKIPPED!")
+					else
+						M_id++
+						string ctag;ctag = sprintf("RANDOM_TREASURE_%08x",M_id)
+						CSayF("- Tagged: %s",ctag)
+						var O; O = Kthura.NewObject("Obstacle",ctag)
+						var S; S = Kthura.Obj[T]
+						//Map.KthuraMap.Remap()
+						Kthura.Remap()
+						string shTag;shTag = rItems[math.random(0,len(rItems)-1)]
+						string itTag;itTag = "ITM_"..shtag
+						//O.Data["ITEM_F"] = itTag
+						//O.Data["ITEM_S"] = shTag
+						O.Data.ITEM_F = itTag
+						O.Data.ITEM_S = shTag
+						o.Texture = Item[itTag].IconFile
+						O.X = S.X
+						O.Y = S.Y
+						O.Dominance = S.Dominance
+						O.Visible = true
+						O.Alpha255 = 255
+						O.Labels = S.Labels
+						//Map.KthuraMap.Remap()
+						Kthura.Remap()
+						CSayF("F: %s; S: %s;  OTag: %s",O.Data["ITEM_F"],O.Data["ITEM_S"],O.Tag)
+						Self.Create(ctag,L,O.X,O.Y,Self.TakeTreasure,ctag)
+					end
+				end
+			end
+		end
+		Kthura.GoToLayer(OldLayer)
+		CSay("Clickable automation Completed")
+	end
+	
+	static bool All(int x, int y)
+		for CLK in List.Each
+			if Clk.Clicked(x, y)
+				//Map.WalkTo(CLK.walkx,CLK.Walky)
+				//Map.CurLayer.Obj("PLAYER").WalkTo(CLK.walkx,CLK.Walky)
+				Kthura.Obj.Player.WalkTo(ClK.WalkX,CLK.WalkY)
+				Map.ArriveFunc=CLK.func 
+				Map.ArriveParam=Clk.param
+				CSayF("Activated clickable: %s(%04d,%04d) - Trying to walk to (%04d,%04d)",Clk.Otag,Kthura.Obj[Clk.OTag].X,Kthura.Obj[Clk.OTag].Y,ClK.WalkX,CLK.WalkY)
+				return true
+			end
+		end
+		return false
+	end
+	
+end
+
+// module
+
+QuickMeta VoidKthuraMap
+	Index
+		printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+		lua.error("KthuraMap is no longer in use! So it also no longer has an element called "..key.." and therefore I cannot read it!")
+		return nil
+	end
+	NewIndex
+		printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+		lua.error(sprintf("KthuraMap is no longer in use! So it also no longer has an element called %s and therefore I cannot write %s to it!",key,value))
+	end
+end
+	
+group FldMap
+
+	get var KthuraMap
+		return VoidKthuraMap
+	end
+	//Get Var KthuraMap
+	//	printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback())
+	//	lua.error("KthuraMap is no longer in use!"); 
+	//	return nil; 
+	//End
+	int ScrollX
+	int ScrollY
+	get string Layer
+		return Kthura.CurrentLayer
+	End
+	//bool AutoScroll = false
+	get bool AutoScroll; return gbool.FieldMap_AutoScroll; end
+	set bool AutoScroll; gbool.FieldMap_AutoScroll=value; end
+	Var kills
+	string LoadedMap
+	delegate ArriveFunc = nil
+	string ArriveParam = ""
+	delegate ScanFoes = nil
+	delegate ScanTrans = nil
+	bool AllowQuitSave
+	
+	// This property is only meant for the auto clickable generator
+	// Generating random items
+	get table LRitems
+		table ret:= {}
+		for i = 1 , math.min(Caps.Cycle,5)
+			string l := Kthura.Meta[sprintf("PT %2d Items",i)]
+			table ketting := XSplit(l,";")
+			for it in each (ketting)
+				table thisitem = XSplit(it,",")
+				switch len(thisitem)
+					case 1
+						ret += thisitem[0]
+					case 2
+						for j=1,(lua.tonumber(thisitem[1]) or 1)
+							ret += thisitem[0]
+						end
+					default
+						lua.error("Item chain syntax error in map meta field: "..i)
+				end
+			end
+		end
+		return ret
+	end
+	
+	get table Foes
+		table ret
+		//for i = 1 , math.min(gint.Cycle,5)
+			string l = Kthura.Meta.Foes
+			table ketting;ketting = Split(l,";")
+			for it in each (ketting)
+				table thisitem = Split(it,",")
+				switch len(thisitem)
+					case 1
+						ret += thisitem[0]
+					case 2
+						for j=1,(lua.tonumber(thisitem[1]) or 1)
+							ret += thisitem[0]
+						end
+					default
+						lua.error("Foe chain syntax error")
+				end
+			end
+		//end
+		return ret
+	end
+	
+	
+	get int minLevel
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
+		string rng := Kthura.Meta[rngt]
+		table trng := Split(rng,"-")
+		int ret := math.max(1,lua.tonumber(trng[0]) or 1)
+		// print("Minlevel: "..ret)
+		return ret
+	end
+
+	get int maxLevel
+		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
+		string rng := Kthura.Meta[rngt]
+		table trng := Split(rng,"-")
+		return math.min(20000,lua.tonumber(trng[1]) or minlevel)
+	end
+
+	
+	void SaveGame(Jaren70)
+		if Jaren70
+			lua.Error("Antique version of savegame manager not yet present")
+		else
+			Sys.LoadNewState("FLOW_SAVEGAME","Script/Flow/FlowSaveGame.lbc")
+			Flow.Current="SAVEGAME"
+		end		
+	end
+	
+	void LoadMapText()
+		if !JCR6.EntryExists("Scenario/"..__lang.."/maps/"..gStr.LoadedMap)
+			CSay("No mapfile for: "..gStr.LoadedMap)
+			return
+		end
+		BoxText.Load("MAPTEXT","Maps/"..gStr.LoadedMap)
+	end
+	
+	void SetAllowQuitSave(bool value)
+		AllowQuitSave=value
+	end
+
+	void LoadMap(string Map)
+		// Begin
+		AllowQuitSave=true
+		PPop.Popped=false
+		PPop.Unpopping=false
+		Loading()
+		LoadedMap = Upper(Map) //Map:upper()
+		CSayF("Loading Kthura Map: %s",Map)
+		//Kthura.Load("KTHURA_MAIN_MAP","Kthura/"..Map )
+		//Kthura.Pick("KTHURA_MAIN_MAP")
+		Kthura.GoToMap("KTHURA_MAIN_MAP","Kthura/"..Map)
+		CSay("Resetting zone actions!")
+		Lua.Scyndi.Class.ZoneAction.Reset()
+		CSay("Sorting out kills")
+		//if Kills[LoadedMap]
+			//CSay("Remapping for kills")
+			//Kthura.Remap()		
+			//for moord in each(Kills[LoadedMap])
+			//	CSayF("- Killed %s:%s",moord.Layer,moord.Tag)
+			//	//KthuraMap.Layer(moord.Layer).Kill(moord.Tag)
+			//	Kthura.PickLayer(moord.Layer)
+			//	Kthura.Kill(moord.Tag)
+			//end
+			CSay("Handling PermaKills")
+			for moordlayer in each(kills.lists(LoadedMap))
+				for moordobject in each(kills.list(LoadedMap,moordlayer))
+					Kthura.PickLayer(moordLayer)
+					Kthura.Kill(moordObject)
+				end
+			end		
+		//end
+		CSay("Remapping again")		
+		//Layer = KthuraMap.Layers[1]
+		Kthura.PickLayer(Kthura.Layers[0])
+		Kthura.Remap()
+		if State.Has("MAPSCRIPT")
+			State.Kill("MAPSCRIPT")
+		end
+		//CSayF("Map '%s' loaded. Tag='%s'; ID='%d'",Map,KthuraMap.Tag,KthuraMap.ID)
+		gStr.LoadedMap = Map
+		// Only needed so the savegame manager can generate the header more easily!
+		gStr.MapTitle = Kthura.Meta["Title"]
+		string MapScriptFile := "Script/MapScript/"..Map..".lbc"
+		// Map Script
+		if !JCR6.EntryExists(MapScriptFile)
+			CSay("WARNING! No file named: "..Mapscriptfile..", so resorting to the basis 'None' script in stead!")
+			MapScriptFile = "Script/MapScript/None.lbc"
+		end
+		CSayF("Loading MapScript: %s",MapScriptFile)
+		State.Load("MAPSCRIPT",MapScriptFile)
+		State.Call("MAPSCRIPT","MScript.Load","nil")
+		// debug
+		//for k in each(KthuraMap.MetaFields)
+		//	CSayF("%s = %s",k,KthuraMap.Meta[k])
+		//end
+		// Music (must always be after the mapscript is loaded, in case of scripted music)
+		if prefixed(Kthura.Meta["Music"],"*")
+			switch Upper(Kthura.Meta["Music"])
+				case "*MAPSCRIPT" "*MAP" "*SCRIPT"
+					MapScript.MapMusic()
+				default
+					Lua.error("Unknown alternate music instruction!")
+			end
+		elseif Kthura.Meta["Music"]==""
+			CSay("Silence for music")
+			Music.Play("Music/Sys/Silence.ogg")
+		else
+			CSayF("= Loading Map Music: %s",Kthura.Meta["Music"])
+			Music.Play(Kthura.Meta["Music"])
+		end
+		FldMap.LoadMapText()
+		Clickable.Automate()
+		ScanFoes()
+		Kthura.AutoReMap=true
+		WF:="Kthura/"..Map.."/Welcome.png"
+		if JCR6.EntryExists(WF) && (!Done["WELCOME_TO_KTHURAMAP_"..Map])
+			Lua.Scyndi.Class.FieldWelcome.AddWelcome(WF)
+		End
+	end
+	
+	int Level()
+		int c = math.min(10,Caps.Cycle)
+		return Lua.tonumber(Kthura.Meta[sprintf("PT %2d Level",c)]||1)
+	end
+		
+	void ReMap()
+		Kthura.ReMap()
+	end
+	
+	void SetMember(string key, value)
+		if key:upper()=="LAYER"
+			gStr.MapLayer = value
+		end
+		self[key] = value
+	end
+	
+	get var CurLayer
+		Print("\x07\x1b[91mWARNING! \x1b[96mCur Layer request done, but this is no longer supported!")
+		return nil
+		//return KthuraMap.Layer(Layer)
+	end
+	
+	get var CurrentLayer
+		return CurLayer
+	end
+	
+	bool Blocked(int x,int y)
+		return CurLayer.Blocked(x,y)
+	end
+	
+	void SetObjField(string o,string key,value)
+		CurLayer.Obj(o)[key]=value
+	end
+	
+	void ActorMoveTo(string Tag,a,b)
+		//CurLayer.Obj(tag).MoveTo(a,b)
+		Kthura.Obj[Tag].MoveTo(a,b)
+	end
+	
+	void SetAutoScroll(bool value)
+		autoscroll = value
+	end
+	
+	void Kill(string ObjTag,bool perma)
+		// "perma" means "permanent"
+		if perma
+			//Kills[LoadedMap] = Kills[LoadedMap] or {}
+			//Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+			Kills.Add(LoadedMap,Layer,ObjTag,true,true)
+		end
+		Kthura.Kill(ObjTag)
+	end
+	
+	void PostKill(ObjTag)
+		//Kills[LoadedMap] = Kills[LoadedMap] or {}
+		//Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+		Kills.Add(LoadedMap,Layer,ObjTag,true,true)
+	end
+	
+	Void KillReset()
+		CSay("Resetting kills")
+		//Kills = {}
+		Kills = GINIE.Create("MAP_KILLS")
+		Kills.Clear()
+	End
+	
+	Get String Leader
+		if gStr.Leader==""
+			CSay("Leader not set! Autosetting to character #1!")
+			gStr.Leader = RPGParty[0]
+			CSayF("Leader is now %s",gstr.Leader)
+		end
+		return gStr.Leader
+	end
+	
+	set string Leader
+		gStr.Leader = value
+	end
+	
+	void SetLeader(string v)
+		Leader = v
+	end
+	
+	void AutoTexPlayer()
+		if !Kthura.HasObj("PLAYER")
+			return
+		end
+		var PL=Kthura.Obj.Player //=CurLayer.Obj("PLAYER")
+		if PL.Wind==""
+			PL.Wind="North"
+		end
+		if Leader=="UniWendicka"
+			PL.Texture = "GFX/Actors/Uniform/Wendicka.".. PL.Wind .. ".jpbf"
+		else
+			PL.Texture = "GFX/Actors/Player/".. Leader .. "." .. PL.Wind .. ".jpbf"
+		end
+	end
+	
+	bool XVisObj(string tag)
+		return CurLayer.Obj(Tag).XVisible(ScrollX,ScrollY)
+	end
+	
+	void WalkClick(int mx,int my)
+		int x := mx + ScrollX
+		int y := my + ScrollY
+		CSayF("Request to walk to (%4d,%4d); Mouse(%4d,%4d); Scroll(%4d,%4d)",x,y,mx,my,ScrollX,ScrollY)
+		if !Kthura.HasObj("PLAYER")
+			CSay("But there is no player available now, so the request will be ignored!")
+			return
+		end
+		// Check for clickables		
+		if !Clickable.All(x,y)
+			Kthura.Obj.PLAYER.WalkTo(x,y)
+			ArriveFunc = nil
+			ArriveParam = ""
+		end
+	end
+	
+	void ObjWalkTo(string tag,a,b)
+		// CSayF("Actor %s must walk to: %s %s",tag,tostring(a),tostring(b)) // DEBUG!
+		CurLayer.Obj(Tag).WalkTo(a,b)
+	end
+	
+	void ObjSet(string otag,string vtag,value)
+		CurLayer.Obj(OTag)[vtag]=value
+	end
+	
+	void ShowPlayer()
+		if !CurLayer.HasTag("PLAYER")
+			return
+		end
+		FldMap.CurLayer.Obj("PLAYER").Visible = true
+	end
+	
+	bool Walking()
+		//if !CurLayer.HasTag("PLAYER")
+		if !Kthura.HasObj("PLAYER")
+			return false
+		end		
+		//bool ret = CurLayer.Obj("PLAYER").Walking
+		bool ret:=Kthura.Obj.Player.Walking
+		if (!ret) && ArriveFunc
+			ArriveFUNC(ArriveParam)
+			ArriveFunc = nil
+		end
+		return ret
+	end
+	
+	
+	
+	void StopWalking()
+		CurLayer.Obj("PLAYER").StopWalking()
+		ArriveFunc = nil
+	end
+	
+//	CONSTRUCTOR
+//		CSay("FieldMap loaded!")
+//	end
+
+end
+Init
+	FldMap.KillReset()
+End
+
+
+bool LGFIX=false
+quickmeta GrPlayer
+	index
+		//return FldMap.CurLayer.Obj("PLAYER")[key]
+		return Kthura.Obj.Player[Key]
+	end
+	
+	newindex
+		if LGFIX && (!FldMap.CurLayer.HasTag("PLAYER"))
+			//FldMap.CurLayer.Spawn("PLAYER",0,0)
+			Kthura.Spawn(Player,0,0)
+			CSay("PLAYER was non-existent, but I had permission to spawn a new player, just for the occasion!")
+		end
+		//FldMap.CurLayer.Obj("PLAYER")[key] = value
+		Kthura.Obj.Player[key]=value
+	end
+
+end
+
+
+//global void SGMap()
+//	SaveGame.Data["PermaKills.lua"] = "local ret\n"..Serialize.Lua("ret",FLDMAP.Kills).."\n\nreturn ret"
+//	string r = "// Mapstuff\nInit\n"
+//	r += "\tFldMap.ScrollX = "..tostring(FldMap.ScrollX).."\n"
+//	r += "\tFldMap.ScrollY = "..tostring(FldMap.ScrollY).."\n"
+//	r += "\tFldMap.AutoScroll = "..tostring(FLDmap.AutoScroll).."\n"
+//	r += "\tFldMap.Layer = \""..FldMap.Layer.."\"\n"
+//	r += "\tFldMap.CurLayer.Spawn(\"PLAYER\",0,0)\n"
+//	r += "\tGrPlayer.X = "..tostring(GrPlayer.X).."\n"
+//	r += "\tGrPlayer.Y = "..tostring(GrPlayer.Y).."\n"
+//	r += "\tGrPlayer.Wind = \""..GrPlayer.Wind.."\"\n"
+//	r += "end"
+//	Lua.error("Saving Map.Neil - Not yet replaced")
+//	SaveGame.Data["Map.neil"] = r
+//end
+//
+//
+//global void LGMap()
+//	LGFix = true
+//	CSayF("Parsing Kills")
+//	FldMap.Kills = LuaDoString(SaveGame.Data["PERMAKILLS.LUA"])
+//	CSayF("Loading map: %s",gstring["LOADEDMAP"])
+//	FldMap.LoadMap(gstring["LOADEDMAP"])
+//	CSayF("Let's go to layer: %s",gstring["MAPLAYER"])
+//	//FldMap.CurLayer.Spawn("PLAYER",0,0)
+//	Lua.error("Map.Neil - Not yet replaced") //NeilDoString(SaveGame.Data["MAP.NEIL"],"SG:Map.Neil")
+//	LGFix = true
+//	FldMap.AutoTexPlayer()
+//end
+
+
+init
+	print("FieldMap Init Executed!")
+	//print(GlobalDump())
+	Clickable.Map = FldMap
+end
+
+//return FldMap

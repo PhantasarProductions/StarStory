@@ -1,0 +1,326 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Prologue - Yaqirpa.scyndi
+// (c) Jeroen Broks, 2020-2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.22 III
+// 
+// End License
+Script
+
+// Must be defined! Undeffing only for debugging postboss stuff.
+#define mother_boss
+
+//#MKL_Version "Star Story - Prologue_Yaqirpa.neil" "21.07.18"
+//#MKL_Lic     "Star Story - Prologue_Yaqirpa.neil" "Phantasar Closed License"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+#use "Script/MapScript/Yaqirpa_Warp"
+
+extern Sleutel "Scyndi.Globals.gBool.Prologue_Yaqirpa_Sleutel"
+
+group MScript
+	readonly delegate NPC_SAVE1 = MSave.ToSave
+	readonly delegate NPC_SAVE2 = MSave.ToSave
+	readonly table FTL = {"PLAYER","FCrystal","FBriggs"}
+	readonly var YW = Yaqirpa_Warp
+	
+	//get bool Sleutel
+	//	return gv.gBool.Prologue_Yaqirpa_Sleutel
+	//end
+	//set bool Sleutel
+	//	gv.gBool.Prologue_Yaqirpa_Sleutel = value
+	//end
+	
+	void NPC_Sleutel()
+		Player.WalkTo("SPOT_Sleutel")
+		MapText("KEYTOTOWER")
+		Sleutel = true
+		Map.Kill("NPC_Sleutel",true)
+	end
+	
+	void NPC_Deur()
+		if Sleutel && (!Done.Prologue_Yaqirpa_Deur_Opened)
+			Map.Kill("NPC_DEUR")
+		end
+	end
+	
+	void GoToStart()
+		//Map.SpawnPlayer("Start")
+		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")
+		Spawn.Reset()
+	end
+	
+	void Entrance_Zone()
+		CSay("Entrance Zone Event")
+		Map.HideButLabel("Entrance")
+		Map.ShowPlayer()
+	end
+	
+	void Enter_Save()
+		CSay("Enter Save Zone - Entrance Yaqirpa")
+		Map.HideButLabel("save") CSay("Hidden everything not in the \"save\" zone")
+		Map.ShowPlayer() CSay("Player should be shown!")
+		if !Done.Prologue_Yaqirpa_Explained_About_Diary_At_The_Start_By_Briggs
+			MapText("EXPLAIN_SAVE")
+		else
+			CSay("Clearly the tutorial already took place, so no need to repeat that one, eh?")
+		end
+	end
+	
+	Void FightAstro()
+		StartCombat.Prepare()
+		if Caps.Cycle==1
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+1))
+			StartCombat.Foe("Reg/Astrilopup",math.random(__skill,(2*__skill)+2))
+		Else
+			Int L := RPGChar.Briggs.Stat.Level
+			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
+			StartCombat.Foe("Reg/Astrilopup",math.random(L div (4-__skill),L))
+		End
+		StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Boss = false
+		StartCombat.Arena = "Yaqirpa.png"	
+		StartCombat.Begin()
+	end
+		
+	void Enter_Kantoor()
+		Map.HideButLabel("Kantoor")
+		Map.ShowPlayer()				
+		if !gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1
+			Player.StopWalking()
+			MapText("EAVESDROP_ASTRILOPUP_01")
+			Schedule.Add("After_KantoorAstrilo")
+			MScript.FightAstro()
+		end
+	end
+	
+	void Astrilopups_Top()
+		if !gBool.Prologue_Yaqirpa_Astrilotop
+			Player.StopWalking()
+			MapText("ASTRILOATTACK")
+			Schedule.Add("After_TopAstrilo")
+			MScript.FightAstro()
+		end
+	end
+	
+	void After_TopAstrilo()
+		Map.Kill("Astro3",true)
+		Map.Kill("Astro4",true)
+		gBool.Prologue_Yaqirpa_Astrilotop=true
+	end
+	
+	
+	void After_KantoorAstrilo()
+		Map.Kill("Astro1",true)
+		Map.Kill("Astro2",true)
+		MapText("EAVESDROP_ASTRILOPUP_02")
+		gBool.Prologue_Yaqirpa_AstrilopupEncounter_Floor1=true
+	end
+	
+	void PostBoss()
+		Map.ObjHide("FBriggs")
+		MapText("POSTBOSS_START")
+		Map.ObjHide("FCrystal")
+		Map.ObjHide("FBriggs")
+		Map.ObjShow("DeadCrystal")
+		RPGParty[1] = ""
+		MapText("POSTBOSS_WENDICKARAGE")
+		var explosion = LoadNewImage("GFX/Scenario/Explosion.png","Yaqirpa_Explosion")
+		var sex = Audio.Load("Audio/Scenario/Explosion.ogg")
+		Graphics.Cls()
+		sex.Play()
+		for i=0,255
+			__white
+			explosion.Stretch(0,0,Graphics.W,Graphics.H)
+			Graphics.SetAlpha(i)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			Events.Poll()
+			if i==0
+				Sys.Sleep(2000)
+			else
+				Sys.Sleep(1)
+			end
+		end
+		CSay("Time to go to sickbay")
+		Map.Load("Excalibur - Sickbay")
+		Schedule.Add("Sickbay")
+		//Lua.error("Post Boss not yet scripted")
+	end
+	
+	void Boss()
+		Map.ObjWalkTo("FBriggs","PreBossBriggs1")
+		MapText("BOSS_START")
+		Map.ObjWalkTo("FBriggs","PreBossBriggs2")
+		Map.ObjSet("FBriggs","X",-20000)
+		Map.ObjHide("FBriggs")
+		Map.ObjShow("DeadBriggs")
+		For i=1760,1600,-4
+			Graphics.Cls()
+			Map.ObjSet("DeadBriggs","Y",i)
+			Map.DrawScreen()
+			Graphics.Flip()
+		End
+		MapText("BOSS_SHOUTBRIGGS")
+		MapText("BOSS_BRIGGSISDEAD")
+		Player.WalkTo("BossWendicka")
+		Map.ObjWalkTo("FCrystal","BossCrystal")		
+		Map.HideButLabel("Boss")
+		Map.ShowPlayer()
+		Map.ObjShow("FCrystal")
+		MapText("BOSS_COMMENCE")
+		//RPGParty[3]=""
+		RPGParty[2]=""
+		RPGChar.Kill("Briggs")
+		Schedule.Add("PostBoss")
+#if mother_boss
+			StartCombat.Prepare()
+			StartCombat.Foe("Boss/BrainDroid",Caps.LvCycle(__skill+9,200,500,750,1000,2500,5000,2500*__skill,3000*__skill,4000*__skill,10000))
+			StartCombat.Tune = StartCombat.RandomBossTune
+			StartCombat.Boss = true
+			StartCombat.Arena = "Yaqirpa.png"	
+			StartCombat.Begin()		
+#fi
+	end
+	
+	void TutEnemy()
+		Map.HideButLabel("GreatHall")
+		Map.ShowPlayer()
+		if !Done.Prologue_Yaqirpa_Explained_About_Foes_At_The_Start_By_Briggs
+			MapText("EXPLAIN_FOES")
+		end
+	end
+	
+	void Follow(int i,string act)
+		if !Map.HasTag(act)
+			//Map.Spawn(act,FTL[i-1])
+			Map.SpawnXY(act,Map.ObjInt(FTL[i-1],"X"),Map.ObjInt(FTL[i-1],"Y"))
+			CSayF("Spawned %s on %s",act,FTL[i-1])		
+		end
+		Map.ObjSet(act,"Texture",sprintf("GFX/Actors/Uniform/%s.%s.jpbf",right(act,len(act)-1),Map.ObjStr(act,"Wind")))
+		Map.ObjSet(act,"Visible",true)
+		Map.ObjSet(act,"Impassible",false)
+		//if Map.ObjBool(act,"Walking")
+		//	return
+		//end
+		string Tag1 := FTL[i-1]
+		int X1 := Map.ObjInt(Tag1,"X")
+		int Y1 := Map.ObjInt(Tag1,"Y")
+		int X2 := Map.ObjInt(act, "X")
+		int Y2 := Map.ObjInt(act, "Y")
+		int hsiz := math.abs(X1-X2)
+		int vsiz := math.abs(Y1-Y2)
+		int distance := math.floor(math.sqrt( (hsiz*hsiz) + (vsiz*vsiz) ))
+		bool walking := Map.ObjBool(act,"Walking")
+		bool ShouldWalk := (distance>96) && (!walking)
+		// CSayF("Leader %s (%4d,%4d) %s -- Followed by: %s, distance: %4d!",Tag1,X1,Y1,Map.ObjStr(Tag1,"Wind"),act,distance)
+		// CSayF("Follower %s (%4d,%4d) walking: %s -- Should walk: %s (%s)",act,X2,Y2,tostring(Map.ObjBool(act,"Walking")),tostring(shouldwalk),lua.type(shouldwalk))
+		// CSayF("ShouldWalk = %s, because distance>96 = %s and walking = %s",tostring(ShouldWalk),tostring(distance>96),tostring(walking))
+		if ShouldWalk
+			switch Upper(Map.ObjStr(Tag1,"Wind"))
+				case "NORTH"
+					Map.ObjWalkTo(act,X1,Y1+64)
+				case "SOUTH"
+					Map.ObjWalkTo(act,X1,Y1-64)
+				case "WEST"
+					Map.ObjWalkTo(act,X1+64,Y1)
+				case "EAST"
+					Map.ObjWalkTo(act,X1-64,Y1)
+				default
+					CSayF("Unknown wind: %s",Map.ObjStr(Tag1,"Wind"))
+			end
+		end
+	end
+
+	void Update()
+		MScript.Follow(2,"FCrystal")
+		MScript.Follow(3,"FBriggs")
+	end
+
+	void Draw()
+		//static var ikey = LoadnewImage("GFX/Textures/Things/Key.png","YAQIRPA_KEY")
+		locextern iKey "Draw_Static_Yaqirpa_Key"
+		ikey = ikey || LoadnewImage("GFX/Textures/Things/Key.png","YAQIRPA_KEY")
+		if Sleutel
+			ikey.Draw(Graphics.W-200,50)
+		end
+	end
+	
+	void Load()
+	end
+	
+	void SetZA()
+		ZA.Enter("Entrance_Zone","Entrance_Zone")
+		ZA.Enter("EnterSave","Enter_Save")
+		ZA.Enter("SAVEZONE1","Enter_Save")
+		ZA.Enter("Kantoor","Enter_Kantoor")
+		ZA.Enter("TutEnemy","TutEnemy")			
+		ZA.Enter("Astrilopups","Astrilopups_Top")
+		Yaqirpa_Warp.StartUp()
+	end
+
+	void _CONSTRUCTOR()
+		YW.Prologue = true
+		CSay("Welcome to the Yaqirpa! Let the quest begin!")
+		Map.AutoScroll = true
+		// No transporter pads in the prologue
+		// (I can do this safely as the place you get back to is aliased, to prevent conflicts as the prologue differs too much in setup from the rest of the game).
+		for NoTrans in each(NewArray("","Top"))
+			CSayF("Removing transpad: %s",NoTrans)
+			Map.Kill(sprintf("Trans.Pad.Yaqirpa%s",NoTrans))
+		end
+	end
+
+end
+
+init
+	locextern pc "pcall"
+	plua s
+	plua e
+	CSay("Yaqirpa Init")
+	s,e = pc(MScript._Constructor)
+	Lua.assert(s,"Error dealing with constructor for the Yaqirpa Prologue: "..tostring(e))
+	s,e = pc(MScript.SetZA)
+	lua.assert(s,"Error with SetZA for the Yaqirpa Prologue: "..tostring(e))
+end

@@ -1,0 +1,138 @@
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
+// 
+// 	  Version: 25.01.22 III
+// 	
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module 
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+
+Class ClBeam
+
+	Static var Sound = Audio.Obtain("BEAM")
+	Static delegate DS
+	Static var MP
+	Static get String   LY
+		Return Map.Layer
+	End
+	
+	Static ReadOnly  var Lijst = new TLinkedList("var")
+	
+	Int Frame = -1
+	ReadOnly Int Route = 1
+	ReadOnly Bool  despawn
+	ReadOnly String   Actor
+	ReadOnly Bool  NIMT0
+	ReadOnly String   Texture
+	ReadOnly Bool  IsActor
+	Get Var Act		
+		Lua.assert(Actor!="","Actor tag not present for current beamout")
+		ret:=Kthura.Obj[Actor]
+		return ret
+	End
+	
+	Void Update()
+		//Act.AnimFrame = Frame
+		f:=math.max(0,math.min(99))
+		Act.Texture=sprintf("GFX/Actors/Teleport/Teleport.jpbf/%08x.png",Frame)
+		Events.Poll()
+	End
+	
+	Static void Add(String   ActTag,Bool  DespawnAfter,Bool  AscEnding)
+		CSayF("ClBeam.Add(\"%s\",%s,%s)",ActTag,DespawnAfter,ASCEnding)
+		Lijst.AddLast(new ClBeam(ActTag,DespawnAfter,AscEnding))
+	End
+	
+	CONSTRUCTOR(String   Tag,Bool  Des,Bool  asc)
+		CSayF("New ClBeam(\"%s\",%s,%s)",Tag,Des,ASC)
+		Actor       = Tag
+		Despawn     = Des
+		Texture     = Act.Texture
+		IsActor     = Act.Kind=="Actor"
+		Act.Texture = "GFX/Actors/Teleport/Teleport.jpbf"
+		If IsActor
+			NIMT0 = Act.NotMovingThen0
+			Act.NotMovingThen0 = False
+		End
+		CSayF("Beaming '%s' - Despawn: %s - AscEnding: %s",Tag,lua.tostring(des),lua.tostring(asc))
+		if !asc
+			Frame=100
+			Route=-1
+		End
+	End
+	
+	Static Void Run()
+		Sys.WaitMinTicks()
+		Sound.Play()
+		While Lijst.Count>0
+			For ob,lnk in Lijst.Each
+				ob.Frame += ob.Route
+				//ob.Act.AnimFrame = ob.Frame
+				If ob.Frame>=100 || ob.Frame<0
+					If ob.IsActor
+						ob.Act.NotMovingThen0 = ob.NIMT0
+					End
+					// ob.Act.Texture = ob.Texture
+					lnk.Unlink()
+					If ob.Despawn
+						//MP.CurLayer.Kill(ob.Actor)
+						Kthura.Kill(ob.Actor)
+						MP.Remap()
+					End
+				Else
+					ob.Update()
+				End
+			End
+			Sys.WaitMinTicks()
+			Graphics.Cls()
+			//DS(True)
+			Lua.Scyndi.Globals.DrawScreen(True)
+			Graphics.Flip()
+		End
+	End
+End

@@ -1,0 +1,131 @@
+// License:
+// 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
+// 
+// 	  Version: 25.01.06 II
+// 	
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+extern _versionmaj "3"
+extern _versionmin "0"
+
+//#use "Script/Use/Link"
+//#use "libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/InterVar"
+#use "Script/Use/Convert/gv"
+//Global Get Int __Skill; Return gint.Skill; End
+extern __skill "Scyndi.Globals.gint.Skill"
+
+
+extern __black "Scyndi.Globals.SetColor(0,0,0)"
+extern __white "Scyndi.Globals.SetColor(255,255,255)"
+extern __red "Scyndi.Globals.SetColor(255,0,0)"
+extern __ember "Scyndi.Globals.SetColor(255,180,0)"
+extern __skyblue "Scyndi.Globals.SetColor(0,180,255)"
+extern __green "Scyndi.Globals.SetColor(0,255,0)"
+extern __cyan "Scyndi.Globals.SetColor(0,255,255)"
+extern __yellow "Scyndi.Globals.SetColor(255,255,0)"
+
+//#macro __skill gv.gInt.Skill
+extern __lang "Scyndi.Globals.gStr.Lang"
+
+extern __aurinas "Scyndi.Globals.gInt.Aurinas"
+
+extern __hawk "Scyndi.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that"
+
+
+const delegate Error = Lua.error
+
+
+class Key
+	// list is not complete. I will add more if I need them!
+	static readonly int up = Events.KeyFromName("Up")
+	static readonly int down = Events.KeyFromName("Down")
+	static readonly int pageup = Events.KeyFromName("PageUp")
+	static readonly int pagedown = Events.KeyFromName("PageDown")
+	static readonly int backspace = Events.KeyFromName("Backspace")
+	static readonly int leftshift = Events.KeyFromName("Left Shift")
+	static readonly int rightshift = Events.KeyFromName("Right Shift")
+	static readonly int kp_minus = Events.KeyFromName("Keypad -")	
+end
+
+quickmeta ablused
+	index
+		string k = upper(key)
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		return gInt["ABLUSED_"..k]
+	end
+	newindex
+		string k = upper(key)
+		if k=="UNIWENDICKA"
+			k="WENDICKA"
+		end
+		gInt["ABLUSED_"..k] = value
+	end
+end
+
+Global Plua LuaDoString(String s)
+	plua f
+	plua e
+	f,e=Lua.Load(s)
+	Lua.assert("LoadLoadString Error: "..e.."\n"..s)
+	return f()
+End
+
+
+Global Void QuitRequest()
+	locextern QRR "QuitRequest_SillyRemarks"
+	QRR = QRR || NewArray("Are you going back to where everyone has gone before?","Are you really falling to the dark side?","Don't go or a meteor will smash onto your computer!", "Space heroes click 'no'.'\nEarth chickens click 'yes'", "So you ain't part of the next generation?", "So you wanna live short without being prosper?", "This is not the feature you're looking for?", "You don't want to quit!\nSearch your feelings you know that to be true!", "So word processors, databases and spreadsheets are more exciting than space exploration?", "Wearing a red shirt, ain't cha?")	
+	if Events.AppTerminate()
+		if Events.Yes(sprintf("%s\n\nPlease note that all unsave game data will be lost when you quit now.\n\nAre you sure you want to quit?",QRR[math.random(0,len(QRR)-1)]))
+			Sys.Exit(0)
+		end
+	end
+end	
+
+Init
+	printf("Testing! (Skill=%d)\n",__skill)
+End

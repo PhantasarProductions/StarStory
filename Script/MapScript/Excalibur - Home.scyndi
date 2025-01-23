@@ -1,0 +1,466 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Excalibur - Home.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.22 XLV
+// 
+// End License
+
+
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+//#MKL_Version "Star Story - Excalibur - Home.neil" "21.10.12"
+//#MKL_Lic     "Star Story - Excalibur - Home.neil" "Phantasar Closed License"
+
+#macro Situation gstring.Situatie_In_Het_Huis_Van_Wendicka
+#macro CrystalHome gbool.CrystalCameHomeAtTheStartOfTheGame
+
+
+table Kamer = {}
+quickmeta GaNaarKamer
+	index
+		//static table Kamer = {}
+		if !Kamer[key]
+			//Kamer[key] = void()
+			ddef _Kamer
+				CSayF("Entering room: %s; Situation: %s;   Crystal Home: %s",Key,Situation,lua.tostring(CrystalHome))
+				Map.HideButLabel(Key)
+				Map.ShowObj("PLAYER")
+				if Key=="Wendicka" && Situation=="All_Fine" && (!CrystalHome)
+					CrystalHome=true
+					MapText("CRYSTAL_HOME")
+					Spawn.Reset()
+				end
+				if Key=="Woonkamer" && CrystalHome && Situation=="All_Fine"
+					Map.ShowObj("NPC_Crystal")
+				end
+				if Key=="Woonkamer" && Situation=="Under_Attack"
+					Lua.Scyndi.Class.MScript.ExD()
+				end
+			end
+			Kamer[key]=_Kamer
+		end
+		return Kamer[key]
+	end
+end
+
+group MScript
+	readonly delegate NPC_SAVE = MSave.ToSave
+
+	readonly var GNK 
+	
+	void MapMusic()
+		switch Situation
+			case "Final"
+				Music.Play("Music/Excalibur/Final.ogg")
+			case "Under_Attack"
+				Music.Play("Music/Excalibur/Attacked.ogg")
+			case "All_Fine"
+				Music.Play("Music/Excalibur/Blip Stream.ogg")
+			case "Crystal_Crisis"
+				if RPGParty[1]=="Wendicka"
+					CSay("Welcome home Wendicka. Crystal will be home soon")
+					Situation="All_Fine"
+					return
+				end
+				Music.Play("Music/scenario/panic stations.ogg")
+			default
+				CSay("Situation unknown. Probably not yet set at all!")
+				Situation="Crystal_Crisis"			
+		end
+	end
+	
+	// Create Wendicka in her general game form (if the character did not yet exist in this form
+	void CreateWendicka()
+		if Caps.Cycle>1 || gbool.ImportedWendicka
+			//CSay("Record for Wendicka is already there, so no need to create that anew!")
+			CSay("Just using record from older records")
+			return
+		end
+		CSay("Creating Character: Wendicka")
+		Party.NewChar("Wendicka",RPGChar.UniWendicka.Stat.Level,"Wendicka")
+		CSay("Linking all data with Uniformed version of Wendicka")
+		//RPGChar.Wendicka.Link_Stat("UniWendicka","*")
+		//RPGChar.Wendicka.Link_Data("UniWendicka","*")
+		//RPGChar.Wendicka.Link_List("UniWendicka","*") 
+		//RPGChar.Wendicka.Link_Points("UniWendicka","*")
+		RPGPureChar.UniWendicka.LinkStat("*","Wendicka"); CSayF("Wendicka lv. %d->%d",RPGChar.UniWendicka.Stat.Level,RPGChar.Wendicka.Stat.Level)
+		RPGPureChar.UniWendicka.LinkData("*","Wendicka")
+		RPGPureChar.UniWendicka.LinkList("*","Wendicka")
+		RPGPureChar.UniWendicka.LinkPoints("*","Wendicka")
+		//Lua.error("Linking points not yet properly set up")
+		CSayF("All should be clear now. Wendicka has level: %04d",RPGChar.Wendicka.Stat.Level)
+		CSayF("Wendicka HP: %d -> %d/%d",RPGChar.Wendicka.Stat.END_HP,RPGPureChar.Wendicka.Points.HP.Have,RPGPureChar.Wendicka.Points.HP.Maximum) 
+	end
+	
+	void CreateCrystal()
+		//CSayF("Creation script for Crystal NOT yet done")
+		if Caps.Cycle>1 || gbool.ImportedCrystal
+			CSay("Updating level stuff for Crystal")
+			Party.GrabLevel("Crystal",RPGChar.UniCrystal.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			if RPGChar.UniCrystal.Stat.Level!=RPGChar.Crystal.Stat.Level
+				CSay("HEY! Link error on Crystal! Fixing that!")
+				//RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+				RPGPureChar.UniCrystal.LinkStat("Level","Crystal")
+			end
+			return
+		end
+		CSay("Creating character Crystal!")
+		Party.NewChar("Crystal",RPGChar.UniCrystal.Stat.Level,"Crystal")
+		CSay("Level Link for Crystal")
+		RPGPureChar.UniCrystal.LinkStat("Level","Crystal")
+		CSay("Crystal's ARMS")
+		MScript.Crystal_StartARMS()
+		// Inventory sockets
+		CSay("Crystal's inventory must be linked to her uniform self")
+		for i=1,Caps.InventorySockets
+			//RPGChar.Crystal.Link_Data("UniCrystal","INVITEM"..i)
+			//RPGChar.Crystal.Link_Stat("UniCrystal","INVAMNT"..i)
+			RPGPureChar.UniCrystal.LinkData("INVITEM"..i,"Crystal")
+			RPGPureChar.UniCrystal.LinkStat("INVAMNT"..i,"Crystal")
+			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
+		end
+
+		// Statistics
+		//for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+		//	CSayF("Linking stat: %s",st)
+		//	for substat in each { "BUFF","POWERUP","UPGRADE" }
+		//		CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+		//		RPGChar.Crystal.Link_Stat("UniCrystal",substat.."_"..st)
+		//	end
+		//	RPGChar.Crystal.Link_Stat("UniCrystal","Level")
+		//end
+		// Elemental Resistance
+		for el in each( NewArray( "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" ) )
+			CSayF("Linking elemental resistance: %s",el)
+			//if !RPGChar.UniCrystal.HasStat("ER_"..el)
+				//CSay("= Original base was non-existent. Creating!")
+				switch el
+					case "Healing"
+						RPGChar.UniCrystal.Stat["ER_"..el] = 6
+					case "DarkHealing"
+						RPGChar.UniCrystal.Stat["ER_"..el] = 0
+					default
+						RPGChar.UniCrystal.Stat["ER_"..el] = 3
+				end
+			//end
+			//if !RPGChar.UniCrystal.HasStat("ER_MODIFIER_"..el)
+			//	CSay("= Original modifier was non-existent. Creating!")
+			//	RPGChar.UniCrystal.Stat["ER_MODIFIER_"..el] = 0
+			//end
+			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_"..el)
+			//RPGChar.Crystal.Link_Stat("UniCrystal","ER_MODIFIER_"..el)
+			RPGPureChar.UniCrystal.LinkStat("ER_"..el,"Crystal")
+			RPGPureChar.UniCrystal.LinkStat("ER_MODIFIER"..el,"Crystal")
+		end
+		// Status Resistance
+		for sr in each (NewArray( "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" ) )
+			CSayF("Linking Status Change Resistance: %s",sr)
+			for subsr in each(NewArray("BASE","BUFF","EQBF" ))
+				RPGPureChar.UniCrystal.LinkStat("SR_"..subsr.."_"..sr,"Crystal")
+				// TRUE should NOT be linked!
+				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
+				//RPGChar.Crystal.Link_Stat("UniCrystal","SR_"..subsr.."_"..sr)				
+			end
+		end
+		// Experience Points
+		CSay("Linking Experience")
+		//RPGChar.Crystal.Link_Points("UniCrystal","EXP")
+		RPGPureChar.UniCrystal.LinkPoints("EXP","Crystal")
+		CSay("Cyborg Crystal Created")
+		//Lua.error("Crystal creation needs more workout!")
+	end
+
+	void Binnenkomst()
+		Map.SpawnPlayer("Voordeur")
+		if RPGParty[1]=="UniWendicka"
+			GaNaarKamer.Woonkamer()
+			MapText("CRYSTAL_UNIFORM")
+		end
+	end
+	
+	Void NPC_Brabant()
+		CSayF("Distance to flag: %1.5f",Player.Distance("NPC_Brabant"))
+		If Player.InRange("NPC_Brabant",170)
+			MapText("BRABANT."..Upper(Map.Leader))
+		End
+	End
+	
+	void NPC_Crystal_Asleep()
+		MScript.CreateWendicka()
+		MScript.CreateCrystal()
+		Player.WalkTo("SPOT_Crystal_Asleep")
+		MapText("FOUNDCRYSTAL_FOUNDHER")
+		for a = 0,255,0.4
+			Events.Poll()
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			__black
+			Graphics.SetAlpha(math.floor(a))
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+		end
+		Map.ShowByLabel("CrystalFound")
+		for a = 255,0,-0.5
+			Events.Poll()
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			__black
+			Graphics.SetAlpha(math.floor(a))
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+		end
+		MapText("FOUNDCRYSTAL_SECURITY")
+		Map.Kill("NPC_Crystal_Asleep",true)
+		MapText("FOUNDCRYSTAL_AWAKE")
+		var oyl = LoadImage("GFX/Intro/1 year later.png","SCEN_ONCE_ONE_YEAR_LATER")
+		oyl.HotCenter()
+		Graphics.Cls()
+		__White
+		oyl.Draw(Graphics.W/2,Graphics.H/2)
+		Graphics.Flip()
+		Sys.Sleep(3000)
+		RPGParty[0] = "Wendicka"
+		RPGParty[1] = ""
+		Map.Leader="Wendicka"
+		Map.Kill("NPC_MT_CrystalUniform",true)
+		Map.Kill("Crystal_Awake",true)
+		Map.Load("Excalibur - Kitchen")
+		Map.Remap()
+		Schedule.Add("Cook")
+	end
+	
+	void NPC_Scyndi()
+		FieldMenu.Go(Map.Leader,"VAULT")
+	end
+	
+	get int ExD1x
+		return gint.WendickaHome_EXD1_x
+	end
+	get int ExD2x
+		return gint.WendickaHome_EXD2_x
+	end
+	get int ExD1y
+		return gint.WendickaHome_EXD1_y
+	end
+	get int ExD2y
+		return gint.WendickaHome_EXD2_y
+	end
+	get int ExD1rot
+		return gint.WendickaHome_EXD1_rotation
+	end
+	get int ExD2rot
+		return gint.WendickaHome_EXD2_rotation
+	end
+	set int ExD1x
+		gint.WendickaHome_EXD1_x = math.floor(math.max(180,value))
+	end
+	set int ExD2x
+		gint.WendickaHome_EXD2_x = math.floor(math.max(180,value))
+	end
+	set int ExD1y
+		gint.WendickaHome_EXD1_y = math.floor(math.max(100,value))
+	end
+	set int ExD2y
+		gint.WendickaHome_EXD2_y = math.floor(math.max(100,value))
+	end
+	set int ExD1rot
+		gint.WendickaHome_EXD1_rotation = value % 360
+	end
+	set int ExD2rot
+		gint.WendickaHome_EXD2_rotation = value % 360
+	end
+	
+	void ExD()
+		Map.ShowObj("ExD1")
+		Map.SetObj("ExD1","X",ExD1x)
+		Map.SetObj("ExD1","Y",ExD1y)
+		Map.SetObj("ExD1","Rotation",ExD1rot)
+		Map.ShowObj("ExD2")
+		Map.SetObj("ExD2","X",ExD2x)
+		Map.SetObj("ExD2","Y",ExD2y)
+		Map.SetObj("ExD2","Rotation",ExD2rot)
+	end
+	
+	void Crystal_StartARMS()
+		if !Done.CrystalARMS_SetInitial
+			CrystalARMS.NewARM("Dart")
+			CrystalARMS.NewARM("HealingSpray")
+		end
+	end
+	
+	void Create_ExHuRU()
+		if Caps.Cycle==1
+			Party.NewChar("ExHuRU",20,"ExHuRU")
+		end
+	end
+	
+	void NPC_Crystal()
+		// Ignore when actor is not yet officially here
+		if !CrystalHome
+			return
+		end
+		// Fix it, Felix!
+		MapText("CRYSTAL_FIX")
+		// Red Alert
+		Music.Play("Music/Sys/Silence.ogg")
+		for i=1,10
+			CSayF("Red alert frame #%02d",i)
+			__white
+			Graphics.Cls()
+			Map.DrawScreen()
+			graphics.Flip()
+			Sys.Sleep(500)
+			Events.Poll()
+			Graphics.Color(255,0,0)
+			Graphics.SetAlpha(100)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			Sys.Sleep(500)
+			Events.Poll()
+			if i==5
+				Music.Play("Music/scenario/panic stations.ogg")
+			end
+		end
+		MapText("CRYSTAL_REDALERT")
+		// ExHuRU makes his "entrance"
+		table deur={ { ["X"]=-4,["Y"]=0-math.random(5,10), ["R"]=math.random(360,400) },{ ["Y"]=-2,["X"]=math.random(4,10), ["R"]=math.random(360,400) } }
+		Map.SpawnXY("Android",336,328)
+		Map.SetObj("Android","Texture","GFX/Actors/Player/ExHuRU.North.jpbf")
+		bool klaar
+		ExD1x = 336
+		ExD1y = 320
+		ExD1rot = math.random(0,360)
+		ExD2x = 336
+		ExD2y = 320
+		ExD2rot = math.random(0,360)
+		int timeout = 100000
+		repeat
+			timeout--
+			Lua.assert(timeout>=0,"ExHuRU kick door time-out")
+			klaar = true
+			for i,d in ipairs(deur)
+				if d.X>0
+					d.X-=0.5
+				elseif d.X<0
+					d.X+=0.5
+				end
+				if d.Y<0
+					d.Y-=0.8
+				end
+				if d.R>0
+					d.R--
+				end
+				self["ExD"..i.."X"] += d.X
+				self["ExD"..i.."Y"] += d.Y
+				self["ExD"..i.."rot"] += d.R
+				MScript.ExD()
+				Graphics.Cls()
+				Map.DrawScreen()
+				Graphics.Flip()
+				Events.Poll()
+				klaar = klaar && d.R==0
+				CSayF("%05d:> Deur #%d (%d,%d), rotation %3d! Alter(%1.2f,%1.2f):%d",timeout,i,self["ExD"..i.."X"],self["ExD"..i.."Y"],self["ExD"..i.."rot"],d.X,d.Y,d.R)
+			end
+		until klaar
+		MapText("EXHURU_BREAK")
+		Map.ObjWalkTo("Android","NPC_Crystal")
+		MapText("EXHURU_CRYSTAL")
+		Map.SetObj("Android","Texture","GFX/Actors/Player/ExHuRU.South.jpbf")
+		MapText("EXHURU_COMEWITHME")
+		MScript.Crystal_StartARMS() // I forgot this in the original getup, and since this should be ingored later anyway (also due to the New Game+ and all) it's not real danger
+		MScript.Create_ExHuRU()
+		Map.Kill("NPC_Crystal",true)
+		Map.Kill("Android")
+		RPGParty[2] = "Crystal"
+		RPGParty[3] = "ExHuRU"
+		Situation = "Under_Attack"
+		MScript.MapMusic()
+		gbool.Excalibur_Ellende_Begonnen = true
+	end
+	
+	void Vertrek()
+		switch Situation
+			case "Under_Attack"
+				Map.Load("Excalibur - UnderAttack")
+				Schedule.Add("Start")
+			case "Final"
+				//Lua.error("Exit during final mission not yet scripted!")
+				Map.GoToMap("Excalibur - Final","#005","Start")
+				Schedule.Add("LeaveTrans")
+			default
+				MapText("DONTLEAVE")
+		end
+	end
+	
+	void Update()
+	end
+
+	void Draw()
+	end
+	
+	void Load()
+	end
+
+	void _CONSTRUCTOR()
+		Party.Recover()
+		GNK = GaNaarKamer
+		for _,K in pairs {"Crystal","Woonkamer","Keuken","Wendicka","Badkamer"}
+			ZA.Enter("Kamer_"..K,"GNK."..K)
+		end
+		ZA.Enter("Exit","Vertrek")
+		Map.AllowQuitSave=false
+	end
+
+end
+
+Init; MScript._CONSTRUCTOR(); End

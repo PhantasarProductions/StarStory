@@ -1,0 +1,76 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Anyway.ScyndiBundle/CrystalARMS.scyndi
+// (c) Jeroen Broks, 2021, 2024, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.22 III
+// 
+// End License
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Link"
+#use "Script/Use/Convert/RPG2Stat"
+
+module
+	void NewARM(string name)
+	//,int bullets,int Pbullets,int hit,int phit, int power, int ppower, int weight, int pweight)
+		CSayF("New ARM: %s",name)
+		name = upper(name)
+		ARM := Item["ARM_"..name] 
+		Crystal := RPGChar.Crystal
+		
+		// Stats
+		CSayF("= Stats")
+		Crystal.Stat["ARM.HIT."..name] = ARM.ARM_Hit_Procent
+		Crystal.Stat["ARM.WEIGHT."..name] = ARM.ARM_Weight
+		Crystal.Stat["ARM.XPOWER."..name] = ARM.ARM_XPower
+		// Costs
+		CSayF("= Upgrade costs")
+		Crystal.Stat["ARM."..name..".PRICE.AMMO"] = ARM.ARM_Price_MaxAmmo
+		Crystal.Stat["ARM."..name..".PRICE.HIT"] = ARM.ARM_Price_Hit_Procent
+		Crystal.Stat["ARM."..name..".PRICE.XPOWER"] = ARM.ARM_Price_XPower 
+		Crystal.Stat["ARM."..name..".PRICE.WEIGHT"] = ARM.ARM_Price_Weight
+		// Points
+		CSayF("= Ammo")
+		Crystal.Points["ARM.AMMO."..name].Maximum=ARM.ARM_MaxAmmo
+		Crystal.Points["ARM.AMMO."..name].Have=ARM.ARM_MaxAmmo
+		// Lists
+		//Crystal.List["ARM"].Add = Name
+		CSayF("= Add to list")
+		RPGPureChar.Crystal.ListAdd("ARM",Name)
+		CSayF("ARM %s has been added to Crystal's ARM list!",name)
+	end
+
+//end

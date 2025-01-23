@@ -1,0 +1,435 @@
+// License:
+// 	  src/Script/Script/Subs/SubBoxText.Scyndi
+// 
+// 	  Version: 25.01.05
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+#use "script/use/misc/classbox"
+#use "Script/Use/Convert/Flow"
+#use "libs/Scenario_star"
+
+
+#macro __BoxTextTotalWidthMargin 225
+#macro __BoxTextFontSize 30
+#macro __BoxText_MinX 200
+
+
+Int LuaLen(a)
+	int ret=0
+	for i,_ in pairs(a)
+		ret = math.max(i,ret)
+	end
+	return ret
+End
+
+table LoadedPortret
+void InitScenario()
+
+	CSay("Configuring Scenario library")
+
+	// Set Language
+	// print(Scenario)
+	Scenario.lang = __lang
+	
+	// Link JCR to the scenario library
+	//Scenario.JCR_Lines = table(string file)
+	//table jl(string file)
+	ddef jl
+		args:=NewArray(Infinity)
+		file:=args[0]
+		//string content
+		string content
+		content = JCR6.GetString(file)
+		return xsplit(content,"\n")
+	end
+	Scenario.JCR_Lines = jl
+	
+	Scenario.print = CSay
+	Scenario.JCR_Exists = JCR6.EntryExists
+		
+end
+
+class TextBox
+	readonly static delegate Color = Graphics.Color
+	readonly static delegate Error = Lua.error
+
+	// real class
+	readonly var me
+	string Header
+	string PicDir
+	string PicSpc
+	string PicRef	
+	table Lines
+	int SL = 0
+	int SP
+	string AltTxtFont
+	string Voice
+	var Font
+	int width
+	var txtbox
+	
+	static int audiochannel
+	static bool audioplaying
+	static var audiowave
+	
+	// link up static shit
+	static table btdata
+	//link btdata = Scenario.btdata
+	static var Current
+	
+	//link Portraits = LoadedPortret
+	get table Portraits
+		return LoadedPortret
+	end
+
+	get int boxheight
+		return me.txtbox.h 
+	end
+	
+	get int boxy
+		return Graphics.H - me.boxheight
+	end
+	
+	CONSTRUCTOR(initcrap)
+		Me = self
+		CSay("Creating textbox!")
+		for k,v in pairs(initcrap)
+			CSayF("%s %s = %s",type(v),k,tostring(v))
+			self[k] = v
+		end
+		CSay("Done!")
+	end
+	
+	DESTRUCTOR
+		if ! txtbox
+			return
+		end
+		for ibox,ilnk in Box.List.Each
+			if ibox==txtbox 
+				ilnk.UnLink()
+			end
+		end
+	end
+	
+	void Portret(string picdir,string spec="GENERAL")
+		string tag := sprintf("%s.%s",picdir,spec)
+		string file := sprintf("GFX/Portret/%s/%s.png",picdir,spec)
+		if Portraits[tag]=="Nope!"
+			return
+		elseif (!JCR6.EntryExists(file))
+			Portraits[tag] = "Nope!"
+		else
+			Portraits[tag] = Portraits[tag] || LoadImage(file,"PORTRET_TAG::"..tag.."::"..file)
+			Portraits[tag].Draw(0,Graphics.H-Portraits[tag].Height)
+		end
+	end
+	
+	void Show()
+		var LFont := ObtainFont("BOXTEXT")
+		
+		self.txtbox.Draw()
+		
+		__white
+		// Dyrt: BoxPic(20,self.boxy+math.floor(self.boxheight/2),self.PicDir,self.PicSpc,"center")
+		// CSayF("DEBUG: y:%4d; h:%4d; c:%4d",self.boxy,self.boxheight,self.boxy+math.floor(self.boxheight/2)) // debug! Must be commented out in distributions!!!
+		self.Portret(PicDir,PicSpc)
+		
+		//Color(255,180,0)
+		__Red
+		//DarkText.Font(Font,self.Header,__BoxText_MinX,self.boxy+10)
+		LFont.Text(Header,__BoxText_MinX,boxy+10)
+		
+		__SkyBlue
+		//CSayF("Showing %d lines",len(Self.Lines))
+		//for i,l in pairs(self.lines); CSayF("%03d> %s",i,l); End
+		for i,l in pairs(self.Lines)
+			int p
+			if i<self.SL
+				p = len(l)
+			elseif i==self.SL
+				p = self.SP
+				self.SP++
+				if self.SP>=len(l)
+					self.SP=1
+					self.SL++
+				end
+			else
+				p=0
+			end
+			//CSayF("Debug: SL=%d; i=%d; SP=%d; p=%d",Self.SL,i,Self.SP,p) // Debug only!
+			if p>0
+				//DarkText.Font(Font,Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*21))
+				//self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*25))
+				self.Font.Text(Left(l,p),__BoxText_MinX,(self.boxy+35)+(i*__BoxTextFontSize))
+			end
+		end
+	end
+	
+	
+	static void Generate(string file, string tag,int idx,string boxback)
+		//var this
+		var f
+		var t
+		var rec
+		table sb_data
+		int width
+		var CurrentFont
+		TextBox.btdata = Scenario.btdata
+		//this = new TextBox
+		//TextBox.Current = this
+		//--	function RunBoxText(file,tag,idx,boxback)
+		//-- if not ReInit then 
+		//--	Graphics_Init()  
+		//--	ReInit = true
+		//--	This prevents the Text Box to be drawn based on wrong settings.
+		//-- end  
+		CSayF("Generate('%s', '%s', %4d, '%s') -- START!",file, tag, idx, boxback)
+		f = TextBox.btdata[file]
+		if !f 
+			//CSay(Serialize("btdata",btdata))
+			error("Boxtext file '"..file.."' has not yet been loaded!") 
+		end
+		tag = Upper(tag)
+		t = f[tag]
+		if ! t  
+			//CSay(Serialize("btdata",btdata))
+			error("Boxtext file '"..file.."' has no tag called '"..tag.."'") 
+		end
+		rec = t[idx]
+		if ! rec  
+			//CSay(Serialize("btdata",btdata))
+			error("Boxtext file '"..file.."' tag '"..tag.."' does not have a record #"..idx.." (max is "..len(t)..")") 
+		end
+		CSay("= Start sb_data")
+		//if rec.PicDir:upper()=="ERIC" and __EricIsYasathar
+		//	rec.PicDir="Yasathar"
+		//end
+		sb_data = new TextBox( { ["Header"] = gSub(rec.Header), ["PicDir"] = rec.PicDir, ["PicSpc"] = rec.PicSpc, ["Lines"] = {}, ["SL"] = 1, ["SP"]=1, ["AltTxtFont"] = rec.AltTxtFont, ["Voice"] = rec.SoundFile   } )
+		TextBox.Current = sb_data
+		width=Graphics.Width-__BoxTextTotalWidthMargin //-- standard width, this can be shortened by the portraits popping with the textbox. SW is the screen width, this need to be taken in order.
+		//local ak,txt,cline,spline
+		//local aw,word
+		//local continue
+		if rec.PicRef 
+			// TODO: Proper Image loading
+			//width = width - Image.Width(rec.PicRef)   
+		end
+		if rec.AltTxtFont && rec.AltTxtFont!="" 
+			// CSay("Setting font: "..rec.AltTxtFont,fonts.BoxText[2])
+			CurrentFont = LinkFont(rec.AltTxtFont,"BOXTEXT:"..rec.AltTxtFont)  
+			//error("No alternate font possibility yet! Code me, please!") //Image.Font(rec.AltTxtFont,fonts.BoxText[2])
+		else
+			//CurrentFont = GetFont("BOXTEXT") //setfont("BoxTextContent")
+			CurrentFont = ObtainFont("BOXTEXT")
+		end   
+		sb_data.Font = CurrentFont
+		CSay("= Textwrapping!")
+		for ak,txt in ipairs(rec.Lines) 
+			string cline
+			table spline
+			cline = ""
+			//spline = split(Var.S(txt)," ")
+			spline = xsplit(gSUB(txt)," ")
+			for aw,word in ipairs(spline)
+				if CurrentFont.Width(cline..word)>width
+					ltable.insert(sb_data.Lines,cline)
+					cline = ""
+				end
+				cline = cline .. word .. " "   
+			end
+			if cline!="" 
+				ltable.insert(sb_data.Lines,cline) 
+			end    
+		end
+		CSay("= Config portrait!")
+		sb_data.width=width    
+		sb_data.PicRef=rec.PicRef
+		//-- if tonumber(LC('Graphics.margin.top')   )~=0 then origin[2] = 25; totalwidth=totalheight-25 end
+		// if tonumber(LC('Graphics.margin.right') )~=0 then sb_data.width=sb_data.width-25 end
+		// if tonumber(LC('Graphics.margin.left') )~=0 then sb_data.width=sb_data.width-25 end
+		//-- Voice acting, if available
+		CSay("= The Voice of the Universe")
+		if sb_data.Voice && sb_data.Voice!="" && JCR6.EntryExists(sb_data.Voice) 		
+			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
+			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
+			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
+			// Audio.Play("BOXTEXTVOICE","BOXTEXTCHANNEL")
+			if audioplaying
+				audio.stop(audiochannel)
+			end
+			audiowave = Audio.Load(sb_data.Voice)
+			audiochannel = audiowave.play()
+			audioplaying = true
+		else
+			CSay("No vocals, so let's skip that!")
+			audioplaying = false
+			sb_data.Voice=nil;
+		end
+		
+		do
+			CSay("Calculating box size")
+			int h := math.max(150,( (lualen(sb_data.Lines)+1)*(__BoxTextFontSize+2))+50)
+			CSayF("Lines: %d, FontSize: __BoxTextFontSize",lualen(sb_data.Lines))
+			// print(Serialize("sb_data.lines",sb_data.Lines))
+			CSayF("Creating a box that is %d pixels high",h)
+			sb_data.txtbox = new Box(0,Graphics.Height-h,Graphics.Width,h)
+			CSayF("So far so good!")
+		end
+		CSay("= That should do it!")
+	end
+
+end
+
+
+group FlowBoxText
+	
+	string Tag
+	int Num
+	string Scen
+	string ReturnFlow
+	table btdata
+	bool hasaudio
+	int channel
+	
+	void CONSTRUCTOR()
+		InitScenario()
+	end
+	
+	
+	void InitBTFlow(string AScen, string ATag, RF, ANum)
+		self.ReturnFlow = RF // or CurrentFlow()
+		//self.Num = ANum || 1
+		self.Num = ANum || 0
+		self.Scen = AScen
+		self.Tag = Upper(ATag)
+		// GoToFlow("BOXTEXT")
+		TextBox.Generate(trim(AScen),trim(ATag),ANum,RF)
+	end
+	
+	bool Next()
+		self.Num++
+		if self.Num>=len(TextBox.btdata[trim(self.Scen)][trim(self.Tag)])
+			// GoToFlow(trim(replace(self.ReturnFlow,"FLOW_","")))
+			return false
+		else
+			TextBox.Generate(trim(self.Scen),trim(self.Tag),self.Num,self.ReturnFlow)
+			return true
+		end
+	end
+	
+	void Run()
+		repeat
+			Graphics.Cls()
+			Events.Poll()
+			//FPS.WaitMinTicks()
+			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
+			TextBox.Current.Show()
+//#if DEBUG
+			if Events.KeyHit(27); Sys.Exit(500); Return; End
+//#fi
+			if TextBox.Current.SL>=len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
+				if !FlowBoxText.Next()
+					return
+				end
+			end
+			Flip()
+		forever
+	end
+	
+	void Serial(string AScen, string ATag, RF, ANum)
+		Self.InitBTFlow(AScen,ATag,RF,ANum)
+		CSay(tostring(Textbox.audioplaying))
+		CSay("Let's do it!")
+		Self.Run()
+	end
+	
+end
+
+
+
+//global void BUB_Draw()
+//	LuaDoString(trim(FlowBoxText.ReturnFlow),"BoxText_Back()","BoxText BackGrCall: ("..trim(FlowBoxText.ReturnFlow)..")")
+//	TextBox.Current.Show()
+//	
+//	// Draw all achievement boxes
+//	Achievements.DrawAll()
+//
+//	
+//	__white
+//	Mouse.Show()
+//end
+
+//global void BUB_Update()
+//	// debug
+//	Dev.ConCheck()
+//	
+//	// Time
+//	Time.Update()
+
+	
+//	// Click and move on to the next, or return to the correct flow
+//	if Mouse.HitLeft or Keyboard.Name=="Enter" or Keyboard.Name=="Space"
+//		FlowBoxText.Next()
+//	end
+//end
+
+
+
+
+group BXT
+end
+
+
+
+init
+	InitScenario()
+end

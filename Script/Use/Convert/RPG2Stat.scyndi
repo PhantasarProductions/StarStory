@@ -1,0 +1,297 @@
+// License:
+// 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
+// 	RPG to Statician conversion
+// 	version: 25.01.22 I
+// 
+// 	Copyright (C) 2024, 2025 Jeroen P. Brok
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Statistician"
+
+plua _modifiers = { "POWERUP", "UPGRADE", "BUFF" }
+//plua _links = { ["Wendicka"]="UniWendicka", ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
+//For Wendicka ALL data has to be linked with her Uniform version anyway, so that would be easy, right?
+plua _links = { ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
+plua _stat = Statistician.CreateNew("STAR_STORY")
+plua _char
+
+//Global ReadOnly Var RPGParty = _Stat.Party
+QuickMeta RPGParty
+	newindex
+		//error("Fuck it! Read only on RPGParty")
+		assert(Lua.type(key)=="number","Number expected for index to change")
+		if key<0 || key>5
+			CSay(Lua.debug.traceback())
+			error("Invalid party index")
+		end
+		_Stat.Party[key] = Value
+	end
+	
+	index
+		assert(Lua.type(key)=="number","Number expected for input")
+		if key<0 || key>5
+			CSay(Lua.debug.traceback())
+			error("Invalid party index")
+		end
+		return _Stat.Party[key]
+	end
+end
+	
+Void __RC_Create(String Tag,String Name="")
+	_Name:=Ternary(Name=="",Tag,Name)
+	CSayF("Creating character %s -> %s",Tag,_Name)
+	_stat.NewChar(Tag,_Name)
+End
+
+Int CharStat(data,String Key)
+	c:=Data.parent._chkey
+	d:=data.parent._chdata
+	sk:=XSplit(Key,"_")
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level" || Prefixed(Key,"ER_") || Prefixed(Key,"SR_") || Prefixed(Key,"ARM.")
+		Return d.Stat[Key]
+	end	
+	if Len(sk)==2
+		Switch sk[0]
+			Case "BASE"
+				Return d.BStat[sk[1]]
+			Case "END"
+				Return d.Stat[sk[1]]
+			Case "POWERUP" "UPGRADE" "BUFF"
+				if _links[c]
+					d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]]
+				end
+				return d.XStat[sk[1]].Buff[sk[0]]
+		End
+	end		
+	Lua.error("No full stat function yet, so I cannot get to stat "..key.." yet for "..data.parent._chkey)
+End
+
+Void CharStatSet(data,String Key,Int Value)
+	c:=Data.parent._chkey
+	d:=data.parent._chdata
+	sk:=XSplit(Key,"_")
+	If Prefixed(Key,"INVAMNT") || Key=="AMMO" || Key=="Level" || Prefixed(Key,"ER_") || Prefixed(Key,"SR_") || Upper(Key)=="AMMO" || Prefixed(Key,"ARM.")
+		d.Stat[Key]=Value
+		Return
+	end	
+	if Len(sk)==2
+		Switch sk[0]
+			Case "END"
+				//Lua.error("END stats are readonly so "..key.." cannot be defined for "..Data.parent._chkey)
+				CSay("END stats are readonly so "..key.." cannot be defined for "..Data.parent._chkey.." \t Request ignored!")
+				Return
+			Case "BASE"
+				d.Stat[sk[1]]=Value
+				return
+			Case "POWERUP" "UPGRADE" "BUFF"
+				d.XStat[sk[1]].Buff[sk[0]]=Value
+				if _links[c]
+					Lua.Scyndi.Globals.RPGChar[_links[c]].Stat[Key]=value
+					//XStat[sk[1]].Buff[sk[0]]=Value
+				end
+				return
+			
+		End
+	End
+	printf("sk#%d\n",len(sk))
+	Lua.error("I cannot set to stat "..key.." yet for "..data.parent._chkey)
+End
+
+plua ChList(s,k)
+	ddef idx
+		plua slf
+		plua i
+		//print("List Index ",infinity)
+		slf,i = infinity
+		switch Type(i)
+			Case "number"
+				return slf.__parent.__chdata.list[slf.__key][i]
+			Case "string"
+				switch Upper(i)
+					case "EACH"
+						int i=0
+						ddef r
+							ci:=i
+							i++
+							if ci>=slf.__parent.__chdata.ListSize(slf.__key)
+								return nil,nil
+							else
+								return slf.__parent._chdata.list[slf.__key][ci],ci
+							end
+						end
+						return r
+					case "SIZE" "LEN" "LENGTH" 
+						return slf.__parent.__chdata.ListSize(slf.__key)
+					default
+						ddef hv
+							return slf.__parent._chdata.ListHas(slf.__key,infinity)
+						end
+						return hv
+						//Lua.error("RPG list does not recognize method/property: "..i)
+				end
+			Default
+				lua.error("RPG list has not methods, indexes or properties of type: "..type(i))
+		end
+	end	
+	ddef newidx
+		plua slf
+		int i
+		string v
+		print("List New Index ",infinity)
+		slf,i,v = infinity
+		slf.__parent.__chdata.list[slf.__key][i] = v 
+	end
+	table ret
+	table met
+	DefTable ret
+		__key = k
+		__parent = s
+	end
+	DefTable met
+		__index = idx
+		__newindex = newidx
+	end
+	return SetMetaTable(ret,met)
+end
+
+
+
+plua CharMeta(String ChKey)
+	ret:={}
+	mettable:={}
+	ddef NoNewIndex
+		Lua.error("Cannot overwrite characters")
+	end
+	ddef ChIndex
+		args:=NewArray(Infinity)
+		this:=args[0]
+		key:=Upper(args[1])
+		switch Key
+			Case "NAME" "DATA" "POINTS"
+				return this._chdata[Key]
+			Case "LIST"
+				//CSayF("Char %s -> List %s",this._chkey,key)
+				//this._chlist[key] = this._chlist[key] || ChList(ret,Key)
+				//return this._chlist				
+				if !ret._chlist[Key]
+					ddef NoWay
+						Lua.error("List is a read-only")
+					End
+					plua r
+					plua m
+					DefTable m
+						__newindex = NoWay
+						__index    = ChList
+					End
+					DefTable r
+						__parent = ret
+						__key    = Key
+					end
+					ret._chlist[Key] = SetMetaTable(r,m)
+				end
+				return ret._chlist[Key]
+			Case "STAT" "STATS"
+				//Lua.error("Stat viewing and manipulation not YET supported")
+				return this._chstat
+			case "HAVESTAT" "STATEXISTS"
+				return this._chdata.HaveStat
+			Case "STATSCRIPT"
+				CSayF("STATSCRIPT has become irrelevant! Skipping!")
+				return {}
+			default
+				Lua.error("Unknown stat data key: "..Key)
+		End		
+	end	
+	mettable.__newindex=NoNewIndex
+	mettable.__index=ChIndex
+	ret._chkey=ChKey
+	ret._chdata=_stat.Char[ChKey]
+	ret._chstat=SetMetaTable({["parent"]=ret},{["__index"]=CharStat,["__newindex"]=CharStatSet})
+	ret._chlist={}
+
+	CSayF("Setting up character distraction record for: %s",ChKey)
+	//printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback()) // debug
+	return SetMetaTable(ret,mettable)
+End
+
+QuickMeta RPGChar__GetChar
+	newindex
+		Lua.error("RPG Character records are read-only")
+	end
+	index
+		_char = _char || {}
+		_char[Key] = _Char[Key] || CharMeta(Key)
+		return _char[Key]
+	end
+End
+
+plua __KillCh(String Tag)
+	CSayF("Kill character: %s",Tag)
+	_stat.KillChar(Tag)
+End
+
+QuickMeta RPGChar
+	index
+		//Lua.error("RPGChar Index Not Yet Implemented ("..key..")")
+		Switch Type(Key)
+			case "number"
+				return _stat.Party[key-1]
+			case "string"
+				Switch Upper(Key)
+					case "ALL"
+						//Lua.error("No support for ALL in RPGChar yet")
+						ret:={}
+						for i=0,5
+							if _stat.Party[i]!=""
+								ret+=_stat.Party[i]
+							end
+						end
+						return ret
+					case "KILL"
+						return __KillCh	
+						//Lua.error("No support for KILL in RPGChar yet")
+					case "HAS"
+						Lua.error("No support for HAS in RPGChar yet")
+					case "CREATE"
+						return __RC_Create
+					default
+						return RPGChar__GetChar[Key]
+				End
+			default lua.error("I cannot deal with "..type(Key).." to index for RPGChar")
+		End
+	End
+	
+	newindex
+		Lua.error("RPGChar New Index Not Yet Implemented")
+	End	
+End
+
+QuickMeta RPGPureChar
+	index
+		//print("PureChar",key)
+		r:= _stat.Char[Key]
+		return r
+	end
+	newindex
+		lua.error(sprintf("RPGPurChar does not allow edits, so why do you want to assign %s to %s?",Value,key))
+	end
+end

@@ -1,0 +1,309 @@
+// License:
+// 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
+// 
+// 	  Version: 25.01.21 IV
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+#undef FMItemStackCheck
+
+#use "Libs/FitText"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#Use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/use/Convert/Flow"
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
+
+module
+	readonly var Socket = ObtainImage("ITEM_SOCKET")
+	readonly var Fnt = ObtainFont("SYSFONT")
+	readonly var Trash = ObtainImage("TRASH")
+	readonly var IUse = ObtainImage("USE")
+	readonly var Buzz = Audio.Obtain("BUZZ")
+	string cItem
+	string rcItem
+	string LSituation
+	int rsItem
+	delegate Sell
+	
+	Bool Use(string tItem,string cht)
+		Var  ch   := RPGChar[cht]
+		Var  UItm := Item[tItem]
+		Bool Ret  = False
+		// Not usable? Then don't even check for what's to come!
+		if !UItm.UseField
+			Buzz.Play()
+			Return False
+		End
+		// Healing
+		If UItm.Healing>0 && ch.Points.HP.Have<ch.Points.HP.Maximum
+			Switch UItm.HealingType
+				Case "Absolute"
+					ch.Points.HP.Have += UItm.Healing
+					CSayF("Absolute healing %d",UItm.Healing)
+				Case "Percent"
+					ch.Points.HP.Have += math.ceil((UItm.Healing / 100) * ch.Points.HP.Maximum)
+					CSayF("Percent healing %d%%",UItm.Healing)
+				Default
+					Lua.error("Unknown HealingType: "..UItm.HealingType)
+			End
+			Ret = true
+		End
+		// AP Recovery
+		If UItm.APRecover>0 && ch.Points.AP.Have<ch.Points.AP.Maximum
+			Switch UItm.APRecoverType
+				Case "Absolute"
+					ch.Points.AP.Have += UItm.APRecover
+				Case "Percent"
+					ch.Points.AP.Have += math.ceil((UItm.APRecover / 100) * ch.Points.AP.Maximum)
+				Default
+					Lua.error("Unknown APRecoverType: "..UItm.APRecoverType)
+			End
+			Ret = true
+		End
+		// Grant EXP
+		If UItm.GrantEXP>0 && ch.Points.EXP.Have<ch.Points.EXP.Maximum && ch.Stat.Level<Caps.LevelCap
+			Switch UItm.GrantEXPType
+				Case "Absolute"
+					ch.Points.EXP.Have += UItm.GrantEXP
+				Case "Percent"
+					ch.Points.EXP.Have += math.ceil((UItm.GrantEXP / 100) * ch.Points.EXP.Maximum)
+				Default
+					Lua.error("Unknown GrantEXPType: "..UItm.GrantEXPType)
+			End
+			Ret = true
+		End
+		// Permabuffs
+		Static Table pbm = {["HP"]=100,["AP"]=5}
+		Static Table pbms = {5,3,1}
+		For _,stat in pairs {"Strength","Defense","Agility","Will","Resistance","Accuracy","Evasion","HP","AP"}
+			If Uitm["PermaBuff_"..stat] && ch.Stat["BASE_"..stat]>0
+				ch.Stat["POWERUP_"..stat] += math.ceil( (pbm[stat] or 1) * pbms[__skill] ) 
+				Ret = true
+			End
+		End
+		// Not used? Buzz!
+		If !Ret			
+			Buzz.Play()
+		End
+		// Return the result
+		Return Ret
+	End
+	
+	Void GetIt(int slot,string cht)
+		CSayF("Retrieving item #%d, from character %s",slot,cht)
+		var ch  := RPGChar[cht]
+		string ittag := Upper(ch.Data[sprintf("INVITEM%d",slot)])
+		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
+		if itamt == 0
+			return
+		end
+		if prefixed(LSituation,"COMBAT_")	
+			CSayF("%s => %s (%s)",ittag,Lua.tostring(Item["ITM_"..ittag].UseCombat),Lua.type(Item["ITM_"..ittag].UseCombat))
+			If Item["ITM_"..ittag].UseCombat
+				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem",sprintf("\"ITM_%s\",%d",ittag,slot))
+			Else
+				Static Var Buzz = Audio.Obtain("BUZZ")
+				Buzz.Play()
+			End
+			return
+		end
+		CSay("= Not in combat, so let's just 'drag 'n drop'")
+		ch.Stat[sprintf("INVAMNT%d",slot)]--
+		citem=ittag
+		rcitem = cht
+		rsitem=slot
+		JwlRecalc(cht)
+		CSay("= Getting item done!")
+	end
+	
+	bool PlaceIt(int slot,string cht,string item)
+		var ch  := RPGChar[cht]
+		string ittag := Upper(ch.Data[sprintf("INVITEM%d",slot)])
+		int itamt    := ch.Stat[sprintf("INVAMNT%d",slot)]
+		CSayF("PlaceIt(%d,'%s','%s'): ittag='%s'; itmt=%3d;",slot,cht,item,ittag,itamt)
+		item = Upper(item)
+		if itamt>=Caps.InventoryMaxStack
+			return false
+		end
+		if itamt==0
+			CSayF("%s:>Nothing on slot %d yet, so let's make it home for item %s",cht,slot,item)
+		elseif item!=ittag
+			return false
+		end
+		ch.Stat[sprintf("INVAMNT%d",slot)]++
+		ch.Data[sprintf("INVITEM%d",slot)]=item
+		if citem==item
+			citem=""
+		end
+		JwlRecalc(cht)		
+		return true
+	end
+	
+	void Flow(uBox,string CharTag,string situation)
+		if CharTag=="Briggs"
+			return
+		end
+#if FMItemStackCheck
+		//Static Int StackCheck=0
+		locextern StackCheck "FMItemStackCheck_Debug"
+		StackCheck++
+		CSayF("Start: Item flow: %d",StackCheck)
+#fi
+		LSituation = situation
+		int pmx := Events.MouseX
+		int pmy := Events.MouseY
+		int mx  := pmx - ubox.x
+		int my  := pmy - ubox.y
+		bool ml := Events.MouseHitLeft
+		bool mr := Events.MouseHitRight
+		var ch  := RPGChar[CharTag]
+		var it
+		string itn = ""
+		string itd = ""
+		string its = ""
+		__White
+		for i=1,Caps.InventorySockets
+			int ci := i-1
+			int cy := math.floor(ci/Caps.InventorySocketRow) + 2
+			int cx := (ci % Caps.InventorySocketRow) + 2
+			string ittag := ch.Data[sprintf("INVITEM%d",i)]
+			int itamt    := ch.Stat[sprintf("INVAMNT%d",i)]
+			Socket.Draw(uBox.x+(cx*35),ubox.y+(cy*35))
+			// CSayF("Check: %s; %02d > %s:%d",CharTag,i,ittag,itamt) // debug only
+			it = nil
+			if itamt>0
+				it = Item["ITM_"..ittag]
+				it.Icon.Draw(uBox.x+(cx*35)+17,uBox.y+(cy*35)+35)
+				if itamt>1
+					Fnt.DarkText(itamt,uBox.x+(cx*35)+35,uBox.y+(cy*35)+35,1,1)
+				end
+			end
+			if mx>(cx*35) && my>(cy*35) && (mx<((cx+1)*35)) && (my<((cy+1)*35))
+				if it
+					//FitText.Text(Fnt,Lua.tostring(it.Name),pmx+20,pmy+20)
+					//FitText.Text(Fnt,Lua.tostring(it.Description),pmx+20,pmy+55)
+					itn = it.Name
+					itd = it.Description
+					if upper(situation)=="SHOP"
+						if it.ITM_Sellable && it.ITM_SellPrice>0
+							its = sprintf("Sell price: %d credits",it.ITM_SellPrice)
+						else
+							its = "This item cannot be sold"
+						end
+					end
+				end
+				if ml
+					switch upper(situation)
+						case "FIELD" "VAULT" "COMBAT_ITEMS" "SHOP" "PHANSHOP"
+							CSayF("Click! Socket #%d; Carry item: %s, socket amount: %d",i,cItem,itamt)
+							if cItem=="" and itamt==0
+								CSayF("Player clicked socket #%d for some reason I don't know!",i)
+							elseif cItem=="" and itamt>0
+								GetIt(i,CharTag)
+							elseif itamt==0
+								PlaceIt(i,CharTag,citem)
+							elseif ittag==citem && __skill!=3
+								PlaceIt(i,CharTag,citem)
+							elseif itamt==1
+								string swp = citem
+								GetIt(i,CharTag)					
+								PlaceIt(i,CharTag,swp)
+							end
+						default
+							lua.error("Situation unknown: "..situation)
+					end
+				elseif mr
+					switch upper(situation)
+						case "SHOP"
+							Invoke(Sell,CharTag,i)
+						case "FIELD"
+							If ch.Stat[sprintf("INVAMNT%d",i)]<=0
+								Buzz.Play()
+							ElseIf Use(Upper("ITM_"..ch.Data[sprintf("INVITEM%d",i)]),CharTag)
+								ch.Stat[sprintf("INVAMNT%d",i)]--
+							End
+						case "VAULT"
+							If ch.Stat[sprintf("INVAMNT%d",i)]<=0
+								Buzz.Play()
+							ElseIf Vault.Has(ch.Data[sprintf("INVITEM%d",i)]) < Caps.InventoryMaxVaultStack
+								Vault.Store(ch.Data[sprintf("INVITEM%d",i)])
+								ch.Stat[sprintf("INVAMNT%d",i)]--
+							Else
+								Buzz.Play()
+							End
+						default
+							CSayF("Nothing appears to be done in situation %s",situation)
+					end
+				end
+			end
+		end
+		if upper(situation)=="FIELD" || upper(situation)=="VAULT" || upper(situation)=="SHOP" || upper(situation)=="PHANSHOP" 
+			Trash.Draw(ubox.x+ubox.w-Trash.Width,ubox.y+ubox.h-Trash.Height)
+			if ml && Mx>ubox.w-Trash.Width && my<ubox.h && my>ubox.h-Trash.Height && cItem!=""
+				CSayF("Trashing: %s",cItem)
+				cItem=""
+			end
+		end
+		if upper(situation)=="FIELD"
+			iUse.Draw(ubox.x+ubox.w-math.floor(Trash.Width*2.5),ubox.y+ubox.h-iUse.Height)
+			if ml && cItem!="" && my<ubox.h && my>ubox.h-Trash.Height && Mx<ubox.w-Trash.Width && ubox.x+ubox.w-math.floor(Trash.Width*2.5)
+				if Use("ITM_"..cItem,CharTag)
+					cItem=""
+				end
+			end
+		end
+		FitText.Dark(Fnt,itn,pmx+20,pmy+20)
+		FitText.Dark(Fnt,itd,pmx+20,pmy+55)
+		FitText.Dark(Fnt,its,pmx+20,pmy+90)
+#if FMItemStackCheck
+		StackCheck--
+		CSayF("  End: Item flow: %d",StackCheck)
+#fi
+
+	end
+//end

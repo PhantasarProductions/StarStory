@@ -1,0 +1,508 @@
+// License:
+// 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
+// 
+// 	  Version: 25.01.21 II
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "libs/LinkedList"
+#use "libs/SCI/Graphics"
+#use "libs/SCI/InterVar"
+#use "Script/Use/Misc/Resistance"
+#use "Script/use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
+
+class Combat_Hurt
+	int CD=125
+	readonly string txt
+	readonly int x
+	readonly int y
+	readonly int r
+	readonly int g
+	readonly int b
+	readonly bool Big
+		
+	get int ymod
+		return 125-CD
+	end
+	
+	void Draw(NCD)
+		//static var
+		locExtern bfont "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d_b"
+		locExtern sfont "__Static__Combat_Hurt_Draw_a823e36e002401d6ff8b9d3c5738421d_s"
+		bfont = bfont || ObtainFont("BoxText")
+		sfont = sfont || ObtainFont("SysFont")
+		Graphics.Color(r,g,b)
+		Ternary(Big,bfont,sfont).DarkText(txt,x,y-ymod,2,2)
+		if ! NCD
+			CD = math.max(0,CD-1)
+		end
+	end
+	
+	Constructor(string atxt,int ax,int ay,int ar,int ag,int ab,aBig)
+		txt = atxt
+		x   = ax
+		y   = ay
+		r   = ar
+		g   = ag
+		b   = ab
+		big = aBig!=nil && aBig!=false
+	end
+end
+
+
+plua Secret_Fighters_List = {}
+class Combat_Fighter
+	// string Tag // All same pointer?
+	
+	// Override these!
+	//get int X
+	//	Lua.error("Hey! You can't access Combat_Fighter.X like that!")
+	//	return 0
+	//end 
+	//get int Y
+	//	Lua.error("Hey! You can't access Combat_Fighter.T like that!")
+	//	return 0
+	//end 
+	//get bool Available
+	//	return false
+	//end
+	
+	// Conflicts as properties cannot (yet) be overridden
+	// And Team should always be present anyway!
+	//get string Team
+	//	return "Unknown"
+	//end
+	//get bool Guarding
+	//	return false
+	//end
+	
+	abstract void Draw()
+	abstract void TIcon(int x,int y)
+	abstract bool Pose(Act)
+	
+	// If hurt, this will be called, if defined!
+	Delegate HurtResponse
+	
+	// And these should not be overridden	
+	get bool FlawlessVictory		
+		return Lua.Scyndi.Globals.FlawlessVictory
+		
+	end
+	
+	set bool FlawlessVictory
+		Lua.Scyndi.Globals.FlawlessVictory = value
+	end
+
+	
+	table _statchange
+	table StatusChange
+	
+	readonly var HurtLijst
+	
+	void HurtShow()
+		if HurtLijst.Count>0
+			var L := HurtLijst.First
+			var H := L.MyObject
+			H.Draw()
+			if H.CD<=0
+				L.Unlink()
+			end
+		end
+	end
+	
+	void Hurt(string txt,int r=255,int g=255,int b=255,abig)
+		// Due to a void issue, I had to use Self.
+		// I guess I could bypass this due to this being a script, but this *is* disgusting.
+		HurtLijst.AddLast(new Combat_Hurt(txt,Self.X,Self.Y-10,r,g,b,abig))
+	end
+	
+	string HurtBig(int _hp)
+		if _hp>15000000
+			return sprintf("%dM",round(_hp/1000000))
+		elseif hp>25000
+			return sprintf("%dK",round(_hp/1000))
+		else
+			return sprintf("%d",_hp)
+		end
+	end
+
+	void Pain(int _hp,string element,noapgain)
+		//function Hurt(tg,ti,hp,element)
+		int r
+		int g
+		int b
+			r,g,b = 255,255,255
+		string report := self.HurtBig(round(_hp))
+		int dodmg  := round(_hp)
+		//local chtarget = FighterTag(tg,ti)
+		bool jack := gbool["CHEAT.JACK"]
+		bool god  := gbool["CHEAT.GOD"]
+		//if RPGChar.StatExists(chtarget,"ER_Healing")==0 then RPGChar.DefStat(chtarget,"ER_Healing",6) end
+		if !RPGChar[self.Tag].StatExists("ER_Healing")
+			RPGChar[self.Tag].Stat.ER_Healing=6
+		end
+		// From original game... 
+		// local elementalresistance = ({
+		//                             [1] = function() return RPGStat.Stat(chtarget,"ER_"..element) end,
+		//                             [0] = function() return 3 end
+		//    })[RPGStat.StatExists(chtarget,"ER_"..(element or "Non-Elemental"))]();
+		int elementalresistance = 3
+		if RPGChar[self.Tag].StatExists("ER_"..element)
+    		elementalresistance = RPGChar[self.Tag].Stat["ER_"..element]
+    	else
+    		CSayF("%s> Note! ER_%s is non-existent, so filling in default value: %d",self.Tag,element,elementalresistance)
+    	end
+    	if self.Team=="Hero"
+    		elementalresistance = CharRes[self.Tag][element]
+    	end
+    	// if RPGStat.GetData(Fighters[tg][ti].Tag,"IMMUNE")=="YES" then elementalresistance=5 end                              
+    	// -- @IF DEBUG_HURT
+    	// CSay("HURT: Received data "..tg..","..ti..","..hp..","..(element or "Non-Elemental"))
+    	// CSay("HURT: Resistance is "..elementalresistance);
+    	// -- @FI
+    	if self.Char.Data.IMMUNE=="YES"
+    		elementalresistance=5
+    	end
+    	// Old code remorphed. Please note... Lua may not support switch statements, but Neil does!
+    	// (({   -- Lua way of doing a 'switch case' statment. Ugly I know, but it works. :-P
+    	//  -- (In this case ";" must be behind the last command. One of the few cases where Lua requires the use of ";". That is only the case if the last command before this ends with a ")")
+    	CSayF("%s> %d damage in element %s - Resistance %d",self.Tag,hp,element,elementalresistance)
+    	switch elementalresistance
+    	case 0
+              //   [0] = function() -- fatal
+                       report = "DEATH"
+                       r,g,b = 255,0,0
+                       dodmg = Self.HP //RPGStat.Points(chtarget,"HP").Have
+                       // TODO: Replace code, but status changes need to be ready for this!
+                       //for status in iStatusChange(chtarget) do
+                       //    if StatusAltFatal[status] then dodmg,report,r,g,b = StatusAltFatal[status](chtarget,dodmg,element) end
+                       //    end                       
+                       //end,
+    	case 1                  
+              //   [1] = function() -- super weakness
+                       dodmg = dodmg * 4
+                       report = self.HurtBig(dodmg)
+                       r,g,b = 255,0,0
+                       //for status in iStatusChange(chtarget) do
+                       //    if StatusAltUltraWeak[status] then dodmg,report,r,g,b = StatusAltUltraWeak[status](chtarget,dodmg,element) end
+                       //    end                       
+                       //end,
+    	case 2                       
+              //   [2] = function() -- regular weakness
+                       dodmg = round(dodmg * 1.75)       
+                       report = self.HurtBig(dodmg)
+                       r,g,b = 255,80,0
+                       //for status in iStatusChange(chtarget) do
+                       //    if StatusAltWeak[status] then dodmg,report,r,g,b = StatusAltWeak[status](chtarget,dodmg,element) end
+                       //    end
+                       // end,
+    	case 4
+              //   [4] = function() -- half
+                       dodmg = math.max(1,round(dodmg/2))
+                       // if dodmg<1 then dodmg=1 end
+                       report = self.HurtBig(dodmg)
+                       r,g,b = 255,180,0
+                       //for status in iStatusChange(chtarget) do
+                       //    if StatusAltHalved[status] then dodmg,report,r,g,b = StatusAltHalved[status](chtarget,dodmg,element) end
+                       //    end
+                       //end,
+    	case 5
+              //   [5] = function() -- resistent
+                       dodmg = 0
+                       report = "NO EFFECT!"      
+                       r,g,b = 255,180,0
+                //       end,
+    	case 6
+              //   [6] = function()
+              //         if RPGChar.Points(chtarget,"HP").Have == 0 then
+                       if self.HP==0
+                          dodmg = 0
+                          report = "NO EFFECT!"      
+                          r,g,b = 255,180,0
+                          return
+                       end
+                       dodmg = math.abs(dodmg)*(-1)
+                       report = self.HurtBig(math.abs(dodmg))
+                       r,g,b = 0,255,0
+                       //for status in iStatusChange(chtarget) do
+                       //    if StatusAltHealing[status] then dodmg,report,r,g,b = StatusAltHealing[status](chtarget,dodmg,element) end
+                       //    end
+                       //end,
+    	default
+    		//
+            //     default = function() end      -- In all other situations (which includes situation 3) do nothing :)
+            //   })[elementalresistance] or function()
+            
+            // Mind this!!!
+            //           for status in iStatusChange(chtarget) do
+            //               if StatusAltNormalHurt[status] then dodmg,report,r,g,b = StatusAltNormalHurt[status](chtarget,dodmg,element) end
+            //               end
+            //      end)()
+		end
+		FlawlessVictory = FlawlessVictory and (not(self.Team=="Hero" and dodmg>0 and elementalresistance<5))
+		if god and self.Team=="Hero" and elementalresistance<5 
+			dodmg = 0 
+		end
+		if jack and self.Team=="Foe" and elementalresistance<6 
+			dodmg = Self.HP //RPGStat.Points(chtarget,"HP").Have end		
+			//RPGStat.Points(chtarget,"HP").Have = RPGStat.Points(chtarget,"HP").Have - dodmg
+			self.HP -= dodmg
+		end
+		self.HP -= dodmg
+		// if tg=="Hero" and RPGChar.Points(chtarget,"HP").Have>0 then UpPoint(i) end --RPGChar.Points(chtarget,"AP").Have = RPGChar.Points(chtarget,"AP").Have + 1 end
+		if self.Team=="Hero" and Self.HP>0 
+			self.UpAP()
+		end
+		//CharReport(tg,ti,report,{r,g,b})
+		self.Hurt(Report,r,g,b,true)
+		//if RPGChar.Points(chtarget,"HP").Have==0 then RPGChar.ClearList(chtarget,"STATUSCHANGE") end -- Remove all statuschanges when you die.
+		if (!noapgain) && (self.Team=="Hero")
+			self.UpAP()
+		end
+		CSayF("%s received %d damage => Left %d of %d HP",self.Tag,dodmg,self.HP,self.MaxHP)
+		Invoke(HurtResponse)
+	end
+
+	void Heal(int hp)
+		Self.Pain (  hp , "Healing")
+	end	
+	
+	get table Char
+		locExtern this "self"
+		return RPGChar[this.Tag]
+	end
+	
+	get int HP
+		return Char.Points.HP.Have
+	end
+	set int HP
+		Char.Points.HP.Have=value
+	end
+	get int MaxHP
+		return Char.Points.HP.Maximum
+	end
+	get int AP
+		locExtern _Self "self"
+		if _Self.Team=="Hero"
+			return Char.Points.AP.Have
+		end
+		return 0
+	end
+	set int AP
+		locExtern _Self "self"
+		if _self.Team=="Hero"
+			Char.Points.AP.Have = value
+		else
+			CSayF("Hey! '%s' is not a hero so the AP value cannot be changed! So what to do with value %d?",Self.Tag,value)
+		end
+	end
+	get int APMax
+		locExtern _Self "self"
+		if _Self.Team=="Hero"
+			return Char.Points.AP.Maximum
+		end
+		return 0
+	end
+	
+	get int Ammo
+		return Char.Points.Ammo.Have
+	end
+	set int Ammo
+		Char.Points.Ammo.Have=value
+	end
+	get int MaxAmmo
+		return Char.Points.Ammo.Maximum
+	end
+	get int AmmoMax
+		return Char.Points.Ammo.Maximum
+	end
+	
+	get string Name
+		return Char.Name
+	end
+	
+	// Position on the time gauge
+	int Gauge = 0
+		
+	
+	table Stats = nil
+	table Buffs = nil
+	void InitStats()
+		//int StatIndex(s,string key)
+		ddef StatIndex
+			plua s
+			string key
+			s,key = infinity
+			return Char.Stat["END_"..key]
+		end
+		//void StatNewIndex(s,string key,int v)
+		ddef StatNewIndex
+			plua s
+			string key
+			int v
+			s,key,v = infinity
+			Lua.error(sprintf("You cannot assign value %d to Combat_Fighter.%s.Stat.%s because it's read-only!",v,self.Tag,key))
+		end
+		//int BuffIndex(s,string key)
+		ddef BuffIndex
+			plua s
+			string key
+			s,key = infinity
+			return Char.Stat["BUFF_"..key]
+		end
+		//void BuffNewIndex(s,string ket, int v)
+		ddef BuffNewIndex
+			plua s
+			string key
+			int v
+			s,key,v = infinity
+			Char.Stat["BUFF_"..key]=v
+		end
+		Stats = setmetatable({},{["__index"]=StatIndex,["__newindex"]=StatNewIndex})
+		Buffs = setmetatable({},{["__index"]=BuffIndex,["__newindex"]=BuffNewIndex})
+		CSayF("Metatables set for stats and buffs at character '%s'",self.Tag)
+		_statchange = {}
+		//void sc_set(s,string key,bool value)
+		ddef sc_set
+			plua s
+			string key
+			bool value
+			s,key,value = infinity
+			key = upper(key)
+			switch key
+				case "DESTRUCTION"
+					if value
+						self.HP = 0
+					end
+				case "DEATH" "FALLEN" "DEAD"
+					if _statchange.DAMNED || _statchange.ZOMBIE || _statchange.UNDEAD
+						if value
+							self.HP = self.MaxHP
+						else
+							self.HP = 0
+						end
+					else
+						if value
+							self.HP = 0
+						elseif self.HP==0
+							self.HP=1
+						end
+					end
+				default
+					_statchange[key] = value
+			end			
+		end
+		//bool sc_get(s,string key)
+		ddef sc_get
+			plua s
+			string key
+			s,key = infinity
+			key = upper(key)
+			switch key
+				case "DEATH" "FALLEN" "DEAD"
+					return self.HP==0
+				default
+					return _statchange[key]==true
+			end
+		end
+		//delegate sc_keys(s)
+		ddef sc_keys
+			s:=infinity
+			table k
+			int i = 0
+			if self.HP==0
+				k = {"FALLEN"}
+			else
+				k = {}
+				for sk,v in spairs(_statchange)
+					if v
+						k += sk
+					end
+				end
+			end
+			//var ret()
+			ddef ret
+				i++
+				return k[i]
+			end
+			return ret
+		end
+		StatusChange = setmetatable({},{["__index"]=sc_get,["__newindex"]=sc_set,["__call"]=sc_keys})
+	end
+	
+	var NextAct = nil
+	var ChargedAct = nil
+	
+	//static readonly table Fighters
+	Static Get Var Fighters
+		Return Secret_Fighters_List
+	End
+	
+	static void Add(obj)
+		Fighters[obj.Tag] = obj
+	end
+	
+	get bool TeamDefeated
+		locExtern me "self"
+		return Lua.Scyndi.Globals.Defeated[me.Team]
+	end
+	
+end
+
+QuickMeta Defeated
+	index
+		bool ret = true
+		for k,v in pairs(Combat_Fighter.Fighters)
+			if Upper(v.Team)==Upper(key)
+				ret = ret && ((!v.Available) || v.HP<=0)
+			end
+		end
+		return ret
+	end
+	
+	newindex
+		Lua.error("Defeated is read-only!")
+	end
+end

@@ -1,0 +1,166 @@
+// License:
+// 	  src/Script/Script/Use/Combat/SpellAni/Templates/SPANTMPL_Projectile.scyndi
+// 
+// 	  Version: 25.01.20 VIII
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+module 
+
+#use "Libs/SCI/Sys" 
+#use "Libs/SCI/SString" 
+#use "Libs/SCI/Graphics"
+	
+	//void Init()
+	//	Lua.error("Projectile module should NEVER be used as a stand alone spellani")
+	//end
+
+	var PrjImage
+	bool Turn = true
+	bool HotCenter = true
+	number ex
+	number ey
+	number tx
+	number ty
+	number dx
+	number dy
+	number cycles
+	number degrees
+	number x
+	number y
+	int r = 255
+	int g = 255
+	int b = 255
+	int Speed = 4
+	
+	//void Start(string Image,Exe,Tar,aTurn,aHC)
+	void Start(string Image,Act,aTurn,aHC)
+		// Original parameters
+		var Exe := Act.Executor
+		var Tar := Act.Targets[0]				
+		Turn = aTurn!=false && aTurn!=nil;
+		HotCenter = aHC!=false && aHC!=nil;
+		PrjImage = Lua.Scyndi.Globals.LoadNewImage(Image,sprintf("PROJECTILE_%s_%s_%s",replace(Upper(Image),"/","_"),tostring(Turn),tostring(HotCenter)))
+		ex = Exe.X
+		ey = Exe.Y - (Exe.Height div 2)
+		tx = Tar.X
+		ty = Tar.Y - (Tar.Height div 2)
+		x = Exe.X
+		y = Exe.Y - (Exe.Height div 2)
+		degrees = 0
+		if (HotCenter)
+			PrjImage.HotCenter()
+		end
+		if tx<ex
+			if math.abs(math.abs(ex)-math.abs(tx))>math.abs(math.abs(ey)-math.abs(ty))
+				dx=1
+				//if ex>tx
+					dx=-1
+				//end
+				//dy = math.abs(ty-ey)/ex
+				dy = (ty-ey)/ex
+				cycles=math.abs(ex-tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
+			else
+				dy=1
+				if ey>ty
+					dy=-1
+				end
+				dx = math.abs(tx-ex)/ey
+				//cycles=math.abs(ex-tx)
+				cycles=math.abs(ey-ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
+			end
+		else
+			if math.abs(math.abs(ex)-math.abs(tx))>math.abs(math.abs(ey)-math.abs(ty))
+				dx=1
+				//if ex>tx
+				//	dx=-1
+				//end
+				//dy = math.abs(ty-ey)/(tx-ex)
+				dy = (ty-ey)/(tx-ex)
+				cycles=math.abs(ex-tx)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); H<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
+			else
+				dy=1
+				if ey>ty
+					dy=-1
+				end
+				dx = math.abs(tx-ex)/math.abs(ey-ty)
+				//cycles=math.abs(ex-tx)
+				cycles=math.abs(ey-ty)
+				CSayF("Projectile Start: (%04d,%04d) => (%04d,%04d); V<; Mv(%4.4f,%4.4f); Cycles: %04d",ex,ey,tx,ty,dx,dy,cycles)
+			end
+		end
+		// Not the most elegant method, but using Bresenham would get more issues
+	end
+	
+	bool Update()
+		int skippy
+		repeat
+			skippy++
+			--cycles
+			if cycles<=0
+				return true
+			end
+			x += dx
+			y += dy
+			if Turn
+				degrees++
+			end			
+		until skippy>=Speed
+		return false
+	end
+	
+	void Draw()
+		Graphics.Color(r,g,b)
+		if !Turn
+			PrjImage.Draw(x,y)
+		else
+			//Image.Rotate = degrees
+			//PrjImage.XDraw(x,y)
+			//Image.Rotate = 0
+			PrjImage.DrawR(x,y,degrees)
+		end
+		
+	end
+
+//end

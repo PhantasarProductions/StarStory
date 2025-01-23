@@ -1,0 +1,74 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/CharacterResistance/Crystal.Scyndi
+// (c) Jeroen Broks, 2020, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.06 III
+// 
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+init
+	//if RPGChar.Has("Crystal")
+	//	CSayF("Crystal should already have been set!")
+	//	return
+	//end
+	p := RPGChar.UniCrystal.Stat
+	CSay("Crystal Elements")
+	p.ER_Dark = 3 
+	p.ER_Earth = 3
+	p.ER_Fire = 3 
+	p.ER_Frost = 3
+	p.ER_Healing = 6 
+	p.ER_Light = 3 
+	p.ER_Lightning = 3
+	p.ER_Water = 3
+	p.ER_Wind = 3 
+	
+	CSay("Crystal Status resistance")
+	p.SR_BASE_Block = 10 
+	p.SR_BASE_Buff = 0
+	p.SR_BASE_Damned = 10
+	p.SR_BASE_Death = 32
+	p.SR_BASE_Debuff = 0
+	p.SR_BASE_Disease = 20
+	p.SR_BASE_Paralysis = 25
+	p.SR_BASE_Poison = 30  
+	p.SR_BASE_Will = 20
+end

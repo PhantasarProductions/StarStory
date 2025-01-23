@@ -1,0 +1,489 @@
+// License:
+// 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
+// 
+// 	  Version: 25.01.21 I
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/SString"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/Resistance"
+#use "Script/Use/Convert/ViesBah"
+#use "Script/Use/Convert/RPG2Stat"
+
+locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+LocExtern Class_Action "Scyndi.Class.Class_Action"
+
+Global Var CG_Effect
+
+//Group CG_Effect
+
+	bool HitCheck(Act,Tar)
+		// Miss chance for Crystal's ARMS
+		if Act.Executor.Tag=="Crystal" && Act.Act.ARM_Hit_Procent>0
+			//return math.random(1,100)<=Act.Act.ARM_Hit_Procent
+			return math.random(1,100)<=RPGChar.Crystal.Stat["ARM.HIT."..Replace(Act.ActTag,"ARM_","")]
+		end
+		// Accuracy check on normal attacks (if applicable)
+		if Act.Act.Dodgable
+			// Original script from the original game. Dummied for reference purposes
+			// local ach = Fighters[ag][ai].Tag
+			// local tch = Fighters[tg][ti].Tag
+			// local acc = RPGStat.Stat(ach,"END_Accuracy")
+			// local eva = RPGStat.Stat(tch,"END_Evasion")
+			// local hit = rand(0,acc) -- acc + rand(1,math.ceil(acc*.75))
+			//local ddg = rand(1,eva) -- eva - rand(1,math.ceil(eva*.25))
+			// return ddg>hit
+			int acc := Act.Executor.Stats.Accuracy
+			int eva := Tar.Stats.Evasion
+			int hit := math.random(0,acc)
+			int ddg := math.random(0,eva)
+			// Original game did "true" if the attack was sucessfully dodged... But here I require "true" when the attack succesfully hit!
+			CSayF("Attack on %s by %s - Accuracy roll %d/%d -- Evasion roll %d/%d",Tar.Tag,Act.Executor.Tag,hit,acc,ddg,eva)
+			return (ddg<=hit)
+		end
+		CSayF("Attack not dodgable, so will always hit!")
+		return true
+	end
+
+	// Cure Status Changes
+	Bool Cure(Act,Tar) 
+		Static Table CureStat = { "Poison", "Disease", "Paralysis", "Sleep", "Handicapped", "Terrified", "BagLock", "Amnesia", "Confusion", "DeathOne", "DeathFull", "Damned", "Zombie" }
+		Bool ret = False
+		For st In Each(CureStat)
+			Switch st
+				Case "DeathOne"
+					If Tar.StatusChange.Fallen && Act.Act.CureDeathOne
+						Tar.StatusChange.Fallen=False
+						Tar.Hurt("Revive",0,255,0)
+						ret = True
+					End
+				Case "DeathFull" 
+					If Tar.StatusChange.Fallen && Act.Act.CureDeathFull
+						Tar.StatusChange.Fallen=False
+						Tar.HP = Tar.MaxHP
+						Tar.Hurt("Resurrection",0,255,0)
+						ret = true
+					End
+				Default
+					If Act.Act["Cure"..st] && Tar.StatusChange[st]
+						Tar.StatusChange[st] = False
+						Tar.Hurt("Cure: "..st,0,255,0)
+						ret=True
+					End
+			End
+  		End
+		Return ret
+	End
+	
+	readonly delegate rand = math.random
+	
+	bool Attack(Act,Tar,AltAttack)
+		// Original Lua code for referrence
+		// local chactor = FighterTag(ag,ai)
+		// local data = pdata or {}
+		// local tg,ti = ptg,pti 
+		// CSay("tg = "..sval(tg).."; ti = "..sval(ti))
+		// if not(tg and ti) then tg,ti = TargetFromAct(act) end
+		// local chtarget = FighterTag(tg,ti)
+		// local atkstat = data.atk or "Strength"
+		// local defstat = data.def or "Defense"
+		// local modifier = data.mod or 1
+		// local critical = ({[true]=1,[false]=0})[data.critical==true] -- I have to do it this way, as 'nil' can be a value and would result into a crash.
+		// local element = data.element or "Non-Elemental"
+		// local atk = RPGStat.Stat(chactor,"END_"..atkstat) * modifier
+		// local def = RPGStat.Stat(chtarget,"END_"..defstat)                              
+		// local damage = atk + rand(0,round(atk*.75))
+		// local defense = def + rand(0,round(def*.25))
+		//if data.ignoredefense then defense=0 end
+		// local totaldamage = damage - defense
+		// if totaldamage<1 then totaldamage=1 end
+		// if Fighters[tg][ti].Act=='GRD' and Fighters[tg][ti].Gauge>10000 then totaldamage = round( totaldamage * .75 ) end
+		// Hurt(tg,ti,totaldamage,element)
+		var Exe := Act.Executor
+		var Data := Act.Act
+		var dataAttackPower := AltAttack || data.AttackPower
+		if Lua.type(dataAttackPower)!="number"
+			CSayF("WARNING! DATA CORRUPTION! Attack power should be a number but is a %s containing value '%s'",Lua.type(data.AttackPower),Lua.tostring(data.AttackPower))
+		end
+		if dataAttackPower<=0
+			return false
+		end
+		// TODO: Interception of attacks when Foxy's "Oops Sorry" is triggered, or when ExHuRU's "Protection Protocol" is triggered
+		string element := data.attackelement
+		if !element or element==""
+			element = "Non-Elemental"
+		end
+		//int modifier = math.max(data.mod or 1,1)
+		int modifier := math.max( (DataAttackPower || 1) / 100,1)
+		int apu = 0
+		if Act.XPower
+			modifier += 4-__skill
+		end
+		if Act.Executor.Tag=="Crystal" && Prefixed(Act.ActTag,"ARM_")
+			apu = RPGChar.Crystal.Stat["ARM.XPOWER."..Replace(Act.ActTag,"ARM_","")]
+			CSayF("Added %d ARM XPower!",apu)
+		end
+		int atk := (Exe.Stats[data.attackstat]+apu) * modifier
+		int def := Tar.Stats[data.defensestat]
+		int damage := atk + rand(0,round(atk*0.75))
+		int defense := def + rand(0,round(def*0.25))
+		int totaldamage := math.max(1,damage-defense)
+		CSayF("Attack(%d,%d); Roll(%d,%d); Total(%d)",atk,def,damage,defense,totaldamage)
+		//if Tar.Guarding 
+		//	totaldamage = round( totaldamage * .75 )
+		//end
+		// I chose a different method for this!
+		For sc In Tar.StatusChange()
+			Damage = Combat_StatusChanges.GetSt(sc).AltDamage(tar,Damage)
+		End
+
+		Tar.Pain(totaldamage,element)		
+		return true
+	end
+	
+	//Bool CureOnAttack(Act,Tar)
+	//	// TODO: Code
+	//	return false
+	//end
+	// Tackled this a simpler way
+	
+	
+	bool Heal(Act,Tar)
+		// Please note that this is only for absolute and percent healing
+		// After all, the stat based healing is an attack disguised as healing
+		if Act.Act.Healing<=0
+			return false
+		end
+		switch Act.Act.HealingType
+			case "Absolute"
+				Tar.Heal(Act.Act.Healing)
+			case "Percent"
+				int h := math.max(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
+				Tar.Heal(h)
+			default
+				Lua.error("I do not know how to act on healing type: "..Act.Act.HealingType)
+		end
+		return true
+	end
+	
+	bool RecoverAP(Act,Tar)
+		if Act.Act.APRecover<=0
+			return false
+		end
+		switch Act.Act.APRecoverType
+			case "Absolute"
+				Tar.char.Points.AP.Have += Act.Act.APRecover
+				Tar.Hurt(Lua.tostring(Act.Act.APRecover),0,180,255)
+			case "Percent"
+				int h := math.max(1,math.floor(Tar.Char.Points.AP.Maximum * (Act.Act.APRecover/100)))
+				Tar.Hurt(Lua.tostring(h),0,180,255)
+				Tar.char.Points.AP.Have += h
+			default
+				Lua.error("I do not know how to act on AP Recovery type: "..Act.Act.APRecoverType)
+		end
+		return true
+	end
+			
+	
+	Var GetEffect(FN)
+		Lua.Scyndi.Use("Script/Use/Combat/SpellEffect/EFFECT_"..FN)
+		rmod:=Lua.Scyndi.Class["EFFECT_"..FN]
+		return rmod.DoEffect;
+	end
+	
+	bool __Script(Act,Tar)
+		// TODO: Script
+		if Act.Act.ScriptEffect_Reference && Act.Act.ScriptEffect_Reference!=""
+			//delegate E = NeilUse("Script/Use/Combat/SpellEffect/"..Act.Act.ScriptEffect_Reference)
+			E:=GetEffect(Act.Act.ScriptEffect_Reference)
+			bool success
+			bool ret
+			success,ret = Invoke(E,Act,Tar) 
+			return success && ret
+		end
+		return false
+	end
+	
+	// Cause status changes
+	bool Cause(Act,Tar)
+		bool ret
+		for Status in Combat_StatusChanges.Each		
+			If Act.Act[".hasmember"]("Cause"..Status.Name) && Act.Act["Cause"..Status.Name]
+				if Tar.HP>0 && (!Tar.StatusChange[Status.Name])
+					int Res = 0
+					switch Tar.Team
+						case "Hero"
+							Res = CharRes[Tar.Tag][Status.Resist]
+						case "Foe"
+							Res = Tar.RawData.StatusResistance[Status.Resist] || 0
+						default
+							Lua.error("I cannot determine the status resistance for team %s",tar.Team)
+					end
+					if math.random(1,100)>Res
+						Tar.StatusChange[Status.Name]=true
+						Tar.Hurt(Status.Name,180,0,255)
+						ret = true
+					end
+				end				
+			end
+		end
+		return ret
+	end
+	
+	Bool Buff(Act,Tar)
+		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+		Bool Ret = False
+		For Stat In Each(Stats)
+			Int buff := Act.Act["BUFF_"..Stat]
+			Int value := math.floor(Tar.Char.Stats["BASE_"..Stat] * (buff/100))
+			If buff<0
+				Tar.Char.Stats["BUFF_"..Stat] = math.min(Tar.Char.Stats["BUFF_"..Stat],value)
+				Ret = True
+				Tar.Hurt(sprintf("%s down %d%%",Stat,math.abs(buff)),255,0,0)
+			Elseif buff>0
+				Tar.Char.Stats["BUFF_"..Stat] = math.max(Tar.Char.Stats["BUFF_"..Stat],value)
+				Tar.Hurt(sprintf("%s up %d%%",Stat,math.abs(buff)),0,255,0)
+				Ret = True
+			End
+		End
+		If Ret
+			Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+		End
+		Return Ret
+	End
+	
+	Bool ExtraEXP(Act,Tar)
+		// Extra EXP absolute or by percent
+		Var abl := Act.Act
+		Bool Effect = False
+		If abl.GrantEXP && abl.GrantEXP>0 && Tar.Team=="Hero"
+			Switch abl.GrantEXPType
+				Case "Absolute" 
+					Tar.Char.Points.EXP.Have += abl.GrantEXP*2
+					effect=true
+				Case "Percent"
+					pLua hpt := Tar.Char.Points.EXP
+					pLua hpm := hpt.Maximum
+					Plua points := (hpm div 100)
+					//RPGChar.Points(cht,"EXP").Inc(abl.GrantEXP)
+					Tar.Char.Points.EXP.Have += points*2
+					effect=true
+				Default
+					Lua.error("Unknown ExtraEXPType: "..abl.GrantEXPType)
+			End
+		End
+		Return Effect
+   End
+   
+   Void Effect(Act,Tar)
+		CSayF("= Effect: %s; Target %s; Executor: %s",Act.Act.Name,Tar.Tag,Act.Executor.Tag)
+		bool Hit = false
+		if (Act.Act.UserNextMove) && (Act.Act.UserNextMove!="")
+			// No action at all when charging up!
+			Return
+		end
+		if HitCheck(Act,Tar)		
+			Hit = Cure(Act,Tar) || Hit
+			Hit = Heal(Act,Tar) || Hit
+			Hit = RecoverAP(Act,Tar) || Hit
+			Hit = ExtraEXP(Act,Tar) || Hit
+			Hit = Attack(Act,Tar) || Hit
+			//Hit = CureOnAttack(Act,Tar) || Hit
+			Hit = Buff(Act,Tar) || Hit
+			Hit = __Script(Act,Tar) || Hit
+			Hit = Cause(Act,Tar) || Hit			
+		end
+		if Hit
+			if Act.CancelEffect
+				Tar.NextAct= nil
+			end
+		else
+			CSayF("Target %s has been missed for %s by %s",Tar.Tag,Act.Act.Name,Act.Executor.Tag)
+			Tar.Hurt("Miss!")
+		end
+	end
+	
+	get Bool ExHuRU
+		var Wendicka = RPGChar.Wendicka
+		switch __skill
+			case 1
+				if Wendicka.Points.HP.Have>Wendicka.Points.HP.Maximum div 4
+					return false
+				end
+			case 2
+				if Wendicka.Points.HP.Have>Wendicka.Points.HP.Maximum div 6
+					return false
+				end
+			case 3
+				if Wendicka.Points.HP.Have>Wendicka.Points.HP.Maximum div 12
+					return false
+				end
+			default
+				return false
+		end
+		bool Ok=false
+		int WenPos
+		int ExPos
+		for i=1,6
+			if RPGParty[i]=="ExHuRU"
+				Ok = i>=4
+				ExPos=i
+			elseif RPGParty[i]=="Wendicka"
+				WenPos = i
+			end
+		end
+		if !Ok
+			return false
+		end
+		RPGParty[WenPos]="ExHuRU"
+		RPGParty[ExPos]="Wendicka"
+		return true
+	end
+	
+	get var CheckFoxy
+		if math.random(1,6)!=1
+			return nil
+		end
+		int rep = math.random(4,6)
+		if RPGParty[rep]==""
+			return nil
+		end
+		int f=0
+		string ret := RPGParty[rep]
+		for i=1,3
+			if RPGParty[i]=="Foxy"
+				f=i
+			end
+		end
+		Lua.assert(f>0,"Foxy not on front row (OOPS! SORRY!)")
+		RPGParty[f  ]=ret
+		RPGParty[rep]="Foxy"
+		return ret
+	end
+	
+	get bool CheckExHuRU
+		CSay("Wendicka attacked, so let's check for ExHuRU!")
+		int Check = ({30,10,2})[__skill]
+		var WendickaHP := RPGChar.Wendicka.Points.HP
+		int WendickaHealth := math.floor( (WendickaHP.Have/WendickaHP.Maximum) * 100)
+		if Check<WendickaHealth
+			CSayF("Wendicka's health is %d%%! And may not be higher than $d$$",WendickaHealth,Check)
+			return false
+		end
+		int w = 0
+		int f = 0
+		for i=1,6
+			if RPGParty[i]=="ExHURU" && i >= 4
+				f = i
+			elseif RPGParty[i]=="Wendicka" && i <= 3
+				w = i
+			end
+		end
+		//Lua.assert(w>0,"No Wendicka on front row???")
+		if w==0
+			CSay("Wendicka oddly enough not on the front row")
+			return false
+		end
+		if f==0
+			CSay("ExHuRU not on backrow, so no go!")
+			return false
+		end
+		RPGParty[f] = "Wendicka" 
+		RPGParty[w] = "ExHuRU"
+		return true
+	end
+		
+	
+	void EffectAll(Act)
+		CSayF("Let's go to effect for '%s' by %s",Act.Act.Name,Act.Executor.Tag)
+		//for tar in Act.EachTarget
+		int tmax := Len(Act.Targets_Tag)
+		// Oh no you don't
+		for tidx=0,tmax-1
+			string ttag := Act.Targets_Tag[tidx]
+			if ttag=="Yirl" && Act.Executor.Team=="Foe" && math.random(1,__skill*4)==1 
+				Combat_Fighter.Fighters.Yirl.State = "Cast"
+				BoxText.Serial("COMBAT","SPECIAL.YIRL","FLOW_COMBAT")
+				Act.Executor.Hurt("Cancel")
+				Return
+			end
+		end
+		for tidx=0,tmax-1
+			string ttag := Act.Targets_Tag[tidx]
+			var Tar := Act.Targets[tidx]
+			if Act.Executor.Team=="Foe"
+				if ttag=="Wendicka" && ExHuRU
+					Tar = Combat_Fighter.Fighters.ExHuRU
+					BoxText.Serial("COMBAT","SPECIAL.EXHURU","FLOW_COMBAT")
+				end
+				if ttag=="Foxy"
+					var Foxy:=CheckFoxy
+					if Foxy
+						BoxText.Serial("COMBAT","SPECIAL.FOXY","FLOW_COMBAT")
+						Tar = Combat_Fighter.Fighters[Foxy]
+					end
+				elseif ttag=="Wendicka"					
+					if CheckExHuRU
+						BoxText.Serial("COMBAT","SPECIAL.EXHURU","FLOW_COMBAT")						
+						Tar = "ExHuRU" 
+					end
+				end
+			end
+			If !Tar
+				CSayF("Warning! 'nil' for target: %d.%s",tidx,Act.Targets_Tag[tidx] || "<Nothing, for some odd reason>")
+			Else
+				Effect(Act,tar)
+			End
+		end
+	end
+
+//End
+
+//Return CG_Effect
+Init
+	CG_Effect = Combat_Effect
+End

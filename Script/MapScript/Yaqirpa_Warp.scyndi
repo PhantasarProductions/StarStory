@@ -1,0 +1,206 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Yaqirpa_Warp.scyndi
+// (c) Jeroen Broks, 2020-'21, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.04 IV
+// 
+// End License
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+module
+	
+	bool prologue = false
+	
+	void Warp(string newspot)
+		Map.Kill("PLAYER")
+		Map.SpawnPlayer(newspot)
+		if Prologue
+			Map.Kill("FCrystal")
+			Map.Kill("FBriggs")
+		end
+	end
+	
+	void UPTo1()
+		Warp("U_Verdieping1")
+	end
+	
+	void DownTo0()
+		Warp("BeganeGrond")
+	end
+	
+	void DownTo1()
+		Warp("D_Verdieping1")
+	end
+	
+	void ShowFloor1()
+		Map.HideButLabel("GreatHall-FirstFloor")
+		Map.ShowPlayer()
+	end
+	
+	void UpToTower1()
+		Warp("U_Tower1")
+	end
+	void UpToTower2()
+		Warp("U_Tower2")
+	end
+	void UpToTower3()
+		Warp("U_Tower3")
+	end
+	void UpToTower4()
+		Warp("U_Tower4")
+	end
+	void UpToTower5()
+		Warp("U_Tower5")
+	end
+	void DownToTower1()
+		Warp("D_Tower1")
+	end
+	void DownToTower2()
+		Warp("D_Tower2")
+	end
+	void DownToTower3()
+		Warp("D_Tower3")
+	end
+	void DownToTower4()
+		Warp("D_Tower4")
+	end
+	void DownToTower5()
+		Warp("D_Tower5")
+	end
+
+
+	
+	void Tower1()
+		Map.HideButLabel("Tower1")
+		Map.ShowPlayer()
+	end
+	void Tower2()
+		Map.HideButLabel("Tower2")
+		Map.ShowPlayer()
+	end
+	
+	void WendickaWhine(int floor)
+		if !Done["Prologue_Yaqirpa_Wendicka_has_whined_about_tower_floor_"..floor]
+			MapText("TOWER"..floor)
+		end
+	end
+	void Tower3()
+		Map.HideButLabel("Tower3")
+		Map.ShowPlayer()
+		WendickaWhine(3)
+	end
+	void Tower4()
+		Map.HideButLabel("Tower4")
+		Map.ShowPlayer()
+		WendickaWhine(4)
+	end
+	void Tower5()
+		Map.HideButLabel("Tower5")
+		Map.ShowPlayer()
+		WendickaWhine(5)
+		if Prologue && gBool.Prologue_Yaquirpa_BeenAtTop && (!Done.Prologue_Yaqirpa_WendickaBreektDeVierdeMuur)
+			MapText("4EMUURSTART")
+			//switch Core.FullPlatform:upper()
+			switch Upper(Sys.Platform)
+				case "WINDOWS" "WIN32" "WIN64"
+					MapText("4EMUURWINDOWS")
+				case "MAC" "APPLE" "MACOSX" "MACOS"
+					MapText("4EMUURMAC")
+				case "LINUX"
+					MapText("4EMUURLINUX")
+				default
+					MapText("4EMUURUNKNOWN")
+				end
+			MapText("4EMUURBRIGGS")
+		end
+	end
+	
+	void UpToTop()
+		Warp("Top")
+	end
+	
+	
+	void ShowTop()
+		Map.HideButLabel("TowerTop")
+		Map.ShowPlayer()
+		if !Done.Prologue_Yaquirpa_BeenAtTop
+			MapText("TowerTop")
+		end
+	end
+	
+	void ShowBoss()
+		if Prologue
+			MapScript.Boss()
+		else
+			Map.HideButLabel("Boss")
+			Map.ShowPlayer()
+		end
+	end
+			
+
+	
+	void StartUp()
+		Map.AllowQuitSave=false
+		CSay("Yaqirpa stuff")
+		ZA.Enter("UPto1","YW.UPTo1")
+		ZA.Enter("Verdieping1","YW.ShowFloor1")
+		ZA.Enter("DownTo0","YW.DownTo0")
+		ZA.Enter("DownTo1","YW.DownTo1")
+		ZA.Enter("UpToTower1","YW.UpToTower1")
+		ZA.Enter("UpToTower2","YW.UpToTower2")
+		ZA.Enter("UpToTower3","YW.UpToTower3")
+		ZA.Enter("UpToTower4","YW.UpToTower4")
+		ZA.Enter("UpToTower5","YW.UpToTower5")
+		ZA.Enter("DownToTower1","YW.DownToTower1")
+		ZA.Enter("DownToTower2","YW.DownToTower2")
+		ZA.Enter("DownToTower3","YW.DownToTower3")
+		ZA.Enter("DownToTower4","YW.DownToTower4")
+		ZA.Enter("DownToTower5","YW.DownToTower5")
+		ZA.Enter("Tower1","YW.Tower1")
+		ZA.Enter("Tower2","YW.Tower2")
+		ZA.Enter("Tower3","YW.Tower3")
+		ZA.Enter("Tower4","YW.Tower4")
+		ZA.Enter("Tower5","YW.Tower5")
+		ZA.Enter("UpToTowerTop","YW.UpToTop")
+		ZA.Enter("ShowTop","YW.ShowTop")
+		ZA.Enter("LeaveBoss","YW.ShowTop")
+		ZA.Enter("EnterBoss","YW.ShowBoss")
+	end
+
+//end

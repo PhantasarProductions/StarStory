@@ -1,0 +1,202 @@
+// License:
+// 	  src/Script/Script/Load/CallBackField.scyndi
+// 
+// 	  Version: 25.01.14
+// 	
+// 	  Copyright (C) 2020,2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+//#use "Script/Flow/FlowField.scyndibundle/FieldMap"
+//#use "Script/Flow/FlowField.scyndibundle/FieldSchedule"
+//#use "Script/Flow/FlowField.scyndibundle/FieldMonstersOnTheMap"
+#use "Script/Flow/FlowField"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/use/Misc/MiniMessage"
+
+const var Mouse = ObtainImage("MOUSE")
+
+global void DrawScreen(noauto)
+	static int oldx
+	static int oldy
+	// print("DrawKthura: ",FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	if FldMap.AutoScroll
+		FLDMap.ScrollX = GrPlayer.X - math.floor(Graphics.W/2)
+		FLDMap.ScrollY = GrPlayer.Y - math.floor(Graphics.H/2)
+	end
+	//print("Party Pop",PPop.Popped,PPop.Unpopping)
+	if PPop.Popped
+		//FldMap.CurLayer.Obj("PLAYER").Visible=false
+		Kthura.Obj.Player.Visible=false
+		if PPop.Unpopping
+			PPop.UnPopCheck()
+			//FldMap.CurLayer.Obj("PLAYER").Visible=!ppop.unpopping
+			Kthura.Obj.Player.Visible=!ppop.unpopping
+		end
+	elseif (!noauto) 
+		FldMap.AutoTexPlayer()		
+		if math.abs(GrPlayer.Y-oldy)>60
+			//FldMap.CurLayer.RemapDominance(FldMap.Layer)
+			Kthura.RemapDominance()
+			oldx,oldy = GrPlayer.X,GrPlayer.Y
+		end
+	end
+	If GrPlayer.Walking
+		Switch Map.Leader
+			Case "ExHuRU" "Yirl" "Xenobi" "Rolf"
+				Ach.Award("ASMALLSTEPFORMAN")
+			Default
+		End
+	End
+	//FldMap.KthuraMap.Draw(FldMap.Layer,FldMap.ScrollX,FldMap.ScrollY)
+	Kthura.Draw(FldMap.ScrollX,FldMap.ScrollY)
+end
+
+void GStat(string g,resetme)
+	static var fnt = ObtainFont("SYSFONT")
+	static int y
+	static int b = 0
+	if resetme
+		y = Graphics.H - 128
+		b = 0
+	else
+		b = (b + 5) % 256
+	end
+	Graphics.Color(255-b,180,b)
+	fnt.Text(g,Graphics.W-20,y,1,0)
+	y -= 30
+	__white
+end
+		
+
+global void FullDrawScreen(noauto)
+	// Graphics.Rect(0,0,Graphics.W,Graphics.H) // debug
+	static table sk = {"Easy","Casual","Hard"}
+	DrawScreen(noauto)
+	Party.Boxes()
+	if !TMM.Draw()
+		// General statistics
+		GStat(sprintf("Star Story - %s mode - Cycle: %d",sk[__skill],Caps.Cycle),true) // Always first!
+		GStat(Kthura.Meta.Title)
+		if Prefixed(FldMap.Layer,"#")
+			GStat("Area: "..FldMap.Layer)
+		end
+		if gbool.Shilder1st
+			GStat(sprintf("Shilders: %d",Aurina.Shilders))
+		end
+		GStat(sprintf("Credits: %d",Aurina.Cash))
+		GStat(sprintf("Aurinas: %d",__aurinas))
+	end
+	FieldWelcome.ShowWelcome()
+end
+
+
+global void BoxText_Back()
+	DrawScreen()
+end
+
+global void PartyClick(int i,string ch)
+	switch i
+		case 1
+			CSay("Going to Field Menu!")
+			FieldMenu.Go(ch,"FIELD")
+		case 2 3
+			if gstr.LoadedMap=="Prologue_Yaqirpa" 
+				CSay("Switching leader NOT allowed in the Yaqirpa during the prologue")
+				Return
+			end
+			Map.Leader = ch
+		default
+			CSayF("PartyClick:I don't understand mouse button: %d",i)
+	end
+end
+
+global void MainFlow()
+	static int ABX 
+	int mx = events.mousex
+	int my = events.mousey
+	//Dev.ToConsole()
+	ABX = (ABX + 1) % 200
+	if ABX == 0
+		Party.AutoBuffExpire()
+	End
+	if GrSchedule.WaitingForMovingActors
+		//CSay("Waiting for moving actors")
+		GrSchedule.WaitingForMovingActors = Kthura.AnythingMoving //FldMap.CurLayer.AnythingMoving
+		if (!GrSchedule.WaitingForMovingActors) && (GrSchedule.WhenMovingActorsStop!="")
+			MapScript[GrSchedule.WhenMovingActorsStop]()
+		end
+	else
+		// Anything except for screen drawing should be done here.
+		GrSchedule.DoScheduled()
+		// Click to move char
+	end
+	If gint.WipeGoCD>0
+		gint.WipeGoCD--
+		If gint.WipeGoCD==0
+			Spawn.Go()
+		End
+		Return
+	End
+	FullDrawScreen()
+	FieldMonster.CheckAll()		
+	Graphics.Color(255,255,255)
+	Sys.Call("MAPSCRIPT","MScript.Draw","nil")
+	ZoneAction.CheckAll()
+	if Events.MouseHitLeft
+		if my<Graphics.H-128
+			FldMap.WalkClick(mx,my)
+		end
+	end	
+	FldMap.Walking()
+	Mouse.Draw(mx,my)
+	//MapScript.Update()
+	Sys.Call("MAPSCRIPT","MScript.Update","nil")
+	QuitRequest()
+end

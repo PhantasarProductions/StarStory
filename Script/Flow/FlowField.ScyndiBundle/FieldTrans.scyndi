@@ -1,0 +1,207 @@
+// License:
+// 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
+// 
+// 	  Version: 24.12.30 XVI
+// 	
+// 	  Copyright (C) 2021, 2024 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/MiniMessage"
+#use "Script/Use/Misc/PSaveGame"
+
+locextern Schedule "Scyndi.Class.Schedule"
+
+group Trans
+	table Activated
+	
+	string tspot(string spot)
+		return "Trans.Spot."..Spot
+	end
+	
+	string tpad(string spot)
+		return "Trans.Pad."..Spot
+	end
+	
+	string ttype(string spot)
+		//return Map.GetObjData(tspot(spot),"TYPE")
+		return Kthura.Obj[self.tspot(spot)].Data.TYPE
+	end
+	
+	string tname(string spot)
+		//return Map.GetObjData(tspot(spot),"LOCATION")
+		return Kthura.Obj[self.tspot(spot)].Data.LOCATION
+	end
+
+	string tworld(string spot)
+		//return Map.GetObjData(tspot(spot),"WORLD")
+		return Kthura.Obj[self.tspot(spot)].Data.WORLD
+	end
+	
+	ReadOnly Table GenMenu = NewArray( "Beam","Recover & Save","Cancel" )
+	get bool AllowBeam
+		return gBool.AllowBeam
+	end
+	
+	void Scotty()
+		Beam.Quick("PLAYER",false,true)
+		Map.Load("HAWK")
+		Schedule.Add("SPAWN:Scotty")
+		Schedule.Add("ShowBack")
+	end
+	
+	void Recover()
+		Party.Recover()
+	end
+	
+	void Save()
+		MSave.ToSave()
+	end
+	
+	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
+	ReadOnly Var Pnt = ObtainImage("MOUSE")
+	void PadGeneral()
+		//static var Fnt = ImageFont.Obtain("BOXTEXT")
+		//static var Pnt = Image.Obtain("MOUSE")
+		int CX = Graphics.W div 2
+		Spawn.Reset()
+		Repeat
+			int Y = 50		
+			Events.Poll()
+			int MX = Events.MouseX()
+			int MY = Events.MouseY()
+			Graphics.Cls()
+			Graphics.Color(0,180,255)
+			Fnt.Text("What do you want to do?",CX,25,2,2)
+			for i,item in ipairs(GenMenu)
+				if i!=1 || AllowBeam
+					y+=25
+					if MY>=y && MY<y+25
+						Graphics.Color(255,255,0)
+						if Events.MouseHitLeft()
+							Switch i
+								case 1
+									Self.Scotty()
+									return
+								case 2
+									Self.Recover()
+									Self.Save()
+									return
+								case 3
+									return
+								default
+									Lua.error("??? What menu item is that?")
+							end
+						end
+					else
+						Graphics.Color(255,180,0)
+					end
+					Fnt.Text(Item,CX,Y,2,0)
+				end
+			end
+			Pnt.Draw(MX,MY)
+			Graphics.Flip()
+			//FPS.WaitMinTicks()
+		Forever
+	end
+	
+	void PadRecover()
+		Self.Recover()
+		TMM.NewMsg("Party is completely recovered",180,255,0)
+	end
+	
+	get delegate PadReturnOnly
+		return Self.Scotty
+	end
+	
+	void Go(string spot)	
+		CSayF("Go for transpad: %s",spot)
+		int px := Map.ObjInt(self.tspot(spot),"X")
+		int py := Map.Objint(self.tpad(spot),"Y")
+		int dx := math.abs(px-Player.X)
+		int dy := math.abs(py-Player.Y)
+		int dist := math.floor( math.sqrt ( (dx*dx)+(dy*dy) ) )
+		CSayF("= You are at %d pixels distance",dist)
+		if dist>70
+			CSay("= You are too far away")
+			return
+		end
+		Activated[spot]=true
+		CSay("= Spot activated")
+		CSay("= Specific action")
+		Self["Pad"..self.ttype(spot)]()
+	end
+	
+	void Activate(string spot)
+		Activated[spot]=true
+		CSay("= Spot activated by manual activation (script?)")
+	end
+end
+
+//	Constructor
+bool AIndex(s,string key)
+	return gBool[sprintf("TRANS.ACTIVATED.%s",key)]
+end
+void ANewIndex(s,string key,bool value)
+	bool old := AIndex(s,key)
+	gBool[sprintf("TRANS.ACTIVATED.%s",key)] = value			
+	if !old
+		//Map.SetObj(tpad(key),"Texture","GFX/Textures/Teleporter Pad/"..ttype(key)..".png")
+		Kthura.Obj[key].Texture = "GFX/Textures/Teleporter Pad/"..Trans.ttype(key)..".png"
+		if Trans.ttype(key):upper()=="GENERAL"
+			Trans.Hawk.Add(key,trans.tworld(key),Trans.tname(key),Map.LoadedMap,Map.Layer)
+			CSay("Added to location list in Hawk")
+		end
+	end
+end
+		
+Init
+	Trans.Activated = Lua.setmetatable({},{["__index"]=AIndex,["__newindex"]=ANewIndex})		
+end
+
+//end

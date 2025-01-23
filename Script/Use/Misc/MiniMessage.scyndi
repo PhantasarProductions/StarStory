@@ -1,0 +1,126 @@
+// License:
+// 	  src/Script/Script/Use/Misc/MiniMessage.scyndi
+// 
+// 	  Version: 25.01.10 II
+// 	
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+
+Module
+
+#use "Libs/SCI/Graphics"
+
+#use "libs/LinkedList"
+
+#use "Script/Use/Convert/Screen"
+
+
+class TMM
+	
+	readonly static var Lijst = new TLinkedList()
+	readonly static var Font = ObtainFont("SYSFONT")
+	static bool OverPos()
+		for o in Lijst.Each
+			if o.pos>0
+				return true
+			end
+		end
+		return false
+	end
+	
+	readonly string Msg
+	readonly int R
+	readonly int G
+	readonly int B
+	int pos
+	int cd = 2500
+	int y = Screen.H - 120
+	
+	get int x
+		return (Screen.W-20)+pos
+	end
+	
+	CONSTRUCTOR(string amsg, int ar, int ag, int ab)
+		R = ar
+		G = ag
+		B = ab
+		Msg = aMsg
+		pos = 40 + Font.Width(Msg)
+		Lijst.AddLast(self)
+	end
+	
+	static void NewMsg(string amsg, int ar=255, int ag=255, int ab=255)
+		plua voider;voider = new TMM(amsg,ar,ag,ab)
+	end
+	
+	static bool Draw()
+		bool ret = false
+		// bool Over = OverPos()
+		bool Ovr1 = false
+		int sy = (Graphics.h-120) - ((Lijst.Count-1)*30)
+		int gy;gy = sy		
+		for o,l in Lijst.Each
+			ret = true
+			if o.pos>0
+				if !Ovr1
+					Ovr1=true
+					//o.pos--
+					o.pos -= math.max(1,o.pos div 10)
+				end
+			elseif o.y>gy
+				o.y--
+			else
+				o.CD--
+			end
+			gy += 30
+			if o.CD<=0
+				l.Unlink()
+			end
+			Graphics.Color(o.R,o.G,O.b)
+			Font.Dark(o.msg,o.x,o.y,1,0)
+		end
+		return ret
+	end
+end
+
+Get Delegate NewMsg;return TMM.NewMsg; End
+
+//return TMM

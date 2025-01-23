@@ -1,0 +1,113 @@
+// License:
+// 	  src/Script/Script/Use/Misc/Resistance.scyndi
+// 
+// 	  Version: 25.01.06 I
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+table CharResTables
+
+void NewCharRes(string char)
+	if RPGChar[char].Data.ResistanceSet != "TRUE"
+		Lua.Scyndi.Use("Script/Data/CharacterResistance/"..char)
+		for _,elem in pairs {"Dark", "Earth", "Fire", "Frost", "Wind", "Healing", "Light", "Lightning", "NonElemental"}
+			RPGChar[char].Stat["ER_MODIFIER_"..elem] = 0
+		end
+		for _,status in pairs { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+			RPGChar[char].Stat["SR_BUFF_"..status] = 0
+			RPGChar[char].Stat["SR_EQBF_"..status] = 0
+			RPGChar[char].Stat["SR_TRUE_"..status] = 0
+			//RPGChar[Char].StatScript["SR_TRUE_"..status] = "SUM:"..char..".SR_BASE_"..status..".SR_BUFF_"..status..".SR_EQBF_"..status
+		end
+		RPGChar[char].Data.ResistanceSet = "TRUE"
+	end
+	if CharResTables[char]
+		return 
+	end
+	table meta 
+	//meta.__index = int(s,string k)
+	ddef meta__index
+		plua s
+		string k
+		s,k = infinity
+		switch k
+			case "DarkHealing"
+				return 0
+			case "Non-Elemental"
+				return 3			
+			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water" "Wind"
+				if (char=="UniWendicka" || char=="Wendicka") && (!gBool.WendickaGoddessReleased)
+					if k=="Lightning"
+						return 6
+					elseif K=="Water"
+						return 0
+					end
+				end
+				//CSay("type ER_"..k.." = "..type(RPGChar[char].Stat["ER_"..k]).."; Value = "..tostring(RPGChar[char].Stat["ER_"..k]))
+				//CSay("type ER_MODIFIER_"..k.." = "..type(RPGChar[char].Stat["ER_MODIFIER_"..k]).."; Value = "..tostring(RPGChar[char].Stat["ER_MODIFIER_"..k]))
+				return math.min(6,math.max(0,RPGChar[char].Stat["ER_"..k] + RPGChar[char].Stat["ER_MODIFIER_"..k]))
+			case "Block" "Buff" "Damned" "Death" "Debuff" "Disease" "Paralysis" "Poison" "Will"
+				int B:=RPGChar[char].Stat["SR_BASE_"..k]
+				B+=RPGChar[char].Stat["SR_BUFF_"..k]
+				B+=RPGChar[char].Stat["SR_EQBF_"..k]
+				return math.min(100,math.max(0,B))
+				//return math.min(100,math.max(0,RPGChar[char].Stat["SR_TRUE_"..k]))
+			default
+				lua.error("What the hell is "..k.."?")
+		end
+	end
+	meta.__index=meta__index
+	CharResTables[char] = lua.setmetatable({},meta)
+end
+
+
+quickmeta CharRes
+
+	index
+		NewCharRes(key)
+		return CharResTables[key]
+	end
+end

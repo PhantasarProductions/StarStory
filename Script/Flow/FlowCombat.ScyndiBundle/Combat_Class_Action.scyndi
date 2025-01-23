@@ -1,0 +1,172 @@
+// License:
+// 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Action.scyndi
+// 
+// 	  Version: 25.01.16 VII
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/SYS"
+
+#use "Script/use/Link"
+
+locExtern Combat_Hero "Scyndi.Class.Combat_Hero"
+
+Class Class_Action
+	Static Var Fighters
+	
+	bool Learning = false
+	bool UseCommonAmmo	
+	bool UseARMAmmo
+	string LearningABL = ""
+	int ConsumeItem = -1
+	int BurnAP = 0
+	int XActSpeed = 1
+	string ActivatePowerUp = ""
+	bool xpower = false
+	bool CancelEffect = false
+	
+	static void AllUpAP()
+		Combat_Hero.AllUpAP()
+	end
+	
+	ReadOnly String Executor_Tag
+	get var Executor
+		return Fighters[Executor_Tag]
+	end
+	
+	ReadOnly Table Targets_Tag
+	ReadOnly Table Targets
+	
+	get delegate EachTarget
+		table Lijst = {}
+		for i,tar in ipairs(Targets_Tag)
+			if Targets[i].Available
+				Lijst += Targets[i]
+			end
+		end
+		int idx=0
+		//var ret()
+		ddef ret
+			idx++
+			if idx>Len(Lijst)
+				return nil
+			end
+			return Lijst[idx]
+		end
+		return ret
+	end
+	
+	get int AvailableTargets
+		int ret = 0
+		for i,tar in ipairs(Targets_Tag)
+			if tar.Available
+				ret++
+			end
+		end
+		return ret
+	end
+	
+	ReadOnly String ActTag
+	ReadOnly Var Act
+	
+	int _ActSpeed
+	get int ActSpeed
+		return _ActSpeed
+	end
+	set int ActSpeed
+		_ActSpeed = math.max(1,value)
+	end
+	
+	static var UseSpellAni(String _ActRef)
+		Lua.Scyndi.Use("Script/Use/Combat/SpellAni/SPELLANI_".._ActRef)
+		return Lua.Scyndi.Class["SPELLANI_".._ActRef]
+	End
+	
+	var _SpellAni
+	get var SpellAni
+		// Internal or external won't have any more value
+		if (!Act.SpellAni_Reference) || Act.SpellAni_Reference==""
+			return nil
+		end
+		//_SpellAni = _SpellAni || NeilUse("Script/Use/Combat/SpellAni/"..Act.SpellAni_Reference)
+		_SpellAni = _SpellAni || Class_Action.UseSpellAni(Act.SpellAni_Reference)
+		return _SpellAni
+	end
+	
+	readonly int ID
+	static int count=0
+	Constructor(string Exe,String A_ActTag)		
+		count++		
+		ID = count
+		Executor_Tag = Exe
+		Targets_Tag = {}
+		ActTag = A_ActTag
+		Act = Item[ActTag]
+		Executor.NextAct = self
+		ActSpeed = Act.ActSpeed
+		
+		//var TGT_GET(s,int idx)
+		ddef TGT_Get
+			plua s
+			int idx
+			s,idx = infinity
+			return Fighters[Targets_Tag[idx]]
+		end
+		//void TGT_SET(s,int idx,var ch)
+		ddef TGT_Set
+			plua s
+			int idx
+			plua ch
+			s,idx,ch = infinity
+			//Fighters[Targets_Tag[idx]]=ch.Tag
+			Targets_Tag[idx]=ch.Tag			
+		end
+		Targets = Lua.setmetatable({},{["__index"]= TGT_GET,["__newindex"]=TGT_SET})
+		CSayF("Action #%d has been created and been attached to fighter '%s'",ID,Exe)
+	end
+	
+	Destructor
+		Print("Action Destructor")
+		//CSayF("= Action #%d has been destroyed and been detached from fighter '%s'",ID,Executor_Tag)
+	end
+End

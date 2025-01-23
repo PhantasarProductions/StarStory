@@ -1,0 +1,122 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/Char/Abilities/AblWendicka.Scyndi
+// (c) Jeroen Broks, 2020, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.21 I
+// 
+// End License
+
+module
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+
+	table spells
+	
+	string ShowNeed(string chtag)
+		// parameter seems odd, but don't forget about the link between ExHuRU, Johnson and Rolf, and Wendicka has a similar link, although in her case it may not matter that much, but for safety reasons, yeah, there goes!!
+		Wen:=RPGPureChar.UniWendicka
+		int m = 3000
+		// Learn from allies
+		//if RPGChar[chtag].List.LEARN.Count>0
+		if Wen.ListCount("LEARN")>0
+			//for ABL in RPGChar[chtag].List.LEARN.Each
+			for ABL in Wen.ListEach("LEARN")
+				//if !RPGChar[chtag].List.ABL.Has(ABL)
+				if !Wen.ListHas("ABL",ABL)
+					return "Attack any enemy and Wendicka will learn something new!"
+				end
+			end
+		end
+		// Learn from spell usage
+		for i,abl in pairs(spells)
+			//if not (RPGChar[chtag].List.LEARN.Has("WENDICKA_"..abl) || RPGChar[chtag].List.ABL.Has("WENDICKA_"..abl))
+			if !(Wen.ListHas("LEARN","WENDICKA_"..abl) || Wen.ListHas("ABL","WENDICKA_"..abl))
+				m = math.min(m,i)
+			end
+		end
+		if m==3000
+			return ""
+		end
+		int need := m - ablused.Wendicka
+		if need<1
+			return "Make Wendicka learn a new ability by attacking any enemy"
+		end
+		if need<2
+			return "Wendicka needs to perform 1 more ability\nbefore she will learn a new one"
+		end
+		return sprintf("Wendicka needs to perform %d more abilities\nbefore she will learn a new one",need)
+	end
+	
+	get string Learn
+		// UniWendicka and not not normal Wendicka. The former is always in the memory, the latter only after the prologue 
+		// So this will always avoid crashes, and the two characters address the same memory locations, anyway.
+		//static var Wendicka = RPGChar.UniWendicka
+		LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
+		//for ABL in Wendicka.List.LEARN.Each
+		for ABL in Wendicka.ListEach("LEARN")
+			if !Wendicka.ListHas("ABL",ABL)
+				return ABL
+			end
+		end
+		for i,abl in pairs(spells)
+			//if not (Wendicka.List.LEARN.Has("WENDICKA_"..abl) || Wendicka.List.ABL.Has("WENDICKA_"..abl))
+			if !(Wendicka.ListHas("LEAN","WENDICKA_"..abl) || Wendicka.ListHas("ABL","WENDICKA_"..abl))
+				if i<=ablused.Wendicka
+					return "WENDICKA_"..Abl
+				end
+			end
+		end
+		return ""
+	end
+	
+	Init
+		spells[15] = "JOLT"
+		spells[30] = "SHOCKTHERAPY"
+		spells[90] = "MJOLNIR"
+		spells[200] = "ELECTRICCHARGE"
+		// "UniWendicka" is a safety measure. The uniform version starts the game and is therefore ALWAYS loaded.
+		//if !RPGChar.UniWendicka.List.ABL.Has("WENDICKA_SHOCK")
+		//	RPGChar.UniWendicka.List.ABL.Add = "WENDICKA_SHOCK"
+		if !RPGPureChar.UniWendicka.ListHas("ABL","WENDICKA_SHOCK")
+			RPGPureChar.UniWendicka.ListAdd("ABL","WENDICKA_SHOCK")
+			CSay("Wendicka's \"Shock\" ability has been added to her list!")
+		end
+		// RPGPureChar.UniWendicka.ListUnique("ABL") // Debug only! I had a broken list, this will allow it to fix itself.
+	end
+	
+//end

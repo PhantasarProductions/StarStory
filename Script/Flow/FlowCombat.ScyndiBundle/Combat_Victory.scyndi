@@ -1,0 +1,106 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Victory.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.15 VII
+// 
+// End License
+
+
+module
+
+#use "libs/music"
+#use "Script/Use/Link"
+#use "Libs/SCI/Graphics"
+#use "Script/Use/Anyway"
+#use "Libs/SCI/Intervar"
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
+
+locExtern Combat_Hero "Scyndi.Class.Combat_Hero"
+
+	readonly var Banner = LoadNewImage("GFX/Combat/YouWin.png","COMBAT_YOU_WIN")
+	int Frame=1000
+	get int NFrame
+		return math.max(0,Frame)
+	end
+	get number Scale
+		return 1-(NFrame/1000)
+	end
+	get number Degrees
+		return 0-NFrame
+	end
+	var Start
+
+	void Draw()
+		//Image.Rotate = Degrees
+		Graphics.Scale(Scale,Scale)
+		//Banner.XDraw(Screen.W div 2,Screen.H div 5)
+		Banner.DrawR(Graphics.W div 2,Graphics.H div 5,Degrees)
+		//Image.Rotate = 0
+		Graphics.Scale(1,1)
+	end
+	
+	void Update()
+		Frame-=3
+		if Frame<-500
+			if Start.Tune!="*NOCHANGE*"
+				Music.Pull()
+			end
+			RPGChar.Kill("FOE_",1)
+			Flow.GoToFlow("FIELD")
+			if Start.RemoveBarrier!=""
+				Map.Kill(Start.RemoveBarrier)
+			end
+			Combat_Hero.AllUpAP()
+			Party.NoDeath()
+			For i=1,__skill^2
+				Party.AutoBuffExpire()
+			End
+			gint.Combat_Victory++
+			For i in Each{17,25,50,100,1000}
+				If gint.Combat_Victory>=i
+					Ach.Award(sPrintF("VICTORY%05d",i))
+				End
+			End
+		end
+	end
+	
+	//Constructor
+	Init
+		Banner.HotCenter()
+	end
+	
+//end

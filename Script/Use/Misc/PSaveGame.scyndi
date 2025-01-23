@@ -1,0 +1,256 @@
+// License:
+// 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
+// 
+// 	  Version: 25.01.22 I
+// 	
+// 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/SGJCR" 
+#use "Libs/SCI/GINIE"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SGFile"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/gv"
+#use "Script/Use/Convert/RPG2Stat"
+
+// Dummy
+Global plua SaveGame 
+
+void MakeHeader()
+	string r = "Map:"..gStr.MapTitle.."\n"
+	r = r .. "Cycle:"..Caps.Cycle.."\n"
+	r = r .. "Difficulty:"..({"Easy","Casual","Hard"})[gv.vInt.skill].."\n"
+	r = r .. "Saved:"..gv.vInt.Saved.."\n"
+	table protagonists
+	string protagonist
+	string protaname
+	for i=0,5
+		string ch = RPGParty[i]
+		if ch && ch!=""
+			protagonists[ch]=true
+		end
+	end
+	if protagonists.Wendicka
+		protagonist = "Wendicka"
+		protaname = "Wendicka"
+	elseif protagonists.UniWendicka
+		protagonist = "UniWendicka"
+		protaname = "Wendicka"
+	else
+		protagonist = "Crystal"
+		protaname = "Crystal"
+	end
+	r +="Protagonist:"..protaname.."\n"
+	r +="ProtaLevel:"..RPGChar[protagonist].Stat.Level.."\n"
+	SaveGame.Text.Head = r
+end
+
+global void PerformSaveGame(string f)
+	//Lua.error("Saving game not yet implemented")
+	GV.vInt.Saved++
+	GV.vInt.Cycle = math.max(1,GV.vInt.Cycle)
+	CSayF("Saving: %s",f)
+	SaveGame = SGJCR.Create("STAR STORY SAVEGAME" )
+	SaveGame.Clear()
+	SaveGame.Assign(f)
+	CSay("Unparsing Variables")
+    Savegame.Text["Variables.ini"]=gsource
+    CSay("Unparsing playerdata")
+    SaveGame.Text["Player.ini"]=sprintf("[map]\nMap=%s\nLayer=%s\n[player]\nx=%d\ny=%d",Kthura.LastLoadedMap,Kthura.CurrentLayer,Player.X,Player.Y)
+    CSay("Unparsing permanent map kills")
+    sgkills:=GINIE.CreateNew("MAP_KILLS")
+    SaveGame.Text["MapPermaKills.ini"]="# Map Permanent Object Kills\n\n"..sgkills.source
+    CSay("Registering party data")
+    SaveGame.SetStat("STAR_STORY","Star Story")
+	//SaveGame.Data["*PARTY"] = "YES"
+	// GV.Save()
+	//SaveGame.Data["GAMEVARS.NEIL"] = GV.Enroll
+	//Map.SG()
+	//Vault.Save()
+	//Ach.Save()
+	//Hawk.Save()
+	if f=="QUIT"
+		CSay("Kill tag")
+		SaveGame.Data["KILL ME"]="KILL ME"
+	end
+	CSay("Writing header")
+	MakeHeader()
+    CSay("Saving")
+	SaveGame.Save()
+	CSay("The game has been saved")
+end
+
+void Process(int p)
+	static int max = 10
+	Graphics.Cls()
+	Loading()
+	Graphics.Color(100,100,100)
+	Graphics.Rect(0,Graphics.H-10,Graphics.W,10)
+	Graphics.Color(255,math.ceil( (p/max)*180 ), 0)
+	Graphics.Rect(0,Graphics.H-10,math.ceil( (p/max)*Graphics.W),10)
+	Graphics.Flip()
+	Events.Poll()
+end
+
+plua tfnt
+global bool PerformLoadGame(string f)
+	//Lua.error("Loading game not yet implemented")
+	//static var tfnt
+	// Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
+	Process(1)
+	CSay("Clearing SaveGame buffer")
+	Process(2)
+	SaveGame = SGJCR.Create("STAR STORY LOAD GAME")
+	SaveGame.Clear()
+	Process(3)
+	SaveGame.Assign(f)
+	CSayF("Loading Saved Game: %s",f)
+	//try
+		// Load in general
+		Process(4)
+		SaveGame.SetStat("STAR_STORY","Star Story")
+		SaveGame.Load()
+		// Game Vars (must be first, as some data I need later is in there!
+		CSay("Loading Statistician Data")
+		//SaveGame.SetStat("STAR_STORY","Star Story")
+		Process(5)
+		CSay("Parsing Game Vars")
+		//NeilDoString(SaveGame.Data["GAMEVARS.NEIL"],"SG:GameVars.Neil")
+		print(SaveGame.Text["Variables.ini"]) // DEBUG ONLY!
+		gsource = SaveGame.Text["Variables.ini"]
+		BoxText.SyncLang()
+		// Map
+		Process(6)
+		//CSay("Loading Field Flow")
+		//Flow.Load("FIELD","Script/Load/LoadField.neil")		
+		Sys.LoadFlow("FIELD","Script/Load/LoadField.lbc")
+		sgmap:=GINIE.Create("MAP_LOAD")
+		sgmap.Clear()
+		sgmap.Source=SaveGame.Text["PLAYER.INI"]
+		//Map.GoToMap(sgmap.Value("Map","Map"),sgmap.Value("Map","Layer"))
+		
+		CSay("Parsing Permakills")
+		Process(7)
+		sgkills:=GINIE.CreateNew("MAP_KILLS")
+		sgkills.Clear()
+		sgkills.Source=SaveGame.Text["MapPermaKills.ini"]
+		Process(8)
+
+		
+		Map.LoadMap(StripDir(sgmap.Value("Map","Map")))
+		Kthura.CurrentLayer = sgmap.Value("Map","Layer")
+		Map.SpawnXY("PLAYER",sgmap.IntValue("PLAYER","X"),sgmap.IntValue("PLAYER","Y"))
+		
+		//State.Call("FLOW_FIELD","LGMap","nil")	
+		//if SaveGame.HasData("VAULT.NEIL")
+		//	CSay("Loading vault data")
+		//	NeilDoString(SaveGame.Data["VAULT.NEIL"],"SG:Vault.Neil")
+		//else
+		//	CSay("No vault data, hopefully everything's fine!")
+		//end
+		Process(9)
+		//Ach.Load()
+		Process(10)
+		//Hawk.Load()		
+	//catch e
+	if false
+		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }
+		//	CSayF("Exception: '%s' = %s",k,tostring(e[k]))
+		//end
+		Cls()
+		__red
+		tfnt = tfnt || ObtainFont("SYSFONT")
+		tfnt.Draw("The savegame file you tried to load appears to be corrupted!",0,0)
+		__ember
+		tfnt.Draw("Click to continue...",0,40)
+		Flip()
+		repeat
+			Events.Poll()
+		until Events.MouseHitLeft
+		return false
+	end
+	// Lua.error("Loading game not yet implemented. Working on it!")
+	if SaveGame.HasText("KILL ME")
+		SaveGame.Mutilate()
+	end
+	
+	return true
+end
+
+
+global string GetSGFileName(int i)
+	return SPRINTF("Star Story - Saved Game.%03d",i)
+end
+
+global table GetHeader(int i)
+	table ret
+	//Lua.error("Get Header Not Yet Implemented")
+//#if IGNOREALLTHIS
+	//string h;h = SaveGame.GetHeader(GetSGFileName(i))
+	string FName:=GetSGFileName(i)
+	if (!SGFile.FileExists(FName)); return nil; end
+	SG := SGJCR.Create("GET_HEADER")
+	SG.Assign(GetSGFileName(i))
+	SG.Load()
+	string h:=SG.Text.Head
+	cout("<SaveGame Header id=",i," file=\"",GetSGFileName(i),"\">\n",h,"\n</SaveGame Header>\n")
+	table lines;lines = XSplit(h,"\n")
+	for _,line in ipairs(lines)
+		cout("Parse> ",line,"\n")
+		table chopped;chopped = XSplit(line,":")
+		//print(Serialize("chopped",chopped),len(chopped))
+		if len(chopped)==2
+			ret[chopped[0]] = chopped[1]
+		end
+	end
+	//print(Serialize("SG"..i,ret))
+//#fi	
+	return ret
+end

@@ -1,0 +1,389 @@
+// License:
+// 	  src/Script/Script/Flow/FlowMain.scyndi
+// 
+// 	  Version: 25.01.06 I
+// 	
+// 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Misc/PSaveGame"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/ViesBah"
+
+Const Int IntroTextWidth = 640
+Const Int IntroTextHeight = 1140
+
+Const Bool QuickQuit = true
+Const int LogoCD = 500
+
+Const Bool TimeOutNext = false
+
+Const String __BUGS = "https://github.com/PhantasarProductions/StarStory/issues"
+
+// These lines are from the original BlitzMax code, and used as a kind of helper for me
+// Field P:TPixmap = LoadPixmap(JCR_B(JCR,"GFX/Intro/Introtext.png"))
+// Field IntroText:TImage = LoadAnimImage(P,PixmapWidth(P),1,0,PixmapHeight(P))	
+//	Field stars:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/Starfield.png"))
+//	Field StarStory:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/StarStory.png"))
+//	Field Phantasar:TImage = LoadImage(JCR_B(JCR,"GFX/Intro/PhantasarProductions.png"))
+
+bool ShowMenu = False
+var Stars = LoadImage("GFX/Intro/Starfield.png","STARFIELD")
+var Phantasar = LoadImage("GFX/Intro/PhantasarProductions.png","FUCK_PP_LOGO")
+var StarStory = LoadImage("GFX/Intro/StarStory.png","FUCK_SS_LOGO")
+//var ScrollText = Image.LoadAnim("GFX/Intro/Introtext.png",IntroTextWidth,1,IntroTextHeight)
+var ScrollText = LoadImage("GFX/Intro/IntroText.jpbf","FUCK_SWIST")
+var Mouse = ObtainImage("MOUSE")
+var MenuFont = ObtainFont("BOXTEXT")
+
+
+
+class MenuItem
+	readonly string Caption
+	readonly delegate Action
+	readonly bool Enabled
+	CONSTRUCTOR(string C, A, E)
+		Caption = C
+		Action = A
+		Enabled = E!=False
+	end
+end
+
+
+class Stage
+	static int AtStage=1
+	static table Stages = NewArray({})
+	readonly delegate Flow
+	readonly delegate Start
+	CONSTRUCTOR( AFlow, AStart)
+		cout("New Stage(<",AFlow || "nil",">, <",AStart || "nil",">)\n")
+		Flow = AFlow
+		Start = AStart
+		//Stages += self
+		Stages[len(Stages)] = self
+		printf("Stages -> %d\n",len(Stages))
+	end
+	static void NewStage( AFlow, AStart)
+		print(AFlow,AStart)
+		var voidme;voidme = new Stage(AFlow,AStart)
+	end
+	
+	static int Timeout=1000
+	static void Next()		
+		if TimeOutNext
+			Timeout--
+			print("Timeout CD:",TimeOut)
+			if Timeout==0
+				print("TimeOut reached! byebye!")
+				Flow.Quit(255)
+			end
+		end
+		AtStage++
+		if AtStage>=Len(Stages)
+			AtStage=1
+		end
+		print("Going to state:",AtStage.."/"..(Len(Stages)))
+		if Stages[AtStage].Start
+			print("Start callback: ",AtStage)
+			Stages[AtStage].Start()
+		end
+	end
+end
+
+table Menu
+
+// This function is merely used as a placeholder for when no link through function is available yet!
+void NOTHING()
+	print("Nothing happens")
+end
+
+void ShowLogo()
+	//static int CountDown = LogoCD
+	LocExtern CountDown "ShowLogoCountDown_f4066d6b78558dbdb27f33077c6f82b99927e500"
+	CountDown = CountDown || LogoCD
+	// print("ShowLogo!","Stage:",Stage.AtStage,"CD:",CountDown)
+	SetScale(1,1)
+	SetAlpha(255)
+	SetColor(255,255,255)
+	switch Stage.AtStage
+		case 1
+			//print("Phantasar Productions presents!")
+			//printf("%dx%d -> (%d,%d)\n",Graphics.W ,Graphics.H ,Graphics.W div 2,Graphics.H div 2)
+			Phantasar.Draw(Graphics.W div 2,Graphics.H div 2)
+		case 2 6
+			//print("Star Story!")
+			StarStory.Draw(Graphics.W div 2,Graphics.H div 2)
+		default
+			//print("Show Nothing!")
+	end
+	CountDown--
+	if CountDown<=0
+		CountDown=LogoCD
+		Stage.Next()
+	end
+end
+
+class FadeScroll
+	static table Line
+	//int y
+	var y
+	int frame
+	//number color
+	//number scale
+	var color
+	var scale
+	int scale1000
+	
+	static void Start()
+		print("Start")		
+		int wy = Graphics.H
+		print("Let's initiate IntroTextHeight lines of art")
+		for ak=0,IntroTextHeight-1 
+			wy+=1
+			var f
+			//line[ak+1] = line[ak+1] || new FadeScroll()
+			//F = line[ak+1]
+			line[ak] = line[ak] || new FadeScroll()
+			F = line[ak]
+			F.y = wy*1.0
+			f.frame = ak
+			f.color=1.0
+			f.scale=1.0
+			f.scale1000=1000
+			//print(ak,IntroTextHeight)
+			//cout("= ",ak,"> y",f.y,"; frame",f.frame,"; color",f.color,"; scale",f.scale,"\n")
+		end
+		print("Created",Len(line),"lines")
+	end
+	
+	static bool FirstTime=true
+	static void Flow()		
+		if FirstTime
+			print("First time in scroller stage!")
+			FadeScroll.Start()
+			print("Done?")
+			FirstTime=false
+		end
+		//print("Flow")
+		bool done3=True	
+		for i,f in ipairs(Line)
+			if f.y<Graphics.H && f.scale>0
+				Graphics.Scale( f.scale,f.scale)
+				//Graphics.scale(f.scale1000,f.scale1000)
+				Graphics.Color(math.floor(255*f.color),math.floor(180*f.color),0)
+				//DrawImage introtext,tw/2,f.y,f.frame
+				ScrollText.Draw(Graphics.W div 2,f.y,f.frame)
+				//f.y-=(f.scale1000/1000
+			end
+			f.y-=f.scale
+			if f.y<Graphics.H
+				if f.scale>0 
+					//f.scale-=.001
+					f.scale = f.scale - 0.001
+					//f.scale1000--
+				end
+				if f.color>0 
+					f.color-=0.0005
+				end
+			end
+			done3 = done3 && f.scale<=0	
+			//done3 = done3 && f.scale1000<=0	
+			// print(i,">>>",done3,f.scale,f.color,f.y)
+		end
+		//print("done3 = ",done3)
+		//Graphics.Scale(1000,1000)
+		Graphics.Scale(1,1)
+		if done3 
+			//process=1
+			int cnt=0
+			//For Local F:TFadeFrame = EachIn ITL
+			for _,f in ipairs(Line)
+				f.scale = 1
+				f.scale1000=1000
+				//f.y=TH+50+cnt; cnt:+1
+				f.y = Graphics.H+50+cnt
+				cnt++
+				f.color=1
+			end
+			showmenu=true
+			Stage.Next()
+			//DebugLog "Reset scroll"	
+		end
+	end
+end
+
+void DoMenu()
+	if not showmenu
+		return
+	end	
+	Graphics.Color(255,180,0)
+	Graphics.Rect(0,Graphics.H-32,Graphics.W,5)
+	Graphics.Color(0,0,0)
+	Graphics.Rect(0,Graphics.H-28,Graphics.W,28)
+	static int iw = math.floor(Graphics.W / (Len(Menu)+1))
+	static int iwh;iwh = iw/2
+	for trueidx,item in ipairs(Menu)
+		plua idx;idx=trueidx+1
+		Graphics.Color(0,180,255)
+		if not item.Enabled
+			Graphics.Color(255,0,0)
+		end
+		if item.Enabled and Events.MouseY>Graphics.H-32 and Events.MouseX>(iw*idx)-iwh and Events.MouseX<(iw*idx)+iwh
+			Graphics.Color(160,210,255)
+			if Events.MouseHitLeft
+				item.Action()
+			end
+		end
+		MenuFont.Text(item.Caption,idx*iw,Graphics.H-14,2,2)
+	end
+end
+
+void Bugs()
+	//OS.Execute("OpenURL BUGS")
+	Sys.OpenURL(__BUGS)
+end
+
+void NewGame()
+	Loading()
+	Flow.Load("NEWGAME","Script/Flow/FlowNewGame.lbc")
+	Flow.Current="NEWGAME"
+	Sys.PlanToKillState("FLOW_MAINMENU")
+end
+
+void LoadGame()
+	Loading()
+	Flow.Load("SAVEGAME","Script/Flow/FlowSaveGame.lbc")
+	Sys.Call("FLOW_SAVEGAME","SetActionLoad","nil")
+	Flow.Current="SAVEGAME"
+end
+
+void ContinueGame()
+	Loading()
+	PerformLoadGame("QUIT")
+	Flow.Current="FIELD"
+end
+
+void StartJukeBox()
+	// Due to copyright issues, the Jukebox has also been added to the main menu
+	Loading()
+	Flow.Load("JUKEBOX","Script/Flow/FlowJukebox.neil")
+	Sys.Call("FLOW_JUKEBOX","Arrival","ReturnMain")
+	Flow.Current="JUKEBOX"
+end
+
+
+init
+	Menu = {}
+	Menu += new MenuItem("New Game",NewGame)
+	//Menu += new MenuItem("Continue",ContinueGame,SaveGame.Recognized("QUIT"))
+	//Menu += new MenuItem("Load Game",LoadGame)
+	Menu += new MenuItem("Load",LoadGame)
+	Menu += new MenuItem("JukeBox",StartJukeBox)
+	Menu += new MenuItem("Bugs",BUGS)
+	Menu += new MenuItem("Exit",FLOW.QUIT)
+	Print("Starfield.Tile:",0,0,Graphics.W,Graphics.H)
+	Print("Starfield.Size:",Stars.Width,Stars.Height)
+	Print("Phantasar.Size:",Phantasar.Width,Phantasar.Height)
+	Phantasar.HotCenter()
+	StarStory.HotCenter()
+	ScrollText.HotCenter()
+	Stage.NewStage(ShowLogo)
+	Stage.NewStage(ShowLogo)
+	//Stage.NewStage(FadeScroll.Flow,FadeScroll.Start)	
+	Stage.NewStage(FadeScroll.Flow)	
+	Stage.NewStage(ShowLogo) // Shows nothing at all... Creating a bit of rest before resetting the loop
+	Stage.NewStage(ShowLogo)
+	Stage.NewStage(ShowLogo)
+	Stage.NewStage(ShowLogo)
+	Music.Play("Music/Introduction/Introduction.ogg")
+	//print("Dev:",Dev.indev)
+end
+
+// No equivalent in SCI and not even gonna put it in either
+//global void Apollo_Dispose()
+//	Print("Main menu flow will now be disposed!")
+//end
+
+
+plua StartDestroyed=false
+global void MainFlow()
+	//static bool StartDestroyed
+	if not StartDestroyed
+		Flow.Kill("MAIN")
+		StartDestroyed = true
+	end
+	//Dev.ToConsole()
+	// print("Start Flow!")
+	int mx = Events.MouseX
+	int my = Events.MouseY
+	Graphics.Color(255,255,255)
+	Stars.Tile(0,0,Graphics.W,Graphics.H)
+	Lua.assert(Stage.Stages[Stage.AtStage],sprintf("Stage #%d is empty!",Stage.AtStage))
+	Lua.assert(Stage.Stages[Stage.AtStage].Flow,sprintf("Stage #%d has no Flow method set!",Stage.AtStage))
+	Stage.Stages[Stage.AtStage].Flow()
+	//Stars.Draw(0,0)
+	if Events.KeyHit(27) or Events.AppTerminate()
+		Print("User hit ESCAPE! Leaving the game!")
+		Flow.Quit()
+	end
+	if (not ShowMenu) and (Events.KeyHit(32) or Events.KeyHit(13) or Events.MouseHitLeft)
+		Print("User forced menu to appear already")
+		ShowMenu = true
+	end
+	// Menu
+	DoMenu()
+	// Debug only
+	// FPS.Show(5,5)
+	// Must be very last
+	Graphics.Color(255,255,255)
+	Mouse.Draw(mx,my)
+	SetColor(80,80,80)
+	MenuFont.Text(sprintf("Star Story - Version %d.%02d",_versionmaj,_versionmin),Graphics.W-2,2,1,0)
+end

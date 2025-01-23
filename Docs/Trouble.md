@@ -1,3 +1,8 @@
+# NOTE!
+
+This document was setup when the game still ran in Apollo. 
+I will need to revise (or perhaps even rewrite it) once the operation is done, or at least in a state that I know more of all consequences of this operation!
+
 # Troubleshooting
 
 In this document you will find some trouble you may encounter or which may get you some questions. The stuff noted in this document is stuff you should not make note about in the issue tracker, as your issue is likely to be closed without paying it further notice.

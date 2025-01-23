@@ -1,0 +1,84 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Excalibur - Sickbay.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.22 VII
+// 
+// End License
+
+
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+#use "Script/Use/Link"
+
+extern Screen "Scyndi.Class.Graphics"
+
+group MScript
+
+	void Draw()
+	end
+	void Update()
+	end
+	void Load()
+		CSay("Welcome in sickbay")
+	end
+	
+	void SickBay()
+		var Doctor = LoadImage("GFX/Portret/Doctor/General.png")
+		Graphics.Cls()		
+		for i=255,0,-1
+			Doctor.Stretch(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(i)
+			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.SetAlpha(255)
+			Graphics.Flip()
+			Events.Poll()
+			if i==255 || i==0
+				Sys.Sleep(2000)
+			end
+		end	
+		Map.SpawnPlayer("Start")
+		Map.SetObjField("PLAYER","Texture","GFX/Actors/Uniform/Wendicka.North.jpbf")
+		MapText("SICKBAY")
+		Map.Load("Excalibur - AllQuiet")
+		Schedule.Add("LeaveSickBay")
+	end
+end

@@ -1,0 +1,260 @@
+// License:
+// 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
+// 
+// 	  Version: 25.01.21
+// 	
+// 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "libs/sci/sys"
+#use "libs/sci/graphics"
+#use "libs/sci/intervar"
+
+#use "script/use/link"
+#use "script/use/anyway"
+#use "script/use/convert/viesbah"
+
+
+locExtern _self "Scyndi.Class.Combat_Time"
+LocExtern Stage "Scyndi.Class.Stage"
+LocExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+locExtern Stage_PlayerInput "Scyndi.Class.Stage_PlayerInput"
+locExtern Combat_StatusChanges "Scyndi.Class.Combat_StatusChanges"
+
+group ShowTagPointer
+
+	void Hero(f,int x,int y)
+		//LocExtern WenHot "Wendicka_Hot_On_Time_Gauge_Not_Yet_Set"
+		if (f.Tag=="UniWendicka" || f.Tag=="Wendicka") && (!f.GIIMG)
+			f.GIIMG = LoadNewImage("GFX/Combat/GaugeIcons/Wendicka.png","FUCKYOU_WENDICKA_SHOULD_APPEAR_ON_THE_TIME_GUAGE_ANYWAY")
+			f.GIIMG.Hot(11,5)
+		end
+		f.GIIMG = f.GIIMG || LoadNewImage(sPrintF("GFX/Combat/GaugeIcons/%s.png",f.Tag),f.GITag)
+		
+		f.GIIMG.Draw(x-10,y-40)
+	end
+	
+	readonly var fnt = ObtainFont("SYSFONT")
+	
+	void Foe(f,int x,int y)		
+		fnt.Text(f.TagLetter,x-10,y+28)
+	end
+end
+	
+
+
+//module
+
+	// What is important to note is that I tried to copy as much as I
+	// could in order to preserve the experience as much as possible.
+	// However I did want to improve things code wise, and in the original
+	// game this was spread all over my code. I'll group it together.
+	//
+	// This way guarantees me that when it comes to the timing of the combat
+	// flow the game should be as easy/hard as the original.
+	
+	readonly var Gauge = ObtainImage("COMBAT_TIMEGAUGE")
+	readonly var PointHero = ObtainImage("COMBAT_POINTHERO")
+	readonly var PointFoe = ObtainImage("COMBAT_POINTFOE")
+	readonly int gaugex 
+	readonly int gaugey = 40
+	var FClass
+	int HiSpeed = 0
+	//screen.H - Gauge.H
+	
+	get bool IsIDLE
+		return (!Stage.Current) || Stage.Current==Stage.IDLE 
+	end
+	
+	var Execution
+	
+	//CONSTRUCTOR
+	Init
+		// I needed this to void the fact that "self" is seen as "nil" in the class declaration scope.
+		// Something I need to address later, but which is not my primary concern
+		gaugex = Graphics.W - (Gauge.Width+20)
+		PointHero.Hot(10,45) // Hot file keeps on getting ignored	
+		PointFoe.Hot(10,0)
+	end
+	
+	void CalcHighSpeed()
+		HiSpeed=0
+		for tag,data in pairs(Combat_Fighter.Fighters)	
+			If Data.Char.Points.HP.Have>0 || Data.Team == "Hero"
+				HiSpeed = math.max(HiSpeed,data.Stats.Agility)
+				CSayF("HiSpeed: Check.%s = %d => %d",Tag,data.Stats.Agility,HiSpeed)
+			else
+				CSayF("HiSpeed: Check.%s - Ignored. Character appears to have fallen",Tag)
+			end
+		end
+		HiSpeed = math.max(HiSpeed,1)
+		CSayF("HiSpeed set to %d",HiSpeed)
+	end
+	
+	void RegenCheat()
+		if gBool["CHEAT.REGEN"]
+			for tag,fv in pairs(Combat_Fighter.Fighters)
+				if fv.Team=="Hero"
+					fv.Char.Points.HP.Have++
+				end
+			end
+		end
+	end
+	
+	void UpdateGauge()
+		locextern _self "Scyndi.Class.Combat_Time"
+		if HiSpeed==0
+			CalcHighSpeed()
+		end
+		for tag,fv in pairs(Combat_Fighter.Fighters)
+			if fv.Available
+				if fv.StatusChange.Fallen || fv.StatusChange.Paralysis || fv.StatusChange.Sleep
+					fv.Gauge=math.max(0,fv.Gauge-2)
+				elseif fv.Gauge<10000
+					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
+					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					elseif fv.Gauge==10000 && fv.ChargedAct
+						fv.NextAct = fv.ChargedAct
+						fv.ChargedAct = nil
+						fv.Gauge=10001
+					elseif fv.Gauge==10000
+						RegenCheat()	
+						Party.AutoBuffExpire()
+						_self.CalcHighSpeed()
+						switch fv.Team
+							case "Hero"
+								if isIDLE
+									Stage_PlayerInput.ComeToMe(fv.Tag)
+								end
+							case "Foe"
+								fv.AI.Decide(fv)
+								fv.Gauge=10001
+						end
+					elseif fv.Gauge==20000
+						// Status changes that trigger pre-turn (like poison)
+						RegenCheat()
+						Party.AutoBuffExpire()
+						_self.CalcHighSpeed()
+						for sc in fv.StatusChange()
+							Combat_StatusChanges.GetSt(sc).PreTurn(fv)
+						end
+						// To Action
+						if not fv.NextAct
+							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
+							fv.Hurt("Cancel")
+							fv.Gauge=0						
+						elseif isIDLE
+							_self.Execution.ComeTome(fv.NextAct)
+						end
+					elseif fv.Gauge>10000
+						if not fv.NextAct
+							CSayF("Move for %s on point %d appears to be canceled!",fv.Tag,fv.Gauge)
+							fv.Hurt("Cancel")
+							fv.Gauge=0
+							Party.AutoBuffExpire()
+							_self.CalcHighSpeed()
+						else
+							fv.Gauge = math.min(20000,fv.Gauge+(fv.NextAct.ActSpeed*fv.NextAct.XActSpeed))
+						end
+					end
+			end
+		end
+	end
+	
+	void DrawGauge()
+		const int iy = 40
+		//--int fk
+		//--int fs
+		//--int fi
+		//--int fv
+		//--int
+		int ak
+		int x
+		int r
+		int g
+		int b
+		static table pointerypos = nil
+		pointerypos = pointerypos || { ["Hero"] = iy+17, ["Foe"] = iy+37 }
+		//if gaugey<0 
+		//	gaugey=gaugey+1 
+		//end
+		//-- Init
+		//Image.ViewPort(gaugex,gaugey,800-gaugex,200)
+		//Image.Origin(gaugex,gaugey)
+		//-- Show
+		__white
+		Gauge.Draw(gaugex,gaugey) //Image.Draw("COMBATGAUGE",0,iy)
+		//for fk,fs in spairs(Fighters) do
+			//for fi,fv in pairs(fs) do
+			
+		for fi,fv in pairs(FClass.Fighters)
+			if fv.Available
+				string fk = fv.Team
+				if fv.Gauge<=10000 
+					g=180
+					b=(fv.Gauge/10000)*255
+					r=255-b
+					x=(fv.Gauge/10000)*300
+				else
+					r=255
+					g=0
+					b=0
+					x=300+(((fv.Gauge-10000)/10000)*99)
+					end
+				Graphics.Color(r,g,b)
+				if !pointerypos[fk]
+					Lua.error(sprintf("No Y data for combat team '%s",fk))
+				end
+				if fv.Gauge>=0
+					_self["Point"..fk].Draw(x+gaugex,pointerypos[fk])
+					//Image.Draw("COMBATGAUGEPOINT"..upper(fk),x,pointerypos[fk])   
+					//-- White(); Image.Line(x-10,pointerypos[fk],x+10,pointerypos[fk]);    Image.Line(x,pointerypos[fk]-10,x,pointerypos[fk]+10); -- Debug line. Must be a comment in release  
+					__white 
+					ShowTagPointer[fk](fv,x+gaugex,pointerypos[fk])
+				end
+			end
+		end
+		//end // I needed one for-loop less, so also one end less.
+	//-- Done
+	//Image.Origin(0,0)
+	//Image.ViewPort(0,0,800,600)
+	end
+//end
