@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.23
+// 	version: 25.01.23 I
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -77,7 +77,7 @@ Int CharStat(data,String Key)
 				Return d.Stat[sk[1]]
 			Case "POWERUP" "UPGRADE" "BUFF"
 				if _links[c]
-					d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]]
+					d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]][sk[0]]
 				end
 				return d.XStat[sk[1]].Buff[sk[0]]
 		End
