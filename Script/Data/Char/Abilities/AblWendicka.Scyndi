@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23 IV
+// version: 25.01.23 V
 // 
 // End License
 
@@ -49,7 +49,7 @@ module
 	
 	string ShowNeed(string chtag)
 		// parameter seems odd, but don't forget about the link between ExHuRU, Johnson and Rolf, and Wendicka has a similar link, although in her case it may not matter that much, but for safety reasons, yeah, there goes!!
-		Wen:=RPGPureChar.UniWendicka
+		Wen:=Ternary(RPGParty[0]=="UniWendicka",RPGPureChar.UniWendicka,RPGPureChar.Wendicka)
 		int m = 3000
 		// Learn from allies
 		//if RPGChar[chtag].List.LEARN.Count>0
@@ -90,7 +90,12 @@ module
 		//for ABL in Wendicka.List.LEARN.Each
 		for ABL in Wendicka.ListEach("LEARN")
 			if !Wendicka.ListHas("ABL",ABL)
-				return ABL
+				If (RPGChar.Has("Wendicka") && RPGPureChar.Wendicka.ListHas("ABL",ABL))
+					CSayF("Updating uniform Wendicka for ability: %s",ABL)
+					RPGPureChar.UniWendicka.ListAdd("ABL",ABL)
+				Else
+					return ABL
+				End
 			end
 		end
 		for i,abl in pairs(spells)

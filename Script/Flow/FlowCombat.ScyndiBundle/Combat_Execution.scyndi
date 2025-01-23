@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.23 II
+// 	  Version: 25.01.23 III
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -246,7 +246,7 @@ LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
 			End
 			If Act.Learning
 				//Act.Executor.Char.List.ABL.Add = Act.LearningABL
-				Act.Executor.PureChar.AddList("ABL",Act.LearningABL)
+				Act.Executor.PureChar.ListAdd("ABL",Act.LearningABL)
 				Act.Executor.Hurt("Learned: "..Act.Act.Name)
 			End
 		End
