@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.23 I
+// 	  Version: 25.01.23 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -97,6 +97,8 @@ Global var QUse(string u)
 	Switch Upper(u)
 	Case "SCRIPT/FLOW/FIELDMENU/ITEMS"
 		return QUse("Script/Flow/FieldMenu/Items_FieldMenu")
+	Case "SCRIPT/FLOW/FIELDMENU/VAULT"
+		return QUse("Script/Flow/FieldMenu/Vault_Menu")
 	Default
 		Lua.Scyndi.Use(u)
 		return Lua.Scyndi.Class[stripdir(u)]
