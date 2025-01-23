@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.23 IV
+// 	  Version: 25.01.23 V
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -127,7 +127,7 @@ class Crystal_ARMS
 				Graphics.Color(0,255,255)
 				if Events.MouseHitLeft 
 					if Prefixed(situation,"COMBAT_")
-						State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
+						State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",at) //sprintf("\"%s\"",at))
 					elseif situation=="UPGRADE"
 						ClickARM(at)
 					end
