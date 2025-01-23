@@ -34,11 +34,13 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // End License Information
-bool Ret(Act)
+
+module
+bool DoEffect(Act)
 	for i,t in pairs(Act.Targets_Tag)
 		Act.Targets[i].NextAct=nil
 	end
 	return true
 end
 
-return Ret
+//return Ret
