@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 I
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -337,6 +337,13 @@ group FldMap
 	//End
 	int ScrollX
 	int ScrollY
+	
+	// These four methods are needed for interstate calls.
+	Int GetScrollX(); Return ScrollX; End
+	Int GetScrollY(); Return ScrollY; End
+	Void SetScrollX(Int v) ScrollX=v; End
+	Void SetScrollY(int v) ScrollY=v; End
+	
 	get string Layer
 		return Kthura.CurrentLayer
 	End
