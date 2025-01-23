@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - UnderAttack.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - UnderAttack.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,14 +33,19 @@
 // 
 // **********************************************
 // 
-// version: 21.05.23
-// End License Information
+// 
+// version: 25.01.23 VII
+// 
+// End License
+
 
 Script
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 //#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.05.23"
@@ -71,7 +77,7 @@ group MScript
 	end
 	
 	void Start()
-		What2Show()
+		MScript.What2Show()
 		Map.SpawnPlayer("Start")
 		Player.Wind="South"
 		if !StartCyborgsDead
@@ -107,19 +113,19 @@ group MScript
 		Map.Kill("Check_Transporter_First",true)
 		MapText("NoTransport")
 		ShowAll=true
-		What2Show()
+		MScript.What2Show()
 	End
 		
 	Void Guinevere()
-		MapText("GUINEVERE."..(Map.Leader:upper()))
+		MapText("GUINEVERE."..Upper(Map.Leader))
 	end
 
 	Void Lancelot()
-		MapText("LANCELOT."..(Map.Leader:upper()))
+		MapText("LANCELOT."..Upper(Map.Leader))
 	end
 
 	Void CheckTransporterFirst()
-		MapText("TRANSPORTERFIRST."..(Map.Leader:upper()))
+		MapText("TRANSPORTERFIRST."..Upper(Map.Leader))
 	end
 	
 	Void Secret()
@@ -150,7 +156,7 @@ group MScript
 		end
 		Map.Remap()
 		MapText("SECRET.2")
-		for a in each { "PLAYER","Crystal", "ExHuRU" }
+		for _,a in pairs { "PLAYER","Crystal", "ExHuRU" }
 			Map.ObjWalkTo(a,"EnWeg")
 		end
 		for i=100,0,-1
@@ -165,8 +171,9 @@ group MScript
 		Map.Load("Excalibur - SecretPassage")
 		Schedule.Add("Start")
 	end
+end	
 	
-	CONSTRUCTOR
+	Init
 		Map.AllowQuitSave=false
 		ZA.Enter("Go Home","GoHome")
 		ZA.Enter("BrokenTransporter","BrokenTransporter")
@@ -176,4 +183,4 @@ group MScript
 		ZA.Enter("Transporter_Gawain","Secret")
 	end
 
-end
+//end
