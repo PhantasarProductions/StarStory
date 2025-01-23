@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -358,12 +358,15 @@ End
 		MCall("DrawScreen",nil)
 	End
 	
-	//Get Int CamX
+	Get Int CamX
+		Return Sys.Call("FLOW_FIELD","FLDMap.GetScrollX")
 	//	Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollX")
-	//End
-	//Get Int CamY
+	End
+	
+	Get Int CamY
+		Return Sys.Call("FLOW_FIELD","FLDMap.ScrollY")		
 	//	Return ISGET.Int("FLOW_FIELD","FLDMap.ScrollY")
-	//End
+	End
 	
 	
 	

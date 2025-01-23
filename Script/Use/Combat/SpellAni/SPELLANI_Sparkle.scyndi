@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.01.23 I
 // 
 // End License
 
@@ -54,7 +54,7 @@ module
 	
 	Init
 		Glitter = LoadImage("GFX/Combat/SpellAni/Glitter/Base.png","SPELLANI_Glitter")
-		MyAudio = Audio.LoadNew("Audio/SpellAni/Glitter.ogg","SPELLANI_Glitter")
+		MyAudio = Audio.LoadNew("Audio/Combat/SpellAni/Glitter.ogg","SPELLANI_Glitter")
 	end	
 
 	void Start(aact)
