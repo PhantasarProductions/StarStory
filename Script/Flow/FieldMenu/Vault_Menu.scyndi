@@ -37,11 +37,16 @@
 
 module
 
-	readonly var fnt = ImageFont.Obtain("BOXTEXT")
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+	readonly var fnt = ObtainImageFont("BOXTEXT")
 	readonly var Buzz = Audio.Obtain("BUZZ")
 	
-	ReadOnly Var ButtonUp = Image.Obtain("UP")
-	ReadOnly Var ButtonDown = Image.Obtain("DOWN")
+	ReadOnly Var ButtonUp = ObtainImage("UP")
+	ReadOnly Var ButtonDown = ObtainImage("DOWN")
 
 
 	void Flow(ubox,string CharTag)
@@ -54,7 +59,7 @@ module
 			//print(Lua.type(i),i)
 			y += 25
 			if y>=25 && y<=ubox.h-50
-				if Events.MouseX()>ubox.x && Events.MouseY()>ubox.y+y && Events.MouseX()<ubox.x+ubox.w-150 && Events.MouseY()<ubox.y+y+25
+				if Events.MouseX>ubox.x && Events.MouseY>ubox.y+y && Events.MouseX<ubox.x+ubox.w-150 && Events.MouseY<ubox.y+y+25
 					Hover = i
 				end
 				Graphics.Color(0,180,255)
@@ -83,9 +88,9 @@ module
 		If AllowDown
 			ButtonDown.Draw(sdx,sdy)
 		End
-		if Events.MouseHitLeft()
+		if Events.MouseHitLeft
 			if itmod.citem!="" 
-				if Vault.Has(itmod.citem)<Caps.InventoryMaxVaultStack && Events.MouseX()>ubox.x && Events.MouseY()>ubox.y && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()<ubox.y+ubox.w
+				if Vault.Has(itmod.citem)<Caps.InventoryMaxVaultStack && Events.MouseX>ubox.x && Events.MouseY>ubox.y && Events.MouseX<ubox.x+ubox.w && Events.MouseY<ubox.y+ubox.w
 					Vault.Store(itmod.citem)
 					itmod.citem=""
 				end
@@ -95,14 +100,14 @@ module
 					itmod.citem=Hover
 				end
 			end
-			If AllowUp && Events.MouseX()>sux && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>ubox.y && Events.MouseY()<ubox.y+suy
+			If AllowUp && Events.MouseX>sux && Events.MouseX<ubox.x+ubox.w && Events.MouseY>ubox.y && Events.MouseY<ubox.y+suy
 				ScrollY-=25
 			End
-			If AllowDown && Events.MouseX()>sdx && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>sdy && Events.MouseY()<ubox.y+ubox.h
+			If AllowDown && Events.MouseX>sdx && Events.MouseX<ubox.x+ubox.w && Events.MouseY>sdy && Events.MouseY<ubox.y+ubox.h
 				ScrollY+=25
 			End
 		end
-		if Events.MouseHitRight() && Hover !=""
+		if Events.MouseHitRight && Hover !=""
 			If Item.Give(Hover,CharTag)
 				Vault.Remove(Hover)
 			Else
