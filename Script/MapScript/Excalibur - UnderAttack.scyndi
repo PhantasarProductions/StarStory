@@ -35,13 +35,18 @@
 // version: 21.05.23
 // End License Information
 
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.05.23"
-#MKL_Lic     "Star Story - Excalibur - UnderAttack.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Excalibur - UnderAttack.neil" "21.05.23"
+//#MKL_Lic     "Star Story - Excalibur - UnderAttack.neil" "Phantasar Closed License"
 
-#macro StartCyborgsDead gv.gbool.Excalibur_StartCyborgsDead
-#macro ShowAll gv.gbool.Excalibur_Broken_Transporter_Tried
+#macro StartCyborgsDead gbool.Excalibur_StartCyborgsDead
+#macro ShowAll gbool.Excalibur_Broken_Transporter_Tried
 
 group MScript
 	
