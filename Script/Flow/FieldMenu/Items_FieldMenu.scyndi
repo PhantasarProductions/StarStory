@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -145,7 +145,7 @@ module
 		if prefixed(LSituation,"COMBAT_")	
 			CSayF("%s => %s (%s)",ittag,Lua.tostring(Item["ITM_"..ittag].UseCombat),Lua.type(Item["ITM_"..ittag].UseCombat))
 			If Item["ITM_"..ittag].UseCombat
-				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem",sprintf("\"ITM_%s\",%d",ittag,slot))
+				State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnItem","ITM_"..ittag,slot) //sprintf("\"ITM_%s\",%d",ittag,slot))
 			Else
 				Static Var Buzz = Audio.Obtain("BUZZ")
 				Buzz.Play()
