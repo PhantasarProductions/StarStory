@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Vault_Menu.scyndi
 // 
-// 	  Version: 25.01.23 VII
+// 	  Version: 25.01.23 VIII
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -129,7 +129,7 @@ locExtern itmod "Scyndi.Globals.itmod"
 			End
 		end
 		if Events.MouseHitRight && Hover !=""
-			If Item.Give(Hover,CharTag)
+			If Vault.Has(Hover)>0 && Item.Give(Hover,CharTag)
 				Vault.Remove(Hover)
 			Else
 				Buzz.Play()
