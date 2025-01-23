@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -521,13 +521,13 @@ group Stage_PlayerInput
 		a.LearningABL = NewABL
 		switch a.Act.Target
 			case "OS" "1A"
-				A.Targets_Tag[1] = self.Tag
-				A.Targets_Tag[2] = nil
+				A.Targets_Tag[0] = self.Tag
+				A.Targets_Tag[1] = nil
 			case "1F"
-				A.Targets_Tag[1] = oa.Targets_Tag[1]
-				A.Targets_Tag[2] = nil
+				A.Targets_Tag[0] = oa.Targets_Tag[0]
+				A.Targets_Tag[1] = nil
 			case "AA"
-				for i=1,3
+				for i=0,2
 					if RPGParty[i] && RPGParty[i]!=""
 						A.Targets_Tag[i]=RPGParty[i]
 					else
@@ -539,11 +539,11 @@ group Stage_PlayerInput
 				int i=0
 				for ft,fd in pairs(Combat_Fighter.Fighters)
 					if a.Act.Target=="EV" || fd.Team=="Foe"
-						i++
 						a.Targets_Tag[i]=ft
+						i++
 					end
 				end
-				a.Targets_Tag[i+1]=nil
+				a.Targets_Tag[i]=nil
 			default
 				Lua.error("Learning error: Unknown target type: "..a.Act.Target)
 		end
