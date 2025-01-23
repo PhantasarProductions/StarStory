@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 III
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -115,15 +115,18 @@ bool BxsL = false
 	end
 	
 	void ReloadARMS()
-		for a in RPGChar.Crystal.List.ARM.Each
-			var p = RPGChar.Crystal.Points["ARM.AMMO."..a]
+		CSay("= Reload Crystal's ARMS")
+		for a in RPGPureChar.Crystal.ListEach("ARM")
+			var p := RPGPureChar.Crystal.Points["ARM.AMMO."..a]
 			p.Have = p.Maximum
 			CSayF("Reloading Crystal's %s -> %d/%d",a,p.Have , p.Maximum)
 		end
+		CSay("Reloaded")
 	end
 	
 	void Recover(string ch="")
 		if ch==""
+			CSayF("Request to recover the entire party!")
 			for i=0,5
 				if RPGParty[i] && RPGParty[i]!=""
 					Recover(RPGParty[i])
@@ -131,6 +134,7 @@ bool BxsL = false
 			end
 			return
 		end
+		CSayF("= Recover: %s",ch)
 		RPGChar[ch].Points.HP.Have = RPGChar[ch].Points.HP.Maximum
 		switch gint.Skill
 			case 1
