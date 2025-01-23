@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Hangar.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Hangar.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,19 @@
 // 
 // **********************************************
 // 
-// version: 21.07.10
-// End License Information
+// 
+// version: 25.01.24
+// 
+// End License
 
+
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Hangar.neil" "21.07.10"
-#MKL_Lic     "Star Story - Excalibur - Hangar.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Excalibur - Hangar.neil" "21.07.10"
+//#MKL_Lic     "Star Story - Excalibur - Hangar.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -63,23 +70,23 @@ group MScript
 		end
 		MapText("ESCAPE")
 		// Fly away
-		for k in each { "PLAYER","Cyborg","Android" }
+		for k in each NewArray( "PLAYER","Cyborg","Android" )
 			Map.ObjWalkTo(k,"ShipSpot")
 		end
 		for i=32,-80,-1
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			Map.SetObj("BayDoor","Y",i)
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
 		end
-		for k in each { "PLAYER","Cyborg","Android" }
+		for k in each { [0]= "PLAYER",[1]="Cyborg",[2]="Android" }
 			Map.SetObj(k,"Dominance",0)
 		end
 		Map.Remap()
 		for i=480,0,-1
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			Map.SetObj("EscapePod","Y",i)
 			Map.DrawScreen()
@@ -88,7 +95,7 @@ group MScript
 		end
 		Ach.Award("SCENARIO_ESCAPEEXCALIBUR")
 		for i=-80,32
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			Map.SetObj("BayDoor","Y",i)
 			Map.DrawScreen()
@@ -100,23 +107,23 @@ group MScript
 		Map.HideButLabel("Space")
 		Map.SetObj("Space","X",Map.CamX)
 		Map.SetObj("Space","Y",Map.CamY)
-		Map.SetObj("Space","W",Screen.W)
-		Map.SetObj("Space","H",Screen.H)
-		for i=Map.CamY+Screen.H+200,Map.CamY+(Screen.H div 2),-1
-			FPS.WaitMinTicks()
+		Map.SetObj("Space","W",Graphics.W)
+		Map.SetObj("Space","H",Graphics.H)
+		for i=Map.CamY+Graphics.H+200,Map.CamY+(Graphics.H div 2),-1
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			Map.SetObj("PodInSpace","Y",i)
-			Map.SetObj("PodInSpace","X",Map.CamX+(Screen.W div 2))
+			Map.SetObj("PodInSpace","X",Map.CamX+(Graphics.W div 2))
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
 		end
 		MapText("SPACE")
-		for i=Map.CamY+(Screen.H div 2),Map.CamY-100,-1
-			FPS.WaitMinTicks()
+		for i=Map.CamY+(Graphics.H div 2),Map.CamY-100,-1
+			Sys.WaitMinTicks()
 			Graphics.Cls()
 			Map.SetObj("PodInSpace","Y",i)
-			Map.SetObj("PodInSpace","X",Map.CamX+(Screen.W div 2))
+			Map.SetObj("PodInSpace","X",Map.CamX+(Graphics.W div 2))
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
