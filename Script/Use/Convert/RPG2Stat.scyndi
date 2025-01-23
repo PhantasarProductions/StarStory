@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.23 I
+// 	version: 25.01.23 VIII
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -30,7 +30,7 @@ Module
 plua _modifiers = { "POWERUP", "UPGRADE", "BUFF" }
 //plua _links = { ["Wendicka"]="UniWendicka", ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
 //For Wendicka ALL data has to be linked with her Uniform version anyway, so that would be easy, right?
-plua _links = { ["Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
+plua _links = { ["_Crystal"]="UniCrystal",["Rolf"]="ExHuRU",["Admiral"]="ExHuRU" }
 plua _stat = Statistician.CreateNew("STAR_STORY")
 plua _char
 
@@ -76,8 +76,12 @@ Int CharStat(data,String Key)
 			Case "END"
 				Return d.Stat[sk[1]]
 			Case "POWERUP" "UPGRADE" "BUFF"
+				//CSayF("Get %s for %s",key,c)
 				if _links[c]
-					d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]][sk[0]]
+					//d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]][Key]
+					CSayF("Linking %s to %s and retrieve %s",c,_links[c],key)
+					lt:=_stat.Char[_links[c]]
+					d.XStat[sk[1]].Buff[sk[0]] = lt.XStat[sk[1]].Buff[sk[0]]
 				end
 				return d.XStat[sk[1]].Buff[sk[0]]
 		End
@@ -105,8 +109,11 @@ Void CharStatSet(data,String Key,Int Value)
 			Case "POWERUP" "UPGRADE" "BUFF"
 				d.XStat[sk[1]].Buff[sk[0]]=Value
 				if _links[c]
-					Lua.Scyndi.Globals.RPGChar[_links[c]].Stat[Key]=value
+					//Lua.Scyndi.Globals.RPGChar[_links[c]].Stat[Key]=value
 					//XStat[sk[1]].Buff[sk[0]]=Value
+					CSayF("Linking %s to %s and writ to %s",c,_links[c],key)
+					lt:=_stat.Char[_links[c]]
+					lt.XStat[sk[1]].Buff[sk[0]] = Value //d.XStat[sk[1]].Buff[sk[0]]
 				end
 				return
 			
@@ -229,7 +236,7 @@ plua CharMeta(String ChKey)
 	ret._chlist={}
 
 	CSayF("Setting up character distraction record for: %s",ChKey)
-	//printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback()) // debug
+	printf("\x1b[92m%s\x1b[0m\n",Lua.debug.traceback()) // debug
 	return SetMetaTable(ret,mettable)
 End
 
@@ -239,7 +246,7 @@ QuickMeta RPGChar__GetChar
 	end
 	index
 		_char = _char || {}
-		_char[Key] = _Char[Key] || CharMeta(Key)
+		_char[Key] = _char[Key] || CharMeta(Key)
 		return _char[Key]
 	end
 End
@@ -270,7 +277,11 @@ QuickMeta RPGChar
 						return __KillCh	
 						//Lua.error("No support for KILL in RPGChar yet")
 					case "HAS"
-						Lua.error("No support for HAS in RPGChar yet")
+						//Lua.error("No support for HAS in RPGChar yet")
+						ddef r
+							return _stat.HasChar(infinity)
+						end
+						return r
 					case "CREATE"
 						return __RC_Create
 					default
