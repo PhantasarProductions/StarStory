@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.23 IV
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -111,11 +111,13 @@ class Crystal_ARMS
 		string ht
 		__red
 		sfont.text("Ammo",xam,yhd)
-		sfont.text("Extra Power",xpw,yhd)
-		sfont.text("Accuracy",xht,yhd)
+		//sfont.text("Extra Power",xpw,yhd)
+		sfont.text("X Pwr",xpw,yhd)
+		sfont.text("Acc.",xht,yhd) //sfont.text("Accuracy",xht,yhd)
 		sfont.text("Weight",xwg,yhd)
 		int y := yhd + 30
-		for AT in RPGChar.Crystal.List.ARM.Each
+		//for AT in RPGChar.Crystal.List.ARM.Each
+		for AT in RPGPureChar.Crystal.ListEach("ARM")
 			LST[AT] = LST[AT] || new Crystal_ARMS(AT)
 			var A = LST[AT]
 			Bool Hover := Events.MouseX>ubox.x && Events.MouseX<ubox.x+ubox.w && Events.MouseY>=y && Events.MouseY<y+25 
@@ -123,7 +125,7 @@ class Crystal_ARMS
 			if Hover
 				ht = A.ARM.Description
 				Graphics.Color(0,255,255)
-				if Events.MouseHitLeft() 
+				if Events.MouseHitLeft 
 					if Prefixed(situation,"COMBAT_")
 						State.Call("FLOW_COMBAT","Stage_PlayerInput.ReturnARM",sprintf("\"%s\"",at))
 					elseif situation=="UPGRADE"
@@ -132,7 +134,7 @@ class Crystal_ARMS
 				end
 			end
 			//print(Lua.type(a.Name),"Name = "..Lua.tostring(a.Name))
-			afont.Text(A.Name,xnm,y)
+			sfont.Text(A.Name,xnm,y)
 			__ember
 			if A.Ammo==0
 				__red
