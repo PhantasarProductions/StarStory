@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FlowHawk.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Flow/FlowHawk.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,13 @@
 // 
 // **********************************************
 // 
-// version: 21.07.03
-// End License Information
+// 
+// version: 25.01.24
+// 
+// End License
+
+
+Script
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/Box"
@@ -63,38 +69,48 @@ group flHawk
 	table HawkData = {}
 	String World = ""
 	
-	void Save()
-		string ret = "Init\n\tflHawk.HawkData = {}\n\n"
+	String Save()
+		//string ret = "Init\n\tflHawk.HawkData = {}\n\n"
+		string ret = "local flHawk = Scyndi.Class.flHawk\nflHawk.HawkData= {}\n\n" 
 		
 		for world,wlist in spairs(HawkData)
 			ret += sprintf("\tflHawk.HawkData[\"%s\"] = {}\n",World)
 			for node,nd in spairs(wlist)
 				switch node
 					case "ARRIVE"
-						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = \"%s\"\n",World,node,nd)
+						ret += sprintf("\tflHawk.HawkData['%s']['%s'] = '%s'\n",World,node,nd)
 					case "DISABLED"
-						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = %s\n",World,node, Lua.tostring(nd))
+						ret += sprintf("\tflHawk.HawkData['%s']['%s'] = %s\n",World,node, Lua.tostring(nd))
 					default
-						ret += sprintf("\tflHawk.HawkData[\"%s\"][\"%s\"] = new HData(\"%s\",\"%s\",\"%s\",\"%s\")\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
+						ret += sprintf("\tflHawk.HawkData['%s']['%s'] = Scyndi.NEW('HData','%s','%s','%s','%s')\n",World,node, nd.Name,nd.Map,nd.Layer,nd.Spot)
 				end
 			end
 		end
-		ret += "end"
-		SaveGame.Data["HAWK.NEIL"] = ret
+		//ret += "end"
+		//SaveGame.Data["HAWK.NEIL"] = ret
+		return ret
 	end
 	
-	void Load()
-		if SaveGame.HasData("HAWK.NEIL")
-			NeilDoString(SaveGame.Data["HAWK.NEIL"])
-		else
+	void Load(string src)
+		//if SaveGame.HasData("HAWK.NEIL")
+		//	NeilDoString(SaveGame.Data["HAWK.NEIL"])
+		//else
+		//	HawkData = {}
+		//end
+		//HawkData.Physillium = HawkData.Physillium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
+		//HawkData.Physilium = nil // nullifies the effect of an old bug (world misspelling)
+		if (src=="")
 			HawkData = {}
+		else
+			f,e = Lua.load(src)
+			Lua.assert(f,sprintf("Hawk data compile fault: %s",e))
+			f()
 		end
 		HawkData.Physillium = HawkData.Physillium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }
-		HawkData.Physilium = nil // nullifies the effect of an old bug (world misspelling)
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
-		string node = sprintf("%s.%s.%s",M,L,spot):upper()
+		string node = upper(sprintf("%s.%s.%s",M,L,spot))
 		HawkData[World] = HawkData[World] or {}
 		HawkData[World].ZZZ = HawkData[World].ZZZ || new HData("<- Back","","")  
 		HawkData[World][node] = new HData(N,M,L,spot)
@@ -115,20 +131,17 @@ group flHawk
 	End	
 			
 	
-	Constructor
-		HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
-	end
 	
 	get int mx
-		return Events.MouseX()
+		return Events.MouseX
 	end
 	
 	get int my 
-		return Events.MouseY()
+		return Events.MouseY
 	end
 	
 	get bool ml
-		return Events.MouseHitLeft()
+		return Events.MouseHitLeft
 	end
 	
 	void GoSpace()
@@ -261,3 +274,7 @@ Global Void CONSOLE_OnlyLostPlanet()
 	End
 End
 #fi
+
+Init
+	HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
+End
