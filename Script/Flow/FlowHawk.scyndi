@@ -34,15 +34,24 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24
+// version: 25.01.24 XV
 // 
 // End License
 
 
 Script
 
+#use "libs/sci/sys"
+#use "libs/sci/events"
+#use "libs/sci/graphics"
+#use "libs/sci/intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Misc/Box"
+#use "Script/Use/Misc/ClassBox"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/ViesBah"
 
 #undef CleanUp
 
@@ -62,9 +71,9 @@ end
 
 group flHawk
 
-	var Mouse = Image.Obtain("MOUSE")
-	var ScreenBox = new Box(0,0,Screen.W,Screen.H-128,false)
-	Var Font = ImageFont.Obtain("BOXTEXT")
+	var Mouse = ObtainImage("MOUSE")
+	var ScreenBox = new Box(0,0,Graphics.W,Graphics.H-128,false)
+	Var Font = ObtainFont("BOXTEXT")
 	
 	table HawkData = {}
 	String World = ""
@@ -102,6 +111,8 @@ group flHawk
 		if (src=="")
 			HawkData = {}
 		else
+			plua f
+			plua e
 			f,e = Lua.load(src)
 			Lua.assert(f,sprintf("Hawk data compile fault: %s",e))
 			f()
@@ -110,7 +121,7 @@ group flHawk
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
-		string node = upper(sprintf("%s.%s.%s",M,L,spot))
+		string node := upper(sprintf("%s.%s.%s",M,L,spot))
 		HawkData[World] = HawkData[World] or {}
 		HawkData[World].ZZZ = HawkData[World].ZZZ || new HData("<- Back","","")  
 		HawkData[World][node] = new HData(N,M,L,spot)
@@ -149,7 +160,7 @@ group flHawk
 		int wy=20
 		for w,d in spairs(HawkData)
 			if w=="Black Hole"
-				d.DISABLED = gv.gBool.BlackHoleDwellerDead
+				d.DISABLED = gBool.BlackHoleDwellerDead
 			end
 			if d.DISABLED
 				Graphics.Color(0,105,180)
@@ -241,12 +252,12 @@ group flHawk
 	End
 	
 	void Flow()		
-		Dev.ToConsole()
+		//Dev.ToConsole()
 		ScreenBox.Draw()
 		if World==""
-			GoSpace()
+			flHawk.GoSpace()
 		else
-			GoWorld()
+			flHawk.GoWorld()
 		end
 		// Party
 		Party.Boxes()
@@ -258,23 +269,23 @@ end
 
 Global Delegate Apollo_Flow = flHawk.Flow
 
-#if CleanUp
-Global Void CONSOLE_OnlyLostPlanet()
-	Table Kill = {}
-	For k,_ in pairs(flHawk.HawkData)
-		CSayF(Lua.type(k).." "..Lua.tostring(k))
-		if k!="The Lost Planet"
-			Kill += k
-			CSay("Gonna kill: "..k)
-		end
-	end
-	For victim in Each(Kill)
-		CSayF("Killing: "..Lua.tostring(victim))
-		flHawk.HawkData[victim]=nil
-	End
-End
-#fi
+//#if CleanUp
+//Global Void CONSOLE_OnlyLostPlanet()
+//	Table Kill = {}
+//	For k,_ in pairs(flHawk.HawkData)
+//		CSayF(Lua.type(k).." "..Lua.tostring(k))
+//		if k!="The Lost Planet"
+//			Kill += k
+//			CSay("Gonna kill: "..k)
+//		end
+//	end
+//	For victim in Each(Kill)
+//		CSayF("Killing: "..Lua.tostring(victim))
+//		flHawk.HawkData[victim]=nil
+//	End
+//End
+//#fi
 
 Init
-	HawkData.Physilium = HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
+	flHawk.HawkData.Physilium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
 End
