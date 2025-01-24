@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 XV
+// version: 25.01.25
 // 
 // End License
 
@@ -83,7 +83,7 @@ group flHawk
 		string ret = "local flHawk = Scyndi.Class.flHawk\nflHawk.HawkData= {}\n\n" 
 		
 		for world,wlist in spairs(HawkData)
-			ret += sprintf("\tflHawk.HawkData[\"%s\"] = {}\n",World)
+			ret += sprintf("\tflHawk.HawkData['%s'] = {}\n",World)
 			for node,nd in spairs(wlist)
 				switch node
 					case "ARRIVE"
@@ -251,7 +251,7 @@ group flHawk
 		World=""
 	End
 	
-	void Flow()		
+	void MFlow()		
 		//Dev.ToConsole()
 		ScreenBox.Draw()
 		if World==""
@@ -267,7 +267,7 @@ group flHawk
 
 end
 
-Global Delegate Apollo_Flow = flHawk.Flow
+Global Delegate MainFlow 
 
 //#if CleanUp
 //Global Void CONSOLE_OnlyLostPlanet()
@@ -287,5 +287,6 @@ Global Delegate Apollo_Flow = flHawk.Flow
 //#fi
 
 Init
-	flHawk.HawkData.Physilium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }		 
+	flHawk.HawkData.Physilium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }	
+	MainFlow = flHawk.MFlow
 End
