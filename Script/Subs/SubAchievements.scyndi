@@ -1,0 +1,188 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Subs/SubAchievements.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.24
+// 
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Data/General/Achievements"
+
+QuickMeta MetaAwarded
+	index
+		return gbool["ACHIEVEMENT_AWARDED"..key]
+	end
+	newindex
+		gbool["ACHIEVEMENT_AWARDED"..key] = Value
+	End
+End
+
+group SubAch
+
+	readonly table Awarded = MetaAwarded
+	readonly var Data = Achievements.retbase //NeilUse("Script/Data/General/Achievements")
+
+	Void Award(String a)
+		a = upper(a)
+		If !Data[a]
+			Lua.error("Non-existent achievement: "..a)
+		End
+		If Awarded[a]
+			Return
+		End
+		Awarded[a] = True
+		Schedule.Add("MSG:You earned the achievement: "..Data[a].Title)
+		Medals.Award(a)
+	End
+	
+	//void Save()
+	//	string str = ""
+	//	for k,v in spairs(Awarded)
+	//		if v
+	//			if str!=""
+	//				str += ", "
+	//			end
+	//			str += sprintf("\"%s\"",k)
+	//		end
+	//	end
+	//	SaveGame.Data["ACHIEVEMENTS.LUA"] = sprintf("return {%s}",str)
+	//end
+	
+	//void Load()
+	//	delegate L
+	//	Awarded = {}
+	//	if !SaveGame.HasData("ACHIEVEMENTS.LUA")
+	//		return
+	//	end
+	//	L = Lua.assert(Lua.load(SaveGame.Data["ACHIEVEMENTS.LUA"],"SG:Achievements.Lua"))
+	//	table LA = L()
+	//	for k in each(LA)
+	//		Awarded[k:upper()]=true
+	//	end
+	//	self.Synchronize()
+	//end
+	
+	Var ButtonUp = ObtainImage("UP")
+	Var ButtonDown = ObtainImage("DOWN")	
+	Void List(Int SX,Int SY,Int EX, Int EY)
+		Static Int H = 40
+		Static Int Scroll = 0
+		Static Var CFnt = ObtainFont("BOXTEXT")
+		Static Var DFnt = ObtainFont("SYSFONT")
+		Int Y = SY-Scroll
+		//CSayF("Rukkie fukkie: (%d,%d)->(%d,%d)",SX,SY,EX,EY)
+		For K,A in sPairs(Data)
+			Bool Show
+			If Y>=SY && Y<=EY-H
+				Switch A.Show
+					Case "Always" 
+						Show = true
+					Case "Achieved"
+						Show = Awarded[K]==true
+					Default
+						Lua.error("Unknown trophy Show Type")
+				End
+				If Awarded[K]
+					__SkyBlue
+				Else
+					Graphics.Color(0,100,180)
+				End
+				If Show
+					CFnt.Text(A.Title,SX+20,Y)
+					DFnt.Text(A.Description,SX+25,Y+22)
+				Else
+					CFnt.Text("????",SX+20,Y)
+				End
+				If Y+(H*2)<=EY
+					__Ember
+					Graphics.Line(SX,Y+(H),EX-40,Y+(H))
+				End
+			End
+			Y+=H			
+		End
+		// Scroll		
+		Int  MX = Events.MouseX
+		Int  MY = Events.MouseY
+		Bool ML = Events.MouseHitLeft
+		If Scroll!=0
+			If MY>SY && MY<SY+32 && MX>EX-65 && MX<EX
+				__Ember
+				If ML
+					Scroll-=H
+				End
+			Else
+				Graphics.Color(180,100,0)
+			End
+			ButtonUp.Draw(EX-65,SY)
+		End
+		If Y>EY
+			If MY<EY && MY>EY-32 && MX>EX-65 && MX<EX
+				__Ember
+				If ML
+					Scroll+=H
+				End
+			Else
+				Graphics.Color(180,100,0)
+			End
+			ButtonDown.Draw(EX-65,EY-35)
+		End
+	End
+	
+	Void Synchronize()
+		CSay("Synchronizing achievements with medal")
+		For K,A in sPairs(Data)
+			if (Awarded[K])
+				CSayF("=> '%s'",K)
+				Medals.Award(K)
+			End
+		End
+		CSay("Syncronizing complete")
+	End
+	
+	Constructor
+		Medals.Game = "StarStory"
+		Medals.Storage = "zlib"
+	End
+	
+End
