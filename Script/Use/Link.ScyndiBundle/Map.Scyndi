@@ -374,9 +374,9 @@ End
 	//	return ISGET.String("FLOW_FIELD","FLDMap.CurrentLayer.Obj(\""..tag.."\").Data[\""..dkey.."\"]")
 	//end
 	
-	//Void ActTrans(string spot)
-	//	MCall("Trans.Activate",spot)
-	//end
+	Void ActTrans(string spot)
+		MCall("Trans.Activate",spot)
+	end
 
 	get string LoadedMap
 	//	return ISGET.String("FLOW_FIELD","FldMap.LoadedMap")
