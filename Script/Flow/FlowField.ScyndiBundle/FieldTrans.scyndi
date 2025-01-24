@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 25.01.24 III
+// 	  Version: 25.01.25 I
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -113,26 +113,26 @@ group Trans
 		Repeat
 			int Y = 50		
 			Events.Poll()
-			int MX = Events.MouseX()
-			int MY = Events.MouseY()
+			int MX = Events.MouseX
+			int MY = Events.MouseY
 			Graphics.Cls()
 			Graphics.Color(0,180,255)
 			Fnt.Text("What do you want to do?",CX,25,2,2)
 			for i,item in ipairs(GenMenu)
-				if i!=1 || AllowBeam
+				if i!=0 || AllowBeam
 					y+=25
 					if MY>=y && MY<y+25
 						Graphics.Color(255,255,0)
-						if Events.MouseHitLeft()
+						if Events.MouseHitLeft
 							Switch i
-								case 1
+								case 0
 									Self.Scotty()
 									return
-								case 2
+								case 1
 									Self.Recover()
 									Self.Save()
 									return
-								case 3
+								case 2
 									return
 								default
 									Lua.error("??? What menu item is that?")
