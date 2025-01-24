@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.24
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -116,6 +116,7 @@ global void PerformSaveGame(string f)
 	//Vault.Save()
 	//Ach.Save()
 	//Hawk.Save()
+	SaveGame.Text["Hawk.lua"] = Hawk.Save()
 	if f=="QUIT"
 		CSay("Kill tag")
 		SaveGame.Data["KILL ME"]="KILL ME"
@@ -199,6 +200,7 @@ global bool PerformLoadGame(string f)
 		//Ach.Load()
 		Process(10)
 		//Hawk.Load()		
+		Hawk.Load(SaveGame.Text["Hawk.lua"])
 	//catch e
 	if false
 		//for k in each { "MESSAGE", "TRACEBACK", "COUNT", "INFO" }
