@@ -34,17 +34,19 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24
+// version: 25.01.24 IX
 // 
 // End License
 
 Script
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Medals"
 #use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 #use "Script/Data/General/Achievements"
@@ -60,12 +62,14 @@ End
 
 group SubAch
 
-	readonly table Awarded = MetaAwarded
-	readonly var Data = Achievements.retbase //NeilUse("Script/Data/General/Achievements")
+	Get table Awarded; return MetaAwarded; End
+	//readonly var Data = Achievements.retbase //NeilUse("Script/Data/General/Achievements")
+	Get Var Data; return Achievements.retbase; End
 
 	Void Award(String a)
 		a = upper(a)
 		If !Data[a]
+			for k,v in spairs(Data); print(a,k,k==a); End // debug
 			Lua.error("Non-existent achievement: "..a)
 		End
 		If Awarded[a]
@@ -110,7 +114,7 @@ group SubAch
 		Static Int Scroll = 0
 		Static Var CFnt = ObtainFont("BOXTEXT")
 		Static Var DFnt = ObtainFont("SYSFONT")
-		Int Y = SY-Scroll
+		Int Y := SY-Scroll
 		//CSayF("Rukkie fukkie: (%d,%d)->(%d,%d)",SX,SY,EX,EY)
 		For K,A in sPairs(Data)
 			Bool Show
@@ -180,9 +184,13 @@ group SubAch
 		CSay("Syncronizing complete")
 	End
 	
-	Constructor
-		Medals.Game = "StarStory"
-		Medals.Storage = "zlib"
-	End
-	
 End
+
+Init
+	If Medals.Active
+		Medals.Game = "StarStory"
+		CSayF("Medals configured! Medal score is now: %d",Medals.FullScore)
+		//Medals.Storage = "zlib"
+	End
+End
+	
