@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 II
+// version: 25.01.24 III
 // 
 // End License
 
@@ -44,7 +44,7 @@ Module
 
 
 Void LHawk()
-	Sys.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.lbc")
+	Sys.LoadNewState("FLOW_HAWK","Script/Flow/FlowHawk.lbc")
 End
 
 
