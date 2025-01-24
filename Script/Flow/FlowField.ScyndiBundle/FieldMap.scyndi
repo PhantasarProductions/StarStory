@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.23 II
+// 	  Version: 25.01.25 III
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -237,11 +237,19 @@ class Clickable
 					var fuck := Self.LSpot(L,T) // = Spot(Lay,T)
 					Self.Create(T,L,fuck[1],fuck[2],T,"nil") //,sprintf("\"%s\"",T))
 					CSayF("NPC: %s",T)
-				elseif prefixed(T,"Trans.Pad")
+				elseif prefixed(Upper(T),"TRANS.PAD") 
+					//prefixed(T,"Trans.Pad")
 					string Spot;Spot = Right(T,len(T)-10)
 					var TO;TO = Kthura.Obj[T]
 					var TS;TS = Kthura.Obj["Trans.Spot."..Spot]
-					Self.Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
+					if Kthura.Obj[T].Kind=="Obstacle"
+						CSayF("Click: %s -> %s",T,Spot)
+						Self.Create(T,L,TS.X,TS.Y,CTrans.Go,Spot)
+					Else
+						CSayF("ZA: %s -> %s",T,spot)
+						//ZA.Enter(T,CTrans.Go,Spot)
+						Lua.Scyndi.Class.ZoneAction.Create("Enter",T,CTrans.Go,spot)
+					End
 					if !CTrans.Activated[spot]
 						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
 					end
