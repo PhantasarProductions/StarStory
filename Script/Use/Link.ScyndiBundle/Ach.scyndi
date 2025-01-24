@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Ach.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.24 I
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -50,24 +50,24 @@ Module
 void LAch()
 	// Of course LAch means "Load achievements", but ironically "Lach"
 	// means "Laugh" in Dutch. Just fun to know, eh?
-	Sys.LoadNewState("ACHIEVEMENTS","Script/Subs/SubAchievements.Neil")
+	Sys.LoadNewState("ACHIEVEMENTS","Script/Subs/SubAchievements.lbc")
 end
 //module
 
 	void Award(string aw)
 		Lach()
-		Sys.Call("ACHIEVEMENTS","SubAch.Award",sprintf("\"%s\"",aw))
+		Sys.Call("ACHIEVEMENTS","SubAch.Award",aw) //sprintf("\"%s\"",aw))
 	end
 	
-	void Save()
-		Lach()
-		Sys.Call("ACHIEVEMENTS","SubAch.Save","nil")
-	end
+	//void Save()
+	//	Lach()
+	//	Sys.Call("ACHIEVEMENTS","SubAch.Save","nil")
+	//end
 
-	void Load()
-		Lach()
-		Sys.Call("ACHIEVEMENTS","SubAch.Load","nil")
-	end
+	//void Load()
+	//	Lach()
+	//	Sys.Call("ACHIEVEMENTS","SubAch.Load","nil")
+	//end
 	
 	
 //end
