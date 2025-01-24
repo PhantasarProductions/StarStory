@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 VI
+// version: 25.01.25
 // 
 // End License
 
@@ -198,7 +198,7 @@ end
 
 Init
 	ZA.Enter("Pad_Tutorial","TutorPad")
-	for z in each {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2","BossTutorial","Pub"}
+	for _,z in pairs {"WeGaanNaar2","TOSECRETDUNGEON","ToFloor3","ToFloo1","BackTo2","BossTutorial","Pub"}
 		ZA.Enter(z,z)
 	end
 	for i=1,3
