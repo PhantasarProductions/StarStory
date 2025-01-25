@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.25 I
+// 	  Version: 25.01.25 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -142,6 +142,8 @@ Class FieldMonster
 	
 	ReadOnly Bool Chase
 	ReadOnly Bool Boss
+	ReadOnly String BossScript
+	ReadOnly String BossBarrier
 		
 	Set Int MinSkill; End // Dirty way to get a value ignored
 	Int Status = mInactive
@@ -208,6 +210,8 @@ Class FieldMonster
 			Obj.G=0
 			Obj.B=0
 			CSay("Boss")
+			BossScript  = inidat.BossScript
+			BossBarrier = inidat.BossBarrier 
 		else
 			FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
 			MaxActivateRange, MaxChaseRange = FMC.MaxActivateRange, Ternary(Chase,FMC.MaxChaseRange,0)		
@@ -296,24 +300,29 @@ Class FieldMonster
 	Static Void Fight(FF)
 		//CSay("\007 Fighting not yet implemented")
 		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",FF.X,FF.Y,Player.X,Player.Y)
-		if (FF.Boss)
-			Lua.error("Bosses not implemented yet!")
-		end
 		StartCombat.Prepare()
+		if (FF.Boss)
+			//Lua.error("Bosses not implemented yet!")
+			Lua.assert(FF.BossScript!="","No Boss Script Set")
+			MapScript[FF.BossScript]()
+			StartCombat.RemoveBarrier = FF.BossBarrier
+			StartCombat.Tune = StartCombat.RandomBossTune
+		Else
 		//For i=1,9; CSayF("Foe Data: %d -> %s",i,FF[sprintf("Foe%d",i)]); end 
-		For i=1,9
-			F:=FF[sprintf("Foe%d",i)]
-			if F
-				CSayF("FF.Foe%d -> %s",i,F)
-				If F.Foe!=""
-					StartCombat.Foe(F.Foe,F.Level)
+			For i=1,9
+				F:=FF[sprintf("Foe%d",i)]
+				if F
+					CSayF("FF.Foe%d -> %s",i,F)
+					If F.Foe!=""
+						StartCombat.Foe(F.Foe,F.Level)
+					End
+				Else
+					CSayF("No foe on spot #%d!",i)
 				End
-			Else
-				CSayF("No foe on spot #%d!",i)
 			End
+			StartCombat.Tune = StartCombat.RandomTune
 		End
-		StartCombat.Tune = StartCombat.RandomTune
-		StartCombat.Boss = false
+		StartCombat.Boss = FF.Boss
 		StartCombat.Arena = Kthura.Data.Arena
 		StartCombat.Begin()
 	End
