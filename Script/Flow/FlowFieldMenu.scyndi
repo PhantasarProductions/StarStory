@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.25 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -83,13 +83,13 @@ init
 	Situations.COMBAT_ABILITIES = NewArray( { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ABILITIES" } ,    ["ICONFILE"] = "ABILITIES" } )
 	Situations.COMBAT_ARMS = Situations.COMBAT_ABILITY 
 	Situations.COMBAT_ITEMS = { [0] = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" } }
-	Situations.COMBAT_SWITCH = {{ ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
+	Situations.COMBAT_SWITCH = {[0] = { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="SWITCH" } ,       ["ICONFILE"] = "SWITCH" }}
 	Situations.VAULT = {[0]={ ["RIGHT"] = { ["ID"]="VAULT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 	Situations.SHOP  = {[0]={ ["RIGHT"] = { ["ID"]="SHOP" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 	Situations.UPGRADE = {}
 	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="STATUS" }, ["RIGHT"] = { ["ID"]="UPGRADE" } ,        ["ICONFILE"] = "UPGRADEWEAPON" }
 	Situations.UPGRADE += { ["LEFT"] = { ["ID"]="ABILITIES" }, ["RIGHT"] = { ["ID"]="UPGRADEARM" } ,        ["ICONFILE"] = "UPGRADEARM" }
-	Situations.PHANSHOP  = {{ ["RIGHT"] = { ["ID"]="PHANTASARMERCHANT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
+	Situations.PHANSHOP  = {[0]={ ["RIGHT"] = { ["ID"]="PHANTASARMERCHANT" }, ["LEFT"] = { ["ID"]="ITEMS" } ,        ["ICONFILE"] = "ITEMS" }}
 end
 
 Global var QUse(string u)
