@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/Char/Abilities/Foxy.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Data/Char/Abilities/AblFoxy.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,23 +33,32 @@
 // 
 // **********************************************
 // 
-// version: 21.07.15
-// End License Information
+// 
+// version: 25.01.26 I
+// 
+// End License
 
-#undef ForceCheer
-#undef ForceSmokeBomb
-#undef ForceDragonCut
 
 Module
+
+LocExtern ForceCheer "false"
+LocExtern ForceSmokeBomb "false"
+LocExtern ForceDragonCut "false"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 
 	Table Ability 
                   
 	
+	Bool SN_Checked
 	String ShowNeed(String chtag)
 		// Don't put on the "???" If Foxy got all spells.
-		If RPGChar.Foxy.List.ABL.Count == 9 
-			Static Bool Checked
-			If !Checked
+		//If RPGChar.Foxy.List.ABL.Count == 9
+		If RPGPureChar.Foxy.ListSize("ABL")==9
+			//Static Bool Checked
+			If !SN_Checked
 				Ach.Award("ALLABL_FOXY")
 			End
 			Return "" 
@@ -57,33 +67,33 @@ Module
 	End
 	
 	get String Learn
-		#if ForceCheer
-			If !RPGChar.Foxy.List.ABL.Has("FOXY_CHEER")
+		if ForceCheer
+			If !RPGPureChar.Foxy.ListHas("ABL","FOXY_CHEER")
 				Return "FOXY_CHEER"
 			End
-		#fi
-		#if ForceSmokeBomb
-			If !RPGChar.Foxy.List.ABL.Has("FOXY_SMOKEBOMB")
+		end
+		if ForceSmokeBomb
+			If !RPGPureChar.Foxy.ListHas("ABL","FOXY_SMOKEBOMB")
 				Return "FOXY_SMOKEBOMB"
 			End
-		#fi
-		#if ForceDragonCut
-			If !RPGChar.Foxy.List.ABL.Has("FOXY_DRAGON_CHARGE")
+		end
+		if ForceDragonCut
+			If !RPGPureChar.Foxy.ListHas("ABL","FOXY_DRAGON_CHARGE")
 				Return "FOXY_DRAGON_CHARGE"
 			End
-		#fi
-		Int Under = ablused.Foxy + RPGChar.Foxy.Stat.Level
+		end
+		Int Under := ablused.Foxy + RPGChar.Foxy.Stat.Level
 		For abl,rate In Pairs(Ability)
 			String ret = "FOXY_"..abl
-			If math.random(0,rate)<Under && (!RPGChar.Foxy.List.ABL.Has(ret))
+			If math.random(0,rate)<Under && (!RPGPureChar.Foxy.ListHas("ABL",ret))
 				Return ret
 			End
 		End
 		Return ""
 	End	
 	
-	CONSTRUCTOR
+	Init
 		Ability  =  { ["DRAGON_BURN"]= 200, ["DRAGON_INFERNO"] = 8400, ["STUNSTAB"] = 6400, ["BACKSTAB"]= 1600, ["CHEER"]= 25600, ["SMOKEBOMB"]= 4600, ["DRAGON_CHARGE"]= 65535 }
 	End
 	
-End
+//End
