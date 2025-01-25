@@ -34,12 +34,16 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.25 IV
 // 
 // End License
 
 
 module
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Combat/SpellAni/Templates/SPANTMPL_Projectile"
 
 	var Template 
 	
@@ -67,8 +71,8 @@ module
 	
 	Init
 		CSay("Shoot SpellANI - Loaded!")
-		Lua.Scyndi.Use("Script/Use/Combat/SpellAni/Templates/SPANTMPL_Projectile")
-		Template = SPANTMPL_Proectile
+		//Lua.Scyndi.Use("Script/Use/Combat/SpellAni/Templates/SPANTMPL_Projectile")
+		Template = SPANTMPL_Projectile
 		CSay("Shoot SpellANI -  Projectile Template loaded!")
 	end
 	
