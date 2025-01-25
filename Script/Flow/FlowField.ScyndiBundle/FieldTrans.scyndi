@@ -173,7 +173,7 @@ group Trans
 		end
 		Activated[spot]=true
 		CSay("= Spot activated")
-		CSay("= Specific action")
+		CSay("= Specific action: %s -> %s",self.ttype(spot),spot)
 		Self["Pad"..self.ttype(spot)]()
 	end
 	

@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.25 V
+// 	  Version: 25.01.25 VI
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -253,7 +253,7 @@ class Clickable
 					if !CTrans.Activated[spot]
 						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"
 					end
-					CSayF("Transporter Pad: %s",Spot)
+					CSayF("Transporter Pad: %s (%s::%s)",Spot,Kthura.LastLoadedMap,L)
 				elseif prefixed(T,"ARMCHST")
 					table d;d = XSplit(T," ")
 					CSayF("ARMS Chest #%s > %s",d[1],d[2])
