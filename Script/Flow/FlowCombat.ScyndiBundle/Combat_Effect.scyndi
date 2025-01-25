@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.25 III
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -275,7 +275,7 @@ Global Var CG_Effect
 	end
 	
 	Bool Buff(Act,Tar)
-		Static Table Stats = {"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+		Static Table Stats = NewArray("Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP")
 		Bool Ret = False
 		For Stat In Each(Stats)
 			Int buff := Act.Act["BUFF_"..Stat]
@@ -291,7 +291,7 @@ Global Var CG_Effect
 			End
 		End
 		If Ret
-			Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+			Lua.Scyndi.Class.Combat_Time.CalcHighSpeed()
 		End
 		Return Ret
 	End
