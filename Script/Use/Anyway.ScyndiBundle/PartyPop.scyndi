@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/PartyPop.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.25 IV
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -77,12 +77,12 @@ group PPop
 	Void Pop(string apref,string wind,instant)
 		Popped=true
 		Unpopping=false
-		for i=1,6
+		for i=0,5
 			if RPGParty[i] && RPGParty[i]!=""
 				string pch:="PartyPopped_"..RPGParty[i]
 				string popto:=apref.."_"..RPGParty[i]
 				//Map.ObjSet("PLAYER","Visible",false)
-				Kthura.Object.PLAYER.Visible=false
+				Kthura.Obj.PLAYER.Visible=false
 				if instant
 					Map.Spawn(pch,popto)
 					//Map.ObjSet(pch,"Texture",sprintf("GFX/Actors/Player/%s.%s.jpbf",RPGParty[i],wind))
@@ -101,7 +101,7 @@ group PPop
 		if !Popped
 			return
 		end
-		for i=1,6
+		for i=0,5
 			if RPGParty[i] && RPGParty[i]!=""
 				string pch="PartyPopped_"..RPGParty[i]
 				if instant
@@ -118,7 +118,7 @@ group PPop
 	void UnPopCheck()
 		CSay("Unpopping cycle!")
 		bool Clear = true
-		for i=1,6
+		for i=0,5
 			if RPGParty[i] && RPGParty[i]!=""
 				string pch="PartyPopped_"..RPGParty[i]
 				Clear = Clear && (!Map.ObjBool(PCh,"Walking"))
@@ -127,7 +127,7 @@ group PPop
 		end
 		// If clear, remove all popped actors
 		if Clear
-			for i=1,6
+			for i=0,5
 				if RPGParty[i] && RPGParty[i]!=""
 					string pch="PartyPopped_"..RPGParty[i]
 					Map.Kill(pch)
