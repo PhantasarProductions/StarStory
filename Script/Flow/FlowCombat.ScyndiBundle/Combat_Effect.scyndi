@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.25 III
+// 	  Version: 25.01.26
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -91,7 +91,7 @@ Global Var CG_Effect
 
 	// Cure Status Changes
 	Bool Cure(Act,Tar) 
-		Static Table CureStat = { "Poison", "Disease", "Paralysis", "Sleep", "Handicapped", "Terrified", "BagLock", "Amnesia", "Confusion", "DeathOne", "DeathFull", "Damned", "Zombie" }
+		Static Table CureStat = NewArray( "Poison", "Disease", "Paralysis", "Sleep", "Handicapped", "Terrified", "BagLock", "Amnesia", "Confusion", "DeathOne", "DeathFull", "Damned", "Zombie" )
 		Bool ret = False
 		For st In Each(CureStat)
 			Switch st
