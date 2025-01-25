@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Data/Char/Abilities/Yirl.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Data/Char/Abilities/ABLYirl.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,22 @@
 // 
 // **********************************************
 // 
-// version: 21.04.08
-// End License Information
+// 
+// version: 25.01.26 II
+// 
+// End License
 
 module
 
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+
 	table Ability
-	readonly var YA = RPGChar.Yirl
+	readonly var YA  = RPGChar.Yirl
+	readonly var YAP = RPGPureChar.Yirl
 	
 	get number BusinessPoints
 		int totalscore
@@ -48,20 +58,21 @@ module
 		
 		// general scores
 		TABLE calcscore = {}                     
-        calcscore.bonus = GV.GINT.BUSINESSBONUS
-        calcscore.aurinahave = Aurina.HAVE*10
-        calcscore.aurinaexchanged = gv.gint.AURINASEXCHANGED*5
+        calcscore.bonus = GINT.BUSINESSBONUS
+        //calcscore.aurinahave = Aurina.HAVE*10
+        calcscore.aurinahave = Aurina.HAVE*(15 div __skill)
+        calcscore.aurinaexchanged = gint.AURINASEXCHANGED*(8-__skill)
         calcscore.cash = Aurina.CASH/200
-        calcscore.cashspent = gv.gint.TotalCashSpent/300
-        calcscore.shilderhave = Aurina.shilders/({10,25,50})[__skill]
+        calcscore.cashspent = gint.TotalCashSpent div (300 * __skill)
+        calcscore.shilderhave = Aurina.shilders div ({10,25,50})[__skill]
                   
         // inventory calculation
         string ch
-        for i=1,6 
+        for i=0,5 
         	ch = RPGParty[i] || ""
         	if ch!="" 
         		for socket=1,Caps.InventorySockets 
-        			calcscore.inventory = (calcscore.inventory or 0) + YA.Stat["INVAMNT"..socket]*5
+        			calcscore.inventory = (calcscore.inventory || 0) + YA.Stat["INVAMNT"..socket]*5
         		end
         	end
         end
@@ -83,7 +94,7 @@ module
 	string ShowNeed(string chtag)
 		int i = 20000
 		for k,n in pairs(Ability)
-			if !YA.List.ABL.has("YIRL_"..k)
+			if !YAP.ListHas("ABL","YIRL_"..k)
 				i = math.min(i,n)
 			end
 		end
@@ -99,16 +110,16 @@ module
 	get string Learn
 		int i = 20000
 		for k,n in pairs(Ability)
-			if !YA.List.ABL.has("YIRL_"..k) && BusinessPoints>n
+			if !YAP.ListHas("ABL","YIRL_"..k) && BusinessPoints>n
 				return "YIRL_"..k
 			end
 		end		
 		return ""
 	end
 	
-	CONSTRUCTOR
-		Ability = { ["TRIGGERHAPPY"] = 1400,  ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
+	Init
+		Ability = { ["TRIGGERHAPPY"] = 1200,  ["FOLLOWME"] = 2500, ["CONFUSION"] = 3000, ["DEATHSHOT"] = 6000}
 		// ["TAUNT"] = 1800,
 	end
 	
-end
+//end
