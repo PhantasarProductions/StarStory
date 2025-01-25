@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.01.25
 // 
 // End License
 
@@ -56,6 +56,7 @@ plua ChaChingSound
 	end
 
 	readonly var G = Lua.Scyndi.Globals
+	readonly var C = Lua.Scyndi.Class
 	
 	get int Have
 		return gInt.Aurinas
@@ -95,7 +96,7 @@ plua ChaChingSound
 	end
 	
 	set int Cash
-		GInt.Cash = math.min(G.Caps.MaxMoney,value)
+		GInt.Cash = math.min(C.Caps.MaxMoney,value)
 	end
 	
 	void Verzilver()
