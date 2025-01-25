@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.25 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -55,6 +55,7 @@ Module
 #use "Script/Use/Anyway"
 
 #macro EncTex "GFX/Field/Encounter.png"
+#macro BssTex "GFX/Field/Boss.png"
 
 #macro mInactive 0
 #macro mChasing 1
@@ -138,9 +139,11 @@ Class FieldMonster
 		
 	ReadOnly Int MaxActivateRange
 	ReadOnly Int MaxChaseRange
+	
+	ReadOnly Bool Chase
+	ReadOnly Bool Boss
 		
 	Set Int MinSkill; End // Dirty way to get a value ignored
-	ReadOnly Bool Chase
 	Int Status = mInactive
 		
 	Get Int X
@@ -176,9 +179,11 @@ Class FieldMonster
 			CSayF("%9s Foe.%s = %s",type(v),k,v)
 			Self[k] = v
 		end
+		Boss=inidat.Boss
+		Chase=inidat.Chase && (!Boss)
 		Kthura.Spawn(ID,StartX,StartY)
 		Obj = Kthura.Obj[ID]
-		Obj.Texture = EncTex
+		Obj.Texture = Ternary(Boss,BssTex,EncTex)
 		Obj.Labels  = Labels
 		Obj.Visible = True
 		Obj.Dominance = Dominance
@@ -198,9 +203,16 @@ Class FieldMonster
 			Self[sprintf("Foe%d",i)] = new FoeData(NF,Lv)
 		End
 		Int AvgLevel:=TotLevel div FoeNum
-		FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
-		MaxActivateRange, MaxChaseRange = FMC.MaxActivateRange, FMC.MaxChaseRange
-		CSayF("Max Activate Range: %d;  Max Chase Range: %d",MaxActivateRange, MaxChaseRange)
+		if Boss
+			Obj.R=255
+			Obj.G=0
+			Obj.B=0
+			CSay("Boss")
+		else
+			FMC:=FieldMonsterColor.SetColor(Obj,AvgLevel-Self.PartyAverage)
+			MaxActivateRange, MaxChaseRange = FMC.MaxActivateRange, Ternary(Chase,FMC.MaxChaseRange,0)		
+			CSayF("Max Activate Range: %d;  Max Chase Range: %d",MaxActivateRange, MaxChaseRange)
+		end
 	End
 	
 	Static Get Int PartyAverage
@@ -284,6 +296,9 @@ Class FieldMonster
 	Static Void Fight(FF)
 		//CSay("\007 Fighting not yet implemented")
 		CSayF("Attacked by enemy on (%d,%d) while you are on (%d,%d)",FF.X,FF.Y,Player.X,Player.Y)
+		if (FF.Boss)
+			Lua.error("Bosses not implemented yet!")
+		end
 		StartCombat.Prepare()
 		//For i=1,9; CSayF("Foe Data: %d -> %s",i,FF[sprintf("Foe%d",i)]); end 
 		For i=1,9
