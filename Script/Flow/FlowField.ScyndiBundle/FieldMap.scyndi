@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.25 III
+// 	  Version: 25.01.25 V
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -208,9 +208,9 @@ class Clickable
 		table d;d = XSplit(T," ")
 		BoxText.Load("CRYSTAL","GENERAL/ARMS")
 		Map.Leader="Crystal"
-		gStr.ARMOBTAINED = Item["ARM_"..d[3]].Name
+		gStr.ARMOBTAINED = Item["ARM_"..d[2]].Name
 		BoxText.Serial("CRYSTAL","CRYSTAL")
-		CrystalARMS.NewARM(d[3])
+		CrystalARMS.NewARM(d[2])
 		RPGChar.Crystal.Points.EXP.Have += 1000
 		Map.Kill(T)
 	end	
@@ -256,8 +256,9 @@ class Clickable
 					CSayF("Transporter Pad: %s",Spot)
 				elseif prefixed(T,"ARMCHST")
 					table d;d = XSplit(T," ")
-					CSayF("ARMS Chest #%s > %s",d[2],d[3])
-					if RPGChar.Crystal.List.ARM.Has(d[3])
+					CSayF("ARMS Chest #%s > %s",d[1],d[2])
+					//if RPGChar.Crystal.List.ARM.Has(d[3])
+					if RPGPureChar.Crystal.ListContains("ARM",d[2])
 						CSay("Crystal already has this ARM, so let's remove it!")
 						//Map.Kill(T)
 						Kthura.Kill(T)
