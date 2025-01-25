@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.25 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -782,7 +782,9 @@ End
 				//H.InputItems = Lua.Neil.Use("Script/Data/Char/CombatMenu/"..T)
 				H.InputItems = CmbMenu.List("CombatMenu",T)
 				// TODO: Block for Wendicka in boss fight Volcania
-				if (RPGParty[3]!=""); H.InputItems+="Switch"; End 
+				if (RPGParty[3]!="")
+					H.InputItems+="Switch" 
+				End 
 				Switch T
 					Case "Xenobi"
 						H.HurtResponse = HurtXenobi
