@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 X
+// version: 25.01.25 XI
 // 
 // End License
 
@@ -47,7 +47,7 @@ Script
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/KickReggieUse"
 
 #use "Script/Use/Convert/RPG2Stat"
 
