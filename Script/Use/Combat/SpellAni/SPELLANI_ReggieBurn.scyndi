@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/ReggieBurn.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_ReggieBurn.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,21 @@
 // 
 // **********************************************
 // 
-// version: 21.03.06
+// 
+// version: 25.01.25
+// 
+// End License
+
 // End License Information
 module
 
-	readonly var Reggie = Image.LoadNew("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
-	var TSA 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Combat/SpellAni/SPELLANI_Flame"
+
+	readonly var Reggie = LoadNewImage("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
+	locExtern TSA "Scyndi.Class.SPELANI_Flame" 
 	int Alpha = 500
 	var Act
 	
@@ -48,16 +58,16 @@ module
 	void Start(aact)
 		Alpha = 400
 		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
-		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		Act = aact
 		//TSA.Start(act)
 	end
 	
 	void Draw()
 		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
-		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		Graphics.SetAlpha(math.max(0,math.min(255,Alpha)))
-		Reggie.Draw(Screen.W div 2,Screen.H div 2)
+		Reggie.Draw(Graphics.W div 2,Graphics.H div 2)
 		Graphics.SetAlpha(255)
 		if Alpha<300
 			TSA.Draw()
@@ -66,7 +76,7 @@ module
 	
 	void Update()
 		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
-		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		Alpha-=2
 		if Alpha==300
 			TSA.Start(Act)
@@ -77,12 +87,12 @@ module
 
 	get bool Ended
 		// Despite the constructor call it still seems TSA is deemed "nil". (Not possible, but still it happens).
-		TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA = TSA || NeilUse("Script/Use/Combat/SpellAni/Flame")
 		return TSA.Ended && Alpha<=0
 	end
 	
-	Constructor
+	Init
 		CSay("REGGIE BURN! IS THE CONSTRUCTOR CALLED?")
-		TSA = NeilUse("Script/Use/Combat/SpellAni/Flame")
+		//TSA = NeilUse("Script/Use/Combat/SpellAni/Flame")
 	end
-end
+//end
