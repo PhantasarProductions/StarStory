@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.25 IV
 // 
 // End License
 
@@ -116,7 +116,7 @@ group TMScript
 	void ResetClock()
 		static bool D
 		if !D
-			Clock("*RESET*")
+			TMScript.Clock("*RESET*")
 			D=true
 		end
 	end
@@ -193,7 +193,7 @@ group TMScript
 			default
 				BossLevel = 10000
 		end
-		int SubjectLevel = math.floor(math.max(5,BossLevel * (0.25*__skill)))
+		int SubjectLevel := math.floor(math.max(5,BossLevel * (0.25*__skill)))
 		if Caps.Cycle>16
 			SubjectLevel = 10000
 		end
@@ -257,15 +257,17 @@ group TMScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
-		//Clock("*RESET*")
-		//Ivo("*IVO*")
-		for z in each{"ResetClock","EnterBoss"}
-			ZA.Enter(z,z)
-		end
-	end
 
 end
+
+Init
+	//Clock("*RESET*")
+	//Ivo("*IVO*")
+	for _,z in pairs{"ResetClock","EnterBoss"}
+		ZA.Enter(z,z)
+	end
+end
+
 
 
 // Fake MapScript
