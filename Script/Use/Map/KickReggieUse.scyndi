@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25
+// version: 25.01.25 I
 // 
 // End License
 
@@ -57,7 +57,7 @@ global void KickReggie(string Foxy,string Reggie,string wind)
 	Map.SetObj(Foxy,"Texture","GFX/Actors/Player/Foxy."..wind..".jpbf")
 	Map.SetObj(Foxy,"Frame",1)
 	repeat
-		switch wind:upper()
+		switch Upper(wind)
 			case "NORTH"
 				Map.SetObj(Reggie,"Y",Map.ObjInt(Reggie,"Y")-4)
 			case "SOUTH"
