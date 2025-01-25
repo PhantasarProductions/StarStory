@@ -34,13 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 II
+// version: 25.01.25 III
 // 
 // End License
 
 
 Module
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #Use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
