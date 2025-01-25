@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.25 IV
+// 	  Version: 25.01.25 V
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -263,6 +263,7 @@ Class FieldMonster
 		locExtern Load "load"
 		CSay("Calculating party averate level")
 		int avg = PartyAverage
+		string olayer = Kthura.CurrentLayer
 		plua fulldata
 		CSay("Scanning for foes")
 		AllMonsters = {}
@@ -278,12 +279,14 @@ Class FieldMonster
 		end
 		OLay:=Kthura.CurrentLayer
 		For lay,laylist in pairs(fulldata.Layers)
+			Kthura.CurrentLayer=lay
 			For _,fdata in pairs(laylist)
 				If __skill>=fdata.MinSkill
 					Monsters[len(monsters)] = new FieldMonster(fulldata,fdata,avg)
 				End
 			End
 		End
+		Kthura.CurrentLayer = olayer
 	End
 	
 	Static Void Kill(Int i)
