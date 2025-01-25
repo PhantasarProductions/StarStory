@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.24
+// 	  Version: 25.01.25
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -388,9 +388,10 @@ End
 	//	MCall("FLDMap.StopWalking","nil")
 	//end
 	
-	//bool Blocked(int x,int y)
+	bool Blocked(int x,int y)
+		return Kthura.Block(x,y)
 	//	return ISGET.Bool("FLOW_FIELD",sprintf("FLDMap.Blocked(%d,%d)",x,y))
-	//end
+	end
 	
 	Void GoToLayer(string aLayer,string SpawnPoint)		 
 		if Kthura.HasObj("PLAYER")
