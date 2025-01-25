@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.25
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -368,7 +368,7 @@ Global Var CG_Effect
 		bool Ok=false
 		int WenPos
 		int ExPos
-		for i=1,6
+		for i=0,5
 			if RPGParty[i]=="ExHuRU"
 				Ok = i>=4
 				ExPos=i
@@ -414,21 +414,21 @@ Global Var CG_Effect
 			CSayF("Wendicka's health is %d%%! And may not be higher than $d$$",WendickaHealth,Check)
 			return false
 		end
-		int w = 0
-		int f = 0
-		for i=1,6
-			if RPGParty[i]=="ExHURU" && i >= 4
+		int w = -1
+		int f = -1
+		for i=0,5
+			if RPGParty[i]=="ExHURU" && i >= 3
 				f = i
-			elseif RPGParty[i]=="Wendicka" && i <= 3
+			elseif RPGParty[i]=="Wendicka" && i <= 2
 				w = i
 			end
 		end
 		//Lua.assert(w>0,"No Wendicka on front row???")
-		if w==0
+		if w==-1
 			CSay("Wendicka oddly enough not on the front row")
 			return false
 		end
-		if f==0
+		if f==-1
 			CSay("ExHuRU not on backrow, so no go!")
 			return false
 		end
