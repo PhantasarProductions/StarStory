@@ -154,7 +154,7 @@ group MScript
 	end
 	
 	void BossTutorial()
-		MapText("BOSS."..(Map.Leader:upper()))
+		MapText("BOSS."..Upper(Map.Leader))
 		MapText("BOSS.TUTORIAL")
 		Map.Kill("BossTutorial",true)
 	end
