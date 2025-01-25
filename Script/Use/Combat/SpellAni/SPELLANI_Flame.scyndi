@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Flame.scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.25 III
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -68,26 +68,26 @@ locExtern Combat_Fighter "Scyndi.Calss.Combat_Fighter"
 	Init
 		Flame = LoadNewImage("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
 		MAudio = Audio.LoadNew("Audio/SpellAni/Fire.ogg","SPELLANI_Flame")
-		lame.HotBottomCenter()
+		Flame.HotBottomCenter()
 	end	
 
 	void Start(aact)
-		SPELLANI_FlameAct = aact
-		SPELLANI_Flameskip = 0
-		SPELLANI_FlameFrame = 0
-		SPELLANI_FlameMAudio.Play()
+		SPELLANI_Flame.Act = aact
+		SPELLANI_Flame.skip = 0
+		SPELLANI_Flame.Frame = 0
+		SPELLANI_Flame.MAudio.Play()
 	end
 	
 	
 	void Draw()
 		// End it if we go overquota! This one is only a safety precaution
-		if SPELLANI_FlameFrame>=10
+		if SPELLANI_Flame.Frame>=10
 			return 
 		end
 		// Draw it all!
 		for tart in each(act.Targets_Tag)
 			var tar := Combat_Fighter.Fighters[tart]
-			SPELLANI_FlameFlame.Draw(tar.X,tar.Y,SPELLANI_FlameFrame)
+			SPELLANI_Flame.Flame.Draw(tar.X,tar.Y,SPELLANI_Flame.Frame)
 		end		
 	end
 	
@@ -98,12 +98,12 @@ locExtern Combat_Fighter "Scyndi.Calss.Combat_Fighter"
 		//	SPELLANI_Flameskip = 0
 		//	return
 		//end
-		SPELLANI_FlameFrame++
+		SPELLANI_Flame.Frame++
 		return 
 	end
 	
 	get bool Ended
-		return SPELLANI_FlameFrame>=10
+		return SPELLANI_Flame.Frame>=10
 	end
 	
 //end
