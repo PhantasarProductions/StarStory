@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 XI
+// version: 25.01.25 XII
 // 
 // End License
 
@@ -157,7 +157,7 @@ group MScript
 		MapText("CAPTURED_5")
 		KickReggie("Foxy","Reggie",RandomWind)
 		MapText("CAPTURED_6")
-		for ch in each {"Crystal","Yirl","ExHuRU","Foxy","Reggie"}
+		for ch in each (New Array("Crystal","Yirl","ExHuRU","Foxy","Reggie"))
 			Map.Kill(ch,true)
 		end
 		Player.Y=224
@@ -165,7 +165,7 @@ group MScript
 	End
 	
 	Void Tralies()
-		string L=Map.Leader:upper()
+		string L=Upper(Map.Leader)
 		if L!="FOXY"
 			MapText("TRALIES."..L)
 			MapText("TRALIES.TUTORIAL")
