@@ -34,12 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 II
+// version: 25.01.25 VII
 // 
 // End License
 
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
@@ -85,7 +88,7 @@ group MScript
 	end
 	
 	Void CreateYirl()
-		if Caps.Cycle>1 || gv.gbool.ImportedYirl
+		if Caps.Cycle>1 || gbool.ImportedYirl
 			Int nwlv = math.max(RPGChar.Yirl.Stat.Level, math.min(10000,RPGChar.Wendicka.stat.Level+5))
 			Party.GrabLevel("Yirl",nwlv)
 			RPGChar.Yirl.Stat.Level = nwlv
@@ -115,8 +118,8 @@ group MScript
 	end
 	
 	Void WelcomeYirlAndFoxy()
-		CreateYirl()
-		CreateFoxy()
+		MScript.CreateYirl()
+		MScript.CreateFoxy()
 		RPGParty[3]="Yirl"
 		RPGParty[4]="Foxy"
 		gBool.CanSwitch=true
