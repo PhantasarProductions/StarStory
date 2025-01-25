@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.25 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -319,7 +319,7 @@ group SubParty
 			if RPGParty[i]!=""
 				string tag = RPGParty[i]
 				//int x   := bx+((bw/4)*(i-3))
-				int x   := bx+((bw/4)*i)
+				int x   := bx+((bw/4)*(i-2))
 				var img := Self.GetSmallPortrait(tag)
 				// Mini border
 				__ember
@@ -351,7 +351,8 @@ group SubParty
 					if Events.MouseHit(j)
 						if Events.MouseX>x && Events.MouseY>y && Events.MouseX<x+40 && Events.MouseY<y+40
 							CSayF("CallBack(%s)::%s(%s)   <<MINI>>",Flow.Current,"Party.CallBack",lua.tostring(j),Tag)
-							State.Call(Flow.Current,"Party.CallBack",""..j..",\""..Tag.."\"")
+							//State.Call(Flow.Current,"Party.CallBack",""..j..",\""..Tag.."\"")
+							Sys.Call(Flow.Current,"Party.CallBack",j,Tag)
 						end
 					end
 				end
