@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.25 II
 // 
 // End License
 
@@ -73,7 +73,7 @@ global void KickReggie(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		//FPS.WaitMinTicks()
+		Sys.WaitMinTicks()
 	until Map.Blocked(Map.ObjInt(Reggie,"X"),Map.ObjInt(Reggie,"Y"))
 	Cuckoo.Play()
 	Map.SetObj(Foxy,"Texture",oft)
@@ -93,7 +93,7 @@ global void KickReggie(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		//FPS.WaitMinTicks()
+		Sys.WaitMinTicks()
 	end
 			
 end
