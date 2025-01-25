@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.23 III
+// 	  Version: 25.01.25
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -148,9 +148,9 @@ global void SetFM(string ch,string sit)
 end
 
 global void LoadShop(string shp)
-	print("NOTE! Is 1 the correct index or should it be 0?")
-	Situations.SHOP[1].RIGHT.MOD = Situations.SHOP[1].RIGHT.MOD || QUse("Script/Flow/FieldMenu/Shop")
-	Situations.SHOP[1].RIGHT.MOD.LoadStore(shp)
+	//print("NOTE! Is 1 the correct index or should it be 0?")
+	Situations.SHOP[0].RIGHT.MOD = Situations.SHOP[0].RIGHT.MOD || QUse("Script/Flow/FieldMenu/Shop")
+	Situations.SHOP[0].RIGHT.MOD.LoadStore(shp)
 end
 
 global void MainFlow()
