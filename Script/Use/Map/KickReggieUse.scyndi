@@ -1,7 +1,7 @@
 // License:
 // **********************************************
 // 
-// src/Script/Script/Use/Map/KickReggie.scyndi
+// src/Script/Script/Use/Map/KickReggieUse.scyndi
 // (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.25
 // 
 // End License
 
@@ -49,7 +49,7 @@ Module
 
 Var Cuckoo = Audio.LoadNew("Audio/SFX/Cuckoo-clock-sound.ogg","CUCKOO")
 
-global void Kick(string Foxy,string Reggie,string wind)
+global void KickReggie(string Foxy,string Reggie,string wind)
 	
 	int ox := Map.ObjInt(Reggie,"X")
 	int oy := Map.ObjInt(Reggie,"Y")
