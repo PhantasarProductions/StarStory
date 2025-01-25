@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - BarInside.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - BarInside.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.06.14
-// End License Information
+// 
+// version: 25.01.25 IX
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarInside.neil" "21.06.14"
-#MKL_Lic     "Star Story - LostPlanet - BarInside.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - LostPlanet - BarInside.neil" "21.06.14"
+//#MKL_Lic     "Star Story - LostPlanet - BarInside.neil" "Phantasar Closed License"
 
-#macro SpokenToStork gv.gBool.Done_LostPlanet_IllegalBar_SpokenToStork
+#macro SpokenToStork gBool.Done_LostPlanet_IllegalBar_SpokenToStork
 
 group MScript
 
@@ -48,16 +59,16 @@ group MScript
 		plua rand = math.random
 		plua FightPics = {}
 		for i=1,5  
-			FightPics[i] = Image.Load("GFX/Scenario/Fight/"..i..".png") 
-			FightPics[i].HotCenter()
+			FightPics[i-1] = LoadImage("GFX/Scenario/Fight/"..i..".png","BarFight_LostPlanet_"..i) 
+			FightPics[i-1].HotCenter()
 		end	
 		plua FightTable = {}
 		for alpha=-200,100 
 			// DrawScreen()
 			Graphics.Cls()
 			__White
-			if #FightTable==0 || rand(1,10)==1 
-				FightTable[#FightTable+1] = { ["x"]	=rand(30,Screen.W-30), ["y"] = rand(30,Screen.H-30), ["pic"]=rand(1,5) } 
+			if len(FightTable)==0 || rand(1,10)==1 
+				FightTable[len(FightTable)] = { ["x"]	=rand(30,Graphics.W-30), ["y"] = rand(30,Graphics.H-30), ["pic"]=rand(0,4) } 
 			end
 			if rand(1,50)==1 
 				Lua.table.remove(FightTable,1) 
@@ -65,20 +76,20 @@ group MScript
 			for f in each(FightTable) 
 				FightPics[f.pic].Draw(f.x,f.y) 
 			end
-			if alpha>1 then
+			if alpha>1 
 				__black
 				Graphics.SetAlpha(math.ceil((alpha/100)*255)) // Result of old code to new. BlitzMax was a bit terrible here.
-				Graphics.Rect(0,0,Screen.W,Screen.H)
+				Graphics.Rect(0,0,Graphics.W,Graphics.H)
 				Graphics.SetAlpha(255)
 			end
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 		end	
-		for i=1,5 
+		//for i=1,5 
 			//Image.Free(FightPics[i])
-			FightPics[i].Kill()
-		end
+		//	FightPics[i].Kill()
+		//end
 	end
 
 	Void Astrilopup()
@@ -86,7 +97,7 @@ group MScript
 			MapText("ASTRILO_WENDICKA")
 		else
 			MAPTEXT("ASTRILO_OWN")
-			MAPTEXT(sprintf("ASTRILO_NOTUNDERSTAND.%s",Map.Leader:upper()))
+			MAPTEXT(sprintf("ASTRILO_NOTUNDERSTAND.%s",Upper(Map.Leader)))
 		end
 	End
 	ReadOnly Delegate NPC_Astrilopup1
@@ -104,10 +115,10 @@ group MScript
 		if !SpokenToStork
 			MapText("YIRL_NOGO")
 		else
-			gv.gbool.IllegalBarDone = true
+			gbool.IllegalBarDone = true
 			PPop.Pop("Yirl","North")
 			MapText("YIRL")
-			Fight()
+			MScript.Fight()
 			Map.Load("LostPlanet - Dungeon - Cell")
 			Schedule.Add("StartDungeon")			
 		end
@@ -138,10 +149,12 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
-		NPC_Astrilopup1 = Astrilopup
-		NPC_Astrilopup2 = Astrilopup
+	void __CONSTRUCTOR()
+		MScript.NPC_Astrilopup1 = MScript.Astrilopup
+		MScript.NPC_Astrilopup2 = MScript.Astrilopup
 		ZA.Enter("Exit","GetOut")
 	end
 
 end
+
+Init; MScript.__Constructor(); End
