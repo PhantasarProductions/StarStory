@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Dungeon.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - Dungeon.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,16 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
-// End License Information
+// 
+// version: 25.01.25 I
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Dungeon.neil" "21.03.03"
-#MKL_Lic     "Star Story - LostPlanet - Dungeon.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - LostPlanet - Dungeon.neil" "21.03.03"
+//#MKL_Lic     "Star Story - LostPlanet - Dungeon.neil" "Phantasar Closed License"
 
-#macro ClockDone gv.gbool.Done_Dungeon_ClockPuzzle
-#macro IvoDone gv.gbool.Done_Dungeon_IVOPuzzle
+#macro ClockDone gbool.Done_Dungeon_ClockPuzzle
+#macro IvoDone gbool.Done_Dungeon_IVOPuzzle
 
 
 // The clock puzzle and Ivo's puzzle, require me a slight different approach.
@@ -58,7 +68,10 @@ group TMScript
 	end
 
 	void Clock(string Tag)
-		static table Check
+		//static table Check
+		locextern lencheck "#check"
+		locExtern check "CheckTheStupidClock"
+		check = check || {}
 		if ClockDone			
 			return
 		end
@@ -76,13 +89,13 @@ group TMScript
 		MAP.SetObj(Tag,"Frame",1)
 		for c in each(Check)
 			if c==Tag
-				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,#check)
+				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,lencheck)
 				return
 			end
 		end
 		check += Tag
-		CSayF("Clock: Setting plate '%s' - Total pressed %d",Tag,#check)
-		if #check>=12
+		CSayF("Clock: Setting plate '%s' - Total pressed %d",Tag,lencheck)
+		if lencheck>=12
 			bool cool = true
 			for i=1,12
 				cool = cool && check[i]=="NPC_Clock"..i
@@ -128,15 +141,15 @@ group TMScript
 		MAP.SetObj(Tag,"Frame",1)
 		for c in each(Check)
 			if c==Tag
-				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,#check)
+				CSayF("Clock: Plate '%s' was already set. Total pressed %d. Returning",Tag,len(check))
 				return
 			end
 		end
 		check += Tag
-		CSayF("Ivo: Setting plate '%s' - Total pressed %d",Tag,#check)
+		CSayF("Ivo: Setting plate '%s' - Total pressed %d",Tag,len(check))
 		bool cool = true
-		for i=1,3
-			cool = cool && check && #check>=3 && check[i] && (suffixed(check[i],"4") || suffixed(check[i],"6") || suffixed(check[i],"10")) && check[1]!=check[2] && check[1]!=check[3] && check[2]!=check[3]
+		for i=0,2
+			cool = cool && check && len(check)>=3 && check[i] && (suffixed(check[i],"4") || suffixed(check[i],"6") || suffixed(check[i],"10")) && check[1]!=check[2] && check[1]!=check[0] && check[2]!=check[0]
 		end
 		if cool
 			Map.Kill("IvoDoor",true)
@@ -145,7 +158,7 @@ group TMScript
 			for i=1,12
 				Map.Kill("NPC_Ivo"..i,true)
 			end
-		elseif #check>=3
+		elseif len(check)>=3
 			self.Ivo("*RESET*")
 		end		
 	end
