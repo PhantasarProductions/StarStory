@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 XIV
+// version: 25.01.25 XV
 // 
 // End License
 
@@ -205,10 +205,10 @@ group MScript
 		Show = Lua.setmetatable({},{["__index"]=Sh,["__newindex"]=Niks})
 		Hide = Lua.setmetatable({},{["__index"]=Hd,["__newindex"]=Niks})
 		Schedule.Add("HideAllSecrets")
-		for l in each {'abc'}
+		for _,l in pairs {'abc'}
 			ZA.Enter("Dom40"..Chr(l),"Dom40")
 		end
-		for j in each {"FirstJump","JumpDown","Leave"}
+		for _,j in pairs {"FirstJump","JumpDown","Leave"}
 			ZA.Enter(j,j)
 		end
 	end
