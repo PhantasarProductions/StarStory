@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Bonus_Dark_Caves_of_Shilington.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - Bonus_Dark_Caves_of_Shilington.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,22 @@
 // 
 // **********************************************
 // 
-// version: 21.10.09
-// End License Information
+// 
+// version: 25.01.25 XIV
+// 
+// End License
 
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 //#MKL_Version "Star Story - LostPlanet - Bonus_Dark_Caves_of_Shilington.neil" "21.10.09"
 //#MKL_Lic     "Star Story - LostPlanet - Bonus_Dark_Caves_of_Shilington.neil" "Phantasar Closed License"
@@ -100,7 +111,7 @@ group MScript
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 		end
 	end
 	
@@ -112,7 +123,7 @@ group MScript
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 		end
 		Ach.Award("SECRETDUNGEON_DARKCAVES")
 		if !Done.Completed_DarkCavesShillington
@@ -128,8 +139,8 @@ group MScript
 				case 1
 					perm = math.random(1,20)==1
 				case 2
-					gv.gint.DarkCaveEmerald++
-					perm = math.random(1,math.max(1,20-gv.gint.DarkCaveEmerald))==1
+					gint.DarkCaveEmerald++
+					perm = math.random(1,math.max(1,20-gint.DarkCaveEmerald))==1
 				case 3
 					perm = true
 				default
@@ -148,8 +159,8 @@ group MScript
 				case 1
 					perm = math.random(1,20)==1
 				case 2
-					gv.gint.DarkCaveRuby++
-					perm = math.random(1,math.max(1,20-gv.gint.DarkCaveRuby))==1
+					gint.DarkCaveRuby++
+					perm = math.random(1,math.max(1,20-gint.DarkCaveRuby))==1
 				case 3
 					perm = true
 				default
@@ -166,7 +177,7 @@ group MScript
 	end
 	
 	
-	CONSTRUCTOR
+	void _CONSTRUCTOR()
 		for i=1,Secrets
 			string T = "Secret"..i
 			ZA.Enter(T,"Show."..T)
@@ -175,16 +186,24 @@ group MScript
 			end
 		end
 		ZA.Enter("ByeSecret4","Hide.Secret4")
-		var Sh(s,string k)
+		//var Sh(s,string k)
+		ddef Sh
+			plua s
+			string k
+			s,k=Infinity
 			Map.ShowByLabel(k)
 			return Niks
 		end
-		var Hd(s,string k)
+		//var Hd(s,string k)
+		ddef Hd
+			plua s
+			string k
+			s,k=Infinity			
 			Map.HideByLabel(k)
 			return Niks
 		end
-		Show = Lua.setmetatable({},{["__index"]=Sh})
-		Hide = Lua.setmetatable({},{["__index"]=Hd})
+		Show = Lua.setmetatable({},{["__index"]=Sh,["__newindex"]=Niks})
+		Hide = Lua.setmetatable({},{["__index"]=Hd,["__newindex"]=Niks})
 		Schedule.Add("HideAllSecrets")
 		for l in each {'abc'}
 			ZA.Enter("Dom40"..Chr(l),"Dom40")
@@ -193,5 +212,8 @@ group MScript
 			ZA.Enter(j,j)
 		end
 	end
+end
 
+Init
+	MScript._CONSTRUCTOR()
 end
