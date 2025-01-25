@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 25.01.25 I
+// 	  Version: 25.01.25 III
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -70,7 +70,8 @@ group Trans
 	
 	string ttype(string spot)
 		//return Map.GetObjData(tspot(spot),"TYPE")
-		return Kthura.Obj[self.tspot(spot)].Data.TYPE
+		ret:=Kthura.Obj[self.tspot(spot)].Data.TYPE
+		return Ternary(ret && ret!="",ret,"General")
 	end
 	
 	string tname(string spot)
@@ -173,7 +174,7 @@ group Trans
 		end
 		Activated[spot]=true
 		CSay("= Spot activated")
-		CSay("= Specific action: %s -> %s",self.ttype(spot),spot)
+		CSayF("= Specific action: %s -> %s",self.ttype(spot),spot)
 		Self["Pad"..self.ttype(spot)]()
 	end
 	
