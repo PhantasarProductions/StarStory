@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Map/KickReggie.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Map/KickReggie.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,27 @@
 // 
 // **********************************************
 // 
-// version: 21.03.06
-// End License Information
-void Kick(string Foxy,string Reggie,string wind)
-	Static Var Cuckoo = Audio.LoadNew("Audio/SFX/Cuckoo-clock-sound.ogg","CUCKOO")
-	int ox = Map.ObjInt(Reggie,"X")
-	int oy = Map.ObjInt(Reggie,"Y")
-	string oft = Map.ObjStr(Foxy,"Texture")
+// 
+// version: 25.01.25 I
+// 
+// End License
+
+
+Module
+
+#use "Libs/SCI/Audio"
+#Use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+
+Var Cuckoo = Audio.LoadNew("Audio/SFX/Cuckoo-clock-sound.ogg","CUCKOO")
+
+global void Kick(string Foxy,string Reggie,string wind)
+	
+	int ox := Map.ObjInt(Reggie,"X")
+	int oy := Map.ObjInt(Reggie,"Y")
+	string oft := Map.ObjStr(Foxy,"Texture")
 	Map.SetObj(Foxy,"Texture","GFX/Actors/Player/Foxy."..wind..".jpbf")
 	Map.SetObj(Foxy,"Frame",1)
 	repeat
@@ -58,7 +73,7 @@ void Kick(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		FPS.WaitMinTicks()
+		//FPS.WaitMinTicks()
 	until Map.Blocked(Map.ObjInt(Reggie,"X"),Map.ObjInt(Reggie,"Y"))
 	Cuckoo.Play()
 	Map.SetObj(Foxy,"Texture",oft)
@@ -78,9 +93,9 @@ void Kick(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		FPS.WaitMinTicks()
+		//FPS.WaitMinTicks()
 	end
 			
 end
 
-return Kick
+//return Kick
