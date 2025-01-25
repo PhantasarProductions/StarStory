@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25
+// version: 25.01.25 I
 // 
 // End License
 
@@ -51,7 +51,7 @@ module
 	int Alpha = 500
 	var Act
 	
-	Constructor
+	Init
 		Reggie.HotCenter()
 	end
 	
