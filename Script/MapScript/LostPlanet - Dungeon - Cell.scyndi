@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Dungeon - Cell.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - Dungeon - Cell.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,19 +33,28 @@
 // 
 // **********************************************
 // 
-// version: 21.05.25
-// End License Information
+// 
+// version: 25.01.25 II
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.05.25"
-#MKL_Lic     "Star Story - LostPlanet - Dungeon - Cell.neil" "Phantasar Closed License"
+#use "Script/Use/Convert/RPG2Stat"
+
+// #MKL_Version "Star Story - LostPlanet - Dungeon - Cell.neil" "21.05.25"
+// #MKL_Lic     "Star Story - LostPlanet - Dungeon - Cell.neil" "Phantasar Closed License"
 
 group MScript
 
 	Void CreateFoxy()
-		if Caps.Cycle>1 || gv.gbool.ImportedFoxy
+		if Caps.Cycle>1 || gbool.ImportedFoxy
 			if RPGChar.Foxy.Stat.Level<9999 - (999 div __skill)
 				RPGChar.Foxy.Stat.Level += 30 div __skill
 				Party.GrabLevel("Foxy",RPGChar.Foxy.Stat.Level)
@@ -60,8 +70,10 @@ group MScript
 		Foxy.Stat.INVAMNT2=7
 		Foxy.Data.INVITEM2="ANTIDOTE"
 		Foxy.Stat.INVAMNT2=8
-		Foxy.List.ABL.Add = "FOXY_MULTISTAB"
-		Foxy.List.ABL.Add = "FOXY_PICKPOCKET"
+		//Foxy.List.ABL.Add = "FOXY_MULTISTAB"
+		//Foxy.List.ABL.Add = "FOXY_PICKPOCKET"
+		RPGPureChar.Foxy.ListAdd("ABL","FOXY_MULTISTAB")
+		RPGPureChar.Foxy.ListAdd("ABL","FOXY_PICKPOCKET")
 		Foxy.Stat.SR_BASE_Poison=30 div __skill
 		Foxy.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
 		Foxy.Stat.SR_BASE_Disease=60 div __skill
@@ -87,7 +99,8 @@ group MScript
 		Yirl.Data.INVITEM2="FIRSTAIDKIT"
 		Yirl.Stat.INVAMNT2=1
 		Yirl.Stat.AMMO_BASE=6
-		Yirl.List.ABL.Add="YIRL_INTIMIDATE"
+		//Yirl.List.ABL.Add="YIRL_INTIMIDATE"
+		RPGPureChar.Yirl.ListAdd("ABL","YIRL_INTIMIDATE")
 		// Yirl.Stat.PXM=42 // No longer needed
 		Yirl.Stat.SR_BASE_Poison=30 div __skill
 		Yirl.Stat.SR_BASE_Paralysis=math.ceil(99 div __skill)
@@ -104,9 +117,9 @@ group MScript
 	Void WelcomeYirlAndFoxy()
 		CreateYirl()
 		CreateFoxy()
-		RPGParty[4]="Yirl"
-		RPGParty[5]="Foxy"
-		gv.vBool.CanSwitch=true
+		RPGParty[3]="Yirl"
+		RPGParty[4]="Foxy"
+		gBool.CanSwitch=true
 	end
 	
 	get string RandomWind
@@ -145,7 +158,7 @@ group MScript
 			Map.Kill(ch,true)
 		end
 		Player.Y=224
-		gv.gBool.Dungeon_TraliesWorkNow = true
+		gBool.Dungeon_TraliesWorkNow = true
 	End
 	
 	Void Tralies()
@@ -173,14 +186,14 @@ group MScript
 	end
 	
 	void Load()
-	end	
-	
-	CONSTRUCTOR
-		if !Done.CreateYirlAndFoxy
-			WelcomeYirlAndFoxy()
-		end
-		ZA.Enter("Tralies","Tralies")
-		ZA.Enter("ToMain","ToMain")
 	end
-
+end	
+	
+Init
+	if !Done.CreateYirlAndFoxy
+		MScriptWelcomeYirlAndFoxy()
+	end
+	ZA.Enter("Tralies","Tralies")
+	ZA.Enter("ToMain","ToMain")
 end
+
