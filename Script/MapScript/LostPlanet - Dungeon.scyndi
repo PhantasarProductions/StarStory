@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 IV
+// version: 25.01.25 VIII
 // 
 // End License
 
@@ -69,7 +69,7 @@ group TMScript
 
 	void Clock(string Tag)
 		//static table Check
-		locextern lencheck "#check"
+		locextern lencheck "#CheckTheStupidClock"
 		locExtern check "CheckTheStupidClock"
 		check = check || {}
 		if ClockDone			
@@ -93,12 +93,14 @@ group TMScript
 				return
 			end
 		end
-		check += Tag
+		//check += Tag
+		check[lencheck+1]=Tag
 		CSayF("Clock: Setting plate '%s' - Total pressed %d",Tag,lencheck)
 		if lencheck>=12
 			bool cool = true
 			for i=1,12
-				cool = cool && check[i]=="NPC_Clock"..i
+				cool = cool && check[i]=="NPC_CLOCK"..i
+				CSayF("Clock: Checking: %d -> %s -> %s",i,check[i],cool)
 			end
 			if cool
 				Map.Kill("ClockDoor",true)
@@ -275,7 +277,8 @@ end
 // The rest must just be linked through normally.
 quickmeta MScript
 	index
-		if prefixed(key,"NPC_Clock")
+		key = Upper(Key)
+		if prefixed(key,"NPC_CLOCK")
 			if TMScript.CoolDown>0
 				CSayF("Clock: CoolDown on %d - Request ignored!",TMScript.CoolDown)
 				return TMScript.Niks
@@ -283,7 +286,7 @@ quickmeta MScript
 			TMScript.Clock(key)
 			TMScript.CoolDown = 40
 			return TMScript.Niks
-		elseif prefixed(Key,"NPC_Ivo")
+		elseif prefixed(Key,"NPC_IVO")
 			if TMScript.CoolDown>0
 				CSayF("Clock: CoolDown on %d - Request ignored!",TMScript.CoolDown)
 				return TMScript.Niks
