@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 VII
+// version: 25.01.25 X
 // 
 // End License
 
@@ -101,7 +101,7 @@ group MScript
 		Yirl.Stat.INVAMNT1=5
 		Yirl.Data.INVITEM2="FIRSTAIDKIT"
 		Yirl.Stat.INVAMNT2=1
-		Yirl.Stat.AMMO_BASE=6
+		Yirl.Stat.AMMO=6
 		//Yirl.List.ABL.Add="YIRL_INTIMIDATE"
 		RPGPureChar.Yirl.ListAdd("ABL","YIRL_INTIMIDATE")
 		// Yirl.Stat.PXM=42 // No longer needed
@@ -145,7 +145,7 @@ group MScript
 			Map.DrawScreen()
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 		end
 		Map.Kill("KijkGat",true)
 		MapText("CAPTURED_2")
@@ -194,7 +194,7 @@ end
 	
 Init
 	if !Done.CreateYirlAndFoxy
-		MScriptWelcomeYirlAndFoxy()
+		MScript.WelcomeYirlAndFoxy()
 	end
 	ZA.Enter("Tralies","Tralies")
 	ZA.Enter("ToMain","ToMain")
