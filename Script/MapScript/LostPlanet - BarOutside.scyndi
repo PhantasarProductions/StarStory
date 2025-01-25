@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - BarOutside.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - BarOutside.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,22 @@
 // 
 // **********************************************
 // 
-// version: 21.06.14
-// End License Information
+// 
+// version: 25.01.25 IV
+// 
+// End License
 
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.06.14"
-#MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - LostPlanet - BarOutside.neil" "21.06.14"
+//#MKL_Lic     "Star Story - LostPlanet - BarOutside.neil" "Phantasar Closed License"
 
 #macro __MapTune "Music/Scenario/Dream Culture.ogg"
 
@@ -67,7 +77,7 @@ group MScript
 	End
 	
 	Void NPC_RICKROLL()
-		string L = Map.Leader:upper()
+		string L = upper(Map.Leader)
 		if L!="WENDICKA" && L!="CRYSTAL" && L!="FOXY"
 			MapText("RICKSILENT")
 			return
@@ -102,11 +112,11 @@ group MScript
 	
 	Void NPC_Merchant()
 		MapText("MERCHANT")
-		FMenu.Shop("LOSTPLANET_BAR_ITEMS")
+		FieldMenu.Shop("LOSTPLANET_BAR_ITEMS")
 	End
 	
 	Void EnterPub()
-		If gv.gbool.IllegalBarDone
+		If gbool.IllegalBarDone
 			Player.StopWalking()
 			Player.WalkTo("NoWay")
 			MapText("NO_ENTER")
@@ -123,16 +133,16 @@ group MScript
 			MapText("MIND_A")
 			Party.GiveEXP(10000)
 			Aurina.Rate+=(90 div __skill)
-			gv.gbool.TheseAreNotTheGirlsYoureLookingFor=true
+			gbool.TheseAreNotTheGirlsYoureLookingFor=true
 			NotTheGirls=false
 		end
 	end
 	
-	CONSTRUCTOR
-		for z in each {"IntroBar","Jungle","EnterPub"}
+	void StartUpSequence()
+		for _,z in pairs {"IntroBar","Jungle","EnterPub"}
 			ZA.Enter(z,z)
 		end
-		If (gv.gbool.WendickaFreedFacility) && (!gv.gbool.TheseAreNotTheGirlsYoureLookingFor)
+		If (gbool.WendickaFreedFacility) && (!gbool.TheseAreNotTheGirlsYoureLookingFor)
 			NotTheGirls=true
 			Map.Spawn("ACT_MindTrick","MindTrick")
 			Map.SetObj("ACT_MindTrick","Texture","GFX/ACTORS/SINGLEPIC/PIRATES/PIRATE.PNG")
@@ -140,3 +150,7 @@ group MScript
 	end
 
 end
+
+Init 
+	MScript.StartUpSequence()
+End
