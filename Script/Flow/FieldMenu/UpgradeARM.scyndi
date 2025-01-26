@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/UpgradeARM.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Flow/FieldMenu/UpgradeARM.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,28 @@
 // 
 // **********************************************
 // 
-// version: 21.06.02
-// End License Information
+// 
+// version: 25.01.26 XIII
+// 
+// End License
+
 module
-	readonly var sfont = ImageFont.Obtain("SYSFONT")
-	readonly var afont = ImageFont.Obtain("BOXTEXT")
-	readonly var bfont = ImageFont.Obtain("BIGTEXT")
+
+#use "LIBS/SCI/SYS"
+#use "LIBS/SCI/EVENTS"
+#use "LIBS/SCI/SSTRING"
+#use "LIBS/SCI/GRAPHICS"
+
+#use "SCRIPT/USE/LINK"
+
+#use "SCRIPT/USE/ANYWAY"
+
+#use "SCRIPT/USE/CONVERT/RPG2STAT"
+
+
+	readonly var sfont = ObtainFont("SYSFONT")
+	readonly var afont = ObtainFont("BOXTEXT")
+	readonly var bfont = ObtainFont("BIGTEXT")
 	
 	string PickedARM = ""
 	
@@ -51,7 +68,7 @@ module
 			return
 		end
 		StrH = ubox.H-20
-		StrW = math.min(ubox.w,math.floor( (StrH/Img.H) * Img.W))
+		StrW = math.min(ubox.w,math.floor( (StrH/Img.Height) * Img.Width))
 		Gedaan = true
 	end
 	
@@ -63,10 +80,11 @@ module
 		return Item["ARM_"..PickedARM]
 	end
 	
-	get var ARMEach
-		static table Stuff = {"Ammo","Extra_Power","Hit","Weight"}
+	Table Stuff = {"Ammo","Extra_Power","Hit","Weight"}
+	get var ARMEach		
 		int i = 0
-		var Ret()
+		//var Ret()
+		ddef Ret
 			i++
 			return Stuff[i]
 		end
@@ -107,13 +125,13 @@ module
 	
 	// Quanta Costa?
 	Int Price(string ARMStat)
-		string S = ARMStat:upper()
+		string S := Upper(ARMStat)
 		if S=="EXTRA_POWER"
 			S = "XPOWER"
 		elseif S=="HIT" && Hit>=100
 			return 0
 		end		
-		int r = Crystal.Stats["ARM."..PickedARM..".PRICE."..S]
+		int r := Crystal.Stats["ARM."..PickedARM..".PRICE."..S]
 		// Bug fixing?
 		if r == 0
 			int I
@@ -142,7 +160,7 @@ module
 	end
 
 	void IncPrice(string ARMStat)
-		string S = ARMStat:upper()
+		string S := Upper(ARMStat)
 		int I
 		switch S
 			case "AMMO"
@@ -171,15 +189,15 @@ module
 	end
 
 	get int MX
-		return Events.MouseX()
+		return Events.MouseX
 	end
 	
 	get int MY
-		return Events.MouseY()
+		return Events.MouseY
 	end
 	
 	get bool ML
-		return Events.MouseHitLeft()
+		return Events.MouseHitLeft
 	end
 	
 	// And let's do it!
@@ -192,7 +210,7 @@ module
 			//bfont.Text("So it's only natural she is the only",ubox.x+25,ubox.y+50)
 			//bfont.Text("character who can upgrade ARMS, isn't it?",ubox.x+30,ubox.y+75)
 			//return
-			FMChar = "Crystal"
+			Lua.Scyndi.Globals.FMChar = "Crystal"
 		end
 		if PickedARM == ""
 			__red
@@ -202,10 +220,10 @@ module
 		__red
 		bfont.DarkText(PARM.Name,ubox.x+(ubox.w div 2),ubox.y+25,2,0)
 		int y = 100
-		int tab = ubox.h div 4
+		int tab := ubox.h div 4
 		for sa in ARMEach
 			y+=30
-			bool H = MX>ubox.x && MY>y && MX<ubox.x+ubox.w && MY<y+25
+			bool H := MX>ubox.x && MY>y && MX<ubox.x+ubox.w && MY<y+25
 			if H
 				__Cyan
 			else
@@ -226,8 +244,8 @@ module
 						AMMO++
 						CSay("Another bullet!")
 					else
-						self[sa]+=4-__skill
-						CSayF("More points for %s => %d",sa,self[sa])
+						Lua.Scyndi.Class.UpgradeARM[sa]+=4-__skill
+						CSayF("More points for %s => %d",sa,Lua.Scyndi.Class.UpgradeARM[sa])
 					end
 					Aurina.Pay(prc)
 					IncPrice(sa)
@@ -241,7 +259,7 @@ module
 		afont.DarkText(sprintf("Credits: %9d",Aurina.Cash),ubox.x+20,(ubox.h+ubox.y)-20,0,1)
 	end
 	
-	Constructor
-		Img = Image.LoadNew("GFX/Upgrade/_Crystal.png","WUPGRADE_Crystal")
+	Init
+		Img = LoadNewImage("GFX/Upgrade/_Crystal.png","WUPGRADE_Crystal")
 	End
-end
+//end
