@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 I
+// version: 25.01.26 XXX
 // 
 // End License
 
@@ -45,12 +45,17 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
-3use "Libs/SCI/SString"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat" 
 
 // #MKL_Version "Star Story - Hawk.neil" "21.10.13"
 // #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
@@ -60,7 +65,26 @@ Script
 
 #macro __TeachSIABB Lua.tostring(TeachSIABB)
 
+
 #undef debugfoxy
+
+extern Talk "Scyndi.Class.MScript._Talk" 
+locextern FMenu "Scyndi.Class.FieldMenu"
+Init
+	ZA.Enter("ShowBridge1","Bridge")
+	ZA.Enter("ShowBridge2","Bridge")
+	ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
+	ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
+	ZA.Enter("ShowBack","ShowBack")
+	ZA.TabEnter({"Vault","OpenVaultDoor"})
+	ZA.Leave("OpenVaultDoor","CloseVaultDoor")
+	Party.Recover()
+	gbool.WendickaSwitchBlocked = false
+	gBool.AllowBeam=true
+	Map.AllowQuitSave=false
+end
+
+
 
 var InPartyChecked
 QuickMeta InParty
@@ -92,7 +116,7 @@ group MScript
 	bool VaultOpen
 	
 	// debug
-	Void BoolChain(table bools)
+	Void BoolChain(bools)
 		for i,b in pairs(bools)
 			CSayF("%03d/%03d:> %s",i+1,len(bools),lua.tostring(b))
 		end
@@ -137,11 +161,11 @@ group MScript
 	void KickOff()
 		Map.Leader="Wendicka"
 		Player.Wind="North"
-		Bridge()
+		MScript.Bridge()
 		MapText("ARRIVAL.KICKOFF")
 	end
 	
-	void Talk(string ch)
+	void _Talk(string ch)
 		Player.WalkTo("SPOT_Hawk_"..ch)
 		MapText(ch.."."..__hawk)
 	end
@@ -149,13 +173,13 @@ group MScript
 	void NPC_Hawk_Crystal()
 		Talk("Crystal")
 		// TODO: Sisters in all but blood
-		Bool TeachSIABB = RPGChar.Crystal.List.ARM.Has("ARKSMASH")
+		Bool TeachSIABB = RPGPureChar.Crystal.ListHas("ARM","ARKSMASH")
 		CSayF("ArkSmash: %s",__TeachSIABB)
 		for abl in each {"EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
 			TeachSIABB = TeachSIABB && RPGChar.Wendicka.List.ABL.Has(abl)
 			CSayF("%s: %s",abl,__TeachSIABB)
 		end
-		TeachSIABB = TeachSIABB && gv.vbool["EXC_UNLOCKED_FLOOR_#016"]  
+		TeachSIABB = TeachSIABB && gbool["EXC_UNLOCKED_FLOOR_#016"]  
 		CSayF("Excalibur: %s",__TeachSIABB)
 		if TeachSIABB
 			CSay("Teach if not already having it!")
@@ -174,7 +198,7 @@ group MScript
 		Talk("Yirl")
 		// TODO: Follow me
 		//If RPGChar.Yirl.List.ABL.Has("YIRL_FOLLOWME") && gbool.Met_Marlon && (!RPGChar.Wendicka.List.ABL.Has("YIRL_FOLLOWME"))
-		If RPGPureChar.Yirl.ListHas("ABS_FOLLOWME") && gbool.Met_Marlon && (!(RPGPureChar.Wendicka.ListHas("ABL","YIRL_FOLLOWME") || RPGPureChar.Wendicka.ListHas("LEARN","YIRL_FOLLOWME"))) 
+		If RPGPureChar.Yirl.ListHas("ABL","YIRL_FOLLOWME") && gbool.Met_Marlon && (!(RPGPureChar.Wendicka.ListHas("ABL","YIRL_FOLLOWME") || RPGPureChar.Wendicka.ListHas("LEARN","YIRL_FOLLOWME"))) 
 			MapText("TEACH.YIRL")
 			//RPGChar.Wendicka.List.LEARN.Add="YIRL_FOLLOWME"
 			RPGPureChar.Wendicka.ListAdd("LEARN","YIRL_FOLLOWME")
@@ -207,31 +231,32 @@ group MScript
 		CSayF("Foxy check %d/%d",W,M)
 		//PrintF("Foxy check %d/%d",W,M)
 		Talk("Foxy")
-		Hawk_Kick_Reggie(1,"NAVULPINA")
+		MScript.Hawk_Kick_Reggie(1,"NAVULPINA")
 		// Pickpocket
 		//#if debugfoxy
 		do
 		//#else
 		//if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
-		if (!RPGPureChar.Wendicka.ListHas("ABL","FOXY_PICKPOCKET") && Map.Leader=="Wendicka" && W>M
+			if (!RPGPureChar.Wendicka.ListHas("ABL","FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
 		//#fi
-			if (!Done.Foxy_Teaches_Pickpocket)
-				MapText("TEACH.FOXY")
-				//RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
-				RPGPureChar.Wendicka.ListAdd("LEARN","FOXY_PICKPOCKET")
+				if (!Done.Foxy_Teaches_Pickpocket)
+					MapText("TEACH.FOXY")
+					//RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
+					RPGPureChar.Wendicka.ListAdd("LEARN","FOXY_PICKPOCKET")
+				end
 			end
 		end
 	end
 	
 	void NPC_Hawk_Reggie()
 		Talk("Reggie")
-		Hawk_Kick_Reggie(2,"ANHYSBYS.REJOIN","CRYSTALFATHER","WENDICKAGONE")
+		MScript.Hawk_Kick_Reggie(2,"ANHYSBYS.REJOIN","CRYSTALFATHER","WENDICKAGONE")
 	end
 	
 	void NPC_Hawk_Xenobi()
 		Talk("Xenobi")
 		// Vitalize
-		BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gbool.FOUNDAPP_BESTIARY , gbool.WendickaGoddessReleased , (!gbool.Wendicka_Xenobi)}
+		MScript.BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gbool.FOUNDAPP_BESTIARY , gbool.WendickaGoddessReleased , (!gbool.Wendicka_Xenobi)}
 		If RPGChar.Wendicka.Stat.Level>=50 && RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") && gbool.FOUNDAPP_BESTIARY && gbool.WendickaGoddessReleased && (!gbool.Wendicka_Xenobi)
 			gbool.Wendicka_Xenobi = true
 			MapText("TEACH.XENOBI")
@@ -244,7 +269,7 @@ group MScript
 		Talk("Rolf")
 		// Kolme
 		//If RPGChar.Crystal.List.ARM.Has("DOPING_SHOT") && RPGChar.Rolf.List.ABL.Has("EXHURU_KOLME") && (!gbool.Wendicka_Kolme)
-		If RPGPureChar.Crystal.ListHas("ARM","DOPING_SHOT") && (RPGPureChar.Rolf.ListHas("ABL","EXHURU_KOLME") && (!gbool.Wendicka_Kolme)
+		If RPGPureChar.Crystal.ListHas("ARM","DOPING_SHOT") && RPGPureChar.Rolf.ListHas("ABL","EXHURU_KOLME") && (!gbool.Wendicka_Kolme)
 			gbool.Wendicka_Kolme=true
 			MapText("TEACH.ROLF")
 			//RPGChar.Wendicka.List.LEARN.Add="EXHURU_KOLME"
@@ -254,7 +279,7 @@ group MScript
 	
 
 	void Update()
-		//if Lua.Neil.Globals.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap && Map.HasTag("PLAYER")
+		//if Lua.Neil.Globalsing.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap && Map.HasTag("PLAYER")
 		if gStr.SPAWN_MAP != StripAll(Kthura.LastLoadedMap) && Map.HasTag("PLAYER")
 			CSay("Auto reset Spawn!")
 			Spawn.Reset()
@@ -315,7 +340,7 @@ group MScript
 	end
 	
 	Void NPC_Terminal()
-		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.neil")
+		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.lbc")
 		State.GoToFlow("TERMINAL")
 	End
 	
@@ -340,11 +365,11 @@ group MScript
 		SchuifOpen = true
 		Map.ObjWalkTo("ScenarioWendicka","Scotty")
 		for i=1,35
-			Update()
+			MScript.Update()
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			Sys.WaitMinTicks()
 			Events.Poll()
 		end
 		//Player.WalkTo("Scotty")
@@ -380,7 +405,7 @@ group MScript
 	end
 	
 	Void WendickaSaved()
-		Bridge()
+		MScript.Bridge()
 		Map.Leader="Wendicka"
 		Player.Wind="North"
 		MapText("GODDESS")
@@ -412,7 +437,7 @@ group MScript
 	Void GoddessGone()
 		Map.HideButLabel("Licht_Uit")
 		MapText("VONDELING")
-		MapMusic()
+		MScript.MapMusic()
 		Map.HideButLabel("Back")
 		Map.ShowObj("PLAYER") 
 		Player.Wind="South"
@@ -442,18 +467,4 @@ group MScript
 	
 end
 	
-Init
-	ZA.Enter("ShowBridge1","Bridge")
-	ZA.Enter("ShowBridge2","Bridge")
-	ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
-	ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
-	ZA.Enter("ShowBack","ShowBack")
-	ZA.TabEnter({"Vault","OpenVaultDoor"})
-	ZA.Leave("OpenVaultDoor","CloseVaultDoor")
-	Party.Recover()
-	gbool.WendickaSwitchBlocked = false
-	gBool.AllowBeam=true
-	Map.AllowQuitSave=false
-end
-
 
