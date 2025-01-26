@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.25 I
+// 	  Version: 25.01.26 IX
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -134,7 +134,7 @@ end
 
 // For Upgrade Only
 global void ClickARM(string ARMTAG)
-	var SitUp = Situations.UPGRADE[2].RIGHT.MOD
+	var SitUp = Situations.UPGRADE[1].RIGHT.MOD
 	if !SitUp
 		CSay("Mod not yet loaded?")
 		return
@@ -167,22 +167,25 @@ global void MainFlow()
 	// Top Icon Strip
 	// Lua.assert(Situations[FMSituation],"No situation named: "..FMSituation)
 	Lua.assert(Situations[FMSituation],sprintf("Situation '%s' does not exist!",FMSituation))
-	int iw := math.floor(Graphics.W/len(Situations[FMSituation])+1 )
-	// CSayF("Icons in situation '%s': %d",FMSituation,#Situations[FMSituation])
+	int iw := math.floor(Graphics.W div (len(Situations[FMSituation])+1) )	
+	// CSayF("Icons in situation '%s': %d",FMSituation,len(Situations[FMSituation]))
 	for i,ico in ipairs(Situations[FMSituation])
+		//CSayF("Icon %d/%d -> %s",i,len(Situations[FMSituation]),ico.ICONFILE)
 		SitActive[FMSituation] = SitActive[FMSituation] || i
 		__skyblue
 		if SitActive[FMSituation]==i && (math.floor(Sys.Ticks/200)%2==0)
-			__black
+			//__black
+			SetColor(0,18,25)
 		end
 		ico.ICON = ico.ICON || ObtainImage("ICO_"..ico.ICONFILE)
 		if Events.MouseHitLeft && my<topbox.h and mx>((i+1)*iw)-25 and mx<((i+1)*iw)+25
 			//Graphics.Rect(0,(i*iw)-15,Topbox.h,30) // debug only!
 			SitActive[FMSituation]=i
 		end
+		//CSayF("Icon #%d/%d -> x%d (%d) iw%d",i,len(Situations[FMSituation]),(i+1)*iw,Graphics.W,iw)
 		ico.ICON.Draw((i+1)*iw,5)
 		if SitActive[FMSituation]==i
-			static table kanten={"LEFT","RIGHT"}
+			LocExtern kanten "{'LEFT','RIGHT'}"
 			for ik,kant in pairs(kanten)
 				ico[kant].MOD = ico[kant].MOD || QUse("Script/Flow/FieldMenu/".. ico[kant].ID )
 				ico[kant].MOD.Flow(boxes[kant],FMChar,FMSituation)
