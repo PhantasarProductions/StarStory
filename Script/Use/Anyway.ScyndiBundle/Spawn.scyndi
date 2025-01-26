@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.26 I
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -45,6 +45,8 @@
 //#macro _LNG Lua.Neil.Globals
 #use "Libs/Music"
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 #use "Script/Use/Convert/RPG2Stat"
@@ -75,7 +77,7 @@ module
 	void Reset()
 		gint.SPAWN_X = _LNG.Player.X
 		gint.SPAWN_Y = _LNG.Player.Y
-		gstr.SPAWN_MAP = _LNG.Map.LoadedMap
+		gstr.SPAWN_MAP = StripAll(Kthura.LastLoadedMap) //_LNG.Map.LoadedMap
 		gstr.SPAWN_LAY = _LNG.Map.Layer
 		CSayF("Spawn Reset to %s.%s => (%d,%d)",Map,Layer,X,Y)
 	end
