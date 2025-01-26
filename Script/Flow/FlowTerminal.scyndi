@@ -1,0 +1,167 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Flow/FlowTerminal.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.26 V
+// 
+// End License
+
+
+Script
+
+#use "Libs/Music"
+#use "Libs/LinkedList"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Misc/ClassBox"
+#use "Script/Use/Misc/GoToNIM"
+
+#use "Script/Use/Convert/Flow"
+
+
+
+Class TApp
+	ReadOnly String Name
+	ReadOnly Var Icon
+	ReadOnly String CheckInstalled
+	
+	Get Bool Installed
+		If CheckInstalled=="ALWAYS"
+			Return true
+		End
+		Return gbool[CheckInstalled]
+	end
+	
+	ReadOnly Delegate Program
+	
+	Constructor(String AName,Delegate AProgram,String ACheckInstalled="ALWAYS")
+		CSayF("Creating App Object for: %s",AName)
+		Name=AName
+		Icon=LoadNewImage("GFX/Terminal/"..AName..".png","TERMINAL_"..AName)
+		Program = AProgram
+		CheckInstalled = ACheckInstalled
+		Lua.assert(Icon,"I failed to load the icon for App: "..AName)
+	End
+End
+
+var Mouse = ObtainImage("MOUSE")
+var ScreenBox = new Box(0,0,Graphics.W,Graphics.H-128,false)
+Var AppList = new LinkedList()
+Var Font = ObtainFont("BOXTEXT")
+
+Void ChainTutorial()
+	Lua.error("Tutorials not yet available")
+End
+
+Void ChainGameShoot()
+	//Lua.error("Game Shoot not yet available")
+	Loading()
+	State.LoadNew("FLOW_SHOOTGAME","Script/Flow/FlowShoot.neil")
+	Music.Push()
+	Music.Play("Music/BlockShooter/Overworld.ogg")
+	Flow.Current="SHOOTGAME"
+End
+
+Void ChainBestiary()
+	//Lua.error("Bestiary not yet available")
+	Loading()
+	State.LoadNew("FLOW_BESTIARY","Script/Flow/FlowBestiary.Neil")
+	Flow.Current="BESTIARY"
+End
+
+Void ChainJukeBox()
+	//Lua.error("Jukebox not yet available")
+	State.LoadNew("FLOW_JUKEBOX","Script/Flow/FlowJukebox.Neil")
+	State.Call("FLOW_JUKEBOX","Arrival","ReturnHawk")
+	Flow.Current="JUKEBOX"
+end
+
+Void ChainGameNIM()
+	GoToNIM("TERMINAL")
+End
+
+Void Quit()
+	State.GoToFlow("FIELD")
+end
+
+Init
+	AppList.AddLast(new TApp("Save",MSave.ToSave))
+	//AppList.AddLast(new TApp("Tutor",ChainTutorial))
+	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
+	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
+	AppList.AddLast(new TApp("GameNIM",ChainGameNIM,"FOUNDAPP_NIM"))
+	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARY"))
+	AppList.AddLast(new TApp("Quit",Quit))
+End
+
+
+global void MainFlow()
+	//Dev.ToConsole()
+	ScreenBox.Draw()
+	// Mouse coordiniates
+	int mx = Events.MouseX
+	int my = Events.MouseY
+	int ax = 100
+	int ay = 100
+	for App in AppList.Each
+		if App.Installed
+			if mx>ax && my>ay && mx<ax+50 && my<ay+80
+				__Cyan
+				if Events.MouseHitLeft()
+					App.Program()
+				end
+			else
+				__SkyBlue
+			end
+			App.Icon.Stretch(ax,ay,50,50)
+			Font.Text(App.Name,ax+25,ay+52,2,0)
+			ax+=120
+			if ax>Graphics.W-150
+				ax=100
+				ay+=70
+			end
+		end
+	end
+	// Party
+	Party.Boxes()
+	// Mouse
+	Mouse.Draw(mx,my)
+end
