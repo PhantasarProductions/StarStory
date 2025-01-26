@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 V
+// version: 25.01.27 III
 // 
 // End License
 
@@ -49,6 +49,7 @@ Script
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 #use "Script/Use/Misc/ClassBox"
@@ -72,19 +73,20 @@ Class TApp
 	
 	ReadOnly Delegate Program
 	
-	Constructor(String AName,Delegate AProgram,String ACheckInstalled="ALWAYS")
+	Constructor(String AName, AProgram,String ACheckInstalled="ALWAYS")
 		CSayF("Creating App Object for: %s",AName)
 		Name=AName
 		Icon=LoadNewImage("GFX/Terminal/"..AName..".png","TERMINAL_"..AName)
 		Program = AProgram
 		CheckInstalled = ACheckInstalled
+		CSayF("= Installed: %s <- %s",Installed,CheckInstalled)
 		Lua.assert(Icon,"I failed to load the icon for App: "..AName)
 	End
 End
 
 var Mouse = ObtainImage("MOUSE")
 var ScreenBox = new Box(0,0,Graphics.W,Graphics.H-128,false)
-Var AppList = new LinkedList()
+Var AppList = new TLinkedList()
 Var Font = ObtainFont("BOXTEXT")
 
 Void ChainTutorial()
@@ -123,18 +125,18 @@ Void Quit()
 end
 
 Init
-	AppList.AddLast(new TApp("Save",MSave.ToSave))
+	AppList.AddLast(new TApp("Save",MSave.ToSave,"ALWAYS"))
 	//AppList.AddLast(new TApp("Tutor",ChainTutorial))
 	AppList.AddLast(new TApp("Jukebox",ChainJukebox,"FOUNDAPP_JUKEBOX"))
 	AppList.AddLast(new TApp("GameShoot",ChainGameShoot,"FOUNDAPP_GAMESHOOT"))
 	AppList.AddLast(new TApp("GameNIM",ChainGameNIM,"FOUNDAPP_NIM"))
 	AppList.AddLast(new TApp("Bestiary",ChainBestiary,"FOUNDAPP_BESTIARY"))
-	AppList.AddLast(new TApp("Quit",Quit))
+	AppList.AddLast(new TApp("Quit",Quit,"ALWAYS"))
 End
 
 
 global void MainFlow()
-	//Dev.ToConsole()
+	//Dev.ToConsole()	
 	ScreenBox.Draw()
 	// Mouse coordiniates
 	int mx = Events.MouseX
@@ -145,7 +147,7 @@ global void MainFlow()
 		if App.Installed
 			if mx>ax && my>ay && mx<ax+50 && my<ay+80
 				__Cyan
-				if Events.MouseHitLeft()
+				if Events.MouseHitLeft
 					App.Program()
 				end
 			else
@@ -164,4 +166,5 @@ global void MainFlow()
 	Party.Boxes()
 	// Mouse
 	Mouse.Draw(mx,my)
+	QuitRequest()
 end
