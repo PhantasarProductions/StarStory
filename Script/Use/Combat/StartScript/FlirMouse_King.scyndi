@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/StartScript/FlirMouse_King.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/StartScript/FlirMouse_King.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,16 @@
 // 
 // **********************************************
 // 
-// version: 21.03.03
-// End License Information
-void FMKing()
+// 
+// version: 25.01.26 I
+// 
+// End License
+
+
+module
+#use "Script/Use/Convert/RPG2Char"
+void StartScript()
+//void FMKing()
 	table Verboden = {1,1,4}
 	int tieto
 	repeat
@@ -48,7 +56,7 @@ void FMKing()
 	// Question is.... WHICH subject!
 end
 
-return FMKing
+//return FMKing
 
 // "Flirmouse" is a deliberate fucked up translation of the Dutch word
 // "Vleermuis" which is the Dutch word for "bat" (the animal, not the baseball tool).
