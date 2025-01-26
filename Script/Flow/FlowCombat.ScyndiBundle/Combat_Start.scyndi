@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Start.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.26 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -114,8 +114,8 @@ end
 			end
 		end
 		if StartScript!=""
-			var SSM := NeilUse("Script/Use/Combat/StartScript/CombatStart_"..StartScript)
-			SSM()
+			var SSM := NeilUse("Script/Use/Combat/StartScript/CombatStart_"..StartScript)			
+			SSM.StartScript()
 		end
 	end
 //end
