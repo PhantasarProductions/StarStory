@@ -1,39 +1,58 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FieldMenu/Upgrade.neil
-// Version: 21.03.08
-// Copyright (C) 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FieldMenu/Upgrade.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 25.01.26 VI
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+Module
+
+#use "Libs/FitText"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/use/Anyway"
+
 class UChar
 
 	static Table Loaded = {}
@@ -90,7 +109,7 @@ class UChar
 					return 250000
 				else
 					int price = 25
-					int cd = Upgraded(Key) - 1
+					int cd := Upgraded(Key) - 1
 					Repeat
 						price += price div 4
 						cd --
@@ -129,7 +148,7 @@ class UChar
 	
 	Constructor(ubox,String aTag)		
 		Tag = aTag
-		Img = Image.LoadNew("GFX/Upgrade/_"..Tag..".png","WUPGRADE_"..Tag)
+		Img = LoadNewImage("GFX/Upgrade/_"..Tag..".png","WUPGRADE_"..Tag)
 		void USetIndex(onzin,string key,int value)
 			Char.Stats["UPGRADE_"..key] = value
 		end 
@@ -138,7 +157,7 @@ class UChar
 		end
 		Upgrade = Lua.setmetatable({},{["__index"]=UGetIndex, ["__newindex"]=USetIndex})
 		StrH = ubox.H-20
-		StrW = math.min(ubox.w,math.floor( (StrH/Img.H) * Img.W))
+		StrW = math.min(ubox.w,math.floor( (StrH/Img.Height) * Img.Weight))
 		boxf = ubox
 	end
 end
@@ -154,9 +173,9 @@ group UStat
 	ReadOnly String Agility = "Speeds %s up on the time gauge in combat"
 	
 	
-	Get Var Each()
+	Get Var Each
 		int i = 0
-		Var Ret()
+		ddef Ret
 			i++
 			switch i
 				case 1
@@ -185,20 +204,20 @@ group UStat
 	end
 end
 
-module
+//module
 	
-	readonly var sfont = ImageFont.Obtain("SYSFONT")
-	readonly var afont = ImageFont.Obtain("BOXTEXT")
-	readonly var bfont = ImageFont.Obtain("BIGTEXT")
+	readonly var sfont = ObtainFont("SYSFONT")
+	readonly var afont = ObtainFont("BOXTEXT")
+	readonly var bfont = ObtainFont("BIGTEXT")
 	
 	void Flow(uBox,string CharTag,string situation)
-		static int tab = ubox.w div 6
-		var UCH=UChar(ubox,CharTag)
+		int tab := ubox.w div 6
+		var UCH:=UChar(ubox,CharTag)
 		__white
 		UCH.DIMG()
 		__Red
 		bfont.DarkText(sprintf("Upgrades %04d/%04d",UCH.Upgrades,UCH.MaxUpgrades),ubox.x+(ubox.w div 2),ubox.y+25,2,2)
-		int Y=ubox.y+105
+		int Y:=ubox.y+105
 		__Ember
 		afont.DarkText("Upgrades",(tab*3)+ubox.x,100,1,0)
 		afont.DarkText("Stat Inc",(tab*4)+ubox.x,100,1,0)
@@ -206,7 +225,7 @@ module
 		string floattext = ""
 		for st in UStat.Each
 			Y+=25
-			bool H = Events.MouseX()>ubox.x && Events.MouseX()<ubox.x+ubox.w && Events.MouseY()>y && Events.MouseY()<y+25
+			bool H := Events.MouseX>ubox.x && Events.MouseX<ubox.x+ubox.w && Events.MouseY>y && Events.MouseY<y+25
 			if H
 				__Cyan
 			else
@@ -219,7 +238,7 @@ module
 				sFont.DarkText(sprintf("%6d credits",UCH.Price(st)),ubox.x+(tab*5),y,1,0)
 				if H
 					floattext = Ustat.Explain(RPGChar[CharTag].name,st)
-					if Events.MouseHitLeft() && UCH.Upgrades<UCH.MaxUpgrades && Aurina.Cash>=UCH.Price(st)
+					if Events.MouseHitLeft && UCH.Upgrades<UCH.MaxUpgrades && Aurina.Cash>=UCH.Price(st)
 						CSayF("Upgrading %s for %s!",st,chartag)
 						Aurina.Pay(UCH.Price(st))
 						UCH.Upgrade[st]+=UCH.Up
@@ -234,7 +253,7 @@ module
 		__Ember
 		afont.DarkText(sprintf("Credits: %9d",Aurina.Cash),ubox.x+20,(ubox.h+ubox.y)-20,0,1)
 		__white
-		FitText.Dark(sFont,floattext,Events.MouseX()+20,Events.MouseY()+20)
+		FitText.Dark(sFont,floattext,Events.MouseX+20,Events.MouseY+20)
 	end
 
-end
+//end
