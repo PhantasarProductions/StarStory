@@ -1,7 +1,7 @@
 // License:
 // **********************************************
 // 
-// src/Script/Script/Use/Combat/StartScript/FlirMouse_King.scyndi
+// src/Script/Script/Use/Combat/StartScript/CombatStart_FlirMouse_King.scyndi
 // (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -34,23 +34,32 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 I
+// version: 25.01.26 VI
 // 
 // End License
 
 
 module
-#use "Script/Use/Convert/RPG2Char"
+#use "Libs/SCI/Sys"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 void StartScript()
 //void FMKing()
 	table Verboden = {1,1,4}
 	int tieto
 	repeat
 		tieto = math.random(1,__skill*3)-1
+		CSayF("Flirmouse King - Tie To: %d",tieto)
 	loopwhile tieto==Verboden[__skill]
-	var King = RPGChar["FOE_"..Verboden[__skill]]
-	King.Link_Points("FOE_"..tieto,"HP")
+	var King := RPGChar["FOE_"..Verboden[__skill]]
+	//King.Link_Points("FOE_"..tieto,"HP")
+	CSay("Linking king")
+	RPGPureChar["FOE_"..Verboden[__skill]].LinkPoints("HP","FOE_"..tieto,"HP")
+	CSayF("%d:%s tied to: %d:%s",Verboden[__skill],RPGPureChar["FOE_"..Verboden[__skill]].Name,tieto,RPGPureChar["FOE_"..tieto].name)
+	CSayF("King: %d/%d -> Subject %d/%d",RPGPureChar["FOE_"..Verboden[__skill]].Points.HP.Have,RPGPureChar["FOE_"..Verboden[__skill]].Points.HP.Maximum,RPGPureChar["FOE_"..tieto].Points.HP.Have,RPGPureChar["FOE_"..tieto].Points.HP.Maximum)
+	CSay("Invulnerability to normal attacks")
 	King.Stat["ER_Non-Elemental"] = 5
+	CSay("All Done!")
 	
 	// Kill one of the subjects, to kill the king.
 	// Question is.... WHICH subject!
