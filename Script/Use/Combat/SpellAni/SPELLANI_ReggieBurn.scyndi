@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.26
 // 
 // End License
 
@@ -47,7 +47,7 @@ module
 #use "Script/Use/Combat/SpellAni/SPELLANI_Flame"
 
 	readonly var Reggie = LoadNewImage("GFX/Portret/Reggie/General.png","SPELLANI_REGGIE")
-	locExtern TSA "Scyndi.Class.SPELANI_Flame" 
+	locExtern TSA "Scyndi.Class.SPELLANI_Flame" 
 	int Alpha = 500
 	var Act
 	
