@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Junkyard.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - Junkyard.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,22 @@
 // 
 // **********************************************
 // 
-// version: 21.05.27
-// End License Information
+// 
+// version: 25.01.26 I
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.05.27"
-#MKL_Lic     "Star Story - LostPlanet - Junkyard.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - LostPlanet - Junkyard.neil" "21.05.27"
+//#MKL_Lic     "Star Story - LostPlanet - Junkyard.neil" "Phantasar Closed License"
 
-#macro HawkAvailable gv.gbool.Done_BeamedToTheHawk_ForTheFirstTime
+#macro HawkAvailable gbool.Done_BeamedToTheHawk_ForTheFirstTime
 
 group MScript
 
@@ -74,7 +82,7 @@ group MScript
 		// After all, the beam will be temporarily 
 		// disabled in the Science Facility and Volcania
 		HawkAvailable = true
-		gv.gBool.AllowBeam = true
+		gBool.AllowBeam = true
 		__hawk = "KICKOFF"
 		Map.Load("HAWK")
 		Schedule.Add("SPAWN:Welcome")
@@ -134,9 +142,9 @@ group MScript
 	
 	void Load()
 	end
-	
-	CONSTRUCTOR	 
-		ZA.TabEnter {"BossNotYet","Award","UnderTheShip","EnterObservatorium" }
-	end
+end	
 
-end
+Init	 
+	ZA.TabEnter {"BossNotYet","Award","UnderTheShip","EnterObservatorium" }
+End
+
