@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26
+// version: 25.01.26 I
 // 
 // End License
 
@@ -45,6 +45,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+3use "Libs/SCI/SString"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
@@ -439,18 +440,20 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
-		ZA.Enter("ShowBridge1","Bridge")
-		ZA.Enter("ShowBridge2","Bridge")
-		ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
-		ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
-		ZA.Enter("ShowBack","ShowBack")
-		ZA.TabEnter({"Vault","OpenVaultDoor"})
-		ZA.Leave("OpenVaultDoor","CloseVaultDoor")
-		Party.Recover()
-		gbool.WendickaSwitchBlocked = false
-		gBool.AllowBeam=true
-		Map.AllowQuitSave=false
-	end
-
 end
+	
+Init
+	ZA.Enter("ShowBridge1","Bridge")
+	ZA.Enter("ShowBridge2","Bridge")
+	ZA.Enter("Schuifdeur_Open","Sesam_OpenU")
+	ZA.Leave("Schuifdeur_Open","Sesam_SluitU")
+	ZA.Enter("ShowBack","ShowBack")
+	ZA.TabEnter({"Vault","OpenVaultDoor"})
+	ZA.Leave("OpenVaultDoor","CloseVaultDoor")
+	Party.Recover()
+	gbool.WendickaSwitchBlocked = false
+	gBool.AllowBeam=true
+	Map.AllowQuitSave=false
+end
+
+
