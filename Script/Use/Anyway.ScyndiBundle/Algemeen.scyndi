@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Algemeen.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.26
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -72,7 +72,7 @@ extern __lang "Scyndi.Globals.gStr.Lang"
 
 extern __aurinas "Scyndi.Globals.gInt.Aurinas"
 
-extern __hawk "Scyndi.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that"
+extern __hawk "Scyndi.Globals.gStr.How_is_the_current_situation_on_the_hawk_and_how_should_your_party_respond_to_that"
 
 
 const delegate Error = Lua.error
