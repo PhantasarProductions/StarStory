@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.25 VI
+// 	  Version: 25.01.26 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -149,6 +149,7 @@ class Clickable
 		delegate ts = Lua.tostring
 		if t(a) == "number" && t(b) == "number" 
 			if t(c)=="string"
+				CSay("MapScript Clickable: "..c)
 				List.AddLast(new Clickable(ot,lt,a,b,MapScript[c],d or ""))
 			elseif t(c)=="function"
 				List.AddLast(new Clickable(ot,lt,a,b,c,d or ""))
@@ -196,7 +197,7 @@ class Clickable
 			plua s;s = Kthura.Obj[tag.."_SPOT"]
 			ret={s.x,s.y}
 		else
-			ret={o.x,o.y}
+			ret={o.x,o.y+40}
 		end
 		if P2
 			Kthura.GoToLayer(OldLay)
@@ -225,6 +226,7 @@ class Clickable
 		for L in Kthura.Layers.Each
 			//var Lay = Map.KthuraMap.Layer(L)			
 			Kthura.GotoLayer(L)
+			Kthura.Remap()
 			table rItems = Map.LRItems
 			//CSayF("Clickable scan layer: %s",L)
 			for T in each(Kthura.TagList)
