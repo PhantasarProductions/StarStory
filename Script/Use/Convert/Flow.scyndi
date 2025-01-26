@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/Flow.scyndi
 // 	Flow (Lazy quicklink)
-// 	version: 25.01.23
+// 	version: 25.01.27
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -51,6 +51,7 @@ Group State
 	ReadOnly Delegate Call = Sys.Call
 	ReadOnly Delegate Has = Sys.HasState
 	ReadOnly Delegate Load = Sys.LoadState
+	ReadOnly Delegate GoToFlow = Sys.GoToFlow
 	
 	Void LoadFlow(String St,String Fl)
 		Sys.LoadState("FLOW_"..St,Fl)
