@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Upgrade.scyndi
 // 
-// 	  Version: 25.01.26 VI
+// 	  Version: 25.01.26 XV
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -47,11 +47,14 @@ Module
 #use "Libs/FitText"
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 class UChar
 
@@ -97,19 +100,19 @@ class UChar
 	int Price(string key)
 		switch __skill
 			case 1
-				if Upgraded(Key)==0
+				if self.Upgraded(Key)==0
 					return 5
 				else
-					return Upgraded(Key) * 10
+					return self.Upgraded(Key) * 10
 				end
 			case 2
-				if Upgraded(Key)==0
+				if self.Upgraded(Key)==0
 					return 100
-				elseif Upgraded(Key)>100
+				elseif self.Upgraded(Key)>100
 					return 250000
 				else
 					int price = 25
-					int cd := Upgraded(Key) - 1
+					int cd := self.Upgraded(Key) - 1
 					Repeat
 						price += price div 4
 						cd --
@@ -119,7 +122,7 @@ class UChar
 			case 3
 				int Price = 50
 				int cd = 0
-				for i=1,Upgraded(Key)
+				for i=1,self.Upgraded(Key)
 					Price += Price
 					if Price>500000
 						return 500000
@@ -149,15 +152,24 @@ class UChar
 	Constructor(ubox,String aTag)		
 		Tag = aTag
 		Img = LoadNewImage("GFX/Upgrade/_"..Tag..".png","WUPGRADE_"..Tag)
-		void USetIndex(onzin,string key,int value)
+		//void USetIndex(onzin,string key,int value)
+		ddef USetIndex
+			String key
+			Int Value
+			plua onzin
+			onzin,key,value = infinity
 			Char.Stats["UPGRADE_"..key] = value
 		end 
-		int UGetIndex(onzin,string key)
+		//int UGetIndex(onzin,string key)
+		ddef uGetIndex
+			plua onzin
+			string key
+			onzin,key = infinity
 			return Char.Stats["UPGRADE_"..key]
 		end
 		Upgrade = Lua.setmetatable({},{["__index"]=UGetIndex, ["__newindex"]=USetIndex})
 		StrH = ubox.H-20
-		StrW = math.min(ubox.w,math.floor( (StrH/Img.Height) * Img.Weight))
+		StrW = math.min(ubox.w,math.floor( (StrH/Img.Height) * Img.Width))
 		boxf = ubox
 	end
 end
@@ -207,12 +219,13 @@ end
 //module
 	
 	readonly var sfont = ObtainFont("SYSFONT")
-	readonly var afont = ObtainFont("BOXTEXT")
+	//readonly var afont = ObtainFont("BOXTEXT")
+	readonly var afont = ObtainFont("SYSFONT")
 	readonly var bfont = ObtainFont("BIGTEXT")
 	
 	void Flow(uBox,string CharTag,string situation)
 		int tab := ubox.w div 6
-		var UCH:=UChar(ubox,CharTag)
+		var UCH:=new UChar(ubox,CharTag)
 		__white
 		UCH.DIMG()
 		__Red
@@ -235,7 +248,7 @@ end
 			sFont.DarkText(sprintf("%04d",UCH.Upgraded(st)),ubox.x+(tab*3),y,1,0)
 			sFont.DarkText(sprintf("+%5d",UCH.Upgrade[st]),ubox.x+(tab*4),y,1,0)
 			if UCH.Upgrades<UCH.MaxUpgrades
-				sFont.DarkText(sprintf("%6d credits",UCH.Price(st)),ubox.x+(tab*5),y,1,0)
+				sFont.DarkText(sprintf("%6d cr",UCH.Price(st)),ubox.x+(tab*5),y,1,0)
 				if H
 					floattext = Ustat.Explain(RPGChar[CharTag].name,st)
 					if Events.MouseHitLeft && UCH.Upgrades<UCH.MaxUpgrades && Aurina.Cash>=UCH.Price(st)
