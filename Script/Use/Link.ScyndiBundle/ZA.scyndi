@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.01.26
 // 
 // End License
 
@@ -67,7 +67,7 @@ module
 	end
 	
 	void TabEnter(stuff)
-		for z in each(stuff)
+		for _,z in pairs(stuff)
 			Enter(z,z)
 		end
 	end
