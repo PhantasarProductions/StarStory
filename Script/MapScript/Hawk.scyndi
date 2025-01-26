@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Hawk.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Hawk.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,16 +33,29 @@
 // 
 // **********************************************
 // 
-// version: 21.10.13
-// End License Information
+// 
+// version: 25.01.26
+// 
+// End License
 
+
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Hawk.neil" "21.10.13"
-#MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
+// #MKL_Version "Star Story - Hawk.neil" "21.10.13"
+// #MKL_Lic     "Star Story - Hawk.neil" "Phantasar Closed License"
 
-#macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+//#macro __inf a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+#macro __inf infinity
 
 #macro __TeachSIABB Lua.tostring(TeachSIABB)
 
@@ -50,13 +64,13 @@
 var InPartyChecked
 QuickMeta InParty
 	index
-		key = key:upper()
+		key = Upper(key)
 		InPartyChecked = InPartyChecked || {}
 		if InPartyChecked[key]
 			return InPartyChecked[key]>0
 		end
-		for i=1,6
-			if RPGParty[i]:upper()==Key:upper()
+		for i=0,5
+			if Upper(RPGParty[i])==Upper(Key)
 				InPartyChecked[key]=1
 				return true
 			end
@@ -78,21 +92,21 @@ group MScript
 	
 	// debug
 	Void BoolChain(table bools)
-		for i,b in ipairs(bools)
-			CSayF("%03d/%03d:> %s",i,#bools,lua.tostring(b))
+		for i,b in pairs(bools)
+			CSayF("%03d/%03d:> %s",i+1,len(bools),lua.tostring(b))
 		end
 	End
 
 	Void MapMusic()
-		if gv.gbool.WendickaDream
+		if gbool.WendickaDream
 			Music.Play("Music/Scenario/Comfortable Mystery.ogg")
-			gv.gbool.WendickaDream = false
+			gbool.WendickaDream = false
 			return
 		end
-		if gv.gstring.Hawk_Music==""
-			gv.gstring.Hawk_Music="Music/Hawk/001.ogg"
+		if gstring.Hawk_Music==""
+			gstring.Hawk_Music="Music/Hawk/001.ogg"
 		end
-		Music.Play(gv.gstring.Hawk_Music)
+		Music.Play(gstring.Hawk_Music)
 	end
 
 	void Bridge()
@@ -102,7 +116,7 @@ group MScript
 		if !Removals
 			// Wendicka is no go area... and Foxy and Yirl will always be in the party
 			// while in the hawk
-			for ch in each { "Crystal", "ExHuRU","Xenobi","Rolf" }				
+			for ch in each { [0] = "Crystal", "ExHuRU","Xenobi","Rolf" }				
 				switch ch
 					case "Crystal"
 						if !InParty.Wendicka
@@ -158,9 +172,11 @@ group MScript
 	Void NPC_Hawk_Yirl()
 		Talk("Yirl")
 		// TODO: Follow me
-		If RPGChar.Yirl.List.ABL.Has("YIRL_FOLLOWME") && gv.gbool.Met_Marlon && (!RPGChar.Wendicka.List.ABL.Has("YIRL_FOLLOWME"))
+		//If RPGChar.Yirl.List.ABL.Has("YIRL_FOLLOWME") && gbool.Met_Marlon && (!RPGChar.Wendicka.List.ABL.Has("YIRL_FOLLOWME"))
+		If RPGPureChar.Yirl.ListHas("ABS_FOLLOWME") && gbool.Met_Marlon && (!(RPGPureChar.Wendicka.ListHas("ABL","YIRL_FOLLOWME") || RPGPureChar.Wendicka.ListHas("LEARN","YIRL_FOLLOWME"))) 
 			MapText("TEACH.YIRL")
-			RPGChar.Wendicka.List.LEARN.Add="YIRL_FOLLOWME"
+			//RPGChar.Wendicka.List.LEARN.Add="YIRL_FOLLOWME"
+			RPGPureChar.Wendicka.ListAdd("LEARN","YIRL_FOLLOWME")
 		End
 	End
 	
@@ -180,22 +196,28 @@ group MScript
 		// And reloaded all anew when you come back, this will therefore trigger
 		// each time you get at the hawk. This prevents endless checking Foxy until she gives in
 		// But will make you need to come back multiple times.
-		static int W = math.random(3-__skill,RPGChar.Wendicka.Stat.Level)
+		//
+		// Upper text no longer the case. You can try multiple times now.
+		// For some reason it wouldn't work otherwise, and static locals is an issue
+		// In Scyndi anyway
+		int W = math.random(3-__skill,RPGChar.Wendicka.Stat.Level)
 		//static int M = math.random(1,Caps.LevelCap * (__skill^__skill))
-		static int M = math.random(__skill,250 * __skill)
+		int M = math.random(__skill,250 * __skill)
 		CSayF("Foxy check %d/%d",W,M)
-		PrintF("Foxy check %d/%d",W,M)
+		//PrintF("Foxy check %d/%d",W,M)
 		Talk("Foxy")
 		Hawk_Kick_Reggie(1,"NAVULPINA")
 		// Pickpocket
-		#if debugfoxy
+		//#if debugfoxy
 		do
-		#else
-		if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
-		#fi
+		//#else
+		//if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
+		if (!RPGPureChar.Wendicka.ListHas("ABL","FOXY_PICKPOCKET") && Map.Leader=="Wendicka" && W>M
+		//#fi
 			if (!Done.Foxy_Teaches_Pickpocket)
 				MapText("TEACH.FOXY")
-				RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
+				//RPGChar.Wendicka.List.LEARN.Add="FOXY_PICKPOCKET"
+				RPGPureChar.Wendicka.ListAdd("LEARN","FOXY_PICKPOCKET")
 			end
 		end
 	end
@@ -208,27 +230,31 @@ group MScript
 	void NPC_Hawk_Xenobi()
 		Talk("Xenobi")
 		// Vitalize
-		BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gv.gbool.FOUNDAPP_BESTIARY , gv.gbool.WendickaGoddessReleased , (!gv.gbool.Wendicka_Xenobi)}
-		If RPGChar.Wendicka.Stat.Level>=50 && RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") && gv.gbool.FOUNDAPP_BESTIARY && gv.gbool.WendickaGoddessReleased && (!gv.gbool.Wendicka_Xenobi)
-			gv.gbool.Wendicka_Xenobi = true
+		BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gbool.FOUNDAPP_BESTIARY , gbool.WendickaGoddessReleased , (!gbool.Wendicka_Xenobi)}
+		If RPGChar.Wendicka.Stat.Level>=50 && RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") && gbool.FOUNDAPP_BESTIARY && gbool.WendickaGoddessReleased && (!gbool.Wendicka_Xenobi)
+			gbool.Wendicka_Xenobi = true
 			MapText("TEACH.XENOBI")
-			RPGChar.Wendicka.List.LEARN.Add="XENOBI_VITALIZE"
+			//RPGChar.Wendicka.List.LEARN.Add="XENOBI_VITALIZE"
+			RPGPureChar.Wendicka.ListAdd("LEARN","XENOBI_VITALIZE")
 		End
 	end
 	
 	Void NPC_Hawk_Rolf()
 		Talk("Rolf")
 		// Kolme
-		If RPGChar.Crystal.List.ARM.Has("DOPING_SHOT") && RPGChar.Rolf.List.ABL.Has("EXHURU_KOLME") && (!gv.gbool.Wendicka_Kolme)
-			gv.gbool.Wendicka_Kolme=true
+		//If RPGChar.Crystal.List.ARM.Has("DOPING_SHOT") && RPGChar.Rolf.List.ABL.Has("EXHURU_KOLME") && (!gbool.Wendicka_Kolme)
+		If RPGPureChar.Crystal.ListHas("ARM","DOPING_SHOT") && (RPGPureChar.Rolf.ListHas("ABL","EXHURU_KOLME") && (!gbool.Wendicka_Kolme)
+			gbool.Wendicka_Kolme=true
 			MapText("TEACH.ROLF")
-			RPGChar.Wendicka.List.LEARN.Add="EXHURU_KOLME"
+			//RPGChar.Wendicka.List.LEARN.Add="EXHURU_KOLME"
+			RPGPureChar.Wendicka.ListAdd("LEARN","EXHURU_KOLME")
 		End
 	End
 	
 
 	void Update()
-		if Lua.Neil.Globals.gv.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap && Map.HasTag("PLAYER")
+		//if Lua.Neil.Globals.gstring.SPAWN_MAP != Lua.Neil.Globals.Map.LoadedMap && Map.HasTag("PLAYER")
+		if gStr.SPAWN_MAP != StripAll(Kthura.LastLoadedMap) && Map.HasTag("PLAYER")
 			CSay("Auto reset Spawn!")
 			Spawn.Reset()
 		end
@@ -255,11 +281,12 @@ group MScript
 	end
 	
 	void ShowBack()
-		static bool Bakina_Checked
+		//static bool Bakina_Checked
+		locExtern Bakina_Checked "Checked_If_Banika_Is_Actually_There"
 		Map.HideButLabel("Back")
 		Map.ShowObj("PLAYER")
 		if !Bakina_Checked
-			if !gv.gbool.Found_Bakina
+			if !gbool.Found_Bakina
 				Map.Kill("NPC_Bakina")
 			end
 			Bakina_Checked=true
@@ -377,7 +404,7 @@ group MScript
 		Map.HideButLabel("Bridge")
 		Map.ShowObj("PLAYER")
 		MapText("PIRATES_C")
-		gv.gBool.AllowBeam = False
+		gBool.AllowBeam = False
 		Map.GoToMap("Volcania - Volcanic Plains","#006","START")
 	End
 	
@@ -421,8 +448,8 @@ group MScript
 		ZA.TabEnter({"Vault","OpenVaultDoor"})
 		ZA.Leave("OpenVaultDoor","CloseVaultDoor")
 		Party.Recover()
-		gv.gbool.WendickaSwitchBlocked = false
-		gv.gBool.AllowBeam=true
+		gbool.WendickaSwitchBlocked = false
+		gBool.AllowBeam=true
 		Map.AllowQuitSave=false
 	end
 
