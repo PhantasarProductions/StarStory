@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.26
+// 	  Version: 25.01.26 II
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -388,18 +388,18 @@ Global Var CG_Effect
 		if math.random(1,6)!=1
 			return nil
 		end
-		int rep = math.random(4,6)
+		int rep = math.random(3,5)
 		if RPGParty[rep]==""
 			return nil
 		end
-		int f=0
+		int f=-1
 		string ret := RPGParty[rep]
-		for i=1,3
+		for i=0,2
 			if RPGParty[i]=="Foxy"
 				f=i
 			end
 		end
-		Lua.assert(f>0,"Foxy not on front row (OOPS! SORRY!)")
+		Lua.assert(f>=0,"Foxy not on front row (OOPS! SORRY!)")
 		RPGParty[f  ]=ret
 		RPGParty[rep]="Foxy"
 		return ret
