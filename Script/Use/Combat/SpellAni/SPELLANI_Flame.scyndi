@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Flame.scyndi
 // 
-// 	  Version: 25.01.25 III
+// 	  Version: 25.01.26
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -51,7 +51,7 @@ module
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
-locExtern Combat_Fighter "Scyndi.Calss.Combat_Fighter"
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
 
 	bool DrawOvertake
 	var Flame
