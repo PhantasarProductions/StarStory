@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Mjolnir.scyndi
 // 
-// 	  Version: 25.01.26 IV
+// 	  Version: 25.01.26 V
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -75,7 +75,7 @@ module
 			int sw  := math.random(100,1000) / 750
 			int x   := math.random(tar.X - tar.W,tar.X + tar.W )
 			int y   := tar.y
-			number sh := y / ILight.H 
+			number sh := y / ILight.Height
 			Graphics.Scale(sw,sh)
 			ILight.Draw(x,y)
 			Graphics.Scale(1,1)
