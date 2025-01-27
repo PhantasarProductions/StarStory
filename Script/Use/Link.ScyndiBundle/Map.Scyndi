@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.27
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -380,7 +380,7 @@ End
 
 	get string LoadedMap
 	//	return ISGET.String("FLOW_FIELD","FldMap.LoadedMap")
-		Return Kthura.CurrentMap
+		Return Kthura.LastLoadedMap
 	end
 	
 	//Void PlayerStopWalking()
