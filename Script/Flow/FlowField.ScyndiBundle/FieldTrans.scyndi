@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 25.01.25 III
+// 	  Version: 25.01.27
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -195,7 +195,7 @@ void ANewIndex(s,string key,bool value)
 		//Map.SetObj(tpad(key),"Texture","GFX/Textures/Teleporter Pad/"..ttype(key)..".png")
 		Kthura.Obj[Trans.tpad(key)].Texture = "GFX/Textures/Teleporter Pad/"..Trans.ttype(key)..".png"
 		if Upper(Trans.ttype(key))=="GENERAL"
-			Hawk.Add(key,trans.tworld(key),Trans.tname(key),Map.LoadedMap,Map.Layer)
+			Hawk.Add(key,trans.tworld(key),Trans.tname(key),Kthura.LastLoadedMap,Map.Layer)
 			CSay("Added to location list in Hawk")
 		end
 	end
