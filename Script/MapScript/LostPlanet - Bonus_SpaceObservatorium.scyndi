@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27 XIV
+// version: 25.01.27 XXIII
 // 
 // End License
 
@@ -43,6 +43,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/Intervar"
 
@@ -77,10 +78,12 @@ class Schuifdeur
 		if Open
 			if Schuif<30
 				Schuif++
+				//CSayF("Schuif Open: %02d -> %03d",Schuif,LX)
 			end
 		else
 			if Schuif>0
 				Schuif--
+				//CSayF("Schuif Dicht: %02d -> %03d",Schuif,LX)
 			end
 		end
 		Map.SetObj(oTag.."L","X",LX)
@@ -103,10 +106,14 @@ class Schuifdeur
 		if Zone!=""
 			Tab = Tab || {}
 			ddef CZO
-				MScript.DeurTabel[deur].Open = true
+				//MScript.DeurTabel[deur].Open = true
+				DeurObject.Open=true
+				CSayF("Open door: %s",deur)
 			End
 			ddef CZC
-				MScript.DeurTabel[deur].Open = false
+				//MScript.DeurTabel[deur].Open = false
+				DeurObject.Open=false
+				CSayF("Close door: %s",deur)
 			End
 			//Tab[Deur] = { ["O"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = true\nend",Deur)), ["C"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = false\nend",Deur)), ["D"] = DeurObject }
 			Tab[Deur] = { ["O"]=CZO, ["C"]=CZC, ["D"]=DeurObject }
@@ -122,7 +129,7 @@ extern SLabel "Scyndi.Class.MScript.__SLabel"
 
 group MScript
 
-	readonly var DeurTabel 
+	var DeurTabel = {} 
 	Var DeurWendicka //= SchuifDeur.Create("UnixD1")
 
 	void Welcome()
@@ -138,11 +145,11 @@ group MScript
 	end
 	
 	void Entrance()
-		MScript.SLabel("Entrance")
+		SLabel("Entrance")
 	end
 	
 	void Corridor1()
-		MScript.SLabel("Corridor1")
+		SLabel("Corridor1")
 	end
 	
 	Void OpenWendicka()
@@ -153,12 +160,14 @@ group MScript
 	end
 
 	void NPC_Console()
+		Player.StopWalking()
+		Player.WalkTo(Kthura.Obj.NPC_Console.X,Kthura.Obj.NPC_Console.Y+40)
 		if Map.Leader!="Wendicka"
 			gString.CURRENTCHARNAME = RPGChar[Map.Leader].Name
 			MapText("UNIX.NOTWENDICKA")
 			return
 		end
-		if !Done.Observatorium_Console_Handled
+		if !Done.Observatorium_Console_Handled			
 			MapText("UNIX1")
 			DeurWendicka.Open=true
 			for i=1,30
@@ -221,8 +230,10 @@ group MScript
 	end
 	
 	void Update()
-		for Deur in SchuifDeur.Lst.Each
-			Deur.Update()
+		//CSay("Update: Observatorium") // DEBUG ONLY!!!
+		for _Deur in SchuifDeur.Lst.Each	
+			// CSayF("Updating door: %s; Open: %s",_Deur.oTag,_Deur.Open) // DEBUG ONLY!!!
+			_Deur.Update()
 		end
 		Map.SetObj("SPACE","X",Map.CamX-2)
 		Map.SetObj("SPACE","Y",Map.CamY-2)
@@ -237,6 +248,7 @@ group MScript
 	end
 	
 	Void _CONSTRUCTOR()
+		CSayF("Welcome to the Space Observatorium!")
 		ZA.Enter("Transporter","Entrance")
 		ZA.TabEnter{"Entrance","Enter","EndObs1","Obs1Cor2","ShowCorridor2","DObs2","UObs2","TheEnd","EndTrans"}
 		for C1 in each(NewArray("R","L","U"))
