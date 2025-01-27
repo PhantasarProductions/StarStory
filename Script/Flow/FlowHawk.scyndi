@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25
+// version: 25.01.27 I
 // 
 // End License
 
@@ -43,6 +43,7 @@ Script
 
 #use "libs/sci/sys"
 #use "libs/sci/events"
+#use "libs/sci/sstring"
 #use "libs/sci/graphics"
 #use "libs/sci/intervar"
 
@@ -222,7 +223,7 @@ group flHawk
 							World=""
 						// Node ZZZ
 						else
-							Map.GoToMap(NData.Map,NData.Layer,"Trans.Spot."..NData.Spot)
+							Map.GoToMap(StripDir(NData.Map),NData.Layer,"Trans.Spot."..NData.Spot)
 							State.GoToFlow("FIELD")
 						// Node ZZZ Else
 						end
