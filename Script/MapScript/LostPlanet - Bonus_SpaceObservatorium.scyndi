@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27 XII
+// version: 25.01.27 XIV
 // 
 // End License
 
@@ -123,7 +123,7 @@ extern SLabel "Scyndi.Class.MScript.__SLabel"
 group MScript
 
 	readonly var DeurTabel 
-	readonly var DeurWendicka = SchuifDeur.Create("UnixD1")
+	Var DeurWendicka //= SchuifDeur.Create("UnixD1")
 
 	void Welcome()
 		if !Done.Entered_Observatorium_Before
@@ -255,5 +255,6 @@ group MScript
 end	
 
 Init
+	MScript.DeurWendicka = SchuifDeur.Create("UnixD1")
 	MScript._Constructor()
 end
