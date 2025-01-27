@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 XXX
+// version: 25.01.27
 // 
 // End License
 
@@ -350,8 +350,8 @@ group MScript
 		end
 		// I must be 100% sure the Hawk Flow is loaded. 
 		// Seems almost impossible that it isn't, though
-		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.Neil")
-		State.Call("FLOW_HAWK","flHawk.ForceSpace","nil")
+		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.lbc")
+		State.Call("FLOW_HAWK","flHawk.ForceSpace")
 		State.GoToFlow("HAWK")
 	End
 	
