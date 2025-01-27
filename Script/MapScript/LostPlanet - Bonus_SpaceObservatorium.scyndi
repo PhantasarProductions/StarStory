@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/LostPlanet - Bonus_SpaceObservatorium.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/LostPlanet - Bonus_SpaceObservatorium.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,14 +33,27 @@
 // 
 // **********************************************
 // 
-// version: 21.05.27
-// End License Information
+// 
+// version: 25.01.27 XII
+// 
+// End License
+
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
 
 #use "Libs/LinkedList"
-#use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "21.05.27"
-#MKL_Lic     "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "Phantasar Closed License"
+#use "Script/Use/Anyway"
+#use "Script/Use/Link"
+#use "Script/Use/Convert/RPG2Stat"
+
+//#MKL_Version "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "21.05.27"
+//#MKL_Lic     "Star Story - LostPlanet - Bonus_SpaceObservatorium.neil" "Phantasar Closed License"
 
 class Schuifdeur
 
@@ -81,14 +95,21 @@ class Schuifdeur
 		ORY = Map.ObjInt(Tag.."R","Y")
 	end
 	
-	static Var Lst = new LinkedList()
+	static Var Lst = new tLinkedList()
 	static Var Tab
 	
 	static Var Create(string Deur,String Zone="")
-		var DeurObject = New SchuifDeur(Deur)
+		var DeurObject := New SchuifDeur(Deur)
 		if Zone!=""
 			Tab = Tab || {}
-			Tab[Deur] = { ["O"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = true\nend",Deur)), ["C"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = false\nend",Deur)), ["D"] = DeurObject }
+			ddef CZO
+				MScript.DeurTabel[deur].Open = true
+			End
+			ddef CZC
+				MScript.DeurTabel[deur].Open = false
+			End
+			//Tab[Deur] = { ["O"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = true\nend",Deur)), ["C"] = NeilLoadString(sprintf("Init\nMScript.DeurTabel.%s.D.Open = false\nend",Deur)), ["D"] = DeurObject }
+			Tab[Deur] = { ["O"]=CZO, ["C"]=CZC, ["D"]=DeurObject }
 			ZA.Enter(Zone,sprintf("DeurTabel.%s.O",Deur))
 			ZA.Leave(Zone,sprintf("DeurTabel.%s.C",Deur))
 		end
@@ -96,6 +117,8 @@ class Schuifdeur
 		return DeurObject
 	end
 end
+
+extern SLabel "Scyndi.Class.MScript.__SLabel"
 
 group MScript
 
@@ -109,17 +132,17 @@ group MScript
 		end
 	end
 	
-	void SLabel(string l)
+	void __SLabel(string l)
 		Map.HideButLabel(l)
 		Map.ShowObj("PLAYER")
 	end
 	
 	void Entrance()
-		SLabel("Entrance")
+		MScript.SLabel("Entrance")
 	end
 	
 	void Corridor1()
-		SLabel("Corridor1")
+		MScript.SLabel("Corridor1")
 	end
 	
 	Void OpenWendicka()
@@ -131,7 +154,7 @@ group MScript
 
 	void NPC_Console()
 		if Map.Leader!="Wendicka"
-			gv.gString.CURRENTCHARNAME = RPGChar[Map.Leader].Name
+			gString.CURRENTCHARNAME = RPGChar[Map.Leader].Name
 			MapText("UNIX.NOTWENDICKA")
 			return
 		end
@@ -143,17 +166,17 @@ group MScript
 				Graphics.Cls()
 				Map.DrawScreen()
 				Graphics.Flip()
-				FPS.WaitMinTicks()
+				Sys.WaitMinTicks()
 				Events.Poll()
 			end
 			MapText("UNIX1OPEN")
 		end
-		OpenWendicka()
+		MScript.OpenWendicka()
 	end
 	
 	Void Enter()
 		SLabel("Observe1")
-		OpenWendicka()
+		MScript.OpenWendicka()
 		if !Done.Observatorium_Wendicka_Conclusion
 			MapText("ENTER")
 		End
@@ -194,7 +217,7 @@ group MScript
 	void NPC_Jukebox()
 		Map.Kill("NPC_Jukebox",true)
 		MapText("JUKEBOX")
-		gv.gbool.FOUNDAPP_JUKEBOX=true
+		gbool.FOUNDAPP_JUKEBOX=true
 	end
 	
 	void Update()
@@ -203,8 +226,8 @@ group MScript
 		end
 		Map.SetObj("SPACE","X",Map.CamX-2)
 		Map.SetObj("SPACE","Y",Map.CamY-2)
-		Map.SetObj("SPACE","W",Screen.W+4)
-		Map.SetObj("SPACE","H",Screen.H)
+		Map.SetObj("SPACE","W",Graphics.W+4)
+		Map.SetObj("SPACE","H",Graphics.H)
 	end
 
 	void Draw()
@@ -213,10 +236,10 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
+	Void _CONSTRUCTOR()
 		ZA.Enter("Transporter","Entrance")
 		ZA.TabEnter{"Entrance","Enter","EndObs1","Obs1Cor2","ShowCorridor2","DObs2","UObs2","TheEnd","EndTrans"}
-		for C1 in each{"R","L","U"}
+		for C1 in each(NewArray("R","L","U"))
 			ZA.Enter("ToCorr1"..C1,"Corridor1")
 		end
 		for i=1,3
@@ -229,5 +252,8 @@ group MScript
 		DeurTabel = SchuifDeur.Tab
 		Map.AllowQuitSave=false
 	end
+end	
 
+Init
+	MScript._Constructor()
 end
