@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23 V
+// version: 25.01.28 II
 // 
 // End License
 
@@ -93,9 +93,14 @@ module
 				If (RPGChar.Has("Wendicka") && RPGPureChar.Wendicka.ListHas("ABL",ABL))
 					CSayF("Updating uniform Wendicka for ability: %s",ABL)
 					RPGPureChar.UniWendicka.ListAdd("ABL",ABL)
-				Else
-					return ABL
-				End
+				end
+			Else
+				return ABL
+			End			
+		end
+		for ABL in RPGPureChar.Wendicka.ListEach("LEARN")
+			if !RPGPureChar.Wendicka.ListHas("ABL",ABL)
+				return ABL
 			end
 		end
 		for i,abl in pairs(spells)
