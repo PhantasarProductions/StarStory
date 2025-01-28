@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Stomp.scyndi
 // 
-// 	  Version: 25.01.28 V
+// 	  Version: 25.01.28 IX
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -74,7 +74,7 @@ module
 	end
 	
 	get bool Ended 
-		bool ret = (s*vuist.W>Graphics.W) && (s*vuist.H>Graphics.H)
+		bool ret = (s*vuist.Width>Graphics.Width) && (s*vuist.Height>Graphics.Height)
 		if ret
 			CrashGeluid.Play()
 		end
@@ -82,9 +82,9 @@ module
 	end
 	
 	void Draw()
-		Graphics.SetScale(s,s)
-		Vuist.Draw(Screen.W div 2, Screen.H div 2)
-		Graphics.SetScale(1,1)		
+		Graphics.Scale(s,s)
+		Vuist.Draw(Graphics.W div 2, Graphics.H div 2)
+		Graphics.Scale(1,1)		
 	end
 	
 	Void Update()
