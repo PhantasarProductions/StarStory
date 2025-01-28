@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26
+// version: 25.01.27
 // 
 // End License
 
@@ -73,7 +73,7 @@ module
 	end
 
 	void TabLeave(stuff)
-		for z in each(stuff)
+		for _,z in pairs(stuff)
 			Leave(z,"Leave_"..z)
 		end
 	end
