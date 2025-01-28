@@ -1,0 +1,75 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Combat/SpellEffect/EFFECT_TriggerHappy.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.28
+// 
+// End License
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+#use "Script/Use/Combat/SpellAni/SPELLANI_Shoot"
+
+//Bool KnalErMaarOpLos(Act,Tar)
+Bool DoEffect(Act,Tar)
+	//static var p = NeilUse("Script/Use/Combat/SpellAni/Shoot")
+	locExtern p "Scyndi.Class.SPELLANI_Shoot"
+	locExtern CG_Effect "Scyndi.ALLIDENTIFIERS.CG_Effect"
+	if RPGChar.Yirl.Points.Ammo.Have<=0
+		return false
+	end
+	repeat
+		p.Start(Act)
+		repeat
+			Graphics.Cls()
+			Combat_Draw.DrawScreen()
+			p.Draw()
+			p.Update()
+			Graphics.Flip()
+			Events.Poll()
+			Sys.WaitminTicks()
+		until p.Ended
+		CG_Effect.Attack(Act,Tar,140 - (20 * __skill))
+		RPGChar.Yirl.Points.Ammo.Have--
+	loopwhile RPGChar.Yirl.Points.Ammo.Have>0 && Tar.HP>0
+	return true
+End
+
+//return KnalErMaarOpLos
