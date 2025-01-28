@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.27
+// 	  Version: 25.01.27 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -503,6 +503,10 @@ end
 #macro __PLAYER Kthura.Obj.Player
 quickmeta Player
 	index
+		if (!Kthura.HasObj("PLAYER") )
+			print("\x1b91mERROR>\x1b0m No player object available. Returning nil for element "..key.."!")
+			return nil
+		end
 		//Lua.error("Player.index: Not yet properly setup! Come back later!")
 		switch Upper(Key)
 			case "WIND"
@@ -538,6 +542,10 @@ quickmeta Player
 		end
 	end
 	newindex
+		if (!Kthura.HasObj("PLAYER") )
+			printf("\x1b91mERROR>\x1b0m No player object available. No data(%s:%s) accepted for element %s",Lua.type(value),value,key)
+			return
+		end
 		__Player[key] = value
 		//Lua.error("Player.newindex: Not yet properly setup! Come back later!")
 //		Link_Map.ObjSet("PLAYER",key,value)
