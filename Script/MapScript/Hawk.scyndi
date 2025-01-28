@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27 VII
+// version: 25.01.28
 // 
 // End License
 
@@ -376,7 +376,7 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			Sys.WaitMinTicks()
+			//Sys.WaitMinTicks()
 			Events.Poll()
 		end
 		//Player.WalkTo("Scotty")
