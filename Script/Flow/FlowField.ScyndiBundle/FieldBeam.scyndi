@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldBeam.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.27
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -123,6 +123,7 @@ Class ClBeam
 						//MP.CurLayer.Kill(ob.Actor)
 						Kthura.Kill(ob.Actor)
 						MP.Remap()
+						CSayF("Actor removed after beam out!")
 					End
 				Else
 					ob.Update()
