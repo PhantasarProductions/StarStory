@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27
+// version: 25.01.27 VII
 // 
 // End License
 
@@ -284,12 +284,18 @@ group MScript
 			CSay("Auto reset Spawn!")
 			Spawn.Reset()
 		end
-		if InParty.Wendicka 
-			if Map.Leader!="Wendicka"
-				Map.Leader = "Wendicka"
-			end
-		elseif Map.Leader != "Crystal"
-			Map.Leader = "Crystal"
+		if Kthura.HasObj("PLAYER")
+			if InParty.Wendicka 
+				if Map.Leader!="Wendicka"
+					Map.Leader = "Wendicka"
+				end
+				gbool.MeetYornoAtCrash = true
+			elseif Map.Leader != "Crystal"
+				gbool.MeetYornoAtCrash = false
+				Map.Leader = "Crystal"
+			End
+		else
+			CSayF("ERROR! Trying to chance leader, but player object not yet present!")	
 		end
 		Map.SetObj("Schuifdeur_Links" ,"X",SchuifDeur_Links -Schuif)
 		Map.SetObj("Schuifdeur_Rechts","X",SchuifDeur_Rechts+Schuif)
@@ -340,7 +346,7 @@ group MScript
 	end
 	
 	Void NPC_Terminal()
-		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.lbc")
+		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.lbc")		
 		State.GoToFlow("TERMINAL")
 	End
 	
@@ -352,6 +358,7 @@ group MScript
 		// Seems almost impossible that it isn't, though
 		State.LoadNew("FLOW_HAWK","Script/Flow/FlowHawk.lbc")
 		State.Call("FLOW_HAWK","flHawk.ForceSpace")
+		State.Call("FLOW_HAWK","CheckMedals")
 		State.GoToFlow("HAWK")
 	End
 	
@@ -466,5 +473,4 @@ group MScript
 	end
 	
 end
-	
 
