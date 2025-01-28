@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27 I
+// version: 25.01.28 II
 // 
 // End License
 
@@ -42,6 +42,7 @@
 Script
 
 #use "libs/sci/sys"
+#use "libs/sci/medals"
 #use "libs/sci/events"
 #use "libs/sci/sstring"
 #use "libs/sci/graphics"
@@ -55,6 +56,8 @@ Script
 #use "Script/Use/Convert/ViesBah"
 
 #undef CleanUp
+
+extern MaxMedal "25000"
 
 Class HData
 	string Name
@@ -122,6 +125,11 @@ group flHawk
 	end
 	
 	void Add(string spot,string World,string N,string M,string L)
+		HawkData[""]=nil // Fix for some data that shouldn't be there.
+		if World=="" || Upper(World)=="*IGNORE*"
+			CSay("Request to add a transpad to an empty or world to be ignored!")
+			Return
+		End
 		string node := upper(sprintf("%s.%s.%s",M,L,spot))
 		HawkData[World] = HawkData[World] or {}
 		HawkData[World].ZZZ = HawkData[World].ZZZ || new HData("<- Back","","")  
@@ -159,11 +167,11 @@ group flHawk
 	void GoSpace()
 		HawkData.ZZZ = HawkData.ZZZ || {}
 		int wy=20
-		for w,d in spairs(HawkData)
+		for w,d in spairs(HawkData)			
 			if w=="Black Hole"
 				d.DISABLED = gBool.BlackHoleDwellerDead
 			end
-			if d.DISABLED
+			if d.DISABLED || w==""
 				Graphics.Color(0,105,180)
 			elseif my>wy && my<wy+25
 				__Cyan
@@ -287,7 +295,27 @@ Global Delegate MainFlow
 //End
 //#fi
 
+Global Void CheckMedals()
+	If Medals.Active
+		CSayF("Medal Rate: %d/%d",Medals.FullScore,MaxMedal)
+		breuk:=Medals.FullScore/MaxMedal
+		int ratio:=math.min(100,breuk*100)
+		CSayF("Breuk %f -> %3d%%",breuk,ratio)
+		if ratio<25
+			return
+		end
+		flHawk.HawkData["Medal Dungeons"] = flHawk.HawkData["Medal Dungeons"] || {}
+		MDungs:=flHawk.HawkData["Medal Dungeons"]
+		// World,node, nd.Name,nd.Map,nd.Layer,nd.Spot
+		CSay(" 25% -> Shroom Forest should now be added!")
+		// 25%
+		MDungs["A"]=MDungs["A"] || New HData("Shroom Forest","Medals - Shroom","#001","Start")
+	End
+End
+
 Init
 	flHawk.HawkData.Physilium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }	
 	MainFlow = flHawk.MFlow
+	// Medal
+	CheckMedals()
 End
