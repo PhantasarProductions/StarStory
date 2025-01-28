@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Stomp.scyndi
 // 
-// 	  Version: 25.01.28 II
+// 	  Version: 25.01.28 V
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -52,6 +52,11 @@
 
 
 module
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+
 	readonly var vuist = LoadNewImage("GFX/Combat/SpellAni/Stomp/Fist.png","SPELLANI_FIST")
 	readonly var CrashGeluid = Audio.LoadNew("Audio/SFX/Scenario/Reggie_Crash.ogg","SPELLANI_RINKELDEKINKEL")
 	readonly number sinc=0.01
@@ -69,7 +74,7 @@ module
 	end
 	
 	get bool Ended 
-		bool ret = (s*vuist.W>Screen.W) && (s*vuist.H>Screen.H)
+		bool ret = (s*vuist.W>Graphics.W) && (s*vuist.H>Graphics.H)
 		if ret
 			CrashGeluid.Play()
 		end
