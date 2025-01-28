@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.23 I
+// 	  Version: 25.01.28
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -456,7 +456,7 @@ class Combat_Fighter
 		ddef sc_keys
 			s:=infinity
 			table k
-			int i = 0
+			int i = -1
 			if self.HP==0
 				k = {"FALLEN"}
 			else

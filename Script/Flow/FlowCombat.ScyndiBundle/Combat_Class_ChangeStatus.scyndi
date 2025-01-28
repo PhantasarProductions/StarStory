@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_ChangeStatus.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.01.26
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -76,7 +76,7 @@ Class Combat_StatusChanges
 	// Only to be used For cause. Otherwise a slowdown can and may be expected!
 	Static get delegate Each
 		Table items = {}
-		Int index
+		Int index=-1
 		For _,it in spairs(Lijst)
 			items += it
 		End
