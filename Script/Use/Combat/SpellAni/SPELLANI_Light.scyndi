@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Light.scyndi
 // 
-// 	  Version: 25.01.28 I
+// 	  Version: 25.01.28 III
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,8 @@ Module
 #use "libs/sci/sys"
 #use "libs/sci/audio"
 #use "libs/sci/graphics"
+
+#use "script/use/anyway"
 
 class SAC_Shine
 	static var List 
@@ -120,4 +122,4 @@ end
 	void Update()
 	end
 	
-end
+//end
