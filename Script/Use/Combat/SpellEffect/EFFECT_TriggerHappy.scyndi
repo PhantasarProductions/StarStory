@@ -34,14 +34,19 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28
+// version: 25.01.28 III
 // 
 // End License
 
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Flow/FlowCombat"
 
 #use "Script/Use/Convert/RPG2Stat"
 
