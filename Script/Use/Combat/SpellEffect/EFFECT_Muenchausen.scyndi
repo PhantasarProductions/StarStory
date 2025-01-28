@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellEffect/Muenchausen.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellEffect/EFFECT_Muenchausen.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,18 +33,31 @@
 // 
 // **********************************************
 // 
-// version: 21.03.08
-// End License Information
-Const Var KanonsKogel = Image.LoadNew("GFX/Combat/SpellAni/Muenchhaussen/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
-Const Var Stars = Image.LoadNew("GFX/Intro/Starfield.png","STARFIELD")
-ReadOnly Int KanonW = KanonsKogel.W
-ReadOnly Int KanonH = KanonsKogel.H
-readonly Var Fnt = ImageFont.Obtain("BIGTEXT")
+// 
+// version: 25.01.28 II
+// 
+// End License
 
-const delegate CLS=Graphics.Cls
-const delegate Flip=Graphics.Flip
+Module
 
-bool BaronVonMunchhaussen(Act,Tar)
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+
+Const Var KanonsKogel = LoadNewImage("GFX/Combat/SpellAni/Muenchhaussen/CANNONBALL.PNG","SPELLANI_KANONSKOGEL")
+Const Var Stars = LoadNewImage("GFX/Intro/Starfield.png","STARFIELD")
+ReadOnly Int KanonW = KanonsKogel.Width
+ReadOnly Int KanonH = KanonsKogel.Height
+ReadOnly Var Fnt = ObtainFont("BIGTEXT")
+
+//Const Delegate CLS=Graphics.Cls
+//Const Delegate Flip=Graphics.Flip
+
+//Bool BaronVonMunchhaussen(Act,Tar)
+Bool DoEffect(Act,Tar)
 
 	// The Baron of Munchhausen said he flew through the sky on a cannon
 	// ball.... Let's visualize that
@@ -57,22 +71,22 @@ bool BaronVonMunchhaussen(Act,Tar)
 	end
 	
 	
-	int y = Screen.H+500
-	int x = Screen.W
+	int y = Graphics.H+500
+	int x = Graphics.W
 	int StarPoint = 0
 	int SkyAlpha = 400
 	
 	Repeat
 		CLS()
 		__white
-		Stars.Tile(0,0,Screen.W,Screen.H) // ,StarPoint,StarPoint)
+		Stars.Tile(0,0,Graphics.W,Graphics.H) // ,StarPoint,StarPoint)
 		StarPoint-=4
 		if SkyAlpha>0
 			__SkyBlue
 			Graphics.SetAlpha(math.min(255,SkyAlpha))
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			//SkyAlpha--
-			SkyAlpha = math.max(0,math.floor( (y/Screen.H) * 450))
+			SkyAlpha = math.max(0,math.floor( (y/Graphics.H) * 450))
 			Graphics.SetAlpha(255)
 		end
 		__white
@@ -82,12 +96,12 @@ bool BaronVonMunchhaussen(Act,Tar)
 		x-=2
 		__ember
 		if y<-(KanonH*1)
-			Fnt.Text("Bye! Bye!",Screen.W div 2,Screen.H div 2)
+			Fnt.Text("Bye! Bye!",Graphics.W div 2,Graphics.H div 2)
 		elseif y<0
-			Fnt.Text("Bye!",Screen.W div 2,Screen.H div 2)
+			Fnt.Text("Bye!",Graphics.W div 2,Graphics.H div 2)
 		end
 		FLIP()
-		FPS.WaitMinTicks()
+		//FPS.WaitMinTicks()
 		Events.Poll()		
 	LoopWhile y>0-(KanonH * 3)
 	Tar.StatusChange.Gone = true
@@ -95,4 +109,4 @@ bool BaronVonMunchhaussen(Act,Tar)
 End
 
 
-Return BaronVonMunchhaussen
+//Return BaronVonMunchhaussen
