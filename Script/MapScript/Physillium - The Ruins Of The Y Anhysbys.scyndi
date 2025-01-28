@@ -34,16 +34,23 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28
+// version: 25.01.28 VIII
 // 
 // End License
 
 Script
 
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+
+#use "Script/Use/Map/KickReggieUse"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
 
 
 #macro __Rejoined gBool.Wendicka_Back_Y_Anhysbys
@@ -85,7 +92,7 @@ group MScript
 	
 	void NPC_MemoryTable()
 		string lt = __memprefix..right(Map.Layer,3)
-		if gv.gbool[lt]
+		if gbool[lt]
 			return
 		end
 		Flow.Load("MINIGAME","Script/Flow/MiniGame/MemoryAnhysbys")
@@ -94,7 +101,7 @@ group MScript
 	
 	void Open_PD()
 		string lt = __memprefix..right(Map.Layer,3)
-		gv.gbool[lt] = true
+		gbool[lt] = true
 		int lx = Map.ObjInt("PDL"..Map.Layer,"X")
 		int rx = Map.ObjInt("PDR"..Map.Layer,"X")
 		for i=1,64
@@ -105,7 +112,7 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			Events.Poll()
 		end
 		Map.Kill("PDL"..Map.Layer,true)
@@ -125,11 +132,11 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			Events.Poll()
 		end
 		__hawk = "ANHYSBYS.REJOIN"
-		RPGParty[5] = "Wendicka"
+		RPGParty[4] = "Wendicka"
 		Map.Kill("Wendicka",true)
 		Map.Kill("Wendicka_Rejoin",true)
 	end
