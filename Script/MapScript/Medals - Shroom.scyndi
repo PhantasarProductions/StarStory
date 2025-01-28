@@ -1,7 +1,7 @@
 // License:
 // **********************************************
 // 
-// src/Script/Script/MapScript/Medal Dungeons - Shroom.scyndi
+// src/Script/Script/MapScript/Medals - Shroom.scyndi
 // (c) Jeroen Broks, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -34,14 +34,32 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28
+// version: 25.01.28 V
 // 
 // End License
 Script
 
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/AnyWay"
+#use "Script/Use/Link"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+
 Group MScript
 
-void Boss()
+	void Load()
+		Print("\x1b[93mShroom Forest")
+	End
+	
+	void Draw()
+	end
+	
+	void Update()
+	end
+
+	void Boss()
 		Int BossLevel
 		switch Caps.Cycle
 			case 0 1
@@ -69,5 +87,21 @@ void Boss()
 			StartCombat.Foe("Boss/BigGrassTiger",math.random(BossLevel-10,BossLevel+10))
 		end		
 	end
+	
+	void EndOfMission()
+		if !Done.Completed_MEDALS_Completed_Shroom
+			for i=0,5
+				if RPGParty[i]!=""
+					ChP:=RPGChar[RPGParty[i]].Points.EXP
+					ChP.Have+=ChP.Have
+				end
+			end
+			RPGPureChar.Wendicka.ListAdd("Learn","MEDAL_BEGONE") // Teach Begone to Wendicka REGARDLESS if she's in the party at the time or not!
+		end		
+	End
 
+End
+
+Init
+	ZA.TabEnter{"EndOfMission"}
 End
