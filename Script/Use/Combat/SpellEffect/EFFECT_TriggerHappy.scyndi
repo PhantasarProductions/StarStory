@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28 III
+// version: 25.01.29
 // 
 // End License
 
@@ -69,7 +69,7 @@ Bool DoEffect(Act,Tar)
 			p.Update()
 			Graphics.Flip()
 			Events.Poll()
-			Sys.WaitminTicks()
+			//Sys.WaitminTicks()
 		until p.Ended
 		CG_Effect.Attack(Act,Tar,140 - (20 * __skill))
 		RPGChar.Yirl.Points.Ammo.Have--
