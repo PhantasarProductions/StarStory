@@ -381,7 +381,7 @@ group MScript
 		end
 		//Player.WalkTo("Scotty")
 		MapText("ARRIVAL_PHYSILLIUM_B")
-		for i,ch in ipairs { "Crystal", "ExHuRU", "Yirl", "Foxy", "", "" }
+		for i,ch in ipairs (NewArray( "Crystal", "ExHuRU", "Yirl", "Foxy", "", "" ) )
 			RPGParty[i]=ch
 		end
 		Map.GotoMap("PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS","#000","Start")
