@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Debug_Combat.scyndi
 // 
-// 	  Version: 25.01.28 II
+// 	  Version: 25.01.28 III
 // 	
 // 	  Copyright (C) 2025 Jeroen Petrus Broks
 // 	
@@ -61,7 +61,7 @@ End
 
 Global Void COMBAT_DEBUG_GOD()
 	gbool["CHEAT.GOD"] = !gbool["CHEAT.GOD"]
-	printf("\x1b[0mGod mode is now %s\n",OO[gbool["CHEAT.JACK"]])	
+	printf("\x1b[0mGod mode is now %s\n",OO[gbool["CHEAT.GOD"]])	
 End
 
 Global Void COMBAT_DEBUG_WHIZZY()
