@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 I
+// version: 25.01.27 IV
 // 
 // End License
 
@@ -42,6 +42,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
@@ -82,6 +83,21 @@ group MScript
 			CSay("Activate!")
 			Map.ActTrans("GRASSJUNGLE_CRASH")
 			CSay("Done!")
+		end
+		if gbool.MeetYornoAtCrash && (! Kthura.HasObj("Yorno") )
+			// (240,2143)
+			yorno:=Kthura.NewObstacle(240, 2140, "GFX/Actors/SinglePic/Random/Yorno.png")
+			yorno.Tag="Yorno"
+			Kthura.Remap()
+			Sys.Call("FLOW_FIELD","Clickable.Create","Yorno","#001",240,2170,"Yorno",nil)
+		end
+	end
+	
+	void Yorno()
+		if !Done.AllowMedalDungeons
+			MapText("YORNO")
+		else
+			MapText("YORNO2")
 		end
 	end
 	
