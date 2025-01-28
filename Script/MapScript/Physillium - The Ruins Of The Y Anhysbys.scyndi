@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Physillium - The Ruins Of The Y Anhysbys.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,23 @@
 // 
 // **********************************************
 // 
-// version: 21.10.25
-// End License Information
+// 
+// version: 25.01.28
+// 
+// End License
+
+Script
+
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
 
-#macro __Rejoined gv.gBool.Wendicka_Back_Y_Anhysbys
+#macro __Rejoined gBool.Wendicka_Back_Y_Anhysbys
 
-#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.10.25"
-#MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "21.10.25"
+//#MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
 
 #macro __memprefix "MEMORY_TABLE_ANHYSBYS_"
 
@@ -208,12 +215,11 @@ group MScript
 	
 	void Load()
 	end
+end	
 	
-	CONSTRUCTOR
-		ZA.TabEnter{"Welcome_Ruins","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED","ByeBye"}
-		for i=1,2
-			ZA.Enter("HTwo"..i,"HideTwo")
-		end
+Init
+	ZA.TabEnter{"Welcome_Ruins","EnterSecretTwo","Wendicka_Rejoin","WendickaStop","WendickaSecret","OpenED","CloseED","ByeBye"}
+	for i=1,2
+		ZA.Enter("HTwo"..i,"HideTwo")
 	end
-
 end
