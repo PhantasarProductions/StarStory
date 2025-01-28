@@ -47,7 +47,7 @@ module
 	readonly number sinc=0.01
 	number s=0
 	
-	CONSTRUCTOR
+	Init
 		vuist.HotCenter()
 	end
 
