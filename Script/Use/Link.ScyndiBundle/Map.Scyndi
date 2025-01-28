@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.27 IV
+// 	  Version: 25.01.29
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -529,6 +529,7 @@ quickmeta Player
 //				Cout("Player must stop walking! ("..Lua.type(Link_Map.PlayerStopWalking).."/"..Lua.tostring(Link_Map.PlayerStopWalking)..")\n")
 //				return Link_Map.PlayerStopWalking
 				//return Player.StopWalking
+				Sys.Call("FLOW_FIELD","FldMap.StopWalking")
 				return Kthura.Obj.Player.StopWalking
 			case "DISTANCE"
 				//lua.error("Player.Distance will have to wait")
