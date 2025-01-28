@@ -1,0 +1,157 @@
+// License:
+// 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Inferno.scyndi
+// 
+// 	  Version: 25.01.28 I
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+// NOTE: This script was original written in NIL and I merely translated this
+// to Neil and some needed adaptions with the Apollo engine (which is different
+// from NALA at some points)
+// Even later I adepted this to Scyndi. Quite the way to go, eh?
+
+
+Module
+
+#use "libs/sci/sys"
+#use "libs/sci/audio"
+#use "libs/sci/graphics"
+
+#use "libs/linkedlist"
+
+#use "script/use/anyway"
+
+locExtern Screen "Scyndi.Class.Graphics"
+
+class SInferno_Flame
+	readonly int x
+	readonly int y
+	readonly int id
+	int frame = 1
+	readonly int skip
+	int skipvalue
+	static var List
+	static int count
+	static var Flame
+	
+	CONSTRUCTOR()
+		self.x = math.random(1,Screen.W)
+		self.y = math.random(1,Screen.H)
+		self.count++
+		self.id = self.count
+		self.List.AddLast(self)
+		self.skip = math.random(1,10)
+		self.skipvalue = 0
+		self.frame = 1
+		CSayF("Inferno flame #%d created!",self.id)
+	end
+	
+	DESTRUCTOR
+		//CSayF("Inferno flame #%d destroyed!",self.id)
+	end
+	
+	bool Draw()
+		self.skipvalue++
+		if self.skipvalue>self.skip
+			self.skipvalue=0
+			self.frame++
+		end
+		if self.frame>=10
+			return true
+		end
+		self.Flame.Draw(self.x,self.y,self.frame)
+		return false
+	end
+	
+	static void DrawAll()
+		for vlam,schakel in self.List.Each
+			if vlam.Draw()
+				schakel.UnLink()
+				CSayF("Inferno flame #%d unlinked!",vlam.id)
+			end
+		end
+	end
+end
+	
+//module SpellAni_BurnBabyBurn_DiscoInferno
+//module
+
+	Get Var Flame 
+		Return SInferno_Flame.Flame
+	End
+	Set Var Flame 
+		SInferno_Flame.Flame = value
+	End
+	var _Audio
+	
+	//CONSTRUCTOR
+	Init
+		//self.Flame = LoadIfNew("gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
+		//self.Audio = LoadNewAudio("SFX/Combat/SpellAni/Flame.wav","SPELLANI_Flame")
+		Flame = LoadNewImage("Gfx/Combat/SpellAni/Flame.jpbf","SPELLANI_Flame")
+		_Audio = Audio.LoadNew("Audio/SpellAni/Fire.ogg","SPELLANI_Flame")
+		SInferno_Flame.List = new TLinkedList()
+	end
+	
+	void Start()
+		int aantal
+		aantal = math.random(20,50)
+		repeat
+			--aantal
+			new SInferno_Flame()
+		until aantal<=0
+		_Audio.Play()
+	end
+	
+	bool Ended = false
+	void Draw()
+		Graphics.Color(255,100,0)
+		Graphics.SetAlpha(95)
+		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.SetAlpha(255)
+		__white
+		SInferno_Flame.DrawAll()
+		Ended = SInferno_Flame.List.Count==0
+	end
+	
+	Void Update()
+	End
+	
+//end
