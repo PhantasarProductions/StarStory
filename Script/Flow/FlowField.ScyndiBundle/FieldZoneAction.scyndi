@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldZoneAction.scyndi
 // 
-// 	  Version: 25.01.25
+// 	  Version: 25.01.28 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -182,6 +182,10 @@ class ZoneAction
 		bool ret = false
 		for Event,ZoneList in pairs(self.List)
 			for Zone,lnk in ZoneList.Each
+				if !Kthura.HasObj("PLAYER")
+					CSayF("\007\x1b[93mHEY! The player doesn't exist!\x1b[96m Terminating the CheckAll() scan!\n");
+					return false
+				end
 				if Zone.ActMap!=FLDMap.LoadedMap && Zone.ActMap!=""
 					CSayF("Map mismatch in zone action! '%s'!='%s'    (%s:%s:%s) --> Stopping chain!",Zone.ActMap,FLDMap.LoadedMap,Event,Zone.ActZone,tostring(Zone.Act))
 					return false
