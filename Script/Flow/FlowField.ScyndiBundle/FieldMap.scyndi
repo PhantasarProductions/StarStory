@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.28
+// 	  Version: 25.01.29
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -685,7 +685,7 @@ group FldMap
 	
 	
 	void StopWalking()
-		CurLayer.Obj("PLAYER").StopWalking()
+		Kthura.Obj.PLAYER.StopWalking()
 		ArriveFunc = nil
 	end
 	
