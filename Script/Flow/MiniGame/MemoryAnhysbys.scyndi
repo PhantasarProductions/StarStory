@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/MiniGame/MemoryAnhysbys.scyndi
 // 
-// 	  Version: 25.01.29 VIII
+// 	  Version: 25.01.29 XV
 // 	
 // 	  Copyright (C) 2015, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -67,8 +67,8 @@ Script
 #use "Script/Use/Convert/Flow"
 
 readonly var rand = math.random
-readonly var SFX = Audio.Load("Audio/SFX/Memory/MemEffect.ogg")
-readonly var GoedSFX = Audio.Load("Audio/SFX/MBOX1.ogg")
+readonly var SFX = Audio.Load("Audio/SFX/Memory/MemEffect.ogg","MEMORY_EFFECT")
+readonly var GoedSFX = Audio.Load("Audio/SFX/MBOX1.ogg","MUSIC_BOX_FOR_COMPLETING_MEMORY")
 //readonly delegate Flip = Graphics.Flip
 
 readonly var Font = ObtainFont("BIGTEXT")
@@ -117,7 +117,8 @@ Init
     sl = series[1]
 end    
            
-table rowY = ({{250},{125,375},{125,250,375}})[__skill]           
+//table rowY = ({{250},{125,375},{125,250,375}})[__skill]
+table rowY = ({ [1]={[0]=250}, [2]={[0]=125,[1]=375}, [3]={[0]=125,[1]=250,[2]=375}})[__skill]
            
 var sl 
 
@@ -132,7 +133,7 @@ Void MakeSeries(serlen)
 	end
 	sl = sl || serlen || 1
 	repeat
-		CSeries[Len(CSeries)]=rand(1,__skill*4)
+		CSeries[Len(CSeries)]=rand(0,(__skill*4)-1)
 	until Len(CSeries)>=sl
 	ASeries = {}
 End         
@@ -148,8 +149,10 @@ Bool DrawPuzzle(light,allowclick)
 	int  my = Events.MouseY
 	bool ml = Events.MouseHitLeft
 	for i=0,(__skill*4)-1 
-    	y = math.ceil(i/4)
-    	x = i - ((y-1)*4)
+    	//y = math.ceil(i/4)
+    	//x = i - ((y-1)*4)
+    	y = math.floor(i div 4) 
+    	x = (i % 4)+1
     	__White
     	clicked = (allowclick!=nil && allowclick!=false) && ml && mx>(x*125) && mx<(x*125)+100 && my>rowY[y] && my<rowY[y]+100
     	if clicked 
@@ -180,6 +183,8 @@ void DoeHetEvenVoor()
 		DrawPuzzle()
 		Flip() 
 		TimeSleep(500)
+		col[light]=col[light]||{["R"]=256, ["G"]=256, ["B"]=256}
+		CSayF("--> %s --> %03x%03x%03x",light,col[light].R,col[light].G,col[light].B)
 		DrawPuzzle(light)
 		SFX.Play() //SFX('Audio/SFX/Memory/MemEffect.ogg'); 
 		Flip()
@@ -195,7 +200,7 @@ void KillYourself()
 	//LAURA.Flow("FIELD")
 	// Image.Free(Tile)
 	//MS.Destroy("MINIGAME")
-	Tile.Kill()	
+	//Tile.Kill()	
 	State.GoToFlow("FIELD")
 end
 
@@ -240,6 +245,7 @@ global void MainFlow()
 	if c 
 		TimeSleep(500) 
 	end
+	QuitRequest()
 end
 
 Init
