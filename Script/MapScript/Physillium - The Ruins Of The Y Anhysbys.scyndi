@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28 VIII
+// version: 25.01.29
 // 
 // End License
 
@@ -95,7 +95,7 @@ group MScript
 		if gbool[lt]
 			return
 		end
-		Flow.Load("MINIGAME","Script/Flow/MiniGame/MemoryAnhysbys")
+		Flow.Load("MINIGAME","Script/Flow/MiniGame/MemoryAnhysbys.lbc")
 		Flow.GotoFlow("MINIGAME")
 	end
 	
