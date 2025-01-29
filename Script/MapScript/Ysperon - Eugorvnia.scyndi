@@ -1,3 +1,42 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Ysperon - Eugorvnia.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.29
+// 
+// End License
 // License Information:
 // **********************************************
 // 
@@ -36,14 +75,19 @@
 // End License Information
 
 
+Strict
+
 #region Preparations
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Ysperon - Eugorvnia.neil" "21.03.12"
-#MKL_Lic     "Star Story - Ysperon - Eugorvnia.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Ysperon - Eugorvnia.neil" "21.03.12"
+//#MKL_Lic     "Star Story - Ysperon - Eugorvnia.neil" "Phantasar Closed License"
 
-#macro __Facility gv.gBool.Eugorvnia_DidYouEverEnterTheFacilityFromEugorvniaBefore
+#macro __Facility gBool.Eugorvnia_DidYouEverEnterTheFacilityFromEugorvniaBefore
 
 int SysVal(string n)
 	return Lua.tonumber(n)||0
@@ -60,20 +104,34 @@ init
 	end
 end
 
-#pure
-local function SudoQuery(rs)
-local gx,gy,r,c=0,1,1,1
-return function()
-       gx = gx + 1
-       if gx>rs then gx=1 gy=gy+1 end
-       if gy>rs then gy=1 r =r +1 end
-       if r >rs then r =1 c =c +1 end
-       if c >rs then return nil,nil, nil,nil end
-       return gx,gy,r,c
-       end
+//#pure
+//local function SudoQuery(rs)
+plua SudoQuery(rs)
+	gx:=0
+	gy:=1
+	r:=1
+	c:=1
+	//return function()
+	ddef ret
+		gx = gx + 1
+		if gx>rs
+			gx=1; gy=gy+1			
+		end
+		if gy>rs
+			gy=1; r =r +1
+		end
+		if r >rs
+			r =1; c =c +1
+		end
+		if c >rs
+			return nil,nil, nil,nil
+		end
+		return gx,gy,r,c
+	end
+	return ret
 end
-#endpure
-import SudoQuery
+//#endpure
+//import SudoQuery
 
 
 void SudoReTexture(symb,work,gx,gy,r,c)
@@ -83,9 +141,9 @@ void SudoReTexture(symb,work,gx,gy,r,c)
 end
 
 void SudoReTexture2(symb,work,tag,c)
-	if not work.PlaySolve[tag] 
+	if ! work.PlaySolve[tag] 
 		CSay("ERROR: No data in tag "..tag)
-	elseif not work.PlaySolve[tag][SysVal(c)] 
+	elif ! work.PlaySolve[tag][SysVal(c)] 
 		CSay("ERROR: No data for "..tag.."/"..c) 
 	end
 	// CSay(serialize('PlaySolve',work.PlaySolve))
@@ -94,14 +152,23 @@ void SudoReTexture2(symb,work,tag,c)
 end
 
 var symbm(aid,atagc)
-		plua id = aid
-		plua tagc = atagc
-    	void symbnidx(s,string k, v)
+		id   := aid
+		tagc := atagc
+    	//void symbnidx(s,string k, v)
+    	ddef symbnidx
+    		plua s
+    		plua v
+    		string k
+    		s,k,v = infinity
     		CSayF("Tag: %s => redefine sudoku symbol %s => %s",tagc,k,Lua.tostring(v))
     		Map.SetObj("SUDO_SYMB_"..id.."_"..tagc,k,v)
     	end
-    	var symbget(s,string k)
-    		switch k:upper()
+    	//var symbget(s,string k)
+    	ddef symbget
+    		plua s
+    		string k
+    		s,k = infinity
+    		switch upper(k)
     			case "TEXTURE" "TEXTUREFILE"
     				return Map.ObjStr("SUDO_SYMB_"..id.."_"..tagc,"Texture")
     			case "VISIBLE"
@@ -116,20 +183,20 @@ end
 void InitSudoku(id)
 	CSay("Let's init Sudoku!")
 	plua oldlayer = Map.Layer
-	if gv.gbool["SUDOKU."..id]
+	if gbool["SUDOKU."..id]
 		CSay("Puzzle solved already, byebye!")
 		return 
 	end //-- No need to waste any memory or performance for stuff that is done already.
-	plua work = Sudoku[id]
-	if not work 
+	work := Sudoku[id]
+	if !work 
 		lua.error("Data for sudoku "..id.." does not exist!") 
 	end
-	if not SudoRoot[work.GroupSize] 
+	if ! SudoRoot[work.GroupSize] 
 		lua.error("Cannot initize a Sudoku on groupsize "..work.GroupSize) 
 	end
 	work.RootSize = SudoRoot[work.GroupSize]
 	work.PlaySolve = {}
-	plua ps = work.PlaySolve
+	plua ps := work.PlaySolve
 	plua tag
 	plua tagc
 	plua butt
@@ -137,7 +204,7 @@ void InitSudoku(id)
 	plua tile
 	plua clkscript
 	plua clkarray
-	if work.Layer then
+	if work.Layer
 		Map.Layer=work.Layer
 		//Maps.GotoLayer(work.Layer) 
 	else 
@@ -149,13 +216,13 @@ void InitSudoku(id)
     	tagc = tag .. "C"..c
     	CSay("Initizing Sudoku field: "..tagc)
     	CSay("= Default value")
-    	ps[tag] = ps[tag] or {}
+    	ps[tag] = ps[tag] || {}
     	ps[tag][c] = 0
     	// CSay("= Quick grandsol link") -- Dropped
     	// work.grandsol = work.grandsol or {}    
     	CSay("= Create symbol object")
     	work.Objects = work.Objects or {}
-    	work.Objects[tagc] = work.Objects[tagc] or {}
+    	work.Objects[tagc] = work.Objects[tagc] || {}
     	//butt = Maps.Obj.Obj                   ("SUDO_BUTT_"..id.."_"..tagc)
     	//tile = Maps.Obj.Obj                   ("SUDO_TILE_"..id.."_"..tagc)
     	butt,tile = {},{}
@@ -163,7 +230,7 @@ void InitSudoku(id)
     	butt.X = Map.ObjInt(butt._TAG,"X")
     	butt.Y = Map.ObjInt(butt._TAG,"Y")
     	tile._TAG = "SUDO_TILE_"..id.."_"..tagc
-    	for fld in each {"X","Y","W","H","Dominance","Alpha"}
+    	for fld in each {[0]="X","Y","W","H","Dominance","Alpha"}
     		tile[fld] = Map.ObjInt(tile._TAG,fld)
     	end
     	//symb = Maps.Obj.CreateObject(tile.Kind,"SUDO_SYMB_"..id.."_"..tagc)
@@ -200,7 +267,7 @@ void InitSudoku(id)
     // The "Zeg voor" routine. The lower the difficulty the more it will reveal.
     CSay("Reveal part!")
     for i=3,__skill,-1   
-    	for gtag in each(work.ZegVoor[i]) 
+    	for _,gtag in pairs(work.ZegVoor[i]) 
         	ctag = split(gtag,"C")
         	tag = ctag[1] c = SysVal(ctag[2])
         	work.PlaySolve[tag][c] = work.Solved[tag][c]
@@ -208,7 +275,7 @@ void InitSudoku(id)
         	work.Objects[gtag].Buttons.Visible=false
         	Map.SetObj(work.Objects[gtag].Buttons._TAG,"Visible",false)
         	Map.SetObj(work.Objects[gtag].Buttons._TAG,"X",0)
-        	CSay("Revealed: "..gtag.."   value: "..(work.Solved[tag][c] or "nil").." play value: "..(work.PlaySolve[tag][c] or "nil"))
+        	CSay("Revealed: "..gtag.."   value: "..(work.Solved[tag][c] || "nil").." play value: "..(work.PlaySolve[tag][c] || "nil"))
         end
     end    
     Map.Remap()
@@ -220,14 +287,14 @@ end
 
 // This function will check if the current solution left by the player is right
 void SudoNakijken(id) 
-	plua work = Sudoku[id]
+	plua work := Sudoku[id]
 	// By default true, if one tile is out of line, then disapprove ;)
 	plua correct = true 
 	for gx,gy,r,c in SudoQuery(work.RootSize)  
     	plua tag = "G"..gx..gy.."R"..r
     	correct = correct and work.Solved[tag][c] == work.PlaySolve[tag][c]
     end
-    if not correct  
+    if ! correct  
     	return 
     end    
     Audio.LoadNew("Audio/SFX/MBOX1.ogg","MBOX1").Play()
@@ -244,13 +311,13 @@ void SudoNakijken(id)
     	//CSay("= Sealed: "..tagc)
     	Map.Kill("NPC_SUDO_BUTT_"..id.."."..tagc,true)
     end
-    for remove in each(work.SolveRemove) 
+    for _,remove in pairs(work.SolveRemove) 
     	//Maps.Obj.Kill(remove,1)
     	Map.Kill(remove,true)
     	CSay("= Removed: "..remove)
     end    
     CSay("All done")    
-    gv.gbool["SUDOKU."..id]=true
+    gbool["SUDOKU."..id]=true
 end
 
 void SudoButton(id,tag,pc)
@@ -260,13 +327,13 @@ void SudoButton(id,tag,pc)
 	//Player.StopWalking()
 	//Actors.MoveTo('PLAYER',player.x,player.y-32)
 	
-	if gv.gbool["&SUDOKU."..id]
+	if gbool["&SUDOKU."..id]
 		return 
 	end
-	plua c = SysVal(pc)
+	plua c := SysVal(pc)
 	CSay("Player activates sudoku button: "..id.."/"..tag.."/"..c)
-	plua work = Sudoku[id]
-	plua ps = work.PlaySolve
+	plua work := Sudoku[id]
+	plua ps := work.PlaySolve
 	ps[tag][c] = ps[tag][c] + 1
 	if ps[tag][c]>work.GroupSize 
 		ps[tag][c]=1 
@@ -278,10 +345,11 @@ end
 // And now a quickpart to get a few things in the new engine.
 quickmeta Sudoku_Button
 	index
-	 void ret(whatever)
+	 //void ret(whatever)
+	 ddef ret
 	 	Player.Walkto("NPC_SUDO_BUTT_Eugorvnia1."..key)
-	 	string ftag = left(key,5)
-	 	int fc = SysVal(right(Key,1))
+	 	string ftag := left(key,5)
+	 	int fc := SysVal(right(Key,1))
 	 	CSayF("Sudoku button: %s; Tag: %s; C: %d ",key,ftag,fc)
 	 	SudoButton("Eugorvnia1",ftag,fc)
 	 end
@@ -322,7 +390,8 @@ group MScript
 	end
 	
 	void BossRoom()
-		static bool Checked
+		//static bool Checked
+		locExtern Checked "BossRoomCheckedInEugorvniaWithThisFakeStaticLocal"
 		if Checked
 			Return
 		end
@@ -353,7 +422,7 @@ group MScript
 			Graphics.Rect(0,0,Screen.W,Screen.H)
 			__white
 			Graphics.SetAlpha(255)
-			MeanWhile.Draw(Screen.W div 2,Screen.H div 2)
+			MeanWhile.Draw(Graphics.W div 2,Graphics.H div 2)
 			Graphics.Flip()
 			Events.Poll()
 			FPS.WaitMinTicks()
@@ -373,31 +442,43 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR		
-		NPC_SUDO_BUTT_Eugorvnia1 = Sudoku_Button
-		//NPC_SUDO_BUTT_Eugorvnia1.Test() // Always dummied in final version!
-		ZA.TabEnter{"STARTROOM","ShowSecret","HideSecret","ToSecret","BossRoom", "ToFacility"}
-		#pure
-		Sudoku.Eugorvnia1 = {
-                             SolveRemove = {"Sudo1Solve1","Sudo1Solve2","Sudo1Barrier"},
-                             GroupSize = 4,
-                             Layer = "#003",
-                             Solved = { 
-                                          G11R1 = {1,2}, G12R1 = {3,4},
-                                          G11R2 = {3,4}, G12R2 = {1,2},
-                                          G21R1 = {2,1}, G22R1 = {4,3},
-                                          G21R2 = {4,3}, G22R2 = {2,1}
-                                          },
-                             ZegVoor = { {'G21R2C2'}, -- Easy Only
-                                         {'G11R2C2'},                               -- Medium + Easy
-                                         {'G11R1C1','G12R2C2','G22R1C1','G21R1C1','G22R1C2'}  -- Hard + Medium + Easy
-                                       },
-                             Tiles = "Eugorvnia"          
-                    }
-		#endpure
-		InitSudoku("Eugorvnia1")  
-		//print(Serialize("Sudoku",Sudoku))
+	
+end	
+	
+Init		
+	NPC_SUDO_BUTT_Eugorvnia1 = Sudoku_Button
+	//NPC_SUDO_BUTT_Eugorvnia1.Test() // Always dummied in final version!
+	ZA.TabEnter{"STARTROOM","ShowSecret","HideSecret","ToSecret","BossRoom", "ToFacility"}
+	//#pure
+	pure:="--[[Init Sudoku]]\n\n"
+	pure+="Sudoku.Eugorvnia1 = {\n"
+	pure+="	SolveRemove = {\"Sudo1Solve1\",\"Sudo1Solve2\",\"Sudo1Barrier\"},\n"
+	pure+="	GroupSize = 4,\n"
+	pure+="	Layer = \"#003,\n"
+	pure+="	Solved = {\n"
+	pure+="		G11R1 = {1,2}, G12R1 = {3,4},\n"
+	pure+="		G11R2 = {3,4}, G12R2 = {1,2},\n"
+	pure+="		G21R1 = {2,1}, G22R1 = {4,3},\n"
+	pure+="		G21R2 = {4,3}, G22R2 = {2,1},\n"
+	pure+="	},\n"
+	pure+="	ZegVoor = {\n" 
+	pure+="		{'G21R2C2'}, -- Easy Only\n"
+	pure+="		{'G11R2C2'},                               -- Medium + Easy\n"
+	pure+="		{'G11R1C1','G12R2C2','G22R1C1','G21R1C1','G22R1C2'}  -- Hard + Medium + Easy\n"
+	pure+="	},\n"
+	pure+="	Tiles = \"Eugorvnia\"\n"
+	pure+="}\n"
+	//#endpure
+	plua pures,puref
+	pures,puref = Lua.Load(pure)
+	if !pures
+		Lua.error("puref")
+	else
+		puref()
 	end
-
+	InitSudoku("Eugorvnia1")  
+	//print(Serialize("Sudoku",Sudoku))
 end
+
+
 #endregion
