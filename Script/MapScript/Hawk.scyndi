@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 III
+// version: 25.01.29 V
 // 
 // End License
 
@@ -175,7 +175,7 @@ group MScript
 		// TODO: Sisters in all but blood
 		Bool TeachSIABB = RPGPureChar.Crystal.ListHas("ARM","ARKSMASH")
 		CSayF("ArkSmash: %s",__TeachSIABB)
-		for abl in each {"EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
+		for abl in each {[0]="EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
 			TeachSIABB = TeachSIABB && RPGChar.Wendicka.List.ABL.Has(abl)
 			CSayF("%s: %s",abl,__TeachSIABB)
 		end
@@ -256,8 +256,8 @@ group MScript
 	void NPC_Hawk_Xenobi()
 		Talk("Xenobi")
 		// Vitalize
-		MScript.BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gbool.FOUNDAPP_BESTIARY , gbool.WendickaGoddessReleased , (!gbool.Wendicka_Xenobi)}
-		If RPGChar.Wendicka.Stat.Level>=50 && RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") && gbool.FOUNDAPP_BESTIARY && gbool.WendickaGoddessReleased && (!gbool.Wendicka_Xenobi)
+		//MScript.BoolChain{RPGChar.Wendicka.Stat.Level>=50 , RPGChar.Xenobi.List.ABL.Has("XENOBI_VITALIZE") , gbool.FOUNDAPP_BESTIARY , gbool.WendickaGoddessReleased , (!gbool.Wendicka_Xenobi)}
+		If RPGChar.Wendicka.Stat.Level>=50 && RPGPureChar.Xenobi.ListHas("ABL","XENOBI_VITALIZE") && gbool.FOUNDAPP_BESTIARY && gbool.WendickaGoddessReleased && (!gbool.Wendicka_Xenobi)
 			gbool.Wendicka_Xenobi = true
 			MapText("TEACH.XENOBI")
 			//RPGChar.Wendicka.List.LEARN.Add="XENOBI_VITALIZE"
