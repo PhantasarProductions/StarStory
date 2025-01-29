@@ -34,18 +34,28 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29
+// version: 25.01.29 VI
 // 
 // End License
 
 Script
 
-#use "Script/Use/Anyway"
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
 #use "Libs/LinkedList"
 
-readonly var muis = Image.Obtain("MOUSE")
-readonly var Menu = new LinkedList()
-readonly var Font = ImageFont.Obtain("BIGTEXT")
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+
+
+
+readonly var muis = ObtainImage("MOUSE")
+readonly var Menu = new TLinkedList()
+readonly var Font = ObtainFont("BIGTEXT")
 
 bool Always()
 	return true
@@ -57,7 +67,7 @@ class MenuItem
 	readonly string Desc
 	readonly delegate Available
 	
-	Constructor(string D,Delegate E,Delegate A,string P="")
+	Constructor(string D, E, A,string P="")
 		Exe  = E
 		Desc = D
 		Available = A || Always
@@ -88,43 +98,45 @@ bool Cycle4()
 end
 
 void ByeBye()
+	Events.Flush()
 	State.GoToFlow("FIELD")
 end
 
 Init
 	Menu.AddLast(New MenuItem("Exchange Aurinas",ExAurina))
-	Menu.AddLast(New MenuItem("Healing - Category I",FMenu.Shop,Always,"HAWK_BANIKA_HEAL"))
-	Menu.AddLast(New MenuItem("Healing - Categery II",FMenu.Shop,Cycle2,"HAWK_BANIKA_HEAL_CYCLE2"))
-	Menu.AddLast(New MenuItem("Support Items",FMenu.Shop,Always,"HAWK_BANIKA_SUPPORT"))
-	Menu.AddLast(New MenuItem("Ultra Stuff",FMenu.Shop,Cycle4,"HAWK_BANIKA_ULTRAHEAL"))
-	Menu.AddLast(New MenuItem("Attack Items",FMenu.Shop,Always,"HAWK_BANIKA_ATTACK"))
+	Menu.AddLast(New MenuItem("Healing - Category I",FieldMenu.Shop,Always,"HAWK_BANIKA_HEAL"))
+	Menu.AddLast(New MenuItem("Healing - Categery II",FieldMenu.Shop,Cycle2,"HAWK_BANIKA_HEAL_CYCLE2"))
+	Menu.AddLast(New MenuItem("Support Items",FieldMenu.Shop,Always,"HAWK_BANIKA_SUPPORT"))
+	Menu.AddLast(New MenuItem("Ultra Stuff",FieldMenu.Shop,Cycle4,"HAWK_BANIKA_ULTRAHEAL"))
+	Menu.AddLast(New MenuItem("Attack Items",FieldMenu.Shop,Always,"HAWK_BANIKA_ATTACK"))
 	Menu.AddLast(New MenuItem("Exit",ByeBye))
 end
 
-Global Void Apollo_Flow()
+Global Void MainFlow()
 	Graphics.Cls()
 	__White
 	Map.DrawScreen()
 	__Black
 	Graphics.SetAlpha(100)
-	Graphics.Rect(0,0,Screen.W,Screen.H)
+	Graphics.Rect(0,0,Graphics.W,Graphics.H)
 	Graphics.SetAlpha(255)
 	int y = 255
 	For Item in Menu.Each
 		If Item.Available()
-			If Events.MouseY()>y && Events.MouseY()<y+40
+			If Events.MouseY>y && Events.MouseY<y+40
 				__Cyan
-				If Events.MouseHitLeft()
+				If Events.MouseHitLeft
 					Item.Exe(Item.ExePara)
 				End
 			Else
 				__SkyBlue
 			End
-			Font.Text(Item.Desc,Screen.W div 2, y,2)
+			Font.Text(Item.Desc,Graphics.W div 2, y,2)
 			y+=45
 		End
 	End
-	Dev.ToConsole()
+	//Dev.ToConsole()
 	Party.Boxes()
-	Muis.Draw(Events.MouseX(),Events.MouseY())
+	Muis.Draw(Events.MouseX,Events.MouseY)
+	QuitRequest()
 End
