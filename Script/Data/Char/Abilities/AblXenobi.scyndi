@@ -37,6 +37,8 @@
 
 module
 
+#use "Script/Use/Convert/RPG2Stat"
+
 	table Abilities
 	get Int Level
 		return RPGChar.Xenobi.Stats.Level
@@ -69,7 +71,8 @@ module
 		return ""
 	end
 	
-	CONSTRUCTOR
+	//CONSTRUCTOR
+	INIT
 		 Abilities = {}
          Abilities.QUICKSTRIKE             = 10
          Abilities.HEAL                    = 25
@@ -86,4 +89,4 @@ module
          Abilities.FOCUSENERGY             = 125 * __skill
 	end
 	
-end
+//end
