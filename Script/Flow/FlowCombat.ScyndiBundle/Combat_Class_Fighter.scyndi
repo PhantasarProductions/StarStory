@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.28
+// 	  Version: 25.01.29 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -305,8 +305,9 @@ class Combat_Fighter
 		Invoke(HurtResponse)
 	end
 
-	void Heal(int hp)
-		Self.Pain (  hp , "Healing")
+	void Heal(int hp2heal)
+		CSayF("Heal request for %d HP on %s",hp2heal,self.Tag)
+		Self.Pain (  hp2heal , "Healing")
 	end	
 	
 	get table Char
