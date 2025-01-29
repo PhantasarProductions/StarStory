@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Ysperon - Eugorvnia Caves.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Ysperon - Eugorvnia Caves.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,21 @@
 // 
 // **********************************************
 // 
-// version: 21.10.13
-// End License Information
+// 
+// version: 25.01.29
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Ysperon - Eugorvnia Caves.neil" "21.10.13"
-#MKL_Lic     "Star Story - Ysperon - Eugorvnia Caves.neil" "Phantasar Closed License"
+
+//#MKL_Version "Star Story - Ysperon - Eugorvnia Caves.neil" "21.10.13"
+//#MKL_Lic     "Star Story - Ysperon - Eugorvnia Caves.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -56,7 +65,7 @@ group MScript
 	end
 	
 	Void Boss()
-		Int lv=math.ceil( Map.Level * ({0.75,1,1.25})[__skill] )
+		Int lv:=math.ceil( Map.Level * ({0.75,1,1.25})[__skill] )
 		StartCombat.Foe("Reg/Spider",lv div 2)
 		StartCombat.Foe("Boss/DeathMyrQueen",lv)
 		If __skill==3
@@ -80,9 +89,9 @@ group MScript
 	
 	void Load()
 	end
+end	
 	
-	CONSTRUCTOR
-		ZA.TabEnter{"ActivateTransporter","ToCity","Complete"}
-	end
-
+Init
+	ZA.TabEnter{"ActivateTransporter","ToCity","Complete"}
 end
+
