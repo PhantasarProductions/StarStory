@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28 I
+// version: 25.01.29 II
 // 
 // End License
 
@@ -207,7 +207,7 @@ group MScript
 	
 	void Hawk_Kick_Reggie(int idx,__Inf)
 		Static Table Kicker = {}
-		Kicker[idx] = Kicker[idx] || {__inf}
+		Kicker[idx] = Kicker[idx] || NewArray(__inf)
 		for k in each(Kicker[idx])
 			if __hawk==k
 				KickReggie("NPC_Hawk_Foxy","NPC_Hawk_Reggie","South")
