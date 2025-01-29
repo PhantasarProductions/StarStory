@@ -393,7 +393,7 @@ group MScript
 	// Bakina in some system references. I was too lazy to fix all that
 	Void NPC_Bakina()
 		MapText("BAKINA.NEW")
-		State.LoadNew("FLOW_BANIKA","Script/Flow/FlowBanika.Neil")
+		State.LoadNew("FLOW_BANIKA","Script/Flow/FlowBanika.lbc")
 		State.GoToFlow("BANIKA")
 		Schedule.Add("Banika_Bye")
 	end
