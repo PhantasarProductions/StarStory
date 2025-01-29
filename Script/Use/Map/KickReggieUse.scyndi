@@ -74,7 +74,7 @@ global void KickReggie(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		Sys.WaitMinTicks()
+		//Sys.WaitMinTicks()
 	//until Map.Blocked(Map.ObjInt(Reggie,"X"),Map.ObjInt(Reggie,"Y"))
 	until Map.Blocked(Map.ObjInt(Reggie,"X") div 32,Map.ObjInt(Reggie,"Y") div 32)
 	Cuckoo.Play()
@@ -95,7 +95,7 @@ global void KickReggie(string Foxy,string Reggie,string wind)
 		Map.DrawScreen()
 		Graphics.Flip()
 		Events.Poll()
-		Sys.WaitMinTicks()
+		//Sys.WaitMinTicks()
 	end
 			
 end
