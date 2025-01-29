@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 I
+// version: 25.01.29 II
 // 
 // End License
 
@@ -53,7 +53,8 @@ module
 		int need = 40000
 		for ablt,lvl in pairs(Abilities)
 			string abl = "XENOBI_"..ablt
-			if (!RPGChar.Xenobi.List.ABL.Has(abl))
+			//if (!RPGChar.Xenobi.List.ABL.Has(abl))
+			if !RPGPureChar.Xenobi.ListHas("ABL",abl)
 				need = math.min(need,lvl)
 			end
 		end
@@ -69,7 +70,7 @@ module
 	get string Learn
 		for ablt,lvl in pairs(Abilities)
 			string abl = "XENOBI_"..ablt
-			if lvl<=Level && (!RPGChar.Xenobi.List.ABL.Has(abl))
+			if lvl<=Level && (!RPGPureChar.Xenobi.ListHas("ABL",abl))
 				return abl
 			end
 		end
