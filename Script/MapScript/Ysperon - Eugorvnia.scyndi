@@ -34,54 +34,24 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29
+// version: 25.01.29 XXI
 // 
 // End License
-// License Information:
-// **********************************************
-// 
-// src/Tricky Script/Script/MapScript/Ysperon - Eugorvnia.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
-// 
-// This file contains material that is related
-// to a storyline that is which is strictly
-// copyrighted to Jeroen Broks.
-// 
-// This file may only be used in an unmodified
-// form with an unmodified version of the
-// software this file belongs to.
-// 
-// You may use this file for your study to see
-// how I solved certain things in the creation
-// of this project to see if you find valuable
-// leads for the creation of your own.
-// 
-// Mostly this file comes along with a project
-// that is for most part released under an
-// open source license and that means that if
-// you use that code with this file removed
-// from it, you can use it under that license.
-// Please check out the other files to find out
-// which license applies.
-// This file comes 'as-is' and in no possible
-// way the author can be held responsible of
-// any form of damages that may occur due to
-// the usage of this file
-// 
-// 
-// **********************************************
-// 
-// version: 21.03.12
-// End License Information
 
 
-Strict
+
+Script
 
 #region Preparations
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
 //#MKL_Version "Star Story - Ysperon - Eugorvnia.neil" "21.03.12"
@@ -96,7 +66,7 @@ end
 #endregion
 
 #region sudoku
-plua Sudoku = {}
+Global Table Sudoku = {}
 plua SudoRoot = {}  
 init
 	for i=2,9 
@@ -135,7 +105,7 @@ end
 
 
 void SudoReTexture(symb,work,gx,gy,r,c)
-	string tag = "G"..gx..gy.."R"..r
+	string tag := "G"..gx..gy.."R"..r
 	// CSay(tag.."/"..c)
 	symb.Texture = "GFX/Textures/Sudoku/"..work.Tiles.."/"..work.PlaySolve[tag][c]..".png"
 end
@@ -221,7 +191,7 @@ void InitSudoku(id)
     	// CSay("= Quick grandsol link") -- Dropped
     	// work.grandsol = work.grandsol or {}    
     	CSay("= Create symbol object")
-    	work.Objects = work.Objects or {}
+    	work.Objects = work.Objects || {}
     	work.Objects[tagc] = work.Objects[tagc] || {}
     	//butt = Maps.Obj.Obj                   ("SUDO_BUTT_"..id.."_"..tagc)
     	//tile = Maps.Obj.Obj                   ("SUDO_TILE_"..id.."_"..tagc)
@@ -267,9 +237,10 @@ void InitSudoku(id)
     // The "Zeg voor" routine. The lower the difficulty the more it will reveal.
     CSay("Reveal part!")
     for i=3,__skill,-1   
+    	CSayF("%d -> %d",i,__skill)
     	for _,gtag in pairs(work.ZegVoor[i]) 
-        	ctag = split(gtag,"C")
-        	tag = ctag[1] c = SysVal(ctag[2])
+        	ctag = xsplit(gtag,"C")
+        	tag = ctag[0]; c = SysVal(ctag[1])
         	work.PlaySolve[tag][c] = work.Solved[tag][c]
         	SudoReTexture2(work.Objects[gtag].Symbols,work,tag,c)
         	work.Objects[gtag].Buttons.Visible=false
@@ -292,7 +263,7 @@ void SudoNakijken(id)
 	plua correct = true 
 	for gx,gy,r,c in SudoQuery(work.RootSize)  
     	plua tag = "G"..gx..gy.."R"..r
-    	correct = correct and work.Solved[tag][c] == work.PlaySolve[tag][c]
+    	correct = correct && work.Solved[tag][c] == work.PlaySolve[tag][c]
     end
     if ! correct  
     	return 
@@ -411,7 +382,7 @@ group MScript
 	end
 	
 	void ToFacility() 
-		var MeanWhile = Image.Load("GFX/MeanWhile/AmberNeon.png")
+		var MeanWhile = LoadImage("GFX/MeanWhile/AmberNeon.png","Eugorvnia_MeanWhile")
 		__Facility = True
 		MeanWhile.HotCenter()
 		for a=0,300
@@ -419,13 +390,13 @@ group MScript
 			Map.DrawScreen()
 			__black
 			Graphics.SetAlpha(math.min(255,a))
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			__white
 			Graphics.SetAlpha(255)
 			MeanWhile.Draw(Graphics.W div 2,Graphics.H div 2)
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 		end
 		Map.GotoMap("Ysperon - Facility","#999","Wendicka_McLeen")
 		Schedule.Add("Wendicka_Intro")
@@ -446,15 +417,16 @@ group MScript
 end	
 	
 Init		
-	NPC_SUDO_BUTT_Eugorvnia1 = Sudoku_Button
+	MScript.NPC_SUDO_BUTT_Eugorvnia1 = Sudoku_Button
 	//NPC_SUDO_BUTT_Eugorvnia1.Test() // Always dummied in final version!
 	ZA.TabEnter{"STARTROOM","ShowSecret","HideSecret","ToSecret","BossRoom", "ToFacility"}
 	//#pure
-	pure:="--[[Init Sudoku]]\n\n"
+	pure:="--[[Init Sudoku]]\n\n"	
+	pure+="local Sudoku = Scyndi.Globals.Sudoku\n"
 	pure+="Sudoku.Eugorvnia1 = {\n"
 	pure+="	SolveRemove = {\"Sudo1Solve1\",\"Sudo1Solve2\",\"Sudo1Barrier\"},\n"
 	pure+="	GroupSize = 4,\n"
-	pure+="	Layer = \"#003,\n"
+	pure+="	Layer = \"#003\",\n"
 	pure+="	Solved = {\n"
 	pure+="		G11R1 = {1,2}, G12R1 = {3,4},\n"
 	pure+="		G11R2 = {3,4}, G12R2 = {1,2},\n"
@@ -469,12 +441,19 @@ Init
 	pure+="	Tiles = \"Eugorvnia\"\n"
 	pure+="}\n"
 	//#endpure
-	plua pures,puref
-	pures,puref = Lua.Load(pure)
+	plua pures
+	plua puref
+	pures,puref = Lua.load(pure)
 	if !pures
-		Lua.error("puref")
+		CSay(Lua.debug.traceback())
+		Lua.error(puref)
 	else
-		puref()
+		plua s
+		plua e
+		s,e=Lua.pcall(pures)
+		if (!s)
+			Lua.Crash(e)
+		end
 	end
 	InitSudoku("Eugorvnia1")  
 	//print(Serialize("Sudoku",Sudoku))
