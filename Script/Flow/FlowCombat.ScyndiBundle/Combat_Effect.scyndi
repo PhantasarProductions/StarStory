@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Effect.scyndi
 // 
-// 	  Version: 25.01.26 II
+// 	  Version: 25.01.29
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -200,9 +200,11 @@ Global Var CG_Effect
 		end
 		switch Act.Act.HealingType
 			case "Absolute"
+				CSayF("= Asbolute healing: %9d",Act.Act.Healing)
 				Tar.Heal(Act.Act.Healing)
-			case "Percent"
+			case "Percent"				
 				int h := math.max(1,math.floor(Tar.MaxHP * (Act.Act.Healing/100)))
+				CSayF("= Healing %3d%% of max HP %d -> %09d",Act.Act.Healing,Tar.MaxHP,h)
 				Tar.Heal(h)
 			default
 				Lua.error("I do not know how to act on healing type: "..Act.Act.HealingType)
