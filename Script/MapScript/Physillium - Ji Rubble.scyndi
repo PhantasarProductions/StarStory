@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Physillium - Ji Rubble.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Physillium - Ji Rubble.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,21 +33,38 @@
 // 
 // **********************************************
 // 
-// version: 21.03.17
-// End License Information
+// 
+// version: 25.01.29 V
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Convert/RPG2Stat"
+#use "Script/Use/Map/KickReggieUse"
 
-#MKL_Version "Star Story - Physillium - Ji Rubble.neil" "21.03.17"
-#MKL_Lic     "Star Story - Physillium - Ji Rubble.neil" "Phantasar Closed License"
+
+//#MKL_Version "Star Story - Physillium - Ji Rubble.neil" "21.03.17"
+//#MKL_Lic     "Star Story - Physillium - Ji Rubble.neil" "Phantasar Closed License"
+
+plua NeilUse(String S)
+	Lua.Scyndi.Use(S)
+	return Lua.Scyndi.Class[S]
+end
 
 group MScript
 
 	void CreateXenobi()
-		if Caps.Cycle==1
+		if Caps.Cycle<=1
 			Party.NewChar("Xenobi",RPGChar.Crystal.Stats.Level,"Xenobi")
-			var XAB = NeilUse("Script/Data/Char/Abilities/Xenobi")
+			var XAB = NeilUse("Script/Data/Char/Abilities/AblXenobi")
 			for ABL,LVL in pairs(XAB.Abilities)
 				CSayF("Xenobi has level %d and needs %s for %s",RPGChar.Xenobi.Stats.Level,LVL,ABL)
 				if RPGChar.Xenobi.Stats.Level>=LVL
@@ -71,7 +89,7 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 		end
 		Player.Relocate("end_Wendicka")
 		MapText("B_MEETJI")
@@ -103,7 +121,7 @@ group MScript
 		CSay("Remove Wendicka")
 		Map.Kill("PartyPopped_Wendicka")
 		CSay("Create Xenobi")
-		CreateXenobi()
+		MScript.CreateXenobi()
 		for i,ch in iPairs{"Crystal","Yirl","Foxy","ExHuRU","Xenobi"}
 			CSayF("Party re-definition => [%d] => '%s'",i,ch)
 			RPGParty[i] = ch
@@ -139,9 +157,9 @@ group MScript
 	
 	void Load()
 	end
-	
-	CONSTRUCTOR
-		ZA.Enter("BeginShit","BeginShit")
-	end
+end	
 
+Init
+	ZA.Enter("BeginShit","BeginShit")
 end
+
