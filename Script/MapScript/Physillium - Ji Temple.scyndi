@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 III
+// version: 25.01.29 IV
 // 
 // End License
 
@@ -71,7 +71,7 @@ group MScript
 	end
 	
 	void NPC_Master()
-		MapText("YA."..(Map.Leader:upper()))
+		MapText("YA."..(Map.Leader))
 	end
 	
 	void NPC_IRVONA()

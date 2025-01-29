@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 V
+// version: 25.01.29 IX
 // 
 // End License
 
@@ -43,6 +43,7 @@ Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
@@ -56,7 +57,7 @@ Script
 
 plua NeilUse(String S)
 	Lua.Scyndi.Use(S)
-	return Lua.Scyndi.Class[S]
+	return Lua.Scyndi.Class[StripAll(S)]
 end
 
 group MScript
@@ -69,7 +70,8 @@ group MScript
 				CSayF("Xenobi has level %d and needs %s for %s",RPGChar.Xenobi.Stats.Level,LVL,ABL)
 				if RPGChar.Xenobi.Stats.Level>=LVL
 					CSay("= Given")
-					RPGChar.Xenobi.List.ABL.Add = "XENOBI_"..ABL
+					//RPGChar.Xenobi.List.ABL.Add = "XENOBI_"..ABL
+					RPGPureChar.Xenobi.ListAdd("ABL","XENOBI_"..ABL)
 				else
 					CSay("= Denied")
 				end
@@ -80,7 +82,7 @@ group MScript
 	void BeginShit()
 		PPop.Pop("beg","North")
 		MapText("A_ENTER")
-		for ch in each{"Wendicka","Crystal","ExHuRU","Foxy","Yirl"}
+		for ch in each(NewArray("Wendicka","Crystal","ExHuRU","Foxy","Yirl"))
 			CSayF("Walk on %s",ch)
 			Map.ObjWalkTo("PartyPopped_"..ch,"end_"..ch)
 		end
@@ -99,10 +101,10 @@ group MScript
 		Map.ObjWalkTo("PartyPopped_Crystal","BossCrystal")
 		MapText("D_CRYSTALRESCUE")
 		// Boss
-		for i=2,6
+		for i=1,5
 			RPGParty[i]=""
 		end
-		RPGParty[1]="Crystal"
+		RPGParty[0]="Crystal"
 		int RevLev = RPGChar.Crystal.Stats.Level div 3
 		RevLev = math.max(5,RevLev*__skill)
 		Schedule.Add("EndShit")
@@ -122,7 +124,7 @@ group MScript
 		Map.Kill("PartyPopped_Wendicka")
 		CSay("Create Xenobi")
 		MScript.CreateXenobi()
-		for i,ch in iPairs{"Crystal","Yirl","Foxy","ExHuRU","Xenobi"}
+		for i,ch in iPairs{ [0]="Crystal","Yirl","Foxy","ExHuRU","Xenobi"}
 			CSayF("Party re-definition => [%d] => '%s'",i,ch)
 			RPGParty[i] = ch
 		end
