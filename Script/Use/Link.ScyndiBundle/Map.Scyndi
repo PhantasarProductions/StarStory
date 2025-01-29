@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.29 III
+// 	  Version: 25.01.29 IV
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -349,9 +349,10 @@ End
 	//	end
 	//end
 	
-	//Void NewObj(string knd,string tag)
+	Void NewObj(string knd,string tag)
 	//	MCall("FldMap.CurLayer.NewObj",knd,tag)
-	//end
+		Kthura.NewObject(knd,tag)
+	end
 				
 	
 	Void DrawScreen()
