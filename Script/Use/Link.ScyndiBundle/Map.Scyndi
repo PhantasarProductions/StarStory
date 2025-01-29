@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.29
+// 	  Version: 25.01.29 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -232,9 +232,9 @@ End
 	
 	// Won't remove the object immediately, but it will be gone the next time 
 	// You come here.
-	//Void PostKill(string ObjTag)
-	//	MCall("FLDMap.PostKill",ObjTag)
-	//end
+	Void PostKill(string ObjTag)
+		MCall("FLDMap.PostKill",ObjTag)
+	end
 	
 	//Void SG()
 	//	MCall("SGMap","nil")
