@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Physillium - Ji Temple.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Physillium - Ji Temple.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,14 +33,23 @@
 // 
 // **********************************************
 // 
-// version: 21.03.10
-// End License Information
+// 
+// version: 25.01.29 III
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events" 
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/KickReggieUse"
 
-#MKL_Version "Star Story - Physillium - Ji Temple.neil" "21.03.10"
-#MKL_Lic     "Star Story - Physillium - Ji Temple.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Physillium - Ji Temple.neil" "21.03.10"
+//#MKL_Lic     "Star Story - Physillium - Ji Temple.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -81,9 +91,9 @@ group MScript
 	
 	void Load()
 	end
-	
-	CONSTRUCTOR
-		ZA.Enter("Ji","Ji")
-	end
-
 end
+	
+Init
+	ZA.Enter("Ji","Ji")
+End
+
