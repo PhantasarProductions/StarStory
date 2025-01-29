@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.29 I
+// 	  Version: 25.01.29 III
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -519,12 +519,26 @@ quickmeta Player
 //				return W
 				return __PLAYER.WalkTo
 			case "RELOCATE" "RELOC"
-				lua.error("Player."..key.." not yet properly set up")
+				//lua.error("Player."..key.." not yet properly set up")
 //				Void RL(a,b)
 //					Player.StopWalking()
 //					Link_Map.ObjRelocate("PLAYER",a,b)
 //				end
 //				return RL
+				ddef RL
+					plua x
+					plua y
+					x,y = infinity
+					switch lua.type(x)
+						case "string"
+							Player.X,Player.Y = Kthura.Obj[x].X,Kthura.Obj[x].Y
+						case "number"
+							Player.X,Player.Y = x,y
+						default
+							lua.error("Illegal relocate call")
+					end
+				end
+				return RL
 			case "STOPWALKING"
 //				Cout("Player must stop walking! ("..Lua.type(Link_Map.PlayerStopWalking).."/"..Lua.tostring(Link_Map.PlayerStopWalking)..")\n")
 //				return Link_Map.PlayerStopWalking
