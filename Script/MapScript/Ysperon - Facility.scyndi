@@ -35,11 +35,14 @@
 // version: 21.05.31
 // End License Information
 
+
+Script
+
 #use "Script/Use/Anyway"
 #use "Script/Use/Map/KickReggie"
 
-#MKL_Version "Star Story - Ysperon - Facility.neil" "21.05.31"
-#MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Ysperon - Facility.neil" "21.05.31"
+//#MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
 
