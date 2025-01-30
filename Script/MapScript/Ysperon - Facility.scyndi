@@ -388,7 +388,7 @@ group MScript
 		MapText("FREE_WENDICKA_E")
 		Map.Kill("__Reggie")
 		Map.Kill("WendickaInChains",true)
-		For ch in each{"Crystal","Yirl","Foxy","Xenobi"}
+		For ch in each{[0]="Crystal","Yirl","Foxy","Xenobi"}
 			Map.ObjWalkto("PartyPopped_"..ch,"ByeBye")
 		end
 		Map.ActTrans("Lab")
