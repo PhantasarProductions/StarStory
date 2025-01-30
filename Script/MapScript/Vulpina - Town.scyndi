@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 II
+// version: 25.01.30 VI
 // 
 // End License
 
@@ -43,6 +43,7 @@
 Script
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
@@ -103,6 +104,11 @@ group MScript
 	Void GoBack()
 		gBool.AllowBeam=False // This is to prevent beamouts if thanks to a bug the player still manages to reach the transporter pad!
 		Player.StopWalking()
+		if gbool.Vulpina_Crystal && gbool.Vulpina_Foxy
+			Player.WalkTo(Kthura.Obj.NPC_Yirl.X,Kthura.Obj.NPC_Yirl.Y+40)
+			MScript.NPC_Yirl()
+			Return
+		end
 		Player.WalkTo("TownStart")
 		MAPTEXT("PLEASEDONTGO")			
 		Player.WalkTo("TownStart")
