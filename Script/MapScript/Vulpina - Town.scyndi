@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Vulpina - Town.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Vulpina - Town.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,20 +33,33 @@
 // 
 // **********************************************
 // 
-// version: 21.06.01
-// End License Information
+// 
+// version: 25.01.30 II
+// 
+// End License
 
+
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 
-#MKL_Version "Star Story - Vulpina - Town.neil" "21.06.01"
-#MKL_Lic     "Star Story - Vulpina - Town.neil" "Phantasar Closed License"
+extern FMenu "Scyndi.Class.FieldMenu"
+
+//#MKL_Version "Star Story - Vulpina - Town.neil" "21.06.01"
+//#MKL_Lic     "Star Story - Vulpina - Town.neil" "Phantasar Closed License"
 
 group MScript
 
 	Void ArrivalFirstTime()
-		RPGParty[1] = "Wendicka"
+		RPGParty[0] = "Wendicka"
 		MapText("WELCOME")
-		for i=2,6
+		for i=1,5
 			RPGParty[i] = ""
 		End
 		Map.ActTrans("GetOutOfTown")
@@ -54,7 +68,7 @@ group MScript
 	
 	Void Geheel()
 		Map.Kill("Geheel")
-		if !gv.gbool.UnlockPhantasar1
+		if !gbool.UnlockPhantasar1
 			Map.Kill("NPC_Vulpivix")
 		end
 	End
@@ -69,25 +83,25 @@ group MScript
 	End
 	
 	Void NPC_Yirl()
-		If (!gv.gbool.Vulpina_Crystal) && (!gv.gbool.Vulpina_Foxy)
+		If (!gbool.Vulpina_Crystal) && (!gbool.Vulpina_Foxy)
 			MapText("YIRL_NO")
 			return
 		end
 		Hawk.Add("Start","Volcania","South Point","Volcania - Volcanic Plains","#006")
 		Hawk.ArriveEvent("Volcania","Volcania_Pirates")
 		MapText("YIRL_YES")
-		for r in each{"NPC_Yirl","NPC_Foxy","GoBack","CrystalXenobi","Crystal","Xenobi"}
+		for r in each{[0]="NPC_Yirl","NPC_Foxy","GoBack","CrystalXenobi","Crystal","Xenobi"}
 			Map.Kill(r,true)
 		end
-		for i,ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi"}
+		for i,ch in ipairs{[0]="Wendicka","Crystal","Yirl","Foxy","Xenobi"}
 			RPGParty[i]=ch
 		end
-		gv.gBool.AllowBeam=True
+		gBool.AllowBeam=True
 		__hawk="NAVULPINA"
 	End
 	
 	Void GoBack()
-		gv.gBool.AllowBeam=False // This is to prevent beamouts if thanks to a bug the player still manages to reach the transporter pad!
+		gBool.AllowBeam=False // This is to prevent beamouts if thanks to a bug the player still manages to reach the transporter pad!
 		Player.StopWalking()
 		Player.WalkTo("TownStart")
 		MAPTEXT("PLEASEDONTGO")			
@@ -96,7 +110,7 @@ group MScript
 	End
 	
 	Void NPC_Foxy()
-		gv.gbool.Vulpina_Foxy = true
+		gbool.Vulpina_Foxy = true
 		MapText("FOXY")
 	End
 		
@@ -133,10 +147,10 @@ group MScript
 	
 	Void Load()
 	End
-	
-	CONSTRUCTOR
-		Map.AllowQuitSave = false
-		ZA.TabEnter{"Geheel","GoBack","CrystalXenobi"}
-	End
-
 end
+
+Init
+	Map.AllowQuitSave = false
+	ZA.TabEnter{"Geheel","GoBack","CrystalXenobi"}
+End
+
