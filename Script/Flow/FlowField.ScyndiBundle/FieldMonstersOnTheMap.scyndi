@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.25 V
+// 	  Version: 25.01.30
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -369,7 +369,7 @@ Class FieldMonster
 				//Monsters[mi] = nil
 				FieldMonster.Kill(mi)
 				FieldMonster.DeactivateAll()
-				NoEncCD = 100 div __skill
+				NoEncCD = 200 div __skill
 				return
 				// Safety pre-caution. Loops with nilling members is quite dangerous.
 				// Since it doesn't really matter if awaiting things are still 
