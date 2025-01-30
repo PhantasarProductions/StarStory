@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Volcania - Volcanic Plains.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Volcania - Volcanic Plains.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,24 @@
 // 
 // **********************************************
 // 
-// version: 21.05.03
-// End License Information
+// 
+// version: 25.01.30 XII
+// 
+// End License
 
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Volcania - Volcanic Plains.neil" "21.05.03"
-#MKL_Lic     "Star Story - Volcania - Volcanic Plains.neil" "Phantasar Closed License"
+#use "Script/Use/Convert/RPG2Stat"
+
+//#MKL_Version "Star Story - Volcania - Volcanic Plains.neil" "21.05.03"
+//#MKL_Lic     "Star Story - Volcania - Volcanic Plains.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -52,21 +64,21 @@ group MScript
 	Void NZ(string NS)
 		Table OldPlay={["x"]=Player.X,["y"]=Player.y}		
 		// Only Lua: local x,y = oldplay.X,oldplay.Y
-		Static Table go = { ["N"] = -1, ["S"] = 1 }
-		static Table NSPos = { ["S"] = 96, ["N"] = 3385}
-		int lay = LayerNumber()+go[NS]
+		Table go = { ["N"] = -1, ["S"] = 1 }
+		Table NSPos = { ["S"] = 96, ["N"] = 3385}
+		int lay := MScript.LayerNumber()+go[NS]
 		Map.Kill("PLAYER") //Maps.Obj.Kill("PLAYER")
 		Map.Layer = "#00"..lay
 		Map.SpawnPlayer("START")
-		Player.y = AltComeIn[NS or "S"][lay] or NSPos[NS or "S"]
+		Player.y = AltComeIn[NS || "S"][lay] || NSPos[NS || "S"]
 		Player.x = oldplay.x
 	End
 	
 	Void North() 
-		NZ("N")
+		MScript.NZ("N")
 	End
 	Void South() 
-		NZ("S") 
+		MScript.NZ("S") 
 	end
 
 	Void LetsBegin()
@@ -79,12 +91,12 @@ group MScript
 	End
 	
 	Void StartBoss()
-		if gv.vBool.WendickaGoddessReleased
+		if gbool.WendickaGoddessReleased
 			return
 		end
 		// Force Wendicka up front, and she cannot be switched
-		gv.gbool.WendickaSwitchBlocked = true
-		For i,ch In iPairs { "Wendicka", "Crystal", "Yirl", "Foxy", "Xenobi" }
+		gbool.WendickaSwitchBlocked = true
+		For i,ch In iPairs { [0]="Wendicka", "Crystal", "Yirl", "Foxy", "Xenobi" }
 			RPGParty[i] = ch
 		End
 		// Text prior to Boss
@@ -117,10 +129,10 @@ group MScript
 
 	Void Update()
 		If Player.Y>3420 
-			South() 
+			MScript.South() 
 		End
 		If Player.Y<64 && Map.Layer!="#000"
-			North() 
+			MScript.North() 
 		End
 	End
 	
@@ -133,18 +145,16 @@ group MScript
 	
 	Void Load()
 	End
+End	
 	
-	CONSTRUCTOR
-		//Table AltComeInFromNorth = { [6]=2673 }
-		Table AltComeInFromNorth = { [6]=100 }
-		Table AltComeInFromSouth = { [0]=2064}
-		AltComeIn = { ["S"] = AltComeInFromNorth, ["N"]=AltComeInFromSouth }		
-		ZA.Enter("StartVolcania","LetsBegin")
-		ZA.Enter("N006","North")
-		ZA.Enter("S000","South")
-		ZA.Enter("StartBOSS","StartBOSS")
-		ZA.Enter("ToSecret","ToSecret")
-		
-	End
-
-end
+Init
+	//Table AltComeInFromNorth = { [6]=2673 }
+	Table AltComeInFromNorth = { [6]=100 }
+	Table AltComeInFromSouth = { [0]=2064}
+	MScript.AltComeIn = { ["S"] = AltComeInFromNorth, ["N"]=AltComeInFromSouth }		
+	ZA.Enter("StartVolcania","LetsBegin")
+	ZA.Enter("N006","North")
+	ZA.Enter("S000","South")
+	ZA.Enter("StartBOSS","StartBOSS")
+	ZA.Enter("ToSecret","ToSecret")		
+End
