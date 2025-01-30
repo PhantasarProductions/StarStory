@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.30
+// 	  Version: 25.01.30 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -323,7 +323,11 @@ Class FieldMonster
 					CSayF("No foe on spot #%d!",i)
 				End
 			End
-			StartCombat.Tune = StartCombat.RandomTune
+			If Kthura.Meta.AltEncounterTune!=""
+				StartCombat.Tune = Kthura.Meta.AltEncounterTune
+			Else
+				StartCombat.Tune = StartCombat.RandomTune
+			End
 		End
 		StartCombat.Boss = FF.Boss
 		StartCombat.Arena = Kthura.Data.Arena
