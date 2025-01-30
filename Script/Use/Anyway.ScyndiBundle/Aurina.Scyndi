@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25
+// version: 25.01.29
 // 
 // End License
 
@@ -84,7 +84,7 @@ plua ChaChingSound
 	end
 	
 	set int Rate
-		GInt.AurinaRate = math.min(value,g.caps.maxaurinarate)
+		GInt.AurinaRate = math.min(value,c.caps.maxaurinarate)
 	end
 	
 	get int AurinaCredits
