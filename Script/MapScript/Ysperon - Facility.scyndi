@@ -392,8 +392,15 @@ group MScript
 			Map.ObjWalkto("PartyPopped_"..ch,"ByeBye")
 		end
 		Map.ActTrans("Lab")
-		Map.SkipFrames(200)
-		For i=1,5
+		//Map.SkipFrames(200)
+		for i=1,200
+			Graphics.Cls()
+			Map.DrawScreen()
+			//self.Update()
+			Graphics.Flip()
+			Events.Poll()
+		End
+		For i=0,4
 			if RPGParty[i]=="ExHuRU"
 				RPGParty[i]="Wendicka"
 			end
