@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Ysperon - Facility.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Ysperon - Facility.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,19 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.05.31
-// End License Information
+// 
+// version: 25.01.30 XII
+// 
+// End License
 
 
 Script
 
+#use "Libs/Music"
+
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Covnert/RPG2Stat"
+#use "Script/Use/Convert/RPG2Stat"
 #use "Script/Use/Map/KickReggieUse"
 
 
@@ -241,7 +248,7 @@ group MScript
 			gBool.AllowBeam=False
 		end
 		if !StartGuardsKilled
-			MapMusic()
+			MScript.MapMusic()
 			PPop.Pop("PopStart","North")
 			MapText("ENTER_A")					
 			StartCombat.Prepare()
@@ -349,7 +356,7 @@ group MScript
 		Graphics.Cls()
 		Graphics.Flip()
 		Events.Poll()
-		FPS.Sleep(1200)
+		Sys.Sleep(1200)
 		Map.SetObj("WendickaInChains","Texture","GFX/Textures/Wendicka/Naked/WendickaNakedStandEast.png")
 		MapText("FREE_WENDICKA_C")
 		KickReggie("PartyPopped_Foxy","__Reggie","South")
@@ -373,7 +380,7 @@ group MScript
 				Map.DrawScreen()
 				self.Update()
 				Graphics.Flip()
-				FPS.WaitMinTicks()
+				//FPS.WaitMinTicks()
 				Events.Poll()
 			end
 		end
@@ -405,13 +412,13 @@ group MScript
 		OldLayer = OldLayer || "Okay, laten we starten!"
 		string Layer = Map.Layer
 		if Layer != OldLayer
-			FloorExp()
+			MScript.FloorExp()
 		end
 		SchuifDeur.Check(OldLayer,Layer)
 		If Layer=="#006"
-			BossDoor()
+			MScript.BossDoor()
 		End
-		Geheim()
+		MScript.Geheim()
 		OldLayer = Layer
 	end
 	
@@ -442,7 +449,7 @@ group MScript
 			Map.SetObj("ExRechts","X",R+O)
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			CSayF("ExHuRU (%04d,%04d): ",Map.ObjInt("BSEX","X"),Map.ObjInt("BSEX","Y"))
 		End
 		MapText("EXHURU2")
@@ -479,7 +486,7 @@ group MScript
 			Map.DrawScreen()
 			self.Update()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			Events.Poll()
 		end
 		MapText("DEADEND2")
@@ -496,11 +503,11 @@ group MScript
 	End
 
 	void Draw()
-	#if DEBUG_SCHUIFDEUR
+#if DEBUG_SCHUIFDEUR
 		if SchuifDeur.Mapje[Map.Layer]
 			SchuifDeur.Mapje[Map.Layer].Debug()
 		end
-	#fi
+#fi
 	end
 	
 	void Load()
