@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 XV
+// version: 25.01.30 XVI
 // 
 // End License
 
@@ -366,7 +366,7 @@ group MScript
 		SchuifDeur.PrevOpen = true
 		SchuifDeur.NextOpen = true
 		for i=1,5
-			for wnd in each{"East","West"}
+			for wnd in each{[0]="East","West"}
 				var mytag = sprintf("SecurityGuardAstrilopup_%d_%s",i,wnd)
 				string tow = "E"
 				if wnd=="East"
