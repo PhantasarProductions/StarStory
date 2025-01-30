@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 XIV
+// version: 25.01.30 XV
 // 
 // End License
 
@@ -347,6 +347,7 @@ group MScript
 		for c in each{'AB'}
 			Map.Kill("Astrilo_"..chr(c),true)			
 		end
+		Player.Relocate("Wen_Crystal")
 		Map.Spawn("__Reggie","Wen_Reggie")
 		Map.SetObj("__Reggie","Texture","GFX/Actors/Reggie/ReggieW.png")
 		WendickaFreed = true
