@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 XII
+// version: 25.01.30 XIII
 // 
 // End License
 
@@ -266,7 +266,7 @@ group MScript
 		end
 	end
 	Void StartDungeon_II()
-		For a in each{"AstrilGuard_A","AstrilGuard_B","Cyb_A","Cyb_B"}
+		For a in each{[0]="AstrilGuard_A","AstrilGuard_B","Cyb_A","Cyb_B"}
 			CSayF("Removed %s permanently!",a)
 			Map.Kill(a,true)
 		end
