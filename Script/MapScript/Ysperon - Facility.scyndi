@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 XIII
+// version: 25.01.30 XIV
 // 
 // End License
 
@@ -269,12 +269,12 @@ group MScript
 		For a in each{[0]="AstrilGuard_A","AstrilGuard_B","Cyb_A","Cyb_B"}
 			CSayF("Removed %s permanently!",a)
 			Map.Kill(a,true)
-		end
+		End
 		Party.GiveEXP(2400 div __skill)
 		StartGuardsKilled=true
 		MapText("ENTER_B")
 		PPop.UnPop()
-	end
+	End
 
 	table BeenFloor
 	get bool BeenOnThisFloor
