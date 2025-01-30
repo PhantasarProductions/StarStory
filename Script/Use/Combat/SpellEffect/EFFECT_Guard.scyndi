@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellEffect/EFFECT_Guard.scyndi
 // 
-// 	  Version: 25.01.30 I
+// 	  Version: 25.01.30 II
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -42,7 +42,7 @@
 // 	  3. This notice may not be removed or altered from any source distribution.
 // End License
 
-
+#use "Script/use/anyway"
 
 Module
 bool DoEffect(Act,Tar)
