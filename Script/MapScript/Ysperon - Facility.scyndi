@@ -344,7 +344,7 @@ group MScript
 	end
 	
 	void FreeWendicka()
-		for c in each{'AB'}
+		for c in each{[0]='AB'}
 			Map.Kill("Astrilo_"..chr(c),true)			
 		end
 		Player.Relocate("Wen_Crystal")
