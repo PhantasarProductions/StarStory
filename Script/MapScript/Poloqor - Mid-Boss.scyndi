@@ -1,3 +1,42 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Poloqor - Mid-Boss.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.30 IV
+// 
+// End License
 // License Information:
 // **********************************************
 // 
@@ -44,7 +83,9 @@ Script
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+#use "Script/use/Convert/RPG2Stat"
 #use "Script/Use/Map/KickReggieUse"
+
 
 //#MKL_Version "Star Story - Poloqor - Mid-Boss.neil" "21.03.18"
 //#MKL_Lic     "Star Story - Poloqor - Mid-Boss.neil" "Phantasar Closed License"
@@ -82,7 +123,7 @@ group MScript
 		MapText("PREBOSS_C")
 		Schedule.Add("PostMIDBOSS")
 		StartCombat.Prepare()
-		StartCombat.Foe("Boss/Mid-Boss",RPGChar.Wendicka.Stats.Level)
+		StartCombat.Foe("Boss/MidBoss",RPGChar.Wendicka.Stats.Level)
 		StartCombat.Tune = "Music/SpecialBoss/Exit the Premises.ogg"
 		StartCombat.Boss = true
 		StartCombat.Arena = "Mid-Boss.png"	
@@ -100,12 +141,12 @@ group MScript
 		// TransporterPad("Start",2)
 		Ach.Award("BOSS_MIDBOSS") // Oh, so it does do this?
 		PPop.UnpopWait()
-		Scotty()
+		MScript.Scotty()
 		Aurina.Rate += 4 - __skill
 	end
 
 	Void NPC_Stickie()
-		gv.gbool.FOUNDAPP_GAMESHOOT=true
+		gbool.FOUNDAPP_GAMESHOOT=true
 		MapText("GAMESHOOT")
 		Map.Kill("NPC_Stickie",true)
 		int a = 24 div __skill
@@ -122,10 +163,12 @@ group MScript
 	Void Load()
 	End
 	
-	CONSTRUCTOR
-		if !__midboss
-			ZA.Enter("STARTMIDBOSS","MIDBOSS")
-		end
-	End
+End
 
-end
+Init
+	If !__midboss
+		ZA.Enter("STARTMIDBOSS","MIDBOSS")
+	End
+End
+
+
