@@ -38,16 +38,23 @@
 
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Covnert/RPG2Stat"
+#use "Script/Use/Map/KickReggieUse"
+
 
 //#MKL_Version "Star Story - Ysperon - Facility.neil" "21.05.31"
 //#MKL_Lic     "Star Story - Ysperon - Facility.neil" "Phantasar Closed License"
 
 #undef DEBUG_SCHUIFDEUR
 
-#macro StartGuardsKilled gv.gbool.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion_ButLetsKillTheGuardsAtTheEntranceFirst
-#macro WendickaFreed gv.gbool.WendickaFreedFacility
+#macro StartGuardsKilled gbool.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion_ButLetsKillTheGuardsAtTheEntranceFirst
+#macro WendickaFreed gbool.WendickaFreedFacility
 
 class SchuifDeur
 	static table Mapje = {}
@@ -62,7 +69,7 @@ class SchuifDeur
 	int PrevSchuif
 	
 	Constructor
-		for d in each{"PrevLinks","PrevRechts","NextLinks","NextRechts"}
+		for d in each{[0]="PrevLinks","PrevRechts","NextLinks","NextRechts"}
 			if Map.HasTag(d)
 				self[d]=Map.ObjInt(d,"X")
 				CSayF("Layer %s: Schuifdeur: %s => x = %04d",Map.Layer,d,self[d])
@@ -115,15 +122,17 @@ class SchuifDeur
 		end
 	end
 	
-	#if DEBUG_SCHUIFDEUR
 	void Debug()
-		static var DFnt = ImageFont.Obtain("BOXTEXT")
+		LocExtern DFnt "DebugFontSchuifdeurDebug"
+#if DEBUG_SCHUIFDEUR
+		//static var DFnt = ImageFont.Obtain("BOXTEXT")
+		DFnt = DNft || ObtainFont("BOXTEXT")
 		dFnt.DarkText(sprintf("Prev Open: %s",lua.tostring(PrevOpen)),5,0)
 		dFnt.DarkText(sprintf("Prev Corr: %04d",PrevSchuif),5,30)
 		dFnt.DarkText(sprintf("Next Open: %s",lua.tostring(NextOpen)),5,60)
 		dFnt.DarkText(sprintf("Next Corr: %04d",NextSchuif),5,90)
+#fi
 	end		
-	#fi
 end
 		
 
@@ -218,7 +227,7 @@ group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			Events.Poll()
 		end
 		MapText("WENDICKA_C")
@@ -227,9 +236,9 @@ group MScript
 	end
 	
 	Void StartDungeon()
-		if not Done.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion
+		if ! Done.EnteredTheEugorvniaScienceFacilityToSetTheFoolishRescueMissionInMotion
 			Spawn.Reset()
-			gv.gBool.AllowBeam=False
+			gBool.AllowBeam=False
 		end
 		if !StartGuardsKilled
 			MapMusic()
@@ -385,14 +394,15 @@ group MScript
 		Map.Schedule("WendickaSaved")
 		RPGChar.Wendicka.Stats.Level = math.min(RPGChar.Yirl.Stats.Level+(3-__skill),10000)
 		Party.GiveEXP(1000000)
-		gv.gBool.AllowBeam=True
+		gBool.AllowBeam=True
 		Hawk.AllowYsperon=False
 		//Party.GrabLevel("Wendicka",RPGChar.Yirl.Stats.Level)
 	end
 	
 	
 	void Update()
-		static string OldLayer = "Okay, laten we starten!"
+		LocExtern OldLayer "EugorvniaScienceFacility_OldLayer_Update_MScript"
+		OldLayer = OldLayer || "Okay, laten we starten!"
 		string Layer = Map.Layer
 		if Layer != OldLayer
 			FloorExp()
@@ -496,8 +506,12 @@ group MScript
 	void Load()
 	end
 	
-	CONSTRUCTOR
-		bool BeenFloorIdx(s,string key)
+	Void CONS()
+		//bool BeenFloorIdx(s,string key)
+		ddef BeenFloorIdx
+			plua s
+			string key
+			s,key = infinity
 			return Done["Facility_Been_On_Floor_"..right(key,3)]
 		end
 		BeenFloor = Lua.setmetatable({},{["__index"]=BeenFloorIdx})
@@ -506,3 +520,7 @@ group MScript
 	end
 
 end
+
+Init
+	MScript.CONS()
+End
