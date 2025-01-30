@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.29 IV
+// 	  Version: 25.01.30
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -270,9 +270,10 @@ End
 	//	Call("FldMap.ShowPlayer","nil")
 	End
 	
-	//get int Level
+	get int Level
 	//	return ISGET.Int("FLOW_FIELD","FLDMap.Level()")
-	//end
+		Return Sys.Call("FLOW_FIELD","FLDMap.Level")
+	end
 	
 	bool HasTag(string tag)
 		return Kthura.HasObj(tag)
