@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.01.25 I
+// 	  Version: 25.02.01 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -51,6 +51,7 @@ Module
 #use "Libs/SCI/Events"
 #use "Libs/SCI/SString"
 #use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
@@ -686,7 +687,7 @@ group Stage_PlayerInput
 			int iy := sy+(i*52)
 			Item.Draw(MPos+12,iy)
 			Graphics.Color(0,180,255)
-			if (cmd=="Reload" && Hero.Ammo==Hero.AmmoMax) || (cmd=="Shoot" && Hero.Ammo==0)
+			if (cmd=="Reload" && Hero.Ammo==Hero.AmmoMax) || (cmd=="Shoot" && Hero.Ammo==0) || ( cmd=="Switch" && gbool.WendickaSwitchBlocked && Tag=="Wendicka")
 				Graphics.Color(0,80,150)
 			elseif MX>MPos && MX<MPos+200 && MY>iy && MY<iy+52
 				Hover = cmd
