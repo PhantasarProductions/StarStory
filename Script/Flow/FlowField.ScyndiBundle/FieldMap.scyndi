@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.01.29 I
+// 	  Version: 25.02.01
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -121,7 +121,7 @@ class Clickable
 		sid++
 		id = sid
 		walkx=wx
-		walky=Ternary(Prefixed(ot,"NPC_"),wy+40,wy)
+		walky=Ternary(Prefixed(ot,"NPC_"),wy+32,wy)
 		func = af
 		param = ap
 		otag = ot
