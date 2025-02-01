@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/StartScript/Volcania_Boss.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/StartScript/CombatStart_Volcania_Boss.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,18 +33,43 @@
 // 
 // **********************************************
 // 
-// version: 21.07.12
-// End License Information
+// 
+// version: 25.02.01 X
+// 
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/use/Convert/RPG2Stat"
+
+
+locExtern Combat_Fighters "Scyndi.Class.Combat_Fighter"
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+locExtern Combat_Time "Scyndi.Class.Combat_Time"
+locExtern Combat_Draw "Scyndi.Class.Combat_Draw"
+locExtern Screen "Scyndi.Class.Graphics"
+
+plua ILight = LoadNewImage("GFX/Combat/SpellAni/Thunder/Lightning.png","SPELLANI_Lightning")
+plua Wendicka = Combat_Fighter.Fighters.Wendicka
+
 
 Void BliksemWendicka()
-	static var ILight = Image.LoadNew("GFX/Combat/SpellAni/Thunder/Lightning.png","SPELLANI_Lightning")
-	static Var Wendicka = Combat_Fighter.Fighters.Wendicka
-	int y = Wendicka.Y	
-	number sh = y / ILight.H 
+	int y := Wendicka.Y	
+	number sh := y / ILight.H 
 	int a=math.random(50,100)
 	ILight.HotBottomCenter()
 	for i=1,a
-		int x = math.random(Wendicka.x - Wendicka.w,Wendicka.x + Wendicka.w)
+		int x := math.random(Wendicka.x - Wendicka.w,Wendicka.x + Wendicka.w)
 		number sw = math.random(100,1000)/750
 		Graphics.Cls()
 		Combat_Draw.DrawScreen()		
@@ -52,7 +78,7 @@ Void BliksemWendicka()
 		ILight.Draw(x,y)
 		Graphics.Scale(1,1)
 		Graphics.Flip()
-		FPS.WaitMinTicks()
+		//Sys.WaitMinTicks()
 		Events.Poll()
 	end
 end
@@ -65,7 +91,7 @@ Void KillWendicka()
 	End
 	RPGChar.Wendicka.Points.HP.Have = 1 // prevent 'wipe out' event
 	// Count the kill
-	gv.gint.KILLED_SUPERBOSS_FIRESPIDER++
+	gint.KILLED_SUPERBOSS_FIRESPIDER++
 	// Start
 	BliksemWendicka()
 	MapText("RELEASE_A","FLOW_COMBAT")
@@ -73,7 +99,7 @@ Void KillWendicka()
 	MapText("RELEASE_B","FLOW_COMBAT")
 	BliksemWendicka()
 	// I want to break free
-	var Goddess = Image.Load("GFX/SPECIAL/GODDESS.png") //,"GODDESS"); 
+	var Goddess = LoadImage("GFX/SPECIAL/GODDESS.png","VOLCANIA_GODDESS") //,"GODDESS"); 
 	Goddess.HotCenter("GODDESS")
 	number alpha = 0
 	number alphadir = 0.2
@@ -100,17 +126,17 @@ Void KillWendicka()
     	Graphics.SetAlpha(255)
     	Graphics.Flip()   
     	Events.Poll()
-    	FPS.WaitMinTicks()
+    	//FPS.WaitMinTicks()
     until alpha<=0                                                                       	
 	// End combat
 	Goddess.Kill()
-	gv.vBool.WendickaGoddessReleased = true
-	gv.gbool.WendickaDream = true
+	gBool.WendickaGoddessReleased = true
+	gbool.WendickaDream = true
 	Flow.GoToFlow("FIELD")
 	End
 
 Void HurtMonster()
-	Var M = Combat_Fighter.Fighters.FOE_0.Char
+	Var M := Combat_Fighter.Fighters.FOE_0.Char
 	CSayF("Let's see: %d/%d",M.Points.HP.Have,M.Points.HP.Maximum)
 	If M.Points.HP.Have<=1
 		//M.Points.HP.Maximum++
@@ -146,4 +172,8 @@ Void BlaBlaBla()
 	Monster.HurtResponse=HurtMonster
 End
 
-Return BlaBlaBla
+Void StartScript()
+	BlaBlaBla()
+End
+
+//Return BlaBlaBla
