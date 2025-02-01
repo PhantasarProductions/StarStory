@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowFieldMenu.scyndi
 // 
-// 	  Version: 25.01.26 IX
+// 	  Version: 25.02.01 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -99,9 +99,15 @@ Global var QUse(string u)
 		return QUse("Script/Flow/FieldMenu/Items_FieldMenu")
 	Case "SCRIPT/FLOW/FIELDMENU/VAULT"
 		return QUse("Script/Flow/FieldMenu/Vault_Menu")
+	case "SCRIPT/DATA/CHARS/ABILITIES/ABLROLF" "SCRIPT/DATA/CHARS/ABILITIES/ABLJOHNSON"
+		CSay("ExHuRU will do!")
+		R:=QUse("Script/Data/Chars/Abilities/ExHuRU")
+		R.SyncExHuRU()
+		return R
 	Default
 		Lua.Scyndi.Use(u)
-		return Lua.Scyndi.Class[stripdir(u)]
+		R:= Lua.Scyndi.Class[stripdir(u)]
+		return R
 	End
 End
 
