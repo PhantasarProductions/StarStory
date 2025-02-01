@@ -49,7 +49,7 @@ Module
 // "World map" is a big word, as this only handles two worlds where story
 // wise, a direct link to the Hawk would be unapplicable.
 Global Void WorldMap(string kaart)
-	State.LoadNew("FLOW_WORLDMAP","Script/Flow/FlowWorldMap.neil")
+	State.LoadNew("FLOW_WORLDMAP","Script/Flow/FlowWorldMap.lbc")
 	State.Call("FLOW_WORLDMAP","WM.SetWorld",sprintf("\"%s\"",kaart))
 	Flow.GoToFlow("FLOW_WORLDMAP")
 	
