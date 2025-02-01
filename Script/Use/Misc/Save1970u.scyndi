@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/Save1970u.scyndi
 // 
-// 	  Version: 25.02.01
+// 	  Version: 25.02.01 II
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -46,8 +46,8 @@ Module
 Global void Save1970()
 	// Peeps, I know that 1980 is more accurate, but I needed to combine stuff
 	// with 1970 style in general...
-	State.LoadNew("FLOW_SAVE1970","Script/Flow/FlowSaveGame1970.neil")
+	State.LoadNew("FLOW_SAVE1970","Script/Flow/FlowSaveGame1970.lbc")
 	State.Call("FLOW_SAVE1970","FSG1970.Boot","true")
-	Flow.GoToFlow("FLOW_SAVE1970")
+	Flow.GoToFlow("SAVE1970")
 end
 
