@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.02.01 III
+// 	  Version: 25.02.01 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -510,7 +510,14 @@ group Stage_PlayerInput
 		if Tag=="Crystal" || Tag=="UniCrystal" || Tag=="Briggs"
 			return false
 		end
-		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/Abl"..Ternary(Tag=="UniWendicka","Wendicka",Tag))
+		DTag:=Tag
+		switch upper(Tag)
+			case "ROLF" "JOHNSON"
+				dTag="ExHuRU"
+			default
+				DTag=tag
+		End
+		ABL[Tag] = ABL[Tag] || NeilUse("Script/Data/Char/Abilities/Abl"..Ternary(Tag=="UniWendicka","Wendicka",DTag))
 		string NewABL=ABL[Tag].Learn
 		if NewABL==""
 			return false

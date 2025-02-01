@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.01.23 V
+// 	  Version: 25.02.01
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -291,9 +291,17 @@ end
 			string k
 			s,k = Infinity
 			k = Upper(k)
-			if k=="UNIWENDICKA"
-				k = "WENDICKA"
-			end
+			//if k=="UNIWENDICKA"
+			//	k = "WENDICKA"
+			//end
+			switch upper(k)
+				case "UNIWENDICKA"
+					k="WENDICKA"
+				case "ROLF" "JOHNSON"
+					k="EXHURU"
+				default
+					// Nothing :-P
+			end	
 			ablmods[k] = ablmods[k] || NeilUse("Script/Data/Char/Abilities/Abl"..k)
 			return ablmods[k]
 		end
