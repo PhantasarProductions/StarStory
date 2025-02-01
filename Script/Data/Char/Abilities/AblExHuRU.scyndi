@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23 XIII
+// version: 25.02.01
 // 
 // End License
 
@@ -108,6 +108,7 @@ module
 		ExRoAsSync("Rolf","Johnson")
 		ExRoAsSync("Johnson","ExHuRU")
 		ExRoAsSync("Johnson","ExHuRU")
+		CSay("All synchronizations done!")
 	End
 	
 	Init
