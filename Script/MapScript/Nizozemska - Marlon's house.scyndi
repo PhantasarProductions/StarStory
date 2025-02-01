@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Marlon's house.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Nizozemska - Marlon's house.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.04.17
-// End License Information
+// 
+// version: 25.02.01 III
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/Save1970"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Misc/Save1970u"
+#use "Script/Use/Map/WorldMapUse"
 
-#MKL_Version "Star Story - Nizozemska - Marlon's house.neil" "21.04.17"
-#MKL_Lic     "Star Story - Nizozemska - Marlon's house.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Nizozemska - Marlon's house.neil" "21.04.17"
+//#MKL_Lic     "Star Story - Nizozemska - Marlon's house.neil" "Phantasar Closed License"
 
-group MScript
+Group MScript
 
 	Void MeetMarlon()
 		Map.HideObj("NPC_Marlon")
@@ -81,18 +90,19 @@ group MScript
 	
 	Void Load()
 	End
-	
-	CONSTRUCTOR
-		Map.AllowQuitSave=false
-		if !Done.Met_Marlon			
-			ZA.Enter("StartMarlonEvent","MeetMarlon")
-		else
-			for k in each {"Marlon","Sue"}
-				// The auto-clickable refuses to work for some odd reason.
-				ZA.Enter("Act_"..k,"NPC_"..k)
-			end
-			ZA.Enter("Leave","NPC_Sue")
-		End
-	End
 
 end
+
+Init
+	Map.AllowQuitSave=false
+	If !Done.Met_Marlon			
+		ZA.Enter("StartMarlonEvent","MeetMarlon")
+	Else
+		For k in each {[0]="Marlon","Sue"}
+			// The auto-clickable refuses to work for some odd reason.
+			ZA.Enter("Act_"..k,"NPC_"..k)
+		End
+		ZA.Enter("Leave","NPC_Sue")
+	End
+End
+
