@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.01 X
+// version: 25.02.01 XIV
 // 
 // End License
 
@@ -65,11 +65,11 @@ plua Wendicka = Combat_Fighter.Fighters.Wendicka
 
 Void BliksemWendicka()
 	int y := Wendicka.Y	
-	number sh := y / ILight.H 
+	number sh := y / ILight.Height
 	int a=math.random(50,100)
 	ILight.HotBottomCenter()
 	for i=1,a
-		int x := math.random(Wendicka.x - Wendicka.w,Wendicka.x + Wendicka.w)
+		int x := math.random(Wendicka.x - Wendicka.width,Wendicka.x + Wendicka.width)
 		number sw = math.random(100,1000)/750
 		Graphics.Cls()
 		Combat_Draw.DrawScreen()		
@@ -129,7 +129,7 @@ Void KillWendicka()
     	//FPS.WaitMinTicks()
     until alpha<=0                                                                       	
 	// End combat
-	Goddess.Kill()
+	//Goddess.Kill()
 	gBool.WendickaGoddessReleased = true
 	gbool.WendickaDream = true
 	Flow.GoToFlow("FIELD")
