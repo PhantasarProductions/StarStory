@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.01.30
+// 	  Version: 25.02.01
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -45,7 +45,9 @@
 
 Module
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Convert/RPG2Stat"
@@ -411,15 +413,15 @@ End
 		SA("SPAWN:"..SpawnPoint)
 	end
 	
-	//Void SkipFrames(int f)
-	//	for fidx=1,f
-	//		Graphics.Cls()
-	//		DrawScreen()
-	//		Graphics.Flip()
+	Void SkipFrames(int f)
+		for fidx=1,f
+			Graphics.Cls()
+			DrawScreen()
+			Graphics.Flip()
 	//		FPS.WaitMinTicks()
-	//		Events.Poll()
-	//	end
-	//end
+			Events.Poll()
+		end
+	end
 	
 	readonly var Meta = {}
 	
