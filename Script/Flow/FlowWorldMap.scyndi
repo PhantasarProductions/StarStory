@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FlowWorldMap.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Flow/FlowWorldMap.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,11 +33,27 @@
 // 
 // **********************************************
 // 
-// version: 21.05.08
-// End License Information
+// 
+// version: 25.02.01 VI
+// 
+// End License
 
-#use "Script/Use/Anyway"
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/InterVar"
+#use "Libs/SCI/Graphics"
+
+#use "Libs/Music"
 #use "Libs/LinkedList"
+
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
 
 Class WM_Item
 	readonly string Caption
@@ -45,7 +62,7 @@ Class WM_Item
 	readonly string StartPoint
 	readonly string AvailVar
 	get bool Available
-		return AvailVar=="ALWAYS" || gv.gbool[AvailVar]
+		return AvailVar=="ALWAYS" || gbool[AvailVar]
 	end
 	
 	Constructor(string C,string M,string L,string S="Start",string A="ALWAYS")
@@ -61,14 +78,15 @@ Group Worlds
 	readonly var Nizozemska
 	readonly var Phantasar
 	
-	Constructor
-		Nizozemska = New LinkedList()
+	Void WConstructor()
+		Nizozemska = New TLinkedList()
 		Nizozemska.AddLast(new WM_Item("Space Port","Nizozemska - Space Port","SPACEPORT"))
 		Nizozemska.AddLast(new WM_Item("Groenhart Bos","Nizozemska - Groenhart Bos","BOS"))
+		Nizozemska.AddLast(new WM_Item("Marlon's house","Nizozemska - Marlon's House","OUTSIDE","Start"))
 		Nizozemska.AddLast(new WM_Item("Belioss","Nizozemska - Belioss","#001"))
 		Nizozemska.AddLast(new WM_Item("Marlon's Garden","Nizozemska - Marlon's Garden","GARDEN","Start","Belioss_Complete"))
 		
-		Phantasar = New LinkedList()
+		Phantasar = New TLinkedList()
 		Phantasar.AddLast(new WM_Item("Frendor Bushses - Teleport Pad","Phantasar - Frendor Bushes - Arrival","ARRIVAL"))
 		Phantasar.AddLast(new WM_Item("Frendor Bushes","Phantasar - Frendor Bushes","BUSHES"))
 		Phantasar.AddLast(new WM_Item("Frendor","Phantasar - Frendor","FRENDOR","Start","Frendor_Bushes_Complete"))
@@ -77,24 +95,27 @@ Group Worlds
 		Phantasar.AddLast(new WM_Item("Mines of Airom","Phantasar - Airom","MINE","Start","Airom_Unlocked"))
 	End
 End
+Init
+	Worlds.WConstructor()
+End
 
 
 group WM
 
 	string World
-	readonly var Mouse = Image.Obtain("MOUSE")
-	readonly var Fnt = ImageFont.Obtain("BIGTEXT")
+	readonly var Mouse = ObtainImage("MOUSE")
+	readonly var Fnt = ObtainFont("BIGTEXT")
 	
 	get int MX
-		return Events.MouseX()
+		return Events.MouseX
 	end
 	
 	get int MY
-		return Events.MouseY()
+		return Events.MouseY
 	end
 	
 	get bool ML
-		return Events.MouseHitLeft()
+		return Events.MouseHitLeft
 	end
 	
 	void SetWorld(string W)
@@ -108,7 +129,7 @@ group WM
 		
 		// Header
 		__Red
-		Fnt.Text(World,Screen.W div 2, 50,2,0)
+		Fnt.Text(World,Graphics.W div 2, 50,2,0)
 		
 		// Items
 		For WMI in Worlds[World].Each
@@ -123,7 +144,7 @@ group WM
 				else
 					__SkyBlue
 				end
-				Fnt.Text(WMI.Caption,Screen.W div 2,y,2,0)
+				Fnt.Text(WMI.Caption,Graphics.W div 2,y,2,0)
 				y+=50
 			End
 		End
@@ -134,9 +155,14 @@ group WM
 	
 		// Mouse
 		__White
-		Mouse.Draw(mx,my)		
+		Mouse.Draw(mx,my)
+		QuitRequest()
 	end
 	
 end
 		
-global const delegate Apollo_Flow = WM.CBFlow
+//global const delegate Apollo_Flow = WM.CBFlow
+global delegate MainFlow
+Init
+	MainFlow = WM.CBFlow
+End
