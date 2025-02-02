@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Map.Scyndi
 // 
-// 	  Version: 25.02.01
+// 	  Version: 25.02.02 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -425,13 +425,15 @@ End
 	
 	readonly var Meta = {}
 	
-	//get int MinFoeLevel
+	get int MinFoeLevel
 	//	return ISGET.INT("FLOW_FIELD","FldMap.MinLevel")
-	//end
+		return Sys.Call("FLOW_FIELD","FldMap.Tr_MinLevel")
+	end
 	
-	//get int MaxFoeLevel
+	get int MaxFoeLevel
 	//	return ISGET.INT("FLOW_FIELD","FldMap.MaxLevel")
-	//end
+		return Sys.Call("FLOW_FIELD","FldMap.Tr_MaxLevel")
+	end
 	
 	//get bool AllowQuitSave
 	//	return ISGET.BOOL("FLOW_FIELD","FldMap.AllowQuitSave")
