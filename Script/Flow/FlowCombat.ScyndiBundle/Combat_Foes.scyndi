@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.02
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -389,11 +389,11 @@ class Combat_Foe extends Combat_Fighter
 		self.HurtShow()
 	end
 	
-	void TIcon(int x,int y)
+	void TIcon(int tix,int tiy)
 		//static var fnt = ImageFont.Obtain("SYSFONT")
 		locExtern fnt "Combat_Foes_Fnt_Static_Local_633790ddaef4576422fe7f09842b5b68"
 		fnt = fnt || ObtainFont("SYSFONT")
-		fnt.DarkText(TagLetter .. ".",x,y)
+		fnt.DarkText(TagLetter .. ".",tix,tiy)
 	end
 	
 	get string AIName

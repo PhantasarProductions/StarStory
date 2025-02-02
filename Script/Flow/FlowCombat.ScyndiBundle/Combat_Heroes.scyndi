@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.02.01 IV
+// 	  Version: 25.02.02
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -81,9 +81,9 @@ class Combat_Hero extends Combat_Fighter
 	var GIIMG
 	table InputItems
 	
-	void TIcon(int x,int y)
+	void TIcon(int tix,int tiy)
 		GIIMG = GIIMG || LoadNewImage(sPrintF("GFX/Combat/GaugeIcons/%s.png",Tag),GITag)
-		GIIMG.Draw(x,y)
+		GIIMG.Draw(tix,tiy)
 	end
 	
 	string _State = "Idle"
