@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Map/WorldMapUse.scyndi
 // 
-// 	  Version: 25.02.01 IV
+// 	  Version: 25.02.01 VII
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -50,8 +50,8 @@ Module
 // wise, a direct link to the Hawk would be unapplicable.
 Global Void WorldMap(string kaart)
 	State.LoadNew("FLOW_WORLDMAP","Script/Flow/FlowWorldMap.lbc")
-	State.Call("FLOW_WORLDMAP","WM.SetWorld",sprintf("\"%s\"",kaart))
-	Flow.GoToFlow("FLOW_WORLDMAP")
+	State.Call("FLOW_WORLDMAP","WM.SetWorld",kaart) //sprintf("\"%s\"",kaart))
+	Flow.GoToFlow("WORLDMAP")
 	
 End
 
