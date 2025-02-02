@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.02.01
+// 	  Version: 25.02.02 I
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -419,7 +419,7 @@ group FldMap
 	get int minLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng := Kthura.Meta[rngt]
-		table trng := Split(rng,"-")
+		table trng := XSplit(rng,"-")
 		int ret := math.max(1,lua.tonumber(trng[0]) or 1)
 		// print("Minlevel: "..ret)
 		return ret
@@ -428,8 +428,16 @@ group FldMap
 	get int maxLevel
 		static string rngt = sprintf("PT %2d Level Range",math.min(10,Caps.Cycle))
 		string rng := Kthura.Meta[rngt]
-		table trng := Split(rng,"-")
+		table trng := XSplit(rng,"-")
 		return math.min(20000,lua.tonumber(trng[1]) or minlevel)
+	end
+	
+	int Tr_minLevel()
+		return minLevel
+	end
+	
+	int Tr_maxLevel()
+		return maxLevel
 	end
 
 	
