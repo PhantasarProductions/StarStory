@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_Wind.scyndi
 // 
-// 	  Version: 25.02.02
+// 	  Version: 25.02.02 III
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -51,6 +51,7 @@ module
 #use "libs/sci/graphics"
 
 
+
 class Tornado
 	readonly int X
 	readonly int Y
@@ -79,7 +80,7 @@ class Tornado
 	end
 	
 	void Draw()
-		self.img.XDraw(self.X,self.Y)
+		self.img.Draw(self.X,self.Y)
 	end
 	
 	static void All()
@@ -91,6 +92,7 @@ end
 
 
 //module 
+	locExtern _S "Scyndi.Class.SPELLANI_Wind"
 	
 	readonly int MaxCycles = 1440
 	int D = 0
@@ -108,7 +110,7 @@ end
 	
 	void Start(aact)
 		Act=aact
-		self.D=self.MaxCycles
+		_s.D=_s.MaxCycles
 		//for _,t in ipairs(act.Targets)
 		for i=0,len(act.Targets_Tag)-1		
 			var t = new Tornado(act.Targets[i])
@@ -116,12 +118,12 @@ end
 	end
 	
 	void Draw()
-		self.D -= 4
-		if self.D<=0
+		_s.D -= 4
+		if _s.D<=0
 			Tornado.List.Clear()
 			return 
 		end
-		SetScale(1,(750+math.ceil(xmath.sin(self.D)*500))/1000)
+		SetScale(1,(750+math.ceil(xmath.sin(_s.D)*500))/1000)
 		Tornado.All()
 		SetScale(1,1)
 		return 
@@ -131,7 +133,7 @@ end
 	end
 	
 	get bool Ended
-		return self.D<=0
+		return _s.D<=0
 	end
 	
-end
+//end
