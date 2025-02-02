@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Frendor Bushes.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Phantasar - Frendor Bushes.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,26 @@
 // 
 // **********************************************
 // 
-// version: 21.04.14
-// End License Information
+// 
+// version: 25.02.02 I
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/WorldMapUse"
+#use "Script/use/Convert/RPG2Stat"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.14"
-#MKL_Lic     "Star Story - Phantasar - Frendor Bushes.neil" "Phantasar Closed License"
+
+//#MKL_Version "Star Story - Phantasar - Frendor Bushes.neil" "21.04.14"
+//#MKL_Lic     "Star Story - Phantasar - Frendor Bushes.neil" "Phantasar Closed License"
 
 void GreenSave()
 	Party.Recover()
@@ -50,12 +62,18 @@ End
 group MScript
 
 #region Save Spots
-	readonly delegate NPC_GREEN_1 = GreenSave
-	readonly delegate NPC_GREEN_2 = GreenSave
-	readonly delegate NPC_GREEN_3 = GreenSave
+	Get delegate NPC_GREEN_1 
+		return GreenSave
+	End
+	Get delegate NPC_GREEN_2 
+		return GreenSave
+	End
+	Get delegate NPC_GREEN_3 
+		return GreenSave
+	End	
 #endregion
 
-#region Script
+#region "Script"
 	Void ExitSouthWest()
 		WorldMap("Phantasar")
 	End
@@ -69,7 +87,7 @@ group MScript
 	End
 	
 	Void Boss()
-		gv.gbool.CombatMusicForcedSet = true
+		gbool.CombatMusicForcedSet = true
 		StartCombat.Foe("Boss/GiantSnake",RPGChar.Wendicka.Stat.Level)
 		StartCombat.Tune = "Music/Combat/Phantasar/Boss.ogg"
 	End
@@ -87,10 +105,10 @@ group MScript
 	Void Load()
 	End
 #endregion
+End
 
-	CONSTRUCTOR
-		ZA.TabEnter{"ExitSouthWest","ExitNorthEast"}
-		Phan_Encounter.SetUp()
-	End
+Init
+	ZA.TabEnter{"ExitSouthWest","ExitNorthEast"}
+	Phan_Encounter.SetUp()
+End
 
-end
