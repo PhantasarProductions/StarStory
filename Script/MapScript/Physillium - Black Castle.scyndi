@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Physillium - Black Castle.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Physillium - Black Castle.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,24 @@
 // 
 // **********************************************
 // 
-// version: 21.03.31
-// End License Information
+// 
+// version: 25.02.02
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.31"
-#MKL_Lic     "Star Story - Physillium - Black Castle.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Physillium - Black Castle.neil" "21.03.31"
+//#MKL_Lic     "Star Story - Physillium - Black Castle.neil" "Phantasar Closed License"
 
-#macro Killed_Moeder gv.gbool.Killed_Dard_Moeder
+#macro Killed_Moeder gbool.Killed_Dard_Moeder
 
 
 group MScript
@@ -170,7 +180,7 @@ group MScript
 	End
 	
 	Void NPC_AppBestiary()
-		gv.gbool.FOUNDAPP_BESTIARY=true
+		gbool.FOUNDAPP_BESTIARY=true
 		MapText("BESTIARY")
 		Party.GiveEXP(9000 div __skill)
 		Map.Kill("NPC_AppBestiary",true)
@@ -184,12 +194,12 @@ group MScript
 	
 	Void Load()
 	End
+End	
 	
-	CONSTRUCTOR
-		CSayF("Welcome to the Dark Side!")
-		ZA.TabEnter{"StartRoom","Moeder","Secret","BossZone","BAch"}
-		ZA.Enter("Main" ,"HideSecret")
-		ZA.Enter("Main2","HideSecret")
-	End
+Init
+	CSayF("Welcome to the Dark Side!")
+	ZA.TabEnter{"StartRoom","Moeder","Secret","BossZone","BAch"}
+	ZA.Enter("Main" ,"HideSecret")
+	ZA.Enter("Main2","HideSecret")
+End
 
-end
