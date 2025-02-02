@@ -1,0 +1,148 @@
+// License:
+// 	  src/Script/Script/Use/Map/Phan_Encounter.scyndi
+// 
+// 	  Version: 25.02.02 V
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/INTERVAR"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+module
+	ReadOnly Int EncReset = 500
+	int Enc=550
+	table NoWay
+	
+	get int EncBlck
+		switch __skill
+			case 1
+				return 100
+			case 2
+				return 450
+			case 3
+				return 950
+			default
+				return 1000
+		end
+	end
+
+	get table Foes
+		table ret
+		//for i = 1 , math.min(gv.vint.Cycle,5)
+			var l = Kthura.Meta.Foes
+			table ketting := XSplit(l,";")
+			for it in each (ketting)
+				table thisitem := XSplit(it,",")
+				switch Len(thisitem)
+					case 1
+						ret += thisitem[0]
+					case 2
+						for j=1,(lua.tonumber(thisitem[1]) || 1)
+							ret += thisitem[0]
+						end
+					default
+						lua.error("Foe chain syntax error")
+				end
+			end
+		//end
+		return ret
+	end
+	
+	Void Engage()
+		Player.StopWalking()
+		if !Done["PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_"..Map.Leader]
+			BoxText.Serial("PHANTASAR","RAND."..Map.Leader)
+		end
+		var F = Foes
+		int num = 3
+		if math.random(0,10)<=__skill^2
+			num = 6
+		end
+		if math.random(0,15)<=__skill^2
+			num = 9
+		end
+		CSay("Level range %05d - %05d",Map.MinFoeLevel,Map.MaxFoeLevel)
+		StartCombat.Prepare()
+		for i=1,num
+			StartCombat.Foe("Reg/"..F[math.random(0,len(F)-1)] ,math.random(Map.MinFoeLevel,Map.MaxFoeLevel))
+		end
+		//StartCombat.Tune = StartCombat.RandomTune
+		StartCombat.Tune = Kthura.Meta.AltEncounterTune
+		StartCombat.Boss = false
+		StartCombat.Arena = Kthura.Meta.Arena
+		StartCombat.Begin()
+	End
+		
+
+	Void Setup(ANW)
+		NoWay = {}
+		for A in each(ANW || {})
+			NoWay[A] = true
+			// This is faster!
+		end
+		BoxText.Load("PHANTASAR","GENERAL/PHANTASAR")
+	end
+	
+	Void Check()
+		//static int OPX
+		//static int OPY
+		LocExtern OPX "PAC_a3ae4fd8e7c8932b235aac7171ac417f_X"
+		LocExtern OPX "PAC_a3ae4fd8e7c8932b235aac7171ac417f_Y"
+		if NoWay[Map.Layer] && Enc<EncReset
+			Enc++
+		elseif OPX!=Player.X && OPX!=Player.Y
+			OPX=Player.X 
+			OPX=Player.Y
+			Enc--
+			if Enc<EncBlck && math.random(1,Enc)==1
+				Engage()
+				Enc = EncReset
+			end	
+		end
+	end
+		
+
+//end
