@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Slagimon Forest.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Phantasar - Slagimon Forest.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,23 @@
 // 
 // **********************************************
 // 
-// version: 21.04.21
-// End License Information
+// 
+// version: 25.02.02 II
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/WorldMapUse"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Slagimon Forest.neil" "21.04.21"
-#MKL_Lic     "Star Story - Phantasar - Slagimon Forest.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Phantasar - Slagimon Forest.neil" "21.04.21"
+//#MKL_Lic     "Star Story - Phantasar - Slagimon Forest.neil" "Phantasar Closed License"
 
 void GreenSave()
 	Party.Recover()
@@ -50,8 +59,8 @@ End
 group MScript
 
 #region Save Spots
-	readonly delegate NPC_SAVE_GREEN1 = GreenSave
-	readonly delegate NPC_SAVE_GREEN2 = GreenSave
+	delegate NPC_SAVE_GREEN1 //= GreenSave
+	delegate NPC_SAVE_GREEN2 //= GreenSave
 	//readonly delegate NPC_GREEN_3 = GreenSave
 #endregion
 
@@ -81,10 +90,12 @@ group MScript
 	Void Load()
 	End
 #endregion
-
-	CONSTRUCTOR
-		ZA.TabEnter{"GoodBye","Complete"}
-		Phan_Encounter.SetUp()
-	End
-
 end
+	
+Init
+	ZA.TabEnter{"GoodBye","Complete"}
+	Phan_Encounter.SetUp()
+	MScript.NPC_SAVE_GREEN1 = GreenSave
+	MScript.NPC_SAVE_GREEN2 = GreenSave
+End
+
