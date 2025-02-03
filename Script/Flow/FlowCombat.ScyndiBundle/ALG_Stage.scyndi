@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/ALG_Stage.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.03 I
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -50,6 +50,10 @@ Module
 Group Stage
 	var Current
 	var IDLE
+	bool IsIDLE = False
+	Get Var GetCurrent
+		Return Current || IDLE
+	End
 	
 	get delegate Draw
 		var C = Current || IDLE
