@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.01.25 II
+// 	  Version: 25.02.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -265,19 +265,19 @@ group SubParty
 				int g := math.floor((RPGChar[Tag].Points.HP.Have/RPGChar[Tag].Points.HP.Maximum)*255)
 				// print(255-g,g,0," HP ",RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Graphics.Color((255-g),g,0)
-				StatBar(x+150,y+30,(bw)-160,3,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
+				StatBar(x+150,y+29,(bw)-160,4,RPGChar[Tag].Points.HP.Have,RPGChar[Tag].Points.HP.Maximum)
 				Fnt.Text("HP",x+100,y+10)
 				Fnt.Dark(RPGChar[Tag].Points.HP.Have,(x+bw)-10,y+10,1,0)
 				if RPGChar[Tag].Points.AP.Maximum>0
 					g = math.floor((RPGChar[Tag].Points.AP.Have/RPGChar[Tag].Points.AP.Maximum)*100)
 					graphics.Color(0,g+80,g+155)
-					StatBar(x+150,y+60,(bw)-160,3,RPGChar[Tag].Points.AP.Have,RPGChar[Tag].Points.AP.Maximum)
+					StatBar(x+150,y+60,(bw)-160,4,RPGChar[Tag].Points.AP.Have,RPGChar[Tag].Points.AP.Maximum)
 					Fnt.Text("AP",x+100,y+40)
 					Fnt.Dark(RPGChar[Tag].Points.AP.Have,(x+bw)-10,y+40,1,0)
 				end
 				__white
 				if Tag!="Briggs" &&  RPGChar[Tag].Stat.Level<Caps.LevelCap
-					StatBar(x+150,y+90,(bw)-160,3,RPGChar[Tag].Points.EXP.Have,RPGChar[Tag].Points.EXP.Maximum)
+					StatBar(x+150,y+90,(bw)-159,4,RPGChar[Tag].Points.EXP.Have,RPGChar[Tag].Points.EXP.Maximum)
 				end
 				Fnt.Text("Lv",x+100,y+70)
 				Fnt.Dark(RPGChar[Tag].Stat.Level,(x+bw)-10,y+70,1,0)
