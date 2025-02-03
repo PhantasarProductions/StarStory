@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.03
+// version: 25.02.03 I
 // 
 // End License
 
@@ -47,8 +47,8 @@ Script
 #use "Script/Use/Misc/Save1970u"
 #use "Script/Use/Map/WorldmapUse"
 
-#MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.10"
-#MKL_Lic     "Star Story - Nizozemska - Belioss.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.10"
+//#MKL_Lic     "Star Story - Nizozemska - Belioss.neil" "Phantasar Closed License"
 
 group MScript
 
