@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Frendor.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Phantasar - Frendor.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,18 +33,35 @@
 // 
 // **********************************************
 // 
-// version: 21.07.06
-// End License Information
+// 
+// version: 25.02.02 XI
+// 
+// End License
 
+
+Script
+
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/KickReggieUse"
+#use "Script/Use/Map/WorldMapUse"
 
-#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.07.06"
-#MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
+#use "Script/Use/Convert/RPG2Stat"
 
-#macro TaalGeleerd gv.gbool.LearnedToSpeakTheLanguageOfPhantasar
-#macro prismdiamondsgiven gv.gInt.PrismDiamondsGivenByFeenalaria
+//#MKL_Version "Star Story - Phantasar - Frendor.neil" "21.07.06"
+//#MKL_Lic     "Star Story - Phantasar - Frendor.neil" "Phantasar Closed License"
+
+#macro TaalGeleerd gbool.LearnedToSpeakTheLanguageOfPhantasar
+#macro prismdiamondsgiven gInt.PrismDiamondsGivenByFeenalaria
+#macro QQTaal MScript._Q_QTaal
+#macro FMenu FieldMenu
 
 group MScript
 
@@ -64,8 +82,8 @@ group MScript
 		end
 	End
 	
-	Void QQTaal(string Pers)
-		QTaal(Pers..".CANNOTSPEAK",Pers..".CANSPEAK")
+	Void _Q_QTaal(string Pers)
+		MScript.QTaal(Pers..".CANNOTSPEAK",Pers..".CANSPEAK")
 	End
 
 	Void NPC_Feenalaria()
@@ -84,25 +102,25 @@ group MScript
 			Party.GiveEXP(1234)			
 			return
 		end
-		if !gv.gBool.Completed_GhostHouse
+		if !gBool.Completed_GhostHouse
 			MapText("FEENA_ONLYHOPE")
 			return
 		end
-		if gv.gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"]
+		if gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"]
 			MapText("FEENA_NEVER")
 			Return
 		End
 		// Completed Ghosthouse
 		MapText("FEENA_REWARD")
-		Bool give = math.random(0,prismdiamondsgiven)==0
-		String diamant = ({ [true]="ITM_EQP_PHAN_PRISMDIAMOND", [false]="ITM_PHAN_PRISMDIAMOND"})[give]
+		Bool give := math.random(0,prismdiamondsgiven)==0
+		String diamant := ({ [true]="ITM_EQP_PHAN_PRISMDIAMOND", [false]="ITM_PHAN_PRISMDIAMOND"})[give]
 		If Item.Give(diamant,Map.Leader)
 			Party.GiveEXP(10000)
 			If give
 				prismdiamondsgiven = math.min(prismdiamondsgiven + (__skill*__skill),10000)
 				//if prismdiamondsgiven>100000 then prismdiamondsgiven=100000 end -- Prevent crashes in long term
 			End
-			gv.gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"] = true
+			gbool["DONE.PHANTASAR.GHOSTHOUSE.FEENAREWARD"] = true
 		Else
 			MapText("FEENA_FULL")
 		End
@@ -122,11 +140,11 @@ group MScript
 			MapText("RACHEL.CANNOTSPEAK")
 			return
 		End
-		If RPGChar.Crystal.List.ARM.Has("ARKSMASH") || (Map.Leader!="Crystal")
+		If RPGPureChar.Crystal.ListHas("ARM","ARKSMASH") || (Map.Leader!="Crystal")
 			MapText("RACHEL.NOTCRYSTAL")
 			Return
 		End
-		if gv.gBool.Completed_Airom
+		if gBool.Completed_Airom
 			//Lua.error("Rachel not yet fully scripted")
 			MapText("RACHEL.GOTIT")
 			//RPGChar.Crystal.List.ARM.Add = "ARKSMASH"
@@ -164,7 +182,7 @@ group MScript
 			Return
 		End
 		MapText("RACHEL.CRYSTAL")
-		gv.gbool.Airom_Unlocked = True
+		gbool.Airom_Unlocked = True
 		//Lua.error("Rachel not yet fully scripted")
 	End
 	
@@ -176,7 +194,7 @@ group MScript
 		if !Done.Merya_StouteJongens
 			int deg=0
 			number scale=0
-			var RPic = Image.Load("GFX/Scenario/Reggie_Big.png")
+			var RPic = LoadImage("GFX/Scenario/Reggie_Big.png","Reggie_Big_bigger_biggest")
 			Var RinkelDeKinkel = Audio.Load("Audio/SFX/scenario/Reggie_Crash.ogg")
 			RPic.HotCenter()
 			Map.Leader="Foxy"
@@ -189,21 +207,22 @@ group MScript
 				Map.DrawScreen()
 				Graphics.Scale(scale,scale)
 				__white
-				Image.Rotate=deg
-				RPic.XDraw(Screen.W div 2,Screen.H div 2)
+				//Image.Rotate=deg
+				//RPic.XDraw(Graphics.W div 2,Graphics.H div 2)
+				RPic.DrawR(Graphics.W div 2,Graphics.H div 2,deg)
 				Graphics.Scale(1,1)
 				Graphics.Flip()
-				FPS.WaitMinTicks()
-			LoopWhile RPic.Height*scale<=Screen.H*2
+				//FPS.WaitMinTicks()
+			LoopWhile RPic.Height*scale<=Graphics.H*2
 			RinkelDeKinkel.Play()
 			Music.Play("Music/Sys/Silence.ogg")
-			RPic.Kill()
-			RPic=nil
+			//RPic.Kill()
+			//RPic=nil
 			Map.SetObj("ColorBars","X",Map.CamX- 1)
 			Map.SetObj("ColorBars","Y",Map.CamY- 1)
-			Map.SetObj("ColorBars","W",Screen.W+ 2)
-			Map.SetObj("ColorBars","H",Screen.H-95)
-			for c in each{"R","G","B"}
+			Map.SetObj("ColorBars","W",Graphics.W+ 2)
+			Map.SetObj("ColorBars","H",Graphics.H-95)
+			for c in each{[0]="R","G","B"}
 				Map.SetObj("ColorBars",c,255)
 			end
 			MapText("FOXY.OOPS")
@@ -264,7 +283,7 @@ group MScript
 		bool have
 		for ARM in each(ARMS) 
  			//have = RPGChar.ListHas('Crystal','ARMS',ARM)==1
- 			have = RPGChar.Crystal.List.ARM.Has(ARM)
+ 			have = RPGPureChar.Crystal.ListHas("ARM",ARM)
  			ret = ret && have
  			CSay("Check ARM: "..ARM.."  => "..tostring(have).." == ret> "..tostring(ret))
  		end
@@ -272,11 +291,11 @@ group MScript
  	end
  	
  	Void StartZone() 		
- 		if !DoesCrystalHaveAllARMS()
+ 		if !MScript.DoesCrystalHaveAllARMS()
  			Map.Kill("NPC_Rachel")
  			CSay("As Crystal does not yet have all ARMS, Rachel should not be present on the map")
  		end
- 		if !gv.gBool.Completed_GhostHouse
+ 		if !gBool.Completed_GhostHouse
  			Map.Kill("NPC_MT_MARRILONA")
  			CSay("Marrilona's not here yet. Finish the ghost house first!")
  		end
@@ -301,10 +320,10 @@ group MScript
 	Void Load()
 	End
 #endregion
-	
-	CONSTRUCTOR
-		ZA.TabEnter{"StartZone","Byebye"}
-		Map.AllowQuitSave=false
-	End
+End
 
-end
+Init
+	ZA.TabEnter{"StartZone","Byebye"}
+	Map.AllowQuitSave=false
+End
+
