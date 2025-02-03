@@ -37,6 +37,9 @@
 
 
 module 
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
 	
 	readonly int MaxCycles = 40
 	int Cycle
@@ -44,7 +47,7 @@ module
 	CONSTRUCTOR
 	end
 
-	Var crystal = Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/Voltsunami.png","SPELLANI_VOLTTSUNAMI")
+	Var crystal = LoadNewImage("GFX/Combat/SpellAni/SuperMoves/Voltsunami.png","SPELLANI_VOLTTSUNAMI")
 	Var Donder = Audio.LoadNew("Audio/SFX/SpellAni/Thunder/ThunderStrike.ogg","SPELLANI_Thunder")
 	
 	
@@ -57,10 +60,10 @@ module
 	void Draw()		
     	Graphics.Cls()
     	For al=1,35 
-        	Image.Rotate= math.random(0,360)
-        	crystal.Draw(math.random(100,Screen.W-100),math.random(100,Screen.H-200))
+        	//Image.Rotate= math.random(0,360)
+        	crystal.DrawR(math.random(100,Graphics.W-100),math.random(100,Graphics.H-200),math.random(0,360))
         End
-        Image.Rotate = 0    
+        //Image.Rotate = 0    
 	end
 	
 	void Update()
