@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.02
+// 	  Version: 25.02.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -132,9 +132,9 @@ class Combat_Foe extends Combat_Fighter
 		Sex = Sex || NewArray("Male","Female")
 		switch Upper(RawData.ImageFile)
 			case "*CULTIST"
-				return "GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[math.random(0,len(Sex))]..".png"
+				return "GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[math.random(0,len(Sex)-1)]..".png"
 			case "*CULTISTLEADER"
-				return "GFX/Combat/Fighters/Foe/Reg/Cultist Leader "..Sex[math.random(0,len(Sex))]..".png"
+				return "GFX/Combat/Fighters/Foe/Reg/Cultist Leader "..Sex[math.random(0,len(Sex)-1)]..".png"
 			default
 				return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 		end
