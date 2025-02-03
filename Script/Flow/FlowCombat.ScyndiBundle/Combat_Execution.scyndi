@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.01.23 III
+// 	  Version: 25.02.03
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -63,6 +63,8 @@ Module
 LocExtern Stage "Scyndi.Class.Stage"
 LocExtern Zelf "Scyndi.Class.Combat_Execution"
 LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
+
+	ReadOnly Bool IsIdle = False
 
 	var Act
 	int MyStage = _Announce
