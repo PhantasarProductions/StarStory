@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28 II
+// version: 25.02.04 IV
 // 
 // End License
 
@@ -56,6 +56,8 @@ Script
 #use "Script/Use/Convert/ViesBah"
 
 #undef CleanUp
+
+#macro Always_HouseOfCards True
 
 extern MaxMedal "25000"
 
@@ -310,6 +312,10 @@ Global Void CheckMedals()
 		CSay(" 25% -> Shroom Forest should now be added!")
 		// 25%
 		MDungs["A"]=MDungs["A"] || New HData("Shroom Forest","Medals - Shroom","#001","Start")
+		If Always_HouseOfCards || ratio>=50
+			CSay(" 50% -> House of Cards should now be added!")
+			MDungs["B"]=MDungs["B"] || New HData("House Of Cards","Medals - House Of Cards","#000","Start")
+		End
 	End
 End
 
