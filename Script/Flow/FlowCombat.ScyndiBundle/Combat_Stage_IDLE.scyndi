@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Stage_IDLE.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.03
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -49,6 +49,7 @@ Module
 	delegate VictoryCheck
 
 	var STime
+	Bool IsIDLE = true
 	
 	void Draw()
 	end
