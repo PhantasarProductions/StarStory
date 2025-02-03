@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_ChangeStatus.scyndi
 // 
-// 	  Version: 25.01.26
+// 	  Version: 25.02.03 IV
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -117,22 +117,25 @@ Class CSC_Paralysis Extends Combat_StatusChanges
 		img.Tile(tar.x-((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
 		img.Tile(tar.x+((tar.w div 2)+16+x),tar.y-tar.h,16,tar.h)
 		// Only cure automatically during the IDLE stage!
-		If  Stage.Current != Stage.IDLE
+		If  Stage.GetCurrent != Stage.IDLE
+		//if !Stage.GetCurrent.IsIDLE
+			//SetColor(255,0,0); Rect(0,0,32,32) SetColor(255,255,255) // Debug
 			Return
 		End
 		// Guarding ends when paralyis is caused
 		tar.StatusChange.Guard=false
 		// Auto cure - DepEndent on dIf ficulty setting (of course)		
-		Bool c
+		Bool c = False
 		Switch  tar.Team
 			Case "Hero"
-				c = math.random(0,__skill*10000) == 1
+				c = math.random(0,__skill*10000) == 1					
 			Case "Foe"
 				c = math.random(0,30000 div __skill) == 1
 			Default
 				Lua.error("??? Paralyse chech oddity")
 		End
 		If  c
+			CSayF("Target %s is no longer paralyzed!",tar.Tag)
 			tar.StatusChange.Paralysis=false
 		End				
 	End
@@ -146,7 +149,7 @@ Class CSC_Sleep Extends Combat_StatusChanges
 		fnt.Text("Z",tar.X,(Tar.Y-tar.h-50)+(xmath.sin(T div 3)*25),2,1)
 		__white
 		// Only cure automatically during the IDLE stage!
-		If  Stage.Current != Stage.IDLE
+		If  Stage.GetCurrent != Stage.IDLE
 			Return
 		End
 		// Guarding ends when paralyis is caused
