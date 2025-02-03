@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Marlon's Garden.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Nizozemska - Marlon's Garden.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.06.21
-// End License Information
+// 
+// version: 25.02.03 VIII
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Libs/Music"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/KickReggieUse"
+#use "Script/Use/Map/WorldMapUse"
 
-#MKL_Version "Star Story - Nizozemska - Marlon's Garden.neil" "21.06.21"
-#MKL_Lic     "Star Story - Nizozemska - Marlon's Garden.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Nizozemska - Marlon's Garden.neil" "21.06.21"
+//#MKL_Lic     "Star Story - Nizozemska - Marlon's Garden.neil" "Phantasar Closed License"
 
 
 group MScript
@@ -55,7 +66,7 @@ group MScript
 		return math.floor(b+0.5)
 	end
 	
-#region Het kan mij niet boeien, dat koeien loeien!
+#region "Het kan mij niet boeien, dat koeien loeien!"
 	Get Int TelKoeien
 		Int ret=0
 		For i=1,6
@@ -108,31 +119,31 @@ group MScript
 		Map.Kill(Tag_Koe,true)
 		CSayF("%s has been permanently removed from the garden",Tag_Koe)
 		CSayF("Cows left: %d",TelKoeien)
-		CheckDiablo()
+		MScript.CheckDiablo()
 	End
 	
 	void NPC_KOE1()
-		Koe("NPC_KOE1")
+		MScript.Koe("NPC_KOE1")
 	end
 	
 	void NPC_KOE2()
-		Koe("NPC_KOE2")
+		MScript.Koe("NPC_KOE2")
 	end
 	
 	void NPC_KOE3()
-		Koe("NPC_KOE3")
+		MScript.Koe("NPC_KOE3")
 	end
 	
 	void NPC_KOE4()
-		Koe("NPC_KOE4")
+		MScript.Koe("NPC_KOE4")
 	end
 	
 	void NPC_KOE5()
-		Koe("NPC_KOE5")
+		MScript.Koe("NPC_KOE5")
 	end
 	
 	void NPC_KOE6()
-		Koe("NPC_KOE6")
+		MScript.Koe("NPC_KOE6")
 	end
 	
 	Void NPC_DIABLO()
@@ -168,7 +179,7 @@ group MScript
 		Map.SetObj("Sue","Texture","GFX/Actors/Sue/Sue.South.jpbf")
 		Map.ObjWalkTo("Sue","SueSpot")
 		MapText("SUE2")
-		GV.GBOOL.NIZOZEMSKA_GARDEN = true
+		GBOOL.NIZOZEMSKA_GARDEN = true
 		Hawk.AllowYsperon=True
 		Party.GiveEXP(9000 div __skill)
 		__hawk = "BACK2YSPERON"
@@ -203,19 +214,20 @@ group MScript
 	
 	Void Load()
 	End
-	
-	CONSTRUCTOR
-		Map.AllowQuitSave=false
-		if GV.GBOOL.NIZOZEMSKA_GARDEN
-			MMusic = "Music/Garden/Ranz des Vaches.ogg"
-			ZA.Enter("Exit",Bye)
-		else
-			CSay("Ready to kick some cow?")
-			MMusic = "Music/Garden/River Valley Breakdown.ogg"
-			Map.HideObj("NPC_DIABLO")
-			ZA.Enter("Welcome","Welcome")
-			CheckDiablo()
-		end
-	End
 
-end
+End	
+	
+INIT
+	Map.AllowQuitSave=false
+	If GBOOL.NIZOZEMSKA_GARDEN
+		MScript.MMusic = "Music/Garden/Ranz des Vaches.ogg"
+		ZA.Enter("Exit","Bye")
+	Else
+		CSay("Ready to kick some cow?")
+		MScript.MMusic = "Music/Garden/River Valley Breakdown.ogg"
+		Map.HideObj("NPC_DIABLO")
+		ZA.Enter("Welcome","Welcome")
+		MScript.CheckDiablo()
+	End
+End
+
