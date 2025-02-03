@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Nizozemska - Belioss.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Nizozemska - Belioss.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,12 +33,19 @@
 // 
 // **********************************************
 // 
-// version: 21.04.10
-// End License Information
+// 
+// version: 25.02.03
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/Save1970"
-#use "Script/Use/Map/Worldmap"
+#use "Script/Use/Misc/Save1970u"
+#use "Script/Use/Map/WorldmapUse"
 
 #MKL_Version "Star Story - Nizozemska - Belioss.neil" "21.04.10"
 #MKL_Lic     "Star Story - Nizozemska - Belioss.neil" "Phantasar Closed License"
@@ -110,15 +118,15 @@ group MScript
 	
 	Void Load()
 	End
-	
-	CONSTRUCTOR
-		ZA.TabEnter{"To6","To4","SideQuest","Complete"}
-		For i=1,4
-			ZA.Enter("Base"..i,"HSecret")
-			If i<=2
-				ZA.Enter("Secret"..i,"SSecret")
-			End
+End
+
+Init
+	ZA.TabEnter{"To6","To4","SideQuest","Complete"}
+	For i=1,4
+		ZA.Enter("Base"..i,"HSecret")
+		If i<=2
+			ZA.Enter("Secret"..i,"SSecret")
 		End
 	End
+End
 
-end
