@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.03
+// 	  Version: 25.02.04 VII
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -122,6 +122,8 @@ class Combat_Foe extends Combat_Fighter
 		return sprintf("FOE_%d",Idx)
 	end
 
+	int stretchx = 0
+	int stretchy = 0
 	
 	get string ImgFile
 		if ! Zelf.RawData
@@ -129,12 +131,18 @@ class Combat_Foe extends Combat_Fighter
 		end
 		// Cultist texture change
 		LocExtern Sex "Cultist_Sex_Static_Table"
+		//LocExtern Crd "Card_From_House_Of_Cards_Table"
 		Sex = Sex || NewArray("Male","Female")
 		switch Upper(RawData.ImageFile)
 			case "*CULTIST"
 				return "GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[math.random(0,len(Sex)-1)]..".png"
 			case "*CULTISTLEADER"
 				return "GFX/Combat/Fighters/Foe/Reg/Cultist Leader "..Sex[math.random(0,len(Sex)-1)]..".png"
+			case "*CARD"
+				table KaartKleur = NewArray("H","C","D","S")
+				Zelf.stretchx=70
+				Zelf.stretchy=100
+				return sprintf("GFX/Combat/Foe/Reg/PlayingCard/%s%d.png",KaartKleur[math.random(0,3)],math.random(1,13))
 			default
 				return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 		end
@@ -185,14 +193,16 @@ class Combat_Foe extends Combat_Fighter
 			// needless crash prevention. It should NOT be possible this scenario is ever true
 			return false
 		end
-		int HW := Img.Width div 2
-		bool ret := events.MouseY<Y && events.MouseY>Y-(Img.Height) && Events.MouseX>X-HW && Events.MouseX<X+HW
+		//int HW := Img.Width div 2
+		//bool ret := events.MouseY<Y && events.MouseY>Y-(Img.Height) && Events.MouseX>X-HW && Events.MouseX<X+HW
+		int HW  := zelf.W div 2
+		bool ret := events.MouseY<Y && events.MouseY>Y-(Zelf.H) && Events.MouseX>X-HW && Events.MouseX<X+HW
 		//CSayF("%s: Mouse(%d,%d) within (%d,%d) and (%d,%d) => %s",Tag,Events.MouseX(),Events.MouseY(),X-HW,Y-img.H,X+HW,Y,tostring(ret))
 		return ret
 	end
 	
 	get int W
-		return Img.Width
+		return Ternary(zelf.stretchx!=0,zelf.stretchx,Img.Width)
 	end
 	
 	get Int Width
@@ -200,7 +210,7 @@ class Combat_Foe extends Combat_Fighter
 	end
 	
 	Get Int H
-		return Img.Height
+		return Ternary(zelf.stretchy!=0,zelf.stretchy,Img.Height)
 	end
 	
 	Get Int Height
@@ -379,13 +389,20 @@ class Combat_Foe extends Combat_Fighter
 		// Circle = Placeholder for debugging
 		// Graphics.Circle(X,Y,32)
 		Self.CheckKilled()
-		Graphics.Scale(scale,scale)
-		if Negger && ( (Sys.Ticks div 250) % 2) == 1
-			NegImg.Draw(X,Y)
+		if stretchx!=0 && stretchy!=0
+			int _dw:=math.ceil(stretchx*scale)
+			int _dh:=math.ceil(stretchy*scale)
+			_df:=Ternary(Negger && ( (Sys.Ticks div 250) % 2)==1,NegImg,Img)
+			_df.Stretch(X-(_dw div 2),y-_dh,_dw,_dh)
 		else
-			Img.Draw(X,Y)
+			Graphics.Scale(scale,scale)
+			if Negger && ( (Sys.Ticks div 250) % 2) == 1
+				NegImg.Draw(X,Y)
+			else
+				Img.Draw(X,Y)
+			end
+			Graphics.Scale(1,1)
 		end
-		Graphics.Scale(1,1)
 		self.HurtShow()
 	end
 	
@@ -583,7 +600,11 @@ class Combat_Foe extends Combat_Fighter
 		self.HurtLijst = New TLinkedList()
 		AI_Actions = {}
 		for A in Each(RawData.Acts)
-			if lvl>=RawData.ActMinLevel[A]
+			if !RawData.ActMinLevel[A]
+				CSayF("Warning! Action '%s' has a nil value!\007",A)
+			elif !lvl
+				Lua.error(sprintf("Creating foe '%s' but it appears to have a nil value for a level!",F))
+			elif lvl>=RawData.ActMinLevel[A]
 				AI_Actions += A
 			end
 		end
