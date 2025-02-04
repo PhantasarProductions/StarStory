@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.04 XXXI
+// version: 25.02.04 XLII
 // 
 // End License
 Script
@@ -47,6 +47,8 @@ Script
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 #macro sspref "Warp_Scyndi_"
 #macro spole "ScyndiPole_"
@@ -143,6 +145,35 @@ Global Void HideCrack_Switch()
 	End
 End
 
+Global Void Queen()	 
+	BreakLabel = "Crack_Hartenvrouw"
+	if !gbool["HOC_Crack_"..BreakLabel]
+		Kthura.HideByLabel(BreakLabel)
+	End
+End
+
+Global Void ZA_Hartenvrouw()
+	if Done.Hartenvrouw_heeft_de_onthoofding_van_de_helden_reeds_bevolen
+		return
+	end
+	for i=1,6
+		printf("%d",i)
+		_cht:=RPGChar[i]
+		printf(">%s\n",_cht)
+		if _cht!=""
+			_chp:=RPGPureChar[_cht].Points
+			_chp.HP.Have=1
+			_chp.AP.Have=0
+			_chp.EXP.Have=0
+			if __skill<3
+				_chp.EXP.Maximum -= (_chp.EXP.Maximum div 10)
+			end
+		end
+	end
+	Map.Schedule("MSG:Off with their heads!")
+End
+
+
 Global Void NPC_BreakWall()
 	MapText("BREAK_"..Map.Leader)
 	If Upper(Map.Leader)=="CRYSTAL" || Upper(Map.Leader)=="EXHURU"
@@ -151,6 +182,7 @@ Global Void NPC_BreakWall()
 		End
 		Party.GiveEXP(5000 div __skill)
 		Kthura.ShowByLabel(BreakLabel)
+		gbool["HOC_Crack_"..BreakLabel] = true
 		If Kthura.CurrentLayer=="#008"
 			Kthura.Obj.Warp_Scyndi_Switch.Y=960
 		End
@@ -164,6 +196,8 @@ Global Void ZA_CheckBoss()
 	End
 End
 
+
+
 Init
 	Load = HelemaalNiks
 	Draw = HelemaalNiks
@@ -171,5 +205,5 @@ Init
 	For _,k in pairs{"Back","CX","CXI","CIX","CXII","CXIII","Terug","CXIV","CXV","CXVI","CXIX","CXX","CXXI","CXXII","CXVII","CXVIII","CXXIV","CXXIII","CXXV","CXXVI","CXXVIII","CXXVII","Switch","CXXX","CXXIX","CXXXI","CXXXII"}
 		InitWarp(k)
 	End
-	ZA.TabEnter{"HideCrack_Switch","ZA_CheckBoss"}
+	ZA.TabEnter{"HideCrack_Switch","ZA_CheckBoss","Queen","ZA_Hartenvrouw"}
 End
