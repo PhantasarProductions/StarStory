@@ -1,0 +1,175 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Medals - House Of Cards.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.04 XXXI
+// 
+// End License
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#macro sspref "Warp_Scyndi_"
+#macro spole "ScyndiPole_"
+
+Const Int lspref = len(sspref)
+Const Int lpole = len(spole)
+Const Var Beam = Audio.LoadNew("Audio/SFX/Transporter/Beam.wav","HOC_BeamSound")
+
+String BreakLabel = ""
+
+
+Void HelemaalNiks()
+End
+Global Delegate Load
+Global Delegate Draw
+Global Delegate Update
+
+QuickMeta MScript
+	index Key
+		if Prefixed(Upper(Key),Upper(sspref))
+			tgt:=spole..Right(key,len(key)-lspref)
+			Player.StopWalking()
+			Player.Relocate(tgt)
+			Beam.Play()
+			Return HelemaalNiks
+		end
+		return Lua.Scyndi.Globals[key]
+	end
+end
+
+Void InitWarp(String A)
+	CSayF("Scynd's Warp spot: %s",A)
+	blah:="Warp_Scyndi_"..A
+	ZA.Enter(blah,blah)
+End
+
+Global Void NPC_OpenDoor()
+	If Done[sprintf("House_Of_Cards_Door_Layer_%s",Kthura.CurrentLayer)]
+		locExtern cnt "Scyndi.Globals.gint[Scyndi.Globals.sprintf('House_Of_Cards_Door_Layer_%s_count',Kthura.CurrentLayer)]"		
+		cnt++
+		switch cnt
+			case 0 1
+				Schedule.Add("MSG:The lever appears to be stuck")
+			case 2
+				Schedule.Add("MSG:No really this lever is stuck!")
+			case 3
+				Schedule.Add("MSG:Why do you persist on pulling this lever?")
+			case 4
+				Schedule.Add("MSG:Wrong leveeeeeeeerrrrrrrrr!")
+			case 5
+				Schedule.Add("MSG:Why do we even have that lever?")
+			case 6
+				Schedule.Add("MSG:How many times are you gonna try this lever?")
+			case 7
+				Schedule.Add("MSG:You're bored aren't ya?")
+				Schedule.Add("MSG:Well, why don't you in stead continue this game then?")
+				Schedule.Add("MSG:Must be by far more exciting than trying a lever over and over!")
+			case 8
+				Schedule.Add("MSG:Oh wait another door opens....")
+				Schedule.Add("MSG:(of course not, just kidding!)")
+			case 9
+				Schedule.Add("MSG:The")
+				Schedule.Add("MSG:lever")
+				Schedule.Add("MSG:appears")
+				Schedule.Add("MSG:to")
+				Schedule.Add("MSG:be")
+				Schedule.Add("MSG:stuck")
+			case 10
+				Schedule.Add("MSG:I give up!")
+			case 11
+				MapText("MORON")
+			default
+				Schedule.Add("MSG:Out of message error!")
+		end
+	else
+		Schedule.Add("MSG:You hear a door opening somewhere on this floor!")
+		Map.Kill("Door",true)
+		Party.GiveEXP(15000 div __skill)
+		Kthura.Obj.NPC_OpenDoor.Texture="GFX/TEXTURES/SWITCH/Right.png"
+	end
+end
+
+Global Void NPC_Save()
+	If !Done.Saved_In_House_Of_Cards
+		Party.GiveEXP(5000 div __skill)
+	End
+	MSave.ToSave()
+End
+
+Global Void HideCrack_Switch()	 
+	BreakLabel = "Crack_Switch"
+	if !gbool["HOC_Crack_"..BreakLabel]
+		Kthura.HideByLabel(BreakLabel)
+	End
+End
+
+Global Void NPC_BreakWall()
+	MapText("BREAK_"..Map.Leader)
+	If Upper(Map.Leader)=="CRYSTAL" || Upper(Map.Leader)=="EXHURU"
+		For _,K in pairs{"Crack","Cracked","NPC_BreakWall"}
+			Map.Kill(K,true)
+		End
+		Party.GiveEXP(5000 div __skill)
+		Kthura.ShowByLabel(BreakLabel)
+		If Kthura.CurrentLayer=="#008"
+			Kthura.Obj.Warp_Scyndi_Switch.Y=960
+		End
+	End
+End
+
+Global Void ZA_CheckBoss()
+	If !gbool.Boss_HouseOfCards
+		Kthura.HideByLabel("Post_Boss")
+		CSay("Boss not yet defeated so hide the post boss stuff")
+	End
+End
+
+Init
+	Load = HelemaalNiks
+	Draw = HelemaalNiks
+	Update = HelemaalNiks
+	For _,k in pairs{"Back","CX","CXI","CIX","CXII","CXIII","Terug","CXIV","CXV","CXVI","CXIX","CXX","CXXI","CXXII","CXVII","CXVIII","CXXIV","CXXIII","CXXV","CXXVI","CXXVIII","CXXVII","Switch","CXXX","CXXIX","CXXXI","CXXXII"}
+		InitWarp(k)
+	End
+	ZA.TabEnter{"HideCrack_Switch","ZA_CheckBoss"}
+End
