@@ -1,0 +1,141 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_Quake2.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.05
+// 
+// End License
+
+Module
+
+#use "Libs/SCI/Graphics"
+
+#use "Libs/XMath"
+#use "Libs/LinkedList"
+
+Class Rock
+	ReadOnly Int StuiterHoogte
+	ReadOnly Int StuiterBase
+	ReadOnly Int SpeedX
+	ReadOnly Int SpeedStuiter
+	ReadOnly Int SpeedDeg
+	Int Stuiter
+	Int _Deg
+	Int _X
+	
+	Get Int X
+		_X += SpeedX
+		Return _X
+	End
+	
+	Get Int Y
+		Stuiter += SpeedStuiter
+		return Graphics.H - 100 - StuiterBase - math.floor( math.abs(xmath.sin(Stuiter)) * StuiterHoogte)
+	End
+	
+	Get Int Deg
+		_Deg += SpeedDeg
+		Return _Deg
+	End
+	
+	Get Bool Ended
+		If SpeedX<0
+			Return _X<-50
+		Else
+			Return X>Graphics.W+50
+		End
+	End
+	
+	Constructor()
+		StuiterBase = math.random(5,Graphics.H Div 5)
+		StuiterHoogte = math.random(Graphics.H Div 10,Graphics.H Div 2)
+		SpeedX = math.random(5,150)
+		SpeedStuiter = math.random(1,8)
+		SpeedDeg = math.random(1,3)
+		If math.random(1,2)==1
+			SpeedX = 0-SpeedX
+			_X = Graphics.W + 20
+		Else
+			_X = -20
+		End
+	End
+	
+	ReadOnly Static Var Lijst = New TLinkedList()
+	Static Void Initiate()
+		Int A = Math.random(25,500)
+		For I=0,A
+			Lijst.AddLast(New Rock())
+		End
+	End
+	
+	ReadOnly Static Var Img = LoadNewImage("GFX/Inventory/Rock.png","SPELLANI_ROCK")
+	
+	Void Draw()
+		Img.Draw(X,Y)
+	End
+	
+	Static Void DrawAll()
+		For R,L in Lijst.Each
+			R.Draw()
+			If R.Ended
+				L.UnLink()
+			ENd
+		End
+	End
+	
+	Static Get Bool AllDone
+		Return Lijst.Empty
+	End
+	
+End
+
+
+//Module
+	Void Start()
+		Rock.Initiate()
+	End
+	
+	Void Draw()
+		Rock.DrawAll()
+	End
+	
+	Void Update()
+	End
+	
+	Get Bool Ended
+		Return Rock.AllDone
+	End
+	
+//End
