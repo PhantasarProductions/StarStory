@@ -1,7 +1,7 @@
 # License:
 # 	  src/Script/Database/Star Story - Achievements.mydata
 # 
-# 	  Version: 25.01.23
+# 	  Version: 25.02.05
 # 	
 # 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 # 	
@@ -101,6 +101,12 @@ Type=Bronze
 # Also adding comments here is pretty senseless!
 # Data last generated 15/4/2021
 
+
+Rec: MEDALS_HOUSE
+	Title = The House Of Cards is about to fall
+	Description = Complete the House Of Cards
+	Show = Achieved
+	Type = Gold
 
 Rec: ALLABL_CRYSTAL
 	Description = Collect all of Crystal's special arrows for her bionic arm

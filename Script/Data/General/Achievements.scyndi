@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.24 I
+// version: 25.02.05
 // 
 // End License
 
@@ -61,6 +61,17 @@ class MyData_MyDataClass_20263185fe9f4a362e2cbf45b551861f_1e9dc4fd33f29e3cd70f49
 end
 
 Init
+
+do
+	var ret = new MyData_MyDataClass_20263185fe9f4a362e2cbf45b551861f_1e9dc4fd33f29e3cd70f49a074169ce3()
+	retbase.MEDALS_HOUSE=ret
+	ret.Title = "The House Of Cards is about to fall"
+	ret.Description = "Complete the House Of Cards"
+	ret.Show = "Achieved"
+	ret.Icon = "*DEFAULT*"
+	ret.Type = "Gold"
+end
+
 // Record: ALLABL_CRYSTAL
 do
 	var ret = new MyData_MyDataClass_20263185fe9f4a362e2cbf45b551861f_1e9dc4fd33f29e3cd70f49a074169ce3()
