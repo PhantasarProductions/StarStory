@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.05 II
+// version: 25.02.05 IV
 // 
 // End License
 Script
@@ -210,6 +210,11 @@ Global Void NPC_Joker()
 	Kthura.ShowByLabel("Post_Boss")
 End
 
+Global Void Go_Top()
+	Map.GoToLayer("TOP","Start")
+	Ach.Award("MEDALS_HOUSE")
+End
+
 Init
 	Load = HelemaalNiks
 	Draw = HelemaalNiks
@@ -217,5 +222,5 @@ Init
 	For _,k in pairs{"Back","CX","CXI","CIX","CXII","CXIII","Terug","CXIV","CXV","CXVI","CXIX","CXX","CXXI","CXXII","CXVII","CXVIII","CXXIV","CXXIII","CXXV","CXXVI","CXXVIII","CXXVII","Switch","CXXX","CXXIX","CXXXI","CXXXII"}
 		InitWarp(k)
 	End
-	ZA.TabEnter{"HideCrack_Switch","ZA_CheckBoss","Queen","ZA_Hartenvrouw"}
+	ZA.TabEnter{"HideCrack_Switch","ZA_CheckBoss","Queen","ZA_Hartenvrouw","Go_Top"}
 End
