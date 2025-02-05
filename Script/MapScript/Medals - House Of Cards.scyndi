@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.04 XLII
+// version: 25.02.05 II
 // 
 // End License
 Script
@@ -196,7 +196,19 @@ Global Void ZA_CheckBoss()
 	End
 End
 
-
+Global Void NPC_Joker()
+	gbool.Boss_HouseOfCards = true
+	StartCombat.Prepare()
+	StartCombat.Foe("Boss/Joker",math.min(10000,RPGPureChar.Crystal.Stat.Level+10))
+	StartCombat.Tune = "Music/Combat/SpecialBoss/Walkuren.wav"
+	StartCombat.Boss = True
+	StartCombat.Arena = "House Of Cards.png"	
+	StartCombat.Begin()	
+	Map.Kill("BossWall",true)
+	Map.Kill("NPC_Joker",true)
+	Map.Kill("ZA_CheckBoss",true)
+	Kthura.ShowByLabel("Post_Boss")
+End
 
 Init
 	Load = HelemaalNiks
