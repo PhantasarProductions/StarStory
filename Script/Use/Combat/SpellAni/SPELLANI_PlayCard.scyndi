@@ -1,0 +1,187 @@
+// License:
+// 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_PlayCard.scyndi
+// 
+// 	  Version: 25.02.05 XVII
+// 	
+// 	  Copyright (C) 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+module 
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+ReadOnly Var Suits = NewArray("H","C","D","S")
+ReadOnly Var Back = LoadNewImage("GFX/Combat/SpellAni/Card/Backside.png","House_Of_Cards_Joker_Back")
+ReadOnly Var _Aces = {}
+	
+QuickMeta Ace
+	newindex
+		Lua.error("Ace is read-only!")
+	end
+	
+	index
+		k:=ternary(lua.type(key)=="number",Suits[key],key)
+		_Aces[k] = _Aces[k] || LoadNewImage(sprintf("GFX/Combat/Foe/Reg/PlayingCard/%s1.png",k),"House_Of_Cards_Joker_"..k)
+		return _Aces[k]
+	end
+end
+
+#macro St_Back 0
+#macro St_Pre_Reveal 1
+#macro St_Reveal 2
+#macro St_Bye 3
+
+#macro _cw 500
+#macro _ch 720
+#macro _cgy 10
+
+#macro kl_Harten 0
+#macro kl_Klaver 1
+#macro kl_Ruiten 2
+#macro kl_Schoppen 3
+
+
+ReadOnly Int cx = (Graphics.W div 2) - (_cw div 2)
+Int cy
+int cst
+number csc
+Int ckleur
+bool rdone
+int rtime
+	
+	
+void Start(aact)
+	cy = Graphics.H+200
+	csc = 1
+	cst = St_Back
+	ckleur = math.random(0,3)
+	rdone = false
+	rtime = 325
+end
+	
+	
+void Draw()
+	locExtern CC "Scyndi.Class.Combat_Fighter.Fighters[Ch]"
+	// Stage check
+	switch cst
+		case St_Back
+			cy -= math.max(1,cy div 5)
+			if cy<=_cgy
+				cst++
+			end
+			Back.Stretch(cx,cy,_cw,_ch)
+		case St_Pre_Reveal
+			csc-=.05
+			if csc<=0
+				cst++
+			else
+				ctw:=(_cw*csc)
+				ctx:=math.ceil((Graphics.W div 2) - (ctw div 2))
+				Back.Stretch(ctx,cy,ctw,_ch)
+			end
+		case st_Reveal
+			csc=math.min(1,csc+.05)			
+			ctw:=(_cw*csc)
+			ctx:=math.ceil((Graphics.W div 2) - (ctw div 2))
+			//Back.Stretch(ctx,cy,ctx,_ch)			
+			Ace[ckleur].Stretch(ctx,cy,ctw,_ch)
+			For i=0,2
+				Ch:=RPGParty[i]
+				PC:=RPGPureChar[Ch]
+				If CH=="" || PC.Points.HP.Have==0
+					Break
+				End
+				Switch ckleur
+					Case kl_Harten
+						int K := PC.Points.HP.Maximum - PC.Points.HP.Have						
+						PC.Points.HP.Have += math.max(1,K div 5)
+					Case kl_Klaver
+						if !rdone
+							int D:=math.random(PC.Points.HP.Maximum div __skill)
+							CC.Pain(D,"None")
+							rdone=i==2
+						end
+					Case kl_Ruiten
+						If !rdone
+							CC.Pain(Aurina.Rate div __skill,"None")							
+							Aurina.Have++
+							If math.random(1,(10^__skill))==1
+								Aurina.Rate++
+							End
+							rdone=i==2
+						End
+					Case kl_Schoppen
+						If !rdone
+							if math.random(1,100)<=__skill^__skill
+								CC.Hurt("Death",255,0,0,true)
+							end
+							rdone=i==2
+						Else
+							PC.Points.HP.Have = math.max(1,PC.Points.HP.Have-math.max(1,PC.Points.HP.Have div 5))
+						End
+					Default; Lua.error("Unknown suit: "..ckleur)
+				End
+			End
+			if csc>=1
+				rTime--
+			end
+			if rTime<=0
+				cst++
+			End
+		case st_Bye
+			sy:=math.max(1,_cgy-cy)
+			cy-=sy div 5
+		default
+			Lua.error("Unknown card show stage: "..cst)
+	End			
+end
+	
+void Update()
+end
+	
+get bool Ended 
+	return cst>=St_Bye 
+	//&& cy<0-(_ch*2)
+end
+	
