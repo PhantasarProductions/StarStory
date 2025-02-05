@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/Resistance.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.05
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -76,7 +76,7 @@ void NewCharRes(string char)
 		switch k
 			case "DarkHealing"
 				return 0
-			case "Non-Elemental"
+			case "Non-Elemental" "None"
 				return 3			
 			case "Dark" "Earth" "Fire" "Frost" "Healing" "Light" "Lightning" "Water" "Wind"
 				if (char=="UniWendicka" || char=="Wendicka") && (!gBool.WendickaGoddessReleased)
