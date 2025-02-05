@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.04 VII
+// 	  Version: 25.02.05 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -143,6 +143,12 @@ class Combat_Foe extends Combat_Fighter
 				Zelf.stretchx=70
 				Zelf.stretchy=100
 				return sprintf("GFX/Combat/Foe/Reg/PlayingCard/%s%d.png",KaartKleur[math.random(0,3)],math.random(1,13))
+			case "*JOKER"
+				Zelf.AltX=Graphics.W div 4
+				Zelf.AltY=Graphics.H - 140
+				Zelf.stretchx = 204
+				Zelf.stretchy = 300
+				return "GFX/Combat/Fighters/Foe/Boss/Joker.png"
 			default
 				return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 		end
@@ -504,6 +510,7 @@ class Combat_Foe extends Combat_Fighter
 				end
 				Lua.assert(len(A.Targets)>0,"No targetable for foe to do EV-move! WTF is going on here?")
 			default 
+				CSayF("Unknown target type '%s' in action '%s'",A.Act.Target,A.ActTag)
 				Lua.error(self.Tag..".SetTarget(): Unknown Target Type: "..A.Act.Target)
 		end
 	end
