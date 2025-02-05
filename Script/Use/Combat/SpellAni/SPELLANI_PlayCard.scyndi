@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_PlayCard.scyndi
 // 
-// 	  Version: 25.02.05 XVII
+// 	  Version: 25.02.05 XIX
 // 	
 // 	  Copyright (C) 2025 Jeroen Petrus Broks
 // 	
@@ -129,7 +129,7 @@ void Draw()
 			For i=0,2
 				Ch:=RPGParty[i]
 				PC:=RPGPureChar[Ch]
-				If CH=="" || PC.Points.HP.Have==0
+				If CH=="" || (PC.Points.HP.Have==0 && ckleur!=0)
 					Break
 				End
 				Switch ckleur
@@ -170,8 +170,9 @@ void Draw()
 				cst++
 			End
 		case st_Bye
-			sy:=math.max(1,_cgy-cy)
+			sy:=math.abs(math.max(1,_cgy-cy))
 			cy-=sy div 5
+			Ace[ckleur].Stretch(cx,cy,_cw,_ch)
 		default
 			Lua.error("Unknown card show stage: "..cst)
 	End			
@@ -181,7 +182,6 @@ void Update()
 end
 	
 get bool Ended 
-	return cst>=St_Bye 
-	//&& cy<0-(_ch*2)
+	return cst>=St_Bye && cy<0-(_ch*2)
 end
 	
