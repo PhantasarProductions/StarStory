@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.30 XVII
+// version: 25.02.06
 // 
 // End License
 
@@ -443,7 +443,7 @@ group MScript
 	End
 	
 	Void Boss_ExHuRU()
-		Kthura.KillAutoVisible()
+		//Kthura.KillAutoVisible()
 		PPop.Pop("Ex","North")
 		MapText("EXHURU1")
 		Map.Spawn("BSEX","SpotExHuRU")
@@ -462,7 +462,7 @@ group MScript
 		End
 		MapText("EXHURU2")
 		Schedule.Add("Terminated")
-		Kthura.SetAutoVisible()
+		//Kthura.SetAutoVisible()
 		StartCombat.Prepare()
 		StartCombat.Foe("Boss/ExHuRU",RPGChar.Rolf.Stats.Level)
 		StartCombat.Tune = "Music/Combat/SpecialBoss/ExHuRU.ogg"
