@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Party.scyndi
 // 
-// 	  Version: 25.01.23 III
+// 	  Version: 25.02.06
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -111,7 +111,8 @@ bool BxsL = false
 	
 	void GrabLevel(string char,int level)
 		LoadPartySub()
-		State.Call("PARTY","SubParty.GrabLevel",sprintf("\"%s\",%d",char,level))
+		//State.Call("PARTY","SubParty.GrabLevel",sprintf("\"%s\",%d",char,level))
+		State.Call("PARTY","SubParty.GrabLevel",char,level)
 	end
 	
 	void ReloadARMS()
