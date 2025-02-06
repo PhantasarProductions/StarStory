@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellEffect/Summon_Bef.Neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellEffect/EFFECT_Summon_Bef.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,22 @@
 // 
 // **********************************************
 // 
-// version: 21.04.23
-// End License Information
-bool Mier_Oproep()
+// 
+// version: 25.02.06 III
+// 
+// End License
+
+
+
+
+Module
+
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+bool DoEffect()
+	locExtern Combat_Foe "Scyndi.Class.Combat_Foe"
 	Combat_Foe.AddFoe("Reg/PhanUndeadKid_Befindo",math.random(__skill*3,math.max(10,Map.Level+(__skill*5)-4)))
 	return true
 end
-return Mier_Oproep
