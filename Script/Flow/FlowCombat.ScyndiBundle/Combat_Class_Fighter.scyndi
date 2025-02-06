@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_Fighter.scyndi
 // 
-// 	  Version: 25.01.29 I
+// 	  Version: 25.02.06
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -161,7 +161,7 @@ class Combat_Fighter
 	string HurtBig(int _hp)
 		if _hp>15000000
 			return sprintf("%dM",round(_hp/1000000))
-		elseif hp>25000
+		elseif _hp>25000
 			return sprintf("%dK",round(_hp/1000))
 		else
 			return sprintf("%d",_hp)
