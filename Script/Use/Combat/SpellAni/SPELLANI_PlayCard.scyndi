@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_PlayCard.scyndi
 // 
-// 	  Version: 25.02.05 XIX
+// 	  Version: 25.02.06
 // 	
 // 	  Copyright (C) 2025 Jeroen Petrus Broks
 // 	
@@ -170,8 +170,8 @@ void Draw()
 				cst++
 			End
 		case st_Bye
-			sy:=math.abs(math.max(1,_cgy-cy))
-			cy-=sy div 5
+			sy:=math.max(1,math.abs(_cgy-cy))
+			cy-=math.max(1,sy div 5)
 			Ace[ckleur].Stretch(cx,cy,_cw,_ch)
 		default
 			Lua.error("Unknown card show stage: "..cst)

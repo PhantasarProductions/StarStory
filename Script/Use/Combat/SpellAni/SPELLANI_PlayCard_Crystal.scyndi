@@ -34,12 +34,13 @@
 // **********************************************
 // 
 // 
-// version: 25.02.06
+// version: 25.02.06 V
 // 
 // End License
 
 module 
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
@@ -94,6 +95,7 @@ void Start(aact)
 	ckleur = math.random(0,3)
 	rdone = false
 	rtime = 325
+	CSayF("%s aas",({[0]="Harten","Klaver","Ruiten","Schoppen"})[ckleur])
 end
 	
 	
@@ -138,13 +140,14 @@ void Draw()
 						end
 					Case kl_Klaver
 						if (!rdone) && (Cd.Team=="Foe")
-							int D:=math.random(PC.Points.HP.Maximum div __skill)
-							CC.Pain(D,"None")
+							//int D:=math.random(PC.Points.HP.Maximum div __skill)
+							D:=Cd.MaxHP div __skill
+							Cd.Pain(D,"None")
 							//rdone=i==2
 						end
 					Case kl_Ruiten
 						If !rdone && (Cd.Team=="Foe")
-							CC.Pain(Aurina.Rate div __skill,"None")
+							Cd.Pain(Aurina.Rate div __skill,"None")
 							If math.random(1,(10*__skill))==1
 								Aurina.Have++
 								If math.random(1,(20^__skill))==1
@@ -175,8 +178,8 @@ void Draw()
 				cst++
 			End
 		case st_Bye
-			sy:=math.abs(math.max(1,_cgy-cy))
-			cy-=sy div 5
+			sy:=math.max(1,math.abs(_cgy-cy))
+			cy-=math.max(sy div 5,1)
 			Ace[ckleur].Stretch(cx,cy,_cw,_ch)
 		default
 			Lua.error("Unknown card show stage: "..cst)
