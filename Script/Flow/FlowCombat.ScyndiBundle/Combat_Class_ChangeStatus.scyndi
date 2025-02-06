@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_ChangeStatus.scyndi
 // 
-// 	  Version: 25.02.03 IV
+// 	  Version: 25.02.06
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -128,11 +128,13 @@ Class CSC_Paralysis Extends Combat_StatusChanges
 		Bool c = False
 		Switch  tar.Team
 			Case "Hero"
-				c = math.random(0,__skill*10000) == 1					
+				c = math.random(0,__skill*10000) == 1	
+				c = c || (__skill!=3) && tar.Gauge<25
 			Case "Foe"
 				c = math.random(0,30000 div __skill) == 1
+				c = c || (__skill!=1) && tar.Gauge<25
 			Default
-				Lua.error("??? Paralyse chech oddity")
+				Lua.error("??? Paralyse check oddity")
 		End
 		If  c
 			CSayF("Target %s is no longer paralyzed!",tar.Tag)
