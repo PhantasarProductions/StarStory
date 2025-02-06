@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Ghost House.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Phantasar - Ghost House.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,27 @@
 // 
 // **********************************************
 // 
-// version: 21.04.23
-// End License Information
+// 
+// version: 25.02.06 VIII
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/WorldMapUse"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Ghost House.neil" "21.04.23"
-#MKL_Lic     "Star Story - Phantasar - Ghost House.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Phantasar - Ghost House.neil" "21.04.23"
+//#MKL_Lic     "Star Story - Phantasar - Ghost House.neil" "Phantasar Closed License"
 
-void GreenSave()
+Void GreenSave()
 	Party.Recover()
 	MSave.ToSave()
 End
@@ -50,27 +61,27 @@ End
 group TrueMapScript
 
 #region Save Spots
-	readonly delegate NPC_SAVE_GREEN1 = GreenSave
-	readonly delegate NPC_SAVE_GREEN2 = GreenSave
+	//readonly delegate NPC_SAVE_GREEN1 = GreenSave
+	//readonly delegate NPC_SAVE_GREEN2 = GreenSave
 	//readonly delegate NPC_GREEN_3 = GreenSave
 #endregion
 
-#region Script
+#region "Script"
 	Void ByeBye()
 		WorldMap("Phantasar")
 	End
 	
 	Get Bool BackSolved
-		return gv.gbool["Phantasar_GhostHouse_"..Map.Layer]
+		return gbool["Phantasar_GhostHouse_"..Map.Layer]
 	End
 	
 	Set Bool BackSolved
-		gv.gbool["Phantasar_GhostHouse_"..Map.Layer] = value
+		gbool["Phantasar_GhostHouse_"..Map.Layer] = value
 	End
 	
 	Void Back()
-		If !BackSolved
-			String L = Map.Leader:upper()
+		If !TrueMapScript.BackSolved
+			String L = Upper(Map.Leader)
 			Map.GoToLayer(Map.Layer,"Start")
 			//Player.StopWalking()
 			//Player.Reloc("Start")
@@ -86,7 +97,8 @@ group TrueMapScript
 		Party.GiveEXP(1000)
 		Map.Kill("Plate2Open",true)
 		Map.Kill("BlockNext",true)
-		Audio.LoadNew("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","PSOLVED").Play()
+		//Audio.LoadNew("Audio/Raw/145434__soughtaftersounds__old-music-box-1.ogg","PSOLVED").Play()
+		Audio.LoadNew("Audio/SFX/MBox1.ogg","PSOLVED").Play()
 	End
 		
 	Void NPC_SAVE_GREEN()
@@ -107,7 +119,7 @@ group TrueMapScript
 		Map.Kill("NPC_Marrilona")
 		Map.Kill("NPC_Myrah")
 		PPop.UnPop()
-		gv.gBool.Completed_GhostHouse = true
+		gBool.Completed_GhostHouse = true
 	End
 	
 	Void NPC_Marrilona()
@@ -137,26 +149,30 @@ group TrueMapScript
 	Void Load()
 	End
 #endregion
-
-	CONSTRUCTOR
-		ZA.TabEnter{"Back","Byebye","Plate2Open","THE_END","Oprotten"}
-		for i=1,40
-			ZA.Enter("Back"..i,"Back")
-			ZA.Enter("RMBack"..i,"RMBack"..i)
-		end
-		Phan_Encounter.SetUp{"#000","#005","#010","#011","#012"}
-	End
-
 end
+	
+Init
+	ZA.TabEnter{"Back","Byebye","Plate2Open","THE_END","Oprotten"}
+	for i=1,40
+		ZA.Enter("Back"..i,"Back")
+		ZA.Enter("RMBack"..i,"RMBack"..i)
+	end
+	Phan_Encounter.SetUp{"#000","#005","#010","#011","#012"}
+End
+
+
 
 QuickMeta MScript
 	Index
-		If Prefixed(key:upper(),"BACK")
+		If Prefixed(upper(key),"NPC_SAVE_GREEN")
+			return GreenSave
+		ElIf Prefixed(upper(key),"BACK")
 			return TrueMapScript.Back
-		ElseIf Prefixed(key:upper(),"RMBACK")
-			void ret()
+		ElseIf Prefixed(upper(key),"RMBACK")
+			//void ret()
+			ddef ret
 				static table Removed = {}
-				string tag = Right(key,#key-2)
+				string tag = Right(key,len(key)-2)
 				if !Removed[tag]
 					Map.Kill(tag)
 					Removed[tag] = true
