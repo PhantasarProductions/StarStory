@@ -1,0 +1,190 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_PlayCard_Crystal.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.05
+// 
+// End License
+
+module 
+
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
+
+ReadOnly Var Suits = NewArray("H","C","D","S")
+ReadOnly Var Back = LoadNewImage("GFX/Combat/SpellAni/Card/Backside.png","House_Of_Cards_Joker_Back")
+ReadOnly Var _Aces = {}
+	
+QuickMeta Ace
+	newindex
+		Lua.error("Ace is read-only!")
+	end
+	
+	index
+		k:=ternary(lua.type(key)=="number",Suits[key],key)
+		_Aces[k] = _Aces[k] || LoadNewImage(sprintf("GFX/Combat/Foe/Reg/PlayingCard/%s1.png",k),"House_Of_Cards_Joker_"..k)
+		return _Aces[k]
+	end
+end
+
+#macro St_Back 0
+#macro St_Pre_Reveal 1
+#macro St_Reveal 2
+#macro St_Bye 3
+
+#macro _cw 500
+#macro _ch 720
+#macro _cgy 10
+
+#macro kl_Harten 0
+#macro kl_Klaver 1
+#macro kl_Ruiten 2
+#macro kl_Schoppen 3
+
+
+ReadOnly Int cx = (Graphics.W div 2) - (_cw div 2)
+Int cy
+int cst
+number csc
+Int ckleur
+bool rdone
+int rtime
+	
+	
+void Start(aact)
+	cy = Graphics.H+200
+	csc = 1
+	cst = St_Back
+	ckleur = math.random(0,3)
+	rdone = false
+	rtime = 325
+end
+	
+	
+void Draw()
+	locExtern CC "Scyndi.Class.Combat_Fighter.Fighters[Ch]"
+	locExtern CF "Scyndi.Class.Combat_Fighter.Fighters"
+	// Stage check
+	switch cst
+		case St_Back
+			cy -= math.max(1,cy div 5)
+			if cy<=_cgy
+				cst++
+			end
+			Back.Stretch(cx,cy,_cw,_ch)
+		case St_Pre_Reveal
+			csc-=.05
+			if csc<=0
+				cst++
+			else
+				ctw:=(_cw*csc)
+				ctx:=math.ceil((Graphics.W div 2) - (ctw div 2))
+				Back.Stretch(ctx,cy,ctw,_ch)
+			end
+		case st_Reveal
+			csc=math.min(1,csc+.05)			
+			ctw:=(_cw*csc)
+			ctx:=math.ceil((Graphics.W div 2) - (ctw div 2))
+			//Back.Stretch(ctx,cy,ctx,_ch)			
+			Ace[ckleur].Stretch(ctx,cy,ctw,_ch)
+			//For i=0,2
+			//	Ch:=RPGParty[i]
+			For Ch,Cd in pairs(CF)
+				PC:=RPGPureChar[Ch]
+				If CH=="" || (PC.Points.HP.Have==0 && ckleur!=0)
+					Break
+				End
+				Switch ckleur
+					Case kl_Harten
+						if Cd.Team=="Hero" || __skill == 3
+							int K := PC.Points.HP.Maximum - PC.Points.HP.Have						
+							PC.Points.HP.Have += math.max(1,K div 5)
+						end
+					Case kl_Klaver
+						if (!rdone) && (Cd.Team=="Foe")
+							int D:=math.random(PC.Points.HP.Maximum div __skill)
+							CC.Pain(D,"None")
+							//rdone=i==2
+						end
+					Case kl_Ruiten
+						If !rdone && (Cd.Team=="Foe")
+							CC.Pain(Aurina.Rate div __skill,"None")
+							If math.random(1,(10*__skill))==1
+								Aurina.Have++
+								If math.random(1,(20^__skill))==1
+									Aurina.Rate++
+								End
+							end
+							//rdone=i==2
+						End
+					Case kl_Schoppen
+						If (!rdone) && (__skill==3 || Cd.Team=="Foe")
+							if math.random(1,100)<=__skill^__skill
+								CC.Hurt("Death",255,0,0,true)
+							end
+							//rdone=i==2
+						ElIf (__skill==3 || Cd.Team=="Foe")
+							PC.Points.HP.Have = math.max(1,PC.Points.HP.Have-math.max(1,PC.Points.HP.Have div 5))
+						End
+					Default; Lua.error("Unknown suit: "..ckleur)
+				End
+			End
+			rdone=true
+			if csc>=1
+				rTime--
+			end
+			if rTime<=0
+				cst++
+			End
+		case st_Bye
+			sy:=math.abs(math.max(1,_cgy-cy))
+			cy-=sy div 5
+			Ace[ckleur].Stretch(cx,cy,_cw,_ch)
+		default
+			Lua.error("Unknown card show stage: "..cst)
+	End			
+end
+	
+void Update()
+end
+	
+get bool Ended 
+	return cst>=St_Bye && cy<0-(_ch*2)
+end
+	
