@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/AI/ExHuRU.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/AI/AI_ExHuRU.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,53 +33,71 @@
 // 
 // **********************************************
 // 
-// version: 21.04.20
-// End License Information
+// 
+// version: 25.02.06 XI
+// 
+// End License
+
+
 #undef ai_default_debug
 
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
 module
 
-	CONSTRUCTOR
-		int lv = RPGChar.ExHuRU.Stats.Level
+	locextern Combat_Time "Scyndi.Class.Combat_Time"
+
+	Init
+		CSay("Boss ExHuRU's AI and statistics are now fully initized")
+		//int lv = RPGChar.ExHuRU.Stats.Level
+		int lv = RPGChar.Rolf.Stats.Level
+		CSayF("Grabbing level: (%s),%s",Lua.type(lv),lv)
 		Party.GrabLevel("ExHuRU",lv)
-		for s in each({"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion"}) 
-			RPGChar.FOE_0.Link_Stat("ExHuRU","BASE_"..s)
+		CSay("Statistics")
+		for s in each({[0]="Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion"}) 
+			//RPGChar.FOE_0.Link_Stat("ExHuRU","BASE_"..s)
+			CSayF("Setting stat: %s",s)
+			RPGPureChar.Foe_0.Stat[s]=RPGPureChar.ExHuRU.Stat[s]
 		end
-		RPGChar.FOE_0.Stats.BASE_HP=lv*(250)*__skill
-		plua hp = RPGChar.FOE_0.Points.HP
-		hp.Maximum = RPGChar.FOE_0.Stat.BASE_HP
+		CSay("Configuring Hit Points!")
+		RPGPureChar.FOE_0.Stat.HP=lv*(250)*__skill
+		plua hp = RPGPureChar.FOE_0.Points.HP
+		hp.Maximum = RPGPureChar.FOE_0.Stat.HP
 		hp.Have = hp.Maximum
 		Combat_Time.HiSpeed = 0 // Enforce Hi Speed recalculation
 	End
 
 	Void Decide(f)
-		#if ai_default_debug
-		for i,a in ipairs(f.AI_Actions)
-			CSayF("AI: %03d > %s",i,a)
-		end
-		#fi
+		//#if ai_default_debug
+		//for i,a in ipairs(f.AI_Actions)
+		//	CSayF("AI: %03d > %s",i,a)
+		//end
+		//#fi
 		bool WendickaFront = false
-		for i = 1,3
+		for i = 0,2
 			WendickaFront = WendickaFront || RPGParty[i]=="Wendicka"
 		end
 		WendickaFront = WendickaFront && RPGChar.Wendicka.Points.HP.Have>0
 		if WendickaFront
-			int n = math.random(1,#f.AI_Actions)
-			CSayF("Chosen action %d out of %d > ",n,#f.AI_Actions,f.AI_Actions[n])
-			var a = new Class_Action(f.Tag,f.AI_Actions[n])
+			int n := math.random(0,len(f.AI_Actions)-1)
+			CSayF("Chosen action %d out of %d > ",n,Len(f.AI_Actions),f.AI_Actions[n])
+			var a := new Class_Action(f.Tag,f.AI_Actions[n])
 			f.NextAct = a
 			f.NextAct.Targets_Tag[1]="Wendicka"
 			f.NextAct.Targets_Tag[2]=nil
 			//f.SetTarget()
 		else
-			var a = new Class_Action(f.Tag,"ZZZ_TOTALDESTRUCTION")
+			var a := new Class_Action(f.Tag,"ZZZ_TOTALDESTRUCTION")
 			f.NextAct = a
 			// Make sure EVERYBODY is dead!
-			for i,c in ipairs{ "Wendicka", "Crystal", "Yirl", "Foxy", "Xenobi", "Rolf" }
+			for i,c in ipairs{ [0]="Wendicka", "Crystal", "Yirl", "Foxy", "Xenobi", "Rolf" }
 				f.NextAct.Targets_Tag[i  ]=c
 				f.NextAct.Targets_Tag[i+1]=nil
 			end
 		end
 	end
 	
-end
+//end
