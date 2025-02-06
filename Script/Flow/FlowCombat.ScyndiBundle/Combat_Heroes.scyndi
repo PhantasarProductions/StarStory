@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.02.02
+// 	  Version: 25.02.06
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -396,7 +396,10 @@ group Stage_SelectTarget
 						Targets_Tag[0]=Act.Executor_Tag
 						Targets_Tag[1]=nil
 					case "EV"
-						Targets_Tag += ftag
+						//Targets_Tag += ftag
+						AllCount++
+						Targets_Tag[AllCount  ] = ftag
+						Targets_Tag[AllCount+1] = nil
 					case "AF"
 						if fdat.Team=="Foe"
 							AllCount++
