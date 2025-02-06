@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.05 IV
+// 	  Version: 25.02.06 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -149,6 +149,12 @@ class Combat_Foe extends Combat_Fighter
 				Zelf.stretchx = 204
 				Zelf.stretchy = 300
 				return "GFX/Combat/Fighters/Foe/Boss/Joker.png"
+			case "*LICHKING"				
+				Zelf.AltX=Graphics.W div 4
+				Zelf.AltY=Graphics.H - 140
+				Zelf.stretchx = 300
+				Zelf.stretchy = 500
+				return "gfx/combat/Fighters/foe/Boss/LichKing.png"
 			default
 				return "GFX/Combat/Fighters/Foe/"..RawData.ImageFile
 		end
