@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.02.02 III
+// 	  Version: 25.02.09 II
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -198,7 +198,7 @@ class Clickable
 			plua s;s = Kthura.Obj[tag.."_SPOT"]
 			ret={s.x,s.y}
 		else
-			ret={o.x,o.y+40}
+			ret={o.x,o.y}
 		end
 		if P2
 			Kthura.GoToLayer(OldLay)
@@ -245,7 +245,7 @@ class Clickable
 				elseif prefixed(T,"NPC_")
 					var fuck := Self.LSpot(L,T) // = Spot(Lay,T)
 					Self.Create(T,L,fuck[1],fuck[2],T,"nil") //,sprintf("\"%s\"",T))
-					CSayF("NPC: %s",T)
+					CSayF("NPC: %s -> Walk to (%d,%d)",T,Fuck[1],Fuck[2])
 				elseif prefixed(Upper(T),"TRANS.PAD") 
 					//prefixed(T,"Trans.Pad")
 					string Spot;Spot = Right(T,len(T)-10)
