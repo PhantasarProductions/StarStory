@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/GoToNIM.scyndi
 // 
-// 	  Version: 25.01.26 II
+// 	  Version: 25.02.06 I
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -50,8 +50,9 @@ Module
 
 Void RGoToNIM(string ReturnTo="HAWK")
 	Loading()
-	State.LoadNew("FLOW_NIM","Script/Flow/FlowNIM.Neil")
-	State.Call("FLOW_NIM","NIMGame.GoToGame","\""..ReturnTo.."\"")
+	State.LoadNew("FLOW_NIM","Script/Flow/FlowNIM.lbc")
+	//State.Call("FLOW_NIM","NIMGame.GoToGame","\""..ReturnTo.."\"")
+	State.Call("FLOW_NIM","NIMGame.GoToGame",ReturnTo)
 	Flow.GoToFlow("NIM")
 End
 
