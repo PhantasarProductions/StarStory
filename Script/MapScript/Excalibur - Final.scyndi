@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Final.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Final.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,39 +33,56 @@
 // 
 // **********************************************
 // 
-// version: 21.10.13
-// End License Information
+// 
+// version: 25.02.09 XXXI
+// 
+// End License
+
+
+Script
 
 #use "Libs/xmath"
+#use "Libs/Music"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/KickReggie"
+#use "Script/Use/Map/KickReggieUse"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 
-#MKL_Version "Star Story - Excalibur - Final.neil" "21.10.13"
-#MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Excalibur - Final.neil" "21.10.13"
+//#MKL_Lic     "Star Story - Excalibur - Final.neil" "Phantasar Closed License"
 
-#macro JohnsonJoined gv.gbool.AdmiralJohnsonJoinedTheParty
+#macro JohnsonJoined gbool.AdmiralJohnsonJoinedTheParty
 #macro __chats 7
-#macro __boss005 gv.gbool.Excalibur_Boss_SuperCyborg_On_Area_005_Defeated
-#macro __boss010 gv.gbool.Excalibur_Boss_GoldKillerDroid_On_Area_010_Defeated
+#macro __boss005 gbool.Excalibur_Boss_SuperCyborg_On_Area_005_Defeated
+#macro __boss010 gbool.Excalibur_Boss_GoldKillerDroid_On_Area_010_Defeated
 
 QuickMeta Crystal_Reload
 	Index
-		return gv.gint["EXC_CRYSTAL_RELOAD_"..Map.Layer]
+		return gint["EXC_CRYSTAL_RELOAD_"..Map.Layer]
 	End
 	
 	NewIndex
-		gv.gint["EXC_CRYSTAL_RELOAD_"..Map.Layer] = value
+		gint["EXC_CRYSTAL_RELOAD_"..Map.Layer] = value
 	End
 End
 
 QuickMeta Has_Key
 	Index
-		Return gv.gbool["EXC_HASKEY_"..(Key:upper()).."_"..Map.Layer]
+		Return gbool["EXC_HASKEY_"..(Upper(Key)).."_"..Map.Layer]
 	End
 	
 	NewIndex
-		gv.gbool["EXC_HASKEY_"..(Key:upper()).."_"..Map.Layer] = Value
+		gbool["EXC_HASKEY_"..(Upper(Key)).."_"..Map.Layer] = Value
 	End
 End
 
@@ -86,33 +104,33 @@ End
 
 QuickMeta Unlocked_Floor
 	Index
-#if fucked
-		If gv.gbool["EXC_UNLOCKED_FLOOR_"..Key]
-			Return True
-		End
-		int KN = Lua.tonumber(right(Key,#key-1)) || 0
-		int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
-		//CSayF("KN=%d; LN=%d; Compare=%s; Red:%s",LN,KN,lua.tostring(LN+1==KN),lua.tostring(Has_Key.Red)) // DEBUG ONLY!
-		bool u = gv.gbool[sprintf("EXC_HASKEY_RED_%03d",KN-1)]
-		//If (LN+1==KN && Has_Key.Red) || Key=="#001"
-		If u || Key=="#001"
-			gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] = True
-			Has_Key.Red = False
-			CSayF("Unlocked floor: %s",Key)
-			If KN<=10
-				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Neil.Globals.MScript.Names[Map.Layer],"Excalibur - Final",Key)
-			Else
-				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Neil.Globals.MScript.Names[Map.Layer],"Excalibur - Final 2",Key)
-			End
-			Return True
-		End
-		Return False
-	End
-#fi
-		Return gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] || Key=="#001"
+//#if fucked
+//		If gbool["EXC_UNLOCKED_FLOOR_"..Key]
+//			Return True
+//		End
+//		int KN = Lua.tonumber(right(Key,#key-1)) || 0
+//		int LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+//		//CSayF("KN=%d; LN=%d; Compare=%s; Red:%s",LN,KN,lua.tostring(LN+1==KN),lua.tostring(Has_Key.Red)) // DEBUG ONLY!
+//		bool u = gbool[sprintf("EXC_HASKEY_RED_%03d",KN-1)]
+//		//If (LN+1==KN && Has_Key.Red) || Key=="#001"
+//		If u || Key=="#001"
+//			gbool["EXC_UNLOCKED_FLOOR_"..Key] = True
+//			Has_Key.Red = False
+//			CSayF("Unlocked floor: %s",Key)
+//			If KN<=10
+//				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Scyndi.Class.MScript.Names[Map.Layer],"Excalibur - Final",Key)
+//			Else
+//				Hawk.Add(sprintf("F%03d",KN),"Excalibur",Lua.Scyndi.Class.MScript.Names[Map.Layer],"Excalibur - Final 2",Key)
+//			End
+//			Return True
+//		End
+//		Return False
+//	End
+//#fi
+		Return gbool["EXC_UNLOCKED_FLOOR_"..Key] || Key=="#001"
 	End
 	NewIndex
-		gv.gbool["EXC_UNLOCKED_FLOOR_"..Key] = value
+		gbool["EXC_UNLOCKED_FLOOR_"..Key] = value
 	End
 End
 
@@ -128,13 +146,13 @@ end
 Group MScript
 
 	ReadOnly Var Yeah = Audio.LoadNew("Audio/SFX/Yeah/Yeah.ogg","EXCALIBUR_YEAH")
-	ReadOnly Var Card = Image.LoadNew("GFX/Textures/Excalibur/Keycard.png","EXCALIBUR_KEYCARD")
+	ReadOnly Var Card = LoadNewImage("GFX/Textures/Excalibur/Keycard.png","EXCALIBUR_KEYCARD")
 	
-	ReadOnly Var Mouse = Image.Obtain("Mouse")
+	ReadOnly Var Mouse = ObtainImage("Mouse")
 
 	Table Names
-	ReadOnly Var Fnt = ImageFont.Obtain("BIGTEXT")  
-	ReadOnly Var SFt = ImageFont.Obtain("BOXTEXT")
+	ReadOnly Var Fnt = ObtainFont("BIGTEXT")  
+	ReadOnly Var SFt = ObtainFont("BOXTEXT")
 	
 	Var Chat
 
@@ -144,7 +162,7 @@ Group MScript
 			//If !Done.The1stTimeJohnsonBack
 			//	MapText("JOHNSON_BACK")
 			//End		
-			For I=1,6
+			For I=0,5
 				If RPGParty[I]=="Rolf"
 					RPGParty[I]="Johnson"
 				End
@@ -153,7 +171,7 @@ Group MScript
 			// This is also why Rolf is ReSynced when you leave Excalibur.
 			Party.GrabLevel("Johnson",RPGChar.Johnson.Stat.Level)
 		Else
-			For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi",""}
+			For I,Ch in ipairs{[0]="Wendicka","Crystal","Yirl","Foxy","Xenobi",""}
 				RPGParty[I]=Ch
 			End
 		End
@@ -162,29 +180,31 @@ Group MScript
 	Void InitNames()
 		Names = {}
 		Names["#000"] = "Secret Hangar"
+
 		Names["#001"] = "Hidden layer"
 		Names["#002"] = "Security department"
 		Names["#003"] = "Lady of the Lake - Artificial Park"
 		Names["#004"] = "Coder Section - Apollo" // Used to be 'LAURA'
 		Names["#005"] = "Residential Area - Galahad"
-		//Names["#006"] = "Junk collection area - Donald"
+		
 		Names["#006"] = "Junk collection area - Anthony"
 		Names["#007"] = "Camelot - Town Square"
 		Names["#008"] = "Coder Section - C++" // Used to be 'Blitz'
 		Names["#009"] = "Maintenance Deck"
 		Names["#010"] = "Residential Area - Guinevere"
+		
 		Names["#011"] = "Crystal's bar"
-		//Names["#012"] = "Junk collection area - Geert"
 		Names["#012"] = "Junk collection area - Hugo"
 		Names["#013"] = "Casino"
 		Names["#014"] = "Weapon Storage"
 		Names["#015"] = "Medical department"
-		Names["#016"] = "Coder Section - Neil" // Used to be 'Lua'
+		
+		Names["#016"] = "Coder Section - Scyndi" // Used to be 'Lua' and later "Neil"
 		Names["#017"] = "Playground"
-		//Names["#018"] = "Junk collection area - Marine"
 		Names["#018"] = "Junk collection area - Klaus"
 		Names["#019"] = "Staff department"
 		Names["#020"] = "High Security Department"
+
 		Names.SECRET1 = "Secret Science Lab"
 		Names.SECRET2 = "Secret labyrinth of \"the Mole\""        
     End
@@ -231,7 +251,8 @@ Group MScript
     		MapText("CRYSTAL.EMPTY")
     		Return
     	End
-    	For AT in RPGChar.Crystal.List.ARM.Each
+    	//For AT in RPGChar.Crystal.List.ARM.Each
+    	For AT in RPGPureChar.Crystal.ListEach("ARM")
     		Var Ammo = RPGChar.Crystal.Points["ARM.AMMO."..AT]
     		FilledAny = FilledAny || (Ammo.Have<Ammo.Maximum)
     		Ammo.Have=Ammo.Maximum
@@ -252,7 +273,8 @@ Group MScript
     End
     
     Get String RandomCyborg
-    	Static Var RC
+    	//Static Var RC
+    	LocExtern RC "StaticLocal_Excalibur_PropertyRandomCyborg_RC"
     	If !RC
     		RC = {}
     		For i=1,9 - (__skill * 3)
@@ -266,12 +288,12 @@ Group MScript
    				RC += "Cyborg Ji"
    			End
    		End
-   		Return "Reg/"..RC[math.random(1,#RC)]
+   		Return "Reg/"..RC[math.random(0,Len(RC)-1)]
    	End
     
     Void StartBoss(string FoeBoss,string CombatMusic)
     	StartCombat.Prepare()
-    	String BossFile = "Boss/"..FoeBoss
+    	String BossFile := "Boss/"..FoeBoss
     	If (FoeBoss=="McLeen")
     		BossFile = "SpecialBoss/McLeen"
     	End
@@ -305,9 +327,9 @@ Group MScript
     
     #region Keys
     Void GetKey(string Color)
-    	String Tag = "NPC_"..(Color:upper())
-    	Int KeyX = Map.ObjInt(Tag,"X")
-    	Int KeyY = Map.ObjInt(Tag,"Y")
+    	String Tag := "NPC_"..Upper(Color)
+    	Int KeyX   := Map.ObjInt(Tag,"X")
+    	Int KeyY   := Map.ObjInt(Tag,"Y")
     	Int LN
     	Switch Map.Layer
     		Case "SECRET1"
@@ -315,9 +337,9 @@ Group MScript
     		case "SECRET2"
     			LN=5000
     		Default
-    			LN = Lua.tonumber(right(Map.Layer,#Map.Layer-1)) || 0
+    			LN = Lua.tonumber(right(Map.Layer,Len(Map.Layer)-1)) || 0
     	End
-    	Number Afstand = xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)
+    	Number Afstand := xMath.Pythagoras(KeyX,KeyY,Player.X,Player.Y)
     	If Afstand>70
     		CSayF("Player to far away from key (%02.03f). Request rejected",Afstand)
     		Return
@@ -329,19 +351,19 @@ Group MScript
     End
     
     Void NPC_Red()
-    	GetKey("Red")
+    	MScript.GetKey("Red")
     End
     
     Void NPC_Blue()
-    	GetKey("Blue")
+    	MScript.GetKey("Blue")
     End
     
     Void NPC_Green()
-    	GetKey("Green")
+    	MScript.GetKey("Green")
     End
     
     Void NPC_Gold()
-    	GetKey("Gold")
+    	MScript.GetKey("Gold")
     End
     #endregion
     
@@ -363,7 +385,7 @@ Group MScript
 			Graphics.Cls()
 			Map.DrawScreen()
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 			Map.SetObj("EntranceLeft","X",DL-i)
 			Map.SetObj("EntranceRight","X",DR+i)
 		End
@@ -382,9 +404,9 @@ Group MScript
 	
 	#region 003 - Lady of the Lake - Artificial Park
 	Void CreateJohnson()
-	gv.gstring.Johnson = "Admiral Johnson"
+	gstring.Johnson = "Admiral Johnson"
 	// Just use te old when on a new cycle
-		if Caps.Cycle>1 || gv.gbool.ImportedJohnson
+		if Caps.Cycle>1 || gbool.ImportedJohnson
 			CSay("Updating level stuff for Johnson")
 			Party.GrabLevel("Johnson",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
 			RPGParty[6] = "Johnson"
@@ -410,7 +432,7 @@ Group MScript
 			end
 		end
 		// Elemental Resistance
-		for el in each { "Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
+		for el in each { [0]="Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
 			CSayF("Linking elemental resistance: %s",el)
 			if !RPGChar.ExHuRU.HasStat("ER_"..el)
 				CSay("= Original base was non-existent. Creating!")
@@ -431,11 +453,11 @@ Group MScript
 			RPGChar.Johnson.Link_Stat("ExHuRU","ER_MODIFIER_"..el)
 		end
 		// Status Resistance
-		for sr in each { "Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
+		for sr in each { [0]="Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
 			CSayF("Setting Status Change Base Resistance: %s",sr)
 			RPGChar.Johnson.Stat["SR_BASE_"..sr] = math.random(15 - (__skill*5),90 div __skill)
 			CSayF("Linking Status Change modifiaction Resistance: %s",sr)			
-			for subsr in each {"BUFF","EQBF" }
+			for subsr in each {[0]="BUFF","EQBF" }
 				// TRUE should NOT be linked!
 				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
 				RPGChar.Johnson.Link_Stat("ExHuRU","SR_"..subsr.."_"..sr)
@@ -468,7 +490,7 @@ Group MScript
 		Kthura.KillAutoVisible()
 		PPop.Pop("adm","South")
 		MapText("ADMIRAAL1")
-		CreateJohnson()
+		MScript.CreateJohnson()
 		RPGParty[6]="Johnson"
 		Map.Spawn("PartyPopped_Johnson","spawn_admiraal")
 		Map.SetObj("PartyPopped_Johnson","Texture","GFX/Actors/Player/Johnson.North.jpbf")
@@ -491,7 +513,7 @@ Group MScript
 		Player.StopWalking()
 		MapTextLeader("BOSS005")
 		Schedule.Add("PostBoss005")
-		StartBoss("SuperCyborg","Music/SpecialBoss/Exit the Premises.ogg")
+		MScript.StartBoss("SuperCyborg","Music/SpecialBoss/Exit the Premises.ogg")
 	End
 	
 	Void PostBoss005()
@@ -502,7 +524,7 @@ Group MScript
 	End
 	
 	Void GoHome()
-		gv.gstring.Situatie_In_Het_Huis_Van_Wendicka="Final"
+		gstring.Situatie_In_Het_Huis_Van_Wendicka="Final"
 		Map.GoToMap("Excalibur - Home","LAYERLESS","Voordeur")
 		If !Done.Excalibur_EnterHome_During_Final_Mission
 			Ach.Award("BONUS_HOME")
@@ -541,7 +563,7 @@ Group MScript
 	
 	#region Secret Area 1
 	Void BossSecret1()
-		gv.gbool.CombatMusicForcedSet = true
+		gbool.CombatMusicForcedSet = true
 		StartCombat.Foe("Boss/HWSNBN",math.floor(Map.Level*({0.50,0.95,1})[__skill]))
 		StartCombat.Tune = "Music/specialboss/Back to Darkness.ogg"
 	End
@@ -584,7 +606,7 @@ Group MScript
 		End
 		Player.StopWalking()
 		Schedule.Add("PostBoss010")
-		StartBoss("Gold Killer Droid","Music/Dungeon/Spiedkiks_-_05_-_Freak_Boutique.ogg")	
+		MScript.StartBoss("Gold Killer Droid","Music/Dungeon/Spiedkiks_-_05_-_Freak_Boutique.ogg")	
 	End
 	
 	Void PostBoss010()
@@ -631,17 +653,17 @@ Group MScript
 		MapText("MCLEEN1")
 		Schedule.Add("McLeen_Post")
 		//Lua.error("Fight McLeen not yet implemented")
-		gv.gstring.Johnson = "Ashley"
+		gstring.Johnson = "Ashley"
 		RPGChar.Johnson.Name = "Ashley"
-		StartBoss("McLeen","Music/Combat/SpecialBoss/GeorgeMcLeen.ogg")		
+		MScript.StartBoss("McLeen","Music/Combat/SpecialBoss/GeorgeMcLeen.ogg")		
 	End	
 	
 	Void McLeen_Post()
 		// If the fight ended because Crystal was the last one standing
-		If gv.gbool.CrystalMcLeenBeamOut
+		If gbool.CrystalMcLeenBeamOut
 			Music.PopVoid()
-			gv.gbool.CrystalMcLeenBeamOut=False
-			For ch in each {"Wendicka","Yirl","Xenobi","Foxy","Johnson"}
+			gbool.CrystalMcLeenBeamOut=False
+			For ch in each {[0]="Wendicka","Yirl","Xenobi","Foxy","Johnson"}
 				Map.Kill("PartyPopped_"..ch)
 			End
 			Map.ShowByLabel("DEAD")
@@ -670,19 +692,19 @@ Group MScript
 	
 	#region Transporter	
 	Get Bool MR
-		Return Events.MouseHitRight()
+		Return Events.MouseHitRight
 	End
 
 	Get Bool ML
-		Return Events.MouseHitLeft()
+		Return Events.MouseHitLeft
 	End
 	
 	Get Int MX
-		Return Events.MouseX()
+		Return Events.MouseX
 	End
 	
 	Get Int MY
-		Return Events.MouseY()
+		Return Events.MouseY
 	End
 	
 	Bool LeftTrans = False
@@ -692,12 +714,12 @@ Group MScript
 	End
 		
 	Void Transporter()
-		Static Table XTRA = {"Save Game","Back to Hawk","Cancel"}
+		Static Table XTRA = {[0]="Save Game","Back to Hawk","Cancel"}
 		String Lay = Map.Layer
-		Int ILay = Lua.tonumber(right(Lay,#Lay-1)) || 0
-		Int XW = Screen.W Div (#XTRA + 1)		
+		Int ILay := Lua.tonumber(right(Lay,Len(Lay)-1)) || 0
+		Int XW := Graphics.W Div (Len(XTRA) + 1)		
 		if !LeftTrans
-			If JohnsonJoined && gv.gbool.The1stTimeJohnsonLeave &&  (!Done.The1stTimeJohnsonBack)
+			If JohnsonJoined && gbool.The1stTimeJohnsonLeave &&  (!Done.The1stTimeJohnsonBack)
 				MapText("JOHNSON_BACK")
 			End		
 			Return
@@ -709,24 +731,24 @@ Group MScript
 				Player.Reloc("Trans.Spot.FET2")
 				//Lua.error("Exit for secret 2 not yet scripted")
 			Default
-				Player.Reloc("Trans.Spot.F"..right(Map.Layer,#(Map.Layer)-1))
+				Player.Reloc("Trans.Spot.F"..right(Map.Layer,Len(Map.Layer)-1))
 			End
 		Player.Wind="South"
 		LeftTrans=true
 		If !Done.Excalibur_FirstFloor_Hawk_Set
-			Hawk.Add("F001","Excalibur",Lua.Neil.Globals.MScript.Names["#001"],"Excalibur - Final","#001")
+			Hawk.Add("F001","Excalibur",Lua.Scyndi.Class.MScript.Names["#001"],"Excalibur - Final","#001")
 		End
 		If Has_Key.Red && Map.Layer!="#020" && Map.Layer!="SECRET1" && Map.Layer!="SECRET2"
 			CSay("Red Card Used To Unlock Next Floor")
-			Int L = Lua.tonumber(right(Lay,#Lay-1)) || 0
+			Int L := Lua.tonumber(right(Lay,Len(Lay)-1)) || 0
 			Lua.assert(L>0,"Layer number catchup failed!")
-			Int NL = L+1
-			String NLS = sprintf("#%03d",NL)
+			Int NL := L+1
+			String NLS := sprintf("#%03d",NL)
 			Unlocked_Floor[sprintf("#%03d",NL)]=True
 			If NL<=10
-				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final",NLS)
+				Hawk.Add(sprintf("F%03d",NL),"Excalibur Part 1",Lua.Scyndi.Class.MScript.Names[NLS],"Excalibur - Final",NLS)
 			Else
-				Hawk.Add(sprintf("F%03d",NL),"Excalibur",Lua.Neil.Globals.MScript.Names[NLS],"Excalibur - Final - 2",NLS)
+				Hawk.Add(sprintf("F%03d",NL),"Excalibur Part 2",Lua.Scyndi.Class.MScript.Names[NLS],"Excalibur - Final - 2",NLS)
 			End			
 			CSayF("Floor %d has been unlocked",NL)
 			Has_Key.Red = False
@@ -738,21 +760,21 @@ Group MScript
 			Events.Poll()
 			Graphics.Cls()
 			__Ember
-			Fnt.Text("Navigation system Hawk",Screen.W div 2,1,2,0)
+			Fnt.Text("Navigation system Hawk",Graphics.W div 2,1,2,0)
 			If MR || Events.KeyHit(27)
 				Return
 			End
 			For i=1,20
 				String Tag = sPrintF("#%03d",i)
-				Static Int W = (Screen.W div 2)
-				Static Int H = 30
-				Int X = (((i-1) div 10))*W
-				Int Y = (((i-1) % 10)*30)+75
+				Int W = (Graphics.W div 2)
+				Int H = 30
+				Int X := (((i-1) div 10))*W
+				Int Y := (((i-1) % 10)*30)+75
 				If Unlocked_Floor[Tag]
 					__SkyBlue
 					If i==ILay
 						__Ember
-					ElseIf MX>X && MX<X+Sft.TextWidth(Names[Tag]) && MY>Y && MY<Y+H
+					ElseIf MX>X && MX<X+Sft.Width(Names[Tag]) && MY>Y && MY<Y+H
 						__Cyan
 						If ML
 							Beam.Quick("PLAYER",false,true)
@@ -774,10 +796,11 @@ Group MScript
 					SFt.Text(sprintf("<< Locked:%s >>",Tag),X,Y)
 				End
 			End
-			For i,feat In iPairs(XTRA)
-				//If (MY>SCREEN.H-50) && (MX>((i-1)*XW)-(XW div 4)) && (MX<((i+1)*XW)-(XW div 4))
-				Int TW = Fnt.TextWidth(feat)
-				If (MY>SCREEN.H-50) && (MX>(i*XW)-(TW div 2)) && (MX<(i*XW)+(TW div 2))
+			For i,feat In Pairs(XTRA)
+				//If (MY>Graphics.H-50) && (MX>((i-1)*XW)-(XW div 4)) && (MX<((i+1)*XW)-(XW div 4))
+				Int TW = Fnt.Width(feat)
+				int i1=i+1
+				If (MY>Graphics.H-50) && (MX>(i1*XW)-(TW div 2)) && (MX<(i1*XW)+(TW div 2))
 					__Cyan
 					If ML
 						Switch i
@@ -793,10 +816,10 @@ Group MScript
 						    			If RPGParty[I]=="Johnson"	
 						    				RPGParty[I]="Rolf"
 						    			End
-						    			Party.GrabLevel("Rolf",RPGChar.Rolf.Stat.Level)
+						    			Party.GrabLevel("Rolf",RPGChar.Johnson.Stat.Level)
 						    		End
 						    	Else
-						    		For I,Ch in ipairs{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
+						    		For I,Ch in ipairs{[0]="Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
 						    			RPGParty[I]=Ch
 						    		End
 						    	End
@@ -814,12 +837,12 @@ Group MScript
 				Else
 					__SkyBlue
 				End
-				Fnt.Text(feat,i*XW,Screen.H,2,1)
+				Fnt.Text(feat,i1*XW,Graphics.H,2,1)
 			End
 			__White
 			Mouse.Draw(MX,MY)
 			Graphics.Flip()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 		Forever
 	End
 	#endregion
@@ -828,7 +851,7 @@ Group MScript
 	Table GetDoors(string Color)
 		// Should have used a class, but I was a bit lazy this time.
 		CSayF("Checking layer %s for door %s",Map.Layer,Color)
-		Color = Color:upper()
+		Color = Upper(Color)
 		Table Ret 
 		Ret = {}
 		If Map.HasTag(Color.."_LINKS") && Map.HasTag(Color.."_RECHTS")
@@ -894,16 +917,18 @@ Group MScript
 		End
 	End
 	
+	Static Table Cards = {[0]="RED","GREEN","BLUE","GOLD"}
+	Static Table UpdatedDoors = {}
 	Void Update()
-		Static Table Cards = {"RED","GREEN","BLUE","GOLD"}
-		Static Table UpdatedDoors = {}
-		Static Int Teller
+		//Static Int Teller
+		LocExtern Teller "Excalibur_Final_Update_Static_Teller"
+		Teller = Teller || 0
 		//UpdatedDoors[Map.Layer] = UpdatedDoors[Map.Layer] || {}
 		If !UpdatedDoors[Map.Layer]
 			CSayF("Create Door Table for layer %s",Map.Layer)
 			UpdatedDoors[Map.Layer] = {}
 			For i,C in iPairs(Cards)
-				UpdatedDoors[Map.Layer][i] = GetDoors(C)
+				UpdatedDoors[Map.Layer][i] = MScript.GetDoors(C)
 			End
 		End
 		Teller = (Teller+1) % 50
@@ -928,20 +953,22 @@ Group MScript
 	#endregion
 
 	Void Draw()
-		Static Table Cards = {"Red","Green","Blue","Gold"}
-		Static Int CSX = (Screen.W div 2) - 40
+		//Static Table Cards = {"Red","Green","Blue","Gold"}
+		//Static Int CSX = (Graphics.W div 2) - 40
+		LocExtern CSX "Excalibur_Draw_Static_Local_CSX"
+		CSX = CSX || (Graphics.W div 2) - 40
 		__SkyBlue
-		Fnt.DarkText(Names[Map.Layer] || "???",Screen.W div 2,5,2,0)
+		Fnt.DarkText(Names[Map.Layer] || "???",Graphics.W div 2,5,2,0)
 		For i,c In Pairs(Cards)
 			If Has_Key[c]
 				Switch i
-					Case 1
+					Case 0
 						Graphics.Color(255,0,0)
-					Case 2
+					Case 1
 						Graphics.Color(0,255,0)
-					Case 3
+					Case 2
 						Graphics.Color(0,0,255)
-					Case 4
+					Case 3
 						Graphics.Color(255,180,0)
 					Default
 						Lua.error("Key color error")
@@ -955,8 +982,9 @@ Group MScript
 			Case "#006"
 				Map.SetObj("Conveyor","InsertY",(Map.ObjInt("Conveyor","InsertY")+1)%300)
 			Case "#012"
-				Static Int Jerry = 0
-				Jerry = (Jerry+1) % 40
+				//Static Int Jerry = 0
+				LocExtern Jerry "Excalibur_Draw_Static_Local_Jerry"
+				Jerry = ((Jerry||0)+1) % 40
 				Map.SetObj("JerrycanTrack","InsertX",40-Jerry)
 			case "#014"
 				If Has_Key.Red && Map.HasTag("OPEN_RED")
@@ -1009,21 +1037,21 @@ Group MScript
 	
 	Void Load()
 	End
+End	
 	
-	CONSTRUCTOR	
-		CSay("Excalibur!")
-		InitNames()
-		ReplaceRolfWithJohnson()
-		ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
-		ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2","TalkLab","HideDead015","FightMcLeen", "Goddess","Show_KRED","Show_KRed"}
-		ZA.Leave("Transporter","LeaveTrans")
-		Map.AllowQuitSave=false
-		Chat = QM_Chat
-		For c=1,__chats
-			String Tag = sprintf("Chat[%d]",c)
-			ZA.Enter("Chat"..c,Tag)
-			ZA.Enter("CHAT"..c,Tag)
-		End
+Init	
+	CSay("Excalibur!")
+	MScript.InitNames()
+	MScript.ReplaceRolfWithJohnson()
+	ZA.TabEnter{"Transporter","EntranceWalkSouth","ToDungeon","TerugNaarHangar","OPEN_RED","OPEN_GREEN","OPEN_BLUE","OPEN_GOLD","Admiraal","Boss005","GoHome"}
+	ZA.TabEnter{"HideSecret","ShowSecret","OPEN_SECRET_1","ToSecret1","NOVA","ToU","ToD","Boss10","ToSecret2","TalkLab","HideDead015","FightMcLeen", "Goddess","Show_KRED","Show_KRed"}
+	ZA.Leave("Transporter","LeaveTrans")
+	Map.AllowQuitSave=false
+	MScript.Chat = QM_Chat
+	For c=1,__chats
+		String Tag = sprintf("Chat[%d]",c)
+		ZA.Enter("Chat"..c,Tag)
+		ZA.Enter("CHAT"..c,Tag)
 	End
+End
 
-end
