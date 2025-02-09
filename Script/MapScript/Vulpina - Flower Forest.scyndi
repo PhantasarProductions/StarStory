@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Vulpina - Flower Forest.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Vulpina - Flower Forest.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,25 +33,35 @@
 // 
 // **********************************************
 // 
-// version: 21.05.04
-// End License Information
+// 
+// version: 25.02.06 VI
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 #use "Script/Use/Misc/GoToNIM"
 
-#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.05.04"
-#MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Vulpina - Flower Forest.neil" "21.05.04"
+//#MKL_Lic     "Star Story - Vulpina - Flower Forest.neil" "Phantasar Closed License"
 
-#macro RioolOpen gv.GBool.Sewers_Opened
+#macro RioolOpen GBool.Sewers_Opened
 
 group MScript
 
 	Get Int Kota_Stage
-		return math.max(1,gv.gint.Vulpina_Stage_Kota)
+		return math.max(1,gint.Vulpina_Stage_Kota)
 	End
 	
 	Set Int Kota_Stage
-		gv.gint.Vulpina_Stage_Kota = math.max(1,value)
+		gint.Vulpina_Stage_Kota = math.max(1,value)
 	End
 	
 	Void Kota_Lose()
@@ -59,7 +70,7 @@ group MScript
 	End
 	
 	Void Kota_Win()
-		Kota_Stage++
+		MScript.Kota_Stage++
 		MapText("KOTA.WIN")		
 		Hawk.Add("InDenBeginne","Excalibur","Hangar","Excalibur - Final","#000")
 		Hawk.ArriveEvent("Excalibur","Excalibur_Arrival")
@@ -72,7 +83,7 @@ group MScript
 	Void Kota_StartNIM()
 		MapText("TUTORIAL")
 		//Lua.error("Kota's NIM game not yet implemented")
-		GoToNIM("KOTA")
+		GoToNIM.RGotoNim("KOTA")
 	End
 	
 	// 1st meeting
@@ -81,7 +92,7 @@ group MScript
 			MapText("KOTA.NOTYIRL")
 			return
 		End
-		Kota_Stage++
+		MScript.Kota_Stage++
 		MapText("KOTA.TALK1")
 		Map.GoToLayer("BINNEN","Wendicka")
 		Map.ObjHide("PLAYER")
@@ -100,18 +111,18 @@ group MScript
 				Map.SetObj("Wendicka","X",wx)
 				Map.SetObj("Wendicka","Y",wy)
 				Map.DrawScreen()
-				FPS.WaitMinTicks()
+				//FPS.WaitMinTicks()
 				Graphics.Flip()
 			End
 		End
 		MapText("KOTA.TALK3")
-		Kota_StartNIM()
+		MScript.Kota_StartNIM()
 	End
 	
 	// Meeting when not won NIM game
 	Void Kota2()
 		MapText("KOTA.AGAIN")
-		Kota_StartNIM()
+		MScript.Kota_StartNIM()
 	End
 	
 	// Meeting when you *did* win the NIM game
@@ -128,11 +139,11 @@ group MScript
 	
 	Get Delegate Kota4
 		// Needed due to an old bug that kept permanent damage in my savegame files
-		Return Kota3
+		Return MScript.Kota3
 	End
 	
 	Void NPC_Kota()		
-		Self["Kota"..Kota_Stage]()
+		Self["Kota"..MScript.Kota_Stage]()
 	End
 	
 
@@ -145,7 +156,7 @@ group MScript
 	Void Load()
 	End
 	
-	CONSTRUCTOR
-	End
+	//CONSTRUCTOR
+	//End
 
 end
