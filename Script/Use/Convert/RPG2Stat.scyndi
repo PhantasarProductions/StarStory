@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.01.26
+// 	version: 25.02.06 I
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -47,10 +47,13 @@ QuickMeta RPGParty
 	end
 	
 	index
-		assert(Lua.type(key)=="number","Number expected for input")
+		if Lua.type(key)=="string" && Upper(key)=="MAX" 
+			return 6
+		end
+		assert(Lua.type(key)=="number",sprintf("Number expected for input RPGParty what I got was %s (%s)",key,Lua.type(key)))
 		if key<0 || key>5
 			CSay(Lua.debug.traceback())
-			error("Invalid party index")
+			error(sprintf("Invalid party index: %d",key))
 		end
 		return _Stat.Party[key]
 	end
