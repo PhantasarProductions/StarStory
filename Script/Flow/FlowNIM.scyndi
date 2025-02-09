@@ -1,52 +1,78 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowNIM.Neil
-// Version: 21.05.02
-// Copyright (C) 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowNIM.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 25.02.06 XXXIII
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
 
-#use "Script/Use/Anyway"
+
+Script
+
+#use "Libs/Music"
 #use "Libs/LinkedList"
 
-#macro __NG Lua.Neil.Globals.NIMGame
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/JCR6"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/use/Convert/RPG2Stat"
+
+
+#macro __NG Lua.Scyndi.Class.NIMGame
+
+Global Var Scheldwoorden
 
 #region General
-var Mouse = Image.Obtain("MOUSE")
-Var Font = ImageFont.Obtain("BOXTEXT")
-Var BFnt = ImageFont.Obtain("BIGTEXT")
+var Mouse = ObtainImage("MOUSE")
+Var Font = ObtainFont("BOXTEXT")
+Var BFnt = ObtainFont("BIGTEXT")
 Var Buzz = Audio.Obtain("BUZZ")
-Var UFO  = Image.LoadNew("GFX/Special/UFO.png","NIM_UFO")
-Var Proj = Image.LoadNew("GFX/Special/Projectile.png","NIM_PROJECTILE")
+Var UFO  = LoadNewImage("GFX/Special/UFO.png","NIM_UFO")
+Var Proj = LoadNewImage("GFX/Special/Projectile.png","NIM_PROJECTILE")
 Var Shot = Audio.LoadNew("Audio/SFX/photon.ogg","SPELLANI_SHOOT_SOUND")
 #endregion
 
@@ -202,12 +228,12 @@ Class Nim_Man
 	ReadOnly Int X
 	ReadOnly Int Y
 	ReadOnly Var Img
-	Static ReadOnly Table Sex = {"Guy","Girl"}
+	Static ReadOnly Table Sex = {[1]="Guy",[2]="Girl"}
 	Constructor(int cx, int cy)
-		string sp = Sex[math.random(1,#Sex)]
+		string sp = Sex[math.random(1,2)]
 		X = cx
 		Y = cy
-		Img = Image.LoadNew("GFX/Actors/SinglePic/Random/Alien"..sp..".png","NIM_"..(sp:upper()))
+		Img = LoadNewImage("GFX/Actors/SinglePic/Random/Alien"..sp..".png","NIM_"..Upper(sp))
 		Img.HotBottomCenter()
 		CSayF("Spawned a %s on (%04d,%04d)",sp,x,y)
 	End
@@ -222,11 +248,11 @@ Class Nim_Row
 	static int HoverShoot = 0
 	
 	static Get Int W
-		return Screen.W div 7
+		return Graphics.W div 7
 	End
 	
 	static Get Int H
-		return (Screen.H - 100) div 4
+		return (Graphics.H - 100) div 4
 	End
 	
 	Var Men
@@ -256,7 +282,7 @@ Class Nim_Row
 	Static Table Row = {}
 	
 	Static Void ResetAll()
-		For R in each(Row)
+		For _,R in pairs(Row)
 			R.Reset()
 		End
 	End
@@ -275,7 +301,7 @@ Class Nim_Row
 	Static Void DrawAll()
 		HoverRow=0
 		HoverShoot=0
-		For i,R in ipairs(Row)
+		For i,R in pairs(Row)
 			__SkyBlue
 			BFnt.Text(""..i..":",3,R.Y-5,0,1)
 			__White
@@ -286,14 +312,15 @@ Class Nim_Row
 		End
 	End
 	
-	Static Var __NumberIndex(int idx)
+	//Static Var __NumberIndex(int idx)
+	Static Var StaticNumIndex(int idx)
 		Return Row[idx]
 	End
 	
 End
 	
 Init
-	//int H  = Screen.H
+	//int H  = Graphics.H
 	//int RH = H div 5
 	Nim_Row.Row[1] = New Nim_Row(math.floor(Nim_Row.H * 1.5),5)
 	Nim_Row.Row[2] = New Nim_Row(math.floor(Nim_Row.H * 2.5),4)
@@ -323,7 +350,7 @@ Class Nim_Projectile
 		Shot.Play()
 	End
 	
-	Static Var List = New LinkedList()
+	Static Var List = New TLinkedList()
 	Static Get Int Num
 		Return List.Count
 	End
@@ -368,15 +395,15 @@ End
 
 Group NIMGame
 	Get Int mx
-		Return Events.MouseX()
+		Return Events.MouseX
 	End
 	
 	Get Int my 
-		Return Events.MouseY()
+		Return Events.MouseY
 	End
 	
 	get bool ml
-		return Events.MouseHitLeft()
+		return Events.MouseHitLeft
 	end
 	
 	get var Row
@@ -391,7 +418,7 @@ Group NIMGame
 	Int WelkeRij
 	Int HoeveelMoetenErWeg
 	
-	#region Start
+#region Start
 	Void NewGame()
 		Turn = "PLAYER"
 		Stage = "WhichRow"
@@ -400,19 +427,22 @@ Group NIMGame
 	
 	Void GoToGame(string retto)
 		ReturnTo=RetTo
-		ScL = Screen.W / (7*64)
+		ScL = Graphics.W / (7*64)
 		CSayF("Scale = %1.5f",Scl)
-		NewGame()
+		NIMGame.NewGame()
 		Music.Push()
 		Music.Play("Music/BlockShooter/Overworld.ogg")
 	End
-	#endregion
+#endregion
 	
-	#region Stages
+#region Stages
 	Void Stage_WhichRow()
+		//for k,_ in spairs(Lua.Events)
+		//	print(k)
+		//end
 		string TXT
 		int HC = Events.GetChar()-48
-		Switch(gv.gstring.Lang)
+		Switch gstring.Lang
 			Case "Dutch"
 				TXT = "Welke rij? "
 			Default
@@ -421,17 +451,19 @@ Group NIMGame
 		if HC>=1 && HC<=3
 			TXT += HC
 			WelkeRij = HC
+			CSayF("Player chose row %d by keyboard",HC)
 			Stage = "RemoveHowMany"
 		elseif NIM_Row.HoverRow>0
 			TXT += NIM_Row.HoverRow
 			if ML
+				CSayF("Player chose row %d by mouse",NIM_Row.HoverRow) 
 				WelkeRij = NIM_Row.HoverRow
 				Stage = "RemoveHowMany"
 			end
 		end
 		
 		__Ember
-		Font.Text(TXT,Screen.W div 2, Screen.H - 150, 2, 2)
+		Font.Text(TXT,Graphics.W div 2, Graphics.H - 150, 2, 2)
 		Events.Flush()
 	End
 	
@@ -445,7 +477,7 @@ Group NIMGame
 				Buzz.Play()
 				Stage = "WhichRow"
 			Case 1
-				Switch(gv.gstring.Lang)
+				Switch(gstring.Lang)
 					Case "Dutch"
 						TXT += "Nu verdwijnt er dus 1"
 					Default
@@ -457,7 +489,7 @@ Group NIMGame
 				End
 				HoeveelMoetenErWeg=1
 			Default
-				Switch(gv.gstring.Lang)
+				Switch gstring.Lang
 					Case "Dutch"
 						TXT += "Hoeveel moeten er weg? "
 					Default
@@ -475,12 +507,12 @@ Group NIMGame
 				End
 		End
 		__Ember
-		Font.Text(TXT,Screen.W div 2, Screen.H - 150, 2, 2)
+		Font.Text(TXT,Graphics.W div 2, Graphics.H - 150, 2, 2)
 		Events.Flush()
 	End
 	
 	Void Stage_Shoot()
-		Static int SPD = math.max(1,Screen.W div 256)
+		Static int SPD = math.max(1,Graphics.W div 256)
 		Static int X = -250
 		Static int Y = 80
 		For i=1,SPD
@@ -506,11 +538,11 @@ Group NIMGame
 				Lua.error("? Turn error")
 		End
 		UFO.Draw(X,Y)
-		if X>Screen.W+250 && Nim_Projectile.None
+		if X>Graphics.W+250 && Nim_Projectile.None
 			CSayF("End of %s turn!",Turn)
 			X=-300
 			bool EndGame=True
-			For R in each(Row.Row)
+			For _,R in pairs(Row.Row)
 				EndGame=EndGame && R.Num==0
 			End
 			If EndGame
@@ -543,7 +575,7 @@ Group NIMGame
 			shw = !shw
 		end
 		if shw
-			Switch(gv.gstring.Lang)
+			Switch(gstring.Lang)
 				Case "Dutch"
 					TXT += "Bezig met nadenken"
 				Default
@@ -551,7 +583,7 @@ Group NIMGame
 			End
 		End		
 		__Ember
-		Font.Text(TXT,Screen.W div 2, Screen.H - 150, 2, 2)
+		Font.Text(TXT,Graphics.W div 2, Graphics.H - 150, 2, 2)
 		
 		If time>250
 			CSay("AI outcome")
@@ -586,33 +618,36 @@ Group NIMGame
 		Static Var I_WON
 		Tick = (Tick+1)%250
 		if !I_WON
-			if JCR6.EntryExists("GFX/Special/WIN_"..gv.gstring.Lang..".png")
-				I_WON = Image.Load("GFX/Special/WIN_"..gv.gstring.Lang..".png")
+			if JCR6.EntryExists("GFX/Special/WIN_"..gstring.Lang..".png")
+				I_WON = LoadImage("GFX/Special/WIN_"..gstring.Lang..".png","NIM_I_WIN")
 			else
-				I_WON = Image.Load("GFX/Special/WIN_ENGLISH.png")
+				I_WON = LoadImage("GFX/Special/WIN_ENGLISH.png","NIM_I_WIN")
 			end
 		end
 		__White
-		I_WON.Stretch(0,0,Screen.W,Screen.H-100)
+		I_WON.Stretch(0,0,Graphics.W,Graphics.H-100)
 		if Tick==0
 			Self.EndGame(false)
 		end
 	End
 			
 	
+	static Table ScheldTabel
+	Static Table Lines
+	Static Int Tick
 	Void Stage_Victory_PLAYER()
-		// Declarations
-		Static Int Tick
-		Static Table Lines
-		Static Var Scheldwoorden
-		Static String ScheldDir = "Script/Data/NIM_Schelden/"
-		Static String ScheldFile = ScheldDir .. gv.gstring.Lang
-		static Table ScheldTabel
+		//Static Var Scheldwoorden
+		LocExtern ScheldDir "'Script/Data/NIM_Schelden/'"
+		String ScheldFile := ScheldDir .. gstring.Lang
+		
 		// Load foul words
-		If !JCR6.EntryExists(ScheldFile)
+		If !JCR6.EntryExists(ScheldFile..".lbc")
 			ScheldFile = ScheldDir.."English"
 		End
-		ScheldWoorden = Scheldwoorden || NeilUse(ScheldFile)
+		//ScheldWoorden = Scheldwoorden || NeilUse(ScheldFile)
+		if (!Scheldwoorden)
+			Lua.Scyndi.Use(ScheldFile)
+		End	
 		// Init on tick 0
 		If Tick==0
 			ScheldTabel = {}
@@ -622,8 +657,8 @@ Group NIMGame
 				ScheldTabel = {}
 				FoundSame = False
 				For i=1,5
-					ScheldTabel += ScheldWoorden[math.random(1,#ScheldWoorden)]
-					For j=1,#ScheldTabel
+					ScheldTabel += ScheldWoorden[math.random(0,Len(ScheldWoorden))]
+					For j=0,Len(ScheldTabel)-1
 						FoundSame = FoundSame || (j!=i && ScheldTabel[i]==ScheldTabel[j])
 						CSayF("%05d:> Check %d(%s).%d(%s)",TimeOut,i,ScheldTabel[i],j,ScheldTabel[j]) 
 					End
@@ -632,17 +667,17 @@ Group NIMGame
 				Lua.assert(TimeOut>=0,"Foul language TimeOut!")
 			LoopWhile FoundSame
 			Lines = {}
-			Switch gv.gString.Lang
+			Switch gString.Lang
 				Case "Dutch"
-					Lines += new NIM_Schelden(50,"DOOR DE EEN OF ANDERE "..ScheldTabel[1])
+					Lines += new NIM_Schelden(50,"DOOR DE EEN OF ANDERE "..ScheldTabel[0])
 				Default
-					Lines += new NIM_Schelden(50,"DUE TO SOME "..ScheldTabel[1])
+					Lines += new NIM_Schelden(50,"DUE TO SOME "..ScheldTabel[0])
 			End
-			for i=2,#ScheldTabel
-				Lines += new NIM_Schelden(i*50,ScheldTabel[i])
+			for i=1,Len(ScheldTabel)-1
+				Lines += new NIM_Schelden((i+1)*50,ScheldTabel[i])
 			end
-			Int YWZ = (#ScheldTabel+1)*50
-			Switch gv.gString.Lang
+			Int YWZ = (len(ScheldTabel)+2)*50
+			Switch gString.Lang
 				Case "Dutch"
 					Lines += new NIM_Schelden(YWZ,"WANHOOPSZET",255,0,0)
 					Lines += new NIM_Schelden(YWZ+100,"HEB JIJ GEWONNEN!",0,180,255)
@@ -650,20 +685,20 @@ Group NIMGame
 					Lines += new NIM_Schelden(YWZ,"STROKE OF FATE",255,0,0)
 					Lines += new NIM_Schelden(YWZ+100,"YOU WON!",0,180,255)
 			End
-		ElseIf Tick>#Lines*80
+		ElseIf Tick>Len(Lines)*80
 			Self.EndGame(true)
 		Else
 			For i=0, Tick Div 75
-				If i>0 && i<=#Lines
+				If i>=0 && i<Len(Lines)
 					Var L=Lines[i]
 					Graphics.Color(L.R,L.G,L.B)
-					Font.Text(L.TXT,Screen.W div 2,L.Y,2,2)
+					Font.Text(L.TXT,Graphics.W div 2,L.Y,2,2)
 				End
 			End		
 		End
 		Tick++
 	End
-	#endregion
+#endregion
 	
 	
 	Void EndGame(bool Win)
@@ -693,23 +728,28 @@ Group NIMGame
 		Switch(Turn)
 			case "PLAYER"
 				__Green
-				BFnt.Text("Your turn",Screen.W div 2, 20, 2, 2)
+				BFnt.Text("Your turn",Graphics.W div 2, 20, 2, 2)
 			case "COMPUTER"
 				__Red
-				BFnt.Text("My turn",Screen.W div 2, 20, 2, 2)
+				BFnt.Text("My turn",Graphics.W div 2, 20, 2, 2)
 			default
 				lua.error("Turn error: "..turn)
 		End
 		Self["Stage_"..Stage]()
 		// Debug
-		Dev.ToConsole()
+		//Dev.ToConsole()
 		// Party
 		If RPGParty.Max>0
 			Party.Boxes()
 		End
 		// Mouse
-		Mouse.Draw(mx,my)		
+		Mouse.Draw(mx,my)
+		QuitRequest()
 	End
 End
 
-Global ReadOnly Delegate Apollo_Flow = NIMGame.Flow
+//Global ReadOnly Delegate Apollo_Flow = NIMGame.Flow
+Global Delegate MainFlow
+Init
+	MainFlow=NimGame.Flow
+End
