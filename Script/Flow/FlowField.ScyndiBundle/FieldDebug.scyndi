@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldDebug.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.10 III
 // 	
 // 	  Copyright (C) 2023, 2025 Jeroen Petrus Broks
 // 	
@@ -45,8 +45,12 @@
 Module
 
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Statistician"
 
 #use "Script/Use/Link"
+#use "Script/Use/Convert/RPG2Stat"
+
+#macro DONOTRELINK False
 
 Global Void FLD_DEBUG_SAVE()
 	print("Savegame Flow activated. Go back to the game, please!")
@@ -68,9 +72,26 @@ Global Void FLD_DEBUG_VREDE()
 	Lua.Scyndi.Class.FieldMonster.DeactivateAll()
 End
 
+Global Void FLD_DEBUG_LINKOVERVIEW()
+	Statistician.CreateNew("STAR_STORY").LinkOverview()
+End
+
+Global Void FLD_DEBUG_RELINK()
+	If DONOTRELINK
+		print("\x91mI am not allowed to relink!")
+		return
+	End
+	RPGPureChar.Wendicka.LinkData("*","UniWendicka")
+	RPGPureChar.Wendicka.LinkList("*","UniWendicka")
+	RPGPureChar.Wendicka.LinkPoints("*","UniWendicka")
+	print("Relink!")
+End
+
 Init
 	Sys.ConsoleLocal("SAVE","FLD_DEBUG_SAVE")
 	Sys.ConsoleLocal("MYPOS","FLD_DEBUG_MYPOS")
 	Sys.ConsoleLocal("FOES","FLD_DEBUG_FOES")
 	Sys.ConsoleLocal("VREDE","FLD_DEBUG_VREDE")
+	Sys.ConsoleLocal("LINKOVERVIEW","FLD_DEBUG_LINKOVERVIEW")
+	Sys.ConsoleLocal("RELINK","FLD_DEBUG_RELINK")
 End
