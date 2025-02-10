@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.09 XXXI
+// version: 25.02.10 VII
 // 
 // End License
 
@@ -402,39 +402,43 @@ Group MScript
 	End
 	#endregion
 	
-	#region 003 - Lady of the Lake - Artificial Park
+	#region 004 - Lady of the Lake - Artificial Park
 	Void CreateJohnson()
 	gstring.Johnson = "Admiral Johnson"
 	// Just use te old when on a new cycle
 		if Caps.Cycle>1 || gbool.ImportedJohnson
 			CSay("Updating level stuff for Johnson")
-			Party.GrabLevel("Johnson",RPGChar.ExHuRU.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
-			RPGParty[6] = "Johnson"
+			Party.GrabLevel("Johnson",RPGChar.Rolf.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
+			RPGParty[5] = "Johnson"
 			RPGChar.Johnson.Name = "Admiral Johnson"
 			return
 		end
 		// Create raw character record
 		CSay("Creating character Johnson!")
 		Party.NewChar("Johnson",RPGChar.ExHuRU.Stat.Level,"Admiral Johnson")
-		RPGChar.Johnson.Link_Stat("ExHuRU","Level")
+		//RPGChar.Johnson.Link_Stat("ExHuRU","Level")
+		RPGPureChar.Rolf.LinkStat("Level","Johnson")
 		// Inventory sockets
 		for i=1,Caps.InventorySockets
-			RPGChar.Johnson.Link_Data("ExHuRU","INVITEM"..i)
-			RPGChar.Johnson.Link_Stat("ExHuRU","INVAMNT"..i)
+			//RPGChar.Johnson.Link_Data("ExHuRU","INVITEM"..i)
+			//RPGChar.Johnson.Link_Stat("ExHuRU","INVAMNT"..i)
+			RPGPureChar.Rolf.LinkData("INVITEM"..i,"Johnson")
+			RPGPureChar.Rolf.LinkStat("INVAMNT"..i,"Johnson")
 			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
 		end
 		// Statistics
-		for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
-			CSayF("Linking stat: %s",st)
-			for substat in each { "BUFF","POWERUP","UPGRADE" }
-				CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
-				RPGChar.Johnson.Link_Stat("ExHuRU",substat.."_"..st)
-			end
-		end
+		// Taken over by RPG2Stat
+		//for st in each {"AP","Accuracy","Agility","Defense","Evasion","HP","Resistance","Strength","Will" }
+		//	CSayF("Linking stat: %s",st)
+		//	for substat in each { "BUFF","POWERUP","UPGRADE" }
+		//		CSayF("= %s (%d)",substat,RPGChar.UniCrystal.Stat[substat.."_"..st])
+		//		RPGChar.Johnson.Link_Stat("ExHuRU",substat.."_"..st)
+		//	end
+		//end
 		// Elemental Resistance
 		for el in each { [0]="Dark","Earth","Fire","Frost","Healing","DarkHealing","Light","Lightning","NonElemental","Water","Wind" }
 			CSayF("Linking elemental resistance: %s",el)
-			if !RPGChar.ExHuRU.HasStat("ER_"..el)
+			if !RPGPureChar.ExHuRU.HasStat("ER_"..el)
 				CSay("= Original base was non-existent. Creating!")
 				switch el
 					case "Healing"
@@ -445,12 +449,15 @@ Group MScript
 						RPGChar.ExHuRU.Stat["ER_"..el] = 3
 				end
 			end
-			if !RPGChar.ExHuRU.HasStat("ER_MODIFIER_"..el)
+			CSay("= Modifier")
+			if !RPGPureChar.ExHuRU.HasStat("ER_MODIFIER_"..el)
 				CSay("= Original modifier was non-existent. Creating!")
 				RPGChar.ExHuRU.Stat["ER_MODIFIER_"..el] = 0
 			end
-			RPGChar.Johnson.Link_Stat("ExHuRU","ER_"..el)
-			RPGChar.Johnson.Link_Stat("ExHuRU","ER_MODIFIER_"..el)
+			//RPGChar.Johnson.Link_Stat("ExHuRU","ER_"..el)
+			//RPGChar.Johnson.Link_Stat("ExHuRU","ER_MODIFIER_"..el)
+			RPGPureChar.ExHuRU.LinkStat("ER_"..el          ,"Johnson")
+			RPGPureChar.ExHuRU.LinkStat("ER_MODIFIER_"..el ,"Johnson")
 		end
 		// Status Resistance
 		for sr in each { [0]="Block", "Buff", "Damned", "Death", "Debuff", "Disease", "Paralysis", "Poison", "Will" }
@@ -460,23 +467,31 @@ Group MScript
 			for subsr in each {[0]="BUFF","EQBF" }
 				// TRUE should NOT be linked!
 				CSayF("= %s (%d)",subsr,RPGChar.UniCrystal.Stat["SR_"..subsr.."_"..sr])
-				RPGChar.Johnson.Link_Stat("ExHuRU","SR_"..subsr.."_"..sr)
+				//RPGChar.Johnson.Link_Stat("ExHuRU","SR_"..subsr.."_"..sr)
+				RPGPureChar.ExHuRU.LinkStat("SR_"..subsr.."_"..sr,"Johnson")
 			end
 		end
 		// Experience Points
 		CSay("Linking Experience")
-		RPGChar.Johnson.Link_Points("ExHuRU","EXP")
+		//RPGChar.Johnson.Link_Points("ExHuRU","EXP")
+		RPGPureChar.Rolf.LinkPoints("EXP","ExHuRU")
 		// Updates
-		if !RPGChar.ExHuRU.HasStat("UPGRADES")
+		if !RPGPureChar.ExHuRU.HasStat("UPGRADES")
 			RPGChar.ExHuRU.Stats.UPGRADES = 0
 		end
-		RPGChar.Johnson.Link_Stat("ExHuRU","UPGRADES")
+		//RPGChar.Johnson.Link_Stat("ExHuRU","UPGRADES")
+		RPGPureChar.ExHuRU.LinkStat("UPGRADES","Johnson")
 		// Abilities
-		RPGChar.Johnson.Link_List("ExHuRU","ABL")
-		RPGChar.Johnson.Link_List("ExHuRU","ABL_POWERUP")
-		RPGChar.Johnson.Link_List("ExHuRU","LEARN")
+		//RPGChar.Johnson.Link_List("ExHuRU","ABL")
+		//RPGChar.Johnson.Link_List("ExHuRU","ABL_POWERUP")
+		//RPGChar.Johnson.Link_List("ExHuRU","LEARN")
+		RPGPureChar.Rolf.LinkList("ABL",         "Johnson")
+		RPGPureChar.Rolf.LinkList("ABL_POWERUP", "Johnson")
+		RPGPureChar.Rolf.LinkList("LEARN",       "Johnson")
 		// Ammo
-		RPGChar.Johnson.Stat.AMMO_BASE = 16 div __skill 
+		RPGPureChar.Johnson.Stat.AMMO_BASE = 16 div __skill
+		RPGChar.Johnson.Points.AMMO.Maximum = RPGPureChar.Johnson.Stat.AMMO_BASE
+		RPGChar.Johnson.Points.AMMO.Have    = RPGChar.Johnson.Points.AMMO.Maximum
 		// End
 		CSay("Johnson Created")
 	End
@@ -487,18 +502,18 @@ Group MScript
 		End
 		JohnsonJoined = true
 		Map.SetObj("Reggie","Visible",true)
-		Kthura.KillAutoVisible()
+		//Kthura.KillAutoVisible()
 		PPop.Pop("adm","South")
 		MapText("ADMIRAAL1")
 		MScript.CreateJohnson()
-		RPGParty[6]="Johnson"
+		RPGParty[5]="Johnson"
 		Map.Spawn("PartyPopped_Johnson","spawn_admiraal")
 		Map.SetObj("PartyPopped_Johnson","Texture","GFX/Actors/Player/Johnson.North.jpbf")
 		Map.ObjWalkTo("PartyPopped_Johnson","go_admiraal")
 		MapText("ADMIRAAL2")
 		KickReggie("PartyPopped_Foxy","Reggie","East")
 		MapText("ADMIRAAL3")
-		Kthura.SetAutoVisible()
+		//Kthura.SetAutoVisible()
 		Map.Kill("Reggie",true)
 		PPop.UnPop()
 	End
@@ -803,7 +818,7 @@ Group MScript
 				If (MY>Graphics.H-50) && (MX>(i1*XW)-(TW div 2)) && (MX<(i1*XW)+(TW div 2))
 					__Cyan
 					If ML
-						Switch i
+						Switch i1
 							Case 1
 								MSave.ToSave()
 								Return
