@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/BoxText.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.10
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -66,7 +66,8 @@ global void MapText(string ATag,string RF="FLOW_FIELD",int ANum=0)
 end
 
 global void MapTextLeader(string ATag,string RF="FLOW_FIELD",int ANum=0)
-	MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
+	//MapText(sprintf("%s.%s",ATag,Lua.Neil.Globals.Map.Leader),RF,ANum)
+	MapText(sprintf("%s.%s",ATag,Lua.Scyndi.Class.Map.Leader),RF,ANum)
 end
 
 	//readonly delegate Map = MapText
