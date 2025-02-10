@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Vulpina - Sewers.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Vulpina - Sewers.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,18 +33,26 @@
 // 
 // **********************************************
 // 
-// version: 21.05.03
-// End License Information
+// 
+// version: 25.02.10 II
+// 
+// End License
 
+
+Script
+
+#use "libs/sci/intervar"
+
+#use "script/use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Vulpina - Sewers.neil" "21.05.03"
-#MKL_Lic     "Star Story - Vulpina - Sewers.neil" "Phantasar Closed License"
+//#MKL_Version "Star Story - Vulpina - Sewers.neil" "21.05.03"
+//#MKL_Lic     "Star Story - Vulpina - Sewers.neil" "Phantasar Closed License"
 
 group MScript
 
 	Void Boss()
-		If gv.gBool.SECRETDUNGEON_SEWERS 
+		If gBool.SECRETDUNGEON_SEWERS 
 			Return 
 		End
 		Player.Wind="West"
@@ -79,7 +88,7 @@ group MScript
    	End	
    	
    	Void PostBoss()
-   		gv.gBool.SECRETDUNGEON_SEWERS = true
+   		gBool.SECRETDUNGEON_SEWERS = true
 		Map.Kill("Frank",true)
 		Map.Kill("Monster",true)
 		Party.GiveEXP(3000)
@@ -87,7 +96,7 @@ group MScript
    	End
    	
    	Void NPC_NIMSTICK()
-   		gv.gbool.FOUNDAPP_NIM=true
+   		gbool.FOUNDAPP_NIM=true
    		Schedule.Add("MSG:NIMGAME added to terminal on the Hawk")
    		Party.GiveEXP(3000)
    		Map.Kill("NPC_NIMSTICK",true)
@@ -101,9 +110,10 @@ group MScript
 	
 	Void Load()
 	End
+End
 	
-	CONSTRUCTOR
-		ZA.TabEnter{"Boss"}
-	End
+Init
+	ZA.TabEnter{"Boss"}
+End
 
-end
+
