@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.28 II
+// version: 25.02.10
 // 
 // End License
 
@@ -86,7 +86,8 @@ module
 		// UniWendicka and not not normal Wendicka. The former is always in the memory, the latter only after the prologue 
 		// So this will always avoid crashes, and the two characters address the same memory locations, anyway.
 		//static var Wendicka = RPGChar.UniWendicka
-		LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
+		//LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
+		Wendicka :=Ternary(RPGParty[0]=="UniWendicka",RPGPureChar.UniWendicka,RPGPureChar.Wendicka)
 		//for ABL in Wendicka.List.LEARN.Each
 		for ABL in Wendicka.ListEach("LEARN")
 			if !Wendicka.ListHas("ABL",ABL)
@@ -98,8 +99,8 @@ module
 				return ABL
 			End			
 		end
-		for ABL in RPGPureChar.Wendicka.ListEach("LEARN")
-			if !RPGPureChar.Wendicka.ListHas("ABL",ABL)
+		for ABL in Wendicka.ListEach("LEARN")
+			if !Wendicka.ListHas("ABL",ABL)
 				return ABL
 			end
 		end
@@ -126,7 +127,7 @@ module
 			RPGPureChar.UniWendicka.ListAdd("ABL","WENDICKA_SHOCK")
 			CSay("Wendicka's \"Shock\" ability has been added to her list!")
 		end
-		// RPGPureChar.UniWendicka.ListUnique("ABL") // Debug only! I had a broken list, this will allow it to fix itself.
+		//RPGPureChar.UniWendicka.ListUnique("ABL") // Debug only! I had a broken list, this will allow it to fix itself.
 		If RPGChar.Has("Wendicka")
 			CSay("Linking Wendicka's ability list")
 			RPGPureChar.UniWendicka.LinkList("ABL","Wendicka")
