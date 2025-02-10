@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.10
+// version: 25.02.10 II
 // 
 // End License
 
@@ -89,16 +89,21 @@ module
 		//LocExtern Wendicka "Scyndi.Globals.RPGPureChar.UniWendicka"
 		Wendicka :=Ternary(RPGParty[0]=="UniWendicka",RPGPureChar.UniWendicka,RPGPureChar.Wendicka)
 		//for ABL in Wendicka.List.LEARN.Each
-		for ABL in Wendicka.ListEach("LEARN")
-			if !Wendicka.ListHas("ABL",ABL)
-				If (RPGChar.Has("Wendicka") && RPGPureChar.Wendicka.ListHas("ABL",ABL))
-					CSayF("Updating uniform Wendicka for ability: %s",ABL)
-					RPGPureChar.UniWendicka.ListAdd("ABL",ABL)
-				end
-			Else
-				return ABL
-			End			
-		end
+		
+		// Bug void?
+		//for ABL in Wendicka.ListEach("LEARN")
+		//	if !Wendicka.ListHas("ABL",ABL)
+		//		If (RPGChar.Has("Wendicka") && RPGPureChar.Wendicka.ListHas("ABL",ABL))
+		//			CSayF("Updating uniform Wendicka for ability: %s",ABL)
+		//			RPGPureChar.UniWendicka.ListAdd("ABL",ABL)
+		//		end
+		//	Else
+		//		return ABL
+		//	End			
+		//end
+		for ABL in Wendicka.ListEach("ABL")
+			CSayF("Wendicka has: %s",ABL)
+		End
 		for ABL in Wendicka.ListEach("LEARN")
 			if !Wendicka.ListHas("ABL",ABL)
 				return ABL
