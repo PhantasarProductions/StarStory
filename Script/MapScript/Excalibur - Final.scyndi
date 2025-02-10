@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.10 VII
+// version: 25.02.10 VIII
 // 
 // End License
 
@@ -402,7 +402,7 @@ Group MScript
 	End
 	#endregion
 	
-	#region 004 - Lady of the Lake - Artificial Park
+	#region 003 - Lady of the Lake - Artificial Park
 	Void CreateJohnson()
 	gstring.Johnson = "Admiral Johnson"
 	// Just use te old when on a new cycle
