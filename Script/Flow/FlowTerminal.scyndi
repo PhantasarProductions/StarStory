@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.27 III
+// version: 25.02.10 I
 // 
 // End License
 
@@ -87,7 +87,8 @@ End
 var Mouse = ObtainImage("MOUSE")
 var ScreenBox = new Box(0,0,Graphics.W,Graphics.H-128,false)
 Var AppList = new TLinkedList()
-Var Font = ObtainFont("BOXTEXT")
+//Var Font = ObtainFont("BOXTEXT")
+Var Font = ObtainFont("SYSFONT")
 
 Void ChainTutorial()
 	Lua.error("Tutorials not yet available")
@@ -117,7 +118,7 @@ Void ChainJukeBox()
 end
 
 Void ChainGameNIM()
-	GoToNIM("TERMINAL")
+	GoToNIM.RGoToNIM("TERMINAL")
 End
 
 Void Quit()
