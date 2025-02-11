@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Heroes.scyndi
 // 
-// 	  Version: 25.02.06
+// 	  Version: 25.02.10 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -755,13 +755,17 @@ Void HurtJohnson()
 	End
 	Int Verschil := HP.Maximum - HP.Have
 	//Static Int MaxBuf = 3000 div __skill
-	Int Buf := math.max(1,Verschil div (__skill * 2000))
-	If RPGChar.Johnson.Stat.BUFF_Agility >=MaxBuf
-		Return
+	//Int Buf := math.max(1,Verschil div (__skill * 2000))
+	//If RPGChar.Johnson.Stat.BUFF_Agility >=MaxBuf
+	//	Return
+	//End
+	//RPGChar.Johnson.Stat.BUFF_Agility += Buf
+	//CSayF("Johnson's speed went up with %d => %d => %d",Buf,RPGChar.Johnson.Stat.BUFF_Agility,RPGChar.Johnson.Stat.END_Agility)
+	//Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
+	AJS:=Combat_Fighter.Fighters.Johnson
+	If (AJS.Gauge<9999) 
+		AJS.Gauge = math.min(9999,AJS.Gauge+Verschil)
 	End
-	RPGChar.Johnson.Stat.BUFF_Agility += Buf
-	CSayF("Johnson's speed went up with %d => %d => %d",Buf,RPGChar.Johnson.Stat.BUFF_Agility,RPGChar.Johnson.Stat.END_Agility)
-	Lua.Neil.Globals.Combat_Time.CalcHighSpeed()
 End
 
 //module 
