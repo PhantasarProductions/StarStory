@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.10 VIII
+// version: 25.02.11
 // 
 // End License
 
@@ -597,6 +597,7 @@ Group MScript
 	#region 010 - Guinevere
 	Void ToU()
 		//Player.StopMoving()
+		Player.StopWalking()
 		Player.Reloc("PlayU")
 		Map.SetObj("PLAYER","Dominance",75)
 		Map.SetObj("UBD","Impassible",True)
@@ -607,6 +608,7 @@ Group MScript
 	
 	Void ToD()
 		//Player.StopMoving()
+		Player.StopWalking()
 		Player.Reloc("PlayD")
 		Map.SetObj("PLAYER","Dominance",20)
 		Map.SetObj("UBD","Impassible",False)
