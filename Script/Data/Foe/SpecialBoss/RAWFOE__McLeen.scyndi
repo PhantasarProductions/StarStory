@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.02.11
 // 
 // End License
 // Automated conversion from Neil to Scyndi!
@@ -53,8 +53,11 @@
 // Generated 2/10/2021 9:28:34 PM
 
 
+#use "libs/sci/Events"
+
 
 module
+	locextern ep "Scyndi.Class.Events.Poll()"
 	readonly string Name = "George McLeen"
 	readonly string Desc = "Crystal's Father\nOnce falsely charged for treason\nNow out to get his revenge.\nHis obsession for revenge made him\na very dangerous man."
 	readonly string ImageFile = "SpecialBoss/McLeen.png"
@@ -129,7 +132,7 @@ module
 		StatusResistance["Block"] = 100
 		StatusResistance["Death"] = 100
 		StatusResistance["Damned"] = 100
-
+		ep
 
 		plua temp
 
@@ -141,6 +144,7 @@ module
 		ActMinLevel["ABL_EXHURU_KOLME"] = 60 
 		for ak=1,70 
 			Acts+="ABL_EXHURU_KOLME"
+			ep
 		end
 		ActMinLevel["ABL_EXHURU_KUUSI"] = 100 
 		for ak=1,50 
@@ -149,10 +153,12 @@ module
 		ActMinLevel["ABL_EXHURU_NELJA"] = 80 
 		for ak=1,60 
 			Acts+="ABL_EXHURU_NELJA"
+			ep
 		end
 		ActMinLevel["ABL_EXHURU_YKSI"] = 20 
 		for ak=1,90 
 			Acts+="ABL_EXHURU_YKSI"
+			ep
 		end
 		ActMinLevel["ABL_FOE_IDDQD"] = 150 
 		for ak=1,5 
@@ -161,10 +167,12 @@ module
 		ActMinLevel["ABL_FOXY_BACKSTAB"] = 180 
 		for ak=1,25 
 			Acts+="ABL_FOXY_BACKSTAB"
+			ep
 		end
 		ActMinLevel["ACT_ATTACK"] = 0 
 		for ak=1,100 
 			Acts+="ACT_ATTACK"
+			ep
 		end
 		ActMinLevel["ARM_DART"] = 5 
 		for ak=1,100 
@@ -189,6 +197,7 @@ module
 		ActMinLevel["ARM_MINICANNON"] = 45 
 		for ak=1,20 
 			Acts+="ARM_MINICANNON"
+			ep
 		end
 		ActMinLevel["ARM_MULTIBLAST"] = 15 
 		for ak=1,80 
@@ -201,6 +210,7 @@ module
 		ActMinLevel["ARM_POISONDART"] = 25 
 		for ak=1,60 
 			Acts+="ARM_POISONDART"
+			ep
 		end
 		ActMinLevel["ARM_RISINGNOVA"] = 100 
 		for ak=1,5 
@@ -213,6 +223,7 @@ module
 		ActMinLevel["ARM_STUN_GUN"] = 20 
 		for ak=1,70 
 			Acts+="ARM_STUN_GUN"
+			ep
 		end
 		ActMinLevel["ITM_CHLOROFORM"] = 5 
 		for ak=1,5 
@@ -226,33 +237,35 @@ module
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
 		temp.LVL=1000
 		temp.VLT=false
-		for ak=1,100000 
-			 ItemDrop+=temp
-		end
 		for ak=1,10000 
+			 ItemDrop+=temp
+			 ep
+		end
+		for ak=1,1000 
 			 ItemSteal+=temp
+			 ep
 		 end
-		ActMinLevel["ITM_STEROIDS"] = 200 
+		ActMinLevel["ITM_STEROIDS"] = 20 
 		for ak=1,1 
 			Acts+="ITM_STEROIDS"
 		end
-		ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_ASTRILOPUP"] = 10 
 		for ak=1,5 
 			Acts+="ZZZ_CYBERSUMMON_ASTRILOPUP"
 		end
-		ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_CAPT"] = 10 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_CAPT"
 		end
-		ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_GUNNER"] = 10 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_GUNNER"
 		end
-		ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_JI"] = 10 
 		for ak=1,8 
 			Acts+="ZZZ_CYBERSUMMON_JI"
 		end
-		ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 100 
+		ActMinLevel["ZZZ_CYBERSUMMON_MEDIC"] = 10 
 		for ak=1,10 
 			Acts+="ZZZ_CYBERSUMMON_MEDIC"
 		end
