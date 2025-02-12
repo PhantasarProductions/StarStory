@@ -1,0 +1,212 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/General/BestiaryIndex.scyndi
+// (c) Jeroen Broks, 2015, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.11 XII
+// 
+// End License
+
+
+// Generated Thu Jun 10 17:42:35 2021
+// (c) Jeroen P. Broks
+
+// Original script was generated, it was however manually converted to Scyndi
+// In 2025
+
+Module
+
+
+#use "Libs/LinkedList"
+
+#use "Libs/SCI/Sys"
+#use "Libs/sci/SString"
+#use "Libs/SCI/InterVar"
+#use "Libs/SCI/Graphics"
+
+Class BestEntry
+	ReadOnly String File
+	ReadOnly String CFile
+	Var _Data
+	Get Var Data
+		//_Data = _Data || NeilUse(File)
+		Lua.Scyndi.Use(CFile)
+		//_Data = _Data || Lua.Scyndi.Class["RAWDATA_"..File]
+		_Data = _Data || Lua.Scyndi.Class[StripDir(CFile)]
+		Return _Data
+	End
+
+	ReadOnly String QTag
+	ReadOnly String KTag
+	Constructor(String F)
+		File  = Replace(F,".neil","")
+		SFil := Replace(Upper(File),"SCRIPT/DATA/FOE/","")
+		SFil  = Replace(SFil,"RAWFOE__","")
+		KTag  = Replace(SFil,"/","_")
+		QTag  = Replace(Replace(File,"/","_"), "Script_Data_Foe_","")
+		CFile = Replace(File," ","_")
+		CSayF("Foe %s -> %s -> Kills: %d",File,KTag,self.Killed)
+	End
+
+	Get Int Killed
+		//Return GINT["KILLED_"..QTag]
+		return Ternary(Prefixed(KTag,"REG_"),GINT["KILLED_"..KTag]+GINT["KILLED_"..Replace(KTag,"REG_","")],GINT["KILLED_"..KTag])
+	End
+	
+	var _Img
+	Static Table Sex = {[true]="Male", [false]="Female"}
+	Static Table SIMG = {}
+	Static Table Kleur = {[0]="H","C","D","S"} 
+	
+	Int StretchX = 0
+	Int StretchY = 0
+
+	Get Var Img
+		Bool Male = (Sys.Ticks Div 500) Div 2 % 2 == 0
+		If Prefixed(Data.ImageFile,"*")
+			Switch Data.ImageFile
+				Case "*CULTISTLEADER"
+					Return LoadNewImage("GFX/Combat/Fighters/Foe/Reg/Cultist Leader "..Sex[Male]..".png","BEST_CULTL_"..(Upper(Sex[Male])))
+				Case "*CULTIST"
+					Return LoadNewImage("GFX/Combat/Fighters/Foe/Reg/Cultist "..Sex[Male]..".png","BEST_CULTN_"..(Upper(Sex[Male])))
+				Case "*CARD"
+					StretchX=70
+					StretchY=100
+					CardNum:=os.time() % 52
+					Suit:=CardNum Div 13
+					CVal:=(CardNum % 13)+1
+					Return LoadNewImage(sprintf("GFX/Combat/Foe/Reg/PlayingCard/%s%d.png",Kleur[Suit],CVal),sprintf("BEST_CARD_%d%02d",Suit,CVal))
+				Case "*JOKER"
+					stretchx = 204
+					stretchy = 300
+					return LoadNewImage("GFX/Combat/Fighters/Foe/Boss/Joker.png","BEST_JOKER")
+				case "*LICHKING"
+					stretchx = 300
+					stretchy = 500
+					return LoadNewImage("gfx/combat/Fighters/foe/Boss/LichKing.png","BEST_LICH_KING")
+				Default
+			End
+		End
+		_Img = _Img || LoadNEWImage("GFX/Combat/Fighters/Foe/"..Data.ImageFile,"BESTIARY::"..Data.ImageFile)
+		Return _Img
+	End
+
+	Get String Name
+		Return Data.Name
+	End
+
+	Var Desc = nil
+	Static Var Lijst = New TLinkedList()
+End
+
+
+
+Init
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__AstrilopupElite.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__BigGrassTiger.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__BigLion.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__BrainDroid.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Cultist Leader.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Cyborg Lord.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__DardBoorth.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__DardMoeder.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__DeathMyrQueen.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Diablo.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__ExHuRU.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__FireSpiderYoung.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Flirmouse_King.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Flirmouse_Subject.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__GiantSnake.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Gold Killer Droid.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__HWSNBN.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Joker.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__LichKing.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Mid-Boss.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__QueenMyr.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__SupaQual.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__SuperCyborg.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Supersyss.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__SuperZombie.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Thief Chief.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__UberGremlin.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__astrilopup.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__AstrilopupGuard.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__BattleDroid.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__BlackLizard.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Bladeh.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cid.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cow.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cultist.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__CyberAstrilopup.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cyborg Captain.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cyborg Gunner.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cyborg Ji.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Cyborg Medic.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__DeathMyr.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__flirmouse.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Flysky.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Ghoul.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Goblin.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__GrassTiger.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Gremlin.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Gummi.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Hag.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Hawk.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__HellHound.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Imp.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Insetto.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Leopard.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Lion.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Myr.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__PhanUndeadKid_Befindo.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__PhanUndeadKid_Elf.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__PhanUndeadKid_Fairy.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__PhanUndeadKid_Human.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__PhanUndeadKid_Phelynx.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Card.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Pyroguin.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Qual.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Rat.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Salamander.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Shroom.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__SnowLeopard.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Spider.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Syss.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Thief.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Wolf.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Zombie.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SpecialBoss/RAWFOE__McLeen.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SuperBoss/RAWFOE__BlackHoleDweller.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SuperBoss/RAWFOE__FireSpider.neil") )
+End
