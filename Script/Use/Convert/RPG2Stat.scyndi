@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.02.06 I
+// 	version: 25.02.11
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -82,7 +82,7 @@ Int CharStat(data,String Key)
 				//CSayF("Get %s for %s",key,c)
 				if _links[c]
 					//d.XStat[sk[1]].Buff[sk[0]]=Lua.Scyndi.Globals.RPGChar[_links[c]][Key]
-					CSayF("Linking %s to %s and retrieve %s",c,_links[c],key)
+					//CSayF("Linking %s to %s and retrieve %s",c,_links[c],key)
 					lt:=_stat.Char[_links[c]]
 					d.XStat[sk[1]].Buff[sk[0]] = lt.XStat[sk[1]].Buff[sk[0]]
 				end
