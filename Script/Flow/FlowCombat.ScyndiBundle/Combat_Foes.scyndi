@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.06 II
+// 	  Version: 25.02.12
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -68,7 +68,11 @@ class Combat_Foe extends Combat_Fighter
 	readonly string File
 	readonly int Idx
 	readonly var RawData
-	readonly int Level
+	readonly int _Level
+		
+	Get Int Level
+		Return Ternary(_Level<=0,Zelf.Char.Stat.Level,_Level)
+	End
 	
 	// Make sure that pickpocket only works once.
 	Bool StolenFrom = false
@@ -538,7 +542,7 @@ class Combat_Foe extends Combat_Fighter
 		RFoeFile:=StripAll(Replace(F," ","_"))
 		Lua.Scyndi.Use("Script/Data/Foe/"..Ternary(RFoePath!="",RFoePath,"Reg").."/RAWFOE__"..RFoeFile)
 		RawData = Lua.Scyndi.Class["RAWFOE__"..StripAll(RFoeFile)]
-		Level = Lvl
+		_Level = Lvl
 		Fighter.Fighters[Tag] = self
 		// Compile Foe into workable data during combat
 		CSayF("Compiling Foe %d: %s (%s) to tag %s",idx,RawData.Name,F,Tag)
