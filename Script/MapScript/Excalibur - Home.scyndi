@@ -129,6 +129,7 @@ group MScript
 		//RPGChar.Wendicka.Link_List("UniWendicka","*") 
 		//RPGChar.Wendicka.Link_Points("UniWendicka","*")
 		RPGPureChar.UniWendicka.Stat.Updates = 0
+		RPGPureChar.UniWendicka.ListAdd("ABL_POWERUP","Powerup list!")
 		RPGPureChar.UniWendicka.LinkStat("*","Wendicka"); CSayF("Wendicka lv. %d->%d",RPGChar.UniWendicka.Stat.Level,RPGChar.Wendicka.Stat.Level)
 		RPGPureChar.UniWendicka.LinkData("*","Wendicka")
 		RPGPureChar.UniWendicka.LinkList("*","Wendicka")
