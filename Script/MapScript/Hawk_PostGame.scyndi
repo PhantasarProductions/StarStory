@@ -1,3 +1,42 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/MapScript/Hawk_PostGame.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.12 V
+// 
+// End License
 // License Information:
 // **********************************************
 // 
@@ -35,10 +74,18 @@
 // version: 21.05.27
 // End License Information
 
-#use "Script/Use/Anyway"
+Script
 
-#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.27"
-#MKL_Lic     "Star Story - Hawk_PostGame.neil" "Phantasar Closed License"
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+#use "Libs/Music"
+#use "Script/use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/Flow"
+
+//#MKL_Version "Star Story - Hawk_PostGame.neil" "21.05.27"
+//#MKL_Lic     "Star Story - Hawk_PostGame.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -59,8 +106,8 @@ group MScript
 	End
 
 	Void NPC_Terminal()
-		gv.gbool.PostGameTerminal = True // Just a safety setting.
-		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.neil")
+		gbool.PostGameTerminal = True // Just a safety setting.
+		State.LoadNew("FLOW_TERMINAL","Script/Flow/FlowTerminal.lbc")
 		State.GoToFlow("TERMINAL")
 	End
 
@@ -76,7 +123,7 @@ group MScript
 	Void NPC_NewGamePlus()
 		MapText("NGP")
 		MapText("NGP2")
-		State.LoadNew("FLOW_STARTGAME_PLUS","Script/Flow/FlowNewGamePlus.neil")
+		State.LoadNew("FLOW_STARTGAME_PLUS","Script/Flow/FlowNewGamePlus.lbc")
 		State.GoToFlow("STARTGAME_PLUS")
 	End
 
@@ -84,11 +131,11 @@ group MScript
 		Map.HideButLabel("Back")
 		Map.ShowObj("PLAYER")
 	End
+End	
 	
-	CONSTRUCTOR	
-		CSay("The Hawk - Post Game")
-		ZA.TabEnter{"ShowBack"}
-		Party.Recover()
-	End
+Init	
+	CSay("The Hawk - Post Game")
+	ZA.TabEnter{"ShowBack"}
+	Party.Recover()
+End
 
-end
