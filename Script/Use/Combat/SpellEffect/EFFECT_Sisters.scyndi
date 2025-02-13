@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellEffect/Sisters.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellEffect/EFFECT_Sisters.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,23 @@
 // 
 // **********************************************
 // 
-// version: 21.06.15
-// End License Information
+// 
+// version: 25.02.11 III
+// 
+// End License
+
+
+Module
+
+#use "libs/sci/sys"
+
+#use "script/use/link"
+
+#use "script/flow/flowcombat"
+#use "script/use/convert/rpg2stat"
+
 Bool CrystalFront()
-	For i=1,3
+	For i=0,2
 		If RPGParty[i]=="Crystal" || RPGParty[i]=="UniCrystal"
 			Return True
 		End
@@ -43,7 +57,7 @@ Bool CrystalFront()
 	Return False
 End
 
-Bool Sisters(act,tar)
+Bool DoEffect(act,tar)
 	if !CrystalFront
 		Return False
 	End
@@ -53,8 +67,8 @@ Bool Sisters(act,tar)
 	End
 	BoxText.Serial("COMBAT","SISTERS","FLOW_COMBAT")
 	Ach.Award("ALLABL_WENDICKA")
-	For ch In Each{"Wendicka","Crystal"}
-		For Stat In Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
+	For ch In Each{[0]="Wendicka","Crystal"}
+		For Stat In Each{[0]="Strength","Defense","Will","Resistance","Agility","Accuracy","Evasion","HP","AP"}
 			If RPGChar[ch].Stat["BASE_"..stat]>0
 				RPGChar[ch].Stat["BUFF_"..stat] = math.max(RPGChar[ch].Stat["BUFF_"..stat],math.random(RPGChar[ch].Stat["BASE_"..stat] div 2,RPGChar[ch].Stat["BASE_"..stat] * 2))
 				CSayF("Sisters.%s.%s = %d",ch,stat,RPGChar[ch].Stat["BUFF_"..stat])
@@ -65,4 +79,4 @@ Bool Sisters(act,tar)
 	Return True
 End
 
-Return Sisters
+//Return Sisters
