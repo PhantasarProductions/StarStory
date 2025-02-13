@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23 I
+// version: 25.02.13 IV
 // 
 // End License
 
@@ -388,7 +388,7 @@ group MScript
 			timeout--
 			Lua.assert(timeout>=0,"ExHuRU kick door time-out")
 			klaar = true
-			for i,d in ipairs(deur)
+			for i,d in pairs(deur)
 				if d.X>0
 					d.X-=0.5
 				elseif d.X<0
