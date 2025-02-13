@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/Goddess.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/StartScript/UseGoddess.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,35 @@
 // 
 // **********************************************
 // 
-// version: 21.07.18
-// End License Information
+// 
+// version: 25.02.12 XVI
+// 
+// End License
+
+
+module
+
 #use "Libs/XMath"
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
+
+locExtern Combat_Fighter "Scyndi.Class.Combat_Fighter"
+locExtern Screen "Scyndi.Class.Graphics"
 
 Var FGoddess
 
 QuickMeta GDrone
 	Index
-		If key:upper()=="EACH"
+		If Lua.type(key)=="string" && Upper(key)=="EACH"
 			int i = 0
-			Var Ret()
+			//Var Ret()
+			dDef Ret
 				i++
 				If i>__skill*3
 					return nil,nil
@@ -57,13 +76,28 @@ End
 
 Table Degs = {}
 
+Void Goddess_AI_Reset(_Foe)
+	//_Foe.AI_Actions 
+	CSayF("Resetting abilities for %s(%s) level %d",_Foe.Tag,_Foe.Name,_Foe.Level)
+	
+	for A in Each(_Foe.RawData.Acts)
+		if !_Foe.RawData.ActMinLevel[A]
+			CSayF("Warning! Action '%s' has a nil value!\007",A)
+		elif !_Foe.level
+			Lua.error(sprintf("Creating foe '%s' but it appears to have a nil value for a level!",_Foe.Tag))
+		elif _Foe.level>=_Foe.RawData.ActMinLevel[A]
+			_Foe.AI_Actions += A
+		end
+	end
+End
+
 Void InitGoddess()
 	FGoddess = Combat_Fighter.Fighters.FOE_0
-	FGoddess.AltX = Screen.W Div 4
-	FGoddess.AltY = (Screen.H - 100) Div 2
+	FGoddess.AltX = Graphics.W Div 4
+	FGoddess.AltY = (Graphics.H - 100) Div 2
 	Table StatTotal
-	For ch in Each{"Wendicka","Crystal","Foxy","Xenobi","Johnson","Yirl"}
-		For S in Each{"Strength","Defense","Will","Resistance","Agility","Accuracy","HP"}
+	For ch in Each{[0]="Wendicka","Crystal","Foxy","Xenobi","Johnson","Yirl"}
+		For S in Each{[0]="Strength","Defense","Will","Resistance","Agility","Accuracy","HP"}
 			StatTotal[S] = (StatTotal[S] || 0) + RPGChar[ch].Stat["END_"..S]
 		End
 	End
@@ -73,10 +107,10 @@ Void InitGoddess()
 			modifier=5 // Goddess slightly stronger in the Hard Mode, yes.
 		End
 		If key=="HP" 
-			modifier=({1,0.25,0.75})[__skill]
+			modifier=({1,0.75,0.25})[__skill]
 		End
 		// HP should be handled differently
-		number mkvalue = math.floor(value/modifier)
+		number mkvalue := math.floor(value/modifier)
 		Lua.assert(mkvalue==mkvalue,sprintf("Init Goddess stat %s created a NaN. (%d / %1.2f)",key,value,modifier))
 		CSayF("Stat %s > %d / %1.2f = %d",key,value,modifier,mkvalue)
 		FGoddess.Char.Stat["BASE_"..key] = mkvalue
@@ -85,18 +119,23 @@ Void InitGoddess()
 	HP.Maximum = FGoddess.Char.Stat["BASE_HP"]
 	HP.Minimum = 1 // Special Script should ignite in the Godess' case.
 	HP.Have = HP.Maximum
+	RPGPureChar.Wendicka.LinkStat("Level",FGoddess.Tag,"Level")
+	CSayF("Goddess level: %05d (Wendicka: %05d)",RPGPureChar[FGoddess.Tag].Stat.Level,RPGPureChar.Wendicka.Stat.Level)
+	Goddess_AI_Reset(FGoddess)
 	// Drone init
 	For Drone,i in GDrone.Each
+		RPGPureChar.Wendicka.LinkStat("Level",Drone.Tag,"Level")
 		Degs[i]=i*(360 div (__skill*3))
 		Drone.AltX = Screen.W Div 4
 		Drone.AltY = 0-(i*50)
 		For key,value in pairs(StatTotal)
 			Drone.Char.Stat["BASE_"..key] = value div (18 div __skill)
 		End
-		Drone.Char.Stat.Base_HP = math.max(Drone.Char.Stat.Base_HP,20)
+		Drone.Char.Stat.BASE_HP = math.max(Drone.Char.Stat.BASE_HP,20)
 		Drone.Char.Points.HP.Maximum = 10
 		Drone.Char.Points.HP.Minimum = Drone.Char.Points.HP.Maximum
 		Drone.Char.Points.HP.Have = Drone.Char.Points.HP.Maximum		
+		Goddess_AI_Reset(Drone)
 	End
 
 End
@@ -132,4 +171,4 @@ Init
 	CSay("Goddess subscript loaded and running!")
 end
 
-Return RetGoddess
+//Return RetGoddess
