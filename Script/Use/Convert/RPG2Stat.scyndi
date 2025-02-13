@@ -1,7 +1,7 @@
 // License:
 // 	src/Script/Script/Use/Convert/RPG2Stat.scyndi
 // 	RPG to Statician conversion
-// 	version: 25.02.11
+// 	version: 25.02.13 IV
 // 
 // 	Copyright (C) 2024, 2025 Jeroen P. Brok
 // 
@@ -38,7 +38,11 @@ plua _char
 QuickMeta RPGParty
 	newindex
 		//error("Fuck it! Read only on RPGParty")
-		assert(Lua.type(key)=="number","Number expected for index to change")
+		if Lua.type(key)=="string" && Upper(key)=="MAX"
+			_Stat.Party.Max=value
+			return
+		end
+		assert(Lua.type(key)=="number",sprintf("Number expected for index to change (got %s (%s))",Lua.type(key),key))
 		if key<0 || key>5
 			CSay(Lua.debug.traceback())
 			error("Invalid party index")
@@ -189,6 +193,7 @@ plua CharMeta(String ChKey)
 	ret:={}
 	mettable:={}
 	ddef NoNewIndex
+		CSayF("New Index: %s = %s",infinity)
 		Lua.error("Cannot overwrite characters")
 	end
 	ddef ChIndex
