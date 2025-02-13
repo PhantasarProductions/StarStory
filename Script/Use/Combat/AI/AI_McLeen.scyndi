@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/AI/McLeen.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/AI/AI_McLeen.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,27 @@
 // 
 // **********************************************
 // 
-// version: 21.05.12
-// End License Information
+// 
+// version: 25.02.11
+// 
+// End License
+
+
 #undef ai_default_debug
 
 module
 
+#use "libs/sci/sys"
+#use "libs/sci/intervar"
+
+#use "script/use/convert/flow"
+#use "script/use/convert/rpg2stat"
+
 	Get Bool OnlyCrystalRemains
 		bool Front
 		bool Gone = True
-		for i=1,3
-			string ch = RPGParty[i]
+		for i=0,2
+			string ch := RPGParty[i]
 			if ch=="Crystal"
 				Front=true
 			else
@@ -63,22 +74,22 @@ module
 
 	Void Decide(f)
 		if OnlyCrystalRemains
-			gv.gbool.CrystalMcLeenBeamOut = true
+			gbool.CrystalMcLeenBeamOut = true
 			Flow.GoToFlow("FIELD")
 			Return
 		end
-		#if ai_default_debug
-		for i,a in ipairs(f.AI_Actions)
-			CSayF("AI: %03d > %s",i,a)
-		end
-		#fi
-		int n = math.random(1,#f.AI_Actions)
-		CSayF("Chosen action %d out of %d > ",n,#f.AI_Actions,f.AI_Actions[n])
-		var a = new Class_Action(f.Tag,f.AI_Actions[n])
+		//#if ai_default_debug
+		//for i,a in ipairs(f.AI_Actions)
+		//	CSayF("AI: %03d > %s",i,a)
+		//end
+		//#fi
+		int n := math.random(0,len(f.AI_Actions)-1)
+		CSayF("Chosen action %d out of %d > ",n,len(f.AI_Actions),f.AI_Actions[n])
+		var a := new Class_Action(f.Tag,f.AI_Actions[n])
 		f.NextAct = a
 		Switch a.Act.Target
 			Case "AF"
-				For i,ch in ipairs{"Wendicka","Yirl","Xenobi","Foxy","Johnson"}
+				For i,ch in ipairs{[0]="Wendicka","Yirl","Xenobi","Foxy","Johnson"}
 					a.Targets_Tag[i]=ch
 				End
 			Default
@@ -93,4 +104,4 @@ module
 		End
 	End
 	
-End
+//End
