@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Phantasar - Airom.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Phantasar - Airom.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,15 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.06.11
-// End License Information
+// 
+// version: 25.02.11 VIII
+// 
+// End License
 
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
-#use "Script/Use/Map/WorldMap"
+#use "Script/Use/Map/WorldMapUse"
 #use "Script/Use/Map/Phan_Encounter"
 
-#MKL_Version "Star Story - Phantasar - Airom.neil" "21.06.11"
-#MKL_Lic     "Star Story - Phantasar - Airom.neil" "Phantasar Closed License"
+#use "Script/use/convert/RPG2Stat"
+
+//#MKL_Version "Star Story - Phantasar - Airom.neil" "21.06.11"
+//#MKL_Lic     "Star Story - Phantasar - Airom.neil" "Phantasar Closed License"
 
 group TMS
 
@@ -67,7 +78,7 @@ group TMS
 	End
 	
 	Void PostBoss()
-		gv.gBool.Completed_Airom = true
+		gBool.Completed_Airom = true
 		Map.Kill("Boss",true)		
 		Map.Kill("Stuff",true)
 		MapText("POSTBOSS")
@@ -86,29 +97,30 @@ group TMS
 	Void Draw()
 		Static Bool Hidden
 		If !Hidden
-			HideAllSecrets()
+			TMS.HideAllSecrets()
 			Hidden=true
 		End
 	End
 	
 	Void Load()
 	End
+End	
 	
-	CONSTRUCTOR	
-		CSay("Initiating Airom")
-		HideAllSecrets()
-		Phan_Encounter.SetUp()
-		CSay("= Done")
-		If Map.HasTag("Stuff")
-			If RPGChar.Crystal.List.ARM.Has("ARKSMASH")
-				Map.Kill("Boss",True)
-				Map.Kill("Stuff",True)
-			End
+Init	
+	CSay("Initiating Airom")
+	TMS.HideAllSecrets()
+	Phan_Encounter.SetUp()
+	CSay("= Done")
+	If Map.HasTag("Stuff")
+		If RPGPureChar.Crystal.ListHas("ARM","ARKSMASH")
+			Map.Kill("Boss",True)
+			Map.Kill("Stuff",True)
 		End
-		ZA.TabEnter{"Boss","Bye"}
 	End
+	ZA.TabEnter{"Boss","Bye"}
+End
 
-end
+
 
 Void Niks()
 End
