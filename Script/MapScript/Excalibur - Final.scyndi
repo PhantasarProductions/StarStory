@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.11
+// version: 25.02.12
 // 
 // End License
 
@@ -671,7 +671,7 @@ Group MScript
 		Schedule.Add("McLeen_Post")
 		//Lua.error("Fight McLeen not yet implemented")
 		gstring.Johnson = "Ashley"
-		RPGChar.Johnson.Name = "Ashley"
+		RPGPureChar.Johnson.Name = "Ashley"
 		MScript.StartBoss("McLeen","Music/Combat/SpecialBoss/GeorgeMcLeen.ogg")		
 	End	
 	
@@ -736,7 +736,7 @@ Group MScript
 		Int ILay := Lua.tonumber(right(Lay,Len(Lay)-1)) || 0
 		Int XW := Graphics.W Div (Len(XTRA) + 1)		
 		if !LeftTrans
-			If JohnsonJoined && gbool.The1stTimeJohnsonLeave &&  (!Done.The1stTimeJohnsonBack)
+			If JohnsonJoined && gbool.The1stTimeJohnsonLeave && (!Done.The1stTimeJohnsonBack)
 				MapText("JOHNSON_BACK")
 			End		
 			Return
@@ -787,11 +787,12 @@ Group MScript
 				Int H = 30
 				Int X := (((i-1) div 10))*W
 				Int Y := (((i-1) % 10)*30)+75
+				String ShowName := Ternary(len(Names[Tag])<25,Names[Tag],Left(Names[Tag],23).."...")
 				If Unlocked_Floor[Tag]
 					__SkyBlue
 					If i==ILay
 						__Ember
-					ElseIf MX>X && MX<X+Sft.Width(Names[Tag]) && MY>Y && MY<Y+H
+					ElseIf MX>X && MX<X+Sft.Width(ShowName) && MY>Y && MY<Y+H
 						__Cyan
 						If ML
 							Beam.Quick("PLAYER",false,true)
@@ -807,7 +808,7 @@ Group MScript
 							Return
 						End
 					End
-					SFt.Text(Names[Tag],X,Y)
+					SFt.Text(ShowName,X,Y)
 				Else
 					__Red
 					SFt.Text(sprintf("<< Locked:%s >>",Tag),X,Y)
@@ -829,7 +830,7 @@ Group MScript
 						    		If !Done.The1stTimeJohnsonLeave
 						    			MapText("JOHNSON_LEAVE")
 						    		End
-						    		For I=1,6
+						    		For I=0,5
 						    			If RPGParty[I]=="Johnson"	
 						    				RPGParty[I]="Rolf"
 						    			End
@@ -860,6 +861,7 @@ Group MScript
 			Mouse.Draw(MX,MY)
 			Graphics.Flip()
 			//FPS.WaitMinTicks()
+			QuitRequest()
 		Forever
 	End
 	#endregion
