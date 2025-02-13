@@ -128,6 +128,7 @@ group MScript
 		//RPGChar.Wendicka.Link_Data("UniWendicka","*")
 		//RPGChar.Wendicka.Link_List("UniWendicka","*") 
 		//RPGChar.Wendicka.Link_Points("UniWendicka","*")
+		RPGPureChar.UniWendicka.Stat.Updates = 0
 		RPGPureChar.UniWendicka.LinkStat("*","Wendicka"); CSayF("Wendicka lv. %d->%d",RPGChar.UniWendicka.Stat.Level,RPGChar.Wendicka.Stat.Level)
 		RPGPureChar.UniWendicka.LinkData("*","Wendicka")
 		RPGPureChar.UniWendicka.LinkList("*","Wendicka")
@@ -211,6 +212,7 @@ group MScript
 		CSay("Linking Experience")
 		//RPGChar.Crystal.Link_Points("UniCrystal","EXP")
 		RPGPureChar.UniCrystal.LinkPoints("EXP","Crystal")
+		RPGPureChar.UniCrystal.LinkStat("Level","Crystal")
 		CSay("Cyborg Crystal Created")
 		//Lua.error("Crystal creation needs more workout!")
 	end
@@ -340,6 +342,9 @@ group MScript
 	void Create_ExHuRU()
 		if Caps.Cycle==1
 			Party.NewChar("ExHuRU",20,"ExHuRU")
+		else
+			// As base stats are not linked (as they differ per character) I need to make sure they are up to date, as the level WILL always be higher.
+			Party.GrabLevel("ExHuRU",RPGChar.ExHuRU.Stat.Level)
 		end
 	end
 	
