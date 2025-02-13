@@ -66,7 +66,7 @@ group MScript
 			Map.SetObj(c,"Texture","GFX/Actors/Player/"..Tex..".East.jpbf")
 		end
 		MapText("START")
-		for c in each { "Crystal","ExHuRU" }
+		for c in each { [0] = "Crystal","ExHuRU" }
 			Map.Kill(c)
 		end
 		Spawn.Reset()
