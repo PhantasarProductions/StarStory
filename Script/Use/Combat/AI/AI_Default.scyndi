@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/AI/AI_Default.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.12
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -54,6 +54,7 @@ Void Decide(f)
 		CSayF("AI: %03d > %s",i,a)
 	end
 #fi
+	Lua.assert(len(f.AI_Actions)>0,sprintf("No actions found on foe %s (%s)",f.Tag,f.Char.Name))
 	int n := math.random(0,len(f.AI_Actions)-1)
 	CSayF("Chosen action %d out of %d > ",n,len(f.AI_Actions)-1,f.AI_Actions[n])
 	var a := new Class_Action(f.Tag,f.AI_Actions[n])
