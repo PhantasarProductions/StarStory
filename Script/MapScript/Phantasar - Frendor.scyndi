@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.02 XI
+// version: 25.02.11
 // 
 // End License
 
@@ -173,7 +173,7 @@ group MScript
 			For Arm in Each(ARMS)
 				CSayF("Upgrading: %s",Arm)
 				Crystal.Points["ARM.AMMO."..Arm].Maximum += 6 div __skill
-				For sstat in Each{"HIT","XPOWER","WEIGHT"}
+				For sstat in Each{[0]="HIT","XPOWER","WEIGHT"}
 					Crystal.Stat[sprintf("ARM.%s.%s",sstat,ARM)] += 4 - __skill
 				End
 				Crystal.Stat[sprintf("ARM.HIT.%s",ARM)] = math.min(100,Crystal.Stat[sprintf("ARM.HIT.%s",ARM)])
