@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Final Boss.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Final Boss.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,16 +33,28 @@
 // 
 // **********************************************
 // 
-// version: 21.05.18
-// End License Information
+// 
+// version: 25.02.12 VII
+// 
+// End License
+Script
 
 #define Fight_Goddess
 
-#use "Script/Use/Anyway"
-#use "script/Use/Map/KickReggie"
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
 
-#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.18"
-#MKL_Lic     "Star Story - Excalibur - Final Boss.neil" "Phantasar Closed License"
+#use "libs/Music"
+
+#use "Script/use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+#use "script/Use/Map/KickReggieUse"
+
+
+//#MKL_Version "Star Story - Excalibur - Final Boss.neil" "21.05.18"
+//#MKL_Lic     "Star Story - Excalibur - Final Boss.neil" "Phantasar Closed License"
 
 class SchuifDeur
 	static table Mapje = {}
@@ -56,7 +69,7 @@ class SchuifDeur
 	int PrevSchuif
 	
 	Constructor
-		for d in each{"PrevLinks","PrevRechts","NextLinks","NextRechts"}
+		for d in each{[0]="PrevLinks","PrevRechts","NextLinks","NextRechts"}
 			if Map.HasTag(d)
 				self[d]=Map.ObjInt(d,"X")
 				CSayF("Layer %s: Schuifdeur: %s => x = %04d",Map.Layer,d,self[d])
@@ -109,15 +122,15 @@ class SchuifDeur
 		end
 	end
 	
-	#if DEBUG_SCHUIFDEUR
 	void Debug()
-		static var DFnt = ImageFont.Obtain("BOXTEXT")
+	#if DEBUG_SCHUIFDEUR
+		static var DFnt := ObtainFont("BOXTEXT")
 		dFnt.DarkText(sprintf("Prev Open: %s",lua.tostring(PrevOpen)),5,0)
 		dFnt.DarkText(sprintf("Prev Corr: %04d",PrevSchuif),5,30)
 		dFnt.DarkText(sprintf("Next Open: %s",lua.tostring(NextOpen)),5,60)
 		dFnt.DarkText(sprintf("Next Corr: %04d",NextSchuif),5,90)
-	end		
 	#fi
+	end		
 end
 	
 
@@ -184,23 +197,23 @@ group MScript
 			End
 			StartCombat.Prepare()
 			StartCombat.Foe("Goddess/Goddess",Lv)
-			Table Adds = {"Add_Gunner","Add_FlameThrower","Add_IceCannon","Add_WaterGun","Add_WindGun","Add_RockThrower","Add_LightGun","Add_DarkGun","Add_VenomGun","Add_virusGun","Add_Trq","Add_BlockGun","Add_ConfuseGun"}
+			Table Adds = {[0]="Add_Gunner","Add_FlameThrower","Add_IceCannon","Add_WaterGun","Add_WindGun","Add_RockThrower","Add_LightGun","Add_DarkGun","Add_VenomGun","Add_virusGun","Add_Trq","Add_BlockGun","Add_ConfuseGun"}
   			Table Got = {}
-  			static Table LvMargin = {0.50,0.25,0.10}
+  			Table LvMargin = {0.50,0.25,0.10}
   			int maxadds = (3*__skill)
 			For i=1,maxadds
 				CSayF("Adding add: %d/%d",i,maxadds)
 				String Picked
 				Int TimeOut = 1000
 				Repeat
-					Picked = Adds[math.random(1,#Adds)]
+					Picked = Adds[math.random(0,len(Adds)-1)]
 					TimeOut --
 					Lua.assert(TimeOut>0,"Goddess Add Time-Out")
 				LoopWhile Got[Picked]
 				Got[Picked]=True
 				StartCombat.Foe("Goddess/"..Picked,math.random(math.floor(lv-(lv*LvMargin[__skill])),lv))
 			End
-			StartCombat.Tune = "Music/SpecialBoss/Spellbound.ogg"
+			StartCombat.Tune = "Music/Combat/SpecialBoss/Spellbound.ogg"
 			StartCombat.Boss = True
 			StartCombat.Arena = "Orionnevel.png"
 			StartCombat.Begin()
@@ -240,11 +253,12 @@ group MScript
 	
 	Void Load()
 	End
-	
-	CONSTRUCTOR
-		Map.AllowQuitSave=false
-		ZA.TabEnter{"SchuifPrev","SchuifNext","DIE_Lovejoy","Goddess_Room"}
-		ZA.TabLeave{"SchuifPrev","SchuifNext"}
-	End
 
-end
+End
+
+Init
+	Map.AllowQuitSave=false
+	ZA.TabEnter{"SchuifPrev","SchuifNext","DIE_Lovejoy","Goddess_Room"}
+	ZA.TabLeave{"SchuifPrev","SchuifNext"}
+End
+
