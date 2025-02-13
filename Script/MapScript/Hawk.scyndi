@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 V
+// version: 25.02.11 I
 // 
 // End License
 
@@ -176,16 +176,18 @@ group MScript
 		Bool TeachSIABB = RPGPureChar.Crystal.ListHas("ARM","ARKSMASH")
 		CSayF("ArkSmash: %s",__TeachSIABB)
 		for abl in each {[0]="EXHURU_KOLME","XENOBI_VITALIZE","YIRL_FOLLOWME","FOXY_PICKPOCKET","WENDICKA_ELECTRICCHARGE"}
-			TeachSIABB = TeachSIABB && RPGChar.Wendicka.List.ABL.Has(abl)
+			//TeachSIABB = TeachSIABB && RPGChar.Wendicka.List.ABL.Has(abl)
+			TeachSIABB = TeachSIABB && RPGPureChar.Wendicka.ListHas("ABL",abl)
 			CSayF("%s: %s",abl,__TeachSIABB)
 		end
 		TeachSIABB = TeachSIABB && gbool["EXC_UNLOCKED_FLOOR_#016"]  
 		CSayF("Excalibur: %s",__TeachSIABB)
 		if TeachSIABB
 			CSay("Teach if not already having it!")
-			if !RPGChar.Wendicka.List.LEARN.Has("WENDICKA_SISTERS")
+			if !RPGPureChar.Wendicka.ListHas("LEARN","WENDICKA_SISTERS")
 				MapText("TEACH.CRYSTAL")
-				RPGChar.Wendicka.List.LEARN.Add="WENDICKA_SISTERS"
+				//RPGChar.Wendicka.List.LEARN.Add="WENDICKA_SISTERS"
+				RPGPureChar.Wendicka.ListAdd("LEARN","WENDICKA_SISTERS")
 			end
 		end
 	end
