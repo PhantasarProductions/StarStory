@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Excalibur - Post Game.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Excalibur - Post Game.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,26 @@
 // 
 // **********************************************
 // 
-// version: 21.05.20
-// End License Information
+// 
+// version: 25.02.12 IV
+// 
+// End License
 
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/InterVar"
+
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - Excalibur - Post Game.neil" "21.05.20"
-#MKL_Lic     "Star Story - Excalibur - Post Game.neil" "Phantasar Closed License"
+#use "Script/use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
+
+//#MKL_Version "Star Story - Excalibur - Post Game.neil" "21.05.20"
+//#MKL_Lic     "Star Story - Excalibur - Post Game.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -47,7 +61,7 @@ group MScript
 			Ach.Award("WINGAME")
 			Player.Wind="South"
 			MapText("POST")
-			For c in Each{'CYXFR'}
+			For c in Each{[0]='CYXFR'}
 				Map.Kill("P"..Chr(c),True)				
 			End
 		End
@@ -67,7 +81,7 @@ group MScript
 		MapText("JOHNSON")
 		Beam.Quick("NPC_Johnson",True,True)
 		MapText("JOHNSON_GONE")
-		State.Load("FLOW_CREDITS","Script/Flow/FlowCredits.neil")
+		State.Load("FLOW_CREDITS","Script/Flow/FlowCredits.lbc")
 		Flow.GoToFlow("CREDITS")
 		Map.GoToLayer("LEEG","Start")
 		Schedule.Add("Hawk")
@@ -82,9 +96,12 @@ group MScript
 	
 	Void Load()
 	End
+End	
 	
-	CONSTRUCTOR
-		ZA.TabEnter{"Win"}
+Init
+	ZA.TabEnter{"Win"}
+	For i,ch in ipairs{[0]="Wendicka","Crystal","Yirl","Foxy","Xenobi",""}
+		RPGParty[i]=ch
 	End
+End
 
-end
