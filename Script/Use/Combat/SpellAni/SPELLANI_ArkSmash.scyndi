@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/ArkSmash.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_ArkSmash.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,10 +33,25 @@
 // 
 // **********************************************
 // 
-// version: 21.06.18
-// End License Information
+// 
+// version: 25.02.11 XII
+// 
+// End License
+
+
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
 
 #use "Libs/LinkedList"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Flow/FlowCombat"
+
+#use "Script/Use/Combat/SPELLANI/SPELLANI_Inferno"
 
 Class Planet
 	ReadOnly Static Int Speed = 8
@@ -45,12 +61,12 @@ Class Planet
 	ReadOnly Int StartX
 	Int X
 	Get Int Y
-		Return (Screen.H - 100) div 2
+		Return (Graphics.H - 100) div 2
 	End
 	
 	Static Var Mercury
 	
-	Static Var Lijst = New LinkedList()
+	Static Var Lijst = New TLinkedList()
 	
 	Static Void Reset()
 		For P in Lijst.Each
@@ -61,7 +77,7 @@ Class Planet
 	Constructor(string N, number S, int SX)
 		Name = N
 		Scale = S
-		Img = Image.LoadNew("GFX/Space/"..Name..".png","SPELLANI_ARKSMASH_"..(Name:upper()))
+		Img = LoadNewImage("GFX/Space/"..Name..".png","SPELLANI_ARKSMASH_"..Upper(Name))
 		Img.HotCenter()
 		StartX = SX
 		CSayF("Created Planet: %s",Name)
@@ -91,11 +107,11 @@ Class AS_Star
 	
 	Constructor
 		X = 0 - math.random(0,100)
-		Y = math.random(0,Screen.W-100)
+		Y = math.random(0,Graphics.W-100)
 		Speed = math.random(1,8)
 	End
 	
-	Static Var Lijst = new LinkedList()
+	Static Var Lijst = new TLinkedList()
 	
 	Static Void DrawAll()
 		Int Tel = 0
@@ -104,17 +120,17 @@ Class AS_Star
 			Tel++
 			Graphics.Plot(S.X,S.Y)
 			S.X+=S.Speed
-			If S.X>Screen.W
+			If S.X>Graphics.W
 				L.UnLink()
 			End
 		End
 		If math.random(0,Tel)<=100
-			Lijst.AddLast(New(AS_Star()))
+			Lijst.AddLast(New AS_Star())
 		End
 	End
 End
 
-module
+//module
 	Int Stage = 1
 	Table Stages
 	Int Sun
@@ -132,17 +148,17 @@ module
 		Graphics.Scale(1,1)
 		Combat_Draw.DrawFighters()
 		Party.Boxes()
-		If Planet.Mercury.X>Screen.W+200
+		If Planet.Mercury.X>Graphics.W+200
 			Stage = 2
 		End
 	End
 	
 	Void Stage_TheSun()
-		Static Var SunImage = Image.LoadNew("GFX/XSpace/SunSurface.png","SPELLANI_ARKSMASK_SUNSURFACE")
+		Static Var SunImage = LoadNewImage("GFX/XSpace/SunSurface.png","SPELLANI_ARKSMASK_SUNSURFACE")
 		__white
 		Graphics.Cls()
 		AS_Star.DrawAll()
-		SunImage.Stretch(Sun,0,Screen.W,Screen.H-100)
+		SunImage.Stretch(Sun,0,Graphics.W,Graphics.H-100)
 		Combat_Draw.DrawFighters()
 		If Sun<0
 			Sun+=4
@@ -150,10 +166,10 @@ module
 			__Red
 			SunAlpha++
 			Graphics.SetAlpha(SunAlpha)
-			Graphics.Rect(0,0,Screen.W,Screen.H)
+			Graphics.Rect(0,0,Graphics.W,Graphics.H)
 			If SunAlpha>=255
-				Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
-				Inferno.Start()
+				//Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+				SPELLANI_Inferno.Start()
 				Stage = 3
 			End
 		End
@@ -161,7 +177,8 @@ module
 	End
 	
 	Void Stage_Inferno()
-		Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+		//Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+		Inferno = Inferno || SPELLANI_Inferno
 		Inferno.Draw()
 	End
 	
@@ -169,7 +186,7 @@ module
 		For P in Planet.Lijst.Each
 			P.X = P.StartX
 		End
-		Sun = -Screen.W
+		Sun = -Graphics.W
 		SunAlpha = 0
 		Stage=1
 		Planet.Reset()
@@ -186,11 +203,14 @@ module
 		if Stage<3
 			Return False
 		End
-		Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
-		Return Inferno.Ended
+		//Inferno = Inferno || NeilUse("Script/Use/Combat/SpellAni/Inferno")
+		Return SPELLANI_Inferno.Ended
 	End
 	
-	Constructor
-		Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
-	End
+Init
+	Stages = {Stage_Planets,Stage_TheSun,Stage_Inferno}
 End
+
+
+
+	
