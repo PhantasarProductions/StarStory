@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.10 I
+// version: 25.02.12
 // 
 // End License
 
@@ -97,7 +97,7 @@ End
 Void ChainGameShoot()
 	//Lua.error("Game Shoot not yet available")
 	Loading()
-	State.LoadNew("FLOW_SHOOTGAME","Script/Flow/FlowShoot.neil")
+	State.LoadNew("FLOW_SHOOTGAME","Script/Flow/FlowShoot.lbc")
 	Music.Push()
 	Music.Play("Music/BlockShooter/Overworld.ogg")
 	Flow.Current="SHOOTGAME"
@@ -106,14 +106,14 @@ End
 Void ChainBestiary()
 	//Lua.error("Bestiary not yet available")
 	Loading()
-	State.LoadNew("FLOW_BESTIARY","Script/Flow/FlowBestiary.Neil")
+	State.LoadNew("FLOW_BESTIARY","Script/Flow/FlowBestiary.lbc")
 	Flow.Current="BESTIARY"
 End
 
 Void ChainJukeBox()
 	//Lua.error("Jukebox not yet available")
-	State.LoadNew("FLOW_JUKEBOX","Script/Flow/FlowJukebox.Neil")
-	State.Call("FLOW_JUKEBOX","Arrival","ReturnHawk")
+	State.LoadNew("FLOW_JUKEBOX","Script/Flow/FlowJukebox.lbc")
+	State.Call("FLOW_JUKEBOX","Arrival",2) //"ReturnHawk")
 	Flow.Current="JUKEBOX"
 end
 
