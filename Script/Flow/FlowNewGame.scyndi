@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNewGame.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.13
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -283,7 +283,7 @@ global void MainFlow()
 	Graphics.Color(255,255,255)
 	// Stars
 	Stars.Tile(0,0,Screen.W,Screen.H)
-	// Stage
+	// Stage	
 	NGStage.Stages[NGStage.Stage].MyFlow()
 	if NGStage.Stages[NGStage.Stage].Keyboard
 		Keyboard.Show()
