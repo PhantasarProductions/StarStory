@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowMain.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.12 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -313,8 +313,8 @@ end
 void StartJukeBox()
 	// Due to copyright issues, the Jukebox has also been added to the main menu
 	Loading()
-	Flow.Load("JUKEBOX","Script/Flow/FlowJukebox.neil")
-	Sys.Call("FLOW_JUKEBOX","Arrival","ReturnMain")
+	Flow.Load("JUKEBOX","Script/Flow/FlowJukebox.lbc")
+	Sys.Call("FLOW_JUKEBOX","Arrival",1) // 1 = ReturnMain
 	Flow.Current="JUKEBOX"
 end
 
