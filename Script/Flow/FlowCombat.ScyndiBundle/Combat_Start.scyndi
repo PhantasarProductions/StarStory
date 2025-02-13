@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Start.scyndi
 // 
-// 	  Version: 25.01.26 I
+// 	  Version: 25.02.12 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -110,7 +110,7 @@ end
 		for Enemy in each(enemies)
 			Combat_Foe.AddFoe(Enemy.Enemy,Enemy.Level)
 			if Upper(Enemy.Enemy)=="GODDESS/GODDESS"
-				Lua.Neil.Globals.Combat_Draw.Goddess = NeilUse("Script/Use/Combat/Goddess")
+				Lua.Scyndi.Class.Combat_Draw.Goddess = NeilUse("Script/Use/Combat/StartScript/UseGoddess").RetGoddess
 			end
 		end
 		if StartScript!=""
