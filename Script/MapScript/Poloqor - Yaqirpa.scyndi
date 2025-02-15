@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/Poloqor - Yaqirpa.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/Poloqor - Yaqirpa.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,8 +33,16 @@
 // 
 // **********************************************
 // 
-// version: 21.03.22
-// End License Information
+// 
+// version: 25.02.15 IV
+// 
+// End License
+
+Script
+
+#use "Libs/SCI/Sys"
+
+#use "Script/Use/Link"
 
 #use "Script/MapScript/Yaqirpa_Warp"
 
@@ -65,9 +74,9 @@ group MScript
 		end
 	end
 	
-	readonly delegate Draw = Niks
-	readonly delegate Load = Niks
-	readonly delegate Update = Niks
+	 delegate Draw 
+	 delegate Load 
+	 delegate Update 
 
 	Void Entrance_Zone()
 		Map.HideButLabel("Entrance")
@@ -88,17 +97,21 @@ group MScript
 		Map.HideButLabel("GreatHall")
 		Map.ShowPlayer()
 	End
+End	
 	
-	Constructor	
-		ZA.Enter("Entrance_Zone","Entrance_Zone")
-		ZA.Enter("EnterSave","Enter_Save")
-		ZA.Enter("SAVEZONE1","Enter_Save")
-		ZA.Enter("Kantoor","Enter_Kantoor")
-		ZA.Enter("TutEnemy","TutEnemy")			
-		for NoPrologue in each{ "NPC_SAVE1", "NPC_SAVE2", "NPC_Sleutel", "Astro1", "Astro2", "Astro3", "Astro4", "NPC_DEUR", "Brain" }
-			CSayF("Removed Prologue Object: %s",NoPrologue)
-			Map.Kill(NoPrologue)
-		End	
-		Yaqirpa_Warp.StartUp()
-	end
-end
+Init	
+	ZA.Enter("Entrance_Zone","Entrance_Zone")
+	ZA.Enter("EnterSave","Enter_Save")
+	ZA.Enter("SAVEZONE1","Enter_Save")
+	ZA.Enter("Kantoor","Enter_Kantoor")
+	ZA.Enter("TutEnemy","TutEnemy")			
+	for NoPrologue in each{ [0]="NPC_SAVE1", "NPC_SAVE2", "NPC_Sleutel", "Astro1", "Astro2", "Astro3", "Astro4", "NPC_DEUR", "Brain" }
+		CSayF("Removed Prologue Object: %s",NoPrologue)
+		Map.Kill(NoPrologue)
+		
+	End	
+	Yaqirpa_Warp.StartUp()	
+	MScript.Draw   = Niks
+	MScript.Load   = Niks
+	MScript.Update = Niks
+End
