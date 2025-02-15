@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.06 I
+// version: 25.02.15 I
 // 
 // End License
 
@@ -149,7 +149,7 @@ group flHawk
 	
 	Void TheGreatReset()
 		CSay("The Great Reset!")
-		HawkData = { ["Physilium"] = { ["ARRIVE"]="ARRIVE_PHYSILLIUM" } }
+		HawkData = { ["Physillium"] = { ["ARRIVE"]="ARRIVE_PHYSILLIUM" } }		
 	End	
 			
 	
@@ -320,7 +320,8 @@ Global Void CheckMedals()
 End
 
 Init
-	flHawk.HawkData.Physilium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }	
+	flHawk.HawkData.Physilium = nil
+	flHawk.HawkData.Physillium = flHawk.HawkData.Physilium || { ["ARRIVE"]="ARRIVE_PHYSILLIUM" }	
 	MainFlow = flHawk.MFlow
 	// Medal
 	CheckMedals()
