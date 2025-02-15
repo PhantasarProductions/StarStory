@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29
+// version: 25.02.15
 // 
 // End License
 
@@ -59,6 +59,15 @@ Script
 //#MKL_Lic     "Star Story - PHYSILLIUM - THE RUINS OF THE Y ANHYSBYS.neil" "Phantasar Closed License"
 
 #macro __memprefix "MEMORY_TABLE_ANHYSBYS_"
+
+Get Bool Wendicka_inGroup
+	For i=0,5
+		If RPGParty[i]=="Wendicka" 
+			Return True
+		End
+	End
+	Return False
+End
 
 group MScript
 
@@ -142,7 +151,7 @@ group MScript
 	end
 	
 	void WendickaSecret()
-		if __Rejoined && (Done.Wendicka_Mentioned_Secret_in_Y_AnHysbys)
+		if __Rejoined && Wendicka_inGroup && (!Done.Wendicka_Mentioned_Secret_in_Y_AnHysbys)
 			MapText("WENDICKA_SECRET")
 		end
 	end
