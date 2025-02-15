@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.11 I
+// version: 25.02.15 V
 // 
 // End License
 
@@ -429,13 +429,20 @@ group MScript
 		MapText("PIRATES_B")
 		For i=1,20
 			String p = sprintf("Yo_Ho_%02d_Yo_Ho_A_Pirates_Life_For_Me",i)
-			Map.Spawn(p,sprintf("Pirate%d",i))
-			Map.SetObj(p,"TEXTURE","GFX/Actors/SinglePic/Pirates/Pirate.png")
+			//Map.Spawn(p,sprintf("Pirate%d",i))
+			sspot := Kthura.Obj[sprintf("Pirate%d",i)]
+			pirate:= Kthura.NewObstacle(sspot.X, sspot.Y, "GFX/Actors/SinglePic/Pirates/Pirate.png")
+			pirate.Labels="Bridge"
+			//Map.SetObj(p,"TEXTURE","GFX/Actors/SinglePic/Pirates/Pirate.png")
+			//Kthura.Obj[p].Visible=true
 			CSayF("Spawned: %s",p)
 		End
+		Kthura.Remap()
 		String l = "Today_will_be_known_as_the_day_you_almost_captured_Jacob_Spreeuw"
 		Map.Spawn(l,"PirateLeader")
 		Map.SetObj(l,"TEXTURE","GFX/Actors/SinglePic/Pirates/PirateLeader.png")
+		Kthura.obj[l].Labels="Bridge"
+		Kthura.Remap()
 		Map.HideButLabel("Bridge")
 		Map.ShowObj("PLAYER")
 		MapText("PIRATES_C")
