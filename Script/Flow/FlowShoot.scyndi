@@ -1,44 +1,65 @@
-// License Information:
-// src/Tricky Script/Script/Flow/FlowShoot.neil
-// Version: 21.06.30
-// Copyright (C) 2021 Jeroen Petrus Broks
+// License:
+// 	  src/Script/Script/Flow/FlowShoot.scyndi
 // 
-// ===========================
-// This file is part of a project related to the Phantasar Chronicles or another
-// series or saga which is property of Jeroen P. Broks.
-// This means that it may contain references to a story-line plus characters
-// which are property of Jeroen Broks. These references may only be distributed
-// along with an unmodified version of the game.
+// 	  Version: 25.02.15 XVI
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
 // 
-// As soon as you remove or replace ALL references to the storyline or character
-// references, or any termology specifically set up for the Phantasar universe,
-// or any other univers a story of Jeroen P. Broks is set up for,
-// the restrictions of this file are removed and will automatically become
-// zLib licensed (see below).
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
 // 
-// Please note that doing so counts as a modification and must be marked as such
-// in accordance to the zLib license.
-// ===========================
-// zLib license terms:
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// End License Information
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
 
-#use "Script/Use/Anyway" 
 
-ReadOnly Var Font = ImageFont.Obtain("BOXTEXT")
-ReadOnly var Mouse = Image.Obtain("MOUSE")
+Script
+
+#use "Libs/Music" 
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+
+#use "Script/use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+
+ReadOnly Var Font = ObtainFont("BOXTEXT")
+ReadOnly var Mouse = ObtainImage("MOUSE")
 
 Class Basis
 	Abstract Void Draw()
@@ -51,29 +72,29 @@ Class Basis
 	Static String Stage = {}
 	
 	Static Void GoStage(string s)
-		s = s:upper()
+		s = upper(s)
 		Basis.Stage = s
 		Lua.assert(Basis.Stages[s],"No Blockshooter stage named: "..s)
 		Basis.Stages[s].Arrive()
 	End
 	
 	Static Void NewStage(string s,o)
-		Stages[s:upper()]=o
+		Stages[upper(s)]=o
 	End
 	
 	Static Get Bool ML
-		Return Events.MouseHitLeft()
+		Return Events.MouseHitLeft
 	End
 	
 	Static Get Int MY
-		Return Events.MouseY()
+		Return Events.MouseY
 	End
 
 	Static Get Int MX
-		Return Events.MouseX()
+		Return Events.MouseX
 	End
 	
-	Static Int ProjSiz
+	Static ReadOnly Int ProjSiz = 16
 	
 End
 
@@ -81,10 +102,10 @@ Class Explain Extends Basis
 	Table Text
 	
 	
-	Constructor
-		Self.ProjSiz = 16
+	Constructor()
+		//Self.ProjSiz = 16
 		For i In Each{32,64,128,256}
-			If i*20<Screen.W-200
+			If i*20<Graphics.W-200
 				Self.ProjSiz = i
 			End
 		End
@@ -138,7 +159,7 @@ Class Game Extends Basis
 	
 	Void Draw()
 		__Ember
-		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.Rect(0,0,Graphics.W,Graphics.H)
 	End
 	
 	Void Update()
@@ -148,11 +169,14 @@ Class Game Extends Basis
 		Self.GoStage("Enter")
 	End
 	
-	Static Void ShowProjectile()
-		__SkyBlue
-		Graphics.Rect((ProjPos-1)*Self.ProjSiz,0,Self.ProjSiz,Self.ProjSiz)
-	End
 	
+	
+End
+
+Void ShowProjectile()
+	__SkyBlue
+	//CSayF("Pos %02d; Size: %02d -> X: %02d",Game.ProjPos,Basis.ProjSiz,(Game.ProjPos-1)*Game.ProjSiz)
+	Graphics.Rect((Game.ProjPos-1)*Game.ProjSiz,0,Game.ProjSiz,Game.ProjSiz)
 End
 
 Class Enter Extends Basis
@@ -170,23 +194,23 @@ Class Enter Extends Basis
 	End
 	
 	Void Draw()
-		String PS = SprintF("%d> Postion cannon: ",Game.Shot)
-		Int PSW = Font.TextWidth(PS)
-		Game.ShowProjectile()
+		String PS := SprintF("%d> Postion cannon: ",Game.Shot)
+		Int PSW := Font.Width(PS)
+		ShowProjectile()
 		Hover = 0
 		For i=1,20
 			Int y = i*30
 			__Ember
-			If Self.MY>y && Self.MY<y+30 && Self.MX>Screen.W-150
+			If Self.MY>y && Self.MY<y+30 && Self.MX>Graphics.W-150
 				__Yellow
 				Hover=i
 			End
-			Font.Text(sPrintF("%02d",i),Screen.W - 10,y,1,0)
+			Font.Text(sPrintF("%02d",i),Graphics.W - 10,y,1,0)
 		End		
 		__SkyBlue
-		Font.Text(PS,5,Screen.H,0,1)
+		Font.Text(PS,5,Graphics.H,0,1)
 		__Ember
-		Font.Text(Sht.."_",6+PSW,Screen.H,0,1)
+		Font.Text(Sht.."_",6+PSW,Graphics.H,0,1)
 	End
 	
 	Void Update()
@@ -205,7 +229,7 @@ Class Enter Extends Basis
 			End
 		End
 		If Events.KeyHit(8) 
-			Switch #Sht
+			Switch Len(Sht)
 				Case 0
 					// Do Nothing
 				Case 1
@@ -240,7 +264,7 @@ Class Shoot Extends Basis
 	End
 	
 	Void Arrive()
-		PY = Screen.H
+		PY = Graphics.H
 	End
 	
 	Delegate Line = Graphics.Line
@@ -257,7 +281,7 @@ Class Shoot Extends Basis
 		// Bottom
 		Line(PX,PY+(PS*4),PS+PX,PY+(PS*4))
 		// Block
-		Game.ShowProjectile()
+		ShowProjectile()
 	End
 	
 	Void Update()
@@ -295,7 +319,7 @@ Class Hit Extends Basis
 	
 	Void Draw()
 		Graphics.Color(B2I,0,0)
-		Graphics.Rect(0,0,Screen.W,Screen.H)
+		Graphics.Rect(0,0,Graphics.W,Graphics.H)
 		Graphics.Color(255-B2I,0,0)
 		Font.Text("** HIT **",Shoot.PX + (Shoot.PS div 2),Shoot.PS div 2,2,2)
 	End
@@ -322,10 +346,10 @@ Class TheEnd Extends Basis
 		End
 	End
 	
-	Void Draw()	                       
-		Static Table Rank = {[0]="Beyond awful",[1]="Awful", [2]="Very bad", [3]="Bad", [4]="Clumsy", [5]="Rookie", [6]="Good", [7]="Very good", [8]="Excellent", [9]="Outstanding", [10]="Perfect!"}
-		int h = Screen.H div 5
-		int x = Screen.W div 2
+	Table Rank = {[0]="Beyond awful",[1]="Awful", [2]="Very bad", [3]="Bad", [4]="Clumsy", [5]="Rookie", [6]="Good", [7]="Very good", [8]="Excellent", [9]="Outstanding", [10]="Perfect!"}
+	Void Draw()	                       		
+		int h = Graphics.H div 5
+		int x = Graphics.W div 2
 		int g = math.floor( (Game.Hit / 10) * 255)
 		int b = math.floor( (Time/TimeReset)*255)
 		__ember
@@ -334,7 +358,7 @@ Class TheEnd Extends Basis
 		Graphics.Color(255-g,g,0)
 		Font.Text(SPrintF("Ranking: %s",Rank[Game.Hit]),x,h*4,2,2)
 		Graphics.Color(255-b,180,b)
-		Graphics.Rect(0,Screen.H-10,math.floor( (Time/TimeReset) * Screen.W),Screen.H-10)
+		Graphics.Rect(0,Graphics.H-10,math.floor( (Time/TimeReset) * Graphics.W),Graphics.H-10)
 	End
 	
 	Void Update()
@@ -347,21 +371,22 @@ Class TheEnd Extends Basis
 
 End
 
-Global Void Apollo_Flow()
+Global Void MainFlow()
 	Graphics.Color(80,80,80)
 	Static Int r=0 
 	If Basis.Stage!="THEEND"
 		If r==0 
 			r = Basis.ProjSiz*20
 		End
-		Graphics.Rect(r,0,Screen.W-r,Screen.H)
+		Graphics.Rect(r,0,Graphics.W-r,Graphics.H)
 	End
 	__White	
 	Basis.Stages[Basis.Stage].Draw()
 	Basis.Stages[Basis.Stage].Update()
 	__White
 	Mouse.Draw(Basis.MX,Basis.MY)
-	Dev.ToConsole()
+	//Dev.ToConsole()
+	QuitRequest()
 End
 
 Init
