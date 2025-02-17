@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.16 XXI
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -50,7 +50,7 @@ Script
 #use "Script/Use/Convert/RPG2Stat"
 //#use "Script/Data/IAA/MyData_ClassFile_IAA"
 
-#undef JewelRecalcDebug
+#define JewelRecalcDebug
 
 plua G_ItemClass = GINIE.Load("Data/IAA/MyData_ClassFile_IAA.ini","CLASS_IAA")
 
@@ -60,7 +60,12 @@ table InVault = {}
 
 QuickMeta ItemData
 	NewIndex
-		CSay("Item data set for: "..key)
+		if ItemDataG[Upper(key)]
+			return
+		end
+		CSayF("Item data set for: %s (%s)",key,value)
+		Lua.assert(value,"Item data received for "..key.." is nil")
+		value.NewValue("Create","Create",os.date())
 		ItemDataG[upper(Key)]=value
 		
 		r:={["__KEY"]=Upper(key)}
@@ -70,30 +75,41 @@ QuickMeta ItemData
 			plua s
 			string k
 			s,k = infinity
-			IDG:=ItemDataG[s.__Key]
+			IDG:=ItemDataG[s.__KEY]
+			If Upper(key)=="SHORTNAME"
+				Shrt:=IDG.Value("REC:"..s.KEY,"SHORTNAME")
+				Long:=IDG.Value("REC:"..s.KEY,"NAME")
+				return Ternary(Shrt!="",Shrt,Long)
+			End
 			Switch G_ItemClass.Value("CLASS",k)
 				case "Int" "Integer"
-					return IDG.IntValue("REC:"..s.__KEY,k)
+					ret:=IDG.IntValue("REC:"..s.__KEY,k)
+					return ret
 				case "String"
-					return IDG.Value("REC:"..s.__KEY,k)
+					ret:= IDG.Value("REC:"..s.__KEY,k)
+					return ret
 				case "Boolean" "Bool"
-					return Upper(IDG.Value("REC:"..s.__KEY,k))=="TRUE"
+					ret:=Upper(IDG.Value("REC:"..s.__KEY,k))=="TRUE"
+					return ret
 				default
-					Lua.error("No valid type for IAA field "..k.." in IAA record: "..s.__KEY)
+					Sys.TraceBack()
+					printf("\x1b[96m%s\x1b[0m\n",lua.debug.traceback())
+					Lua.error("No valid type for IAA field \""..k.."\" in IAA record: "..s.__KEY)
 			End
 		End
 		ddef m_NewIndex
 			Lua.error("IAA fields are read-only!")
 		end
 		defTable m
-			__Index    = m_Index
-			__NewIndex = m_NewIndex
+			__index    = m_Index
+			__newindex = m_NewIndex
 		End
 		ItemDataMeta[Upper(Key)] = SetMetaTable(r,m)
 	End
 	Index
 		Key = Upper(Key)
-		return ItemDataMeta[Key]
+		ret := ItemDataMeta[Key]		
+		return ret
 	End
 End
 
@@ -158,8 +174,8 @@ end
 
 Global Void JewelRecalc(string char)
 	CSayF("Recalculating statistics based on jewel carried for: %s",char) 
-	Table Elements = {"Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
-	Table Statusses = {"Block","Damned","Death","Disease","Paralysis","Poison","Will"}
+	Table Elements = {[0]="Fire", "Wind", "Water", "Earth", "Lightning", "Frost", "Light", "Dark"}
+	Table Statusses = {[0]="Block","Damned","Death","Disease","Paralysis","Poison","Will"}
 	Var C := RPGChar[char]
 	Var D := C.Data
 	Var S := C.Stat
@@ -171,18 +187,25 @@ Global Void JewelRecalc(string char)
 	For _,Stat in pairs(Statusses)
 		S[sprintf("SR_EQBF_%s",Stat)] = 0
 	End
-	CSay("= Checking inventory sockets!")
+	CSayF("= Checking inventory sockets! (%d)",Caps.InventorySockets)
 	For i=1,Caps.InventorySockets
 		String atag := sprintf("INVAMNT%d",i)
 		String dtag := sprintf("INVITEM%d",i)
 		String ishr := Upper(D[dtag])
 		string itag := "ITM_"..ishr
 		If ishr!=""
+			CSayF("= Checking item: %s (on spot: %02d) ",ishr,i)
 			//ItemData[itag] = ItemData[itag] || NeilUse("Script/Data/IAA/"..itag)
 			ItemData[itag] = ItemData[itag] || GINIE.Load("Data/IAA/"..itag..".ini","ITEM: "..itag)
+			CSayF("= Quick!")
 			Var ItData := ItemData[itag]
+			CSayF("= BreakDown!")
+			num:=S[atag]
+			itName:=itData.Name
+			CSayF("= Number: %d -> %s (%s)",num,ItName,Lua.type(itName))
 			For j=1,S[atag]
 				For _,Elem in pairs(Elements)
+					CSayF("= %d:%s -> %s",j,Elem,ItData["ITM_EQP_ERes_UP"..Elem])
 					If Elem=="Dark" && ItData["ITM_EQP_ERes_UP"..Elem] 
 						S["ER_MODIFIER_"..Elem]++
 #if JewelRecalcDebug
