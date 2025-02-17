@@ -34,20 +34,50 @@
 // **********************************************
 // 
 // 
-// version: 25.02.17
+// version: 25.02.17 VIII
 // 
 // End License
 Script
 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
+#use "Script/Use/Convert/RPG2Stat"
+
+Void Niks()
+End
+
+
+Void FlipSwitch(String K)
+	Int n:=Lua.string.byte(K)-48
+	Int Other:=(n%2)+1
+	If Done["CATHEDRAL_SWITCH_"..k]
+		Schedule.Add("MSG:The lever is stuck now!")
+		return
+	End
+	If gbool["CATHEDRAL_SWITCH_"..Other]		
+		Schedule.Add("MSG:You hear a door opening somewhere")
+		Map.Kill("Barrier",true)
+	Else
+		Schedule.Add("MSG:Click!")
+	End	
+	Kthura.Obj["NPC_Switch"..K].Texture="GFX/TEXTURES/SWITCH/Left.png"
+End
+
 QuickMeta MScript
 	index
-		return Lua.Scyndi.Class.Globals[key]
+		If Prefixed(Upper(key),"NPC_SWITCH")
+			FlipSwitch(Right(Key,1))
+			Return Niks
+		End
+		return Lua.Scyndi.Globals[key]
 	end
 	newindex
-		Lua.Scyndi.Class.Globals[key] = value
+		Lua.Scyndi.Globals[key] = value
 	end
 end
 
@@ -55,3 +85,25 @@ Global Void NPC_Save()
 	MSave.ToSave()
 End
 
+Global Void Draw()
+End
+
+Global Void Update()
+	If !Done["BEEN_IN_CATHEDRAL_"..Map.Layer]
+		CSayF("First time in layer %s, so giving out EXP!",Map.Layer)
+		For i=0,5			
+			If RPGParty[i]!=""
+				Ch:=RPGPureChar[RPGParty[i]]
+				Lv:=Ch.Stat.Level
+				EP:=Ch.Points.Exp
+				Bn:=100000 div (Lv * __skill)
+				EP.Have += Bn
+				CSayF("%s gets %d bonus on his/her experience!",RPGParty[i],Bn)
+			End
+		End
+	End
+End
+
+Global Void Load()
+	Print("Welcome to the Cathedral!")
+End
