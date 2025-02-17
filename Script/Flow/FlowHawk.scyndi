@@ -316,6 +316,7 @@ Global Void CheckMedals()
 			CSay(" 50% -> House of Cards should now be added!")
 			MDungs["B"]=MDungs["B"] || New HData("House Of Cards","Medals - House Of Cards","#000","Start")
 		End
+		MDungs["ZZZ"]=MDungs["ZZZZ"] || New HData("<- Back","","",nil)
 	End
 End
 
