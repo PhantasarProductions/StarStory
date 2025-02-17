@@ -34,12 +34,15 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 I
+// version: 25.02.17
 // 
 // End License
 
 
 Module
+
+#use "libs/sci/kthura"
+#use "libs/sci/sstring"
 
 LocExtern ForceCheer "false"
 LocExtern ForceSmokeBomb "false"
@@ -82,6 +85,9 @@ LocExtern ForceDragonCut "false"
 				Return "FOXY_DRAGON_CHARGE"
 			End
 		end
+		If Upper(StripDir(Kthura.LoadedMap))=="MEDALS - CATHEDRAL"
+			Return "FOXY_MEDAL_HELLFIRE"
+		End
 		Int Under := ablused.Foxy + RPGChar.Foxy.Stat.Level
 		For abl,rate In Pairs(Ability)
 			String ret = "FOXY_"..abl
