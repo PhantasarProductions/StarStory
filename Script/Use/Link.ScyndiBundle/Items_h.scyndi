@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Link.ScyndiBundle/Items_h.scyndi
 // 
-// 	  Version: 25.01.23 V
+// 	  Version: 25.02.16 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -91,6 +91,10 @@ void MkTrueItem(string it)
 				ret := LoadNewImage(f,"ITEM__"..it)
 				ret.HotBottomCenter()
 				return ret
+			case "SHORTNAME"
+				shrt:=s._gin.value(rec,"SHORTNAME")
+				long:=s._gin.value(rec,"NAME")
+				return Ternary(shrt=="",long,shrt)
 			case "ABL_AP" "ABL_SPEED" "ABL_APCUT" "ABL_DBLSPEED" "ABL_INSTANT" "ABL_CANCEL" "ABL_DBLPOWER" "ACTSPEED" "ATTACKPOWER" "HEALING" "ITM_SELLPRICE" "ITM_BUYPRICE" "ITM_SHILDERPRICE" "APRECOVER"
 				//return ISGET.Int("SUB_ITEMS","ItemBaseGet(\""..it.."\",\""..k.."\")")
 				return s._gin.intvalue(rec,k)
