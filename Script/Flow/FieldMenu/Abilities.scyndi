@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Abilities.scyndi
 // 
-// 	  Version: 25.02.01
+// 	  Version: 25.02.16
 // 	
 // 	  Copyright (C) 2020,2021, 2025 Jeroen Petrus Broks
 // 	
@@ -225,7 +225,7 @@ end
 				Graphics.Color(0,255,255)
 				ht = abl.Description
 			end
-			afont.Text(abl.Name,x,y)
+			afont.Text(abl.ShortName,x,y)
 			int APCost := abl.ABL_AP
 			__ember
 			//if RPGChar[CharTag].List.ABL_POWERUP.Has(atag..".APCUT")
