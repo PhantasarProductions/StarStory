@@ -58,6 +58,7 @@ Script
 #undef CleanUp
 
 #macro Always_HouseOfCards True
+#macro Always_Cathedral True
 
 extern MaxMedal "25000"
 
@@ -315,6 +316,10 @@ Global Void CheckMedals()
 		If Always_HouseOfCards || ratio>=50
 			CSay(" 50% -> House of Cards should now be added!")
 			MDungs["B"]=MDungs["B"] || New HData("House Of Cards","Medals - House Of Cards","#000","Start")
+		End
+		If Always_Cathedral || ratio >= 75
+			CSay(" 75% -> Cathedral should now be added!")
+			MDungs["C"]=MDungs["C"] || New HData("The Cathedral","Medals - Cathedral","#000","Aanvang")
 		End
 		MDungs["ZZZ"]=MDungs["ZZZZ"] || New HData("<- Back","","",nil)
 	Else
