@@ -317,6 +317,8 @@ Global Void CheckMedals()
 			MDungs["B"]=MDungs["B"] || New HData("House Of Cards","Medals - House Of Cards","#000","Start")
 		End
 		MDungs["ZZZ"]=MDungs["ZZZZ"] || New HData("<- Back","","",nil)
+	Else
+		CSay("Not yet spoken to Yorno! Come back later!")
 	End
 End
 
