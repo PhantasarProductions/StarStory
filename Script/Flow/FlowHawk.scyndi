@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.15 I
+// version: 25.02.17
 // 
 // End License
 
@@ -298,7 +298,7 @@ Global Delegate MainFlow
 //#fi
 
 Global Void CheckMedals()
-	If Medals.Active
+	If gbool.AllowMedalDungeons && Medals.Active
 		CSayF("Medal Rate: %d/%d",Medals.FullScore,MaxMedal)
 		breuk:=Medals.FullScore/MaxMedal
 		int ratio:=math.min(100,breuk*100)
