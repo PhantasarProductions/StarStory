@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Status.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.16
 // 	
 // 	  Copyright (C) 2020-'21, 2025 Jeroen Petrus Broks
 // 	
@@ -57,6 +57,7 @@ module
 	readonly table Portretten
 	readonly var big = ObtainFont("BIGTEXT")
 	readonly var fnt = ObtainFont("BOXTEXT")
+	readonly var sml = ObtainFont("SYSFONT")
 	readonly table Stats = {  "Strength", "Defense", "Will", "Resistance", "Accuracy", "Evasion", "Agility" }
 	
 	readonly table StatusChanges = { "Block",  "Damned", "Death", "Disease", "Paralysis", "Poison", "Will" }
@@ -136,27 +137,27 @@ module
 			switch CharRes[CharTag][e]
 				case 0
 					__red
-					Fnt.Text("Fatal",ix+30,iy)
+					Sml.Text("Fatal",ix+30,iy)
 				case 1
 					Graphics.Color(200,100,0)
-					Fnt.Text("Ultra-Weak",ix+30,iy)
+					Sml.Text("Ultra-Weak",ix+30,iy)
 				case 2
 					Graphics.Color(200,110,0)
-					Fnt.Text("Weak",ix+30,iy)
+					Sml.Text("Weak",ix+30,iy)
 				case 3
 					Graphics.Color(200,180,0)
-					Fnt.Text("--",ix+30,iy)
+					Sml.Text("--",ix+30,iy)
 				case 4
 					Graphics.Color(200,180,0)
-					fnt.Text("Resistant",ix+30,iy)
+					Sml.Text("Resistant",ix+30,iy)
 				case 5
 					Graphics.Color(100,180,0)
-					fnt.Text("Immune",ix+30,iy)
+					Sml.Text("Immune",ix+30,iy)
 				case 6
 					Graphics.Color(0,255,0)
-					Fnt.Text("Absorb",ix+30,iy)
+					Sml.Text("Absorb",ix+30,iy)
 				default
-					Fnt.Text("???",ix+30,iy)
+					Sml.Text("???",ix+30,iy)
 			end
 		end
 		for i,s in pairs(StatusChanges)
