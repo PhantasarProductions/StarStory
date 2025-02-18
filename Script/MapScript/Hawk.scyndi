@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.15 V
+// version: 25.02.18
 // 
 // End License
 
@@ -239,7 +239,7 @@ group MScript
 		do
 		//#else
 		//if (!RPGChar.Wendicka.List.ABL.Has("FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
-			if (!RPGPureChar.Wendicka.ListHas("ABL","FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && W>M
+			if (!RPGPureChar.Wendicka.ListHas("ABL","FOXY_PICKPOCKET")) && Map.Leader=="Wendicka" && (W>M || gbool.CompletedCathedral)
 		//#fi
 				if (!Done.Foxy_Teaches_Pickpocket)
 					MapText("TEACH.FOXY")
