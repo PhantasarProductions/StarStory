@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.01.30 II
+// 	  Version: 25.02.18 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -307,9 +307,9 @@ Class FieldMonster
 		if (FF.Boss)
 			//Lua.error("Bosses not implemented yet!")
 			Lua.assert(FF.BossScript!="","No Boss Script Set")
-			MapScript[FF.BossScript]()
 			StartCombat.RemoveBarrier = FF.BossBarrier
 			StartCombat.Tune = StartCombat.RandomBossTune
+			MapScript[FF.BossScript]()
 		Else
 		//For i=1,9; CSayF("Foe Data: %d -> %s",i,FF[sprintf("Foe%d",i)]); end 
 			For i=1,9
