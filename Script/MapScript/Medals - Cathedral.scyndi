@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.17 VIII
+// version: 25.02.18 VI
 // 
 // End License
 Script
@@ -106,4 +106,45 @@ End
 
 Global Void Load()
 	Print("Welcome to the Cathedral!")
+End
+
+
+Global Void Boss()		
+	//StartCombat.Prepare()
+	CSayF("Setting up the boss fight!")
+	switch __skill
+		Case 3
+			StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Wendicka.Stat.Level)
+			StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Crystal.Stat.Level)
+			StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Yirl.Stat.Level)
+			FallThrough
+		Default
+			StartCombat.Foe("Reg/GhostGirl",RPGPureChar.ExHuRU.Stat.Level)
+			StartCombat.Foe("Boss/GhostWoman",math.min(10000,250*Caps.Cycle))
+			StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Xenobi.Stat.Level)
+			if __skill!=1
+				StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Wendicka.Stat.Level)
+				StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Crystal.Stat.Level)
+				StartCombat.Foe("Reg/GhostGirl",RPGPureChar.Foxy.Stat.Level)
+			end
+	end
+
+	StartCombat.Tune = "Music/Combat/SpecialBoss/Walkuren.wav"
+	StartCombat.Boss = True
+	StartCombat.Arena = "Cathedral.png"	
+	//StartCombat.Begin()	
+	//Map.Kill("BossWall",true)
+	//Map.Kill("NPC_Joker",true)
+	//Map.Kill("ZA_CheckBoss",true)
+	//Kthura.ShowByLabel("Post_Boss")
+End
+
+Global Void Eindpunt()
+	Ach.Award("MEDALS_CATHEDRAL")
+	gbool.CompletedCathedral=true
+	CSayF("End of cathedral reached!")
+End
+
+Init
+	ZA.TabEnter{"Eindpunt"}
 End
