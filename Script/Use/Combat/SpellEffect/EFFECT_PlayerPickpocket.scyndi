@@ -1,0 +1,93 @@
+// License:
+// 	  src/Script/Script/Use/Combat/SpellEffect/EFFECT_PlayerPickpocket.scyndi
+// 
+// 	  Version: 25.02.18 V
+// 	
+// 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
+// 	
+// 	  ===========================
+// 	  This file is part of a project related to the Phantasar Chronicles or another
+// 	  series or saga which is property of Jeroen P. Broks.
+// 	  This means that it may contain references to a story-line plus characters
+// 	  which are property of Jeroen Broks. These references may only be distributed
+// 	  along with an unmodified version of the game.
+// 
+// 	  As soon as you remove or replace ALL references to the storyline or character
+// 	  references, or any termology specifically set up for the Phantasar universe,
+// 	  or any other univers a story of Jeroen P. Broks is set up for,
+// 	  the restrictions of this file are removed and will automatically become
+// 	  zLib licensed (see below).
+// 
+// 	  Please note that doing so counts as a modification and must be marked as such
+// 	  in accordance to the zLib license.
+// 	  ===========================
+// 
+// 
+// 	  zLib license terms:
+// 	
+// 	  This software is provided 'as-is', without any express or implied
+// 	  warranty.  In no event will the authors be held liable for any damages
+// 	  arising from the use of this software.
+// 
+// 	  Permission is granted to anyone to use this software for any purpose,
+// 	  including commercial applications, and to alter it and redistribute it
+// 	  freely, subject to the following restrictions:
+// 	
+// 	  1. The origin of this software must not be misrepresented; you must not
+// 	     claim that you wrote the original software. If you use this software
+// 	     in a product, an acknowledgment in the product documentation would be
+// 	     appreciated but is not required.
+// 	  2. Altered source versions must be plainly marked as such, and must not be
+// 	     misrepresented as being the original software.
+// 	  3. This notice may not be removed or altered from any source distribution.
+// End License
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Audio"
+
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+Module
+
+Bool DoEffect(act,tar)
+	If  math.random(0,Tar.Char.Stat.Level)>math.random(1,Act.Executor.Char.Stat.Level)
+		Return False
+	End
+	Table st := Tar.RawData.ItemSteal
+	If Tar.StolenFrom || len(st)==0
+		Tar.Hurt("Has Nothing",255,180,0)
+		Return True
+	End
+	Int CD=3-__skill
+	String sti
+	Repeat
+		Int stealidx:=math.random(0,len(st)-1)
+		sti = st[stealidx].ITM
+		CSayF("Stolen: %d/%d -> %s (%d)",stealidx,len(st),sti,tar.Level)
+		if (tar.level<st[stealidx].LVL) 
+			sti=""
+			CSayF("Rejected! Target's level too low: %d < %d",tar.level,st[stealidx].LVL)
+		end
+		if CD<=0
+			CSay("Out of retries! Stealing failed!")
+			return false
+		end
+		CD--
+	LoopWhile sti==""
+	If Item.Give(sti,Act.Executor.Tag,False)
+		Act.Executor.Hurt("Stolen: "..Item[sti].Name,255,180,0)
+		Tar.StolenFrom = True
+		if Act.Executor.Tag=="Foxy"
+			Audio.LoadNew("audio/sfx/foxy/yes.ogg","PICKPOCKET_FOXY_YES").Play()
+		End
+		Return True
+	Else
+		Act.Executor.Hurt("Overloaded!",255,0,0)
+		Return False
+	End
+	
+End
+
+//Return Jat
