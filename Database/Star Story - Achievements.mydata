@@ -1,7 +1,7 @@
 # License:
 # 	  src/Script/Database/Star Story - Achievements.mydata
 # 
-# 	  Version: 25.02.05
+# 	  Version: 25.02.18
 # 	
 # 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 # 	
@@ -101,6 +101,11 @@ Type=Bronze
 # Also adding comments here is pretty senseless!
 # Data last generated 15/4/2021
 
+Rec: MEDALS_CATHEDRAL
+	Title = Are you going with me to my father's house?
+	Description = Complete the Cathedral
+	Show = Achieved
+	Type = MedalSpecial
 
 Rec: MEDALS_HOUSE
 	Title = The House Of Cards is about to fall
