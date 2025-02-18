@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.05
+// version: 25.02.18 I
 // 
 // End License
 
@@ -71,6 +71,15 @@ do
 	ret.Icon = "*DEFAULT*"
 	ret.Type = "Gold"
 end
+
+Do
+	var ret = new MyData_MyDataClass_20263185fe9f4a362e2cbf45b551861f_1e9dc4fd33f29e3cd70f49a074169ce3()
+	retbase.MEDALS_CATHEDRAL=ret
+	ret.Title = "Are you going with me to my father's house?"
+	ret.Description = "Complete the Cathedral"
+	ret.Show = "Achieved"
+	ret.Type = "MedalSpecial"
+End
 
 // Record: ALLABL_CRYSTAL
 do
