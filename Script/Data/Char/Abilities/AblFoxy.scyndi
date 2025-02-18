@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.17
+// version: 25.02.18 I
 // 
 // End License
 
@@ -85,7 +85,7 @@ LocExtern ForceDragonCut "false"
 				Return "FOXY_DRAGON_CHARGE"
 			End
 		end
-		If Upper(StripDir(Kthura.LoadedMap))=="MEDALS - CATHEDRAL"
+		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - CATHEDRAL"
 			Return "FOXY_MEDAL_HELLFIRE"
 		End
 		Int Under := ablused.Foxy + RPGChar.Foxy.Stat.Level
