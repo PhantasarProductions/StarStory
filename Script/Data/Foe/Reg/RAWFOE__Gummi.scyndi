@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.02.18
 // 
 // End License
 // Automated conversion from Neil to Scyndi!
@@ -188,7 +188,7 @@ module
 		 end
 		temp={}
 		temp.ITM="ITM_PHAN_LEVELAPPLE"
-		temp.LVL=1800
+		temp.LVL=2800
 		temp.VLT=false
 		for ak=1,1800 
 			 ItemDrop+=temp
