@@ -1,7 +1,7 @@
 // License:
 // **********************************************
 // 
-// src/Script/Script/Data/Foe/Reg/RAWFOE__Cultist.scyndi
+// src/Script/Script/Data/Foe/Reg/RAWFOE__GhostGirl.scyndi
 // (c) Jeroen Broks, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
@@ -34,12 +34,12 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.02.18 II
 // 
 // End License
 // Automated conversion from Neil to Scyndi!
 
-/
+
 
 
 module
@@ -122,7 +122,7 @@ module
 		plua temp
 
 
-		ActMinLevel["ABL_EXHURU_KAKSI"] = 1 
+		ActMinLevel["ABL_FOE_SCREAM"] = 1 
 		for ak=1,2 
 			Acts+="ABL_FOE_SCREAM"
 		end
