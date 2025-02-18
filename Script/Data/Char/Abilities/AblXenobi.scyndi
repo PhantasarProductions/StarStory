@@ -34,12 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 25.01.29 II
+// version: 25.02.18
 // 
 // End License
 
 
 module
+
+#use "Libs/SCI/Intervar"
 
 #use "Script/Use/Anyway"
 #use "Script/Use/Convert/RPG2Stat"
@@ -58,6 +60,9 @@ module
 				need = math.min(need,lvl)
 			end
 		end
+		if gbool.CompletedCathedral && (!RPGPureChar.Xenobi.ListHas("ABL","XENOBI_MEDAL_HEAVEN"))
+			return "???"
+		end
 		if need<=Level
 		     return "Attack any enemy"
 		elseif need==40000
@@ -68,6 +73,9 @@ module
 	end
 
 	get string Learn
+		if gbool.CompletedCathedral && (!RPGPureChar.Xenobi.ListHas("ABL","XENOBI_MEDAL_HEAVEN"))
+			return "XENOBI_MEDAL_HEAVEN"
+		end
 		for ablt,lvl in pairs(Abilities)
 			string abl = "XENOBI_"..ablt
 			if lvl<=Level && (!RPGPureChar.Xenobi.ListHas("ABL",abl))
