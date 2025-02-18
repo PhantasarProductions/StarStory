@@ -1,0 +1,173 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/Foe/Reg/RAWFOE__Cultist.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.01.23
+// 
+// End License
+// Automated conversion from Neil to Scyndi!
+
+/
+
+
+module
+	readonly string Name = "Ghost Girl"
+	readonly string Desc = "This poor soul died in horror!\nShe still screams\nAnd THAT is the problem!"
+	readonly string ImageFile = "Reg/GhostGirl.png"
+	readonly string AI = "Default"
+	readonly bool Boss = false
+	readonly int Shilders = 0
+	readonly int EleRes_Dark = 6
+	readonly int EleRes_DarkHealing = 6
+	readonly int EleRes_Earth = 3
+	readonly int EleRes_Fire = 1
+	readonly int EleRes_Frost = 3
+	readonly int EleRes_Healing = 6
+	readonly int EleRes_Light = 0
+	readonly int EleRes_Lightning = 1
+	readonly int EleRes_Water = 3
+	readonly int EleRes_Wind = 3
+	readonly table Stat
+	readonly table StatusResistance
+	readonly Table Acts = {}
+	readonly table ActMinLevel = {}
+	readonly table ItemDrop = {}
+	readonly table ItemSteal = {}
+
+
+
+
+
+
+	Init
+// 	CONSTRUCTOR
+		plua DStat
+		DStat = {}
+		Stat["Accuracy"] = DStat
+		DStat += 1
+		DStat += 110
+		DStat = {}
+		Stat["Agility"] = DStat
+		DStat += 1
+		DStat += 200
+		DStat = {}
+		Stat["AP"] = DStat
+		DStat += 0
+		DStat += 0
+		DStat = {}
+		Stat["Defense"] = DStat
+		DStat += 1
+		DStat += 100
+		DStat = {}
+		Stat["Evasion"] = DStat
+		DStat += 1
+		DStat += 50
+		DStat = {}
+		Stat["HP"] = DStat
+		DStat += 100
+		DStat += 2000
+		DStat = {}
+		Stat["LevelRange"] = DStat
+		DStat += 1
+		DStat += 100
+		DStat = {}
+		Stat["Strength"] = DStat
+		DStat += 1
+		DStat += 800
+		DStat = {}
+		Stat["Will"] = DStat
+		DStat += 1
+		DStat += 850
+		StatusResistance["Poison"] = 5
+		StatusResistance["Paralysis"] = 20
+		StatusResistance["Disease"] = 5
+		StatusResistance["Will"] = 50
+		StatusResistance["Block"] = 60
+		StatusResistance["Death"] = 100
+		StatusResistance["Damned"] = 100
+
+
+		plua temp
+
+
+		ActMinLevel["ABL_EXHURU_KAKSI"] = 1 
+		for ak=1,2 
+			Acts+="ABL_FOE_SCREAM"
+		end
+		temp={}
+		temp.ITM="ITM_PHANTASAR_MAGICDUST"
+		temp.LVL=200
+		temp.VLT=false
+		for ak=1,1000 
+			 ItemDrop+=temp
+		end
+		for ak=1,20 
+			 ItemSteal+=temp
+		 end
+		
+		temp={}
+		temp.ITM="ITM_PHANTASAR_HOLYWATER"
+		temp.LVL=2
+		temp.VLT=false
+		for ak=1,150 
+			 ItemDrop+=temp
+		end
+		for ak=1,15 
+			 ItemSteal+=temp
+		 end
+		temp={}
+		temp.ITM="ITM_PHAN_LEVELAPPLE"
+		temp.LVL=1
+		temp.VLT=false
+		for ak=1,1 
+			 ItemDrop+=temp
+		end
+		for ak=1,8 
+			 ItemSteal+=temp
+		 end
+		
+		temp={}
+		temp.ITM="ITM_EQP_SAPHIRE"
+		temp.LVL=150
+		temp.VLT=false
+		for ak=1,1 
+			 ItemDrop+=temp
+		end
+		for ak=1,10 
+		  ItemSteal+=temp
+		end
+
+	end
+// This 'end' has become obsolete -> end
