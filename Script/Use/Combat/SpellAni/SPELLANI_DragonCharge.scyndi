@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/DragonCharge.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_DragonCharge.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,26 +33,24 @@
 // 
 // **********************************************
 // 
-// version: 21.07.15
-// End License Information
+// 
+// version: 25.02.19 II
+// 
+// End License
 
 
 module 
 	
-	
-	// The difference between a CONSTRUCTOR and the and Init function
-	// Is that CONSTRUCTOR is only automatically loaded when this
-	// module is called fo the first time in a combat.
-	// Init will be called EVERY time a move is being performed.
-	CONSTRUCTOR
-	end
+#use "Libs/SCI/InterVar"
+
+#use "Script/Use/Link"
 	
 	Get Int Times
-		return math.max(gv.gint.TimesChargeSpeak,1)
+		return math.max(gint.TimesChargeSpeak,1)
 	ENd
 	
 	Set Int Times
-		gv.gintTimesChargeSpeak = value
+		gint.TimesChargeSpeak = value
 	End
 	
 	void Start(aact)
@@ -71,4 +70,4 @@ module
 		return true
 	end
 	
-end
+//end
