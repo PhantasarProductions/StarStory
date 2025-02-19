@@ -36,6 +36,10 @@
 // End License Information
 Module
 
+#use "Libs/SCI/Graphics"
+
+locExtern Screen "Scyndi.Class.Graphics"
+
 	Int Alpha = 0
 	
 	Void Start()
