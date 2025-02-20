@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/SkyDragonSlash.Neil
-// (c) Jeroen Broks, 2015, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_SkyDragonSlash.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,20 @@
 // 
 // **********************************************
 // 
-// version: 21.07.15
-// End License Information
+// 
+// version: 25.02.19 VI
+// 
+// End License
+
+
 Module
+
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
+
+LocExtern Screen "Scyndi.Class.Graphics"
 
 	Int qm
 	Int qr
@@ -52,15 +64,16 @@ Module
 
 	//function SPELLANI(ag,ai,tg,ti)
 	Void Draw()
-		Static Var crystal = Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/SkyDragonSlash.png","SPELLANI_SKYDRAGONSLASH")
+		locExtern crystal "SKYDRAGONSLASH_CRYSTAL"
+		crystal =  crystal || LoadNewImage("GFX/Combat/SpellAni/SuperMoves/SkyDragonSlash.png","SPELLANI_SKYDRAGONSLASH")
 		//Image.HotCenter(crystal)
 		//local screen  = Image.GrabScreen()
 		Repeat
 			If qr<10  
-				qr = qr + .01 
+				qr = qr + 0.01 
 			End
 			If al<100 
-				al = al + .5 
+				al = al + 0.5 
 			End
 			qm = qm * (-1)
 			__White
@@ -80,7 +93,7 @@ Module
 			Graphics.SetAlpha(255)
 			Graphics.Flip()
 			Events.Poll()
-			FPS.WaitMinTicks()
+			//FPS.WaitMinTicks()
 		Until tm>=250
 		//Image.Free(crystal)
 		//Image.Free(screen)
@@ -90,4 +103,4 @@ Module
 	Void Update()
 	End
 	
-End
+//End
