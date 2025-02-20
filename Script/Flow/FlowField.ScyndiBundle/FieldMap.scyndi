@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.02.09 II
+// 	  Version: 25.02.20
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -238,6 +238,7 @@ class Clickable
 			//CSayF("Clickable scan layer: %s",L)
 			for T in each(Kthura.TagList)
 				CSayF("Clickable scan: %s.%s",L,T)
+				Events.Poll() // Prevents "doesn't respond" messages, or makes them despawn sooner. Especially Linux is pretty agressive on this!
 				if prefixed(T,"NPC_MT_")
 					var fuck := Self.LSpot(L,T) //= Spot(Lay,T)
 					Self.Create(T,L,fuck[1],fuck[2],MapText,T)
@@ -275,7 +276,7 @@ class Clickable
 						TS := Kthura.Obj[T]
 						Self.Create(T,L,TS.X,TS.Y+32,Self.ObtainARM,T)
 					end
-				elseif Prefixed(Upper(T),"ITEM ") 
+				elseif Prefixed(Upper(T),"ITEM ") || Prefixed(Upper(T),"$ITEM")
 					CSayF("Item: %s",T)
 					if math.random(1,(__skill+1)^2)!=1
 						//CSay("- SKIPPED!")
