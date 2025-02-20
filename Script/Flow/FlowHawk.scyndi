@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.17 V
+// version: 25.02.20 I
 // 
 // End License
 
@@ -59,6 +59,7 @@ Script
 
 #macro Always_HouseOfCards True
 #macro Always_Cathedral True
+#macro Always_LostArk True
 
 extern MaxMedal "25000"
 
@@ -320,6 +321,10 @@ Global Void CheckMedals()
 		If Always_Cathedral || ratio >= 75
 			CSay(" 75% -> Cathedral should now be added!")
 			MDungs["C"]=MDungs["C"] || New HData("The Cathedral","Medals - Cathedral","#000","Aanvang")
+		End
+		If Always_LostArk || ratio >= 100
+			CSay("100% -> Lost Ark should now be added!")
+			MDungs["D"]=MDungs["D"] || New HData("The Lost Ark","Medals - Lost Ark","#000","Start")
 		End
 		MDungs["ZZZ"]=MDungs["ZZZZ"] || New HData("<- Back","","",nil)
 	Else
