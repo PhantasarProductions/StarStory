@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.11
+// version: 25.02.19
 // 
 // End License
 
@@ -99,6 +99,7 @@ group MScript
 			KickReggie("PartyPopped_Foxy","Feena_Reggie","East")
 			MapText("FEENA_1C")
 			PPop.UnPop()
+			Map.HideObj("Feena_Reggie")
 			Party.GiveEXP(1234)			
 			return
 		end
