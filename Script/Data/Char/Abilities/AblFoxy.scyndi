@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.18 I
+// version: 25.02.20 I
 // 
 // End License
 
@@ -85,8 +85,11 @@ LocExtern ForceDragonCut "false"
 				Return "FOXY_DRAGON_CHARGE"
 			End
 		end
-		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - CATHEDRAL"
+		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - CATHEDRAL" && (!RPGPureChar.Foxy.ListHas("ABL","FOXY_MEDAL_HELLFIRE"))
 			Return "FOXY_MEDAL_HELLFIRE"
+		End
+		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - LOST ARK" && (!RPGPureChar.Foxy.ListHas("ABL","FOXY_DRAGON_CHARGE"))
+			Return "FOXY_DRAGON_CHARGE"
 		End
 		Int Under := ablused.Foxy + RPGChar.Foxy.Stat.Level
 		For abl,rate In Pairs(Ability)
