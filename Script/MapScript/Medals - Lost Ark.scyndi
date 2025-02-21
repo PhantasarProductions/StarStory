@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.20 IV
+// version: 25.02.20 VI
 // 
 // End License
 Script
@@ -43,6 +43,7 @@ Script
 #use "Libs/SCI/Kthura"
 
 #use "Script/Use/Link"
+#use "Script/Use/Anyway"
 
 QuickMeta MScript
 	index
@@ -69,3 +70,7 @@ global Void Draw()
 End
 
 global const delegate NPC_Save = MSave.ToSave
+
+Global Void Boss()
+	StartCombat.Foe("Boss/OceanGoblin",math.min(Caps.Cycle,20)*500)
+End
