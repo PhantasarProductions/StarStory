@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.19 VI
+// version: 25.02.20
 // 
 // End License
 
@@ -49,8 +49,8 @@ Module
 LocExtern Screen "Scyndi.Class.Graphics"
 
 	Int qm
-	Int qr
-	Int al
+	Number qr
+	Number al
 	Int tm
 	Bool Ended
 	
@@ -94,10 +94,12 @@ LocExtern Screen "Scyndi.Class.Graphics"
 			Graphics.Flip()
 			Events.Poll()
 			//FPS.WaitMinTicks()
+			QuitRequest()
 		Until tm>=250
 		//Image.Free(crystal)
 		//Image.Free(screen)
 		Ended = True
+		QuitRequest()
 	End
 	
 	Void Update()
