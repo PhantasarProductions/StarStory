@@ -34,12 +34,14 @@
 // **********************************************
 // 
 // 
-// version: 25.01.26 II
+// version: 25.02.20 IV
 // 
 // End License
 
 module
 
+#use "Libs/SCI/Kthura"
+#use "Libs/SCI/SString"
 #use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
@@ -108,6 +110,9 @@ module
 	end
 	
 	get string Learn
+		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - LOST ARK" && RPGPureChar.Yirl.ListHas("ABL","YIRL_WAKE")
+			Return "YIRL_WAKE"
+		End
 		int i = 20000
 		for k,n in pairs(Ability)
 			if !YAP.ListHas("ABL","YIRL_"..k) && BusinessPoints>n
