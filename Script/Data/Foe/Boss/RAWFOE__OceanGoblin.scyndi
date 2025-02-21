@@ -1,0 +1,183 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/Foe/Boss/RAWFOE__OceanGoblin.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.20
+// 
+// End License
+
+
+
+
+module
+	readonly string Name = "Ocean Goblin"
+	readonly string Desc = "Dumb creatures who who have a strong afinity to water"
+	readonly string ImageFile = "Boss/OceanGoblin.png"
+	readonly string AI = "Default"
+	readonly bool Boss = true
+	readonly int Shilders = 0
+	readonly int EleRes_Dark = 3
+	// WARNING! Element setting error during script generation!
+	readonly int EleRes_DarkHealing = 0
+	readonly int EleRes_Earth = 3
+	readonly int EleRes_Fire = 3
+	readonly int EleRes_Frost = 3
+	// WARNING! Element setting error during script generation!
+	readonly int EleRes_Healing = 6
+	readonly int EleRes_Light = 3
+	readonly int EleRes_Lightning = 2
+	// WARNING! Element setting error during script generation!
+	readonly int EleRes_Water = 6
+	readonly int EleRes_Wind = 3
+	readonly table Stat
+	readonly table StatusResistance
+	readonly Table Acts = {}
+	readonly table ActMinLevel = {}
+	readonly table ItemDrop = {}
+	readonly table ItemSteal = {}
+
+
+
+
+
+
+	Init
+// 	CONSTRUCTOR
+		plua DStat
+		DStat = {}
+		Stat["Accuracy"] = DStat
+		DStat += 67
+		DStat += 70
+		DStat = {}
+		Stat["Agility"] = DStat
+		DStat += 60
+		DStat += 70
+		DStat = {}
+		Stat["AP"] = DStat
+		DStat += 0
+		DStat += 0
+		DStat = {}
+		Stat["Defense"] = DStat
+		DStat += 61
+		DStat += 70
+		DStat = {}
+		Stat["Evasion"] = DStat
+		DStat += 1
+		DStat += 2
+		DStat = {}
+		Stat["HP"] = DStat
+		DStat += 24220
+		DStat += 50000
+		DStat = {}
+		Stat["LevelRange"] = DStat
+		DStat += 57
+		DStat += 100
+		DStat = {}
+		Stat["Strength"] = DStat
+		DStat += 314
+		DStat += 500
+		DStat = {}
+		Stat["Will"] = DStat
+		DStat += 1
+		DStat += 20
+		StatusResistance["Poison"] = 95
+		StatusResistance["Paralysis"] = 95
+		StatusResistance["Disease"] = 95
+		StatusResistance["Will"] = 95
+		StatusResistance["Block"] = 95
+		StatusResistance["Death"] = 95
+		StatusResistance["Damned"] = 95
+
+
+		plua temp
+
+
+		ActMinLevel["ABL_YIRL_INTIMIDATE"] = 60 
+		for ak=1,5 
+			Acts+="ABL_YIRL_INTIMIDATE"
+		end
+		ActMinLevel["ACT_ATTACK"] = 1 
+		for ak=1,100 
+			Acts+="ACT_ATTACK"
+		end
+		ActMinLevel["ABL_FOE_WATERBEAM"] = 1 
+		for ak=1,100 
+			Acts+="ACT_WATERBEAM"
+		end
+		temp={}
+		temp.ITM="ITM_EQP_AQUAMARINE"
+		temp.LVL=0
+		temp.VLT=false
+		for ak=1,4 
+			 ItemSteal+=temp
+		 end
+		temp={}
+		temp.ITM="ITM_EQP_SUPER_AQUAMARINE"
+		temp.LVL=10
+		temp.VLT=false
+		for ak=1,250 
+			 ItemSteal+=temp
+		 end
+		temp={}
+		temp.ITM="ITM_PHAN_LEVELAPPLE"
+		temp.LVL=1
+		temp.VLT=false
+		for ak=1,1 
+			 ItemDrop+=temp
+		end
+		for ak=1,1 
+			 ItemSteal+=temp
+		 end
+		temp={}
+		temp.ITM="ITM_PHANTASAR_APPLE"
+		temp.LVL=1
+		temp.VLT=false
+		for ak=1,1000 
+			 ItemDrop+=temp
+		end
+		for ak=1,50 
+			 ItemSteal+=temp
+		 end
+		temp={}
+		temp.ITM="ITM_PHANTASAR_MAGICDUST"
+		temp.LVL=1
+		temp.VLT=false
+		for ak=1,200 
+			 ItemDrop+=temp
+		end
+	
+
+	end
+// This 'end' has become obsolete -> end
