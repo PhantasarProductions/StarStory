@@ -34,16 +34,20 @@
 // **********************************************
 // 
 // 
-// version: 25.02.20 VI
+// version: 25.02.22 IV
 // 
 // End License
+
 Script
 
 #use "Libs/SCI/Sys"
 #use "Libs/SCI/Kthura"
+#use "Libs/SCI/InterVar"
 
 #use "Script/Use/Link"
 #use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/RPG2Stat"
 
 QuickMeta MScript
 	index
@@ -73,4 +77,33 @@ global const delegate NPC_Save = MSave.ToSave
 
 Global Void Boss()
 	StartCombat.Foe("Boss/OceanGoblin",math.min(Caps.Cycle,20)*500)
+End
+
+Get Int Deler
+	Return gint.LostArkDeler
+End
+
+Set Int Deler
+	gint.LostArkDeler = math.min(value,10000)
+End
+
+Global Void EndOfDungeon()
+	gbool.Completed_LostArk = True
+	Deler += __skill
+	CSayF("End of Ark reached - D:%9d",Deler)
+	Int Exp := 10000 div Deler
+	For i=0,5
+		String ChT := RPGParty[i]
+		If ChT!=""
+			Ch:= RPGPureChar[ChT]
+			Ch.Points.EXP.Have += Exp
+			CSayF("%s gets %d experience bonus!",ChT,Exp)
+		End
+	End
+	Ach.Award("MEDALS_ARK")
+End
+		
+Init
+	CSay("This dungeon belongs in a museum.")
+	ZA.TabEnter{"EndOfDungeon"}
 End
