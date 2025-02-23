@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.01.24
+// 	  Version: 25.02.23 II
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -121,6 +121,11 @@ global void PerformSaveGame(string f)
 		CSay("Kill tag")
 		SaveGame.Data["KILL ME"]="KILL ME"
 	end
+	CSay("Unparsing Vault")
+	Items_h.LdItems()
+	Sys.Call("SUB_ITEMS","VaultToGinie")	
+	gr:=GINIE.Obtain("VAULT_GINIE_FOR_SAVEGAMES")
+	SaveGame.Text["Vault.ini"]=gr.source
 	CSay("Writing header")
 	MakeHeader()
     CSay("Saving")
@@ -198,6 +203,12 @@ global bool PerformLoadGame(string f)
 		//end
 		Process(9)
 		//Ach.Load()
+		CSay("Parsing Vault")
+		gr:=GINIE.Create("VAULT_GINIE_FROM_SAVEGAMES")
+		gr.Clear()
+		gr.source="# Vault\n\n"..SaveGame.Text["Vault.ini"]
+		Items_h.LdItems()
+		Sys.Call("SUB_ITEMS","GinieToVault")		
 		Process(10)
 		//Hawk.Load()		
 		Hawk.Load(SaveGame.Text["Hawk.lua"])

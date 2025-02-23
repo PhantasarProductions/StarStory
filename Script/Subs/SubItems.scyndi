@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.02.16 XXI
+// 	  Version: 25.02.23 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -125,11 +125,13 @@ end
 
 global string VaultContents()
 	string ret = ""
-	for k,_ in spairs(InVault)
+	for k,v in spairs(InVault)
 		if ret!=""
 			ret += ";"
 		end
+		//ret += Ternary(ret=="","[Vault]\n","\n")
 		ret += upper(k)
+		//ret += sprintf("%s=$s",k,v)
 	end
 	//print("Returning: ",ret)
 	return ret
@@ -147,6 +149,7 @@ end
 Global Void VaultToGinie()
 	gr:=GINIE.Create("VAULT_GINIE_FOR_SAVEGAMES")
 	gr.Clear()
+	gr.Value("Meta","Contents",VaultContents())
 	for k,v in spairs(InVault)
 		gr.Value("Vault",k,v)
 	end
@@ -155,7 +158,7 @@ end
 Global Void GinieToVault()
 	gr:=GINIE.Obtain("VAULT_GINIE_FROM_SAVEGAMES")
 	InVault={}
-	for k in gr.Values("Vault")
+	for k in Each(gr.Values("Vault"))
 		InVault[k] = gr.IntValue("Vault",k)
 	end
 End
