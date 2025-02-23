@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowNIM.scyndi
 // 
-// 	  Version: 25.02.06 XXXIII
+// 	  Version: 25.02.23 I
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -489,6 +489,12 @@ Group NIMGame
 				End
 				HoeveelMoetenErWeg=1
 			Default
+				If Events.KeyHit(27)
+					Buzz.Play()
+					Stage = "WhichRow"
+					//NIM_Row[WelkeRij].Num=0
+					return
+				End
 				Switch gstring.Lang
 					Case "Dutch"
 						TXT += "Hoeveel moeten er weg? "
