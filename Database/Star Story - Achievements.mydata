@@ -1,7 +1,7 @@
 # License:
 # 	  src/Script/Database/Star Story - Achievements.mydata
 # 
-# 	  Version: 25.02.18
+# 	  Version: 25.02.22
 # 	
 # 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 # 	
@@ -106,6 +106,14 @@ Rec: MEDALS_CATHEDRAL
 	Description = Complete the Cathedral
 	Show = Achieved
 	Type = MedalSpecial
+	
+	
+Rec: MEDALS_ARK
+	Title = Raiders of the Lost Ark
+	Description = Complete the Lost Ark
+	Show = Achieved
+	Type = MedalSpecial
+	
 
 Rec: MEDALS_HOUSE
 	Title = The House Of Cards is about to fall
