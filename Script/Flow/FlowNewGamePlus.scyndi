@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.26
+// version: 25.02.26 VIII
 // 
 // End License
 
@@ -46,8 +46,14 @@ Script
 #use "Libs/SCI/Graphics"
 #use "Libs/SCI/InterVar"
 
-#use "Script/Use/Anyway"
 #use "libs/linkedlist"
+
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+
+#use "Script/Use/Convert/Flow"
+#use "Script/Use/Convert/RPG2Stat"
 
 extern SGL "Scyndi.Globals"
 
@@ -66,7 +72,7 @@ Void Start_NewCycle()
 	CSay("GameVar Reset")
 	//Var Trans = NeilUse("Script/Data/General/TransferVars_To_NewCycle")
 	Lua.Scyndi.Use("Script/Data/General/TransferVars_To_NewCycle")
-	Trans:=TransferVars_To_NewCycle.Ret
+	Trans:=Lua.Scyndi.Class.TransferVars_To_NewCycle.Ret
 	Table Temp = {}
 	For TI in Each(Trans)
 		String GT  = TI.VTYPE
@@ -106,7 +112,7 @@ Void Start_NewCycle()
 	Caps.Cycle++
 	// Redirecting to the Yaqirpa
 	CSay("Going back to the Yaqirpa")
-	Map.GoToMap("Prologue_Yaqirpa","YAQIRPA","Start")
+	Map.GoToMap("Prologue - Yaqirpa","YAQIRPA","Start")
 	// Lua.error("New Cycle not yet implemented")
 	CSay("All preparations done! Let's 'resume' in the new cycle")
 	Flow.GoToFlow("FIELD")
@@ -127,7 +133,7 @@ Class Answer
 	Static Int YMin = HeaderY+50
 	Static Var Lijst = New TLinkedList()
 	
-	Constructor(string C,int _Y,Delegate A)
+	Constructor(string C,int _Y, A)
 		Caption = C
 		Y = _Y
 		Action = A
@@ -136,8 +142,13 @@ Class Answer
 	
 End
 
-ReadOnly Var Yes = New Answer("Yes",(Answer.YDist*2)+Answer.YMin,Start_NewCycle)
-ReadOnly Var No  = New Answer("No",(Answer.YDist*4)+Answer.YMin,Reject_NewCycle)
+Var Yes
+Var No
+
+Init
+	Yes = New Answer("Yes",(Answer.YDist*2)+Answer.YMin,Start_NewCycle)
+	No  = New Answer("No",(Answer.YDist*4)+Answer.YMin,Reject_NewCycle)
+End
 
 Global Void MainFlow()
 	Int MX = Events.MouseX
