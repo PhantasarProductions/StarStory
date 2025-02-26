@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FlowNewGamePlus.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Flow/FlowNewGamePlus.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,17 +33,30 @@
 // 
 // **********************************************
 // 
-// version: 21.06.14
-// End License Information
+// 
+// version: 25.02.26
+// 
+// End License
+
+
+Script
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
 #use "Script/Use/Anyway"
 #use "libs/linkedlist"
 
-ReadOnly Var Font = ImageFont.Obtain("BIGTEXT")
-ReadOnly Var Mouse = Image.Obtain("MOUSE")
+extern SGL "Scyndi.Globals"
+
+ReadOnly Var Font = ObtainFont("BIGTEXT")
+ReadOnly Var Mouse = ObtainImage("MOUSE")
 
 
-ReadOnly Int HeaderY = Screen.H Div 6
-ReadOnly Int X = Screen.W Div 2 
+ReadOnly Int HeaderY = Graphics.H Div 6
+ReadOnly Int X = Graphics.W Div 2 
 
 Void Start_NewCycle()
 	Events.Flush()
@@ -50,23 +64,26 @@ Void Start_NewCycle()
 	Events.Poll()
 	// Game Var Reset
 	CSay("GameVar Reset")
-	Var Trans = NeilUse("Script/Data/General/TransferVars_To_NewCycle")
+	//Var Trans = NeilUse("Script/Data/General/TransferVars_To_NewCycle")
+	Lua.Scyndi.Use("Script/Data/General/TransferVars_To_NewCycle")
+	Trans:=TransferVars_To_NewCycle.Ret
 	Table Temp = {}
 	For TI in Each(Trans)
 		String GT  = TI.VTYPE
 		String GVK = TI.VVAR
-		Var GVV = gv[GT][GVK]
+		//Var GVV = gv[GT][GVK]
+		GVV := SGL[GT][GVK]
 		Temp[GT] = Temp[GT] || {}
 		CSayF("= Temp store %s.%s = %s",GT,GVK,Lua.tostring(GVV))
 		Temp[GT][GVK] = GVV
 	End
 	CSay("= Reset main system")
-	GV.Clear()
+	gClear() //GV.Clear()
 	For GT,GVS in sPairs(Temp)
 		// Temp[GT] = {}
 		For GVK,GVV in sPairs(GVS)
 			CSayF("= Restore %s.%s = %s",GT,GVK,Lua.tostring(GVV))
-			gv[GT][GVK] = GVV
+			SGL[GT][GVK] = GVV
 		End
 	End
 	// Swap Reset
@@ -81,7 +98,7 @@ Void Start_NewCycle()
 	RPGChar.UniCrystal.Stat.Level = RPGChar.Crystal.Stat.Level
 	// Reforming Party
 	CSay("Resetting Party!")
-	For i,ch in Pairs{"UniWendicka","UniCrystal","Briggs","","",""}
+	For i,ch in Pairs{[0]="UniWendicka","UniCrystal","Briggs","","",""}
 		CSayF("%d:> %s",i,ch)
 		RPGParty[i] = ch
 	End
@@ -106,9 +123,9 @@ Class Answer
 	ReadOnly String Caption
 	ReadOnly Delegate Action
 	
-	Static Int YDist = Screen.H Div 7
+	Static Int YDist = Graphics.H Div 7
 	Static Int YMin = HeaderY+50
-	Static Var Lijst = New LinkedList()
+	Static Var Lijst = New TLinkedList()
 	
 	Constructor(string C,int _Y,Delegate A)
 		Caption = C
@@ -122,10 +139,10 @@ End
 ReadOnly Var Yes = New Answer("Yes",(Answer.YDist*2)+Answer.YMin,Start_NewCycle)
 ReadOnly Var No  = New Answer("No",(Answer.YDist*4)+Answer.YMin,Reject_NewCycle)
 
-Global Void Apollo_Flow()
-	Int MX = Events.MouseX()
-	Int MY = Events.MouseY()
-	Dev.ToConsole()
+Global Void MainFlow()
+	Int MX = Events.MouseX
+	Int MY = Events.MouseY
+	//Dev.ToConsole()
 	Graphics.Cls()
 	__Red
 	Font.Text(sprintf("Do you wish to start the new game+ -- Cycle #%d",Caps.Cycle+1),X,HeaderY,2,2)
@@ -133,7 +150,7 @@ Global Void Apollo_Flow()
 		__SkyBlue
 		if MY>A.Y-30 && MY<A.Y+30
 			__Cyan
-			if Events.MouseHitLeft()
+			if Events.MouseHitLeft
 				A.Action()
 			End
 		End
@@ -141,4 +158,5 @@ Global Void Apollo_Flow()
 	End	
 	__white
 	Mouse.Draw(MX,MY)
+	QuitRequest()
 End
