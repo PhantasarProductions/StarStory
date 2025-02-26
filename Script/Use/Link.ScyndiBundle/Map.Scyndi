@@ -228,9 +228,9 @@ End
 		MCall("FLDMap.Kill",ObjTag,perma==true)
 	end
 	
-	//Void KillReset()
-	//	Call("FldMap.KillReset","nil")
-	//End
+	Void KillReset()
+		Call("FldMap.KillReset","nil")
+	End
 	
 	// Won't remove the object immediately, but it will be gone the next time 
 	// You come here.
