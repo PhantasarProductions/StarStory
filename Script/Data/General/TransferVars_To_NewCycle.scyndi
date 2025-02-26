@@ -1,0 +1,228 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Data/General/TransferVars_To_NewCycle.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.02.26
+// 
+// End License
+
+Table Ret = {}
+
+Init
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "AIROM_UNLOCKED"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "BARDONE"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "CHEAT.GOD"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "CHEAT.REGEN"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "COMPLETED_AIROM"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "CRYSTALARMS_SETINITIAL"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "FOXY_TEACHES_PICKPOCKET"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "GAMEJOLT"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "GOT_RISING_NOVA"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_FOXY"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_ROLF"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_WENDICKA"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_XENOBI"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "PHANTASAR_RANDOM_ECOUNTER_1ST_TIME_YIRL"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "SHILDER1ST"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "WENDICKA_KOLME"}
+	Ret += {["VTYPE"] = "gbool"  , ["VVAR"] = "WENDICKA_XENOBI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_BATTLECRY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KAKSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_KUUSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_NELJA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.EXHURU.ABL_EXHURU_YKSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_BACKSTAB"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_DRAGON_BURN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_DRAGON_INFERNO"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_MULTISTAB"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_PICKPOCKET"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.FOXY.ABL_FOXY_STUNSTAB"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_BATTLECRY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_NELJA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.JOHNSON.ABL_EXHURU_YKSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_BATTLECRY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KAKSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_KUUSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_NELJA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_STOMP"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.ROLF.ABL_EXHURU_YKSI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_JOLT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_MJOLNIR"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.UNIWENDICKA.ABL_WENDICKA_SHOCK"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_EXHURU_KOLME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_FOXY_PICKPOCKET"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_ELECTRICCHARGE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_JOLT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_MJOLNIR"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_SHOCK"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_SHOCKTHERAPY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_WENDICKA_SISTERS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_XENOBI_VITALIZE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.WENDICKA.ABL_YIRL_FOLLOWME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_BLIZZARD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_FROST"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_HEAL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_HURRICANE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_LIGHT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_MINDTRICK"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_QUAKE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_QUICKSTRIKE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_RECOVER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_ROCK"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_SOLARIA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.XENOBI.ABL_XENOBI_VITALIZE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_CONFUSION"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_DEATHSHOT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_FOLLOWME"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_INTIMIDATE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABL.USED.YIRL.ABL_YIRL_TRIGGERHAPPY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_EXHURU"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_FOXY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_JOHNSON"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_ROLF"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_WENDICKA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_XENOBI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ABLUSED_YIRL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "AURINAEARNED4RATE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "AURINARATE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "AURINAS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "AURINASEXCHANGED"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "AURINASPENT4RATE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "CASH"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "COMBATSTAT.KILLS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "COMBAT_VICTORY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "CYCLE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "DARKCAVEEMERALD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "DARKCAVERUBY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "ERJ_KILLS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "EXC_CRYSTAL_RELOAD_#000"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "EXC_CRYSTAL_RELOAD_#006"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "EXC_CRYSTAL_RELOAD_#007"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "EXC_CRYSTAL_RELOAD_#014"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "EXC_CRYSTAL_RELOAD_#020"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "GAMECYCLE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_ASTRILOPUPELITE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_BIGGRASSTIGER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_BIGLION"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_BRAINDROID"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_CULTIST LEADER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_CYBORG LORD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_DARDBOORTH"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_DARDMOEDER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_DEATHMYRQUEEN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_DIABLO"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_EXHURU"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_FIRESPIDERYOUNG"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_FLIRMOUSE_KING"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_FLIRMOUSE_SUBJECT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_GIANTSNAKE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_GOLD KILLER DROID"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_HWSNBN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_LICHKING"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_MID-BOSS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_QUEENMYR"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPAQUAL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPERCYBORG"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPERSYSS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPERZOMBIE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_THIEF CHIEF"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_UBERGREMLIN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_GODDESS_GODDESS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_ASTRILOPUP"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_ASTRILOPUPGUARD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_BATTLEDROID"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_BLACKLIZARD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_BLADEH"}
+	Ret += {["VTYPE"] = "gint"  ,  ["VVAR"] = "KILLED_REG_CID"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_COW"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CULTIST"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CYBERASTRILOPUP"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CYBORG CAPTAIN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CYBORG GUNNER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CYBORG JI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_CYBORG MEDIC"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_DEATHMYR"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_FLIRMOUSE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_FLYSKY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_GHOUL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_GOBLIN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_GRASSTIGER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_GREMLIN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_GUMMI"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_HAG"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_HAWK"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_HELLHOUND"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_INSETTO"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_LEOPARD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_LION"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_MYR"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PHANUNDEADKID_BEFINDO"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PHANUNDEADKID_ELF"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PHANUNDEADKID_FAIRY"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PHANUNDEADKID_HUMAN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PHANUNDEADKID_PHELYNX"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_PYROGUIN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_QUAL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_RAT"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_SALAMANDER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_SHROOM"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_SNOWLEOPARD"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_SPIDER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_SYSS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_THIEF"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_WOLF"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_REG_ZOMBIE"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SPECIALBOSS_MCLEEN"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SUPERBOSS_BLACKHOLEDWELLER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SUPERBOSS_FIRESPIDER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "PRISMDIAMONDSGIVENBYFEENALARIA"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "SAVED"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "SHILDERS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "SKILL"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "TOTALCASHSPENT"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "AURINACREDITS"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "AURINARATE"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "AURINAS"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "GAMEJOLT.TOKEN"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "GAMEJOLT.USER"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "HAWK_MUSIC"}
+	Ret += {["VTYPE"] = "gstring", ["VVAR"] = "LANG"}
+End
+
+
+//Return Ret
