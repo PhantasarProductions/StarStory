@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/MapScript/Excalibur - AllQuiet.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.02.26 II
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -150,8 +150,10 @@ group MScript
 		end
 		Map.HideButLabel("Johnson")
 		Music.Play("Music/Sys/Silence.ogg")
+		Player.Reloc("WendickaJohnson")
 		MapText("JOHNSON")
 		Map.HideButLabel("Staff")
+		Player.Reloc("SPOT_Deur_Johnson")
 		Map.ShowObj("PLAYER")
 		Map.ShowObj("Jones")
 		Music.Play("Music/Scenario/Panic Stations.ogg")
