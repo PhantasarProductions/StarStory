@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Vault_Menu.scyndi
 // 
-// 	  Version: 25.01.23 VIII
+// 	  Version: 25.02.27
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -85,7 +85,7 @@ locExtern itmod "Scyndi.Globals.itmod"
 				end
 				Fnt.Text(sprintf("%03d",Vault.Has(i)),ubox.x+25,ubox.y+y)
 				__white
-				Item["ITM_"..i].Icon.Draw(ubox.x+100,ubox.y+y+25)
+				Item["ITM_"..i].Icon.Draw(ubox.x+150,ubox.y+y+25)
 				Graphics.Color(255,180,0)
 				if Hover==i
 					Graphics.Color(255,255,0)
