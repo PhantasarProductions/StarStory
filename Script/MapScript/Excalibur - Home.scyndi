@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.13 V
+// version: 25.02.26
 // 
 // End License
 
@@ -118,7 +118,7 @@ group MScript
 	void CreateWendicka()
 		if Caps.Cycle>1 || gbool.ImportedWendicka
 			//CSay("Record for Wendicka is already there, so no need to create that anew!")
-			CSay("Just using record from older records")
+			CSay("Just using record from older records for Wendicka")
 			return
 		end
 		CSay("Creating Character: Wendicka")
