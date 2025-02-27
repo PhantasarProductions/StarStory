@@ -37,10 +37,11 @@
 
 
 Module 
-	Void Flow(uBox,string CharTag,string situation)
-		Static Var Param
-		Param = Param || SPrintF("%d,%d,%d,%d",ubox.X,ubox.Y,ubox.X+ubox.W,ubox.Y+ubox.H)
-		State.LoadNew("ACHIEVEMENTS","Script/Subs/SubAchievements.Neil")
-		State.Call("ACHIEVEMENTS","SubAch.List",Param)
-	End
+
+Static Var Param
+
+Void Flow(uBox,string CharTag,string situation)
+	Param = Param || SPrintF("%d,%d,%d,%d",ubox.X,ubox.Y,ubox.X+ubox.W,ubox.Y+ubox.H)
+	State.LoadNew("ACHIEVEMENTS","Script/Subs/SubAchievements.Neil")
+	State.Call("ACHIEVEMENTS","SubAch.List",Param)
 End
