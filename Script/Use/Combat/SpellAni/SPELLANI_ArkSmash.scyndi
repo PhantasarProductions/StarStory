@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.11 XII
+// version: 25.02.27
 // 
 // End License
 
@@ -120,7 +120,7 @@ Class AS_Star
 			Tel++
 			Graphics.Plot(S.X,S.Y)
 			S.X+=S.Speed
-			If S.X>Graphics.W
+			If S.X>Graphics.W * 2
 				L.UnLink()
 			End
 		End
