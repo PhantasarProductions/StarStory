@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.01 I
+// version: 25.02.28 I
 // 
 // End License
 
@@ -45,6 +45,7 @@
 
 Script
 #use "Libs/SCI/Sys"
+#use "Libs/SCI/Kthura"
 #use "Libs/SCI/Graphics"
 
 #use "Script/Use/Link"
@@ -64,7 +65,8 @@ group MScript
 		Map.GotoLayer("MOON","Tortelduifjes")
 		Map.HideObj("PLAYER")
 		Map.NewObj("Rect","Fader")
-		for k,v in pairs{["X"]=Map.CamX,["Y"]=Map.CamY,["W"]=Graphics.W,["H"]=Graphics.H,["R"]=255,["G"]=255,["B"]=255,["Alpha"]=0,["Dominance"]=10}
+		//for k,v in pairs{["X"]=Map.CamX,["Y"]=Map.CamY,["W"]=Graphics.W,["H"]=Graphics.H,["R"]=255,["G"]=255,["B"]=255,["Alpha"]=0,["Dominance"]=10}
+		for k,v in pairs{["X"]=Kthura.Obj.Back.X,["Y"]=Kthura.Obj.Back.Y,["W"]=Graphics.W,["H"]=Graphics.H,["R"]=255,["G"]=255,["B"]=255,["Alpha"]=0,["Dominance"]=10}
 			Map.ObjSet("Fader",k,v)
 		end
 		Map.ReMap()
