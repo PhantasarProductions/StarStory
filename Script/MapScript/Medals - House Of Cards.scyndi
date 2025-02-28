@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.05 IV
+// version: 25.02.28
 // 
 // End License
 Script
@@ -166,7 +166,7 @@ Global Void ZA_Hartenvrouw()
 			_chp.AP.Have=0
 			_chp.EXP.Have=0
 			if __skill<3
-				_chp.EXP.Maximum -= (_chp.EXP.Maximum div 10)
+				_chp.EXP.Maximum = math.max(_chp.EXP.Maximum-(_chp.EXP.Maximum div 10),__skill*250)
 			end
 		end
 	end
