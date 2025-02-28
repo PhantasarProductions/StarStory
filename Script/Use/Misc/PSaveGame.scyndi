@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Misc/PSaveGame.scyndi
 // 
-// 	  Version: 25.02.23 II
+// 	  Version: 25.02.28 I
 // 	
 // 	  Copyright (C) 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -92,6 +92,17 @@ void MakeHeader()
 	SaveGame.Text.Head = r
 end
 
+void FoeRemoval() {
+	int i = 0
+	String T = "FOE_0"
+	while RPGChar.Has(T)
+		CSayF("I don't want for #%d in my savegame file!",i)
+		RPGChar.Kill(T)
+		i++
+		T = sprintf("FOE_%d",i)
+	end
+end
+
 global void PerformSaveGame(string f)
 	//Lua.error("Saving game not yet implemented")
 	GV.vInt.Saved++
@@ -108,6 +119,7 @@ global void PerformSaveGame(string f)
     sgkills:=GINIE.CreateNew("MAP_KILLS")
     SaveGame.Text["MapPermaKills.ini"]="# Map Permanent Object Kills\n\n"..sgkills.source
     CSay("Registering party data")
+    FoeRemoval()
     SaveGame.SetStat("STAR_STORY","Star Story")
 	//SaveGame.Data["*PARTY"] = "YES"
 	// GV.Save()
