@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.12
+// version: 25.03.01
 // 
 // End License
 
@@ -410,7 +410,7 @@ Group MScript
 			CSay("Updating level stuff for Johnson")
 			Party.GrabLevel("Johnson",RPGChar.Rolf.Stat.Level) // Makes sure the stats are still up to date, as that can be an issue!
 			RPGParty[5] = "Johnson"
-			RPGChar.Johnson.Name = "Admiral Johnson"
+			RPGPureChar.Johnson.Name = "Admiral Johnson"
 			return
 		end
 		// Create raw character record
@@ -418,12 +418,13 @@ Group MScript
 		Party.NewChar("Johnson",RPGChar.ExHuRU.Stat.Level,"Admiral Johnson")
 		//RPGChar.Johnson.Link_Stat("ExHuRU","Level")
 		RPGPureChar.Rolf.LinkStat("Level","Johnson")
+		RPGPureChar.Rolf.LinkPoints("EXP","Johnson")
 		// Inventory sockets
 		for i=1,Caps.InventorySockets
 			//RPGChar.Johnson.Link_Data("ExHuRU","INVITEM"..i)
 			//RPGChar.Johnson.Link_Stat("ExHuRU","INVAMNT"..i)
 			RPGPureChar.Rolf.LinkData("INVITEM"..i,"Johnson")
-			RPGPureChar.Rolf.LinkStat("INVAMNT"..i,"Johnson")
+			RPGPureChar.Rolf.LinkStat("INVAMNT"..i,"Johnson")			
 			CSayF("Link_ed inventory socket #%03d/%03d",i,Caps.InventorySockets)
 		end
 		// Statistics
@@ -500,6 +501,7 @@ Group MScript
 		If JohnsonJoined
 			Return
 		End
+		Player.StopWalking()
 		JohnsonJoined = true
 		Map.SetObj("Reggie","Visible",true)
 		//Kthura.KillAutoVisible()
