@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Flow/FieldMenu/PhantasarMerchant.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Flow/FieldMenu/PhantasarMerchant.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,33 +33,51 @@
 // 
 // **********************************************
 // 
-// version: 21.04.17
-// End License Information
+// 
+// version: 25.03.01 XII
+// 
+// End License
+
+
 Module
 
-	ReadOnly Var Fnt = ImageFont.Obtain("BOXTEXT") 
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/SString"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/InterVar"
+
+#use "Libs/FitText"
+
+#use "Script/Use/Link"
+#use "Script/Use/Anyway"
+#use "Script/Use/Convert/RPG2Stat"
+
+locextern itmod "Scyndi.Globals.itmod"
+
+	ReadOnly Var Fnt = ObtainFont("BOXTEXT") 
 	
 	Table Stock
 	Bool IsReset
 	
 	get int my
-		return Events.MouseY()
+		return Events.MouseY
 	end
 	
 	get int mx 
-		return Events.MouseX()
+		return Events.MouseX
 	end
 	
 	get bool mr
-		return Events.MouseHitRight()
+		return Events.MouseHitRight
 	end
 	
 	get bool ml
-		return Events.MouseHitLeft()
+		return Events.MouseHitLeft
 	end
 	
 	bool InStock(string itm)
-		itm=itm:upper()
+		itm=upper(itm)
 		If (!prefixed(itm,"PHANTASAR_")) 
 			itm = "PHANTASAR_"..itm
 		End
@@ -72,17 +91,18 @@ Module
 
 	Void UpdateStock()
 		// Init stock
-		Stock = Split(gv.gString.PhantasarStock,";")
-		If #Stock==0 
-			Stock={"PHANTASAR_APPLE"}
+		Stock = XSplit(gString.PhantasarStock,";")
+		if len(Stock)==0 
+			Stock={[0]="PHANTASAR_APPLE"}
 		End
 		
 		// Scan all inventories
-		For chi=1,6
+		//For chi=1,6
+		For chi=0,5
 			Var ch=RPGParty[chi]
 			If ch!=""
 				For i=1,Caps.InventorySockets
-					String ittag = RPGChar[ch].Data[sprintf("INVITEM%d",i)]:upper()
+					String ittag := Upper(RPGChar[ch].Data[sprintf("INVITEM%d",i)])
 					If Prefixed(ittag,"PHANTASAR_") && (!InStock(ittag))
 						Stock += ittag
 					End
@@ -138,7 +158,7 @@ Module
 		__Red
 		Fnt.Text("Sellameria's Item Shop",ubox.x+(ubox.w div 2),ubox.y+20,2,0)
 		For idx,tag in ipairs(Stock)
-			int y = ubox.y+20+(idx*25)
+			int y := ubox.y+45+(idx*25)
 			bool hover
 			if mx>ubox.x && my>y && mx<ubox.x+ubox.w && my<y+25
 				__Cyan
@@ -163,6 +183,7 @@ Module
 		__White
 		FitText.Dark(Fnt,HoverText,mx+20,my+20)
 		Fnt.Text(sprintf("Shilders: %d",Aurina.Shilders),ubox.x+40,ubox.y+ubox.h,0,1)
+		QuitRequest()
 	End
 	
-End
+//End
