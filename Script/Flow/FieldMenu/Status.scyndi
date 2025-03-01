@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Status.scyndi
 // 
-// 	  Version: 25.02.16
+// 	  Version: 25.03.01
 // 	
 // 	  Copyright (C) 2020-'21, 2025 Jeroen Petrus Broks
 // 	
@@ -167,7 +167,7 @@ module
 			StatIco[s] = StatIco[s] or ObtainImage("STATUS_"..(upper(s)))
 			StatIco[s].Draw(ix,iy)
 			__SkyBlue
-			Fnt.Text(sprintf("%d%%",CharRes[CharTag][s]),ix+100,iy,1)
+			Fnt.Text(sprintf("%d%%",CharRes[CharTag][s]),ix+150,iy,1)
 		end
 	end
 
