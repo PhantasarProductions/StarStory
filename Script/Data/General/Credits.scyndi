@@ -104,7 +104,7 @@ Init
 	Line.Y = Screen.H +   150
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Apollo Game Engine"
+	Line.Txt = "Scyndi's Creative Interpreter"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
@@ -153,7 +153,7 @@ Init
 	Line.Y = Screen.H +   360
 	Line = New CreditLine()
 	CreditLine.Lijst.AddLast(Line)
-	Line.Txt = "Neil Scripting Language"
+	Line.Txt = "Scyndi Scripting Language"
 	Line.R = 255
 	Line.G = 180
 	Line.B =   0
