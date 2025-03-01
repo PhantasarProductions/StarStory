@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 25.01.26 I
+// 	  Version: 25.03.01
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -93,7 +93,7 @@ module
 	
 	void Wipe(noshow,fuckschedule)
 		_LNG.Party.Recover()
-		for i=1,6
+		for i=0,5
 			var ch = RPGParty[i]
 			if ch && ch!=""
 				var CHAR := RPGChar[ch]
