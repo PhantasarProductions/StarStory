@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.18 II
+// version: 25.03.01
 // 
 // End License
 // Automated conversion from Neil to Scyndi!
@@ -54,7 +54,7 @@ module
 	readonly int EleRes_Earth = 3
 	readonly int EleRes_Fire = 1
 	readonly int EleRes_Frost = 3
-	readonly int EleRes_Healing = 6
+	readonly int EleRes_Healing = 1
 	readonly int EleRes_Light = 0
 	readonly int EleRes_Lightning = 1
 	readonly int EleRes_Water = 3
