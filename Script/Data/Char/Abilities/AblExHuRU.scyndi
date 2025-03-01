@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.01
+// version: 25.03.01
 // 
 // End License
 
@@ -78,6 +78,9 @@ module
 		// Always in the memory along with the others.
 		//static var ExHuRU = RPGChar.ExHuRU
 		Lua.Scyndi.Class.AblExHuRU.SyncExHuRU()
+		If gbool.Completed_LostArk && (!RPGPureChar.ExHuRU.ListHas("ABL","EXHURU_STOOMWALS"))
+			return "EXHURU_STOOMWALS"
+		End			
 		for i,abl in pairs(abilities)
 			//if !ExHuRU.List.ABL.Has("EXHURU_"..abl)
 			if !RPGPureChar.ExHuRU.ListHas("ABL","EXHURU_"..abl) 
