@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/MapScript/BlackHoleDweller.neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/MapScript/BlackHoleDweller.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,13 +33,20 @@
 // 
 // **********************************************
 // 
-// version: 21.06.23
-// End License Information
+// 
+// version: 25.03.01 V
+// 
+// End License
 
+Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Graphics"
+#use "Libs/SCI/Intervar"
+
+#use "Script/Use/Link"
 #use "Script/Use/Anyway"
 
-#MKL_Version "Star Story - BlackHoleDweller.neil" "21.06.23"
-#MKL_Lic     "Star Story - BlackHoleDweller.neil" "Phantasar Closed License"
 
 group MScript
 
@@ -58,10 +66,10 @@ group MScript
 	End
 	
 	Void Boss()
-		Map.SetObj("Background","X",Player.X - (Screen.W div 2) )
-		Map.SetObj("Background","Y",Player.Y - (Screen.H div 2) )
-		Map.SetObj("Background","W",Screen.W )
-		Map.SetObj("Background","H",Screen.H )
+		Map.SetObj("Background","X",Player.X - (Graphics.W div 2) )
+		Map.SetObj("Background","Y",Player.Y - (Graphics.H div 2) )
+		Map.SetObj("Background","W",Graphics.W )
+		Map.SetObj("Background","H",Graphics.H )
 		PPop.Pop("BH","West")
 		MapText("PREBOSS")
 		Schedule.Add("PostBoss")
@@ -73,26 +81,28 @@ group MScript
 		StartCombat.Arena = "Black Hole.png"
 		StartCombat.Begin()
 	End
+
 	
 	Void PostBoss()
-		gv.gBool.BlackHoleDwellerDead = true
+		gBool.BlackHoleDwellerDead = true
 		Map.Kill("Dweller")
 		MapText("POSTBOSS")
-		For C in Each{"Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
+		For C in Each{[0]="Wendicka","Crystal","Yirl","Foxy","Xenobi","Rolf"}
 			If Item.Give("ITM_EQP_LOUSYTSHIRT",C)
 				CSayF("Given to %s",C)
-				BackToHawk()
+				MScript.BackToHawk()
 				Return
 			End
 			CSayF("%s is overstocked, so onto the next one?",C)
 		End
 		Schedule.Add("MSG:WARNING! All inventories were full! Reward item could not be given!")
 		Ach.Award("BOSS_BLACKHOLEDWELLER")
-		BackToHawk()
+		MScript.BackToHawk()
 	End
+End
 	
-	CONSTRUCTOR	
-		ZA.TabEnter{"BOSS"}
-	End
+Init	
+	ZA.TabEnter{"BOSS"}
+End
 
-end
+//end
