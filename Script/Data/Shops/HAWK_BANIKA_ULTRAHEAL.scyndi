@@ -39,6 +39,7 @@
 // License: If stripped from any reference to the story line and its characters, this file becomes zLib
 
 //do
+Module
 	var ret = new MyData_MyDataClass_Shops()
 
 
@@ -57,5 +58,5 @@
 
 
 	end
-	return ret
+	//return ret
 //end
