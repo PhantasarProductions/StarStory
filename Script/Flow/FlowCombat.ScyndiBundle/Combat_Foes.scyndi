@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.02.12
+// 	  Version: 25.03.02 III
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -281,7 +281,7 @@ class Combat_Foe extends Combat_Fighter
 			Killed[self.File]++
 			gInt["COMBATSTAT.KILLS"]++
 			If gBool["CHEAT.DUMBLEDORE"]
-				Int p = math.random(1,6)
+				Int p = math.random(0,5)
 				If RPGParty[p] && RPGParty[p]!="" && RPGParty[p]!="Briggs"
 					Var Ch := RPGChar[RPGParty[p]]
 					If Ch.Stat.Level<Caps.LevelCap
@@ -297,7 +297,7 @@ class Combat_Foe extends Combat_Fighter
 				Else
 					CSayF("Dumbledore> No valid character on spot %d, so no level up this time!",p)
 				End
-				p = math.random(1,6)
+				p = math.random(0,5)
 				If RPGParty[p] && RPGParty[p]!="" && RPGParty[p]!="Briggs"
 					Var Ch := RPGChar[RPGParty[p]]
 					If Ch.Stat.Level<Caps.LevelCap
@@ -310,9 +310,9 @@ class Combat_Foe extends Combat_Fighter
 					CSayF("Dumbledore> No valid character on spot %d, so no bonus this time!",p)
 				End
 			End
-			Static Table KillAchChecks = {1,394,800}
+			Static Table KillAchChecks = {[0]=1,394,800}
 			For K in Each(KillAchChecks)
-				If gInt["COMBATSTAT.KILLS"]>K
+				If gInt["COMBATSTAT.KILLS"]>=K
 					Ach.Award(SprintF("KILL%05d",K))
 				End
 			End
