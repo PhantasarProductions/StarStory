@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.28
+// version: 25.03.02
 // 
 // End License
 Script
@@ -87,7 +87,7 @@ End
 
 Global Void NPC_OpenDoor()
 	If Done[sprintf("House_Of_Cards_Door_Layer_%s",Kthura.CurrentLayer)]
-		locExtern cnt "Scyndi.Globals.gint[Scyndi.Globals.sprintf('House_Of_Cards_Door_Layer_%s_count',Kthura.CurrentLayer)]"		
+		locExtern cnt "Scyndi.Globals.gint[Scyndi.Globals.sprintf('House_Of_Cards_Door_Layer_%s_count',Scyndi.Class.Kthura.CurrentLayer)]"		
 		cnt++
 		switch cnt
 			case 0 1
