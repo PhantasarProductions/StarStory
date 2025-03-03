@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubItems.scyndi
 // 
-// 	  Version: 25.02.23 IV
+// 	  Version: 25.03.03 I
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -197,18 +197,18 @@ Global Void JewelRecalc(string char)
 		String ishr := Upper(D[dtag])
 		string itag := "ITM_"..ishr
 		If ishr!=""
-			CSayF("= Checking item: %s (on spot: %02d) ",ishr,i)
+			//CSayF("= Checking item: %s (on spot: %02d) ",ishr,i)
 			//ItemData[itag] = ItemData[itag] || NeilUse("Script/Data/IAA/"..itag)
 			ItemData[itag] = ItemData[itag] || GINIE.Load("Data/IAA/"..itag..".ini","ITEM: "..itag)
-			CSayF("= Quick!")
+			//CSayF("= Quick!")
 			Var ItData := ItemData[itag]
-			CSayF("= BreakDown!")
+			//CSayF("= BreakDown!")
 			num:=S[atag]
 			itName:=itData.Name
-			CSayF("= Number: %d -> %s (%s)",num,ItName,Lua.type(itName))
+			//CSayF("= Number: %d -> %s (%s)",num,ItName,Lua.type(itName))
 			For j=1,S[atag]
 				For _,Elem in pairs(Elements)
-					CSayF("= %d:%s -> %s",j,Elem,ItData["ITM_EQP_ERes_UP"..Elem])
+					//CSayF("= %d:%s -> %s",j,Elem,ItData["ITM_EQP_ERes_UP"..Elem])
 					If Elem=="Dark" && ItData["ITM_EQP_ERes_UP"..Elem] 
 						S["ER_MODIFIER_"..Elem]++
 #if JewelRecalcDebug
