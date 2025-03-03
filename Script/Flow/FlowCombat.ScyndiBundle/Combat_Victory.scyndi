@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.03.02
 // 
 // End License
 
@@ -90,7 +90,7 @@ locExtern Combat_Hero "Scyndi.Class.Combat_Hero"
 				Party.AutoBuffExpire()
 			End
 			gint.Combat_Victory++
-			For i in Each{17,25,50,100,1000}
+			For i in Each{[0]=17,25,50,100,1000}
 				If gint.Combat_Victory>=i
 					Ach.Award(sPrintF("VICTORY%05d",i))
 				End
