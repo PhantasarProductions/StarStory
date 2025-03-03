@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.22
+// version: 25.03.03
 // 
 // End License
 
@@ -50,7 +50,7 @@ Module
 
 table retbase
 
-
+locextern listout "false"
 
 class MyData_MyDataClass_20263185fe9f4a362e2cbf45b551861f_1e9dc4fd33f29e3cd70f49a074169ce3
 	string Title
@@ -787,6 +787,15 @@ do
 	retbase["ZZ_NIM"] = ret
 end
 
+
+if listout
+	for k,_ in spairs(retbase)
+		cout("Ret +","=")
+		cout("{['VTYPE'] = 'gint'   , 'VVAR'] = ")
+		printf("\"ACHIEVEMENT_AWARDED%s\"}",k) 
+		print("")
+	end
+end
 
 end
 
