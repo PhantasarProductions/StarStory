@@ -1,8 +1,8 @@
-// License Information:
+// License:
 // **********************************************
 // 
-// src/Tricky Script/Script/Use/Combat/SpellAni/BlitzKrieg.Neil
-// (c) Jeroen Broks, 2021, All Rights Reserved.
+// src/Script/Script/Use/Combat/SpellAni/SPELLANI_BlitzKrieg.scyndi
+// (c) Jeroen Broks, 2021, 2025, All Rights Reserved.
 // 
 // This file contains material that is related
 // to a storyline that is which is strictly
@@ -24,6 +24,7 @@
 // from it, you can use it under that license.
 // Please check out the other files to find out
 // which license applies.
+// 
 // This file comes 'as-is' and in no possible
 // way the author can be held responsible of
 // any form of damages that may occur due to
@@ -32,9 +33,21 @@
 // 
 // **********************************************
 // 
-// version: 21.07.17
-// End License Information
+// 
+// version: 25.03.02 V
+// 
+// End License
+
 Module
+
+#use "Libs/SCI/Sys"
+#use "Libs/SCI/Events"
+#use "Libs/SCI/Graphics"
+
+#use "Script/Use/Link"
+
+locExtern Combat_Draw "Scyndi.Class.Combat_Draw"
+
 	Bool Ended = False
 	
 	Int SVal(string v)
@@ -46,12 +59,12 @@ Module
 		Graphics.SetScale(1,1)
 		//Image.ViewPort(0,300,800,300)
 		//Image.Origin(0,300,800,300)
-		int HH = Screen.H div 2
+		int HH = Graphics.H div 2
 		For s,i in pairs(img)
-			sp = (sp or 0) + 2
+			sp = (sp || 0) + 2
 			If prefixed(s,"Cloud") 
 				//Image.Tile(i,Time.MSecs()/sp,00)
-				i.XTile(0,HH,Screen.W,HH,FPS.Ticks div sp,0)
+				i.XTile(0,HH,Graphics.W,HH,Sys.Ticks div sp,0)
 			End
 		End
 		//Image.ViewPort(0,0,800,600)
@@ -66,19 +79,23 @@ Module
 
 	Void Draw()
 		// Init
-    	Static Bool Loaded = False
-    	Static Table seq = {"CaveMan","Cavalry","Tank"}
-    	Static Table img = {}
-    	Static Table extra = {"SpaceShip","Cloud1","Cloud2","Cloud3"}
+    	//Loaded = False
+    	locExtern Loaded "BlitzKrieg_Draw_Loaded"
+    	locExtern seq    "BlitzKrieg_Draw_SEQ"
+    	locExtern img    "BlitzKrieg_Draw_IMG"
+    	locextern extra  "BlitzKrieg_Draw_EXTRA"
+    	seq = seq || {[0]="CaveMan","Cavalry","Tank"}
+    	img = img || {}
+    	extra = extra || {[0]="SpaceShip","Cloud1","Cloud2","Cloud3"}
     	Table dat = {}
     	
     	// Load
     	If !Loaded
     		For s   in each(seq)
-    			img[s]=Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_IMG_"..s)
+    			img[s]=LoadNewImage("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_IMG_"..s)
     		End
     		For s   in each(extra)
-    			img[s]=Image.LoadNew("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_XTR_"..s)
+    			img[s]=LoadNewImage("GFX/Combat/SpellAni/SuperMoves/BlitzKrieg/"..s..".png","BLITZKRIEG_XTR_"..s)
     		End
     		For k,v in spairs(img)
     			CSay(k .. " has image "..sval(v) )
@@ -92,22 +109,22 @@ Module
     	Repeat
     		Combat_Draw.DrawScreen()
     		Graphics.SetScale(0.25,0.25)
-    		For i=1,#seq
+    		For i=0,len(seq)-1
     			// dat[i] = dat[i] or { x = 250 + (i*1200) , y = 500, s = (i/2)+1 }
-    			dat[i] = dat[i] || { ["x"] = 250 + (i*math.floor(Screen.W*1.75)), ["y"] = math.floor(Screen.H * 0.66), ["s"] = math.ceil((((i / 2)+1)/800)*Screen.W) }
+    			dat[i] = dat[i] || { ["x"] = 250 + (i*math.floor(Graphics.W*1.75)), ["y"] = math.floor(Graphics.H * 0.66), ["s"] = math.ceil((((i / 2)+1)/800)*Graphics.W) }
     			//Image.Show(img[seq[i]],dat[i].x,dat[i].y)
     			img[seq[i]].Draw(dat[i].x,dat[i].y)
     			dat[i].x = dat[i].x - dat[i].s
     		End
     		BlitzKriegDrawClouds(img)
     		Graphics.Flip()
-    		FPS.WaitMinTicks()
+    		//FPS.WaitMinTicks()
     		Events.Poll()
-    	Until dat[#seq].x<0
+    	Until dat[len(seq)-1].x<0
     	
     	// Execute SpaceShip
-    	Int x = Screen.W div 2
-    	For y = Screen.H,-20,-4
+    	Int x = Graphics.W div 2
+    	For y = Graphics.H,-20,-4
     		Combat_Draw.DrawScreen()
         	Graphics.SetScale(0.25,0.25)
         	//Image.Show(img.SpaceShip,x,y)
@@ -115,7 +132,7 @@ Module
         	Graphics.SetScale(1,1)
         	BlitzKriegDrawClouds(img)
         	Graphics.Flip()
-        	FPS.WaitMinTicks()
+        	//FPS.WaitMinTicks()
         	Events.Poll()
         End
         
@@ -130,4 +147,4 @@ Module
 	Void Update()
 	End
      
-end
+//end
