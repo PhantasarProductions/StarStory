@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.01 XIV
+// version: 25.03.03 I
 // 
 // End License
 
@@ -149,14 +149,15 @@ Void HurtMonster()
 		End
 		M.Points.HP.Have++
 		M.Stats.BASE_Strength += math.random(8,math.max(10,math.min(Caps.Cycle,25)*4))
-		M.Stats.BASE_Agility  += math.random(1,30)
+		M.Stats.BASE_Agility  += math.random(1,30)+Caps.Cycle
 		M.Stats.BASE_Accuracy += 4+Caps.Cycle
 		// CSayF("Up! %d/%d",M.Points.HP.Have,M.Points.HP.Maximum)
 	End
 	CSay("Monster HP set back to max")
-	CSayF("Strength of monster set to %005d",M.Stats.END_Strength)
-	CSayF("Agility of monster set to %005d",M.Stats.END_Agility)
-	CSayF("Accuracy of monster set to %004d",M.Stats.END_Accuracy)
+	CSayF("Monster Max HP set to %09d",M.Points.HP.Maximum)
+	CSayF("Strength of monster set to %05d",M.Stats.END_Strength)
+	CSayF("Agility of monster set to %05d",M.Stats.END_Agility)
+	CSayF("Accuracy of monster set to %05d",M.Stats.END_Accuracy)
 	Combat_Time.CalcHighSpeed()
 End
 
