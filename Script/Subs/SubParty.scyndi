@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubParty.scyndi
 // 
-// 	  Version: 25.02.03
+// 	  Version: 25.03.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -232,7 +232,7 @@ group SubParty
 				Case "ExHuRU" "Rolf" "Johnson"
 					atg = "EXHURU"
 				Default
-					atg = Tag:upper()
+					atg = upper(Tag)
 			End
 			CSay("Max level: "..atg)
 			Ach.Award("MAXLVL_"..atg)
