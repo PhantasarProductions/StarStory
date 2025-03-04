@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FieldMenu/Items_FieldMenu.scyndi
 // 
-// 	  Version: 25.01.23 II
+// 	  Version: 25.03.03
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -123,6 +123,7 @@ module
 		For _,stat in pairs {"Strength","Defense","Agility","Will","Resistance","Accuracy","Evasion","HP","AP"}
 			If Uitm["PermaBuff_"..stat] && ch.Stat["BASE_"..stat]>0
 				ch.Stat["POWERUP_"..stat] += math.ceil( (pbm[stat] or 1) * pbms[__skill] ) 
+				CSayF("Permanent buff %s's %s: %d",cht,stat,ch.Stat["POWERUP_"..stat])
 				Ret = true
 			End
 		End
