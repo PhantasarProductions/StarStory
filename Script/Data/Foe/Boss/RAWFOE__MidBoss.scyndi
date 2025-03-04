@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.23
+// version: 25.03.04
 // 
 // End License
 // Automated conversion from Neil to Scyndi!
@@ -56,7 +56,7 @@
 
 module
 	readonly string Name = "Mid-Boss"
-	readonly string Desc = "An idiot who owns a mansion on Poloqor.\nHe thinks he's wonderful, but he's been branded only a \034Mid-Boss\034 by Wendicka.\nSince we don't know what his real name is, let's just stick with that name then. Right?"
+	readonly string Desc = "An idiot who owns a mansion on Poloqor.\nHe thinks he's wonderful,\nbut he's been branded only a \034Mid-Boss\034 by Wendicka.\nSince we don't know what his real name is,\nlet's just stick with that name then. Right?"
 	readonly string ImageFile = "Boss/Mid-Boss.png"
 	readonly string AI = "Default"
 	readonly bool Boss = true
