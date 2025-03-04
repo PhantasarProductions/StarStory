@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowBestiary.scyndi
 // 
-// 	  Version: 25.02.11 XIII
+// 	  Version: 25.03.04 III
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -75,6 +75,9 @@ ReadOnly Table Elements      = { "Dark",  "Earth",  "Fire",  "Frost",   "Light",
 Var ShownFoe = nil
 
 Void ListFoe(Foe,int Y)
+	//if (Foe.Name=="The Goddess") 
+	//	Foe.Killed=math.max(Foe.Killed,Caps.Cycle-1)
+	//end
 	If Foe.Killed<=0
 		__Red
 		Fnt.Text("???",50,Y)
@@ -175,7 +178,7 @@ Void ShowFoe()
 			StatIco[s] = StatIco[s] || ObtainImage("STATUS_"..(upper(s)))
 			StatIco[s].Draw(CX,Y)
 			__Ember
-			Fnt.Text(SPrintF("%d%%",ShownFoe.Data.StatusResistance[s]),CX+100,Y,1,0)
+			Fnt.Text(SPrintF("%d%%",ShownFoe.Data.StatusResistance[s]),CX+150,Y,1,0)
 		End
 		IDX++
 	LoopWhile StatusChanges[IDX] || Elements[IDX]
