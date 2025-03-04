@@ -34,11 +34,13 @@
 // **********************************************
 // 
 // 
-// version: 25.03.02 II
+// version: 25.03.04 I
 // 
 // End License
 
 Module
+
+#use "Libs/SCI/SString"
 
 Table Ret = {}
 
@@ -156,7 +158,7 @@ Init
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_GOLD KILLER DROID"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_HWSNBN"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_LICHKING"}
-	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_MID-BOSS"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_MIDBOSS"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_QUEENMYR"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPAQUAL"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_SUPERCYBORG"}
@@ -212,6 +214,8 @@ Init
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SPECIALBOSS_MCLEEN"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SUPERBOSS_BLACKHOLEDWELLER"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_SUPERBOSS_FIRESPIDER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_JOKER"}
+	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "KILLED_BOSS_GHOSTWOMAN"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "PRISMDIAMONDSGIVENBYFEENALARIA"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "SAVED"}
 	Ret += {["VTYPE"] = "gint"   , ["VVAR"] = "SHILDERS"}
@@ -288,6 +292,16 @@ Init
 	Ret +={["VTYPE"] = "gbool"   , ["VVAR"] = "ACHIEVEMENT_AWARDEDZZ_BLOCKSHOOTER_PERFECT"}
 	Ret +={["VTYPE"] = "gbool"   , ["VVAR"] = "ACHIEVEMENT_AWARDEDZZ_NIM"}
 
+	RegNoReg:={}
+	for RNR in Each(Ret)
+		if Prefixed(RNR,"KILLED_REG_")
+			RegNoReg+=Replace(RNR,"KILLED_REG_","KILLED_")
+		End
+	End
+	For RNR in each(RegNoReg)
+		Ret+={["VTYPE"]="gint",["VVAR"]=RNR}
+	End
+		
 End
 
 
