@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.11 XII
+// version: 25.03.04 VI
 // 
 // End License
 
@@ -54,6 +54,8 @@ Module
 #use "Libs/sci/SString"
 #use "Libs/SCI/InterVar"
 #use "Libs/SCI/Graphics"
+
+#use "Script/Use/Anyway"
 
 Class BestEntry
 	ReadOnly String File
@@ -81,6 +83,9 @@ Class BestEntry
 
 	Get Int Killed
 		//Return GINT["KILLED_"..QTag]
+		if Prefixed(KTag,"GODDESS_") 
+			return math.max(GINT.KILLED_GODDESS_GODDESS,Caps.Cycle-1)
+		end
 		return Ternary(Prefixed(KTag,"REG_"),GINT["KILLED_"..KTag]+GINT["KILLED_"..Replace(KTag,"REG_","")],GINT["KILLED_"..KTag])
 	End
 	
@@ -147,12 +152,13 @@ Init
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__FireSpiderYoung.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Flirmouse_King.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Flirmouse_Subject.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__GhostWoman.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__GiantSnake.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Gold Killer Droid.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__HWSNBN.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Joker.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__LichKing.neil") )
-	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__Mid-Boss.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__MidBoss.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__QueenMyr.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__SupaQual.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Boss/RAWFOE__SuperCyborg.neil") )
@@ -176,6 +182,7 @@ Init
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__DeathMyr.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__flirmouse.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Flysky.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__GhostGirl.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Ghoul.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__Goblin.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Reg/RAWFOE__GrassTiger.neil") )
@@ -209,4 +216,5 @@ Init
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SpecialBoss/RAWFOE__McLeen.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SuperBoss/RAWFOE__BlackHoleDweller.neil") )
 	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/SuperBoss/RAWFOE__FireSpider.neil") )
+	BestEntry.Lijst.AddLast( New BestEntry("Script/Data/Foe/Goddess/RAWFOE__Goddess.neil") )
 End
