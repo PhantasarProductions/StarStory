@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Execution.scyndi
 // 
-// 	  Version: 25.02.03
+// 	  Version: 25.03.05
 // 	
 // 	  Copyright (C) 2021, 2022, 2025 Jeroen Petrus Broks
 // 	
@@ -107,6 +107,7 @@ LocExtern CG_Effect "Scyndi.Globals.CG_Effect"
 			case 2
 				Act.Executor.Gauge=5000
 			case 3
+				Act.Executor.Gauge=0
 				if Act.Executor.Team=="Foe"
 					Act.Executor.Gauge = 7500
 				end
