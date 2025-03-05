@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.03.05 II
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -299,16 +299,15 @@ class TextBox
 		//-- Voice acting, if available
 		CSay("= The Voice of the Universe")
 		if sb_data.Voice && sb_data.Voice!="" && JCR6.EntryExists(sb_data.Voice) 		
-			// This is all LAURA, but NALA must be handled differently, so let's comment this out... for now!
-			// if Audio.Playing('BOXTEXTCHANNEL')~=0 then Audio.Stop('BOXTEXTCHANNEL') end
-			// Audio.Load(sb_data.Voice,'BOXTEXTVOICE')
-			// Audio.Play("BOXTEXTVOICE","BOXTEXTCHANNEL")
+			
 			if audioplaying
-				audio.stop(audiochannel)
+				audio.stopchannel(audiochannel)
 			end
-			audiowave = Audio.Load(sb_data.Voice)
+			audiowave = Audio.Load(sb_data.Voice,"Voice")
 			audiochannel = audiowave.play()
 			audioplaying = true
+			Sys.Sleep(1)
+			Events.Poll()
 		else
 			CSay("No vocals, so let's skip that!")
 			audioplaying = false
