@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Combat/SpellAni/SPELLANI_PlayCard.scyndi
 // 
-// 	  Version: 25.02.06
+// 	  Version: 25.03.06 I
 // 	
 // 	  Copyright (C) 2025 Jeroen Petrus Broks
 // 	
@@ -44,6 +44,7 @@
 
 module 
 
+#use "Libs/SCI/Sys"
 #use "Libs/SCI/Audio"
 #use "Libs/SCI/Graphics"
 
@@ -154,7 +155,9 @@ void Draw()
 					Case kl_Schoppen
 						If !rdone
 							if math.random(1,100)<=__skill^__skill
+								CSayF("Dood aan %s",ch)
 								CC.Hurt("Death",255,0,0,true)
+								PC.Points.HP.Have = 0
 							end
 							rdone=i==2
 						Else

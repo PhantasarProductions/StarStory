@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.06 V
+// version: 25.03.06 I
 // 
 // End License
 
@@ -161,7 +161,9 @@ void Draw()
 							// Do Nothing!
 						ElIf (!rdone) && (__skill==3 || Cd.Team=="Foe")
 							if math.random(1,100)<=__skill^__skill
-								CC.Hurt("Death",255,0,0,true)
+								CSayF("Dood aan %s",Ch)
+								Cd.Hurt("Death",255,0,0,true)
+								PC.Points.HP.Have=0
 							end
 							//rdone=i==2
 						ElIf (__skill==3 || Cd.Team=="Foe")
