@@ -1,0 +1,76 @@
+// License:
+// **********************************************
+// 
+// src/Script/Script/Use/Combat/AI/AI_Confusion.scyndi
+// (c) Jeroen Broks, 2025, All Rights Reserved.
+// 
+// This file contains material that is related
+// to a storyline that is which is strictly
+// copyrighted to Jeroen Broks.
+// 
+// This file may only be used in an unmodified
+// form with an unmodified version of the
+// software this file belongs to.
+// 
+// You may use this file for your study to see
+// how I solved certain things in the creation
+// of this project to see if you find valuable
+// leads for the creation of your own.
+// 
+// Mostly this file comes along with a project
+// that is for most part released under an
+// open source license and that means that if
+// you use that code with this file removed
+// from it, you can use it under that license.
+// Please check out the other files to find out
+// which license applies.
+// 
+// This file comes 'as-is' and in no possible
+// way the author can be held responsible of
+// any form of damages that may occur due to
+// the usage of this file
+// 
+// 
+// **********************************************
+// 
+// 
+// version: 25.03.06 I
+// 
+// End License
+
+
+
+#use "Libs/SCI/Sys"
+#use "Script/Flow/FlowCombat"
+
+module
+
+LocExtern Vechters "Scyndi.Class.Combat_Fighter.Fighters"
+
+
+Void Decide(f)
+	Targets:={}
+	For t,ff in pairs(Vechters)
+		If ff.Tag!=f.Tag
+			Targets+=ff
+		End
+	End
+	Switch f.Tag
+		case "Yirl" "Johnson" "UniWendicka" "UniCrystal" "Briggs"
+			if f.char.points.ammo.have<=0
+				f.NextAct="ACT_Reload"
+				f.NextAct.Targets_Tag[0]=f.Tag
+				f.NextAct.Targets_Tag[1]=nil
+			else
+				f.NextAct="ACT_SHOOT"
+				f.NextAct.Targets_Tag[0]=Targets[math.random(0,len(Targets)-1)]
+				f.NextAct.Targets_Tag[1]=nil
+			end
+		default
+			f.NextAct="ACT_ATTACK"
+			f.NextAct.Targets_Tag[0]=Targets[math.random(0,len(Targets)-1)]
+			f.NextAct.Targets_Tag[1]=nil		
+	End
+End
+	
+//end
