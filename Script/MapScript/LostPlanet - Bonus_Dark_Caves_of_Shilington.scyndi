@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.01.25 XV
+// version: 25.03.05
 // 
 // End License
 
@@ -93,7 +93,7 @@ group MScript
 				StartCombat.Foe("Reg/Syss",Math.random(2,RPGChar.Wendicka.Stat.Level))
 			case 3
 				StartCombat.Foe("Reg/Syss",Math.random(20,math.max(20,RPGChar.Wendicka.Stat.Level)))
-				StartCombat.Foe("Boss/Syss",math.ceil(RPGChar.Wendicka.Stats.Level*1.25))
+				StartCombat.Foe("Boss/SuperSyss",math.ceil(RPGChar.Wendicka.Stats.Level*1.25))
 				for i=1,4
 					StartCombat.Foe("Reg/Syss",Math.random(20,math.max(20,RPGChar.Wendicka.Stat.Level)))
 				end
