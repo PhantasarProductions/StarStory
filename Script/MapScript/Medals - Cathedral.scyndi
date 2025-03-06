@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.18 VI
+// version: 25.03.05
 // 
 // End License
 Script
@@ -147,4 +147,5 @@ End
 
 Init
 	ZA.TabEnter{"Eindpunt"}
+	gbool.OnTransPad=false // Safe. You cannot start on any transpad here!
 End

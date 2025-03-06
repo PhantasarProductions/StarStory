@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.20 I
+// version: 25.03.05
 // 
 // End License
 
@@ -235,6 +235,7 @@ group flHawk
 							World=""
 						// Node ZZZ
 						else
+							gbool.OnTransPad=true
 							Map.GoToMap(StripDir(NData.Map),NData.Layer,"Trans.Spot."..NData.Spot)
 							State.GoToFlow("FIELD")
 						// Node ZZZ Else

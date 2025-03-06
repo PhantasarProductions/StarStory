@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.02.20
+// 	  Version: 25.03.05 I
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -259,6 +259,7 @@ class Clickable
 						CSayF("ZA: %s -> %s",T,spot)
 						//ZA.Enter(T,CTrans.Go,Spot)
 						Lua.Scyndi.Class.ZoneAction.Create("Enter",T,CTrans.Go,spot)
+						Lua.Scyndi.Class.ZoneAction.Create("Leave",T,CTrans.GoOff,spot)
 					End
 					if !CTrans.Activated[spot]
 						TO.Texture = "GFX/Textures/Teleporter Pad/Deactivated.png"

@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldTrans.scyndi
 // 
-// 	  Version: 25.01.28
+// 	  Version: 25.03.05 I
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -104,9 +104,19 @@ group Trans
 		MSave.ToSave()
 	end
 	
+	void GoOff()
+		gbool.OnTransPad=False
+		CSayF("Getting off the transpad")
+	end
+	
 	ReadOnly Var Fnt = ObtainFont("BOXTEXT")
 	ReadOnly Var Pnt = ObtainImage("MOUSE")
 	void PadGeneral()
+		if gbool.OnTransPad
+			CSay("Transpad triggered, but you seem to be on it already!")
+			return
+		end
+		gbool.OnTransPad=true
 		//static var Fnt = ImageFont.Obtain("BOXTEXT")
 		//static var Pnt = Image.Obtain("MOUSE")
 		int CX = Graphics.W div 2
@@ -130,6 +140,7 @@ group Trans
 									Self.Scotty()
 									return
 								case 1
+									gbool.OnTransPad=true
 									Self.Recover()
 									Self.Save()
 									return
