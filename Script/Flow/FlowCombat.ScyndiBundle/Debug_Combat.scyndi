@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Debug_Combat.scyndi
 // 
-// 	  Version: 25.01.28 III
+// 	  Version: 25.03.08 II
 // 	
 // 	  Copyright (C) 2025 Jeroen Petrus Broks
 // 	
@@ -69,9 +69,27 @@ Global Void COMBAT_DEBUG_WHIZZY()
 	printf("\x1b[0mWhizzy mode is now %s\n",OO[gbool["CHEAT.REGEN"]])	
 End
 
+Global Void COMBAT_DEBUG_POMFREY()
+	LocExtern Fght "Scyndi.Class.Combat_Fighter.Fighters"
+	LocExtern CC   "Scyndi.Class.Combat_StatusChanges.Lijst"
+	For k,v in pairs(Fght)
+		If v.Team=="Hero"
+			CSayF("Curing: %s",v.Name)
+			v.HP = v.MaxHP
+			For kc,_ in pairs(CC)
+				If v.StatusChange[kc]
+					CSayF("= Cure: %s",kc)
+					v.StatusChange[kc]=false
+				End
+			End
+		End
+	End
+End
+
 Init
-	For cht In Each(NewArray("DUMBLEDORE","JACK","GOD","WHIZZY"))
+	For cht In Each(NewArray("DUMBLEDORE","JACK","GOD","WHIZZY","POMFREY"))
 		Sys.ConsoleLocal(cht,"COMBAT_DEBUG_"..cht)
 	End
 	Sys.ConsoleLocal("IDDQD","COMBAT_DEBUG_GOD")
+	Sys.ConsoleLocal("POPPY","COMBAT_DEBUG_POMFREY")
 End
