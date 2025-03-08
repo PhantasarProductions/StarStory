@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Use/Anyway.ScyndiBundle/Spawn.scyndi
 // 
-// 	  Version: 25.03.01
+// 	  Version: 25.03.08
 // 	
 // 	  Copyright (C) 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -104,7 +104,7 @@ module
 						Char.Points.EXP.Have = Char.Points.EXP.Have div 2
 					case 3
 						Char.Points.EXP.Have = 0
-						Char.Points.EXP.Maxium += 25
+						Char.Points.EXP.Maximum += 25
 					default
 						lua.error("Wipe Skill Error! (charexp)")
 				end
