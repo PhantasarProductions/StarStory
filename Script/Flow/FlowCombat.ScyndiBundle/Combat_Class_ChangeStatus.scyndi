@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Class_ChangeStatus.scyndi
 // 
-// 	  Version: 25.03.06 I
+// 	  Version: 25.03.07
 // 	
 // 	  Copyright (C) 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -262,7 +262,7 @@ Class CSC_Confusion Extends Combat_StatusChanges
 	Void Draw(tar)
 		Icon = Icon || LoadNewImage("GFX/Combat/StatusAni/Confusion/ToBeOrNotToBe.png","STATUS_CONFUSION_VRAAGTEKEN")
 		Icon.HotBottomCenter()
-		number sz= 1 + (math.sin(os.time()/1000)/2)
+		number sz= 1 + (math.sin(Sys.Ticks/1000)/2)
 		SetScale(sz,sz)
 		Icon.Draw(tar.X,(Tar.Y-tar.h-50))
 		tar.StatusChange.Guard=false
@@ -288,7 +288,7 @@ Init
 	Combat_StatusChanges.Create("Sleep",new CSC_Sleep(),"Will")
 	Combat_StatusChanges.Create("Poison",new CSC_Poison())
 	Combat_StatusChanges.Create("Disease",new CSC_Disease())
-	Combat_StatusChanges.Create("Confusion",new CSC_Disease(),"Will")
+	Combat_StatusChanges.Create("Confusion",new CSC_Confusion(),"Will")
 	
 	// Special statusses
 	Combat_StatusChanges.Create("Guard",new CSC_Guard())
