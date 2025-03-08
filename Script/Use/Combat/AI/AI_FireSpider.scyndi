@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.01 II
+// version: 25.03.07
 // 
 // End License
 
@@ -55,6 +55,7 @@ module
 		if i==0
 			r++
 		end
+		RPGChar[f.Tag].Stat.BASE_HP++
 		RPGChar[f.Tag].Stat.BASE_Strength+=r
 		RPGChar[f.Tag].Stat.BASE_Will++
 		RPGChar[f.Tag].Stat.BASE_Accuracy+=i
