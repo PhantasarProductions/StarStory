@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
 // 
-// 	  Version: 25.01.23
+// 	  Version: 25.03.07
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -139,6 +139,8 @@ end
 		end
 	end
 	
+	Var ConfAI
+	
 	void UpdateGauge()
 		locextern _self "Scyndi.Class.Combat_Time"
 		if HiSpeed==0
@@ -151,6 +153,18 @@ end
 				elseif fv.Gauge<10000
 					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
 					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					elseif fv.Gauge==10000 && fv.StatusChange.Confusion
+						CSayF("%s is confused so alternate AI")
+						if math.random(1,2+(__skill*2))==1
+							fv.StatusChange.Confusion = nil
+						end
+						If !ConfAI
+							Lua.Scyndi.Use("Script/Use/Combat/AI/AI_Confusion")
+							ConfAI = Lua.Scyndi.Class.AI_Confusion
+						End							
+						ConfAI.Decide()
+						fv.ChargedAct = nil
+						fv.Gauge=10001
 					elseif fv.Gauge==10000 && fv.ChargedAct
 						fv.NextAct = fv.ChargedAct
 						fv.ChargedAct = nil
