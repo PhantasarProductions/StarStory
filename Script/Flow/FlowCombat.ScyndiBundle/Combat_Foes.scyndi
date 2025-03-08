@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Foes.scyndi
 // 
-// 	  Version: 25.03.02 III
+// 	  Version: 25.03.06
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -252,7 +252,7 @@ class Combat_Foe extends Combat_Fighter
 	bool _killedcheck = false
 	
 	get bool ExHuRU_UpFront
-		for i=1,3
+		for i=0,2
 			if RPGParty[i]=="ExHuRU" || RPGParty[i]=="Rolf" || RPGParty[i]=="Johnson"
 				return true
 			end
