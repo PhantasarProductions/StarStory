@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.02.20 IV
+// version: 25.03.09
 // 
 // End License
 
@@ -110,7 +110,7 @@ module
 	end
 	
 	get string Learn
-		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - LOST ARK" && RPGPureChar.Yirl.ListHas("ABL","YIRL_WAKE")
+		If Upper(StripDir(Kthura.LastLoadedMap))=="MEDALS - LOST ARK" && (!RPGPureChar.Yirl.ListHas("ABL","YIRL_WAKE"))
 			Return "YIRL_WAKE"
 		End
 		int i = 20000
