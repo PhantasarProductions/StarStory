@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.03.04 I
+// version: 25.03.16
 // 
 // End License
 
@@ -293,7 +293,8 @@ Init
 	Ret +={["VTYPE"] = "gbool"   , ["VVAR"] = "ACHIEVEMENT_AWARDEDZZ_NIM"}
 
 	RegNoReg:={}
-	for RNR in Each(Ret)
+	for RNRA in Each(Ret)
+		RNR:=RNRA.VVAR
 		if Prefixed(RNR,"KILLED_REG_")
 			RegNoReg+=Replace(RNR,"KILLED_REG_","KILLED_")
 		End
