@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMap.scyndi
 // 
-// 	  Version: 25.03.05 I
+// 	  Version: 25.03.09
 // 	
 // 	  Copyright (C) 2020-2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -599,7 +599,11 @@ group FldMap
 		if perma
 			//Kills[LoadedMap] = Kills[LoadedMap] or {}
 			//Kills[LoadedMap] += {["Tag"]=ObjTag,["Layer"] = Layer}
+			CSayF("%s::%s::%s has been killed off permanently!",LoadedMap,Layer,ObjTag)
 			Kills.Add(LoadedMap,Layer,ObjTag,true,true)
+		else
+			CSayF("%s::%s::%s has been killed off temporarily!",LoadedMap,Layer,ObjTag)
+
 		end
 		Kthura.Kill(ObjTag)
 	end
