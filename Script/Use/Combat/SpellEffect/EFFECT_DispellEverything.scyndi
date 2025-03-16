@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.03.01 II
+// version: 25.03.13 II
 // 
 // End License
 
@@ -42,15 +42,20 @@
 Module 
 
 #use "Libs/SCI/SString"
+#use "Script/Use/Convert/RPG2Stat"
 
 LocExtern Combat_Time "Scyndi.Class.Combat_Time"
 
+Table Stats ={[0]="Accuracy","Agility","AP","Defense","HP","Resistance","Will"}
+
 Bool DoEffect(Act,Tar)
-	Table Stats := XSplit(Tar.Char.StatList,"\n")
+	//Table Stats := XSplit(Tar.Char.StatList,"\n")
 	Bool Ret = False
 	For St in Each(Stats)
-		If Prefixed(St,"BUFF_") && Tar.Char.Stat[st]!=0
-			Tar.Char.Stat[st] = 0
+		ChD:=RPGChar[tar.Tag]
+		//If Prefixed(St,"BUFF_") && Tar.Char.Stat[st]!=0
+		if ChD.Stat["BUFF_"..st]!=0
+			Tar.Char.Stat["BUFF_"..st] = 0
 			Ret = true
 		End
 	End
