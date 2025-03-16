@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowCombat.ScyndiBundle/Combat_Time.scyndi
 // 
-// 	  Version: 25.03.07
+// 	  Version: 25.03.13 IV
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -127,6 +127,25 @@ end
 		end
 		HiSpeed = math.max(HiSpeed,1)
 		CSayF("HiSpeed set to %d",HiSpeed)
+		
+		// New style
+		order:={}
+		for tag,data in pairs(Combat_Fighter.Fighters)
+			if data.Team=="Hero" || data.HP>0
+				agl:=sprintf("%09d",data.Stats.Agility)
+				order[agl]=order[agl] || {}
+				order[agl]+=data
+			end
+		end
+		int spd=0
+		for agl,datal in spairs(order)
+			for data in each(datal)
+				//data.IdleSpeed = 100 - (spd*3)
+				data.IdleSpeed = 40 + (spd*3)
+				CSayF("IDLESPEED %s -> %d (Agl: %s)",Data.Name,data.IdleSpeed,agl)
+			end
+			spd++
+		end
 	end
 	
 	void RegenCheat()
@@ -152,9 +171,10 @@ end
 					fv.Gauge=math.max(0,fv.Gauge-2)
 				elseif fv.Gauge<10000
 					//fv.Gauge = math.min(10000,fv.Gauge + ((RPGStat.Stat(fv.Tag,"END_Agility")/HiSpeed)*25))
-					fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					//fv.Gauge = math.min(10000,fv.Gauge + math.ceil((fv.Stats.Agility/HiSpeed)*25))
+					fv.Gauge = math.min(10000,fv.Gauge + math.max(fv.IdleSpeed,1))
 					elseif fv.Gauge==10000 && fv.StatusChange.Confusion
-						CSayF("%s is confused so alternate AI")
+						CSayF("%s is confused so alternate AI",Tag)
 						if math.random(1,2+(__skill*2))==1
 							fv.StatusChange.Confusion = nil
 						end
@@ -162,7 +182,7 @@ end
 							Lua.Scyndi.Use("Script/Use/Combat/AI/AI_Confusion")
 							ConfAI = Lua.Scyndi.Class.AI_Confusion
 						End							
-						ConfAI.Decide()
+						ConfAI.Decide(fv)
 						fv.ChargedAct = nil
 						fv.Gauge=10001
 					elseif fv.Gauge==10000 && fv.ChargedAct
