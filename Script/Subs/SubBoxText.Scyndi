@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Subs/SubBoxText.Scyndi
 // 
-// 	  Version: 25.03.05 II
+// 	  Version: 25.03.18
 // 	
 // 	  Copyright (C) 2020, 2021, 2025 Jeroen Petrus Broks
 // 	
@@ -373,7 +373,7 @@ group FlowBoxText
 			State.Call(FlowBoxText.ReturnFlow,"BoxText_Back","nil")
 			TextBox.Current.Show()
 //#if DEBUG
-			if Events.KeyHit(27); Sys.Exit(500); Return; End
+//			if Events.KeyHit(27); Sys.Exit(500); Return; End
 //#fi
 			if TextBox.Current.SL>=len(TextBox.Current.Lines) && ( Events.MouseHitLeft || (TextBox.audioplaying && (!Audio.ChannelPlaying(Textbox.audiochannel))))
 				if !FlowBoxText.Next()
