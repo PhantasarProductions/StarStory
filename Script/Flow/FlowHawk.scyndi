@@ -34,7 +34,7 @@
 // **********************************************
 // 
 // 
-// version: 25.03.05
+// version: 25.03.17
 // 
 // End License
 
@@ -57,9 +57,9 @@ Script
 
 #undef CleanUp
 
-#macro Always_HouseOfCards True
-#macro Always_Cathedral True
-#macro Always_LostArk True
+#macro Always_HouseOfCards False
+#macro Always_Cathedral False
+#macro Always_LostArk False
 
 extern MaxMedal "25000"
 
