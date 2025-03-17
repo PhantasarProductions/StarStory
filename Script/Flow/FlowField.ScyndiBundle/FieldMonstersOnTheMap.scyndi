@@ -1,7 +1,7 @@
 // License:
 // 	  src/Script/Script/Flow/FlowField.ScyndiBundle/FieldMonstersOnTheMap.scyndi
 // 
-// 	  Version: 25.02.18 I
+// 	  Version: 25.03.17
 // 	
 // 	  Copyright (C) 2020, 2021, 2024, 2025 Jeroen Petrus Broks
 // 	
@@ -242,7 +242,7 @@ Class FieldMonster
 	
 	Static Get String LVPTT
 		// Level PlayTrough Tag
-		return sprintf("PlayThrough_%02d",Caps.Cycle)
+		return sprintf("PlayThrough_%02d",math.min(10,Caps.Cycle))
 	End
 	
 	Static Get Int MapLevel
