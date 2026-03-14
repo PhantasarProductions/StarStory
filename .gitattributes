@@ -1,0 +1,6 @@
+*.scyndi linguist-language=Scyndi linguist-detectable=true
+*.saskia linguist-language=SASKIA linguist-detectable=true
+*.SASKIA linguist-language=SASKIA linguist-detectable=true
+*.neil linguist-language=Neil linguist-detectable=true
+*.ini linguist-language=GINIE_Is_Not_INI_Either
+
